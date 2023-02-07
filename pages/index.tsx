@@ -67,33 +67,32 @@ const Home: NextPage<Props> = ({}: Props) => {
               },
             })
             .then((res: any) => {
-              if (res.isSuccess === true) {
-                sessionStorage.setItem(
-                  'SNS_MEMBER',
-                  JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-                );
-                sessionStorage.setItem(
-                  'MEMBER_TYPE',
-                  JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-                );
-                sessionStorage.setItem(
-                  'ACCESS_TOKEN',
-                  JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-                );
-                sessionStorage.setItem(
-                  'REFRESH_TOKEN',
-                  JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-                );
-                sessionStorage.setItem(
-                  'USER_ID',
-                  JSON.stringify(jsonGetUserInfo.USER_ID),
-                );
-              } else {
-                appLogout(userAgent as string);
-              }
+              alert('성공 then');
+              sessionStorage.setItem(
+                'SNS_MEMBER',
+                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+              );
+              sessionStorage.setItem(
+                'MEMBER_TYPE',
+                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+              );
+              sessionStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+              );
+              sessionStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+              );
+              sessionStorage.setItem(
+                'USER_ID',
+                JSON.stringify(jsonGetUserInfo.USER_ID),
+              );
+            })
+            .catch((error) => {
+              alert('실패 catch');
+              appLogout(userAgent as string);
             });
-        } else {
-          appLogout(userAgent as string);
         }
         setLoginChecking(false);
       };
@@ -111,33 +110,30 @@ const Home: NextPage<Props> = ({}: Props) => {
               },
             })
             .then((res: any) => {
-              if (res.isSuccess === true) {
-                sessionStorage.setItem(
-                  'SNS_MEMBER',
-                  JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-                );
-                sessionStorage.setItem(
-                  'MEMBER_TYPE',
-                  JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-                );
-                sessionStorage.setItem(
-                  'ACCESS_TOKEN',
-                  JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-                );
-                sessionStorage.setItem(
-                  'REFRESH_TOKEN',
-                  JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-                );
-                sessionStorage.setItem(
-                  'USER_ID',
-                  JSON.stringify(jsonGetUserInfo.USER_ID),
-                );
-              } else {
-                appLogout(userAgent as string);
-              }
+              sessionStorage.setItem(
+                'SNS_MEMBER',
+                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+              );
+              sessionStorage.setItem(
+                'MEMBER_TYPE',
+                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+              );
+              sessionStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+              );
+              sessionStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+              );
+              sessionStorage.setItem(
+                'USER_ID',
+                JSON.stringify(jsonGetUserInfo.USER_ID),
+              );
+            })
+            .catch((error) => {
+              appLogout(userAgent as string);
             });
-        } else {
-          appLogout(userAgent as string);
         }
         setLoginChecking(false);
         //   sessionStorage.setItem(
