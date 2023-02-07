@@ -15,7 +15,6 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
-  const router = useRouter();
   console.log('=================window.location.href==================');
   console.log(window.location.href);
 
@@ -36,20 +35,6 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
 
-  useEffect(() => {
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    axios
-      .get(`https://api.entizen.kr/api/members/info`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-      .then((res: any) => {
-        console.log(
-          '================res 데이터 확인==================================',
-        );
-        console.log(res);
-      });
-  }, []);
-
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출
@@ -59,7 +44,7 @@ const Home: NextPage<Props> = ({}: Props) => {
           const jsonGetUserInfo = JSON.parse(userInfo);
           // alert(jsonGetUserInfo.ACCESS_TOKEN);
           axios
-            .get(`https://api.entizen.kr/api/members/info`, {
+            .get(`https://test-api.entizen.kr/api/members/info`, {
               headers: {
                 Authorization: `Bearer ${jsonGetUserInfo.ACCESS_TOKEN}`,
               },
@@ -86,20 +71,21 @@ const Home: NextPage<Props> = ({}: Props) => {
                 'USER_ID',
                 JSON.stringify(jsonGetUserInfo.USER_ID),
               );
+              setLoginChecking(false);
             })
-            .catch((error) => {
+            .catch(async (error) => {
               setIsModal(true);
-              appLogout(userAgent as string);
+              await appLogout(userAgent as string);
+              setLoginChecking(false);
             });
         }
-        setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
           axios
-            .get(`https://api.entizen.kr/api/members/info`, {
+            .get(`https://test-api.entizen.kr/api/members/info`, {
               headers: {
                 Authorization: `Bearer ${userInfo.ACCESS_TOKEN}`,
               },
@@ -125,16 +111,21 @@ const Home: NextPage<Props> = ({}: Props) => {
                 'USER_ID',
                 JSON.stringify(userInfo.USER_ID),
               );
+              setLoginChecking(false);
             })
-            .catch((error) => {
+            .catch(async (error) => {
               setIsModal(true);
-              appLogout(userAgent as string);
+              await appLogout(userAgent as string);
+              setLoginChecking(false);
             });
         }
-        setLoginChecking(false);
       };
     }
   }, []);
+
+  useEffect(() => {
+    // 모달창 업데이트
+  }, [isModal]);
 
   if (loginChecking) {
     // return <Loader />;
