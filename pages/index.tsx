@@ -8,6 +8,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
+import { BASE_URL, isTokenGetApi } from 'api';
+import axios from 'axios';
+import { handleLogoutOnClickModalClick } from 'api/logout';
+import { appLogout } from 'bridge/appToWeb';
 
 interface Props {
   userAgent: string;
@@ -32,6 +36,11 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
   }, []);
+
+  interface Response {
+    isSuccess: boolean;
+    message: string;
+  }
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출
@@ -39,52 +48,88 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-          );
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          );
-          sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(jsonGetUserInfo.USER_ID),
-          );
+          axios.get(`${BASE_URL}/api/members/info`).then((res: any) => {
+            if (res.isSuccess === true) {
+              sessionStorage.setItem(
+                'SNS_MEMBER',
+                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+              );
+              sessionStorage.setItem(
+                'MEMBER_TYPE',
+                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+              );
+              sessionStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+              );
+              sessionStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+              );
+              sessionStorage.setItem(
+                'USER_ID',
+                JSON.stringify(jsonGetUserInfo.USER_ID),
+              );
+            } else {
+              appLogout(userAgent as string);
+            }
+          });
         }
         setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
-        if (typeof userInfo === 'object') {
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(userInfo.SNS_MEMBER),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(userInfo.MEMBER_TYPE),
-          );
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(userInfo.ACCESS_TOKEN),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(userInfo.REFRESH_TOKEN),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          axios.get(`${BASE_URL}/members/info`).then((res: any) => {
+            if (res.isSuccess === true) {
+              sessionStorage.setItem(
+                'SNS_MEMBER',
+                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+              );
+              sessionStorage.setItem(
+                'MEMBER_TYPE',
+                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+              );
+              sessionStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+              );
+              sessionStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+              );
+              sessionStorage.setItem(
+                'USER_ID',
+                JSON.stringify(jsonGetUserInfo.USER_ID),
+              );
+            } else {
+              appLogout(userAgent as string);
+            }
+          });
         }
         setLoginChecking(false);
+        // if (typeof userInfo === 'object') {
+        //   sessionStorage.setItem(
+        //     'SNS_MEMBER',
+        //     JSON.stringify(userInfo.SNS_MEMBER),
+        //   );
+        //   sessionStorage.setItem(
+        //     'MEMBER_TYPE',
+        //     JSON.stringify(userInfo.MEMBER_TYPE),
+        //   );
+        //   sessionStorage.setItem(
+        //     'ACCESS_TOKEN',
+        //     JSON.stringify(userInfo.ACCESS_TOKEN),
+        //   );
+        //   sessionStorage.setItem(
+        //     'REFRESH_TOKEN',
+        //     JSON.stringify(userInfo.REFRESH_TOKEN),
+        //   );
+        //   sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+        // }
+        // setLoginChecking(false);
       };
     }
   }, []);
