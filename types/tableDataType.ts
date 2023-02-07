@@ -13,6 +13,7 @@ export type UserMemberInfo = {
   phone: string;
   createdAt: string;
   deletedAt: null | string;
+  birthDate: null | string;
 };
 
 export type ComUserData = {
