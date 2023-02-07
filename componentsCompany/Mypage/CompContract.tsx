@@ -71,7 +71,7 @@ const ComContranct = ({}: Props) => {
     refetch: inModuSignRefetch,
   } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
     variables: {
-      projectIdx: router?.query?.projectIdx!,
+      projectIdx: router?.query?.projectIdx,
     },
     context: {
       headers: {

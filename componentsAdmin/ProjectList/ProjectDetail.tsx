@@ -44,6 +44,10 @@ import {
 } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { getDocument } from 'api/getDocument';
+import {
+  GET_ModuSignResponse,
+  ModuSignResponse,
+} from 'QueryComponents/ModuSignQuery';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -256,6 +260,24 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
   });
 
+  /// graphQl
+  const {
+    loading: inModuSignLoading,
+    error: inModuSignErroe,
+    data: inModuSignData,
+    refetch: inModuSignRefetch,
+  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+    variables: {
+      projectIdx: projectIdx,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
   console.log('🔥', data?.data?.project?.contract?.documentId);
   const {
     data: contractDocumentData,
@@ -269,10 +291,10 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
   );
 
-  // 계약서 보기 버튼 클릭
+  // 계약서 다운로드 버튼 클릭
   const onClickContract = () => {
     if (moduSignContract === 2) {
-      // console.log(contractDocumentData?.embeddedUrl);
+      console.log(contractDocumentData?.embeddedUrl);
       // 새탭방식
       // window.open(contractDocumentData?.embeddedUrl);
       // setGetUrl(contractDocumentData?.embeddedUrl!);
@@ -282,7 +304,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       // const contractUrl = JSON.parse(
       //   data?.data?.project?.contract?.contractContent!,
       // );
-      // setGetUrl(contractUrl[0].url);
+      // setGetUrl(contractUrl[0]?.url);
       setMessageModal(true);
       setMessage('자체 계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 0) {
@@ -302,7 +324,18 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     // }
   };
 
-  console.log('data 🎀', data?.data?.project?.contract);
+  console.log('data 🎀');
+  if (inModuSignData?.project?.contract?.contractContent !== undefined) {
+    console.log(
+      JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]?.url,
+    );
+  }
+  console.log('moduSignContract 🐳', moduSignContract);
+
+  console.log(
+    'project',
+    data?.data?.project?.contract?.documentId?.substring(0, 7),
+  );
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -423,27 +456,31 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     });
   };
 
+  // 자체계약서인지 모두싸인 계약서인지 판별
   useEffect(() => {
     if (data?.data?.project?.contract?.documentId === undefined) {
       setModuSignContract(0);
-    } else if (data?.data?.project?.contract?.contractContent === undefined) {
+    } else if (
+      data?.data?.project?.contract?.documentId === undefined &&
+      inModuSignData?.project?.contract?.contractContent === undefined
+    ) {
       setModuSignContract(0);
     } else if (
       data?.data?.project?.contract?.documentId?.substring(0, 7) ===
         'project' &&
-      data?.data?.project?.contract?.contractContent !== undefined
+      inModuSignData?.project?.contract?.contractContent !== undefined
     ) {
       setModuSignContract(1);
-      if (data?.data?.project?.contract?.contractContent !== undefined) {
+      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
         setGetUrl(
-          JSON.parse(data?.data?.project?.contract?.contractContent)[0].url,
+          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0].url,
         );
       }
     } else {
       setModuSignContract(2);
       setGetUrl(contractDocumentData?.embeddedUrl!);
     }
-  }, [data]);
+  }, [data, inModuSignData]);
 
   useEffect(() => {
     // 사업자 등록증 삭제
