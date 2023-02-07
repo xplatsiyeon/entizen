@@ -2,14 +2,11 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import { useEffect, useState } from 'react';
-import { SelectChangeEvent } from '@mui/material/Select';
 import arrow_small from 'public/guide/Arrow.svg';
 import Step1 from 'components/guide/step1';
 import Step2 from 'components/guide/step2';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import { RootState } from 'store/store';
-import { useSelector } from 'react-redux';
 import {
   M5_LIST,
   M5_LIST_EN,
@@ -24,10 +21,11 @@ import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import UserRightMenu from 'components/UserRightMenu';
 import { Option } from 'store/quotationSlice';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
 
 export interface SelectedOption {
   idx: number;
@@ -50,9 +48,6 @@ export interface Region {
 const Guide1_2 = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  // SubsidyGuideSlice
-  const { subsidyGuideData } = useSelector((state: RootState) => state);
-
   const InstallationPurposeType = [
     'BUSINESS',
     'WELFARE',
@@ -88,6 +83,29 @@ const Guide1_2 = () => {
     m9: '',
     m10: '',
   });
+
+  const { mutate: subsidyMutate, isLoading: subsidyLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: async (res) => {
+        await dispatch(subsidyGuideAction.addDate(res.data.data));
+        await dispatch(
+          subsidyGuideAction.addRegion({
+            installationSiDo: selectedRegion.m9,
+            installationSiGunGu:
+              selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
+          }),
+        );
+        router.push('/guide/1-2-4');
+      },
+
+      onError: (error: any) => {
+        const text = error.response.data.message;
+        setIsModal((prev) => !prev);
+        setErrorMessage(text);
+      },
+    },
+  );
 
   // STEP 1 탭기능
   const handlePurposeOnClick = (index: number) => setClicked(index);
@@ -194,53 +212,17 @@ const Guide1_2 = () => {
   // 버튼 온클릭
   const onClickButton = async () => {
     if (buttonActivate) {
-      const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
-      const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-      try {
-        await axios({
-          method: 'post',
-          url: SUBSIDY_URL,
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            ContentType: 'application/json',
-          },
-          data: {
-            chargers: selectedOptionEn,
-            installationPurpose: InstallationPurposeType[clicked],
-            installationSiDo: selectedRegion.m9,
-            installationSiGunGu:
-              selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
-          },
-        })
-          .then((res) => {
-            dispatch(
-              subsidyGuideAction.addDate({
-                ministryOfEnvironmentApplyPrice:
-                  res.data.ministryOfEnvironmentApplyPrice,
-                koreaEnergyAgencyApplyPrice:
-                  res.data.koreaEnergyAgencyApplyPrice,
-                localGovernmentApplyPrice: res.data.localGovernmentApplyPrice,
-                duplicateApplyPrice: res.data.duplicateApplyPrice,
-                maxApplyPrice: res.data.maxApplyPrice,
-                canDuplicateApply: res.data.canDuplicateApply,
-                memberName: res.data.memberName,
-                region1: selectedRegion.m9,
-                region2: selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
-              }),
-            );
-          })
-          .then((res) => {
-            router.push('/guide/1-2-4');
-          })
-          .catch((error) => {
-            const text = error.response.data.message;
-            setIsModal((prev) => !prev);
-            setErrorMessage(text);
-          });
-      } catch (error) {
-        console.log('보조금 가이드 에러');
-        console.log(error);
-      }
+      const data = {
+        chargers: selectedOptionEn,
+        installationPurpose: InstallationPurposeType[clicked],
+        installationSiDo: selectedRegion.m9,
+        installationSiGunGu:
+          selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
+      };
+      subsidyMutate({
+        url: '/guide/subsidy',
+        data: data,
+      });
     }
   };
   // 버튼 유효성 검사
@@ -323,9 +305,7 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -337,12 +317,10 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
@@ -359,13 +337,13 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
     padding: 0 15pt 15pt 15pt;
   }
 `;
+
 const ChargeGuide = styled.div`
   display: flex;
   justify-content: center;
@@ -387,6 +365,7 @@ const ChargeGuide = styled.div`
     padding-bottom: 80pt;
   }
 `;
+
 const Btn = styled.div<{ buttonActivate: boolean }>`
   position: absolute;
   bottom: 0;
@@ -402,7 +381,6 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 33pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
-
   @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
