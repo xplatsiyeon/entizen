@@ -473,7 +473,8 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       setModuSignContract(1);
       if (inModuSignData?.project?.contract?.contractContent !== undefined) {
         setGetUrl(
-          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0].url,
+          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]
+            ?.url,
         );
       }
     } else {

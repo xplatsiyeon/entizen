@@ -6,24 +6,22 @@ import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
-import { BASE_URL, isTokenGetApi } from 'api';
 import axios from 'axios';
-import { handleLogoutOnClickModalClick } from 'api/logout';
 import { appLogout } from 'bridge/appToWeb';
+import Modal from 'components/Modal/Modal';
 
 interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
-  const router = useRouter();
   console.log('=================window.location.href==================');
   console.log(window.location.href);
 
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
+  const [isModal, setIsModal] = useState(false);
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
@@ -35,20 +33,6 @@ const Home: NextPage<Props> = ({}: Props) => {
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
-  }, []);
-
-  useEffect(() => {
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    axios
-      .get(`https://test-api.entizen.kr/api/members/info`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-      .then((res: any) => {
-        console.log(
-          '================res 데이터 확인==================================',
-        );
-        console.log(res);
-      });
   }, []);
 
   // 앱 -> 웹
@@ -87,13 +71,14 @@ const Home: NextPage<Props> = ({}: Props) => {
                 'USER_ID',
                 JSON.stringify(jsonGetUserInfo.USER_ID),
               );
+              setLoginChecking(false);
             })
-            .catch((error) => {
-              // alert(error);
-              appLogout(userAgent as string);
+            .catch(async (error) => {
+              setIsModal(true);
+              await appLogout(userAgent as string);
+              setLoginChecking(false);
             });
         }
-        setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
@@ -126,16 +111,21 @@ const Home: NextPage<Props> = ({}: Props) => {
                 'USER_ID',
                 JSON.stringify(userInfo.USER_ID),
               );
+              setLoginChecking(false);
             })
-            .catch((error) => {
-              // alert(error);
-              appLogout(userAgent as string);
+            .catch(async (error) => {
+              setIsModal(true);
+              await appLogout(userAgent as string);
+              setLoginChecking(false);
             });
         }
-        setLoginChecking(false);
       };
     }
   }, []);
+
+  useEffect(() => {
+    // 모달창 업데이트
+  }, [isModal]);
 
   if (loginChecking) {
     // return <Loader />;
@@ -143,6 +133,14 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   return (
     <>
+      {isModal && (
+        <Modal
+          text="탈퇴한 회원입니다."
+          click={() => {
+            setIsModal(false);
+          }}
+        />
+      )}
       {memberType === 'COMPANY' ? (
         <CompanyMainPage />
       ) : (
