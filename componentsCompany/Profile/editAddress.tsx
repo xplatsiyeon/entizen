@@ -4,6 +4,7 @@ import CompanyAddress from 'components/SignUp/CompanyAddress';
 import useProfile from 'hooks/useProfile';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
+import Header from 'components/mypage/request/header';
 import colors from 'styles/colors';
 
 type Props = {
@@ -65,51 +66,58 @@ const EditAddress = ({ setComponent }: Props) => {
   };
 
   return (
-    <Wrapper>
-      <Address>
-        <p>기업 주소</p>
-        <InputWrap>
+    <>
+      <Header
+        handle={true}
+        back={true}
+        title="주소 변경"
+        handleBackClick={() => setComponent(0)}
+      />
+      <Wrapper>
+        <Address>
+          <p style={{ marginTop: '22.5pt' }}>기업 주소</p>
+          <InputWrap>
+            <InputBox
+              placeholder="회사 우편번호 입력"
+              value={
+                postNumber
+                  ? postNumber
+                  : profile?.companyMemberAdditionalInfo?.companyZipCode
+              }
+              name="id"
+              readOnly={true}
+              // onClick={() => setAddressOn(true)}
+            />
+            {/* <InputBtn onClick={() => setAddressOn(true)}> */}
+            <InputBtn onClick={() => setAddressOn(true)}>
+              <span>주소찾기</span>
+            </InputBtn>
+          </InputWrap>
           <InputBox
-            placeholder="회사 우편번호 입력"
+            placeholder="회사 주소 입력"
             value={
-              postNumber
-                ? postNumber
-                : profile?.companyMemberAdditionalInfo?.companyZipCode
+              companyAddress
+                ? companyAddress
+                : profile?.companyMemberAdditionalInfo?.companyAddress
             }
-            name="id"
+            name="checkPw"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
-          {/* <InputBtn onClick={() => setAddressOn(true)}> */}
-          <InputBtn onClick={() => setAddressOn(true)}>
-            <span>주소찾기</span>
-          </InputBtn>
-        </InputWrap>
-        <InputBox
-          placeholder="회사 주소 입력"
-          value={
-            companyAddress
-              ? companyAddress
-              : profile?.companyMemberAdditionalInfo?.companyAddress
-          }
-          name="checkPw"
-          readOnly={true}
-          // onClick={() => setAddressOn(true)}
-        />
-        <InputBox
-          placeholder="회사 상세주소 입력"
-          value={
-            companyDetailAddress
-              ? companyAddress
-              : profile?.companyMemberAdditionalInfo?.companyDetailAddress
-          }
-          onChange={(e) => setCompanyDetailAddress(e.target.value)}
-          name="checkPw"
-        />
-      </Address>
-
+          <InputBox
+            placeholder="회사 상세주소 입력"
+            value={
+              companyDetailAddress
+                ? companyAddress
+                : profile?.companyMemberAdditionalInfo?.companyDetailAddress
+            }
+            onChange={(e) => setCompanyDetailAddress(e.target.value)}
+            name="checkPw"
+          />
+        </Address>
+      </Wrapper>
       <EditAdressBtn onClick={handleEditAddress}>주소변경 </EditAdressBtn>
-    </Wrapper>
+    </>
   );
 };
 
@@ -120,7 +128,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  height: 100%;
+  height: 92%;
+  margin: 0 15pt;
 `;
 
 const InputBox = styled.input`
@@ -142,7 +151,7 @@ const InputBox = styled.input`
 const Address = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   width: 100%;
 `;
 
@@ -186,4 +195,8 @@ const EditAdressBtn = styled.button`
   padding: 15pt 0;
   width: 100%;
   /* margin-top: 315pt; */
+`;
+
+const Wrap = styled.div`
+  margin-left: -15pt;
 `;
