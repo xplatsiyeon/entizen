@@ -6,12 +6,10 @@ import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
-import { BASE_URL, isTokenGetApi } from 'api';
 import axios from 'axios';
-import { handleLogoutOnClickModalClick } from 'api/logout';
 import { appLogout } from 'bridge/appToWeb';
+import Modal from 'components/Modal/Modal';
 
 interface Props {
   userAgent: string;
@@ -24,6 +22,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
+  const [isModal, setIsModal] = useState(false);
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
@@ -89,7 +88,7 @@ const Home: NextPage<Props> = ({}: Props) => {
               );
             })
             .catch((error) => {
-              // alert(error);
+              setIsModal(false);
               appLogout(userAgent as string);
             });
         }
@@ -128,7 +127,7 @@ const Home: NextPage<Props> = ({}: Props) => {
               );
             })
             .catch((error) => {
-              // alert(error);
+              setIsModal(false);
               appLogout(userAgent as string);
             });
         }
@@ -143,6 +142,14 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   return (
     <>
+      {isModal && (
+        <Modal
+          text="탈퇴한 회원입니다."
+          click={() => {
+            setIsModal(false);
+          }}
+        />
+      )}
       {memberType === 'COMPANY' ? (
         <CompanyMainPage />
       ) : (
