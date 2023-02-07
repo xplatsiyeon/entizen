@@ -358,7 +358,8 @@ const ProjectCompleteDetail = ({
       setModuSignContract(1);
       if (inModuSignData?.project?.contract?.contractContent !== undefined) {
         setGetUrl(
-          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0].url,
+          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]
+            ?.url,
         );
       }
     } else {
@@ -830,7 +831,7 @@ const ProjectCompleteDetail = ({
                   </ButtonBox>
                 </a>
               )} */}
-              {moduSignContract === 1 && (
+              {/* {moduSignContract === 1 && (
                 <a href={getUrl} download={'계약서'}>
                   <ButtonBox onClick={onClickContract}>
                     계약서 다운로드
@@ -839,7 +840,7 @@ const ProjectCompleteDetail = ({
               )}
               {moduSignContract === 0 && (
                 <ButtonBox onClick={onClickContract}>계약서 다운로드</ButtonBox>
-              )}
+              )} */}
             </List>
             <ImgList
               dataLength={
