@@ -65,6 +65,8 @@ const AsHistory = () => {
       },
     );
 
+  console.log('data history', data?.data?.afterSalesServiceHistories);
+
   const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
       pathname: '/company/as/history',
@@ -78,7 +80,7 @@ const AsHistory = () => {
       '---------------------as 히스토리 refetch 되고 있습니다.------------------------',
     );
     refetch();
-    console.log(data);
+    // console.log(data);
   }, [filterTypeEn, keyword, data, router.isReady]);
 
   useEffect(() => {
@@ -96,6 +98,8 @@ const AsHistory = () => {
     router.push('/signin');
     return <div></div>;
   } else {
+    console.log('이거찍힘???');
+    console.log('data길이', data?.data?.afterSalesServiceHistories?.length);
     return (
       <Body>
         {modal && (
@@ -128,11 +132,11 @@ const AsHistory = () => {
         ) : (
           <List>
             {/* 데이터 없을 때 */}
-            {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
+            {data && data?.data?.afterSalesServiceHistories.length === 0 && (
               <NoAsHistyory />
             )}
             {/* 데이터 있을 때 */}
-            {data && data?.data?.afterSalesServiceHistories?.length! > 0 && (
+            {data && data?.data?.afterSalesServiceHistories.length > 0 && (
               <ListWrap>
                 {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
                   <React.Fragment key={idx}>

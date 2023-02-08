@@ -72,6 +72,8 @@ const NewAs = () => {
       },
     );
 
+  console.log('data as', data);
+
   useEffect(() => {
     refetch();
   }, [filterTypeEn, keyword]);
