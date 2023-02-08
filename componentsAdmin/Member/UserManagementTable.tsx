@@ -24,7 +24,6 @@ type Props = {
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
-
   userSearch?: string;
   commonBtn?: string;
   excelUrl: string;
@@ -103,8 +102,8 @@ const UserManagementTable = ({
             { name: '번호', width: '5%' },
             { name: '아이디', width: '20%' },
             { name: '이름', width: '10%' },
-            { name: '전화번호', width: '15%' },
-            { name: '생년월일', width: '15%' },
+            { name: '전화번호', width: '20%' },
+            { name: '생년월일', width: '20%' },
             ,
             {
               name: '가입날짜',
@@ -135,6 +134,9 @@ const UserManagementTable = ({
       onError: (error) => alert('다시 시도해주세요'),
     },
   );
+
+  console.log('userData', userData?.data?.members);
+
   // 회사 데이터
   const { data: comUserData, refetch: comUserDataRefetch } =
     useQuery<ComUserData>(

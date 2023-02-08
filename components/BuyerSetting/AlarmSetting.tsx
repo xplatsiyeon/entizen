@@ -48,9 +48,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
   const router = useRouter();
   const [endTime, setEndTime] = useState<string>('');
-  const [sendEndTime, setSendEndTime] = useState<string>('10:00');
+  const [sendEndTime, setSendEndTime] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
-  const [sendStartTime, setSendStartTime] = useState<string>('10:00');
+  const [sendStartTime, setSendStartTime] = useState<string>('');
+  const [userAllOff, setUserAllOff] = useState(false);
+  const [companyAllOff, setCompanyAllOff] = useState(false);
   // 기업 전체 알림 off
   const [companyAlerts, setComapanyAlerts] = useState(true);
   // 일반 user 전테 알림 off
@@ -138,6 +140,8 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   }, [nowWidth]);
 
   useEffect(() => {
+    setSendEndTime(alertsList?.data?.alertSetting?.noDisturbanceEndTime!);
+    setSendStartTime(alertsList?.data?.alertSetting?.noDisturbanceStartTime!);
     setAlertChecked({
       alertApp: alertsList?.data?.alertSetting?.alertApp,
       alertKakao: alertsList?.data?.alertSetting?.alertKakao,
@@ -156,6 +160,23 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
         alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
     });
   }, [alertsList]);
+
+  useEffect(() => {
+    if (
+      memberType === 'USER' &&
+      alertChecked?.alertKakao === false &&
+      alertChecked?.alertApp === false
+    ) {
+      setUserAllOff(true);
+    } else if (
+      memberType === 'COMPANY' &&
+      alertChecked?.alertEmail === false &&
+      alertChecked?.alertKakao === false &&
+      alertChecked?.alertApp === false
+    ) {
+      setCompanyAllOff(true);
+    }
+  }, [alertChecked]);
 
   return (
     <>
@@ -224,7 +245,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertQuotationRequest"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&
@@ -243,7 +268,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertQuotationRequest"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -260,7 +289,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertProject"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -277,7 +310,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertProject"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&
@@ -295,7 +332,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertAfterSalesService"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -312,7 +353,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertAfterSalesService"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&
@@ -331,7 +376,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertChatting"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -349,7 +398,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
                 <CustomSwitch
                   name="alertChatting"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&
@@ -369,7 +422,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
                 <CustomSwitch
                   name="alertChargingStation"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -388,7 +445,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
                 <CustomSwitch
                   name="alertSubsidy"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -406,7 +467,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <span>방해금지시간 설정</span>
                 <CustomSwitch
                   name="alertNoDisturbanceTime"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -422,7 +487,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <span>방해금지시간 설정</span>
                 <CustomSwitch
                   name="alertNoDisturbanceTime"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&
@@ -498,7 +567,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <span>이벤트 및 혜택 알림</span>
                 <CustomSwitch
                   name="event"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (userAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false
@@ -514,7 +587,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <span>이벤트 및 혜택 알림</span>
                 <CustomSwitch
                   name="event"
-                  onChange={handleAlertChange}
+                  onChange={(e) => {
+                    if (companyAllOff === false) {
+                      handleAlertChange(e);
+                    }
+                  }}
                   checked={
                     alertChecked?.alertKakao === false &&
                     alertChecked?.alertApp === false &&

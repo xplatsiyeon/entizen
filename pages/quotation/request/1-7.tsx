@@ -243,7 +243,8 @@ const Request1_7 = (props: Props) => {
                   </span>
                 </div>
               </ContentsWrapper>
-              {simulVisible && (
+              {/* 하단 코드는 런칭 후 2년 후쯤 오픈 한다고함 지우지 마시오 */}
+              {/* {simulVisible && (
                 <>
                   {date?.month !== null && date?.month !== null && (
                     <SimulContainer>
@@ -268,7 +269,7 @@ const Request1_7 = (props: Props) => {
                     바랍니다.
                   </Notice>
                 </>
-              )}
+              )} */}
               <RequestForm>
                 <div className="name">
                   <span>기타 요청사항 (선택)</span>

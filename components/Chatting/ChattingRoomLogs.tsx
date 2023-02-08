@@ -1096,7 +1096,8 @@ const ImageWrap = styled.div<{ userChatting: boolean }>`
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
   > img {
-    width: 100%;
+    /* width: 100%; */
+    object-fit: cover;
   }
   &.user {
     display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};

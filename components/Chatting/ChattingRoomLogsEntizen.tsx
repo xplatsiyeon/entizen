@@ -120,7 +120,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
 
-  // console.log('앤타준? ', router.query) 
+  // console.log('앤타준? ', router.query)
   //{chattingRoomIdx: '14', entizen: 'true'}
 
   //   채팅방 내용 보기
@@ -528,7 +528,6 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
         webInputRef.current.focus();
       }
     }, 2000);
-
   }, []);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
@@ -629,8 +628,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
                                 userChatting={userChatting}
                                 className={`${
                                   item.fromMemberType === 'ADMIN'
-                                  ? 'company'
-                                  : 'user'
+                                    ? 'company'
+                                    : 'user'
                                 }`}
                                 //tabIndex={1}
                               >
@@ -692,8 +691,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
                               <P
                                 className={`${
                                   item.fromMemberType === 'ADMIN'
-                                  ? 'company-p'
-                                  : 'user-p'
+                                    ? 'company-p'
+                                    : 'user-p'
                                 } ${
                                   idx === d.logs.length - 1 ? 'p-target' : ''
                                 }`}
@@ -1100,7 +1099,8 @@ const ImageWrap = styled.div<{ userChatting: boolean }>`
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
   > img {
-    width: 100%;
+    /* width: 100%; */
+    object-fit: cover;
   }
   &.user {
     display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};

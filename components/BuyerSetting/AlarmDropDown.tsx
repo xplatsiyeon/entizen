@@ -46,8 +46,6 @@ const AlarmDropDown = ({
   currentStep,
   setSelectValue,
   selectValue,
-  background,
-  border,
   handleSelectBox,
   setSendTime,
 }: Props) => {
