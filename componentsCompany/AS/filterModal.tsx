@@ -21,10 +21,10 @@ const FilterModal = ({
 
   // 신규 A/S sort
   const receivedText = ['등록일순 보기', '현장별 보기', '상태순 보기'];
-
+  const receivedEnText = ['date', 'site', 'status'];
   // 히스토리 sort
   const historyText = ['현장별 보기', '낮은 평점순 보기', '높은 평점순 보기'];
-
+  const historyEnText = ['site', 'lowRate', 'highRate'];
   {
     /* 모달창 높이가 0일때만, 모달창 위로 올리기  */
   }
@@ -52,10 +52,13 @@ const FilterModal = ({
   setTimeout(heightAni, 50);
 
   const handleSelect = (idx: number) => {
+    console.log(historyText[idx]);
     if (type === 'historyAS') {
       setSelected(historyText[idx]);
+      setFilterTypeEn(historyEnText[idx]);
     } else if (type === 'receivedAS') {
       setSelected(receivedText[idx]);
+      setFilterTypeEn(receivedEnText[idx]);
     }
     // 선택된 옵션에 맞게 정렬 api 호출.
   };

@@ -7,7 +7,6 @@ import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
 import WebFilter from './webFilter';
-import { useQueryClient } from 'react-query';
 import Loader from 'components/Loader';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
@@ -43,22 +42,25 @@ interface Props {
   data: HisttoryResponse;
   isLoading: boolean;
   newSearchWord: string;
-  setNewFilterTypeEn: Dispatch<SetStateAction<string>>;
-  setNewSearchWord: Dispatch<SetStateAction<string>>;
+  setHistoryFilterTypeEn: Dispatch<SetStateAction<string>>;
+  setHistorySearchWord: Dispatch<SetStateAction<string>>;
+  historySelected: string;
+  setHistorySelected: Dispatch<SetStateAction<string>>;
 }
 
 const AsHistory = ({
   data,
   isLoading,
   newSearchWord,
-  setNewFilterTypeEn,
-  setNewSearchWord,
+  setHistoryFilterTypeEn,
+  setHistorySearchWord,
+  historySelected,
+  setHistorySelected,
 }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-  const [selected, setSelected] = useState<string>('현장별 보기');
   const [modal, setModal] = useState<boolean>(false);
 
   const handleRoute = (afterSalesServiceIdx: number) => {
@@ -80,28 +82,28 @@ const AsHistory = ({
         {modal && (
           <FilterModal
             setModal={setModal}
-            setSelected={setSelected}
-            setFilterTypeEn={setNewFilterTypeEn}
+            setSelected={setHistorySelected}
+            setFilterTypeEn={setHistoryFilterTypeEn}
             type={'historyAS'}
           />
         )}
 
         <Wrap>
           <MobFilter onClick={() => setModal(true)}>
-            <span>{selected}</span>
+            <span>{historySelected}</span>
             <IconBox>
               <Image src={blackDownArrow} alt="rijgtArrow" />
             </IconBox>
           </MobFilter>
           <WebFilter
-            setSelected={setSelected}
-            setFilterTypeEn={setNewFilterTypeEn}
+            setSelected={setHistorySelected}
+            setFilterTypeEn={setHistoryFilterTypeEn}
             type={'historyAS'}
           />
           <InputWrap>
             <Search
               searchWord={newSearchWord}
-              setSearchWord={setNewSearchWord}
+              setSearchWord={setHistorySearchWord}
             />
           </InputWrap>
         </Wrap>
@@ -210,9 +212,10 @@ const IconBox = styled.div<{ arrow?: boolean }>`
 `;
 
 const List = styled.div`
-  flex: 1;
-  min-height: 174pt;
-  position: relative;
+  margin: 18pt 0;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 80pt;
+  }
 `;
 const ListBox = styled.div`
   background: white;

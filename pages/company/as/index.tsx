@@ -24,41 +24,57 @@ const ComAsIndex = ({ num, now }: Props) => {
   const [componentId, setComponentId] = useState<number | undefined>();
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // NEW AS 리스트 보기
   const [newSearchWord, setNewSearchWord] = useState<string>('');
   const [newFilterTypeEn, setNewFilterTypeEn] = useState('date');
+  const [newSelected, setNewSelected] = useState<string>('등록일순 보기');
   const newKeyword = useDebounce(newSearchWord, 2000);
-  const { data: newData, isLoading: newLoading } =
-    useQuery<CompanyAsListResposne>(
-      'company-new-as',
-      () =>
-        isTokenGetApi(
-          `/after-sales-services/new?sort=${newFilterTypeEn}&searchKeyword=${newKeyword}`,
-        ),
-      {
-        enabled: router.isReady && accessToken ? true : false,
-      },
-    );
+  const {
+    data: newData,
+    isLoading: newLoading,
+    refetch: newRefetch,
+  } = useQuery<CompanyAsListResposne>(
+    'company-new-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/new?sort=${newFilterTypeEn}&searchKeyword=${newKeyword}`,
+      ),
+    {
+      enabled: router.isReady && accessToken ? true : false,
+    },
+  );
+
+  // new 키워드, 필터 업데이트
+  useEffect(() => {
+    newRefetch();
+  }, [newFilterTypeEn, newKeyword, newSelected]);
 
   // HISTORY AS 리스트 보기
   const [historySearchWord, setHistorySearchWord] = useState<string>('');
   const [historyFilterTypeEn, setHistoryFilterTypeEn] = useState('site');
+  const [historySelected, setHistorySelected] = useState<string>('현장별 보기');
   const historyKeyword = useDebounce(historySearchWord, 2000);
-  const { data: historyData, isLoading: historyLoading } =
-    useQuery<HisttoryResponse>(
-      'company-history-as',
-      () =>
-        isTokenGetApi(
-          `/after-sales-services/histories?sort=${historyFilterTypeEn}&searchKeyword=${historyKeyword}`,
-        ),
-      {
-        enabled: router?.isReady && accessToken ? true : false,
-      },
-    );
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: historyRefetch,
+  } = useQuery<HisttoryResponse>(
+    'company-history-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/histories?sort=${historyFilterTypeEn}&searchKeyword=${historyKeyword}`,
+      ),
+    {
+      enabled: router?.isReady && accessToken ? true : false,
+    },
+  );
+
+  // history 키워드, 필터 업데이트
+  useEffect(() => {
+    historyRefetch();
+  }, [historyFilterTypeEn, historyKeyword, historySelected]);
 
   useEffect(() => {
     if (router.query.id !== undefined) {
@@ -74,6 +90,8 @@ const ComAsIndex = ({ num, now }: Props) => {
         newSearchWord={newSearchWord}
         setNewFilterTypeEn={setNewFilterTypeEn}
         setNewSearchWord={setNewSearchWord}
+        newSelected={newSelected}
+        setNewSelected={setNewSelected}
       />
     ),
     1: (
@@ -81,8 +99,10 @@ const ComAsIndex = ({ num, now }: Props) => {
         data={historyData!}
         isLoading={historyLoading}
         newSearchWord={historySearchWord}
-        setNewFilterTypeEn={setHistoryFilterTypeEn}
-        setNewSearchWord={setHistorySearchWord}
+        setHistoryFilterTypeEn={setHistoryFilterTypeEn}
+        setHistorySearchWord={setHistorySearchWord}
+        historySelected={historySelected}
+        setHistorySelected={setHistorySelected}
       />
     ),
   };

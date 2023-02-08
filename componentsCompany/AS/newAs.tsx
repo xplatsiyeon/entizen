@@ -50,6 +50,8 @@ interface Props {
   newSearchWord: string;
   setNewFilterTypeEn: Dispatch<SetStateAction<string>>;
   setNewSearchWord: Dispatch<SetStateAction<string>>;
+  newSelected: string;
+  setNewSelected: Dispatch<SetStateAction<string>>;
 }
 
 const NewAs = ({
@@ -58,15 +60,15 @@ const NewAs = ({
   newSearchWord,
   setNewFilterTypeEn,
   setNewSearchWord,
+  newSelected,
+  setNewSelected,
 }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-  const [selected, setSelected] = useState<string>('등록일순 보기');
-  const [modal, setModal] = useState<boolean>(false);
 
-  console.log('🔥 newAs data==>>', data);
+  const [modal, setModal] = useState<boolean>(false);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
@@ -78,20 +80,20 @@ const NewAs = ({
         {modal && (
           <FilterModal
             setModal={setModal}
-            setSelected={setSelected}
+            setSelected={setNewSelected}
             setFilterTypeEn={setNewFilterTypeEn}
             type={'receivedAS'}
           />
         )}
         <Wrap>
           <MobFilter onClick={() => setModal(true)}>
-            <span>{selected}</span>
+            <span>{newSelected}</span>
             <IconBox>
               <Image src={blackDownArrow} alt="rijgtArrow" />
             </IconBox>
           </MobFilter>
           <WebFilter
-            setSelected={setSelected}
+            setSelected={setNewSelected}
             setFilterTypeEn={setNewFilterTypeEn}
             type={'receivedAS'}
           />
