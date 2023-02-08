@@ -143,7 +143,7 @@ const LeftASBox = ({
                 router.push(`/company/as?id=1`);
                 setNewAS(!newAS);
                 setHistoryUnder(!historyUnder);
-                queryclient.invalidateQueries('company-asList');
+                // queryclient.invalidateQueries('company-asList');
                 // }
               }}
             >

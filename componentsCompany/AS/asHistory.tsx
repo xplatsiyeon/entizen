@@ -1,15 +1,12 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
 import WebFilter from './webFilter';
-import useDebounce from 'hooks/useDebounce';
-import { QueryClient, useQueries, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
@@ -40,32 +37,31 @@ export interface HisttoryResponse {
     }[];
   };
 }
-const TAG = 'componentsCompany/AS/asHistroty.tsx';
-const AsHistory = () => {
+
+interface Props {
+  data: HisttoryResponse;
+  isLoading: boolean;
+  newSearchWord: string;
+  setHistoryFilterTypeEn: Dispatch<SetStateAction<string>>;
+  setHistorySearchWord: Dispatch<SetStateAction<string>>;
+  historySelected: string;
+  setHistorySelected: Dispatch<SetStateAction<string>>;
+}
+
+const AsHistory = ({
+  data,
+  isLoading,
+  newSearchWord,
+  setHistoryFilterTypeEn,
+  setHistorySearchWord,
+  historySelected,
+  setHistorySelected,
+}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const queryclient = useQueryClient();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [selected, setSelected] = useState<string>('현장별 보기');
-  const [filterTypeEn, setFilterTypeEn] = useState('site');
   const [modal, setModal] = useState<boolean>(false);
-  const keyword = useDebounce(searchWord, 2000);
-  // 기업 AS 리스트 보기
-  const { data, isLoading, isError, error, refetch, remove } =
-    useQuery<HisttoryResponse>(
-      'company-asList',
-      () =>
-        isTokenGetApi(
-          `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
-        ),
-      {
-        enabled: router.isReady && accessToken ? true : false,
-      },
-    );
-
-  console.log('data history', data?.data?.afterSalesServiceHistories);
 
   const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
@@ -75,68 +71,47 @@ const AsHistory = () => {
       },
     });
   };
-  useEffect(() => {
-    console.log(
-      '---------------------as 히스토리 refetch 되고 있습니다.------------------------',
-    );
-    refetch();
-    // console.log(data);
-  }, [filterTypeEn, keyword, data, router.isReady]);
 
-  useEffect(() => {
-    return () => {
-      queryclient.removeQueries('company-asList');
-    };
-  }, []);
-
-  if (isError) {
-    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
-    console.log(error);
-  }
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
     return <div></div>;
   } else {
-    console.log('이거찍힘???');
-    console.log('data길이', data?.data?.afterSalesServiceHistories?.length);
     return (
       <Body>
         {modal && (
           <FilterModal
             setModal={setModal}
-            setSelected={setSelected}
-            setFilterTypeEn={setFilterTypeEn}
+            setSelected={setHistorySelected}
+            setFilterTypeEn={setHistoryFilterTypeEn}
             type={'historyAS'}
           />
         )}
 
         <Wrap>
           <MobFilter onClick={() => setModal(true)}>
-            <span>{selected}</span>
+            <span>{historySelected}</span>
             <IconBox>
               <Image src={blackDownArrow} alt="rijgtArrow" />
             </IconBox>
           </MobFilter>
           <WebFilter
-            setSelected={setSelected}
-            setFilterTypeEn={setFilterTypeEn}
+            setSelected={setHistorySelected}
+            setFilterTypeEn={setHistoryFilterTypeEn}
             type={'historyAS'}
           />
           <InputWrap>
-            <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+            <Search
+              searchWord={newSearchWord}
+              setSearchWord={setHistorySearchWord}
+            />
           </InputWrap>
         </Wrap>
         {isLoading ? (
           <Loader />
         ) : (
           <List>
-            {/* 데이터 없을 때 */}
-            {data && data?.data?.afterSalesServiceHistories.length === 0 && (
-              <NoAsHistyory />
-            )}
-            {/* 데이터 있을 때 */}
-            {data && data?.data?.afterSalesServiceHistories.length > 0 && (
+            {data && data?.data?.afterSalesServiceHistories?.length > 0 ? (
               <ListWrap>
                 {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
                   <React.Fragment key={idx}>
@@ -178,6 +153,8 @@ const AsHistory = () => {
                 {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
                 <BtnBox>A/S 히스토리 다운받기</BtnBox>
               </ListWrap>
+            ) : (
+              <NoAsHistyory />
             )}
           </List>
         )}
@@ -232,14 +209,13 @@ const IconBox = styled.div<{ arrow?: boolean }>`
   margin-left: 9pt;
   display: flex;
   align-items: center;
-  //transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
 `;
 
 const List = styled.div`
-  //margin-top: 18pt;
-  flex: 1;
-  min-height: 174pt;
-  position: relative;
+  margin: 18pt 0;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 80pt;
+  }
 `;
 const ListBox = styled.div`
   background: white;
@@ -254,7 +230,6 @@ const StoreName = styled.p`
   font-size: 12pt;
   line-height: 15pt;
   color: #222222;
-  /* margin-bottom: 6pt; */
   margin-bottom: 14pt;
 `;
 const Text = styled.p`
@@ -316,7 +291,6 @@ const BtnBox = styled.div`
   margin: 27pt auto 90pt;
   @media (min-width: 900pt) {
     margin-bottom: 0;
+    width: 251.25pt;
   }
 `;
-
-// lowRate: 낮은 평점순, highRate: 높은 평점 site: 현장 순

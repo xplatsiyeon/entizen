@@ -18,6 +18,7 @@ import { adminPageNumberSlice } from 'storeAdmin/adminPageNumberSlice';
 import { userAgentSlice } from './userAgent';
 import { redirectSlice } from './redirectUrlSlice';
 import { unavailableGraphSlice } from './ unavailableGraph';
+import { subsidySlice } from './subsidySlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   userAgent: userAgentSlice.reducer,
   redirectSlice: redirectSlice.reducer,
   unavailableGraphBoolean: unavailableGraphSlice.reducer,
+  subsidySlice: subsidySlice.reducer,
 });
 
 export default rootReducer;

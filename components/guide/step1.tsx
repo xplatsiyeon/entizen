@@ -132,4 +132,5 @@ const GridItem = styled.div<{ index: string; clicked: string }>`
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
   color: ${({ index, clicked }) =>
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
+  cursor: pointer;
 `;

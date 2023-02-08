@@ -14,6 +14,7 @@ import alertIcon from '/public/images/akar-icons_circle-alert-fill.png';
 import arrowIcon from '/public/images/subsidy-arrow-icon.png';
 
 import Image from 'next/image';
+import { subsidyAction } from 'store/subsidySlice';
 interface Subsidy {
   ministryOfEnvironmentApplyPrice: number;
   koreaEnergyAgencyApplyPrice: number;
@@ -51,14 +52,23 @@ const Guide1_2_4 = () => {
     }
   };
 
+  const onClickAlarmBtn = () => {
+    router.push({
+      pathname: '/setting',
+      query: { id: 1 },
+    });
+  };
+
   const onClickButton = () => {
     dispatch(subsidyGuideAction.reset());
     router.push('/');
   };
 
   useEffect(() => {
-    console.log('subsidyGuideData==>>', subsidyGuideData);
+    dispatch(subsidyAction.reset());
+  }, []);
 
+  useEffect(() => {
     if (checkYear === true) {
       // 올해 보조금 금액
       setSubsidy(subsidyGuideData.thisYearSubsidy);
@@ -163,17 +173,17 @@ const Guide1_2_4 = () => {
         ) : (
           <LastYearSubsidyGuide>
             <div className="alert">
-              <Image src={alertIcon} width={44} height={44} />
+              <Image src={alertIcon} layout="fill" />
             </div>
             <h1 className="main">
               보조금 공고 발표 전<br /> 또는 신청기간이 지났습니다.
             </h1>
             <p className="notice">
               보조금 알림설정을 통해
-              <br /> 새로운 보조금 공고소식을 받아보세요.
+              <br className="br" /> 새로운 보조금 공고소식을 받아보세요.
             </p>
-            <button className="subsidyButton">
-              보조금 알림설정 가기{' '}
+            <button className="subsidyButton" onClick={onClickAlarmBtn}>
+              보조금 알림설정 가기
               <div className="arrow">
                 <Image src={arrowIcon} width={5} height={10} />
               </div>
@@ -190,11 +200,13 @@ const Guide1_2_4 = () => {
               </p>
             </div>
             <Notice pt={45}>
-              보조금은 &apos;전기자동차충전사업자&apos;로 등록된 <br />
+              보조금은 &apos;전기자동차충전사업자&apos;로 등록된{' '}
+              <br className="br" />
               사업자만 신청 가능합니다.
               <br />
               <br />
-              &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
+              &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,{' '}
+              <br className="br" />
               파트너와 보조금에 대해 상의해보세요!
             </Notice>
           </LastYearSubsidyGuide>
@@ -312,6 +324,10 @@ const Notice = styled.p<{ pt: number }>`
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
   padding-top: ${({ pt }) => pt}pt;
+  @media (min-width: 899.25pt) {
+    font-weight: 500;
+    font-size: 16px;
+  }
 `;
 const Btn = styled.div`
   display: none;
@@ -340,7 +356,10 @@ const LastYearSubsidyGuide = styled.div`
   align-items: center;
   padding: 0 15pt;
   .alert {
+    position: relative;
     margin-top: 46.5pt;
+    width: 33pt;
+    height: 33pt;
   }
   .main {
     font-weight: 700;
@@ -350,6 +369,7 @@ const LastYearSubsidyGuide = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     margin: 19.5pt 54pt 15pt 54pt;
+    width: 100%;
   }
   .notice {
     font-weight: 500;
@@ -393,6 +413,7 @@ const LastYearSubsidyGuide = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     text-align: 20px;
+    white-space: pre-wrap;
   }
   .highlight {
     font-weight: 700;
@@ -406,6 +427,7 @@ const LastYearSubsidyGuide = styled.div`
   @media (min-width: 899.25pt) {
     /* border: 1px solid red; */
     width: 411pt;
+    padding: 0;
     .Announcement {
       font-weight: 700;
       font-size: 19.5pt;
@@ -414,9 +436,27 @@ const LastYearSubsidyGuide = styled.div`
       letter-spacing: -0.02em;
       color: ${colors.main2};
     }
+    .alert {
+      width: 41.25pt;
+      height: 41.25pt;
+    }
     .text {
+      font-weight: 500;
+      font-size: 12pt;
+      line-height: 18pt;
+      white-space: nowrap;
     }
     .highlight {
+    }
+    .br {
+      display: none;
+    }
+    .subsidyButton {
+      font-weight: 700;
+      font-size: 9pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      padding: 9pt 12pt;
     }
   }
 `;

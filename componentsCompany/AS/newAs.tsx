@@ -1,20 +1,15 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
-import { bgcolor } from '@mui/system';
 import { handleColorAS } from 'utils/changeValue';
 import { useRouter } from 'next/router';
-import colors from 'styles/colors';
 import WebFilter from './webFilter';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import { dateFomat } from 'utils/calculatePackage';
-import useDebounce from 'hooks/useDebounce';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 
@@ -48,45 +43,33 @@ export interface CompanyAsListResposne {
     newReceivedAfterSalesServices: NewReceivedAfterSalesServices[];
   };
 }
-const TAG = 'componentsCompany/AS/newAs.tsx';
-const NewAs = () => {
+
+interface Props {
+  data: CompanyAsListResposne;
+  isLoading: boolean;
+  newSearchWord: string;
+  setNewFilterTypeEn: Dispatch<SetStateAction<string>>;
+  setNewSearchWord: Dispatch<SetStateAction<string>>;
+  newSelected: string;
+  setNewSelected: Dispatch<SetStateAction<string>>;
+}
+
+const NewAs = ({
+  data,
+  isLoading,
+  newSearchWord,
+  setNewFilterTypeEn,
+  setNewSearchWord,
+  newSelected,
+  setNewSelected,
+}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [selected, setSelected] = useState<string>('등록일순 보기');
-  const [filterTypeEn, setFilterTypeEn] = useState('date');
+
   const [modal, setModal] = useState<boolean>(false);
-  const keyword = useDebounce(searchWord, 2000);
-  // 기업 AS 리스트 보기
-  const { data, isLoading, isError, error, refetch } =
-    useQuery<CompanyAsListResposne>(
-      'company-asList',
-      () =>
-        isTokenGetApi(
-          `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
-        ),
-      {
-        enabled: router.isReady && accessToken ? true : false,
-      },
-    );
 
-  console.log('data as', data);
-
-  useEffect(() => {
-    refetch();
-  }, [filterTypeEn, keyword]);
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-  if (isError) {
-    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
-    console.log(error);
-  }
-  // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
-  // console.log(data);
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
@@ -97,37 +80,35 @@ const NewAs = () => {
         {modal && (
           <FilterModal
             setModal={setModal}
-            setSelected={setSelected}
-            setFilterTypeEn={setFilterTypeEn}
+            setSelected={setNewSelected}
+            setFilterTypeEn={setNewFilterTypeEn}
             type={'receivedAS'}
           />
         )}
         <Wrap>
           <MobFilter onClick={() => setModal(true)}>
-            <span>{selected}</span>
+            <span>{newSelected}</span>
             <IconBox>
               <Image src={blackDownArrow} alt="rijgtArrow" />
             </IconBox>
           </MobFilter>
           <WebFilter
-            setSelected={setSelected}
-            setFilterTypeEn={setFilterTypeEn}
+            setSelected={setNewSelected}
+            setFilterTypeEn={setNewFilterTypeEn}
             type={'receivedAS'}
           />
           <InputWrap>
-            <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+            <Search
+              searchWord={newSearchWord}
+              setSearchWord={setNewSearchWord}
+            />
           </InputWrap>
         </Wrap>
         {isLoading ? (
           <Loader />
         ) : (
           <List>
-            {/* 데이터 없을 때 */}
-            {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
-              <NoAsHistyory />
-            )}
-            {/* 데이터 있을 때 */}
-            {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
+            {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
               data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
                 return (
                   <ListBox
@@ -157,7 +138,10 @@ const NewAs = () => {
                     </FlexWrap>
                   </ListBox>
                 );
-              })}
+              })
+            ) : (
+              <NoAsHistyory />
+            )}
           </List>
         )}
       </Body>
@@ -168,7 +152,6 @@ const NewAs = () => {
 export default NewAs;
 
 const Body = styled.div`
-  /* flex: 1; */
   margin: 0 15pt;
   font-family: 'Spoqa Han Sans Neo';
   height: 100%;
@@ -209,7 +192,6 @@ const IconBox = styled.div<{ arrow?: boolean }>`
   margin-left: 9pt;
   display: flex;
   align-items: center;
-  //transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
 `;
 
 const List = styled.div`

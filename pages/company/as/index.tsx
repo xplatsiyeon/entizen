@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import AsHistory from 'componentsCompany/AS/asHistory';
-import NewAs from 'componentsCompany/AS/newAs';
+import AsHistory, { HisttoryResponse } from 'componentsCompany/AS/asHistory';
+import NewAs, { CompanyAsListResposne } from 'componentsCompany/AS/newAs';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import LeftASBox from 'componentsCompany/AS/LeftASBox';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import useDebounce from 'hooks/useDebounce';
 
 type Props = { num?: number; now?: string };
 interface Components {
@@ -21,16 +24,57 @@ const ComAsIndex = ({ num, now }: Props) => {
   const [componentId, setComponentId] = useState<number | undefined>();
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
 
-  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
-  // useEffect(() => {
-  //   if (router.query.id) {
-  //     const num = Number(router.query.id);
-  //     setTabNumber(num);
-  //   } else if (router.pathname === `/company/as`) {
-  //     setTabNumber(0);
-  //   }
-  // }, [router, tabNumber]);
+  // NEW AS 리스트 보기
+  const [newSearchWord, setNewSearchWord] = useState<string>('');
+  const [newFilterTypeEn, setNewFilterTypeEn] = useState('date');
+  const [newSelected, setNewSelected] = useState<string>('등록일순 보기');
+  const newKeyword = useDebounce(newSearchWord, 2000);
+  const {
+    data: newData,
+    isLoading: newLoading,
+    refetch: newRefetch,
+  } = useQuery<CompanyAsListResposne>(
+    'company-new-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/new?sort=${newFilterTypeEn}&searchKeyword=${newKeyword}`,
+      ),
+    {
+      enabled: router.isReady && accessToken ? true : false,
+    },
+  );
+
+  // new 키워드, 필터 업데이트
+  useEffect(() => {
+    newRefetch();
+  }, [newFilterTypeEn, newKeyword, newSelected]);
+
+  // HISTORY AS 리스트 보기
+  const [historySearchWord, setHistorySearchWord] = useState<string>('');
+  const [historyFilterTypeEn, setHistoryFilterTypeEn] = useState('site');
+  const [historySelected, setHistorySelected] = useState<string>('현장별 보기');
+  const historyKeyword = useDebounce(historySearchWord, 2000);
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: historyRefetch,
+  } = useQuery<HisttoryResponse>(
+    'company-history-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/histories?sort=${historyFilterTypeEn}&searchKeyword=${historyKeyword}`,
+      ),
+    {
+      enabled: router?.isReady && accessToken ? true : false,
+    },
+  );
+
+  // history 키워드, 필터 업데이트
+  useEffect(() => {
+    historyRefetch();
+  }, [historyFilterTypeEn, historyKeyword, historySelected]);
 
   useEffect(() => {
     if (router.query.id !== undefined) {
@@ -39,8 +83,28 @@ const ComAsIndex = ({ num, now }: Props) => {
   }, [router.query.id]);
 
   const components: Components = {
-    0: <NewAs />,
-    1: <AsHistory />,
+    0: (
+      <NewAs
+        data={newData!}
+        isLoading={newLoading}
+        newSearchWord={newSearchWord}
+        setNewFilterTypeEn={setNewFilterTypeEn}
+        setNewSearchWord={setNewSearchWord}
+        newSelected={newSelected}
+        setNewSelected={setNewSelected}
+      />
+    ),
+    1: (
+      <AsHistory
+        data={historyData!}
+        isLoading={historyLoading}
+        newSearchWord={historySearchWord}
+        setHistoryFilterTypeEn={setHistoryFilterTypeEn}
+        setHistorySearchWord={setHistorySearchWord}
+        historySelected={historySelected}
+        setHistorySelected={setHistorySelected}
+      />
+    ),
   };
 
   return (

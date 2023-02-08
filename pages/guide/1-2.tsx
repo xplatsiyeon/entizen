@@ -26,6 +26,9 @@ import UserRightMenu from 'components/UserRightMenu';
 import { Option } from 'store/quotationSlice';
 import { useMutation } from 'react-query';
 import { isTokenPostApi } from 'api';
+import { subsidyAction, subsidySlice } from 'store/subsidySlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 export interface SelectedOption {
   idx: number;
@@ -55,12 +58,15 @@ const Guide1_2 = () => {
     'PERSONAL',
     'ETC',
   ];
+
+  // 충전기 설치 목적 (STEP 1)
   const [clicked, setClicked] = useState(-1);
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isValid, setIsValid] = useState(true);
-  const [m5Index, setM5Index] = useState(0);
+
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
+  // 충전기 종류 및 수량 선택 (STEP 1) - 프론트
   const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
     {
       idx: 0,
@@ -70,7 +76,7 @@ const Guide1_2 = () => {
       count: '',
     },
   ]);
-  // 백엔드에 보내줄 이름
+  // 충전기 종류 및 수량 선택 (STEP 1) - 백엔드
   const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
     {
       kind: '',
@@ -79,6 +85,7 @@ const Guide1_2 = () => {
       count: '',
     },
   ]);
+  // 충전기 설치 지역
   const [selectedRegion, setSelectedRegion] = useState<Region>({
     m9: '',
     m10: '',
@@ -108,7 +115,9 @@ const Guide1_2 = () => {
   );
 
   // STEP 1 탭기능
-  const handlePurposeOnClick = (index: number) => setClicked(index);
+  const handlePurposeOnClick = (index: number) => {
+    setClicked(index);
+  };
   // STEP 2 충전기 옵션 체인지
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -200,7 +209,9 @@ const Guide1_2 = () => {
   };
   // 지역 옵션 체인지
   const HandleRegionChange = (value: string, name: string) => {
-    const copy = selectedRegion;
+    const copy = { ...selectedRegion };
+    // console.log('copy=>', copy);
+    // return;
     if (name === 'm9') {
       copy.m10 = '';
     }
@@ -236,6 +247,34 @@ const Guide1_2 = () => {
       }
     }
   };
+
+  const onClickRouter = () => {
+    router.push('/guide/1-5');
+  };
+
+  const { chargePurpose, chargeRegion, chargerEn, chargerKo } = useSelector(
+    (state: RootState) => state.subsidySlice,
+  );
+
+  useEffect(() => {
+    setClicked(chargePurpose);
+    setSelectedOption(chargerKo);
+    setSelectedOptionEn(chargerEn);
+    setSelectedRegion(chargeRegion);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(
+        subsidyAction.addSubsidy({
+          chargePurpose: clicked,
+          chargerKo: selectedOption,
+          chargerEn: selectedOptionEn,
+          chargeRegion: selectedRegion,
+        }),
+      );
+    };
+  }, [clicked, selectedOption, selectedOptionEn, selectedRegion]);
 
   // 버튼 활성화
   useEffect(() => {
@@ -279,9 +318,8 @@ const Guide1_2 = () => {
             HandleRegionChange={HandleRegionChange}
             onClickAdd={onClickAdd}
             onClickMinus={onClickMinus}
-            m5Index={m5Index}
           />
-          <ChargeGuide onClick={() => router.push('/guide/1-5')}>
+          <ChargeGuide onClick={onClickRouter}>
             <span className="text">충전기 가이드</span>
             <div className="img">
               <Image src={arrow_small} alt="arrow_small" />
@@ -304,7 +342,7 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
@@ -355,6 +393,7 @@ const ChargeGuide = styled.div`
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
+    cursor: pointer;
   }
   .img {
     position: relative;
@@ -382,6 +421,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 33pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
