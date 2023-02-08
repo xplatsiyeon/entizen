@@ -7,6 +7,7 @@ import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import { ComUserData, UserData } from 'types/tableDataType';
 import {
+  addCommaBirthDay,
   adminDateFomat,
   dateFomat,
   hyphenFn,
@@ -91,6 +92,7 @@ const UserManagementTable = ({
               ele.id,
               ele.name,
               hyphenFn(ele.phone),
+              addCommaBirthDay(ele.birthDate!),
               dateFomat(ele.createdAt),
               ele.memberIdx,
             ];
@@ -101,11 +103,12 @@ const UserManagementTable = ({
             { name: '번호', width: '5%' },
             { name: '아이디', width: '20%' },
             { name: '이름', width: '10%' },
-            { name: '전화번호', width: '10%' },
+            { name: '전화번호', width: '15%' },
+            { name: '생년월일', width: '15%' },
             ,
             {
               name: '가입날짜',
-              width: '30%',
+              width: '20%',
             },
             {
               name: '',

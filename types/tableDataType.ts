@@ -12,6 +12,7 @@ export type UserMemberInfo = {
   name: string;
   phone: string;
   createdAt: string;
+  birthDate: null | string;
   deletedAt: null | string;
 };
 

@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
 import { Router } from '@mui/icons-material';
+import { isTokenAdminGetApi, isTokenGetApi } from 'api';
+import { AxiosError } from 'axios';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { DateRangePicker } from 'rsuite';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
@@ -11,20 +14,53 @@ import colors from 'styles/colors';
 
 type Props = {};
 
+interface UnprocessedBusiness {
+  awaitingCompanyMemberCount: number;
+  awaitingProjectCount: number;
+  inProgressConsultationsCount: number;
+}
+
+interface Response {
+  isSuccess: boolean;
+  data: {
+    unprocessedBusiness: UnprocessedBusiness;
+  };
+}
+
 const OutstandingWork = (props: Props) => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isLoading, isError } = useQuery<
+    Response,
+    AxiosError,
+    UnprocessedBusiness
+  >(
+    'unprocessed-business',
+    () => isTokenAdminGetApi('/admin/dashboards/unprocessed-business'),
+    {
+      select(data) {
+        return data.data.unprocessedBusiness;
+      },
+    },
+  );
+
+  console.log('data==>', data);
 
   const GridList = [
-    { title: '현재 승인 대기중인\n기업회원 수', count: 0, page: 6 },
+    {
+      title: '현재 승인 대기중인\n기업회원 수',
+      count: data?.awaitingCompanyMemberCount,
+      page: 6,
+    },
     {
       title: '현재 엔티즌의 완료동의를\n대기중인 프로젝트의 수',
-      count: 0,
+      count: data?.awaitingProjectCount,
       page: 8,
     },
     {
       title: '소통하기에서 새로받고\n읽지않은 채팅의 수',
-      count: 0,
+      count: data?.inProgressConsultationsCount,
       page: 10,
     },
   ];
@@ -34,9 +70,9 @@ const OutstandingWork = (props: Props) => {
   };
 
   // 개발 완료 후 제거 필요
-  useEffect(() => {
-    alert('현재 개발 진행중인 페이지입니다.');
-  }, []);
+  // useEffect(() => {
+  //   alert('현재 개발 진행중인 페이지입니다.');
+  // }, []);
 
   return (
     <Wrapper>

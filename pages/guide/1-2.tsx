@@ -236,6 +236,7 @@ const Guide1_2 = () => {
       }
     }
   };
+
   // 버튼 활성화
   useEffect(() => {
     const { m9, m10 } = selectedRegion;
