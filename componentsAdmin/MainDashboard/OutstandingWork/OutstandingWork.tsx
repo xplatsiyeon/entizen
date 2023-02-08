@@ -69,11 +69,6 @@ const OutstandingWork = (props: Props) => {
     dispatch(adminPageNumberAction.setIsAdminPage(num));
   };
 
-  // 개발 완료 후 제거 필요
-  // useEffect(() => {
-  //   alert('현재 개발 진행중인 페이지입니다.');
-  // }, []);
-
   return (
     <Wrapper>
       <AdminHeader type="main" title="메인대시보드" subTitle="미처리 업무" />
