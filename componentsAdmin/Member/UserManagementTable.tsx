@@ -91,7 +91,7 @@ const UserManagementTable = ({
               ele.id,
               ele.name,
               hyphenFn(ele.phone),
-              addCommaBirthDay(ele?.birthDate!),
+              addCommaBirthDay(ele.birthDate!),
               dateFomat(ele.createdAt),
               ele.memberIdx,
             ];
@@ -107,7 +107,7 @@ const UserManagementTable = ({
             ,
             {
               name: '가입날짜',
-              width: '30%',
+              width: '20%',
             },
             {
               name: '',

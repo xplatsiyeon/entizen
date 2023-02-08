@@ -57,7 +57,7 @@ const Guide1_2_4 = () => {
   };
 
   useEffect(() => {
-    console.log('checkYear==>>', checkYear);
+    console.log('subsidyGuideData==>>', subsidyGuideData);
 
     if (checkYear === true) {
       // 올해 보조금 금액
@@ -182,7 +182,11 @@ const Guide1_2_4 = () => {
               <p className="text">
                 찾으신 제품의 2021년 보조금은
                 <br />
-                최대 <span className="highlight">4,500원</span> 이었습니다.
+                최대{' '}
+                <span className="highlight">
+                  {`${subsidy?.maxApplyPrice?.toLocaleString('ko-KR')}원`}
+                </span>{' '}
+                이었습니다.
               </p>
             </div>
             <Notice pt={45}>
@@ -334,6 +338,7 @@ const LastYearSubsidyGuide = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 15pt;
   .alert {
     margin-top: 46.5pt;
   }
@@ -375,8 +380,10 @@ const LastYearSubsidyGuide = styled.div`
     background: ${colors.lightWhite};
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
-    padding: 24pt 64pt;
-    margin-top: 36pt;
+    padding: 24pt 0;
+    width: 100%;
+    /* margin-top: 36pt; */
+    margin: 36pt 15pt 0 15pt;
   }
   .text {
     font-weight: 600;
@@ -397,7 +404,7 @@ const LastYearSubsidyGuide = styled.div`
   }
 
   @media (min-width: 899.25pt) {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     width: 411pt;
     .Announcement {
       font-weight: 700;

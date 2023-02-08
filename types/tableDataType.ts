@@ -12,8 +12,8 @@ export type UserMemberInfo = {
   name: string;
   phone: string;
   createdAt: string;
-  deletedAt: null | string;
   birthDate: null | string;
+  deletedAt: null | string;
 };
 
 export type ComUserData = {
