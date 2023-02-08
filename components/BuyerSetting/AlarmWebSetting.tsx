@@ -88,7 +88,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const [sendEndTime, setSendEndTime] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [sendStartTime, setSendStartTime] = useState<string>('');
-
+  const [userAllOff, setUserAllOff] = useState(false);
+  const [companyAllOff, setCompanyAllOff] = useState(false);
   // 드랍다운 박스
   const [selectValue, setSelectValue] = useState('');
   // 알람 idx
@@ -159,8 +160,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     });
   }, [alertChecked, sendEndTime, sendStartTime]);
 
-  console.log('sendStartTime', sendStartTime);
-
   // useEffect(() => {
   //   setStartTime()
   //   setEndTime()
@@ -187,6 +186,18 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
         alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
     });
   }, [alertsList]);
+
+  useEffect(() => {
+    if (memberType === 'USER' && alertChecked?.alertKakao === false) {
+      setUserAllOff(true);
+    } else if (
+      memberType === 'COMPANY' &&
+      alertChecked?.alertEmail === false &&
+      alertChecked?.alertKakao === false
+    ) {
+      setCompanyAllOff(true);
+    }
+  }, [alertChecked]);
 
   return (
     <Wrapper>
@@ -238,10 +249,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertQuotationRequest"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
+                    alert('companyAllOff가 true면 이거 찍히면 안됨');
                     handleAlertChange(e);
                   }
                 }}
@@ -263,7 +272,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertQuotationRequest"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -284,7 +293,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertProject"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -305,10 +314,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertProject"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -330,7 +336,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertAfterSalesService"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -351,10 +357,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertAfterSalesService"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -377,7 +380,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertChatting"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -399,10 +402,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertChatting"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -425,7 +425,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertChargingStation"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -447,7 +447,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertSubsidy"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -471,7 +471,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertNoDisturbanceTime"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -490,10 +490,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertNoDisturbanceTime"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -570,7 +567,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertEvent"
                 onChange={(e) => {
-                  if (alertChecked?.alertKakao === true) {
+                  if (userAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
@@ -589,10 +586,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertEvent"
                 onChange={(e) => {
-                  if (
-                    alertChecked?.alertKakao === true ||
-                    alertChecked?.alertEmail === true
-                  ) {
+                  if (companyAllOff === false) {
                     handleAlertChange(e);
                   }
                 }}
