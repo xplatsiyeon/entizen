@@ -96,7 +96,6 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   });
 
   const onChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('onChangeSwitch 실행==>', onChangeSwitch);
     let temp = { ...alertChecked };
     temp = { ...temp, [event.target.name]: event.target.checked };
     setAlertChecked(temp);
