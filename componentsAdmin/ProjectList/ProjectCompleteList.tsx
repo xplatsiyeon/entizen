@@ -37,11 +37,12 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
     },
   ]);
 
-  const excelUrl = `/admin/projects/excel?page=1&limit=1000&startDate=${adminDateFomat(
+  const excelUrl = `/admin/projects/completion/excel?page=1&limit=1000&startDate=${adminDateFomat(
     dateState[0].startDate!,
   )}&endDate=${adminDateFomat(
     dateState[0].endDate!,
-  )}&searchType=projectNumber&searchKeyword=&steps[]=completion`;
+  )}&searchType=projectNumber&searchKeyword=&subscribeDateSort=ASC`;
+
   // 검색 옵션
   const [selectValue, setSelectValue] = useState('프로젝트 번호');
 
@@ -130,7 +131,12 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
           setNowHeight={setNowHeight}
         />
       )}
-      <AdminHeader title="프로젝트" type="main" />
+      <AdminHeader
+        title="프로젝트"
+        subTitle="완료 프로젝트 리스트"
+        type="main"
+      />
+
       <Manager>
         <li className="search" ref={dateRef}>
           <label>기간검색</label>
