@@ -308,10 +308,12 @@ const ProjectCompleteDetail = ({
     },
   );
 
+  console.log('documentId 🦖', data?.data?.project?.contract?.documentId!);
+
   // 계약서 다운로드 버튼 클릭
   const onClickContract = () => {
     if (moduSignContract === 2) {
-      console.log(contractDocumentData?.embeddedUrl);
+      console.log('🦎', contractDocumentData?.embeddedUrl);
       // 새탭방식
       // window.open(contractDocumentData?.embeddedUrl);
       // setGetUrl(contractDocumentData?.embeddedUrl!);
@@ -340,35 +342,6 @@ const ProjectCompleteDetail = ({
     //   });
     // }
   };
-
-  // 자체계약서인지 모두싸인 계약서인지 판별
-  useEffect(() => {
-    if (data?.data?.project?.contract?.documentId === undefined) {
-      setModuSignContract(0);
-    } else if (
-      data?.data?.project?.contract?.documentId === undefined &&
-      inModuSignData?.project?.contract?.contractContent === undefined
-    ) {
-      setModuSignContract(0);
-    } else if (
-      data?.data?.project?.contract?.documentId?.substring(0, 7) ===
-        'project' &&
-      inModuSignData?.project?.contract?.contractContent !== undefined
-    ) {
-      setModuSignContract(1);
-      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
-        setGetUrl(
-          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]
-            ?.url,
-        );
-      }
-    } else {
-      setModuSignContract(2);
-      setGetUrl(contractDocumentData?.embeddedUrl!);
-    }
-  }, [data, inModuSignData]);
-
-  console.log('setModuSignContract', moduSignContract);
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -520,6 +493,39 @@ const ProjectCompleteDetail = ({
       setNowHeight(window.document.documentElement.scrollHeight);
     }
   }, []);
+
+  // 자체계약서인지 모두싸인 계약서인지 판별
+  useEffect(() => {
+    if (data?.data?.project?.contract?.documentId === undefined) {
+      setModuSignContract(0);
+    } else if (
+      data?.data?.project?.contract?.documentId === undefined &&
+      inModuSignData?.project?.contract?.contractContent === undefined
+    ) {
+      setModuSignContract(0);
+    } else if (
+      data?.data?.project?.contract?.documentId?.substring(0, 7) ===
+        'project' &&
+      inModuSignData?.project?.contract?.contractContent !== undefined
+    ) {
+      setModuSignContract(1);
+      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
+        setGetUrl(
+          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]
+            ?.url,
+        );
+      }
+    } else {
+      setModuSignContract(2);
+      setGetUrl(contractDocumentData?.embeddedUrl!);
+    }
+  }, [data, inModuSignData]);
+
+  console.log('setModuSignContract', moduSignContract);
+  console.log(
+    'contractDocumentData?.embeddedUrl! 💃🏻',
+    contractDocumentData?.embeddedUrl!,
+  );
 
   // 최종 승인 가능한지 여부
   useEffect(() => {
@@ -815,7 +821,7 @@ const ProjectCompleteDetail = ({
             </List>
             <List>
               <Label>계약서 정보</Label>
-              {moduSignContract === 2 && (
+              {/* {moduSignContract === 2 && (
                 <ButtonBox
                   onClick={() => {
                     modusignPDF(getUrl);
@@ -823,15 +829,15 @@ const ProjectCompleteDetail = ({
                 >
                   계약서 다운로드
                 </ButtonBox>
-              )}
-              {/* {moduSignContract === 2 && (
-                <a href={getUrl} download={'계약서'}>
+              )} */}
+              {moduSignContract === 2 && (
+                <a href={getUrl} download={'모두싸인 계약서'} target="_self">
                   <ButtonBox onClick={onClickContract}>
                     계약서 다운로드
                   </ButtonBox>
                 </a>
-              )} */}
-              {/* {moduSignContract === 1 && (
+              )}
+              {moduSignContract === 1 && (
                 <a href={getUrl} download={'계약서'}>
                   <ButtonBox onClick={onClickContract}>
                     계약서 다운로드
@@ -840,7 +846,7 @@ const ProjectCompleteDetail = ({
               )}
               {moduSignContract === 0 && (
                 <ButtonBox onClick={onClickContract}>계약서 다운로드</ButtonBox>
-              )} */}
+              )}
             </List>
             <ImgList
               dataLength={

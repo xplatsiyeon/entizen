@@ -39,6 +39,7 @@ export const modusignPDF = async (url: string) => {
     return res.blob().then((b) => {
       var a = document.createElement('a');
       a.href = URL.createObjectURL(b);
+      // a.target = '_self';
       a.setAttribute('download', '모두싸인 게약서');
       // a.setAttribute('download', filename);
       a.click();

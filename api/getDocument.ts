@@ -3,6 +3,7 @@ export const getDocument = (documentId: string) => {
   const fetch = require('node-fetch');
 
   const url = `https://api.modusign.co.kr/documents/${documentId}/embedded-view`;
+  // const url = `https://api.modusign.co.kr/documents/${documentId}`;
   const options = {
     method: 'GET',
     headers: {
