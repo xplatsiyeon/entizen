@@ -250,7 +250,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 name="alertQuotationRequest"
                 onChange={(e) => {
                   if (companyAllOff === false) {
-                    alert('companyAllOff가 true면 이거 찍히면 안됨');
                     handleAlertChange(e);
                   }
                 }}
