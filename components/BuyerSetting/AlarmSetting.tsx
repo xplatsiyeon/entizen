@@ -113,10 +113,10 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   };
 
   const handleAlertChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (memberType === 'USER' && userAllOff === true) {
+    if (memberType === 'USER' && userAllOff === false) {
       onChangeSwitch(event);
     }
-    if (memberType === 'COMPANY' && companyAllOff === true) {
+    if (memberType === 'COMPANY' && companyAllOff === false) {
       onChangeSwitch(event);
     }
   };
@@ -150,21 +150,28 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
   // 전체 알림 수정
   useEffect(() => {
+    // 유저 회원일 때
     if (
       memberType === 'USER' &&
       alertChecked?.alertKakao === false &&
       alertChecked?.alertApp === false
     ) {
       setUserAllOff(true);
-    } else if (
+    } else {
+      setUserAllOff(false);
+    }
+    // 기업 회원일 때
+    if (
       memberType === 'COMPANY' &&
       alertChecked?.alertEmail === false &&
       alertChecked?.alertKakao === false &&
       alertChecked?.alertApp === false
     ) {
       setCompanyAllOff(true);
+    } else {
+      setCompanyAllOff(false);
     }
-  }, [alertChecked]);
+  }, [alertChecked, userAllOff, companyAllOff]);
 
   return (
     <>
