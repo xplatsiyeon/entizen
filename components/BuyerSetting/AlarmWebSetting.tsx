@@ -116,6 +116,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   });
 
   const handleAlertChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('확인');
+
     let temp = { ...alertChecked };
     setAlertChecked({
       ...temp,

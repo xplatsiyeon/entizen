@@ -394,7 +394,7 @@ const SettingList = styled.div`
   padding-top: 10.5pt;
   padding-bottom: 10.5pt;
   cursor: pointer;
-  &:nth-child(7) {
+  &:nth-of-type(7) {
     color: #f75015;
   }
   @media (min-width: 900pt) {
