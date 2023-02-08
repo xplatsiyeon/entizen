@@ -19,6 +19,7 @@ const persistConfig = {
     'subsidyGuideData',
     'companymyEstimateData',
     'adminReverseData',
+    'subsidySlice',
   ],
 };
 // userList

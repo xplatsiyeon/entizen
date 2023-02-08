@@ -51,7 +51,6 @@ interface Props {
   selectedRegion: Region;
   onClickAdd: () => void;
   onClickMinus: (index: number) => void;
-  m5Index: number;
 }
 
 const Step2 = ({
@@ -61,7 +60,6 @@ const Step2 = ({
   HandleRegionChange,
   onClickAdd,
   onClickMinus,
-  m5Index,
 }: Props) => {
   // 지역에 따라 도시 변환 함수
   const HandleM10 = () => {
