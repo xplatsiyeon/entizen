@@ -204,7 +204,7 @@ const BtnBox = styled.div`
 
 const RightBtn = styled.button<{ checkedRequired: boolean }>`
   width: 100%;
-  padding: 15pt 38.25pt;
+  padding: 15pt 0;
   border-radius: 6pt;
   background-color: ${({ checkedRequired }) =>
     checkedRequired ? `${colors.main}` : `${colors.blue3}`};
@@ -218,7 +218,7 @@ const RightBtn = styled.button<{ checkedRequired: boolean }>`
 `;
 const LeftBtn = styled.button`
   width: 100%;
-  padding: 15pt 38.25pt;
+  padding: 15pt 0;
   border-radius: 6pt;
   background-color: ${colors.gray};
   color: #ffffff;

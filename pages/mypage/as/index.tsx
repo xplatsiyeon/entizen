@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { redirectAction } from 'store/redirectUrlSlice';
 import colors from 'styles/colors';
 export interface File {
@@ -95,6 +96,10 @@ const asNumber = () => {
   const [isReview, setIsReview] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  const mobile = useMediaQuery({
+    query: '(min-width:810pt)',
+  });
 
   // --------------------- AS detail API ------------------------------
   const { data, isLoading, isError, error, refetch } =
@@ -195,7 +200,7 @@ const asNumber = () => {
             </Wrap1>
             <Wrap2>
               {/* AS 상단 부분 */}
-              {<AsRequest data={data!} />}
+              {!mobile && <AsRequest data={data!} />}
               {/* 하단 부분 내용 */}
               {isReview ? (
                 <AsWriteReview
@@ -289,7 +294,8 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto;
+
+  margin: 58.5pt auto 91.5pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;

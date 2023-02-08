@@ -64,13 +64,6 @@ const AsWriteReview = ({ id, setIsModal, setModalMessage }: Props) => {
     submitMutate({
       url: `/after-sales-services/${id!}/review`,
       data: opinion.length > 0 ? data : newData,
-      // data: {
-      // attentivenessPoint: ratingScore.attentivenessPoint,
-      // quicknessPoint: ratingScore.professionalismPoint,
-      // professionalismPoint: ratingScore.quicknessPoint,
-      // satisfactionPoint: ratingScore.satisfactionPoint,
-      //   opinion: reqeustText,
-      // },
     });
   };
 
@@ -138,7 +131,8 @@ const AsWriteReview = ({ id, setIsModal, setModalMessage }: Props) => {
 const Wrapper = styled.div`
   position: relative;
   margin: 0 auto;
-  width: 251.25pt;
+  /* width: 251.25pt; */
+  width: 345pt;
   background: ${colors.lightWhite};
   padding: 32.25pt 46.875pt 42pt 46.875pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
