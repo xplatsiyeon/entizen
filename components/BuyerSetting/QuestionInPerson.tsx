@@ -66,7 +66,8 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
     <WebBody>
       <Inner>
         <Header>
-          <div className="img-item" onClick={() => setTabNumber(0)}>
+          {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}
+          <div className="img-item" onClick={() => router.back()}>
             <Image
               style={{
                 cursor: 'pointer',

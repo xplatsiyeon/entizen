@@ -8,6 +8,7 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPutApi } from 'api';
 import { AlertsResponse, NewAlert } from './AlarmWebSetting';
 import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
+import { useRouter } from 'next/router';
 
 type Props = {
   tabNumber: number;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
+  const router = useRouter();
   // 알람 조회
   const {
     data: alertsList,
@@ -178,7 +180,13 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       {nowWidth < 1200 && (
         <Wrapper>
           <Header>
-            <div className="img-item" onClick={() => setTabNumber(0)}>
+            {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}
+            <div
+              className="img-item"
+              onClick={() => {
+                router.back();
+              }}
+            >
               <Image
                 style={{
                   cursor: 'pointer',
