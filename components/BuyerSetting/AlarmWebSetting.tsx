@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Switch } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
@@ -107,8 +107,14 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const [sendEndTime, setSendEndTime] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [sendStartTime, setSendStartTime] = useState<string>('');
+  //드랍다운 열리고 닫히고
+  const [dropDownStart, setDropDownStart] = useState<boolean>(false);
+  const [dropDownEnd, setDropDownEnd] = useState<boolean>(false);
+  // 알림 모달창 닫기
+
   const [userAllOff, setUserAllOff] = useState(false);
   const [companyAllOff, setCompanyAllOff] = useState(false);
+
   // 알람 idx
   const [alertSettingIdx, setAlertSettingIdx] = useState(0);
   // 유저인지 회사인지
@@ -190,6 +196,14 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       setCompanyAllOff(false);
     }
   }, [alertChecked, userAllOff, companyAllOff]);
+
+  useEffect(() => {
+    if (dropDownEnd === true) {
+      setDropDownStart(false);
+    } else if (dropDownStart === true) {
+      setDropDownEnd(false);
+    }
+  }, [dropDownStart, dropDownEnd]);
 
   return (
     <Wrapper>
@@ -456,6 +470,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
                     )}
                     setSendTime={setSendStartTime}
+                    setDropDown={setDropDownStart}
+                    dropDown={dropDownStart}
                   />
                 </OptionBox>
                 <OptionBox>
@@ -467,6 +483,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
                     )}
                     setSendTime={setSendEndTime}
+                    setDropDown={setDropDownEnd}
+                    dropDown={dropDownEnd}
                   />
                 </OptionBox>
               </OptionContainer>
@@ -485,6 +503,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
                     )}
                     setSendTime={setSendStartTime}
+                    setDropDown={setDropDownStart}
+                    dropDown={dropDownStart}
                   />
                 </OptionBox>
                 <OptionBox>
@@ -496,6 +516,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
                     )}
                     setSendTime={setSendEndTime}
+                    setDropDown={setDropDownEnd}
+                    dropDown={dropDownEnd}
                   />
                 </OptionBox>
               </OptionContainer>

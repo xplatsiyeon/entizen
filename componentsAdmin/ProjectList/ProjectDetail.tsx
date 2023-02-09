@@ -491,10 +491,11 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   }, [fileIdx, chargerIdx, projectCompletionFileIdx]);
 
   useEffect(() => {
-    if (setNowHeight && projectIdx) {
+    if (setNowHeight) {
+      // if (setNowHeight && projectIdx) {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
-  }, []);
+  }, [data]);
 
   // 최종 승인 가능한지 여부
   useEffect(() => {

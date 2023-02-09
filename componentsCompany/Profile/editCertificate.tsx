@@ -223,7 +223,7 @@ const EditCertificate = ({ setComponent }: Props) => {
           handle={true}
           back={true}
           title="사업자 등록증 수정"
-          handleBackClick={() => setComponent(1)}
+          handleBackClick={() => setComponent(0)}
         />
       </Wrap>
       <RemainderInputBox>
