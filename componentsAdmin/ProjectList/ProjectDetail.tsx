@@ -43,7 +43,11 @@ import {
   useQuery,
 } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { getDocument } from 'api/getDocument';
+import {
+  getDocument,
+  modusignPdfDown,
+  modusignPdfResponse,
+} from 'api/getDocument';
 import {
   GET_ModuSignResponse,
   ModuSignResponse,
@@ -278,33 +282,28 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
   });
 
-  console.log('🔥', data?.data?.project?.contract?.documentId);
   const {
-    data: contractDocumentData,
-    isLoading: contractDocumentLoading,
-    isError: contractDocumentError,
-  } = reactQuery<documentResponse>(
-    'contract',
-    () => getDocument(data?.data?.project?.contract?.documentId!),
+    data: modusignPdfDownData,
+    isLoading: modusignPdfDownLoading,
+    isError: modusignPdfDownError,
+  } = reactQuery<modusignPdfResponse>(
+    'contract-pdf',
+    () => modusignPdfDown(data?.data?.project?.contract?.documentId!),
     {
-      enabled: data?.data?.project?.contract?.documentId ? true : false,
+      enabled:
+        data?.data?.project?.contract?.documentId?.substring(0, 7) !==
+          'project' && data?.data?.project?.contract?.documentId !== undefined
+          ? true
+          : false,
     },
   );
 
   // 계약서 다운로드 버튼 클릭
   const onClickContract = () => {
     if (moduSignContract === 2) {
-      console.log(contractDocumentData?.embeddedUrl);
-      // 새탭방식
-      // window.open(contractDocumentData?.embeddedUrl);
-      // setGetUrl(contractDocumentData?.embeddedUrl!);
       setMessageModal(true);
       setMessage('계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 1) {
-      // const contractUrl = JSON.parse(
-      //   data?.data?.project?.contract?.contractContent!,
-      // );
-      // setGetUrl(contractUrl[0]?.url);
       setMessageModal(true);
       setMessage('자체 계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 0) {
@@ -323,19 +322,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     //   });
     // }
   };
-
-  console.log('data 🎀');
-  if (inModuSignData?.project?.contract?.contractContent !== undefined) {
-    console.log(
-      JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]?.url,
-    );
-  }
-  console.log('moduSignContract 🐳', moduSignContract);
-
-  console.log(
-    'project',
-    data?.data?.project?.contract?.documentId?.substring(0, 7),
-  );
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -479,9 +465,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       }
     } else {
       setModuSignContract(2);
-      setGetUrl(contractDocumentData?.embeddedUrl!);
+      setGetUrl(modusignPdfDownData?.file?.downloadUrl!);
     }
-  }, [data, inModuSignData]);
+  }, [inModuSignData]);
 
   useEffect(() => {
     // 사업자 등록증 삭제
