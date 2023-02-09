@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
@@ -55,6 +55,20 @@ const AlarmDropDown = ({
 }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
+  const outside = useRef<HTMLInputElement>(null);
+
+  const handleCloseModal = ({ target }: MouseEvent) => {
+    if (!outside.current || !outside.current.contains(target as Node)) {
+      setDropDown(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleCloseModal);
+    return () => {
+      window.removeEventListener('click', handleCloseModal);
+    };
+  }, []);
 
   return (
     <DropDownWrapper
@@ -62,6 +76,7 @@ const AlarmDropDown = ({
         setDropDown(!dropDown);
         handleSelectBox;
       }}
+      ref={outside}
     >
       {dropDown && (
         <>

@@ -146,7 +146,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -233,14 +233,18 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                 />
                 <input type="hidden" name="recvMethodType" value="get" />
                 {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                <Form>
+                <Form
+                  onClick={() => {
+                    setTabNumber(0);
+                  }}
+                >
                   <TitleSection
                     id="phone"
                     onClick={() => {
                       setTabNumber(0);
                     }}
                   >
-                    <Label mt={0}>휴대폰 번호</Label>
+                    <Label mt={0}>휴대폰 번호 변경</Label>
                     <div>
                       <Image src={Arrow} alt="arrow-img" />
                     </div>
