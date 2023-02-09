@@ -48,8 +48,13 @@ import {
   useQuery,
 } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { getDocument } from 'api/getDocument';
-import { modusignPDF } from 'components/mypage/place/PlaceInfo';
+import {
+  getDocument,
+  modusignPdfDown,
+  modusignPdfResponse,
+  downloadModusignPdf,
+} from 'api/getDocument';
+
 import {
   GET_ModuSignResponse,
   ModuSignResponse,
@@ -297,33 +302,27 @@ const ProjectCompleteDetail = ({
   });
 
   const {
-    data: contractDocumentData,
-    isLoading: contractDocumentLoading,
-    isError: contractDocumentError,
-  } = reactQuery<documentResponse>(
-    'contract',
-    () => getDocument(data?.data?.project?.contract?.documentId!),
+    data: modusignPdfDownData,
+    isLoading: modusignPdfDownLoading,
+    isError: modusignPdfDownError,
+  } = reactQuery<modusignPdfResponse>(
+    'contract-pdf',
+    () => modusignPdfDown(data?.data?.project?.contract?.documentId!),
     {
-      enabled: data?.data?.project?.contract?.documentId ? true : false,
+      enabled:
+        data?.data?.project?.contract?.documentId?.substring(0, 7) !==
+          'project' && data?.data?.project?.contract?.documentId !== undefined
+          ? true
+          : false,
     },
   );
-
-  console.log('documentId 🦖', data?.data?.project?.contract?.documentId!);
 
   // 계약서 다운로드 버튼 클릭
   const onClickContract = () => {
     if (moduSignContract === 2) {
-      console.log('🦎', contractDocumentData?.embeddedUrl);
-      // 새탭방식
-      // window.open(contractDocumentData?.embeddedUrl);
-      // setGetUrl(contractDocumentData?.embeddedUrl!);
       setMessageModal(true);
       setMessage('계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 1) {
-      // const contractUrl = JSON.parse(
-      //   data?.data?.project?.contract?.contractContent!,
-      // );
-      // setGetUrl(contractUrl[0]?.url);
       setMessageModal(true);
       setMessage('자체 계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 0) {
@@ -517,15 +516,9 @@ const ProjectCompleteDetail = ({
       }
     } else {
       setModuSignContract(2);
-      setGetUrl(contractDocumentData?.embeddedUrl!);
+      setGetUrl(modusignPdfDownData?.file?.downloadUrl!);
     }
-  }, [data, inModuSignData]);
-
-  console.log('setModuSignContract', moduSignContract);
-  console.log(
-    'contractDocumentData?.embeddedUrl! 💃🏻',
-    contractDocumentData?.embeddedUrl!,
-  );
+  }, [inModuSignData]);
 
   // 최종 승인 가능한지 여부
   useEffect(() => {
@@ -547,8 +540,6 @@ const ProjectCompleteDetail = ({
       setFinalApprove(false);
     }
   }, [data]);
-
-  console.log('getUrl', getUrl);
 
   const elseRequest =
     data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
@@ -821,22 +812,22 @@ const ProjectCompleteDetail = ({
             </List>
             <List>
               <Label>계약서 정보</Label>
-              {/* {moduSignContract === 2 && (
+              {moduSignContract === 2 && (
                 <ButtonBox
                   onClick={() => {
-                    modusignPDF(getUrl);
+                    downloadModusignPdf(getUrl);
                   }}
                 >
                   계약서 다운로드
                 </ButtonBox>
-              )} */}
-              {moduSignContract === 2 && (
+              )}
+              {/* {moduSignContract === 2 && (
                 <a href={getUrl} download={'모두싸인 계약서'} target="_self">
                   <ButtonBox onClick={onClickContract}>
                     계약서 다운로드
                   </ButtonBox>
                 </a>
-              )}
+              )} */}
               {moduSignContract === 1 && (
                 <a href={getUrl} download={'계약서'}>
                   <ButtonBox onClick={onClickContract}>
