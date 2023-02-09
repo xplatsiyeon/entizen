@@ -61,7 +61,7 @@ const OutstandingWork = (props: Props) => {
     {
       title: '소통하기에서 새로받고\n읽지않은 채팅의 수',
       count: data?.inProgressConsultationsCount,
-      page: 10,
+      page: 11,
     },
   ];
 
