@@ -107,6 +107,9 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const [sendEndTime, setSendEndTime] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [sendStartTime, setSendStartTime] = useState<string>('');
+  //드랍다운 열리고 닫히고
+  const [dropDownStart, setDropDownStart] = useState<boolean>(false);
+  const [dropDownEnd, setDropDownEnd] = useState<boolean>(false);
   const [userAllOff, setUserAllOff] = useState(false);
   const [companyAllOff, setCompanyAllOff] = useState(false);
   // 알람 idx
@@ -190,6 +193,14 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       setCompanyAllOff(false);
     }
   }, [alertChecked, userAllOff, companyAllOff]);
+
+  useEffect(() => {
+    if (dropDownEnd === true) {
+      setDropDownStart(false);
+    } else if (dropDownStart === true) {
+      setDropDownEnd(false);
+    }
+  }, [dropDownStart, dropDownEnd]);
 
   return (
     <Wrapper>
@@ -456,6 +467,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
                     )}
                     setSendTime={setSendStartTime}
+                    setDropDown={setDropDownStart}
+                    dropDown={dropDownStart}
                   />
                 </OptionBox>
                 <OptionBox>
@@ -467,6 +480,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
                     )}
                     setSendTime={setSendEndTime}
+                    setDropDown={setDropDownEnd}
+                    dropDown={dropDownEnd}
                   />
                 </OptionBox>
               </OptionContainer>
@@ -485,6 +500,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
                     )}
                     setSendTime={setSendStartTime}
+                    setDropDown={setDropDownStart}
+                    dropDown={dropDownStart}
                   />
                 </OptionBox>
                 <OptionBox>
@@ -496,6 +513,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                       alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
                     )}
                     setSendTime={setSendEndTime}
+                    setDropDown={setDropDownEnd}
+                    dropDown={dropDownEnd}
                   />
                 </OptionBox>
               </OptionContainer>

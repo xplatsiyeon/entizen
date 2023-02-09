@@ -13,6 +13,8 @@ type Props = {
   background?: string;
   border?: string;
   handleSelectBox?: (value: string, name: string, index: number) => void;
+  setDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  dropDown: boolean;
 };
 
 export const DropDownTime = [
@@ -48,12 +50,11 @@ const AlarmDropDown = ({
   selectValue,
   handleSelectBox,
   setSendTime,
+  setDropDown,
+  dropDown,
 }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
-
-  //드랍다운 열리고 닫히고
-  const [dropDown, setDropDown] = useState<boolean>(false);
 
   return (
     <DropDownWrapper
