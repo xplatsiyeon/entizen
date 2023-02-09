@@ -488,10 +488,11 @@ const ProjectCompleteDetail = ({
   }, [fileDetailIdx, fileIdx, chargerIdx, projectCompletionFileIdx]);
 
   useEffect(() => {
-    if (setNowHeight && projectIdx) {
+    if (setNowHeight) {
+      // if (setNowHeight && projectIdx) {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
-  }, []);
+  }, [data]);
 
   // 자체계약서인지 모두싸인 계약서인지 판별
   useEffect(() => {
