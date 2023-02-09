@@ -312,6 +312,7 @@ const Mypage1_3 = ({}: any) => {
 
   console.log('🔥 data 확인 ~line 315');
   console.log(data?.badge);
+  console.log('router==>>', router);
 
   if (isError || spotIsError) {
     return (
@@ -454,32 +455,37 @@ const Mypage1_3 = ({}: any) => {
                               }
                             />
                           </TextBox>
-                          <ButtonBox>
-                            <Button
-                              isWhite={true}
-                              onClick={() =>
-                                onClickConfirm(
-                                  0,
-                                  '다른 파트너에게\n재견적을 받아보시겠습니까?',
-                                )
-                              }
-                            >
-                              다른 파트너 선정
-                            </Button>
-                            <Button
-                              isWhite={false}
-                              onClick={() =>
-                                onClickConfirm(
-                                  1,
-                                  `${finalItme?.member
-                                    ?.companyMemberAdditionalInfo
-                                    ?.companyName!}로\n확정하시겠습니까?`,
-                                )
-                              }
-                            >
-                              확정하기
-                            </Button>
-                          </ButtonBox>
+                          {router.isReady &&
+                          router.query.history === 'false' ? (
+                            <ButtonBox>
+                              <Button
+                                isWhite={true}
+                                onClick={() =>
+                                  onClickConfirm(
+                                    0,
+                                    '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                                  )
+                                }
+                              >
+                                다른 파트너 선정
+                              </Button>
+                              <Button
+                                isWhite={false}
+                                onClick={() =>
+                                  onClickConfirm(
+                                    1,
+                                    `${finalItme?.member
+                                      ?.companyMemberAdditionalInfo
+                                      ?.companyName!}로\n확정하시겠습니까?`,
+                                  )
+                                }
+                              >
+                                확정하기
+                              </Button>
+                            </ButtonBox>
+                          ) : (
+                            ''
+                          )}
                         </>
                       ) : (
                         <>

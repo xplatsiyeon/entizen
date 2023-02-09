@@ -76,12 +76,13 @@ const Estimate = ({ listUp }: Props) => {
   ) {
     return <NoHistory />;
   }
-  const handleRoute = (n: number) => {
+  const handleRoute = (idx: number, isHistory: boolean) => {
     //alert(n)
     router.push({
       pathname: '/mypage/request',
       query: {
-        quotationRequestIdx: n,
+        quotationRequestIdx: idx,
+        history: isHistory,
       },
     });
   };
@@ -105,7 +106,7 @@ const Estimate = ({ listUp }: Props) => {
               <CarouselItem
                 listUp={Boolean(listUp)}
                 key={index}
-                onClick={() => handleRoute(data.quotationRequestIdx)}
+                onClick={() => handleRoute(data.quotationRequestIdx, false)}
               >
                 <Badge className="badge" color={HandleUserColor(data?.badge)}>
                   {data.badge}
@@ -137,14 +138,7 @@ const Estimate = ({ listUp }: Props) => {
               <CarouselItem
                 listUp={Boolean(listUp)}
                 key={index}
-                onClick={() =>
-                  router.push({
-                    pathname: '/mypage/request',
-                    query: {
-                      quotationRequestIdx: data?.quotationRequestIdx,
-                    },
-                  })
-                }
+                onClick={() => handleRoute(data?.quotationRequestIdx, true)}
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}

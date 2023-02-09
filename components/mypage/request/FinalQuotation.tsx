@@ -55,6 +55,11 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   data?.finalQuotation;
   // const finalQuotation = data?.preQuotation?.finalQuotation;
   const finalQuotation = data?.finalQuotation;
+
+  console.log(
+    '🔥finalQuotation?.finalQuotationChargers==>>>',
+    finalQuotation?.finalQuotationChargers,
+  );
   return (
     <Wrapper>
       {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl! !==
@@ -208,34 +213,20 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             <Line2 />
             <MultiSection>
               <Subtitle2>충전기 설치 위치</Subtitle2>
-              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
-                  {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
-                    <Item>
-                      <span className="name">
-                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
-                      </span>
-                      <span className="value">
-                        {convertKo(
-                          location,
-                          locationEn,
-                          item.installationLocation,
-                        )}
-                      </span>
-                    </Item>
-                  ) : (
-                    <Item>
-                      <span className="name">
-                        {convertKo(
-                          location,
-                          locationEn,
-                          item.installationLocation,
-                        )}
-                      </span>
-                      <span className="value">구매자 자율</span>
-                    </Item>
-                  )}
+                  <Item>
+                    <span className="name">
+                      {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                    </span>
+                    <span className="value">
+                      {convertKo(
+                        location,
+                        locationEn,
+                        item.installationLocation,
+                      )}
+                    </span>
+                  </Item>
                 </MultiBox>
               ))}
             </MultiSection>
