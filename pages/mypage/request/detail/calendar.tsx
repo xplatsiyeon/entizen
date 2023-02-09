@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Calendar from 'components/mypage/request/Calendar';
 import MypageHeader from 'components/mypage/request/header';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ScheduleIcon from 'public/mypage/schedule-icon.svg';
 import Modal from 'components/Modal/Modal';
@@ -30,6 +30,7 @@ const Mypage1_5 = () => {
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
+  const [isValid, setIsValid] = useState(false);
 
   const { mutate: spotMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
@@ -48,16 +49,18 @@ const Mypage1_5 = () => {
   });
 
   const onClickBtn = () => {
-    const postData = selectedDays.map((e) => e.replaceAll('.', '-'));
-    spotMutate({
-      url: `/quotations/pre/${routerId}/spot-inspection`,
-      data: {
-        spotInspectionDates: postData,
-        isReplacedPicture: false,
-        isConfirmed: false,
-        isNewPropose: false,
-      },
-    });
+    if (isValid) {
+      const postData = selectedDays.map((e) => e.replaceAll('.', '-'));
+      spotMutate({
+        url: `/quotations/pre/${routerId}/spot-inspection`,
+        data: {
+          spotInspectionDates: postData,
+          isReplacedPicture: false,
+          isConfirmed: false,
+          isNewPropose: false,
+        },
+      });
+    }
   };
   // 리덕스
   const HandleModal = () => {
@@ -66,6 +69,12 @@ const Mypage1_5 = () => {
     setIsModal(false);
     router.push('/mypage');
   };
+
+  // 버튼 유효성 검사
+  useEffect(() => {
+    selectedDays.length > 0 ? setIsValid(true) : setIsValid(false);
+  }, [selectedDays]);
+
   return (
     <React.Fragment>
       <Body>
@@ -117,7 +126,9 @@ const Mypage1_5 = () => {
                 ))}
               </UL>
             </Schedule>
-            <Btn onClick={onClickBtn}>보내기</Btn>
+            <Btn isValid={isValid} onClick={onClickBtn}>
+              보내기
+            </Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -257,7 +268,6 @@ const Schedule = styled.div`
   @media (max-width: 899.25pt) {
     padding: 18pt 15pt 80pt 15pt;
   }
-
 `;
 const UL = styled.ul`
   padding-top: 24pt;
@@ -283,10 +293,11 @@ const UL = styled.ul`
   }
 `;
 
-const Btn = styled.button`
+const Btn = styled.button<{ isValid: boolean }>`
   position: absolute;
   bottom: 0;
-  background-color: ${colors.main};
+  background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
+
   width: 100%;
   text-align: center;
   padding-top: 15pt;
@@ -297,7 +308,8 @@ const Btn = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  cursor: pointer;
+
+  cursor: ${({ isValid }) => (isValid ? 'pointer' : 'default')};
   @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;

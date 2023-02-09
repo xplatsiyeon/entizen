@@ -297,11 +297,15 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                   <label className="label">{index > 0 ? '' : '충전요금'}</label>
                   <span>
                     <span className="chargerName">
-                      {convertKo(M5_LIST, M5_LIST_EN, charger?.kind)}
+                      {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)} : `}
                     </span>
-                    <span className="chargerPrice">{`${PriceBasicCalculation(
-                      charger?.chargePrice,
-                    )} 원 / kW`}</span>
+                    {charger?.chargePrice === 0 ? (
+                      <span className="value">구매자 자율</span>
+                    ) : (
+                      <span className="chargerPrice">{`${PriceBasicCalculation(
+                        charger?.chargePrice,
+                      )} 원 / kW`}</span>
+                    )}
                   </span>
                 </Item>
               ),
@@ -461,6 +465,8 @@ const Item = styled.li`
     border-radius: 2px;
     padding-top: 2px;
     padding-left: 8px;
+  }
+  .chargerName {
   }
 `;
 

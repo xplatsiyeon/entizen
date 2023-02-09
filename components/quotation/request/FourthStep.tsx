@@ -67,6 +67,7 @@ const FourthStep = ({ tabNumber, setHiddenTag }: Props) => {
   }, []);
   // useMap 업데이트
   useEffect(() => {
+    dispatch(coordinateAction.setMark(true));
     console.log(TAG + '🔥 ~line 68 ~location length check');
     console.log(locationList.jibunAddr);
     console.log(locationList.roadAddrPart);
