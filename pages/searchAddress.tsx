@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import rootReducer, { RootState } from 'store/store';
 import { checkSearchedWord } from 'utils/adrressFilter';
+import { coordinateAction } from 'store/lnglatSlice';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,6 +61,7 @@ const SearchAddress = (props: Props) => {
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
         jibunAddr: jibun,
@@ -109,14 +111,10 @@ const SearchAddress = (props: Props) => {
     }
   }, [searchKeyword, setSearchWord]);
 
-  const back = () => {
-    if (setType) setType(false);
-  };
-
   return (
     <Container>
       <HeaderBox>
-        <Image onClick={() => router.back()} src={btnImg} alt="backBtn" />
+        <Image onClick={() => router.push('/')} src={btnImg} alt="backBtn" />
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}

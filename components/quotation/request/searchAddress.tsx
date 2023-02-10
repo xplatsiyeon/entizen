@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 import { checkSearchedWord } from 'utils/adrressFilter';
+import { coordinateAction } from 'store/lnglatSlice';
 
 type Props = {
   isSearch?: boolean;
