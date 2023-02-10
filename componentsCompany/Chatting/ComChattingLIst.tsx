@@ -630,7 +630,8 @@ const ImageWrap = styled.div`
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
   > img {
-    /* width: 100%; */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 `;

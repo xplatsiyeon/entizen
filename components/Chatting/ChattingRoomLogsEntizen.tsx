@@ -264,7 +264,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
 
   const handleImg = () => {
     if (router.query.entizen) {
-      return '/images/newChatEntizen.png';
+      return '/images/entizenChatLogo.png';
     } else {
       if (userChatting) {
         //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
@@ -618,7 +618,10 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
                               userChatting={userChatting}
                             >
                               {handleImg() ? (
-                                <img src={handleImg()} />
+                                <img
+                                  src={handleImg()}
+                                  style={{ objectFit: 'contain' }}
+                                />
                               ) : (
                                 <Image src={defaultImg} layout="fill" />
                               )}
@@ -727,7 +730,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
       <BottomBox ref={mobBox}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
-            <Image src={addBtn} layout="intrinsic" />
+            {/* <Image src={addBtn} layout="intrinsic" /> */}
+            <ImgTag src={'/images/addBtnSvg.svg'} />
           </AddBtn>
           <TextInput
             placeholder="메세지를 입력하세요"
@@ -906,8 +910,8 @@ const FlexBox = styled.form`
 `;
 const AddBtn = styled.div`
   position: relative;
-  width: 9pt;
-  height: 9pt;
+  width: 20pt;
+  height: 20pt;
   padding: 5pt 6pt 6pt;
   border-radius: 50%;
   background: #a6a9b0;
@@ -1098,8 +1102,10 @@ const ImageWrap = styled.div<{ userChatting: boolean }>`
   border-radius: 50%;
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
+
   > img {
-    /* width: 100%; */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
   &.user {
@@ -1183,4 +1189,12 @@ const P = styled.p<{ userChatting: boolean }>`
   letter-spacing: -0.02em;
   color: #caccd1;
   display: none;
+`;
+
+const ImgTag = styled.img`
+  position: absolute;
+  z-index: 5;
+  width: 65%;
+  left: 3.5pt;
+  top: 3.5pt;
 `;
