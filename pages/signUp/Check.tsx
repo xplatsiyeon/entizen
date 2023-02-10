@@ -144,11 +144,6 @@ const SignUpCheck = () => {
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
-  console.log('----------------👻 여기부터 조건 확인 해보셈 💀-------------');
-  console.log('checkId가 0인가', checkId);
-  console.log('checkedPw true인가', checkedPw);
-  console.log('checkSamePw true인가', checkSamePw);
-  console.log('idInput.length가 4이상인가', idInput.length);
 
   return (
     <React.Fragment>
