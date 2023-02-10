@@ -36,13 +36,8 @@ const ProjectList = ({ setNowHeight }: Props) => {
       key: 'selection',
     },
   ]);
-  // const excelUrl = `/admin/projects/excel?page=1&limit=1000&startDate=${adminDateFomat(
-  //   dateState[0].startDate!,
-  // )}&endDate=${adminDateFomat(
-  //   dateState[0].endDate!,
-  // )}&searchType=projectNumber&searchKeyword=`;
 
-  const excelUrl = `/admin/projects/excel?page=1&limit=1000&startDate=${adminDateFomat(
+  const excelUrl = `/admin/projects/in-progress/excel?page=1&limit=1000&startDate=${adminDateFomat(
     dateState[0].startDate!,
   )}&endDate=${adminDateFomat(
     dateState[0].endDate!,
