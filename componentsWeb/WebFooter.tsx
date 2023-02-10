@@ -23,7 +23,7 @@ const WebFooter = () => {
             <Link href="/setting?id=3">
               <li>개인정보 처리방침</li>
             </Link>
-            <Link href={userID ? '/setting?id=2' : '/'}>
+            <Link href={userID ? '/setting?id=2' : '/signin'}>
               <li>1:1 문의</li>
             </Link>
             <Link href="/faq">
