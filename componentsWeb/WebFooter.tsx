@@ -8,7 +8,7 @@ import apple from 'public/images/appleLogo.png';
 import google from 'public/images/googlePlayIcon.png';
 
 const WebFooter = () => {
-  const userID = sessionStorage.getItem('USER_ID');
+  const userID = localStorage.getItem('USER_ID');
   return (
     <Wrapper>
       <Inner>

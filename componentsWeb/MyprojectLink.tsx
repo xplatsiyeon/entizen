@@ -66,7 +66,7 @@ const MyprojectLink = ({
   }
 
   // const handleLink = (idx: number) => {
-  //   const user = sessionStorage.getItem('USER_ID');
+  //   const user = localStorage.getItem('USER_ID');
   //   if (!user && type === 'project') {
   //     router.push('/signin');
   //   } else {
@@ -79,7 +79,7 @@ const MyprojectLink = ({
   // };
 
   const handleLink = (idx: number) => {
-    const user = sessionStorage.getItem('USER_ID');
+    const user = localStorage.getItem('USER_ID');
     if (!user && type === 'project') {
       router.push('/signin');
     } else {
@@ -159,8 +159,7 @@ const StyledLink = styled.li<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 13.5pt;
   letter-spacing: -0.02em;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.main2};
+  color: ${({ tab, index }) => (tab === index ? colors.main : colors.main2)};
   text-decoration: none;
   cursor: pointer;
   &:hover {

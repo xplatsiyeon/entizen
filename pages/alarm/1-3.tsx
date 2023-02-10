@@ -27,7 +27,7 @@ const Alam1_3 = () => {
   const router = useRouter();
   const routerID = router.query.noticesIdx;
 
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   const {
     data: notice,

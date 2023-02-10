@@ -79,7 +79,7 @@ const TermContent = ({
     }
   };
   const handleForceClick = () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       setName(data.name);
@@ -108,7 +108,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {

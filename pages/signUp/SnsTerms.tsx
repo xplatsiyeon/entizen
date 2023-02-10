@@ -75,7 +75,7 @@ const SignUpTerms = () => {
   };
 
   const handleForceClick = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       console.log('sns data==>>', data);
@@ -91,7 +91,7 @@ const SignUpTerms = () => {
       // try {
       await axios({
         method: 'post',
-        url: 'https://api.entizen.kr/api/members/join/sns',
+        url: 'https://test-api.entizen.kr/api/members/join/sns',
         data: {
           name: data.name,
           phone: data.phone,
@@ -121,7 +121,7 @@ const SignUpTerms = () => {
   };
 
   // const KaKaApi = async (data: any) => {
-  //   const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
+  //   const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
   //   // try {
   //   await axios({
   //     method: 'post',
@@ -155,20 +155,20 @@ const SignUpTerms = () => {
   //         console.log('멤버 확인');
   //         console.log(resData);
   //         const token: JwtTokenType = jwt_decode(resData.accessToken);
-  //         sessionStorage.setItem(
+  //         localStorage.setItem(
   //           'SNS_MEMBER',
   //           JSON.stringify(token.isSnsMember),
   //         );
-  //         sessionStorage.setItem(
+  //         localStorage.setItem(
   //           'MEMBER_TYPE',
   //           JSON.stringify(token.memberType),
   //         );
-  //         sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-  //         sessionStorage.setItem(
+  //         localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+  //         localStorage.setItem(
   //           'ACCESS_TOKEN',
   //           JSON.stringify(resData.accessToken),
   //         );
-  //         sessionStorage.setItem(
+  //         localStorage.setItem(
   //           'REFRESH_TOKEN',
   //           JSON.stringify(resData.refreshToken),
   //         );
@@ -222,7 +222,7 @@ const SignUpTerms = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {

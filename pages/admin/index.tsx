@@ -52,14 +52,14 @@ const index = (props: Props) => {
 
   const [nowHeight, setNowHeight] = useState<number>();
 
-  const sessionNumber = sessionStorage.getItem('number');
+  const sessionNumber = localStorage.getItem('number');
 
   const router = useRouter();
 
   console.log('🎀 인덱스임 number 🎀', number);
   // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
 
-  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
+  const accessToken = localStorage.getItem('ADMIN_ACCESS_TOKEN');
 
   useEffect(() => {
     if (!accessToken) {
@@ -73,7 +73,7 @@ const index = (props: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
       // unmount 됐을때 초기값 넣어줌
       // return () => {
-      //   sessionStorage.setItem('number', '4');
+      //   localStorage.setItem('number', '4');
       //   setNowHeight(window.document.documentElement.scrollHeight);
       // };
     }

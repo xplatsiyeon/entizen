@@ -114,8 +114,8 @@ export interface QuotationRequestsResponse {
 
 const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const routerId = router?.query?.quotationRequestIdx;
   const dispatch = useDispatch();

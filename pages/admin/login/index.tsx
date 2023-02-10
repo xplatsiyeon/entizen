@@ -48,11 +48,11 @@ const AdLogin = () => {
     {
       onSuccess: (res) => {
         dispatch(adminPageNumberAction.setIsAdminPage(4));
-        sessionStorage.setItem(
+        localStorage.setItem(
           'ADMIN_ACCESS_TOKEN',
           JSON.stringify(res.data.data.accessToken),
         );
-        sessionStorage.setItem(
+        localStorage.setItem(
           'ADMIN_REFRESH_TOKEN',
           JSON.stringify(res.data.data.refreshToken),
         );

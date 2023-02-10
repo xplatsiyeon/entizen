@@ -63,7 +63,7 @@ const Alam = () => {
     router.push('/alarm/1-2');
   };
 
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   // /notices?page=1&limit=10
   // 공지사항 get api

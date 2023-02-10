@@ -33,7 +33,7 @@ import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
 

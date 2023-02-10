@@ -58,7 +58,7 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -135,14 +135,14 @@ const Signin = () => {
       if (resData.isMember === true) {
         // 로그인
         const token: JwtTokenType = jwt_decode(resData.accessToken);
-        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-        sessionStorage.setItem(
+        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+        localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+        localStorage.setItem(
           'ACCESS_TOKEN',
           JSON.stringify(resData.accessToken),
         );
-        sessionStorage.setItem(
+        localStorage.setItem(
           'REFRESH_TOKEN',
           JSON.stringify(resData.refreshToken),
         );
@@ -219,7 +219,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -256,17 +256,11 @@ const Signin = () => {
         );
         if (c.isMember === true) {
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(token.isSnsMember),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
           console.log(user.email);
-          sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(c.refreshToken),
-          );
+          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
           dispatch(originUserAction.set(data.user.email));
 
           // ================브릿지 연결=====================
@@ -330,7 +324,7 @@ const Signin = () => {
   };
   // 아이디 찾기
   const HandleFindId = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     console.log(data);
     if (data.isMember) {
@@ -345,11 +339,11 @@ const Signin = () => {
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     if (data.isMember) {
       console.log('멤버 확인 -> ' + data.isMember);
-      sessionStorage.getItem('key');
+      localStorage.getItem('key');
       router.push('/find/password2');
     } else {
       setErrorMessage(
@@ -371,7 +365,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -497,7 +491,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />

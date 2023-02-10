@@ -38,7 +38,7 @@ const ProfileEditing = ({
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
   const [data, setData] = useState<string>('');
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
@@ -126,7 +126,7 @@ const ProfileEditing = ({
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
-    // let key = sessionStorage.getItem('key');
+    // let key = localStorage.getItem('key');
     // let data = JSON.parse(key!);
     setComponent(2);
   };
@@ -155,7 +155,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -169,7 +169,7 @@ const ProfileEditing = ({
   // }, [data]);
 
   useEffect(() => {
-    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

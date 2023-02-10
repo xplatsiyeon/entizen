@@ -46,7 +46,7 @@ const openList = [
 
 const Workspace = ({ setNumber, nowHeight }: Props) => {
   // 이름 가져오기
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const token: AdminJwtTokenType | undefined = accessToken
     ? jwt_decode(accessToken!)
     : undefined;

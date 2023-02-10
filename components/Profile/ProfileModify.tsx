@@ -39,7 +39,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
@@ -114,7 +114,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
     setTabNumber(1);
   };
@@ -146,7 +146,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -160,7 +160,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   }, [data]);
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

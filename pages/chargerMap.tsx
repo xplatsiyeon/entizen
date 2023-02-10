@@ -80,9 +80,9 @@ const ChargerMap = (props: Props) => {
 
   // 예상 매출 구하는 함수
   const callInfo = async (speed: string) => {
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     try {
-      const res = await axios.get('https://api.entizen.kr/api/charge', {
+      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
