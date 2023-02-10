@@ -15,17 +15,22 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { useQuery } from '@apollo/client';
 import { useQuery as reactQuery } from 'react-query';
 import { getDocument } from 'api/getDocument';
-import useCreateChatting from 'hooks/useCreateChatting';
-import { JwtTokenType } from 'pages/signin';
-import jwt_decode from 'jwt-decode';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { openExternalBrowser } from 'bridge/appToWeb';
+import { fileDownload, openExternalBrowser } from 'bridge/appToWeb';
+import JSZip from 'jszip';
+
+export interface fileDownLoad {
+  originalName: string;
+  size: number;
+  type: string;
+  url: string;
+}
 
 type Props = {
   dateArr: boolean[];
@@ -128,22 +133,23 @@ const ProgressBody = ({
       enabled: contractData?.project?.contract?.documentId ? true : false,
     },
   );
-  const { createChatting, createLoading } = useCreateChatting();
-  const token: JwtTokenType = jwt_decode(accessToken);
 
-  // 채팅방으로 이동
+  // 자체계약서 다운로드
+  // 2022.02.09 ljm 다운로드 추가 작업 필요.
+  // issue => 다중 다운로드 안됨.
   const onClickBtn = () => {
-    if (data?.project?.userMember?.memberIdx) {
-      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
-      createChatting(data?.project?.userMember?.memberIdx);
-    } else {
-      if (token.memberType === 'USER') {
-        router.push('/chatting');
-      } else {
-        router.push('/company/chatting');
-      }
-    }
+    contractContent.map(async (contract: fileDownLoad, index: number) => {
+      const a = document.createElement('a');
+      a.download = contract.originalName;
+      a.href = contract.url;
+      a.onclick = () =>
+        fileDownload(userAgent, contract.originalName, contract.url);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    });
   };
+
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     // 새탭으로 열기
@@ -269,16 +275,31 @@ const ProgressBody = ({
           </div>
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
-            <ContractBtnBox
-              onClick={
-                !Array.isArray(contractContent) ? onClickContract : onClickBtn
-              }
-              presentProgress={
-                data?.project?.badge === '계약대기' ? true : false
-              }
-            >
-              <div>계약서 보기</div>
-            </ContractBtnBox>
+            <>
+              {/* 모두싸인 계약서 */}
+              {!Array.isArray(contractContent) ? (
+                <ContractBtnBox
+                  onClick={onClickContract}
+                  presentProgress={
+                    data?.project?.badge === '계약대기' ? true : false
+                  }
+                >
+                  <div>계약서 보기</div>
+                </ContractBtnBox>
+              ) : (
+                <>
+                  {/* 자체 계약서 */}
+                  <SeftContract
+                    onClick={onClickBtn}
+                    presentProgress={
+                      data?.project?.badge === '계약대기' ? true : false
+                    }
+                  >
+                    <div>계약서 보기</div>
+                  </SeftContract>
+                </>
+              )}
+            </>
           )}
         </FlexBox>
         {/* 준비 */}
@@ -698,19 +719,44 @@ const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
     border-radius: 6pt;
     color: #a6a9b0;
     cursor: pointer;
-    /* @media (min-width: 900pt) {
-      font-family: 'Spoqa Han Sans Neo';
-      font-size: 15pt;
-      font-weight: 700;
-      line-height: 15pt;
-      letter-spacing: -0.02em;
-      text-align: center;
-    } */
     ${({ presentProgress }) =>
       presentProgress === true &&
       css`
         border: 0.75pt solid ${colors.main};
       `}
+  }
+`;
+
+const SeftContract = styled.div<{ presentProgress: boolean }>`
+  display: flex;
+  gap: 11.625pt;
+  padding-top: 12pt;
+  padding-left: 27pt;
+  & div {
+    display: flex;
+    justify-content: center;
+    padding-top: 15pt;
+    padding-bottom: 15pt;
+    width: 100%;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+    border-radius: 6pt;
+    color: #a6a9b0;
+    cursor: pointer;
+    text-decoration: none !important;
+    ${({ presentProgress }) =>
+      presentProgress === true &&
+      css`
+        border: 0.75pt solid ${colors.main};
+      `}
+  }
+  & a:hover {
+    text-decoration: none !important;
   }
 `;
 

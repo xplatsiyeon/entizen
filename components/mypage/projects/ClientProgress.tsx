@@ -31,6 +31,10 @@ import { getDocument } from 'api/getDocument';
 import useCreateChatting from 'hooks/useCreateChatting';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
+import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -245,21 +249,24 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     },
   );
 
-  const { createChatting, createLoading } = useCreateChatting();
-  const token: JwtTokenType = jwt_decode(accessToken);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
+  // 자체계약서 다운로드
+  // 2022.02.09 ljm 다운로드 추가 작업 필요.
+  // issue => 다중 다운로드 안됨.
   const onClickBtn = () => {
-    if (data?.project?.companyMember?.memberIdx) {
-      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
-      createChatting(data?.project?.companyMember?.memberIdx!);
-    } else {
-      if (token.memberType === 'USER') {
-        router.push('/chatting');
-      } else {
-        router.push('/company/chatting');
-      }
-    }
+    contractContent.map(async (contract: fileDownLoad, index: number) => {
+      const a = document.createElement('a');
+      a.download = contract.originalName;
+      a.href = contract.url;
+      a.onclick = () =>
+        fileDownload(userAgent, contract.originalName, contract.url);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+    });
   };
+
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     console.log('contractDocumentData=>', contractDocumentData?.embeddedUrl);
@@ -403,21 +410,33 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                   계약서 작성중...
                 </YetP>
               ) : (
-                <ClientP
-                  presentProgress={
-                    data?.project?.badge === '계약대기' &&
-                    data?.project?.isCompletedContractStep === 'IN_PROGRESS'
-                      ? true
-                      : false
-                  }
-                  onClick={
-                    !Array.isArray(contractContent)
-                      ? onClickContract
-                      : onClickBtn
-                  }
-                >
-                  계약서 보기
-                </ClientP>
+                <>
+                  {!Array.isArray(contractContent) ? (
+                    <ClientP
+                      presentProgress={
+                        data?.project?.badge === '계약대기' &&
+                        data?.project?.isCompletedContractStep === 'IN_PROGRESS'
+                          ? true
+                          : false
+                      }
+                      onClick={onClickContract}
+                    >
+                      계약서 보기
+                    </ClientP>
+                  ) : (
+                    <ClientP
+                      presentProgress={
+                        data?.project?.badge === '계약대기' &&
+                        data?.project?.isCompletedContractStep === 'IN_PROGRESS'
+                          ? true
+                          : false
+                      }
+                      onClick={onClickBtn}
+                    >
+                      계약서 보기
+                    </ClientP>
+                  )}
+                </>
               )}
             </ContractBtnBox>
           )}

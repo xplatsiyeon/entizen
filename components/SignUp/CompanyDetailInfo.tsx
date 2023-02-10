@@ -26,6 +26,7 @@ import Modal from 'components/Modal/Modal';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import Loader from 'components/Loader';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
@@ -349,58 +350,67 @@ const CompanyDetailInfo = ({
             multiple
           />
           {/* <Img_Preview> */}
-          <div className="img-preview">
-            {imgPreview &&
-              businessRegistration?.map((item, index) => (
-                <ImgSpan key={index} data-name={index}>
-                  <Image
-                    layout="fill"
-                    alt="preview"
-                    data-name={index}
-                    key={index}
-                    src={item.url}
-                    priority={true}
-                    unoptimized={true}
-                  />
-                  <Xbox onClick={deleteFileImage} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-          </div>
-          {/* <File_Preview> */}
-          <div className="file-preview">
-            {filePreview &&
-              businessRegistration?.map((item, index) => (
-                <FileBox key={index} data-name={index}>
-                  <div className="file">
-                    <div className="file-img">
-                      <Image src={FileText} alt="file-icon" />
-                    </div>
-                    <div className="file-data">
-                      <FileName>{item.originalName}</FileName>
-                      <span className="file-size">{`용량 ${getByteSize(
-                        item.size,
-                      )}`}</span>
-                    </div>
-                  </div>
-                  <div
-                    className="file-exit"
-                    onClick={deleteFileImage}
-                    data-name={index}
-                  >
-                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                  </div>
-                </FileBox>
-              ))}
-          </div>
+          {multerImageLoading ? (
+            <Loader type="images" />
+          ) : (
+            <>
+              <div className="img-preview">
+                {imgPreview &&
+                  businessRegistration?.map((item, index) => (
+                    <ImgSpan key={index} data-name={index}>
+                      <Image
+                        layout="fill"
+                        alt="preview"
+                        data-name={index}
+                        key={index}
+                        src={item.url}
+                        priority={true}
+                        unoptimized={true}
+                      />
+                      <Xbox onClick={deleteFileImage} data-name={index}>
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
+                        />
+                      </Xbox>
+                    </ImgSpan>
+                  ))}
+              </div>
+              <div className="file-preview">
+                {filePreview &&
+                  businessRegistration?.map((item, index) => (
+                    <FileBox key={index} data-name={index}>
+                      <div className="file">
+                        <div className="file-img">
+                          <Image src={FileText} alt="file-icon" />
+                        </div>
+                        <div className="file-data">
+                          <FileName>{item.originalName}</FileName>
+                          <span className="file-size">{`용량 ${getByteSize(
+                            item.size,
+                          )}`}</span>
+                        </div>
+                      </div>
+                      <div
+                        className="file-exit"
+                        onClick={deleteFileImage}
+                        data-name={index}
+                      >
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          alt="closeBtn"
+                        />
+                      </div>
+                    </FileBox>
+                  ))}
+              </div>
+            </>
+          )}
         </PhotosBox>
       </RemainderInputBox>
       <Btn
