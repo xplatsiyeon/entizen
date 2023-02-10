@@ -14,6 +14,7 @@ type Props = {
   border?: string;
   handleSelectBox?: (value: string, name: string, index: number) => void;
   setDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+
   dropDown: boolean;
 };
 
@@ -50,6 +51,7 @@ const AlarmDropDown = ({
   selectValue,
   handleSelectBox,
   setSendTime,
+
   setDropDown,
   dropDown,
 }: Props) => {

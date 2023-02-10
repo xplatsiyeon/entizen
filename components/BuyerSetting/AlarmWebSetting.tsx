@@ -197,13 +197,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     }
   }, [alertChecked, userAllOff, companyAllOff]);
 
-  useEffect(() => {
-    if (dropDownEnd === true) {
-      setDropDownStart(false);
-    } else if (dropDownStart === true) {
-      setDropDownEnd(false);
-    }
-  }, [dropDownStart, dropDownEnd]);
+  // useEffect(() => {
 
   return (
     <Wrapper>
