@@ -42,7 +42,7 @@ const SalesProjection = ({ text, setText }: Props) => {
 
   const inputOnFocus = ({ target }: MouseEvent) => {
     if (userID === null) {
-      if (inputRef.current && !inputRef.current.contains(target as Node)) {
+      if (inputRef.current && inputRef.current.contains(target as Node)) {
         router.push('/signin');
       }
     }

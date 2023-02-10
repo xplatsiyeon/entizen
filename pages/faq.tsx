@@ -11,7 +11,7 @@ import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
-import { isTokenGetApi } from 'api';
+import { getApi, isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import { NoInfer } from '@reduxjs/toolkit/dist/tsHelpers';
 
@@ -147,7 +147,7 @@ const Faq = () => {
     isError: faqIsError,
     refetch: faqRefetch,
   } = useQuery<FaqListResponse>('faq-list', () =>
-    isTokenGetApi(`/faqs?faqKind=${TabTypeEn[tabNumber]}`),
+    getApi(`/faqs?faqKind=${TabTypeEn[tabNumber]}`),
   );
 
   const components: Components = {

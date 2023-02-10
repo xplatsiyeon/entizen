@@ -111,11 +111,6 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
     ]);
   };
 
-  // 엑셀 다운로드
-  const handleCommon = () => {
-    alert('개발중입니다.');
-  };
-
   useEffect(() => {
     if (setNowHeight) {
       setNowHeight(window.document.documentElement.scrollHeight);

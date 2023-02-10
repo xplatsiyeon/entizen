@@ -58,7 +58,6 @@ const CommunicationTable = ({
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-  console.log('🎀excelUrl🎃', excelUrl);
 
   // 오늘 날짜.
   const today = new Date();

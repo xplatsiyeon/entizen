@@ -6,10 +6,9 @@ import Insta from 'public/images/insta.png';
 import Pencil from 'public/images/pencil.png';
 import apple from 'public/images/appleLogo.png';
 import google from 'public/images/googlePlayIcon.png';
-import { useRouter } from 'next/router';
 
 const WebFooter = () => {
-  const router = useRouter();
+  const userID = sessionStorage.getItem('USER_ID');
   return (
     <Wrapper>
       <Inner>
@@ -19,13 +18,16 @@ const WebFooter = () => {
               <li>사업자 정보 확인</li>
             </Link>
             <Link href="/setting?id=3">
-              <li style={{ cursor: 'pointer' }}>이용약관</li>
+              <li>이용약관</li>
             </Link>
             <Link href="/setting?id=3">
               <li>개인정보 처리방침</li>
             </Link>
-            <Link href="/">
+            <Link href={userID ? '/setting?id=2' : '/signin'}>
               <li>1:1 문의</li>
+            </Link>
+            <Link href="/faq">
+              <li>FAQ</li>
             </Link>
             <li>
               <IconBox
@@ -62,7 +64,7 @@ const WebFooter = () => {
             <br />
             주소: 서울 강남구 테헤란로 393 LS 빌딩
             <br />
-            <br /> Copyright &copy; 2022 Entizen Inc. All rights reserve.{' '}
+            <br /> Copyright &copy; 2022 Entizen Inc. All rights reserve.
           </Address>
         </Box1>
 
@@ -130,6 +132,7 @@ const List = styled.ul`
     font-family: 'Spoqa Han Sans Neo';
     color: #a6a9b0;
     text-decoration: none;
+    cursor: pointer;
   }
 `;
 

@@ -53,7 +53,7 @@ export default Btn;
 const ButtonBox = styled.div<{ propsGet?: boolean; bottom?: number }>`
   padding-left: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
   padding-right: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
-
+  cursor: pointer;
   ${({ propsGet }) =>
     propsGet === true &&
     css`

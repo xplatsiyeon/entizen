@@ -144,6 +144,7 @@ const SignUpCheck = () => {
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
   return (
     <React.Fragment>
       <Body>
@@ -289,7 +290,7 @@ const SignUpCheck = () => {
             </Box>
             <Btn
               isClick={
-                checkId === 0 && checkedPw && checkSamePw && idInput.length > 6
+                checkId === 0 && checkedPw && checkSamePw && idInput.length > 4
                   ? true
                   : false
               }

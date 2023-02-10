@@ -19,7 +19,7 @@ const FaqInfomation = ({ faqList, tabNumber, tabCompNumber }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: faqList?.data?.faqs?.length }, () => false),
   );
-  console.log(open, 'open 25번줄');
+
   const handleClick = (id: number) => {
     let temp = [...open];
     temp[id] = !temp[id];
