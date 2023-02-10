@@ -29,17 +29,17 @@ function useLogin(
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
       setUserCompleteModal(res.data.isInitialLogin);
-      sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-      sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-      sessionStorage.setItem(
+      localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+      localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+      localStorage.setItem(
         'ACCESS_TOKEN',
         JSON.stringify(res.data.accessToken),
       );
-      sessionStorage.setItem(
+      localStorage.setItem(
         'REFRESH_TOKEN',
         JSON.stringify(res.data.refreshToken),
       );
-      sessionStorage.setItem('USER_ID', JSON.stringify(userId));
+      localStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
 
       // ================브릿지 연결=====================

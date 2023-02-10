@@ -68,8 +68,8 @@ const FindPassword = () => {
 
   const onClickButton = async () => {
     console.log('비밀번호 함수 실행');
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    let key = sessionStorage.getItem('key');
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
     const PROFILE_API = `https://test-api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
     try {
@@ -158,7 +158,7 @@ const FindPassword = () => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   useEffect(() => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
     if (data.snsType) {
       setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);

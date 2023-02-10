@@ -56,8 +56,8 @@ const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');

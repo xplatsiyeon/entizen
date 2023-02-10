@@ -1,44 +1,22 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useRef, useState } from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
-import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   checkHeight: number;
-  // scrollHeight: number;
-  // changeHeight: boolean;
-  // setChangeHeight: Dispatch<SetStateAction<boolean>>;
   slowCharger: SlowFast[];
   fastCharger: SlowFast[];
 };
 
-const ChargerInfo = ({
-  checkHeight,
-  // scrollHeight,
-  // changeHeight,
-  // setChangeHeight,
-  slowCharger,
-  fastCharger,
-}: Props) => {
+const ChargerInfo = ({ checkHeight, slowCharger, fastCharger }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
-
-  console.log(checkHeight);
-  const mobile = useMediaQuery({
-    query: '(min-width:810pt)',
-  });
 
   const ref = useRef<HTMLDivElement>(null);
   const sRef = useRef<number>(0);
@@ -55,7 +33,6 @@ const ChargerInfo = ({
   const end = (e: React.TouchEvent) => {
     const endY = e.changedTouches[0].clientY;
     if (sRef.current - endY > 30 && ref.current) {
-      console.log('??');
       ref.current.style.height = '500px';
     }
   };

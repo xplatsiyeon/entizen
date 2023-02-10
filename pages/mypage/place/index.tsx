@@ -81,7 +81,7 @@ const ChargingPlace = () => {
 
   const [hideTopBox, setHideTopBox] = useState<boolean>(true);
 
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,

@@ -13,7 +13,7 @@ const ADMIN_LOG_OUT_API = `${BASE_URL}/admin/auth/logout`;
 // 네이버 로그아웃
 export const NaverLogout = async () => {
   // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-  const localToken = sessionStorage.getItem('com.naver.nid.access_token');
+  const localToken = localStorage.getItem('com.naver.nid.access_token');
   const res = await axios.get('/oauth2.0/token', {
     params: {
       grant_type: 'delete',
@@ -45,8 +45,8 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
-  const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
 
   await axios({
     method: 'post',
@@ -57,11 +57,11 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     },
     withCredentials: true,
   }).then((res) => {
-    sessionStorage.removeItem('SNS_MEMBER');
-    sessionStorage.removeItem('ACCESS_TOKEN');
-    sessionStorage.removeItem('REFRESH_TOKEN');
-    sessionStorage.removeItem('USER_ID');
-    sessionStorage.removeItem('MEMBER_TYPE');
+    localStorage.removeItem('SNS_MEMBER');
+    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('REFRESH_TOKEN');
+    localStorage.removeItem('USER_ID');
+    localStorage.removeItem('MEMBER_TYPE');
     // 로그아웃 브릿지 연결
     appLogout(userAgent as string);
     if (isSns) {
@@ -74,7 +74,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   await axios({
     method: 'post',
     url: ADMIN_LOG_OUT_API,
@@ -84,7 +84,7 @@ export const handleLogoutOnClickAdmin = async () => {
     },
     withCredentials: true,
   }).then((res) => {
-    sessionStorage.removeItem('ADMIN_ACCESS_TOKEN');
-    sessionStorage.removeItem('ADMIN_REFRESH_TOKEN');
+    localStorage.removeItem('ADMIN_ACCESS_TOKEN');
+    localStorage.removeItem('ADMIN_REFRESH_TOKEN');
   });
 };

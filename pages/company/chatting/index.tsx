@@ -25,8 +25,8 @@ import { redirectAction } from 'store/redirectUrlSlice';
 const Chatting = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];

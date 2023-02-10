@@ -135,14 +135,14 @@ const Signin = () => {
       if (resData.isMember === true) {
         // 로그인
         const token: JwtTokenType = jwt_decode(resData.accessToken);
-        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-        sessionStorage.setItem(
+        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+        localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+        localStorage.setItem(
           'ACCESS_TOKEN',
           JSON.stringify(resData.accessToken),
         );
-        sessionStorage.setItem(
+        localStorage.setItem(
           'REFRESH_TOKEN',
           JSON.stringify(resData.refreshToken),
         );
@@ -256,17 +256,11 @@ const Signin = () => {
         );
         if (c.isMember === true) {
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(token.isSnsMember),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
           console.log(user.email);
-          sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(c.refreshToken),
-          );
+          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
           dispatch(originUserAction.set(data.user.email));
 
           // ================브릿지 연결=====================
@@ -330,7 +324,7 @@ const Signin = () => {
   };
   // 아이디 찾기
   const HandleFindId = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     console.log(data);
     if (data.isMember) {
@@ -345,11 +339,11 @@ const Signin = () => {
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     if (data.isMember) {
       console.log('멤버 확인 -> ' + data.isMember);
-      sessionStorage.getItem('key');
+      localStorage.getItem('key');
       router.push('/find/password2');
     } else {
       setErrorMessage(

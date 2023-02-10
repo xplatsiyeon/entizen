@@ -30,7 +30,7 @@ const SettingMain = ({
   leftTabNumber,
 }: Props) => {
   const router = useRouter();
-  const userID = sessionStorage.getItem('USER_ID');
+  const userID = localStorage.getItem('USER_ID');
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const SettingMain = ({
   // 네이버 로그아웃
   const NaverLogout = async () => {
     // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-    const localToken = sessionStorage.getItem('com.naver.nid.access_token');
+    const localToken = localStorage.getItem('com.naver.nid.access_token');
     const res = await axios.get('/oauth2.0/token', {
       params: {
         grant_type: 'delete',
@@ -91,7 +91,7 @@ const SettingMain = ({
   // 회원탈퇴
   const ModalLeftControl = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     await axios({
       method: 'post',
       url: WITHDRAWAL_API,
@@ -104,11 +104,11 @@ const SettingMain = ({
       .then((res) => {
         // ============ 로그아웃 브릿지 =================
         appLogout(userAgent);
-        sessionStorage.removeItem('SNS_MEMBER');
-        sessionStorage.removeItem('ACCESS_TOKEN');
-        sessionStorage.removeItem('REFRESH_TOKEN');
-        sessionStorage.removeItem('USER_ID');
-        sessionStorage.removeItem('MEMBER_TYPE');
+        localStorage.removeItem('SNS_MEMBER');
+        localStorage.removeItem('ACCESS_TOKEN');
+        localStorage.removeItem('REFRESH_TOKEN');
+        localStorage.removeItem('USER_ID');
+        localStorage.removeItem('MEMBER_TYPE');
         setLogoutModal(false);
         setAlertModal(false);
       })
@@ -116,7 +116,7 @@ const SettingMain = ({
   };
   // SNS/일반회원 구별
   const HandleWidthdrawal = async () => {
-    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       // sns 회원탈퇴
       setAlertModal(true);
@@ -128,13 +128,13 @@ const SettingMain = ({
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {
     // const memberType = selectedType;
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
 
     if (checkPassword) {
       const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
-      const userId = JSON.parse(sessionStorage.getItem('USER_ID')!);
-      const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+      const userId = JSON.parse(localStorage.getItem('USER_ID')!);
+      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
       try {
         axios({
           method: 'post',
@@ -176,7 +176,7 @@ const SettingMain = ({
   };
 
   // 판매자인지 구매자인지
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   return (
     <WebRapper leftTabNumber={leftTabNumber} userID={userID}>
       {passwordModal && (

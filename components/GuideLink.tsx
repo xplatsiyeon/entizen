@@ -41,7 +41,7 @@ const GuideLink = ({ type, num, now }: Props) => {
   }
 
   const handleLink = (idx: number) => {
-    const user = sessionStorage.getItem('USER_ID');
+    const user = localStorage.getItem('USER_ID');
     if (!user) {
       router.push('/signin');
     } else {

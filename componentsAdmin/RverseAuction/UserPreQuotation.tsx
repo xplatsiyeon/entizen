@@ -62,7 +62,7 @@ type Props = {
 
 const UserPreQuotation = ({ detatilId }: Props) => {
   // --------------------- AS detail API ------------------------------
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const routerId = 330;
   // const routerId = 329;
 

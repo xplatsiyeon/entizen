@@ -67,7 +67,7 @@ const WebSearchAddress = ({
   fastCharger,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
-  const [fakeWord, setFakeWord] = useState<string>('');
+  // const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -78,12 +78,12 @@ const WebSearchAddress = ({
     (state: RootState) => state.locationList,
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFakeWord('');
+    // setFakeWord('');
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-    setFakeWord(roadad!);
+    // setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
@@ -108,7 +108,7 @@ const WebSearchAddress = ({
         siNm: results[0]?.siNm,
       }),
     );
-    setFakeWord(locationList.jibunAddr);
+    // setFakeWord(locationList.jibunAddr);
   }, [results]);
 
   useEffect(() => {
@@ -156,11 +156,23 @@ const WebSearchAddress = ({
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
-          value={fakeWord ? fakeWord : searchWord}
+          // value={fakeWord ? fakeWord : searchWord}
+          value={searchWord}
         />
 
         {searchWord?.length > 0 ? (
-          <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
+          <span className="exitIcon">
+            <Image
+              onClick={() => {
+                setSearchWord('');
+                setResults([]);
+                setChargeInfoOpen(false);
+              }}
+              src={xBtn}
+              alt="xButton"
+              layout="fill"
+            />
+          </span>
         ) : (
           <span className="img-box">
             <Image src={mapPin} alt="searchIcon" layout="fill" />
@@ -220,10 +232,17 @@ const HeaderBox = styled.div`
   left: 0;
   z-index: 99999;
   background-color: ${colors.lightWhite};
+
   .img-box {
     position: relative;
     width: 17.51pt; //width 15pt 인데 안맞아서 약간 수정
     height: 15pt;
+  }
+  .exitIcon {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+    cursor: pointer;
   }
 `;
 const FindAddress = styled(TextField)`

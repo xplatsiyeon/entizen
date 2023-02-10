@@ -37,7 +37,7 @@ const FindPassword = () => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
+  const key: Key = JSON.parse(localStorage.getItem('key')!);
 
   const router = useRouter();
 
@@ -81,8 +81,8 @@ const FindPassword = () => {
 
   // 비밀번호 변경 api
   const handleClick = () => {
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    // const memberIdx = JSON.parse(sessionStorage.getItem('MEMBER_IDX')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
@@ -106,7 +106,7 @@ const FindPassword = () => {
     }
   };
   const handleModalYes = () => {
-    sessionStorage.removeItem('key');
+    localStorage.removeItem('key');
     setOpenModal(false);
     router.push('/signin');
   };

@@ -19,11 +19,11 @@ const findingId2 = () => {
 
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     if (data.isMember) {
       console.log('멤버 확인 -> ' + data.isMember);
-      sessionStorage.getItem('key');
+      localStorage.getItem('key');
       router.push('/find/password2');
     } else {
       setErrorMessage(

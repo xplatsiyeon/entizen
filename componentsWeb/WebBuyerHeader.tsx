@@ -58,7 +58,7 @@ const WebBuyerHeader = ({
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
-  const isUser = sessionStorage.getItem('USER_ID');
+  const isUser = localStorage.getItem('USER_ID');
 
   // 알람 조회
   // alerts/histories/unread

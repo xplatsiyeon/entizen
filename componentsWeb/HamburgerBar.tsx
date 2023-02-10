@@ -53,7 +53,7 @@ type Props = {
 
 const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const router = useRouter();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [tabNumber, setTabNumber] = useState<number>(-1);
@@ -75,10 +75,10 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
     data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   // 기업인지 판매자인지
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   // 이름 가져오기
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
     profile: profileData,
     isLoading: profileIsLoading,
@@ -131,10 +131,10 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
-    sessionStorage.removeItem('key');
+    localStorage.removeItem('key');
   }, []);
   useEffect(() => {
-    if (sessionStorage.getItem('USER_ID')) {
+    if (localStorage.getItem('USER_ID')) {
       console.log('login check!');
       setIsLogin(true);
     } else {

@@ -21,7 +21,7 @@ type Props = {
 
 const SalesProjection = ({ text, setText }: Props) => {
   const router = useRouter();
-  const userID = sessionStorage.getItem('USER_ID');
+  const userID = localStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });

@@ -69,7 +69,7 @@ const ManagerInfo = ({
   };
   // 나이스 인증 온클릭 버튼 (인증 후 자동 실행)
   const handleForceClick = () => {
-    let key = sessionStorage.getItem('key');
+    let key = localStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       setName(data.name);

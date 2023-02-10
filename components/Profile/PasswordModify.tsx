@@ -40,7 +40,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
+  const key: Key = JSON.parse(localStorage.getItem('key')!);
 
   const router = useRouter();
 
@@ -110,7 +110,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   };
   // 비밀번호 변경 api
   const handleClick = () => {
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
@@ -134,7 +134,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     }
   };
   const handleModalYes = () => {
-    sessionStorage.removeItem('key');
+    localStorage.removeItem('key');
     setOpenModal(false);
     router.push('/signin');
   };
