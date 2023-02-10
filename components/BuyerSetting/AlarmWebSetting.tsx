@@ -197,8 +197,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     }
   }, [alertChecked, userAllOff, companyAllOff]);
 
-  // useEffect(() => {
-
   return (
     <Wrapper>
       <Header>
