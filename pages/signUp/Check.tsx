@@ -92,7 +92,7 @@ const SignUpCheck = () => {
   };
   // 아이디 중복 체크
   const overlabCheck = () => {
-    const OVERLAB_CHECK_POST = `https://api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
     try {
       axios({
         method: 'get',
@@ -144,6 +144,12 @@ const SignUpCheck = () => {
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+  console.log('----------------👻 여기부터 조건 확인 해보셈 💀-------------');
+  console.log('checkId가 0인가', checkId);
+  console.log('checkedPw true인가', checkedPw);
+  console.log('checkSamePw true인가', checkSamePw);
+  console.log('idInput.length가 4이상인가', idInput.length);
+
   return (
     <React.Fragment>
       <Body>
@@ -289,7 +295,7 @@ const SignUpCheck = () => {
             </Box>
             <Btn
               isClick={
-                checkId === 0 && checkedPw && checkSamePw && idInput.length > 6
+                checkId === 0 && checkedPw && checkSamePw && idInput.length > 4
                   ? true
                   : false
               }
