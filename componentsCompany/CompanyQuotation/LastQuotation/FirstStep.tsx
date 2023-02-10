@@ -344,7 +344,11 @@ const FirstStep = ({
           <div className="withAfter">구독기간</div>
           <SelectContainer>
             <SelectComponents
-              value={subscribePeriod}
+              value={
+                subscribePeriod.includes('개월')
+                  ? subscribePeriod
+                  : `${subscribePeriod} 개월`
+              }
               option={subscribeType}
               placeholder="구독 기간"
               onClickEvent={handleChangePeriod}

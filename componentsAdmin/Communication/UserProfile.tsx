@@ -19,10 +19,6 @@ const UserProfile = (memberIdx: { memberIdx: number }) => {
   console.log(router.query);
   console.log('dasdasd', router.asPath);
 
-  // 문자형의 숫자가 바로 나옴
-  console.log('💔 comUserId 💔', comUserId);
-  console.log('🌸 userId 🌸', userId);
-
   const { data: userData, refetch: userRefetch } = useQuery<UserRespnse>(
     'user-detail',
     () => isTokenAdminGetApi(`/admin/members/users/${userId}`),

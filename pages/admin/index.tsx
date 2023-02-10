@@ -43,8 +43,6 @@ const index = (props: Props) => {
     (state: RootState) => state.adminPageNumber,
   );
 
-  console.log('💔 isAdminPage 🎀', isAdminPage);
-
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(isAdminPage);
 
@@ -55,9 +53,6 @@ const index = (props: Props) => {
   const sessionNumber = sessionStorage.getItem('number');
 
   const router = useRouter();
-
-  console.log('🎀 인덱스임 number 🎀', number);
-  // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
 
   const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
 

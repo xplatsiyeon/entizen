@@ -54,7 +54,7 @@ const ChattingRoom = ({}: Props) => {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
   } else {
-       console.log('앤타준? ', router.query.entizen) 
+    console.log('엔티즌? ', router.query.entizen);
     return (
       <WebBody>
         <WebBuyerHeader setOpenSubLink={() => {}} />
@@ -64,7 +64,14 @@ const ChattingRoom = ({}: Props) => {
             <MobWrap>
               <ChattingLists chattingRoom={true} userChatting={false} />
             </MobWrap>
-           {router.query.entizen? <ChattingRoomLogsEntizen userChatting={true} listRefetch={refetch}/> : <ChattingRoomLogs userChatting={false} listRefetch={refetch} /> }
+            {router.query.entizen ? (
+              <ChattingRoomLogsEntizen
+                userChatting={true}
+                listRefetch={refetch}
+              />
+            ) : (
+              <ChattingRoomLogs userChatting={false} listRefetch={refetch} />
+            )}
           </Body>
         </Wrapper>
         <WebFooter />

@@ -69,8 +69,10 @@ const LastWrite = (props: Props) => {
   ] = useState<string>('');
   // 구독상품
   const [subscribeProduct, setSubscribeProduct] = useState<string>('');
+
   // 구독기간
   const [subscribePeriod, setSubscribePeriod] = useState('');
+
   // 고객 퍼센트
   const [profitableInterestUser, setProfitableInterestUser] = useState('');
   // ChargePoint

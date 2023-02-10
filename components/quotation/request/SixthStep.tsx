@@ -75,7 +75,7 @@ const purpose: Purpose[] = [
   },
 ];
 
-const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
 const SixthStep = ({ tabNumber }: Props) => {
   const router = useRouter();
@@ -90,8 +90,6 @@ const SixthStep = ({ tabNumber }: Props) => {
   const { quotationData, locationList } = useSelector(
     (state: RootState) => state,
   );
-
-  // console.log('💔 installationPurpose 💔', installationPurpose);
 
   const { mutate: predictionMutate, isLoading: predictionLoading } =
     useMutation(isTokenPostApi, {
