@@ -45,11 +45,7 @@ const downloadPng = async ({ fileName, url }: IDownloadProps) => {
 function App() {
   let zip = new JSZip();
   const data: string[] = [
-    'https://test-entizen.s3.ap-northeast-2.amazonaws.c…75925576_15ecadb5-9d33-4c13-965b-af5d398c306b.png',
-
     'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
-
-    'https://test-entizen.s3.ap-northeast-2.amazonaws.c…75925576_e5019113-d37f-48c9-bf57-02f55192e12f.png',
   ];
   return (
     <Stack direction="row" spacing={2}>
