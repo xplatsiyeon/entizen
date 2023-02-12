@@ -263,8 +263,6 @@ const DashBoardTable = ({
       },
     );
 
-  // console.log('🎀 프로젝트 현황 statusCheck 🎀', statusCheck);
-
   useEffect(() => {
     switch (tableType) {
       case 'projectListSituation':

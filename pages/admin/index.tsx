@@ -43,8 +43,6 @@ const index = (props: Props) => {
     (state: RootState) => state.adminPageNumber,
   );
 
-  console.log('💔 isAdminPage 🎀', isAdminPage);
-
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(isAdminPage);
 

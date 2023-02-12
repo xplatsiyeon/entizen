@@ -221,8 +221,6 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
     }
   }, [changeNumber]);
 
-  console.log('💔 simulData 인덱스에서 💔', simulData);
-
   if (simulationExcelIsLoading) {
     return <Loader />;
   }

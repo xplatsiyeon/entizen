@@ -28,8 +28,6 @@ const IncomeSimulTable = ({ handleCommon, simulData }: Props) => {
   const [valueNumber, setValueNumber] = useState<number | undefined>();
   // const [valueBoolean, setValueBoolean] = useState<boolean>(false);
 
-  console.log('🐳 simulData 테이블에서🐳', simulData);
-
   const Row = [
     'A',
     'B',

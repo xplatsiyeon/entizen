@@ -82,8 +82,6 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   const [imgName, setImgName] = useState<string | undefined>('');
 
-  console.log('💔 imgUrl 💔', typeof imgUrl);
-
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -276,9 +274,6 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   useEffect(() => {
     refetch();
   }, [data]);
-
-  console.log('🐳 data 🐳', data?.data?.library);
-  console.log('🌸 isModal 🌸', isModal);
 
   return (
     <Modal>

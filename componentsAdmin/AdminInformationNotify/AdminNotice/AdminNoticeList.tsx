@@ -83,7 +83,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   // }, [toggle]);
 
   console.log('실행');
-  // console.log('🎀toggle.isVisible🎀', toggle.isVisible);
+
   return (
     <Wrapper>
       {isDetail && (

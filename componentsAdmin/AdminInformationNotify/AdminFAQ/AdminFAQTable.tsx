@@ -47,8 +47,6 @@ const AdminFAQTable = ({
     });
   };
 
-  console.log('🎀 adminFaqList 🎀', adminFaqList);
-
   return (
     <Wrapper>
       <Header>
