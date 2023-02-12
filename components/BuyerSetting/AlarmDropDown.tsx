@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
@@ -6,19 +6,27 @@ import arrowDropnDown from 'public/images/alramDown.svg';
 import arrowDropnDownUp from 'public/images/alramUp.svg';
 
 type Props = {
-  currentStep: string;
-  setSelectValue?: React.Dispatch<React.SetStateAction<string>>;
-  setSendTime: React.Dispatch<React.SetStateAction<string>>;
-  selectValue?: string;
+  DropDownTimeValue: DropDownTime | undefined;
+  setDropDownTimeValue: Dispatch<SetStateAction<DropDownTime | undefined>>;
+  dropDown: boolean;
+  setDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+  type: 'start' | 'end';
+  onClickTime: (type: 'start' | 'end', value: string) => void;
+
+  currentStep?: string;
+  setSendTime?: React.Dispatch<React.SetStateAction<string>>;
   background?: string;
   border?: string;
   handleSelectBox?: (value: string, name: string, index: number) => void;
-  setDropDown: React.Dispatch<React.SetStateAction<boolean>>;
-
-  dropDown: boolean;
 };
 
-export const DropDownTime = [
+export interface DropDownTime {
+  time: string;
+  send: string;
+  show: string;
+}
+
+export const DropDownTime: DropDownTime[] = [
   { time: '오전 12시', send: '12:00', show: '오전 12:00' },
   { time: '오전 1시', send: '01:00', show: '오전 01:00' },
   { time: '오전 2시', send: '02:00', show: '오전 02:00' },
@@ -46,14 +54,13 @@ export const DropDownTime = [
 ];
 
 const AlarmDropDown = ({
-  currentStep,
-  setSelectValue,
-  selectValue,
-  handleSelectBox,
-  setSendTime,
-
-  setDropDown,
   dropDown,
+  setDropDown,
+  DropDownTimeValue,
+  setDropDownTimeValue,
+  handleSelectBox,
+  type,
+  onClickTime,
 }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
@@ -65,6 +72,12 @@ const AlarmDropDown = ({
     }
   };
 
+  const onClickDropDownText = (item: DropDownTime) => {
+    setDropDown(false);
+    setDropDownTimeValue(item);
+    onClickTime(type, item.send);
+  };
+
   useEffect(() => {
     window.addEventListener('click', handleCloseModal);
     return () => {
@@ -74,62 +87,43 @@ const AlarmDropDown = ({
 
   return (
     <DropDownWrapper
+      ref={outside}
       onClick={() => {
         setDropDown(!dropDown);
         handleSelectBox;
       }}
-      ref={outside}
     >
-      {dropDown && (
-        <>
-          <DropDownBox>
-            {DropDownTime.map((item, idx) => (
-              <DropDownText
-                key={idx}
-                onClick={() => {
-                  if (setSelectValue) {
-                    setSelectValue(item?.show);
-                    setSendTime(item?.send);
-                  }
-                  setDropDown(false);
-                }}
-              >
-                {item?.time}
-              </DropDownText>
-            ))}
-          </DropDownBox>
-          <Line />
-        </>
-      )}
-
-      <MainText
-        onClick={() => {
-          setDropDown(!dropDown);
-        }}
-      >
-        {selectValue === '' ? currentStep : selectValue}
+      {/* value */}
+      <MainText onClick={() => setDropDown(!dropDown)}>
+        <p>{DropDownTimeValue?.show}</p>
+        {dropDown ? (
+          <Image
+            src={arrowDropnDownUp}
+            layout="intrinsic"
+            alt="dropDownUp"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setDropDown(!dropDown)}
+          />
+        ) : (
+          <Image
+            src={arrowDropnDown}
+            layout="intrinsic"
+            alt="dropDown"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setDropDown(!dropDown)}
+          />
+        )}
       </MainText>
-      {/* 나중에 드랍다운되면 화살표 방향 돌려벌여 */}
-      {dropDown === false ? (
-        <Image
-          src={arrowDropnDown}
-          layout="intrinsic"
-          alt="dropDown"
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            setDropDown(!dropDown);
-          }}
-        />
-      ) : (
-        <Image
-          src={arrowDropnDownUp}
-          layout="intrinsic"
-          alt="dropDownUp"
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            setDropDown(!dropDown);
-          }}
-        />
+
+      {/* 하단 드랍 다운 */}
+      {dropDown && (
+        <DropDownBox>
+          {DropDownTime.map((item, idx) => (
+            <DropDownText key={idx} onClick={() => onClickDropDownText(item)}>
+              {item?.time}
+            </DropDownText>
+          ))}
+        </DropDownBox>
       )}
     </DropDownWrapper>
   );
@@ -138,20 +132,20 @@ const AlarmDropDown = ({
 export default AlarmDropDown;
 
 const DropDownWrapper = styled.div`
-  width: 84pt;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 81pt;
   position: relative;
   padding: 0.75pt 2.25pt;
   cursor: pointer;
-
   :not(:first-of-type) {
     margin-top: 7.5pt;
   }
 `;
 
 const MainText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6pt;
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   font-size: 10.5pt;
@@ -167,13 +161,13 @@ const DropDownBox = styled.div`
   padding: 5.25pt 9pt;
   width: 100%;
   position: absolute;
-  z-index: 100;
+  z-index: 150;
   background-color: #ffffff;
   border: 0.75pt solid ${colors.lightWhite3};
   border-radius: 6pt;
   display: flex;
   flex-direction: column;
-  gap: 18pt;
+  /* gap: 18pt; */
   top: 103%;
   left: 0;
   box-shadow: 3pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
@@ -191,16 +185,7 @@ const DropDownText = styled.div`
   text-align: left;
   line-height: 12pt;
   cursor: pointer;
-`;
-
-const ImageRotate = styled.div`
-  transform: rotate(180deg);
-  cursor: pointer;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
+  padding: 9pt 0;
 `;
 
 const Line = styled.div`

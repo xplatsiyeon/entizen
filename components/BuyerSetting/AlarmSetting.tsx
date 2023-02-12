@@ -24,11 +24,18 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     data: alertsList,
     isLoading: alertsListIsLoading,
     isError: alertsListIsError,
-    refetch: alertsListRefetch,
   } = useQuery<AlertsResponse>('alert-list', () => isTokenGetApi(`/alerts`), {
     onSuccess(data) {
-      setSendEndTime(data?.data?.alertSetting?.noDisturbanceEndTime!);
-      setSendStartTime(data?.data?.alertSetting?.noDisturbanceStartTime!);
+      setStartValue(
+        DropDownTime.find(
+          (e) => e.send === data?.data?.alertSetting?.noDisturbanceStartTime,
+        ),
+      );
+      setEndValue(
+        DropDownTime.find(
+          (e) => e.send === data?.data?.alertSetting?.noDisturbanceEndTime,
+        ),
+      );
       setAlertChecked({
         alertApp: data?.data?.alertSetting?.alertApp,
         alertKakao: data?.data?.alertSetting?.alertKakao,
@@ -47,7 +54,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     },
   });
 
-  console.log('🔥 alertsList==>', alertsList);
+  // console.log('🔥 alertsList==>', alertsList);
   // 알람 PUT
   const { mutate: putMutate, isLoading: putLoading } = useMutation(
     isTokenPutApi,
@@ -68,10 +75,9 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     },
   );
 
-  const [endTime, setEndTime] = useState<string>('');
-  const [sendEndTime, setSendEndTime] = useState<string>('');
-  const [startTime, setStartTime] = useState<string>('');
-  const [sendStartTime, setSendStartTime] = useState<string>('');
+  // 시작 value, 종료 value
+  const [startValue, setStartValue] = useState<DropDownTime>();
+  const [endValue, setEndValue] = useState<DropDownTime>();
   //드랍다운 열리고 닫히고
   const [dropDownStart, setDropDownStart] = useState<boolean>(false);
   const [dropDownEnd, setDropDownEnd] = useState<boolean>(false);
@@ -100,15 +106,28 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
   });
 
+  // switch 버튼 클릭 시 발생하는 함수
   const onChangeSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
     let temp = { ...alertChecked };
     temp = { ...temp, [event.target.name]: event.target.checked };
     setAlertChecked(temp);
     const data = {
       ...temp,
-      alertApp: alertsList?.data?.alertSetting?.alertApp,
-      noDisturbanceStartTime: sendStartTime,
-      noDisturbanceEndTime: sendEndTime,
+      noDisturbanceStartTime: startValue?.send,
+      noDisturbanceEndTime: endValue?.send,
+    };
+
+    putMutate({
+      url: `/alerts/${alertSettingIdx}`,
+      data: data,
+    });
+  };
+  // 방해 금지 시간 클릭 시 발생하는 함수
+  const onClickTime = (type: 'start' | 'end', value: string) => {
+    const data = {
+      ...alertChecked,
+      noDisturbanceStartTime: type === 'start' ? value : startValue?.send,
+      noDisturbanceEndTime: type === 'end' ? value : endValue?.send,
     };
 
     putMutate({
@@ -460,28 +479,25 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <>
                   <OptionBox>
                     <span>시작 시간</span>
+
                     <AlarmDropDown
-                      setSelectValue={setStartTime}
-                      selectValue={startTime}
-                      currentStep={getTime(
-                        alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
-                      )}
-                      setSendTime={setSendStartTime}
-                      setDropDown={setDropDownStart}
+                      DropDownTimeValue={startValue}
+                      setDropDownTimeValue={setStartValue}
                       dropDown={dropDownStart}
+                      setDropDown={setDropDownStart}
+                      type={'start'}
+                      onClickTime={onClickTime}
                     />
                   </OptionBox>
                   <OptionBox>
                     <span>종료 시간</span>
                     <AlarmDropDown
-                      setSelectValue={setEndTime}
-                      selectValue={endTime}
-                      currentStep={getTime(
-                        alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
-                      )}
-                      setSendTime={setSendEndTime}
-                      setDropDown={setDropDownEnd}
+                      DropDownTimeValue={endValue}
+                      setDropDownTimeValue={setEndValue}
                       dropDown={dropDownEnd}
+                      setDropDown={setDropDownEnd}
+                      type={'end'}
+                      onClickTime={onClickTime}
                     />
                   </OptionBox>
                 </>
@@ -495,27 +511,23 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   <OptionBox>
                     <span>시작 시간</span>
                     <AlarmDropDown
-                      setSelectValue={setStartTime}
-                      selectValue={startTime}
-                      currentStep={getTime(
-                        alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
-                      )}
-                      setSendTime={setSendStartTime}
-                      setDropDown={setDropDownStart}
+                      DropDownTimeValue={startValue}
+                      setDropDownTimeValue={setStartValue}
                       dropDown={dropDownStart}
+                      setDropDown={setDropDownStart}
+                      type={'start'}
+                      onClickTime={onClickTime}
                     />
                   </OptionBox>
                   <OptionBox>
                     <span>종료 시간</span>
                     <AlarmDropDown
-                      setSelectValue={setEndTime}
-                      selectValue={endTime}
-                      currentStep={getTime(
-                        alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
-                      )}
-                      setSendTime={setSendEndTime}
-                      setDropDown={setDropDownEnd}
+                      DropDownTimeValue={endValue}
+                      setDropDownTimeValue={setEndValue}
                       dropDown={dropDownEnd}
+                      setDropDown={setDropDownEnd}
+                      type={'end'}
+                      onClickTime={onClickTime}
                     />
                   </OptionBox>
                 </>
