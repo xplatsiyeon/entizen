@@ -29,7 +29,8 @@ import { GoogleSignUpData } from './auth/google';
 import { useMutation } from 'react-query';
 import { isPostApi } from 'api';
 import Head from 'next/head';
-import findIdModal from 'components/Modal/findIdModal';
+import MobileFindModal from 'components/Modal/MobileFindModal';
+import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 export interface JwtTokenType {
   exp: number;
@@ -67,6 +68,9 @@ const Signin = () => {
   let naverLogin: any;
   const router = useRouter();
   const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(max-width:810pt)',
+  });
   const naverRef = useRef<HTMLElement | null | any>(null);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const loginTypeEnList: string[] = ['USER', 'COMPANY'];
@@ -333,6 +337,23 @@ const Signin = () => {
     e.preventDefault();
     setFind(true);
     setFindText(type);
+
+    // router.push({
+    //   pathname: '/find/password',
+    //   query: {
+    //     loginType: loginTypeEnList[selectedLoginType],
+    //   },
+    // });
+  };
+  const onClickPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    router.push({
+      pathname: '/find/password',
+      query: {
+        loginType: loginTypeEnList[selectedLoginType],
+      },
+    });
   };
   // 아이디 찾기
   const HandleFindId = async () => {
@@ -506,10 +527,37 @@ const Signin = () => {
         <meta name="appleid-signin-use-popup" content="true" />
       </Head>
       {/* 기업 아이디/비밀번호 찾기 모달 */}
-      {find && (
+      {/* 모바일 */}
+      {mobile && find && (
+        <MobileFindModal
+          buttonText={findText}
+          onClickCheck={() =>
+            findText === 'id'
+              ? fnPopup(findText)
+              : router.push({
+                  pathname: '/find/password',
+                  query: {
+                    loginType: loginTypeEnList[selectedLoginType],
+                  },
+                })
+          }
+          onClickCloseModal={() => setFind(false)}
+        />
+      )}
+      {/* 웹 */}
+      {!mobile && find && (
         <FindIdModal
           buttonText={findText}
-          onClickCheck={() => fnPopup(findText)}
+          onClickCheck={() =>
+            findText === 'id'
+              ? fnPopup(findText)
+              : router.push({
+                  pathname: '/find/password',
+                  query: {
+                    loginType: loginTypeEnList[selectedLoginType],
+                  },
+                })
+          }
           onClickCloseModal={() => setFind(false)}
         />
       )}
@@ -679,7 +727,7 @@ const Signin = () => {
                         <FindBtn
                           onClick={(e) => {
                             selectedLoginType === 0
-                              ? fnPopup('password')
+                              ? onClickPassword(e)
                               : onClcikFindId(e, 'password');
                           }}
                         >
@@ -692,14 +740,14 @@ const Signin = () => {
                         숨겨진 아이디 버튼
                       </Buttons>
                     )}
-                    {isPassword && (
+                    {/* {isPassword && (
                       <Buttons
                         className="firstNextPage"
                         onClick={HandleFindPassword}
                       >
                         숨겨진 비밀번호 버튼
                       </Buttons>
-                    )}
+                    )} */}
                   </Box>
                 </Box>
                 {/*<TestWrap>

@@ -180,7 +180,7 @@ const DatePicker = ({}: Props) => {
               <UL>
                 {days?.sort().map((day, index) => (
                   <>
-                    {selectedDays !== '' && day == selectedDays ? (
+                    {selectedDays !== '' && day === selectedDays ? (
                       <li className="list selected" key={index}>
                         <div className="img-box">
                           <Image src={ScheduleIcon} alt="img" />

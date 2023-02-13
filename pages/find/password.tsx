@@ -14,7 +14,7 @@ import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
 
 const FindPassword = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
