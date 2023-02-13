@@ -301,18 +301,14 @@ const Signin = () => {
     }
   };
   // 나이스 인증 온클릭 함수
-  const fnPopup = (
-    event:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.FormEvent<HTMLFormElement>,
-  ) => {
-    const { value } = event.currentTarget;
-    if (value === 'id') {
+  const fnPopup = (type: 'id' | 'password') => {
+    // const { value } = event.currentTarget;
+    if (type === 'id') {
       setIsId(true);
       console.log(data);
       console.log('id입니다');
     }
-    if (value === 'password') {
+    if (type === 'password') {
       setIsPassword(true);
       console.log('passowrd입니다');
     }
@@ -363,10 +359,6 @@ const Signin = () => {
       );
       setErrorModal((prev) => !prev);
     }
-  };
-  // 안내문
-  const handleAlert = () => {
-    alert('현재 개발 중 입니다.');
   };
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -509,6 +501,7 @@ const Signin = () => {
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="true" />
       </Head>
+      {/* 아이디 찾기 모달 */}
       {findId && (
         <FindIdModal
           onClickCheck={fnPopup}
@@ -670,17 +663,11 @@ const Signin = () => {
                         />
                         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
                         {/* <FindBtn value="id" name={'form_chk'} onClick={fnPopup}> */}
+                        <FindBtn onClick={onClcikFindId}>아이디 찾기</FindBtn>
                         <FindBtn
-                          value="id"
-                          name={'form_chk'}
-                          onClick={onClcikFindId}
-                        >
-                          아이디 찾기
-                        </FindBtn>
-                        <FindBtn
-                          value="password"
-                          name={'form_chk'}
-                          onClick={fnPopup}
+                          // value="password"
+                          // name={'form_chk'}
+                          onClick={() => fnPopup('password')}
                         >
                           &nbsp;비밀번호 찾기
                         </FindBtn>

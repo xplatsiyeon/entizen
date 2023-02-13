@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
-  onClickCheck: (event: React.FormEvent<HTMLFormElement>) => void;
+  onClickCheck: (type: 'id' | 'password') => void;
   onClickCloseModal: () => void;
 };
 
@@ -23,7 +23,7 @@ const FindIdModal = ({ onClickCheck, onClickCloseModal }: Props) => {
 
   const onClickBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onClickCheck(e);
+    onClickCheck('id');
     onClickCloseModal();
   };
 
