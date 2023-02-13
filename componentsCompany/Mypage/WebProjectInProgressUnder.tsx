@@ -92,7 +92,7 @@ const WebProjectInProgressUnder = ({
 };
 
 const ContentsContainer = styled.div`
-  margin-top: 20pt;
+  margin-top: 10pt;
   height: 150pt;
   overflow-y: scroll;
   padding-left: 5pt;

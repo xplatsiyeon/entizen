@@ -49,9 +49,11 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
     }
   };
 
+  console.log('data.length', data?.data?.newReceivedAfterSalesServices?.length);
+
   return (
     <Body>
-      <List>
+      <List length={data?.data?.newReceivedAfterSalesServices?.length}>
         {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
           data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
             return (
@@ -109,8 +111,8 @@ const Body = styled.div`
   }
 `;
 
-const List = styled.div`
-  margin: 18pt auto;
+const List = styled.div<{ length?: number }>`
+  margin: ${({ length }) => (length === 0 ? 0 : ' 18pt auto')};
   max-height: 170pt;
   overflow-y: scroll;
 `;
