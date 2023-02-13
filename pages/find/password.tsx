@@ -11,8 +11,10 @@ import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
+import PassowrdStep1 from 'components/Find/PassowrdStep1';
 
 const FindPassword = () => {
+  const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
@@ -157,15 +159,19 @@ const FindPassword = () => {
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
+  // useEffect(() => {
+  //   let key = localStorage.getItem('key');
+  //   let data = JSON.parse(key!);
+  //   if (data.snsType) {
+  //     setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
+  //     setOpenModal(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   useEffect(() => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    if (data.snsType) {
-      setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
-      setOpenModal(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log('🔥 btnActive ==>>', btnActive);
+  }, [btnActive]);
 
   return (
     <React.Fragment>
@@ -175,81 +181,77 @@ const FindPassword = () => {
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
             <MypageHeader back={true} title={'비밀번호 변경'} />
-
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginTop: '27pt',
-                width: '100%',
-              }}
-            >
-              <HeadWrapper>
-                <HeaderText
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    router.push('/signin');
-                  }}
-                >{`${'<'}`}</HeaderText>
-                <HeaderText style={{ margin: '0 auto' }}>
-                  아이디 / 비밀번호 찾기
-                </HeaderText>
-              </HeadWrapper>
-              <NewPassword>새 비밀번호를 설정해주세요</NewPassword>
-              <Input
-                placeholder="비밀번호 입력"
-                onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
-                value={pwInput}
-                name="pw"
-                hiddenLabel
-                InputProps={iconAdornment}
-                onFocus={(e) => setPwSelected(true)}
-                onBlur={(e) => setPwSelected(false)}
-              />
-              {!checkedPw && pwInput.length > 4 ? (
-                <Box>
-                  <Typography
-                    sx={{
-                      color: '#F75015',
-                      fontSize: '9pt',
-                    }}
-                  >
-                    영문,숫자,특수문자 조합 8자 이상
-                  </Typography>
-                </Box>
-              ) : (
-                <></>
-              )}
-              <Input
-                placeholder="비밀번호 재입력"
-                onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
-                value={checkPw}
-                name="checkPw"
-                InputProps={secondIconAdornment}
-                onFocus={(e) => setCheckPwSelected(true)}
-                onBlur={(e) => setCheckPwSelected(false)}
-              />
-              {!checkSamePw && checkPw.length > 4 ? (
-                <Box>
-                  <Typography
-                    sx={{
-                      color: '#F75015',
-                      fontSize: '9pt',
-                    }}
-                  >
-                    비밀번호를 확인해주세요
-                  </Typography>
-                </Box>
-              ) : (
-                <></>
-              )}
-            </Box>
-            <BtnBox>
-              <Btn onClick={onClickButton}>확인</Btn>
-            </BtnBox>
+            {step === 0 ? (
+              <PassowrdStep1 setStep={setStep} />
+            ) : (
+              <>
+                <div className="container">
+                  <HeadWrapper>
+                    <HeaderText
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        router.push('/signin');
+                      }}
+                    >{`${'<'}`}</HeaderText>
+                  </HeadWrapper>
+                  <NewPassword>새 비밀번호를 설정해주세요</NewPassword>
+                  <Input
+                    placeholder="비밀번호 입력"
+                    onChange={handleIdChange}
+                    type={pwShow ? 'text' : 'password'}
+                    value={pwInput}
+                    name="pw"
+                    hiddenLabel
+                    InputProps={iconAdornment}
+                    onFocus={(e) => setPwSelected(true)}
+                    onBlur={(e) => setPwSelected(false)}
+                  />
+                  {!checkedPw && pwInput.length > 4 ? (
+                    <Box>
+                      <Typography
+                        sx={{
+                          color: '#F75015',
+                          fontSize: '9pt',
+                        }}
+                      >
+                        영문,숫자,특수문자 조합 8자 이상
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <></>
+                  )}
+                  <Input
+                    placeholder="비밀번호 재입력"
+                    onChange={handleIdChange}
+                    type={pwShow ? 'text' : 'password'}
+                    value={checkPw}
+                    name="checkPw"
+                    InputProps={secondIconAdornment}
+                    onFocus={(e) => setCheckPwSelected(true)}
+                    onBlur={(e) => setCheckPwSelected(false)}
+                  />
+                  {!checkSamePw && checkPw.length > 4 ? (
+                    <Box>
+                      <Typography
+                        sx={{
+                          color: '#F75015',
+                          fontSize: '9pt',
+                        }}
+                      >
+                        비밀번호를 확인해주세요
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <BtnBox>
+                  <Btn isValid={btnActive} onClick={onClickButton}>
+                    확인
+                  </Btn>
+                </BtnBox>
+              </>
+            )}
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -346,6 +348,14 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
 
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 27pt;
+    width: 100%;
+  }
+
   @media (max-width: 899.25pt) {
     height: 100%;
     /* padding: 0 15pt 15pt 15pt; */
@@ -389,8 +399,9 @@ const BtnBox = styled.div`
     padding: 30pt 0 0 0;
   }
 `;
-const Btn = styled.button`
-  background: ${colors.main};
+const Btn = styled.button<{ isValid: boolean }>`
+  background-color: ${({ isValid }) =>
+    isValid ? colors.main : colors.lightWhite3};
   border-radius: 6pt;
   width: 100%;
   padding: 15pt 0;

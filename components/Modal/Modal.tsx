@@ -6,13 +6,14 @@ import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
+  size?: string;
   text: string;
   click: () => void;
   color?: string;
   setIsModal?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Modal = ({ text, click, color, setIsModal }: Props) => {
+const Modal = ({ text, click, color, setIsModal, size }: Props) => {
   const outside = useRef();
 
   const handleModalClose = (
@@ -34,7 +35,7 @@ const Modal = ({ text, click, color, setIsModal }: Props) => {
 
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
-      <ModalBox>
+      <ModalBox size={size!}>
         <Content>
           <ContentText>{text}</ContentText>
         </Content>
@@ -62,8 +63,8 @@ const ModalWrapper = styled(Box)`
   align-items: center;
   z-index: 1000;
 `;
-const ModalBox = styled(Box)`
-  width: 205.5pt;
+const ModalBox = styled(Box)<{ size: string }>`
+  width: ${({ size }) => (size ? `${size}pt` : '205.5pt')};
   padding: 0 15pt;
   border-radius: 6pt;
   background-color: white;

@@ -4,11 +4,16 @@ import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
+  buttonText: string;
   onClickCheck: (type: 'id' | 'password') => void;
   onClickCloseModal: () => void;
 };
 
-const FindIdModal = ({ onClickCheck, onClickCloseModal }: Props) => {
+const FindIdModal = ({
+  buttonText,
+  onClickCheck,
+  onClickCloseModal,
+}: Props) => {
   const outside = useRef();
 
   const handleModalClose = (
@@ -40,7 +45,7 @@ const FindIdModal = ({ onClickCheck, onClickCloseModal }: Props) => {
           </p>
         </Content>
         <BtnBox id="findBtn" type="submit">
-          아이디 찾기
+          {buttonText === 'id' ? '아이디 찾기' : '비밀번호 찾기'}
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
