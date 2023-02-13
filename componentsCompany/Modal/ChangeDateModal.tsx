@@ -112,7 +112,9 @@ const ChangeDateModal = ({
               key={i + 1}
               onClick={() => HandleSelectedDay(i + 1)}
             >
-              <div className="item">{i + 1}</div>
+              <div className="item" onClick={() => HandleSelectedDay(i + 1)}>
+                {i + 1}
+              </div>
             </Day>,
           );
         }
@@ -148,7 +150,7 @@ const ChangeDateModal = ({
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
       // const preDay = new Date(2022, 12, 16);
       const preDay = beforeStepDate?.split('-').map((e) => parseInt(e));
-      console.log(preDay);
+      // console.log('preDay==>>', preDay);
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
@@ -157,7 +159,7 @@ const ChangeDateModal = ({
   };
   // 선택된 이후 날짜 차이 계산
   const afterCalculateDifference = (day: number) => {
-    console.log(afterStepDate);
+    // console.log(afterStepDate);
     if (afterStepDate === '') {
       return -1;
     }
@@ -165,7 +167,7 @@ const ChangeDateModal = ({
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
       // const preDay = new Date(2022, 12, 16);
       const preDay = afterStepDate?.split('-').map((e) => parseInt(e));
-      console.log(preDay);
+
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
@@ -177,10 +179,11 @@ const ChangeDateModal = ({
     const differenceDate = CalculateDifference(day);
     const differenceBeforeDate = beforeCalculateDifference(day);
     const differenceAfterDate = afterCalculateDifference(day);
-    console.log(differenceAfterDate);
+
     // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     // 이전 날짜 클릭 금지 조건문
+
     if (
       differenceDate > 0 ||
       differenceAfterDate! < 0 ||
@@ -215,9 +218,7 @@ const ChangeDateModal = ({
     }
   };
 
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
+  useEffect(() => {}, [selectedDays]);
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {

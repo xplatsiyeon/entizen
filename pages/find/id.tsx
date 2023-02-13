@@ -24,7 +24,7 @@ const findingId2 = () => {
     if (data.isMember) {
       console.log('멤버 확인 -> ' + data.isMember);
       localStorage.getItem('key');
-      router.push('/find/password2');
+      router.push('/find/password');
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',

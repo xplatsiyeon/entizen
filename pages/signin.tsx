@@ -81,7 +81,8 @@ const Signin = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // 아이디 찾기 모달
-  const [findId, setFindId] = useState(false);
+  const [find, setFind] = useState(false);
+  const [findText, setFindText] = useState<'id' | 'password'>('id');
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
@@ -302,15 +303,15 @@ const Signin = () => {
   };
   // 나이스 인증 온클릭 함수
   const fnPopup = (type: 'id' | 'password') => {
-    // const { value } = event.currentTarget;
+    console.log('🔥 type ==>>', type);
     if (type === 'id') {
       setIsId(true);
-      console.log(data);
-      console.log('id입니다');
+      // console.log(data);
+      // console.log('id입니다');
     }
     if (type === 'password') {
       setIsPassword(true);
-      console.log('passowrd입니다');
+      // console.log('passowrd입니다');
     }
     if (typeof window !== 'object') return;
     else {
@@ -319,16 +320,19 @@ const Signin = () => {
         'popupChk',
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
-      let cloneDocument = document;
-      cloneDocument.form_chk.action =
+      document.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument.form_chk.submit();
+      document.form_chk.target = 'popupChk';
+      document.form_chk.submit();
     }
   };
-  const onClcikFindId = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClcikFindId = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    type: 'id' | 'password',
+  ) => {
     e.preventDefault();
-    setFindId(true);
+    setFind(true);
+    setFindText(type);
   };
   // 아이디 찾기
   const HandleFindId = async () => {
@@ -352,7 +356,7 @@ const Signin = () => {
     if (data.isMember) {
       console.log('멤버 확인 -> ' + data.isMember);
       localStorage.getItem('key');
-      router.push('/find/password2');
+      router.push('/find/password');
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
@@ -501,11 +505,12 @@ const Signin = () => {
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="true" />
       </Head>
-      {/* 아이디 찾기 모달 */}
-      {findId && (
+      {/* 기업 아이디/비밀번호 찾기 모달 */}
+      {find && (
         <FindIdModal
-          onClickCheck={fnPopup}
-          onClickCloseModal={() => setFindId(false)}
+          buttonText={findText}
+          onClickCheck={() => fnPopup(findText)}
+          onClickCloseModal={() => setFind(false)}
         />
       )}
       {/* 로그인 에러 안내 모달 */}
@@ -662,12 +667,21 @@ const Signin = () => {
                           value="get"
                         />
                         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                        {/* <FindBtn value="id" name={'form_chk'} onClick={fnPopup}> */}
-                        <FindBtn onClick={onClcikFindId}>아이디 찾기</FindBtn>
                         <FindBtn
-                          // value="password"
-                          // name={'form_chk'}
-                          onClick={() => fnPopup('password')}
+                          onClick={(e) => {
+                            selectedLoginType === 0
+                              ? fnPopup('id')
+                              : onClcikFindId(e, 'id');
+                          }}
+                        >
+                          아이디 찾기
+                        </FindBtn>
+                        <FindBtn
+                          onClick={(e) => {
+                            selectedLoginType === 0
+                              ? fnPopup('password')
+                              : onClcikFindId(e, 'password');
+                          }}
                         >
                           &nbsp;비밀번호 찾기
                         </FindBtn>
