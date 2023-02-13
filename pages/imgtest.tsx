@@ -3,7 +3,7 @@ import axios from 'axios';
 import JSZip from 'jszip';
 
 interface IDownloadProps {
-  fileName?: string;
+  fileName: string;
   url?: string;
   data?: string | Blob;
 }
@@ -20,13 +20,22 @@ const download = ({ fileName, data, url }: IDownloadProps) => {
   } else if (data) {
     if (!fileName) return;
     if (typeof data === 'string') {
-      url_internal = URL.createObjectURL(new Blob([data]));
+      url_internal = URL.createObjectURL(
+        new Blob([data], {
+          type: 'image/png',
+        }),
+      );
     } else {
       url_internal = URL.createObjectURL(data);
     }
   } else return;
+
+  console.log('url_internal==>>', url_internal);
+  return;
+  // console.log('url_internal==>>', url_internal);
+  // return;
   aTag.setAttribute('href', url_internal);
-  aTag.setAttribute('download', fileName || '');
+  aTag.setAttribute('download', fileName);
   aTag.click();
   URL.revokeObjectURL(url_internal);
 };
@@ -120,6 +129,8 @@ function App() {
     'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
     'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
     'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
+    'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
+    'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chatting/1675925576_66785699-e5dc-4207-a577-0e5daac98b66.png',
   ];
   return (
     <Stack direction="row" spacing={2}>
@@ -127,7 +138,11 @@ function App() {
         variant="contained"
         onClick={async () => {
           for (const i in data) {
-            await downloadPng({ fileName: `test_${i}.jpg`, url: data[i] });
+            // await downloadPng({ fileName: `test_${i}.jpg`, url: data[i] });
+            await download({
+              fileName: `test${[i]}.png`,
+              data: data[i],
+            });
           }
         }}
       >
