@@ -11,7 +11,8 @@ import { RootState } from 'store/store';
 import useProfile from 'hooks/useProfile';
 import useDebounce from 'hooks/useDebounce';
 import { useMutation } from 'react-query';
-import { isPostApi } from 'api';
+import { isPostApi, isTokenPatchApi } from 'api';
+import Modal from 'components/Modal/Modal';
 interface Key {
   id: string;
   isMember: boolean;
@@ -42,14 +43,15 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   // -1: 초기값, 0: 비밀번호 체크 성공, 1: 비밀번호 체크 실패
   const [checkPassword, setCheckPassword] = useState(-1);
 
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
   const value = useDebounce(existingPassword, 1500);
   const memeberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
 
-  // console.log('🔥 memeberType =>', memeberType);
-  // console.log('🔥 userID =>', userID);
-
-  const { mutate } = useMutation(isPostApi, {
+  // 비밀번호 체크 mutate
+  const { mutate: passowrdCheckMutate } = useMutation(isPostApi, {
     onSuccess: (res) => {
       if (res.data.isSuccess === true) {
         localStorage.setItem(
@@ -70,10 +72,21 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       setCheckPassword(1);
     },
   });
+  // 휴대폰 번호 변경 mutate
+  const { mutate: changePhoneMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: (res) => {
+      setIsModal(true);
+      setModalMessage('휴대폰 번호가 변경되었습니다.');
+    },
+    onError: (error) => {
+      console.log('🔥error==>', error);
+    },
+  });
 
+  // 비밀번호 검사
   useEffect(() => {
     if (value.length > 0) {
-      mutate({
+      passowrdCheckMutate({
         url: '/members/login',
         data: {
           memberType: memeberType,
@@ -98,26 +111,14 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
 
   const onClickBtn = () => {
-    console.log('checkPassword==>>', checkPassword);
+    const key: Key = JSON.parse(localStorage.getItem('key')!);
     if (checkPassword === 0) {
-      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-      const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
-      axios({
-        method: 'patch',
-        url: PASSWORD_CHANGE,
+      changePhoneMutate({
+        url: '/members',
         data: {
+          name: key.name,
           phone: key.phone,
         },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        alert('휴대폰 번호가 변경되었습니다.');
-        console.log('백엔드에서 받은 데이터');
-        console.log(res);
-        router.push('/');
       });
     }
   };
@@ -180,6 +181,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   return (
     <React.Fragment>
+      {isModal && <Modal click={() => router.push('/')} text={modalMessage} />}
       <WebBody>
         <Inner>
           <Wrapper>
