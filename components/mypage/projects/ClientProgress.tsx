@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import MessageBox from 'componentsCompany/Mypage/MessageBox';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -35,6 +35,8 @@ import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -46,14 +48,22 @@ type Props = {
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 };
 
+export interface SelfContract {
+  originalName: string;
+  size: number;
+  type: string;
+  url: string;
+}
+
 const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   // const presentProgress = info.state;
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
 
-  const contractContent =
+  const contractContent: SelfContract[] =
     data?.project?.contract &&
     JSON.parse(data?.project?.contract?.contractContent!);
+
   let textArr;
   let initToggle;
 
@@ -251,20 +261,28 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
 
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
+  // const selfRef = useRef<any>(null);
   // 자체계약서 다운로드
   // 2022.02.09 ljm 다운로드 추가 작업 필요.
   // issue => 다중 다운로드 안됨.
-  const onClickBtn = () => {
-    contractContent.map(async (contract: fileDownLoad, index: number) => {
-      const a = document.createElement('a');
-      a.download = contract.originalName;
-      a.href = contract.url;
-      a.onclick = () =>
-        fileDownload(userAgent, contract.originalName, contract.url);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(a.href);
+  const onClickBtn = async () => {
+    console.log('contractContent==>', contractContent);
+    return;
+    const blob = new Blob([JSON.stringify(contractContent[0])]);
+
+    const result = Buffer.from(await blob.arrayBuffer());
+
+    const zip = new JSZip();
+
+    contractContent.forEach((img, index) => {});
+    const image = result; //api에서 받은 buffer 값
+    zip.file('파일명', Buffer.from(image));
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      saveAs(content, `파일명.zip`);
     });
+
+    console.log('zip-->', zip);
   };
 
   // 계약서 보기 버튼 클릭
@@ -433,7 +451,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       }
                       onClick={onClickBtn}
                     >
-                      계약서 보기
+                      자체 계약서 보기
                     </ClientP>
                   )}
                 </>
@@ -882,7 +900,7 @@ const ContractBtnBox = styled.div`
   }
 `;
 
-const ClientP = styled.p<{ presentProgress: boolean }>`
+const ClientP = styled.div<{ presentProgress: boolean }>`
   box-shadow: ${({ presentProgress }) =>
     !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
   border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
