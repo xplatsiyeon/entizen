@@ -78,11 +78,12 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       setIsModal(true);
       setModalMessage('휴대폰 번호가 변경되었습니다.');
     },
-    onError: (error) => {
-      //   setIsModal(true);
-      //   setModalMessage('회원정보가 일치하지 않습니다.\n다시 입력해주세요.');
-
-      console.log('🔥error==>', error);
+    onError: (error: any) => {
+      const { errorCode, message, isSuccess } = error?.response?.data;
+      if (errorCode === 1008 && isSuccess === false) {
+        setIsModal(true);
+        setModalMessage(message);
+      }
     },
   });
 
@@ -184,7 +185,16 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   return (
     <React.Fragment>
-      {isModal && <Modal click={() => router.push('/')} text={modalMessage} />}
+      {isModal && (
+        <Modal
+          click={() => {
+            modalMessage === '휴대폰 번호가 변경되었습니다.'
+              ? router.push('/')
+              : setIsModal(false);
+          }}
+          text={modalMessage}
+        />
+      )}
       <WebBody>
         <Inner>
           <Wrapper>
