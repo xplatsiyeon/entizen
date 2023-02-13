@@ -58,7 +58,6 @@ const FindPassword = () => {
     if (e.target.name === 'beforePw') {
       setBeforePasswordInput(e.target.value);
     }
-
     if (pwInput.length > 7 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
@@ -159,15 +158,15 @@ const FindPassword = () => {
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
-  // useEffect(() => {
-  //   let key = localStorage.getItem('key');
-  //   let data = JSON.parse(key!);
-  //   if (data.snsType) {
-  //     setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
-  //     setOpenModal(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    if (data.snsType) {
+      setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
+      setOpenModal(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     console.log('🔥 btnActive ==>>', btnActive);

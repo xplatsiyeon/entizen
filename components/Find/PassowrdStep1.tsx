@@ -23,12 +23,17 @@ type Props = {
 };
 
 const PassowrdStep1 = ({ setStep }: Props) => {
+  const router = useRouter();
+  let key = localStorage.getItem('key');
+  let data = JSON.parse(key!);
+
+  console.log('🔥 data ==>', data);
+
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [ModalMsg, setModalMsg] = useState('');
-  const router = useRouter();
 
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data: UserInfo) => {
