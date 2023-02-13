@@ -14,7 +14,7 @@ import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
 
 const FindPassword = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
@@ -57,9 +57,6 @@ const FindPassword = () => {
     }
     if (e.target.name === 'beforePw') {
       setBeforePasswordInput(e.target.value);
-    }
-    if (pwInput.length > 7 && checkPw === pwInput) {
-      setBtnActive(!btnActive);
     }
   };
 
@@ -105,12 +102,13 @@ const FindPassword = () => {
   };
 
   useEffect(() => {
-    console.log('여기요!~!');
-    console.log(modalText);
-    console.log(openModal);
+    if (pwInput.length > 7 && checkPw === pwInput) {
+      setBtnActive(true);
+    } else {
+      setBtnActive(false);
+    }
+  }, [pwInput, checkPw]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalText, setModalText]);
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -158,15 +156,15 @@ const FindPassword = () => {
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
-  useEffect(() => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    if (data.snsType) {
-      setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
-      setOpenModal(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   let key = localStorage.getItem('key');
+  //   let data = JSON.parse(key!);
+  //   if (data.snsType) {
+  //     setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
+  //     setOpenModal(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     console.log('🔥 btnActive ==>>', btnActive);
@@ -401,6 +399,7 @@ const BtnBox = styled.div`
 const Btn = styled.button<{ isValid: boolean }>`
   background-color: ${({ isValid }) =>
     isValid ? colors.main : colors.lightWhite3};
+
   border-radius: 6pt;
   width: 100%;
   padding: 15pt 0;
