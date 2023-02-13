@@ -289,6 +289,10 @@ export interface HistoryProjectsDetail {
     name: number;
     phone: number;
   };
+  contract: {
+    documentId: string;
+    contractContent: string;
+  };
 }
 export interface ResponseHistoryProjectsDetail {
   completedProjects: HistoryProjectsDetail[];
@@ -359,6 +363,10 @@ export const GET_historyProjectsDetail = gql`
         memberIdx
         name
         phone
+      }
+      contract {
+        documentId
+        contractContent
       }
     }
   }

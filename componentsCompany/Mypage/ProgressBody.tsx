@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload, openExternalBrowser } from 'bridge/appToWeb';
 import JSZip from 'jszip';
+import contract from 'pages/contract';
 
 export interface fileDownLoad {
   originalName: string;
@@ -137,17 +138,25 @@ const ProgressBody = ({
   // 자체계약서 다운로드
   // 2022.02.09 ljm 다운로드 추가 작업 필요.
   // issue => 다중 다운로드 안됨.
-  const onClickBtn = () => {
-    contractContent.map(async (contract: fileDownLoad, index: number) => {
-      const a = document.createElement('a');
-      a.download = contract.originalName;
-      a.href = contract.url;
-      a.onclick = () =>
-        fileDownload(userAgent, contract.originalName, contract.url);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(a.href);
-    });
+  const onClickBtn = (data: fileDownLoad) => {
+    // contractContent.map(async (contract: fileDownLoad, index: number) => {
+    //   const a = document.createElement('a');
+    //   a.download = contract.originalName;
+    //   a.href = contract.url;
+    //   a.onclick = () =>
+    //     fileDownload(userAgent, contract.originalName, contract.url);
+    //   a.click();
+    //   a.remove();
+    //   URL.revokeObjectURL(a.href);
+    // });
+
+    const a = document.createElement('a');
+    a.download = data?.originalName;
+    a.href = data?.url;
+    a.onclick = () => fileDownload(userAgent, data?.originalName, data?.url);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
   };
 
   // 계약서 보기 버튼 클릭
@@ -290,7 +299,12 @@ const ProgressBody = ({
                 <>
                   {/* 자체 계약서 */}
                   <SeftContract
-                    onClick={onClickBtn}
+                    onClick={() => {
+                      const contractUrl = JSON.parse(
+                        contractData?.project?.contract?.contractContent!,
+                      )[0];
+                      onClickBtn(contractUrl);
+                    }}
                     presentProgress={
                       data?.project?.badge === '계약대기' ? true : false
                     }

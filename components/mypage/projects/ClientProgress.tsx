@@ -265,24 +265,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   // 자체계약서 다운로드
   // 2022.02.09 ljm 다운로드 추가 작업 필요.
   // issue => 다중 다운로드 안됨.
-  const onClickBtn = async () => {
-    console.log('contractContent==>', contractContent);
-    return;
-    const blob = new Blob([JSON.stringify(contractContent[0])]);
-
-    const result = Buffer.from(await blob.arrayBuffer());
-
-    const zip = new JSZip();
-
-    contractContent.forEach((img, index) => {});
-    const image = result; //api에서 받은 buffer 값
-    zip.file('파일명', Buffer.from(image));
-
-    zip.generateAsync({ type: 'blob' }).then((content) => {
-      saveAs(content, `파일명.zip`);
-    });
-
-    console.log('zip-->', zip);
+  const onClickBtn = (data: fileDownLoad) => {
+    const a = document.createElement('a');
+    a.download = data?.originalName;
+    a.href = data?.url;
+    a.onclick = () => fileDownload(userAgent, data?.originalName, data?.url);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
   };
 
   // 계약서 보기 버튼 클릭
@@ -449,9 +439,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                           ? true
                           : false
                       }
-                      onClick={onClickBtn}
+                      onClick={() => {
+                        const contractUrl = JSON.parse(
+                          contractData?.project?.contract?.contractContent!,
+                        )[0];
+                        onClickBtn(contractUrl);
+                      }}
                     >
-                      자체 계약서 보기
+                      계약서 보기
                     </ClientP>
                   )}
                 </>

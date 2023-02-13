@@ -3,30 +3,32 @@ import CommunicationBox from 'components/CommunicationBox';
 import React, { useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 import { ChargingStations } from 'QueryComponents/UserQuery';
 import { hyphenFn } from 'utils/calculatePackage';
 import Carousel from '../projects/Carousel';
 import colors from 'styles/colors';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
+import { SelfContract } from '../projects/ClientProgress';
+import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
+import { fileDownload } from 'bridge/appToWeb';
+import {
+  getDocument,
+  modusignPdfDown,
+  modusignPdfResponse,
+  downloadModusignPdf,
+} from 'api/getDocument';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
 
 interface Props {
   data: ChargingStations;
 }
-
-// export const modusignPDF = (url: string) => {
-//   // const url =
-//   //   'https://api.modusign.co.kr/documents/319c4100-79ec-11ed-96b5-c59df0be5207/file?signedUrlToken=documents%2F56c0ad20-2507-11ed-8a8e-fb9da558cacc%2F3160bea1-79ec-11ed-bd2a-6bbe23a257ff.pdf%3FX-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3DAKIA3EQMQCJYW3XJ6IGM%252F20221225%252Fap-northeast-2%252Fs3%252Faws4_request%26X-Amz-Date%3D20221225T075845Z%26X-Amz-Expires%3D600%26X-Amz-Signature%3D8cbb6632a64a322bf213bed8c9e428ce5b245177f4df2485b13d74de1cd39e49%26X-Amz-SignedHeaders%3Dhost';
-//   fetch(url).then((res) => {
-//     return res.blob().then((b) => {
-//       var a = document.createElement('a');
-//       a.href = URL.createObjectURL(b);
-//       a.setAttribute('download', '모두싸인 게약서');
-//       // a.setAttribute('download', filename);
-//       a.click();
-//     });
-//   });
-// };
 
 export const modusignPDF = async (url: string) => {
   console.log('url===>>', url);
@@ -56,24 +58,42 @@ const PlaceInfo = ({ data }: Props) => {
     setWebIdx(idx);
   };
 
+  const contractContent: SelfContract[] =
+    data?.contract && JSON.parse(data?.contract?.contractContent!);
+
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // 자체 계약서 다운로드
+  const onClickBtn = (data: fileDownLoad) => {
+    const a = document.createElement('a');
+    a.download = data?.originalName;
+    a.href = data?.url;
+    a.onclick = () => fileDownload(userAgent, data?.originalName, data?.url);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  };
+
   const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
   //a링크에 넘길거
   const callPhone = hyphenFn(data?.companyMember?.phone);
 
   // 모두싸인 PDF 파일 다운로드
-  function download(filename: string) {
-    const url =
-      'https://api.modusign.co.kr/documents/319c4100-79ec-11ed-96b5-c59df0be5207/file?signedUrlToken=documents%2F56c0ad20-2507-11ed-8a8e-fb9da558cacc%2F3160bea1-79ec-11ed-bd2a-6bbe23a257ff.pdf%3FX-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3DAKIA3EQMQCJYW3XJ6IGM%252F20221225%252Fap-northeast-2%252Fs3%252Faws4_request%26X-Amz-Date%3D20221225T075845Z%26X-Amz-Expires%3D600%26X-Amz-Signature%3D8cbb6632a64a322bf213bed8c9e428ce5b245177f4df2485b13d74de1cd39e49%26X-Amz-SignedHeaders%3Dhost';
-    fetch(url).then((t) => {
-      return t.blob().then((b) => {
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(b);
-        a.setAttribute('download', filename);
-        a.click();
-      });
-    });
-  }
+  const {
+    data: modusignPdfDownData,
+    isLoading: modusignPdfDownLoading,
+    isError: modusignPdfDownError,
+  } = reactQuery<modusignPdfResponse>(
+    'contract-pdf',
+    () => modusignPdfDown(data?.contract?.documentId!),
+    {
+      enabled:
+        data?.contract?.documentId?.substring(0, 7) !== 'project' &&
+        data?.contract?.documentId !== undefined
+          ? true
+          : false,
+    },
+  );
 
   // download('modusgin');
   // download('data:text/html,Hello Developer!', 'HelloDeveloper.txt');
@@ -135,6 +155,32 @@ const PlaceInfo = ({ data }: Props) => {
             ))}
           </React.Fragment>
         ))}
+        {!Array.isArray(contractContent) ? (
+          <FileDownloadBtn
+            onClick={() => {
+              downloadModusignPdf(modusignPdfDownData?.file?.downloadUrl!);
+            }}
+          >
+            <FileDownload>
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              <FileName>모두싸인 계약서</FileName>
+            </FileDownload>
+          </FileDownloadBtn>
+        ) : (
+          <FileDownloadBtn
+            onClick={() => {
+              const contractUrl = JSON.parse(
+                data?.contract?.contractContent!,
+              )[0];
+              onClickBtn(contractUrl);
+            }}
+          >
+            <FileDownload>
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              <FileName>{contractContent[0]?.originalName}</FileName>
+            </FileDownload>
+          </FileDownloadBtn>
+        )}
       </FileBox>
 
       <>

@@ -44,6 +44,7 @@ import {
 } from '@apollo/client';
 import { useRouter } from 'next/router';
 import {
+  downloadModusignPdf,
   getDocument,
   modusignPdfDown,
   modusignPdfResponse,
@@ -52,6 +53,7 @@ import {
   GET_ModuSignResponse,
   ModuSignResponse,
 } from 'QueryComponents/ModuSignQuery';
+import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -246,6 +248,17 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
     );
 
+  // 자체 계약서 다운로드
+  const onClickBtn = (data: fileDownLoad) => {
+    const a = document.createElement('a');
+    a.download = data?.originalName;
+    a.href = data?.url;
+    // a.onclick = () => fileDownload(userAgent, data?.originalName, data?.url);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  };
+
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const {
@@ -302,7 +315,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   const onClickContract = () => {
     if (moduSignContract === 2) {
       setMessageModal(true);
-      setMessage('계약서가 다운로드 됐습니다.');
+      setMessage('모두싸인 계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 1) {
       setMessageModal(true);
       setMessage('자체 계약서가 다운로드 됐습니다.');
@@ -802,13 +815,30 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             </List>
             <List>
               <Label>계약서 정보</Label>
-              {moduSignContract !== 0 ? (
-                <a href={getUrl} download={'계약서'}>
-                  <ButtonBox onClick={onClickContract}>
-                    계약서 다운로드
-                  </ButtonBox>
-                </a>
-              ) : (
+              {moduSignContract === 2 && (
+                <ButtonBox
+                  onClick={() => {
+                    downloadModusignPdf(getUrl);
+                    onClickContract();
+                  }}
+                >
+                  계약서 다운로드
+                </ButtonBox>
+              )}
+              {moduSignContract === 1 && (
+                <ButtonBox
+                  onClick={() => {
+                    const contractUrl = JSON.parse(
+                      inModuSignData?.project?.contract?.contractContent!,
+                    )[0];
+                    onClickBtn(contractUrl);
+                    onClickContract();
+                  }}
+                >
+                  계약서 다운로드
+                </ButtonBox>
+              )}
+              {moduSignContract === 0 && (
                 <ButtonBox onClick={onClickContract}>계약서 다운로드</ButtonBox>
               )}
             </List>
