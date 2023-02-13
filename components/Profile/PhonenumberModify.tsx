@@ -79,6 +79,9 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       setModalMessage('휴대폰 번호가 변경되었습니다.');
     },
     onError: (error) => {
+      //   setIsModal(true);
+      //   setModalMessage('회원정보가 일치하지 않습니다.\n다시 입력해주세요.');
+
       console.log('🔥error==>', error);
     },
   });
@@ -102,19 +105,19 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
   // 휴대폰 변경
-  const HandlePhone = async () => {
-    const key: Key = JSON.parse(localStorage.getItem('key')!);
-    const newnumber = key?.phone
-      .replace(/[^0-9]/g, '')
-      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-    setNewPhoneNumber(newnumber);
-  };
+  // const HandlePhone = async () => {
+  //   const key: Key = JSON.parse(localStorage.getItem('key')!);
+  //   const newnumber = key?.phone
+  //     .replace(/[^0-9]/g, '')
+  //     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+  //   setNewPhoneNumber(newnumber);
+  // };
 
   const onClickBtn = () => {
     const key: Key = JSON.parse(localStorage.getItem('key')!);
     if (checkPassword === 0) {
       changePhoneMutate({
-        url: '/members',
+        url: '/members/phone',
         data: {
           name: key.name,
           phone: key.phone,
