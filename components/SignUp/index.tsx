@@ -141,7 +141,7 @@ const SignUpContainer = (props: Props) => {
             homeBtn={true}
             title={''}
             exitBtn={true}
-            handleHomeClick={() => console.log('111')}
+            handleHomeClick={handleHomeClick}
             handleBackClick={handleBackClick}
           />
           <Wrapper>
@@ -266,7 +266,7 @@ const SignUpContainer = (props: Props) => {
             homeBtn={true}
             title={''}
             exitBtn={true}
-            handleHomeClick={() => console.log('111')}
+            handleHomeClick={handleHomeClick}
             handleBackClick={handleBackClick}
           />
           <Wrapper>

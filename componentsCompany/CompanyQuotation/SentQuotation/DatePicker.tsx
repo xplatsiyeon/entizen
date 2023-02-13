@@ -30,6 +30,10 @@ const DatePicker = ({}: Props) => {
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
   const [isModal, setIsModal] = useState(false); // 모달 on/off
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
+  const [selectIndex, setSelectIndex] = useState(-1);
+
+  console.log('🍎selectIndex', selectIndex);
+
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -118,6 +122,8 @@ const DatePicker = ({}: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [componentId, setComponentId] = useState<number>();
 
+  useEffect(() => {}, [selectIndex]);
+
   return (
     <React.Fragment>
       {isModal && <Modal click={HandleModal} text={modalMessage} />}
@@ -180,8 +186,15 @@ const DatePicker = ({}: Props) => {
               <UL>
                 {days?.sort().map((day, index) => (
                   <>
-                    {selectedDays !== '' && day === selectedDays ? (
-                      <li className="list selected" key={index}>
+                    {selectedDays !== '' && day == selectedDays ? (
+                      <li
+                        className="list selected"
+                        key={index}
+                        onClick={() => {
+                          SetSelectedDays('');
+                          setSelectIndex(-1);
+                        }}
+                      >
                         <div className="img-box">
                           <Image src={ScheduleIcon} alt="img" />
                         </div>
@@ -191,7 +204,14 @@ const DatePicker = ({}: Props) => {
                         </div>
                       </li>
                     ) : (
-                      <li className="list" key={index}>
+                      <li
+                        className="list"
+                        key={index}
+                        onClick={() => {
+                          SetSelectedDays(day);
+                          setSelectIndex(index);
+                        }}
+                      >
                         <div className="img-box">
                           <Image src={ScheduleIcon} alt="img" />
                         </div>
@@ -338,6 +358,7 @@ const Schedule = styled.div`
 `;
 const UL = styled.ul`
   padding-top: 24pt;
+
   .list {
     background-color: #e2e5ed;
     border-radius: 6pt;
@@ -345,6 +366,7 @@ const UL = styled.ul`
     margin-bottom: 9pt;
     display: flex;
     gap: 12pt;
+    cursor: pointer;
   }
   .due-date {
     font-weight: 500;
@@ -360,6 +382,7 @@ const UL = styled.ul`
   }
   .selected {
     background-color: ${colors.main};
+    cursor: pointer;
   }
 `;
 const Btn = styled.button<{ isValid: boolean }>`
