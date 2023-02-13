@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { isTokenPostApi } from 'api';
+import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { FindKey } from 'pages/signin';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import colors from 'styles/colors';
@@ -24,8 +26,10 @@ type Props = {
 
 const PassowrdStep1 = ({ setStep }: Props) => {
   const router = useRouter();
-  let key = localStorage.getItem('key');
-  let data = JSON.parse(key!);
+  // let key = localStorage.getItem('key');
+  // let data = JSON.parse(key!);
+  const [data, setData] = useState<any>();
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
 
   const [name, setName] = useState('');
   const [id, setId] = useState('');
@@ -52,8 +56,11 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   const colseModal = () => setIsModal(false);
 
   // 버튼 클릭
-  const onSubmitBtn = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    let key = localStorage.getItem('key');
+    let data: FindKey = JSON.parse(key!);
+
     if (isValid) {
       if (data.name !== name || data.id !== id) {
         setIsModal(true);
@@ -71,6 +78,44 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       }
     }
   };
+
+  // 나이스 인증 온클릭 함수
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      document.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      document.form_chk.target = 'popupChk';
+      document.form_chk.submit();
+    }
+  };
+
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = router.query.loginType;
+    console.log('🔥memberType=>', memberType);
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
+
+  // useEffect(() => {
+  //   console.log('🔥 data check ==>>', data);
+  // }, [data]);
 
   useEffect(() => {
     if (name.length > 0 && id.length > 0) {
@@ -90,7 +135,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
           >{`${'<'}`}</HeaderText>
           <HeaderText style={{ margin: '0 auto' }}>비밀번호 찾기</HeaderText>
         </Header>
-        <Form onSubmit={onSubmitBtn}>
+        <Container>
           <label>이름</label>
           <input
             placeholder="이름을 입력해주세요."
@@ -105,12 +150,28 @@ const PassowrdStep1 = ({ setStep }: Props) => {
             value={id}
             onChange={(e) => setId(e.currentTarget.value)}
           />
-          <BtnBox>
-            <Btn isValid={isValid} type={'submit'}>
-              비밀번호 찾기
-            </Btn>
-          </BtnBox>
-        </Form>
+          {/* --------------------------나이스 인증------------------- */}
+          <form name="form_chk" method="get">
+            <input type="hidden" name="m" value="checkplusService" />
+            {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+            <input
+              type="hidden"
+              id="encodeData"
+              name="EncodeData"
+              value={data !== undefined && data}
+            />
+            <input type="hidden" name="recvMethodType" value="get" />
+            {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+            <BtnBox>
+              <Btn isValid={isValid} onClick={fnPopup}>
+                비밀번호 찾기
+              </Btn>
+            </BtnBox>
+          </form>
+          <Buttons className="firstNextPage" onClick={onSubmitBtn}>
+            숨겨진 아이디 버튼
+          </Buttons>
+        </Container>
       </HeadWrapper>
     </div>
   );
@@ -139,7 +200,7 @@ const HeaderText = styled.div`
   color: #222222;
   cursor: pointer;
 `;
-const Form = styled.form`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -181,6 +242,9 @@ const BtnBox = styled.div`
     position: static;
     padding: 30pt 0 0 0;
   }
+`;
+const Buttons = styled.button`
+  display: none;
 `;
 const Btn = styled.button<{ isValid: boolean }>`
   background-color: ${({ isValid }) =>

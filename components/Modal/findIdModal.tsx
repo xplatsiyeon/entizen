@@ -44,7 +44,7 @@ const FindIdModal = ({
             (점심시간 12:00 ~13:00 / 주말. 공휴일 제외)
           </p>
         </Content>
-        <BtnBox id="findBtn" type="submit">
+        <BtnBox type="submit">
           {buttonText === 'id' ? '아이디 찾기' : '비밀번호 찾기'}
         </BtnBox>
       </ModalBox>
