@@ -98,6 +98,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
 
   const onClickBtn = () => {
+    console.log('checkPassword==>>', checkPassword);
     if (checkPassword === 0) {
       const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
       const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
@@ -113,6 +114,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
         },
         withCredentials: true,
       }).then((res) => {
+        alert('휴대폰 번호가 변경되었습니다.');
         console.log('백엔드에서 받은 데이터');
         console.log(res);
         router.push('/');
@@ -229,6 +231,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
                 해당 번호로 변경됩니다.
               </AlertMessage>
             )}
+            {/* 나이스 인증을 위한 form */}
             <form name="form_phone" method="get">
               <input type="hidden" name="m" value="checkplusService" />
               <input
