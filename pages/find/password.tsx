@@ -177,7 +177,7 @@ const FindPassword = () => {
         <Inner>
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
-            <MypageHeader back={true} title={'비밀번호 변경'} />
+            {/* <MypageHeader back={true} title={'비밀번호 찾기'} /> */}
             {step === 0 ? (
               <PassowrdStep1 setStep={setStep} />
             ) : (
@@ -309,6 +309,8 @@ const Inner = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    box-shadow: none;
+    border-radius: 0;
   }
 `;
 const BeforePassword = styled.p`
@@ -344,7 +346,6 @@ const NewPassword = styled.p`
 const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
-
   .container {
     display: flex;
     flex-direction: column;
@@ -352,11 +353,12 @@ const Wrapper = styled.div`
     margin-top: 27pt;
     width: 100%;
   }
-
   @media (max-width: 899.25pt) {
     height: 100%;
-    /* padding: 0 15pt 15pt 15pt; */
-    margin: 0;
+    margin: 0pt;
+    .container {
+      margin-top: 0;
+    }
   }
 `;
 const Input = styled(TextField)`

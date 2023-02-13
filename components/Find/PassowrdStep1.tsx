@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { isTokenPostApi } from 'api';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
+import MypageHeader from 'components/mypage/request/header';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FindKey } from 'pages/signin';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -128,6 +130,14 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   return (
     <div className="container">
       {isModal && <Modal click={colseModal} text={ModalMsg} size={'auto'} />}
+      {/* 모바일 */}
+      <MypageHeader
+        handle={true}
+        back={true}
+        handleBackClick={() => router.push('/signin')}
+        title={'비밀번호 찾기'}
+      />
+      {/* 웹 */}
       <HeadWrapper>
         <Header>
           <HeaderText
@@ -135,44 +145,45 @@ const PassowrdStep1 = ({ setStep }: Props) => {
           >{`${'<'}`}</HeaderText>
           <HeaderText style={{ margin: '0 auto' }}>비밀번호 찾기</HeaderText>
         </Header>
-        <Container>
-          <label>이름</label>
-          <input
-            placeholder="이름을 입력해주세요."
-            type={'text'}
-            value={name}
-            onChange={(e) => setName(e.currentTarget.value)}
-          />
-          <label>아이디</label>
-          <input
-            placeholder="아이디 입력"
-            type={'text'}
-            value={id}
-            onChange={(e) => setId(e.currentTarget.value)}
-          />
-          {/* --------------------------나이스 인증------------------- */}
-          <form name="form_chk" method="get">
-            <input type="hidden" name="m" value="checkplusService" />
-            {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-            <input
-              type="hidden"
-              id="encodeData"
-              name="EncodeData"
-              value={data !== undefined && data}
-            />
-            <input type="hidden" name="recvMethodType" value="get" />
-            {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-            <BtnBox>
-              <Btn isValid={isValid} onClick={fnPopup}>
-                비밀번호 찾기
-              </Btn>
-            </BtnBox>
-          </form>
-          <Buttons className="firstNextPage" onClick={onSubmitBtn}>
-            숨겨진 아이디 버튼
-          </Buttons>
-        </Container>
       </HeadWrapper>
+      {/* 바디 */}
+      <Container>
+        <label>이름</label>
+        <input
+          placeholder="이름을 입력해주세요."
+          type={'text'}
+          value={name}
+          onChange={(e) => setName(e.currentTarget.value)}
+        />
+        <label>아이디</label>
+        <input
+          placeholder="아이디 입력"
+          type={'text'}
+          value={id}
+          onChange={(e) => setId(e.currentTarget.value)}
+        />
+        {/* --------------------------나이스 인증------------------- */}
+        <form name="form_chk" method="get">
+          <input type="hidden" name="m" value="checkplusService" />
+          {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+          <input
+            type="hidden"
+            id="encodeData"
+            name="EncodeData"
+            value={data !== undefined && data}
+          />
+          <input type="hidden" name="recvMethodType" value="get" />
+          {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+          <BtnBox>
+            <Btn isValid={isValid} onClick={fnPopup}>
+              비밀번호 찾기
+            </Btn>
+          </BtnBox>
+        </form>
+        <Buttons className="firstNextPage" onClick={onSubmitBtn}>
+          숨겨진 아이디 버튼
+        </Buttons>
+      </Container>
     </div>
   );
 };
@@ -182,12 +193,14 @@ export default PassowrdStep1;
 const HeadWrapper = styled.div`
   /* display: flex; */
   /* flex-direction: column; */
+  /* padding: 0 15pt; */
   @media (max-width: 899.25pt) {
     display: none;
   }
 `;
 const Header = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 45.75pt;
 `;
 const HeaderText = styled.div`
@@ -199,11 +212,22 @@ const HeaderText = styled.div`
   text-align: center;
   color: #222222;
   cursor: pointer;
+
+  @media (max-width: 899.25pt) {
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 18pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    padding: 9pt 0;
+  }
 `;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  padding: 0 15pt;
   & > label {
     font-weight: 500;
     font-size: 12pt;
@@ -228,6 +252,15 @@ const Container = styled.div`
   & > input::placeholder {
     color: ${colors.lightGray3};
   }
+  @media (max-width: 899.25pt) {
+    padding: 36pt 15pt 0 15pt;
+  }
+`;
+
+const BackBtn = styled.div`
+  position: relative;
+  width: 15.625pt;
+  height: 11.25pt;
 `;
 
 const BtnBox = styled.div`
