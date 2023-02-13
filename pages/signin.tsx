@@ -224,7 +224,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -373,7 +373,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -499,7 +499,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
