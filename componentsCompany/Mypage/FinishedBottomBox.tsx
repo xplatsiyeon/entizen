@@ -9,8 +9,21 @@ import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
 import { hyphenFn } from 'utils/calculatePackage';
 import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
 import { fileDownload } from 'bridge/appToWeb';
+import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { SelfContract } from 'components/mypage/projects/ClientProgress';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
+import {
+  getDocument,
+  modusignPdfDown,
+  modusignPdfResponse,
+  downloadModusignPdf,
+} from 'api/getDocument';
 
 type Props = {
   data: HistoryProjectsDetail;
@@ -19,6 +32,38 @@ type Props = {
 const FinishedBottomBox = ({ data }: Props) => {
   const callPhone = hyphenFn(data?.userMember?.phone.toString());
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
+  const contractContent: SelfContract[] =
+    data?.contract && JSON.parse(data?.contract?.contractContent!);
+
+  // 자체 계약서 다운로드
+  const onClickBtn = (data: fileDownLoad) => {
+    const a = document.createElement('a');
+    a.download = data?.originalName;
+    a.href = data?.url;
+    a.onclick = () => fileDownload(userAgent, data?.originalName, data?.url);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // 모두싸인 PDF 파일 다운로드
+  const {
+    data: modusignPdfDownData,
+    isLoading: modusignPdfDownLoading,
+    isError: modusignPdfDownError,
+  } = reactQuery<modusignPdfResponse>(
+    'contract-pdf',
+    () => modusignPdfDown(data?.contract?.documentId!),
+    {
+      enabled:
+        data?.contract?.documentId?.substring(0, 7) !== 'project' &&
+        data?.contract?.documentId !== undefined
+          ? true
+          : false,
+    },
+  );
+
   return (
     <>
       <Wrapper>
@@ -58,6 +103,32 @@ const FinishedBottomBox = ({ data }: Props) => {
                 </FileDownload>
               </FileDownloadBtn>
             )),
+        )}
+        {!Array.isArray(contractContent) ? (
+          <FileDownloadBtn
+            onClick={() => {
+              downloadModusignPdf(modusignPdfDownData?.file?.downloadUrl!);
+            }}
+          >
+            <FileDownload>
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              <FileName>모두싸인 계약서</FileName>
+            </FileDownload>
+          </FileDownloadBtn>
+        ) : (
+          <FileDownloadBtn
+            onClick={() => {
+              const contractUrl = JSON.parse(
+                data?.contract?.contractContent!,
+              )[0];
+              onClickBtn(contractUrl);
+            }}
+          >
+            <FileDownload>
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              <FileName>{contractContent[0]?.originalName}</FileName>
+            </FileDownload>
+          </FileDownloadBtn>
         )}
         <Line />
         <ReviewBox>

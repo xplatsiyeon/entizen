@@ -99,8 +99,6 @@ const LeftProjectBox = ({
     }
   }, [router]);
 
-  console.log('progress anjdla?', progress);
-
   return (
     <>
       <Wrapper>

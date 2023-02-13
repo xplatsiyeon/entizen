@@ -104,6 +104,13 @@ export interface ChargingStations {
   projectCompletionFiles: ProjectCompletionFiles[];
   companyMember: CompanyMember;
   projectReview: ProjectReview;
+  contract: {
+    documentId: string;
+    contractContent: string;
+    // {
+    //   title?: string;
+    // };
+  };
 }
 export interface ChargingStationsResponse {
   chargingStations: ChargingStations[];
@@ -176,6 +183,10 @@ export const chargingStations = gql`
         averagePoint
         opinion
         projectIdx
+      }
+      contract {
+        contractContent
+        documentId
       }
     }
   }

@@ -12,6 +12,10 @@ interface MultiFile {
   data?: string[];
 }
 
+interface FileAllDown {
+  data: string[];
+}
+
 const download = ({ fileName, data, url }: IDownloadProps) => {
   const aTag = document.createElement('a');
   let url_internal = '';
@@ -99,6 +103,16 @@ const allPlease = (data: string[]) => {
   });
 };
 
+const fileAllDown = (data: string[]) => {
+  const idx = 0;
+  if (data.length === idx) {
+    return (location.href = data[idx]);
+  }
+  return setTimeout(() => (location.href = data[idx + 1]), 500);
+};
+
+// ------------------------------------------------------------
+
 const handleDownload = (data: string[]) => {
   data?.map((item, index) => {
     fetch(item, { method: 'GET' })
@@ -148,9 +162,16 @@ function App() {
       >
         Download Image files
       </Button> */}
-      <Button
+      {/* <Button
         onClick={() => {
           allPlease(data);
+        }}
+      >
+        Download Image files
+      </Button> */}
+      <Button
+        onClick={() => {
+          fileAllDown(data);
         }}
       >
         Download Image files
