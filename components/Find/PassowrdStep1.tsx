@@ -56,6 +56,13 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   // 버튼 클릭
   const onSubmitBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (data.name !== name || data.id !== id) {
+      setIsModal(true);
+      setModalMsg('아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.');
+      return;
+    }
+
     if (isValid) {
       mutate({
         url: '/members/verification/identity',
