@@ -303,6 +303,7 @@ const Signin = () => {
   };
   // 나이스 인증 온클릭 함수
   const fnPopup = (type: 'id' | 'password') => {
+    console.log('🔥 type ==>>', type);
     if (type === 'id') {
       setIsId(true);
       // console.log(data);
@@ -508,7 +509,7 @@ const Signin = () => {
       {find && (
         <FindIdModal
           buttonText={findText}
-          onClickCheck={fnPopup}
+          onClickCheck={() => fnPopup(findText)}
           onClickCloseModal={() => setFind(false)}
         />
       )}
