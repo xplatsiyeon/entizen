@@ -333,9 +333,9 @@ const IdPwInput = ({
         </Typography>
         <Typography
           sx={{
-            fontSize: '14px',
+            fontSize: '10.5pt',
             fontWeight: '400',
-            lineHeight: '16px',
+            lineHeight: '12pt',
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
@@ -519,6 +519,10 @@ const Input = styled(TextField)`
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
+    border-radius: 6pt;
+    :focus {
+      border: 0.75pt solid #5221cb;
+    }
   }
   ::placeholder {
     color: ${colors.gray};
@@ -561,8 +565,8 @@ const ButtonText = styled(Typography)`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 10.5pt;
+  line-height: 12pt;
   letter-spacing: -0.02em;
   color: #ffffff;
 `;
