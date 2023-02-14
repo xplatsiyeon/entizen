@@ -187,6 +187,7 @@ const Input = styled.input<{
   cursor: pointer;
   font-weight: 400;
   font-size: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
@@ -238,6 +239,7 @@ const Li = styled.li<{ fontSize: FontSize; isSelected: boolean }>`
   cursor: pointer;
   font-weight: 400;
   font-size: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${({ isSelected }) => (isSelected ? colors.main : colors.main2)};

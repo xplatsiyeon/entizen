@@ -8,6 +8,7 @@ import CheckCircleOn from 'public/images/CheckCircle-on.png';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { locationAction } from 'store/locationSlice';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   isModal: boolean;
@@ -18,6 +19,9 @@ interface Props {
 const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
   const dispatch = useDispatch();
   const outside = useRef();
+  const mobile = useMediaQuery({
+    query: '(min-width:899.25pt)',
+  });
 
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -43,24 +47,28 @@ const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
         </ImageBox>
         <ContentText>
           <h2 className="title">충전소 설치 주의사항</h2>
-          <div className="text-box">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
+          <DisplayWrapper>
+            <div className="text-box">
+              <div className="check-icon">
+                <Image src={CheckIcon} alt="check-icon" />
+              </div>
+              <p className="text">주차공간이 필요해요.</p>
             </div>
-            <p className="text">주차공간이 필요해요.</p>
-          </div>
-          <div className="text-box">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
+            <div className="text-box">
+              <div className="check-icon">
+                <Image src={CheckIcon} alt="check-icon" />
+              </div>
+              <p className="text">토지주의 동의가 필요해요.</p>
             </div>
-            <p className="text">토지주의 동의가 필요해요.</p>
-          </div>
+          </DisplayWrapper>
         </ContentText>
         <BtnBox>
-          <BtnLeft onClick={() => setIsModal(!isModal)}>
-            <BtnText>취소</BtnText>
-          </BtnLeft>
-          <BtnRight onClick={HandleButton}>
+          {!mobile && (
+            <BtnLeft onClick={() => setIsModal(!isModal)}>
+              <BtnText>취소</BtnText>
+            </BtnLeft>
+          )}
+          <BtnRight onClick={HandleButton} mobile={mobile}>
             <BtnText>확인</BtnText>
           </BtnRight>
         </BtnBox>
@@ -92,9 +100,10 @@ const ModalBox = styled(Box)`
   transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-  border-radius: 20pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  border-radius: 12pt;
+
+  padding-left: 69.75pt;
+  padding-right: 69.75pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   @media (max-width: 899.25pt) {
@@ -102,6 +111,9 @@ const ModalBox = styled(Box)`
     left: auto;
     transform: none;
     border-radius: 20pt 20pt 0 0;
+    width: 100%;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 const ImageBox = styled.div`
@@ -160,8 +172,10 @@ const BtnLeft = styled(Box)`
   border-radius: 6pt;
   cursor: pointer;
 `;
-const BtnRight = styled(Box)`
-  width: 223px;
+const BtnRight = styled(Box)<{ mobile: boolean }>`
+  width: ${({ mobile }) => (mobile === true ? '100%' : '167.25pt')};
+  /* width: 100%;
+  width: 167.25pt; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,4 +196,12 @@ const BtnText = styled.div`
   line-height: 12pt;
   letter-spacing: -2%;
   color: ${(props) => props.color};
+`;
+
+const DisplayWrapper = styled.div`
+  display: block;
+  @media (min-width: 899.25pt) {
+    display: flex;
+    gap: 22.5pt;
+  }
 `;

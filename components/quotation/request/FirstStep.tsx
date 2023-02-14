@@ -217,7 +217,9 @@ const FirstStep = ({ tabNumber }: Props) => {
       {selectedOption?.map((item, index) => (
         <div key={index}>
           <SubTitle>
-            <h3 className="name">충전기 종류 및 수량 선택</h3>
+            <h3 className="name" style={{ fontFamily: 'Spoqa Han Sans Neo' }}>
+              충전기 종류 및 수량 선택
+            </h3>
             {1 <= index ? (
               <div
                 className="add-img"
