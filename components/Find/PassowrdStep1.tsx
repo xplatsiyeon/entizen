@@ -31,8 +31,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   // let key = localStorage.getItem('key');
   // let data = JSON.parse(key!);
   const [data, setData] = useState<any>();
-  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
-
+  const memberType = router.query.loginType;
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -41,13 +40,23 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data: UserInfo) => {
-      if (data.data.data.member !== null) {
-        setStep(1);
-      } else {
+      console.log(
+        'data?.data?.data?.member?.memberType=>',
+        data?.data?.data?.member?.memberType,
+      );
+      if (
+        data?.data?.data?.member === null ||
+        data?.data?.data?.member?.memberType !== memberType
+      ) {
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
         );
+      } else {
+        fnPopup();
+        // setStep(1);
+        console.log('data==>>', data);
+        return;
       }
     },
     onError: (error) => {
@@ -56,6 +65,17 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   });
 
   const colseModal = () => setIsModal(false);
+
+  const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    mutate({
+      url: '/members/verification/identity',
+      data: {
+        name,
+        id,
+      },
+    });
+  };
 
   // 버튼 클릭
   const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,13 +90,14 @@ const PassowrdStep1 = ({ setStep }: Props) => {
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
         );
       } else {
-        mutate({
-          url: '/members/verification/identity',
-          data: {
-            name,
-            id,
-          },
-        });
+        setStep(1);
+        // mutate({
+        //   url: '/members/verification/identity',
+        //   data: {
+        //     name,
+        //     id,
+        //   },
+        // });
       }
     }
   };
@@ -99,11 +120,10 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   // 나이스 인증
   useEffect(() => {
-    const memberType = router.query.loginType;
     console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -175,7 +195,8 @@ const PassowrdStep1 = ({ setStep }: Props) => {
           <input type="hidden" name="recvMethodType" value="get" />
           {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
           <BtnBox>
-            <Btn isValid={isValid} onClick={fnPopup}>
+            {/* <Btn isValid={isValid} onClick={fnPopup}> */}
+            <Btn isValid={isValid} onClick={onClickButton}>
               비밀번호 찾기
             </Btn>
           </BtnBox>

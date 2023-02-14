@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { isTokenPatchApi } from 'api';
 import CompanyAddress from 'components/SignUp/CompanyAddress';
 import useProfile from 'hooks/useProfile';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import Header from 'components/mypage/request/header';
 import colors from 'styles/colors';
@@ -65,6 +65,14 @@ const EditAddress = ({ setComponent }: Props) => {
     });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setCompanyAddress(profile?.companyMemberAdditionalInfo?.companyAddress!);
+    setCompanyDetailAddress(
+      profile?.companyMemberAdditionalInfo?.companyDetailAddress!,
+    );
+  }, []);
+
   return (
     <>
       <Header
@@ -97,22 +105,24 @@ const EditAddress = ({ setComponent }: Props) => {
             placeholder="회사 주소 입력"
             value={
               companyAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyAddress
+              // companyAddress
+              //   ?
+              //   : profile?.companyMemberAdditionalInfo?.companyAddress
             }
-            name="checkPw"
+            // name="checkPw"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
             value={
-              companyDetailAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyDetailAddress
+              companyAddress
+              // companyDetailAddress
+
+              // : profile?.companyMemberAdditionalInfo?.companyDetailAddress
             }
             onChange={(e) => setCompanyDetailAddress(e.target.value)}
-            name="checkPw"
+            // name="checkPw"
           />
         </Address>
       </Wrapper>

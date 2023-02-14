@@ -24,7 +24,7 @@ const ProfileIndex = () => {
       setHeightOn={setHeightOn}
     />,
     //<ProfileEditing setComponent={setComponent} component={component} isAddressOn={true}/>, // 지도
-    <EditAddress setComponent={setComponent} />,
+    <EditAddress setComponent={setComponent} />, // 주소 변경
     <EditPW setComponent={setComponent} />, // 비밀번호 변경
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
