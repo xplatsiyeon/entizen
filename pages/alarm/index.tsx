@@ -14,6 +14,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { CalcDate } from 'utils/calculatePackage';
+import { subYears } from 'date-fns';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -220,9 +221,13 @@ const Alam = () => {
             <Main>
               {historyList?.data?.alertHistories?.map((item, index) => (
                 <ContensBox key={index} onClick={onClicklist1}>
-                  <label className="label">{[`${item.title}`]}</label>
-                  <p className="contents">{item.title}</p>
-                  <div className="period">{CalcDate(item?.createdAt)}</div>
+                  <DisplayBox>
+                    <DisplaySubBox>
+                      {/* <label className="label">{[`${item.title}`]}</label> */}
+                      <p className="contents">{item.title}</p>
+                    </DisplaySubBox>
+                    <div className="period">{CalcDate(item?.createdAt)}</div>
+                  </DisplayBox>
                   <div className="line"></div>
                 </ContensBox>
               ))}
@@ -243,8 +248,10 @@ const Alam = () => {
                     });
                   }}
                 >
-                  <p className="contents">{item?.title}</p>
-                  <div className="period">{CalcDate(item?.createdAt)}</div>
+                  <DisplayBox>
+                    <p className="contents">{item?.title}</p>
+                    <div className="period">{CalcDate(item?.createdAt)}</div>
+                  </DisplayBox>
                   <div className="line"></div>
                 </ContensBox>
               ))}
@@ -284,7 +291,12 @@ const Inner = styled.div`
   margin: 45.75pt auto;
   width: 900pt;
   border-radius: 12pt;
+
   padding: 32.25pt 0 42pt;
+  @media (min-width: 899.25pt) {
+    padding-left: 127.5pt;
+    padding-right: 127.5pt;
+  }
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -338,6 +350,9 @@ const Header = styled(Box)`
 const Tab = styled(Box)`
   display: flex;
   border-bottom: 1px solid #f3f4f7;
+  @media (min-width: 899.25pt) {
+    justify-content: center;
+  }
 `;
 const Text = styled.div<{ tab: string; idx: string }>`
   width: 50%;
@@ -351,6 +366,10 @@ const Text = styled.div<{ tab: string; idx: string }>`
   padding: 12pt 0;
   position: relative;
   cursor: pointer;
+  @media (min-width: 899.25pt) {
+    /* width: 17.334%; */
+    width: 24.19%;
+  }
 `;
 const Line = styled.div`
   position: absolute;
@@ -384,6 +403,7 @@ const ContensBox = styled(Box)`
   position: relative;
   padding-left: 15pt;
   margin-top: 16px;
+
   .label {
     font-weight: 400;
     font-size: 10.5pt;
@@ -392,7 +412,7 @@ const ContensBox = styled(Box)`
     color: ${colors.main2};
   }
   .contents {
-    padding-top: 3pt;
+    /* padding-top: 3pt; */
     font-weight: 500;
     font-size: 12pt;
     line-height: 15pt;
@@ -416,4 +436,15 @@ const ContensBox = styled(Box)`
 
     border-bottom: 1px solid ${colors.gray};
   }
+`;
+
+const DisplayBox = styled.div`
+  @media (min-width: 899.25pt) {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const DisplaySubBox = styled.div`
+  display: flex;
 `;

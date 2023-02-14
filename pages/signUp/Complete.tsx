@@ -17,7 +17,7 @@ const SignUpComplete = () => {
 
   return (
     <Body>
-      {/* {!mobile && <WebHeader />} */}
+      {mobile && <WebHeader />}
       <Inner>
         <Exit onClick={() => router.push('/')}>
           <Image src={ExitImg} alt="exit-icon" />
@@ -25,12 +25,14 @@ const SignUpComplete = () => {
         <Complete
           title={'엔티즌 가입을 환영합니다!'}
           text={'내 충전기의 예상 매출을 확인해보세요.'}
-          buttonText={`홈으로`}
+          buttonText={mobile ? `간편견적 확인하기 〉` : `홈으로`}
           buttonWeb={`간편견적 확인하기 〉`}
-          handleOnClick={() => router.push('/')}
+          handleOnClick={() =>
+            mobile ? router.push('/quotation/request') : router.push('/')
+          }
         />
         {/* 임시로 막음 */}
-        {/* <Wrap>{mobile && <WhyEntizen />}</Wrap> */}
+        <Wrap>{mobile && <WhyEntizen />}</Wrap>
       </Inner>
       <WebFooter />
     </Body>

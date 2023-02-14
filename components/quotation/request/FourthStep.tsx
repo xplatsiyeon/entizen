@@ -182,6 +182,7 @@ const Title = styled.h1`
   text-align: left;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
+
   color: ${colors.main2};
 
   @media (max-width: 899.25pt) {
@@ -273,6 +274,7 @@ const Input = styled(TextField)`
     /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
+    font-family: 'Spoqa Han Sans Neo';
   }
 
   ::placeholder {

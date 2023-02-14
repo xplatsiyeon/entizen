@@ -29,7 +29,7 @@ const Complete = () => {
             <ContainerBox disableGutters>
               <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
             </ContainerBox>
-            <Title>내 견적서 바로가기</Title>
+            <Title>견적요청이 등록되었습니다</Title>
             <Footer>
               <TextBox>
                 <h3>읽어주세요!</h3>
@@ -37,6 +37,7 @@ const Complete = () => {
                 <p>
                   영업일 기준 5일 후 역경매의 입찰이 마감되며, <br />
                   입찰된 상품들을 꼼꼼히 비교해 보시기 바랍니다. <br />
+                  <br />
                   역경매는 ‘내 견적서’에서 확인 가능합니다.
                 </p>
               </TextBox>
@@ -124,6 +125,8 @@ const Title = styled.h1`
   line-height: 24pt;
   margin-top: 24pt;
   text-align: center;
+  font-family: 'Spoqa Han Sans Neo';
+  color: #222222;
 `;
 const Footer = styled.div`
   position: absolute;
@@ -149,6 +152,7 @@ const TextBox = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main};
+    font-family: 'Spoqa Han Sans Neo';
   }
   & > h4 {
     font-weight: 700;
@@ -158,6 +162,7 @@ const TextBox = styled.div`
     letter-spacing: -0.02em;
     padding-top: 15pt;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo';
   }
   & > p {
     font-weight: 400;
@@ -167,6 +172,7 @@ const TextBox = styled.div`
     letter-spacing: -0.02em;
     padding-top: 15pt;
     color: ${colors.gray2};
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 const Btn = styled.button`
@@ -182,6 +188,7 @@ const Btn = styled.button`
   padding: 15pt 0;
   margin-bottom: 0pt;
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899.25pt) {
     margin-bottom: 30pt;

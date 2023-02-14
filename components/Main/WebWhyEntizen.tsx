@@ -148,6 +148,7 @@ const WhyBox = styled(Typography)`
   line-height: 33pt;
   letter-spacing: -0.02em;
   color: #222222;
+  font-family: 'Spoqa Han Sans Neo';
 
   & span {
     color: ${colors.main};
@@ -199,6 +200,7 @@ const TextArea = styled.div`
   line-height: 33pt;
   letter-spacing: -0.02em;
   text-align: left;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${(props) => props.color};
   @media (max-width: 899.25pt) {
     margin-left: 12pt;

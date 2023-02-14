@@ -108,11 +108,13 @@ const Title = styled.h1`
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
-  margin-top: 24pt;
+  margin-top: 22.5pt;
   text-align: center;
+  font-family: 'Spoqa Han Sans Neo';
   @media (min-width: 900pt) {
     font-size: 25.5pt;
     line-height: 37.5pt;
+    color: #222222;
   }
 `;
 const Footer = styled.div`
@@ -144,6 +146,7 @@ const TextBox = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.gray2};
 
   @media (max-width: 899.25pt) {
@@ -186,20 +189,23 @@ const WebBtn = styled(Button)`
   background: ${colors.main};
   border-radius: 21.75pt;
   /* width: 30%; */
-  width: 345px;
-  height: 42px;
-  border-radius: 6pt;
+  width: 120pt;
+  height: 30pt;
+  border-radius: 21.75pt;
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  margin-bottom: 60pt;
+  /* margin-bottom: 60pt; */
+  margin-bottom: 150pt;
   padding: 9pt 12pt;
-
   @media (max-width: 899.25pt) {
     display: none;
+  }
+  :hover {
+    background-color: ${colors.main};
   }
 `;
 

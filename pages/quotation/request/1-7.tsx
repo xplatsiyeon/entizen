@@ -455,6 +455,7 @@ const RequestForm = styled.form`
     font-style: normal;
     ::placeholder {
       color: ${colors.lightGray3};
+      font-family: 'Spoqa Han Sans Neo';
     }
   }
 `;

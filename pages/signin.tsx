@@ -899,6 +899,14 @@ const Body = styled.div`
 const TextFields = styled(TextField)`
   width: 100%;
   font-weight: 400;
+  .MuiOutlinedInput-root {
+    /* &:hover fieldset {
+      border-color: #5221cb;
+    } */
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
   .MuiOutlinedInput-notchedOutline {
     border: 1px solid #e2e5ed;
   }
