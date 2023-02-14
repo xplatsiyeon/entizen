@@ -142,22 +142,22 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   };
 
   // 나이스 인증
-  useEffect(() => {
-    const memberType = selectedType;
-    axios({
-      method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-      })
-      .catch((error) => {
-        console.error('나이스 인증 에러 발생');
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  // useEffect(() => {
+  //   const memberType = selectedType;
+  //   axios({
+  //     method: 'post',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
+  //     data: { memberType },
+  //   })
+  //     .then((res) => {
+  //       setData(res.data.executedData);
+  //     })
+  //     .catch((error) => {
+  //       console.error('나이스 인증 에러 발생');
+  //       console.error(error);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
@@ -255,7 +255,8 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   </Text>
                 </Form>
                 <Form>
-                  <TitleSection id="password" onClick={fnPopup}>
+                  {/* <TitleSection id="password" onClick={fnPopup}> */}
+                  <TitleSection id="password" onClick={HandlePassword}>
                     <Label mt={0}>비밀번호 변경</Label>
                     <div>
                       <Image src={Arrow} alt="arrow-img" />
@@ -265,11 +266,11 @@ const ProfileModify = ({ setTabNumber }: Props) => {
               </form>
             </>
           )}
-          {isPassword && (
+          {/* {isPassword && (
             <Buttons className="firstNextPage" onClick={HandlePassword}>
               숨겨진 비밀번호 버튼
             </Buttons>
-          )}
+          )} */}
         </Body>
       </Wrapper>
     </React.Fragment>

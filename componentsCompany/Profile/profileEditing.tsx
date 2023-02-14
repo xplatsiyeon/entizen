@@ -173,9 +173,9 @@ const ProfileEditing = ({
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
-    console.log(checkSns);
-    console.log(snsMember);
+    // console.log('여기임둥');
+    // console.log(checkSns);
+    // console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

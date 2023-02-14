@@ -505,6 +505,11 @@ const Signin = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
+
+  useEffect(() => {
+    localStorage.removeItem('key');
+  }, []);
+
   if (loginLoading) {
     console.log('loading..');
     // return <Loader />;

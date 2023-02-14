@@ -139,6 +139,7 @@ const phone = () => {
           <Wrapper>
             <MypageHeader back={true} title={'휴대폰 번호 변경'} />
             <Title>휴대폰 번호</Title>
+
             <Notice>
               휴대폰 번호 변경 시 가입하신 분의 명의로 된 <br />
               번호로만 변경이 가능합니다.

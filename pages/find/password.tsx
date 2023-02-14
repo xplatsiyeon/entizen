@@ -14,6 +14,9 @@ import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
 
 const FindPassword = () => {
+  const router = useRouter();
+  const key = JSON.parse(localStorage.getItem('key')!);
+
   const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
@@ -29,24 +32,6 @@ const FindPassword = () => {
   const [modalText, setModalText] = useState<string>('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (password) {
-      let check1 =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-          password,
-        );
-      console.log(check1);
-      setCheckedPw(check1);
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-  }, [password, checkPassword]);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
@@ -101,14 +86,6 @@ const FindPassword = () => {
     }
   };
 
-  useEffect(() => {
-    if (pwInput.length > 7 && checkPw === pwInput) {
-      setBtnActive(true);
-    } else {
-      setBtnActive(false);
-    }
-  }, [pwInput, checkPw]);
-
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -140,10 +117,6 @@ const FindPassword = () => {
     ),
   };
 
-  const handleClick = () => {
-    console.log('test');
-    setOpenModal(true);
-  };
   const handleModalYes = () => {
     setOpenModal(false);
     if (modalText.includes('완료') || modalText.includes('회원가입')) {
@@ -167,8 +140,35 @@ const FindPassword = () => {
   // }, []);
 
   useEffect(() => {
-    console.log('🔥 btnActive ==>>', btnActive);
-  }, [btnActive]);
+    if (pwInput.length > 7 && checkPw === pwInput) {
+      setBtnActive(true);
+    } else {
+      setBtnActive(false);
+    }
+  }, [pwInput, checkPw]);
+
+  useEffect(() => {
+    if (password) {
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+          password,
+        );
+      console.log(check1);
+      setCheckedPw(check1);
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword]);
+
+  useEffect(() => {
+    console.log('🔥key ==>>', key);
+    if (key) {
+      setStep(1);
+    }
+  }, [key]);
 
   return (
     <React.Fragment>
@@ -177,7 +177,6 @@ const FindPassword = () => {
         <Inner>
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
-            <MypageHeader back={true} title={'비밀번호 변경'} />
             {step === 0 ? (
               <PassowrdStep1 setStep={setStep} />
             ) : (
@@ -309,15 +308,9 @@ const Inner = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    box-shadow: none;
+    border-radius: 0;
   }
-`;
-const BeforePassword = styled.p`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  text-align: left;
 `;
 const NewPassword = styled.p`
   font-family: 'Spoqa Han Sans Neo';
@@ -344,7 +337,6 @@ const NewPassword = styled.p`
 const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
-
   .container {
     display: flex;
     flex-direction: column;
@@ -352,11 +344,12 @@ const Wrapper = styled.div`
     margin-top: 27pt;
     width: 100%;
   }
-
   @media (max-width: 899.25pt) {
     height: 100%;
-    /* padding: 0 15pt 15pt 15pt; */
-    margin: 0;
+    margin: 0pt;
+    .container {
+      margin-top: 0;
+    }
   }
 `;
 const Input = styled(TextField)`
