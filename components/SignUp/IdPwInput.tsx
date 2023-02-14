@@ -460,6 +460,7 @@ const IdPwInput = ({
 };
 
 const Info = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 6pt;
   font-weight: 700;
   font-size: 15pt;
@@ -476,6 +477,7 @@ const Label = styled.label`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
   margin-top: 10pt;
   @media (max-width: 899.25pt) {
@@ -484,6 +486,7 @@ const Label = styled.label`
 `;
 
 const LabelPW = styled.label`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
@@ -499,13 +502,20 @@ const PhoneInput = styled.input`
   display: none;
 `;
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
+  :focus {
+    border: 0.75pt solid #5221cb;
+  }
+  /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   margin-top: 9pt;
   & input {
     padding: 13.5pt 0 13.5pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
+    height: 11.25pt !important;
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
@@ -513,6 +523,7 @@ const Input = styled(TextField)`
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
   }
   & .remove {
     display: none;

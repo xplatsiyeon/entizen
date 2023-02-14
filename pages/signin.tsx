@@ -626,8 +626,13 @@ const Signin = () => {
                         sx={{
                           fontWeight: '700',
                           fontSize: '12pt',
+                          fontFamily: 'Spoqa Han Sans Neo',
                           lineHeight: '15pt',
-                          padding: '6pt',
+                          padding:
+                            loginType === '일반회원 로그인'
+                              ? '6pt 0pt 6pt 6pt'
+                              : '6pt',
+                          // padding: '6pt',
                           letterSpacing: '-0.02em',
                           color:
                             selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
@@ -833,6 +838,7 @@ const Signin = () => {
                         variant="h5"
                         sx={{
                           fontWeight: 400,
+                          fontFamily: 'Spoqa Han Sans Neo',
                           fontSize: '10.5pt',
                           lineHeight: '12pt',
                           textAlign: 'center',
@@ -893,10 +899,14 @@ const Body = styled.div`
 const TextFields = styled(TextField)`
   width: 100%;
   font-weight: 400;
-  border: 1px solid #ffffff;
+  .MuiOutlinedInput-notchedOutline {
+    border: 1px solid #e2e5ed;
+  }
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   line-height: 12pt;
   border-radius: 6pt;
+  outline: none;
   & div > input {
     padding-top: 10.88pt;
     padding-bottom: 10.8pt;
@@ -953,11 +963,12 @@ const LoginBtn = styled.button`
 `;
 const BtnSpan = styled.span``;
 const IdRegist = styled.button`
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0px 0px 7.5pt 0px rgba(137, 163, 201, 0.2);
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 6pt;
   width: 100%;
   padding: 15pt 0;
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 12pt;
   text-align: center;
@@ -981,6 +992,7 @@ const FindBtn = styled.button`
   border: none;
   outline: none;
   background: none;
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;

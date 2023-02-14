@@ -191,7 +191,10 @@ const SignUpCheck = () => {
                   endAdornment: (
                     <InputAdornment position="end">
                       <OverlapBtn className="overlap" onClick={overlabCheck}>
-                        <Typography className="checkOverlap">
+                        <Typography
+                          className="checkOverlap"
+                          sx={{ fontFamily: 'Spoqa Han Sans Neo' }}
+                        >
                           중복확인
                         </Typography>
                       </OverlapBtn>
@@ -207,6 +210,7 @@ const SignUpCheck = () => {
                       fontSize: '9pt',
                       lineHeight: '12pt',
                       marginTop: '9pt',
+                      fontFamily: 'Spoqa Han Sans Neo',
                     }}
                   >
                     이미 사용중인 아이디입니다.
@@ -219,6 +223,7 @@ const SignUpCheck = () => {
                       fontSize: '9pt',
                       lineHeight: '12pt',
                       marginTop: '9pt',
+                      fontFamily: 'Spoqa Han Sans Neo',
                     }}
                   >
                     사용 가능한 아이디입니다.
@@ -254,6 +259,7 @@ const SignUpCheck = () => {
                       color: '#F75015',
                       fontSize: '9pt',
                       marginTop: '9pt',
+                      fontFamily: 'Spoqa Han Sans Neo',
                     }}
                   >
                     영문,숫자,특수문자 조합 8자 이상
@@ -279,6 +285,7 @@ const SignUpCheck = () => {
                       color: '#F75015',
                       fontSize: '9pt',
                       marginTop: '9pt',
+                      fontFamily: 'Spoqa Han Sans Neo',
                     }}
                   >
                     비밀번호가 일치하지 않습니다.
@@ -362,6 +369,7 @@ const Info = styled.p`
   font-size: 18pt;
   line-height: 24pt;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Label = styled.label`
   font-weight: 500;
@@ -369,15 +377,23 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
+  :focus {
+    border: 0.75pt solid #5221cb;
+  }
+  /* border: 0.75pt solid #e2e5ed; */
   border-radius: 6pt;
   margin-top: 9pt;
   & input {
     padding: 10.875pt 0 10.875pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
+    height: 11.25pt !important;
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
@@ -385,6 +401,7 @@ const Input = styled(TextField)`
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
   }
   & .remove {
     display: none;
