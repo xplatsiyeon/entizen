@@ -172,6 +172,9 @@ const WebBody = styled.div`
   height: 100%;
   margin: 0 auto;
   background: #fcfcfc;
+  @media (max-width: 899.25pt) {
+    background: none;
+  }
 `;
 
 const P = styled.p`

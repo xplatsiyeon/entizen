@@ -35,9 +35,6 @@ const FinishedTopBox = ({ data }: Props) => {
     (started.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
   );
 
-  console.log(subscribePassed);
-  console.log('주소 찾아온나', data);
-
   const [open, setOpen] = useState<boolean>(false);
 
   return (

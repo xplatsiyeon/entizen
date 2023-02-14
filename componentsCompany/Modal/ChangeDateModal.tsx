@@ -143,6 +143,10 @@ const ChangeDateModal = ({
   };
   // 선택된 이전 날짜 차이 계산
   const beforeCalculateDifference = (day: number) => {
+    console.log('beforeStepDate==>', beforeStepDate);
+    if (beforeStepDate === 'CHANGING') {
+      return 1;
+    }
     if (beforeStepDate === '') {
       return 1;
     }
@@ -159,18 +163,19 @@ const ChangeDateModal = ({
   };
   // 선택된 이후 날짜 차이 계산
   const afterCalculateDifference = (day: number) => {
-    // console.log(afterStepDate);
+    // console.log('afterStepDate==>', afterStepDate);
+
     if (afterStepDate === '') {
       return -1;
     }
     if (afterStepDate !== '' && afterStepDate) {
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
-      // const preDay = new Date(2022, 12, 16);
       const preDay = afterStepDate?.split('-').map((e) => parseInt(e));
 
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
+      console.log('btDay=>', btDay);
       return btDay;
     }
   };
@@ -180,6 +185,10 @@ const ChangeDateModal = ({
     const differenceBeforeDate = beforeCalculateDifference(day);
     const differenceAfterDate = afterCalculateDifference(day);
 
+    // console.log('differenceDate=>', differenceDate);
+    // console.log('differenceBeforeDate=>', differenceBeforeDate);
+    // console.log('differenceAfterDate=>', differenceAfterDate);
+
     // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     // 이전 날짜 클릭 금지 조건문
@@ -188,10 +197,10 @@ const ChangeDateModal = ({
       differenceDate > 0 ||
       differenceAfterDate! < 0 ||
       differenceBeforeDate! > 0
-    )
+    ) {
+      // 클릭 취소
       return;
-    // 클릭 취소
-    if (selectedDays === selectedDate) {
+    } else if (selectedDays === selectedDate) {
       SetSelectedDays('');
       // 최대 5개까지 선택 가능
     } else {

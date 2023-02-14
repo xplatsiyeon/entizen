@@ -21,9 +21,11 @@ type Props = {};
 const SignUpContainer = (props: Props) => {
   const router = useRouter();
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
-  const [level, setLevel] = useState<number>(0);
+  // const [level, setLevel] = useState<number>(0);
+  const [level, setLevel] = useState<number>(2);
   // Type 1 일때 일반, 0 일때 기업 선택
-  const [userType, setUserType] = useState<number>(-1);
+  // const [userType, setUserType] = useState<number>(-1);
+  const [userType, setUserType] = useState<number>(1);
   // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');

@@ -41,19 +41,10 @@ const EditAddress = ({ setComponent }: Props) => {
     },
   });
 
-  console.log('addressOn', addressOn);
-
-  if (addressOn) {
-    return (
-      <CompanyAddress
-        setPostNumber={setPostNumber}
-        setCompanyAddress={setCompanyAddress}
-        setAddressOn={setAddressOn}
-      />
-    );
-  }
-
   const handleEditAddress = () => {
+    console.log('companyAddress==>>', companyAddress);
+    console.log('companyDetailAddress==>>', companyDetailAddress);
+    console.log('postNumber==>>', postNumber);
     //주소 수정할 경우
     addressMutate({
       url: '/members/address',
@@ -67,11 +58,27 @@ const EditAddress = ({ setComponent }: Props) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setCompanyAddress(profile?.companyMemberAdditionalInfo?.companyAddress!);
-    setCompanyDetailAddress(
-      profile?.companyMemberAdditionalInfo?.companyDetailAddress!,
-    );
+    if (profile?.companyMemberAdditionalInfo) {
+      setPostNumber(profile?.companyMemberAdditionalInfo?.companyZipCode);
+      setCompanyAddress(profile?.companyMemberAdditionalInfo?.companyAddress!);
+      setCompanyDetailAddress(
+        profile?.companyMemberAdditionalInfo?.companyDetailAddress!,
+      );
+    }
   }, []);
+
+  console.log('addressOn', addressOn);
+
+  if (addressOn) {
+    return (
+      <CompanyAddress
+        setPostNumber={setPostNumber}
+        setCompanyAddress={setCompanyAddress}
+        setAddressOn={setAddressOn}
+        setCompanyDetailAddress={setCompanyDetailAddress}
+      />
+    );
+  }
 
   return (
     <>
@@ -89,8 +96,8 @@ const EditAddress = ({ setComponent }: Props) => {
               placeholder="회사 우편번호 입력"
               value={
                 postNumber
-                  ? postNumber
-                  : profile?.companyMemberAdditionalInfo?.companyZipCode
+                // ? postNumber
+                // : profile?.companyMemberAdditionalInfo?.companyZipCode
               }
               name="id"
               readOnly={true}
@@ -103,30 +110,22 @@ const EditAddress = ({ setComponent }: Props) => {
           </InputWrap>
           <InputBox
             placeholder="회사 주소 입력"
-            value={
-              companyAddress
-              // companyAddress
-              //   ?
-              //   : profile?.companyMemberAdditionalInfo?.companyAddress
-            }
+            value={companyAddress}
             // name="checkPw"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
-            value={
-              companyAddress
-              // companyDetailAddress
-
-              // : profile?.companyMemberAdditionalInfo?.companyDetailAddress
-            }
+            value={companyDetailAddress}
             onChange={(e) => setCompanyDetailAddress(e.target.value)}
             // name="checkPw"
           />
         </Address>
       </Wrapper>
-      <EditAdressBtn onClick={handleEditAddress}>주소변경 </EditAdressBtn>
+      <ButtonBox>
+        <EditAdressBtn onClick={handleEditAddress}>수정완료</EditAdressBtn>
+      </ButtonBox>
     </>
   );
 };
@@ -140,12 +139,16 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 92%;
   margin: 0 15pt;
+  @media (max-width: 899.25pt) {
+    height: auto;
+    /* padding: 0 15pt; */
+  }
 `;
 
 const InputBox = styled.input`
   box-sizing: border-box;
   width: 100%;
-  padding: 13.5pt 16pt;
+  padding: 13.5pt 12pt;
   margin-top: 9pt;
   font-weight: 500;
   font-size: 12pt;
@@ -190,6 +193,15 @@ const InputBtn = styled.button`
     color: #ffffff;
   }
 `;
+const ButtonBox = styled.div`
+  @media (max-width: 899.25pt) {
+    position: fixed;
+    bottom: 30pt;
+    width: 100%;
+    padding: 0 15pt;
+    /* left: 15pt; */
+  }
+`;
 
 const EditAdressBtn = styled.button`
   border-radius: 8px;
@@ -204,7 +216,13 @@ const EditAdressBtn = styled.button`
   color: ${colors.lightWhite};
   padding: 15pt 0;
   width: 100%;
+  box-sizing: border-box;
   /* margin-top: 315pt; */
+  @media (max-width: 899.25pt) {
+    position: fixed;
+    bottom: 30pt;
+    /* left: 15pt; */
+  }
 `;
 
 const Wrap = styled.div`

@@ -1,5 +1,3 @@
-
-
 import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 import Image from 'next/image';
@@ -9,14 +7,8 @@ import colors from 'styles/colors';
 import whiteMapPin from 'public/images/mapPinWhite.png';
 import useDebounce from 'hooks/useDebounce';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { locationAction } from 'store/locationSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
-import { useMutation } from 'react-query';
-import { isTokenPatchApi } from 'api';
 import AddressBackBtn from 'public/images/AddressBackBtn.svg';
-import EditAddress from 'componentsCompany/Profile/editAddress';
-
 export interface addressType {
   admCd: string;
   jibunAddr: string;
@@ -48,16 +40,17 @@ type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
   setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setCompanyDetailAddress: React.Dispatch<React.SetStateAction<string>>;
 };
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
   setAddressOn,
+  setCompanyDetailAddress,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const keyWord = useDebounce(searchWord, 300);
-  const [editAddress, setEditAddress] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
@@ -66,12 +59,9 @@ const CompanyAddress = ({
     const { roadad, zip } = e.currentTarget.dataset;
     setCompanyAddress(roadad!);
     setPostNumber(zip!);
+    setCompanyDetailAddress('');
     setAddressOn(false);
   };
-
-  // if (editAddress === true) {
-  //   <EditAddress setComponent={setComponent} />;
-  // }
 
   useEffect(() => {
     const findAddresss = async () => {
@@ -154,6 +144,8 @@ const CompanyAddress = ({
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  padding-left: 15pt;
+  padding-right: 15pt;
 `;
 const HeaderBox = styled.div`
   border-bottom: 1px solid #e9eaee;
@@ -162,7 +154,7 @@ const HeaderBox = styled.div`
 const FindAddress = styled(TextField)`
   width: 100%;
   padding: 0;
-  margin-left: 6pt;
+  margin-left: 12.75pt;
   display: flex;
   justify-content: center;
   .MuiInputBase-root {
