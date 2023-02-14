@@ -10,6 +10,7 @@ import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from 'api';
 import useLogin from 'hooks/useLogin';
+import { css } from '@emotion/react';
 
 type Props = {
   idInput: string;
@@ -371,6 +372,9 @@ const IdPwInput = ({
       >
         <Label>아이디</Label>
         <Input
+          borderBoolean={
+            data?.isMember === true && initIdAlert && !idLength ? true : false
+          }
           placeholder="아이디 입력"
           onChange={handleIdChange}
           value={idInput}
@@ -501,16 +505,25 @@ const NameInput = styled.input`
 const PhoneInput = styled.input`
   display: none;
 `;
-const Input = styled(TextField)`
+const Input = styled(TextField)<{ borderBoolean?: boolean }>`
   .MuiOutlinedInput-notchedOutline {
     border: 0.75pt solid #e2e5ed;
   }
-  :focus {
-    border: 0.75pt solid #5221cb;
-  }
+  ${({ borderBoolean }) =>
+    borderBoolean === true &&
+    css`
+      border: 0.75pt solid #5221cb;
+    `}
+
+  /* .Mui-focused {
+    outline: 1px solid #5221cb;
+    border-style: none;
+  } */
+
   /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   margin-top: 9pt;
+
   & input {
     padding: 13.5pt 0 13.5pt 12pt;
     font-size: 12pt;
@@ -520,8 +533,13 @@ const Input = styled(TextField)`
   & .MuiInputBase-root {
     padding-right: 9pt;
     border-radius: 6pt;
-    :focus {
-      border: 0.75pt solid #5221cb;
+  }
+  .MuiOutlinedInput-root {
+    /* &:hover fieldset {
+      border-color: #5221cb;
+    } */
+    &.Mui-focused fieldset {
+      border-color: #5221cb;
     }
   }
   ::placeholder {
