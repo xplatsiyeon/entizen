@@ -372,8 +372,11 @@ const IdPwInput = ({
       >
         <Label>아이디</Label>
         <Input
-          borderBoolean={
+          borderBoolean1={
             data?.isMember === true && initIdAlert && !idLength ? true : false
+          }
+          borderBoolean2={
+            data?.isMember === false && initIdAlert && idLength ? true : false
           }
           placeholder="아이디 입력"
           onChange={handleIdChange}
@@ -412,6 +415,7 @@ const IdPwInput = ({
       <BoxPW>
         <LabelPW>비밀번호</LabelPW>
         <Input
+          borderBoolean1={!checkedPw && pwInput.length > 4 ? true : false}
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
           type={pwShow[0] ? 'text' : 'password'}
@@ -430,6 +434,7 @@ const IdPwInput = ({
           <></>
         )}
         <Input
+          borderBoolean1={!checkSamePw && checkPw.length > 4 ? true : false}
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
           type={pwShow[1] ? 'text' : 'password'}
@@ -505,12 +510,20 @@ const NameInput = styled.input`
 const PhoneInput = styled.input`
   display: none;
 `;
-const Input = styled(TextField)<{ borderBoolean?: boolean }>`
+const Input = styled(TextField)<{
+  borderBoolean1?: boolean;
+  borderBoolean2?: boolean;
+}>`
   .MuiOutlinedInput-notchedOutline {
     border: 0.75pt solid #e2e5ed;
   }
-  ${({ borderBoolean }) =>
-    borderBoolean === true &&
+  ${({ borderBoolean1 }) =>
+    borderBoolean1 === true &&
+    css`
+      border: 0.75pt solid #5221cb;
+    `}
+  ${({ borderBoolean2 }) =>
+    borderBoolean2 === true &&
     css`
       border: 0.75pt solid #5221cb;
     `}
@@ -539,7 +552,7 @@ const Input = styled(TextField)<{ borderBoolean?: boolean }>`
       border-color: #5221cb;
     } */
     &.Mui-focused fieldset {
-      border-color: #5221cb;
+      border: 0.75pt solid #5221cb;
     }
   }
   ::placeholder {
