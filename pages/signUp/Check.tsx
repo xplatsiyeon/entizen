@@ -125,9 +125,9 @@ const SignUpCheck = () => {
         />
         <Typography
           sx={{
-            fontSize: '14px',
+            fontSize: '10.5pt',
             fontWeight: '400',
-            lineHeight: '16px',
+            lineHeight: '12pt',
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
@@ -337,7 +337,7 @@ const Inner = styled.div`
   width: 345pt;
   //width: 281.25pt;
   background: #ffff;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
   @media (max-width: 899.25pt) {
@@ -383,9 +383,7 @@ const Input = styled(TextField)`
   .MuiOutlinedInput-notchedOutline {
     border: 0.75pt solid #e2e5ed;
   }
-  :focus {
-    border: 0.75pt solid #5221cb;
-  }
+
   /* border: 0.75pt solid #e2e5ed; */
   border-radius: 6pt;
   margin-top: 9pt;
@@ -397,6 +395,10 @@ const Input = styled(TextField)`
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
+    border-radius: 6pt;
+    :focus {
+      border: 0.75pt solid #5221cb;
+    }
   }
   ::placeholder {
     color: ${colors.gray};
