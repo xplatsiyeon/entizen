@@ -152,7 +152,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -257,8 +257,17 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
               />
               <input type="hidden" name="recvMethodType" value="get" />
               <BtnBox>
-                <Btn checkPassword={checkPassword} onClick={fnPopup}>
-                  수정완료
+                <Btn
+                  checkPassword={checkPassword}
+                  onClick={
+                    checkPassword === 0
+                      ? fnPopup
+                      : (e) => {
+                          e.preventDefault();
+                        }
+                  }
+                >
+                  변경하기
                 </Btn>
               </BtnBox>
             </form>
@@ -417,6 +426,7 @@ const BtnBox = styled.div`
 `;
 const Btn = styled.button<{ checkPassword: number }>`
   cursor: pointer;
+  cursor: ${({ checkPassword }) => (checkPassword === 0 ? 'pointer' : 'auto')};
   background: ${({ checkPassword }) =>
     checkPassword === 0 ? colors.main : colors.gray};
   border-radius: 6pt;
@@ -429,9 +439,9 @@ const Btn = styled.button<{ checkPassword: number }>`
   width: 100%;
   padding: 15pt 0;
 
-  :hover {
+  /* :hover {
     background-color: ${colors.main};
-  }
+  } */
 `;
 const InputBtn = styled.span`
   background: ${colors.gray};
