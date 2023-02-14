@@ -85,6 +85,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
     if (isValid) {
       if (data.name !== name || data.id !== id) {
+        localStorage.removeItem('key');
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',

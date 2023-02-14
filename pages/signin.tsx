@@ -362,12 +362,14 @@ const Signin = () => {
     console.log(data);
     if (data.isMember) {
       dispatch(findUserInfoAction.addId(data.id));
+      localStorage.removeItem('key');
       router.push('/find/id');
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
       );
       setErrorModal((prev) => !prev);
+      localStorage.removeItem('key');
     }
   };
   // 비밀번호 찾기
