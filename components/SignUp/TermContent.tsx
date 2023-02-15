@@ -11,6 +11,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
+import { useMediaQuery } from 'react-responsive';
 // import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
@@ -48,7 +49,9 @@ const TermContent = ({
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
-
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const [data, setData] = useState<any>();
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
@@ -158,11 +161,14 @@ const TermContent = ({
   return (
     <>
       {isModal && <Modal text={modalMessage} click={onClickModal} />}
-      <Notice variant="h3">
-        엔티즌 약관에
-        <br />
-        동의해주세요
-      </Notice>
+      {!mobile && <Notice variant="h3">엔티즌 약관에 동의해주세요</Notice>}
+      {mobile && (
+        <Notice variant="h3">
+          엔티즌 약관에
+          <br />
+          동의해주세요
+        </Notice>
+      )}
       <Terms>
         <Image
           onClick={fullTermsHandler}
@@ -280,11 +286,21 @@ const Notice = styled(Typography)`
   line-height: 24pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 22.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-top: 43.6875pt;
+  }
 `;
 const Terms = styled(Box)`
   display: flex;
   align-items: center;
-  margin-top: 45pt;
+  margin-top: 49.5pt;
   & > p {
     margin-left: 12pt;
   }

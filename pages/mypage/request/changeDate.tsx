@@ -375,13 +375,18 @@ const WebSelectHeader = styled.div`
 const NoticeP = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
-  font-weight: 400;
-  font-size: 10pt;
+  font-size: 10.5pt;
+  font-weight: 500;
   line-height: 18pt;
   letter-spacing: -0.02em;
+  text-align: left;
   color: #a6a9b0;
   padding: 33pt 15pt 30pt;
   @media (max-width: 899.25pt) {
     padding: 18pt 15pt 18pt;
+    font-weight: 400;
+    font-size: 9pt;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
   }
 `;

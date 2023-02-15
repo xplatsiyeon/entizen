@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import AvatarIcon from 'public/images/avatar.png';
-import AvatarPhoto from 'public/images/avatar-photo.png';
+// import AvatarIcon from 'public/images/avatar.png';
+import AvatarIcon from 'public/images/AvatarIconSvg.svg';
+// import AvatarPhoto from 'public/images/avatar-photo.png';
+import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
 import axios, { AxiosError } from 'axios';

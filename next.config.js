@@ -14,7 +14,7 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      // 로컬에서 사용할때만 활성화 시키기
+      // // 로컬에서 사용할때만 활성화 시키기
       // {
       //   source: '/:path*',
       //   destination: `https://test-api.entizen.kr/:path*`,

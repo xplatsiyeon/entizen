@@ -182,7 +182,7 @@ const DatePicker = ({}: Props) => {
             )}
             <Line />
             <Schedule>
-              <h3 className="name">선택된 일정</h3>
+              {days?.length > 0 && <h3 className="name">선택된 일정</h3>}
               <UL>
                 {days?.sort().map((day, index) => (
                   <>
@@ -294,6 +294,7 @@ const Wrapper = styled.div`
   }
 `;
 const H1 = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 27pt;
   font-weight: 500;
   font-size: 18pt;
@@ -302,10 +303,17 @@ const H1 = styled.h1`
   color: ${colors.main2};
   padding-left: 15pt;
   @media (min-width: 900pt) {
+    font-size: 18pt;
+    font-weight: 500;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
     padding-left: 47.25pt;
   }
 `;
 const P = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 10.5pt;
   box-sizing: border-box;
   margin-left: 15pt;
@@ -332,9 +340,17 @@ const Explanation = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
+  font-family: 'Spoqa Han Sans Neo';
 
   @media (min-width: 900pt) {
+    /* width: 100%; */
     margin-left: 51pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
@@ -345,8 +361,9 @@ const Line = styled.div`
 `;
 const Schedule = styled.div`
   padding: 18pt 15pt 70pt 15pt;
-
+  font-family: 'Spoqa Han Sans Neo';
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
@@ -358,8 +375,9 @@ const Schedule = styled.div`
 `;
 const UL = styled.ul`
   padding-top: 24pt;
-
+  font-family: 'Spoqa Han Sans Neo';
   .list {
+    font-family: 'Spoqa Han Sans Neo';
     background-color: #e2e5ed;
     border-radius: 6pt;
     padding: 6pt;
@@ -369,6 +387,7 @@ const UL = styled.ul`
     cursor: pointer;
   }
   .due-date {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 9pt;
     line-height: 9pt;
@@ -381,6 +400,7 @@ const UL = styled.ul`
     gap: 6pt;
   }
   .selected {
+    font-family: 'Spoqa Han Sans Neo';
     background-color: ${colors.main};
     cursor: pointer;
   }
@@ -398,6 +418,7 @@ const Btn = styled.button<{ isValid: boolean }>`
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightWhite};
   cursor: pointer;
   @media (max-width: 899.25pt) {
@@ -423,6 +444,13 @@ const SelectDate = styled.div`
   text-align: center;
   color: #222222;
   padding-left: 102pt;
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 
 const BackImage = styled.div`

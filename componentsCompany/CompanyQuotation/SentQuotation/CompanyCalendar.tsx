@@ -211,7 +211,7 @@ const CompanyCalendar = ({
           <div className="left-btn" onClick={prevMonth}>
             <Image src={LeftArrow} alt="left-btn" layout="fill" />
           </div>
-          <h3 className="name">{`${selectedYear} ${selectedMonth} `}</h3>
+          <h3 className="name">{`${selectedYear} ${selectedMonth}월 `}</h3>
           <div className="right-btn" onClick={nextMonth}>
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>

@@ -17,6 +17,7 @@ import { isTokenPostApi } from 'api';
 import { AxiosError } from 'axios';
 import ExitImg from '../../../../public/images/X.svg';
 import BackImg from 'public/images/back-btn.svg';
+import { useMediaQuery } from 'react-responsive';
 
 interface Mutation {
   isSuccess: boolean;
@@ -24,6 +25,10 @@ interface Mutation {
 
 const Mypage1_5 = () => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
   // const routerId = router.query.id;
   const routerId = router?.query?.preQuotationIdx;
   const dispatch = useDispatch();
@@ -96,10 +101,15 @@ const Mypage1_5 = () => {
               현장실사 방문이
               <br /> 가능한 날짜를 선택해주세요
             </H1>
-            <P>
-              현장 검토 및 최종견적을 위해
-              <br /> 담당자가 방문할 예정입니다.
-            </P>
+            {mobile && (
+              <P>
+                현장 검토 및 최종견적을 위해
+                <br /> 담당자가 방문할 예정입니다.
+              </P>
+            )}
+            {!mobile && (
+              <P>현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.</P>
+            )}
             {/* 달력 */}
             <Calendar
               selectedDays={selectedDays}
@@ -111,7 +121,9 @@ const Mypage1_5 = () => {
               담당자로부터 현장사진을 요청받을 수 있습니다.
             </Explanation>
             <Schedule>
-              <h3 className="name">선택된 일정</h3>
+              {selectedDays?.length > 0 && (
+                <h3 className="name">선택된 일정</h3>
+              )}
               <UL>
                 {selectedDays.map((day, index) => (
                   <li className="list" key={index}>
@@ -238,6 +250,7 @@ const H1 = styled.h1`
   }
 `;
 const P = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 9pt;
   font-weight: 500;
   font-size: 10.5pt;
@@ -247,6 +260,7 @@ const P = styled.p`
   padding-left: 15pt;
 `;
 const Explanation = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   margin: 0 15pt;
   padding-top: 33pt;
   padding-bottom: 18pt;
@@ -256,6 +270,15 @@ const Explanation = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
   border-bottom: 1px solid #e9eaee;
+  @media (min-width: 900pt) {
+    width: 100%;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const Schedule = styled.div`
   padding: 18pt 15pt 20pt 15pt;

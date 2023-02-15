@@ -139,7 +139,7 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
           <div className="left-btn" onClick={prevMonth}>
             <Image src={LeftArrow} alt="left-btn" layout="fill" />
           </div>
-          <h3 className="name">{`${selectedYear} ${selectedMonth} `}</h3>
+          <h3 className="name">{`${selectedYear} ${selectedMonth}월`}</h3>
           <div className="right-btn" onClick={nextMonth}>
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>
@@ -195,6 +195,14 @@ const Notice = styled.span`
   text-align: left;
   /* color: #5221cb; */
   color: #f75015;
+  @media (max-width: 899.25pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 7.5pt;
+    font-weight: 400;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const Weeks = styled.div`
   padding-top: 25.5pt;

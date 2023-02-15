@@ -707,6 +707,7 @@ const WebItem = styled.li`
     padding-top: 15pt;
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
@@ -715,6 +716,7 @@ const WebItem = styled.li`
     flex: 1;
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;

@@ -11,6 +11,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from 'api';
 import useLogin from 'hooks/useLogin';
 import { css } from '@emotion/react';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   idInput: string;
@@ -78,6 +79,9 @@ const IdPwInput = ({
   setIsModal,
   setUserCompleteModal,
 }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
@@ -472,13 +476,17 @@ const Info = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   padding-top: 6pt;
   font-weight: 700;
-  font-size: 15pt;
-  line-height: 22.5pt;
+  font-size: 18pt;
+  line-height: 24pt;
   color: ${colors.main2};
-  letter-spacing: -0.02em;
-  @media (max-width: 899.25pt) {
-    font-size: 18pt;
-    line-height: 24pt;
+  @media (min-width: 900pt) {
+    padding-top: 45.75pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 22.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const Label = styled.label`
@@ -488,7 +496,7 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
-  margin-top: 10pt;
+  margin-top: 49.5pt;
   @media (max-width: 899.25pt) {
     margin-top: 0;
   }
@@ -514,20 +522,29 @@ const Input = styled(TextField)<{
   borderBoolean1?: boolean;
   borderBoolean2?: boolean;
 }>`
+  outline: none;
   .MuiOutlinedInput-notchedOutline {
     border: 0.75pt solid #e2e5ed;
   }
-  ${({ borderBoolean1 }) =>
-    borderBoolean1 === true &&
-    css`
-      border: 0.75pt solid #5221cb;
-    `}
-  ${({ borderBoolean2 }) =>
-    borderBoolean2 === true &&
-    css`
-      border: 0.75pt solid #5221cb;
-    `}
 
+  .MuiOutlinedInput-root {
+    /* &:hover fieldset {
+      border-color: #5221cb;
+    } */
+
+    &.Mui-focused fieldset {
+      ${({ borderBoolean1 }) =>
+        borderBoolean1 === true &&
+        css`
+          border: 0.75pt solid #5221cb;
+        `}
+      ${({ borderBoolean2 }) =>
+        borderBoolean2 === true &&
+        css`
+          border: 0.75pt solid #5221cb;
+        `}
+    }
+  }
   /* .Mui-focused {
     outline: 1px solid #5221cb;
     border-style: none;
@@ -542,6 +559,16 @@ const Input = styled(TextField)<{
     font-size: 12pt;
     line-height: 12pt;
     height: 11.25pt !important;
+    ::placeholder {
+      /* color: ${colors.gray}; */
+      color: #caccd1;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
