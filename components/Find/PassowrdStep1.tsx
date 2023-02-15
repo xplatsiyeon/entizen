@@ -83,6 +83,8 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
 
+    console.log('data==>', data);
+
     if (isValid) {
       if (data.name !== name || data.id !== id) {
         localStorage.removeItem('key');
@@ -124,7 +126,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
