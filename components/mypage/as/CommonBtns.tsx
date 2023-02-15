@@ -23,7 +23,8 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
   & p {
     position: relative;
     background-color: ${({ backgroundColor }) => backgroundColor};
-    padding: 4.5pt 7.5pt;
+    /* padding: 4.5pt 7.5pt; */
+    padding: 6pt 9pt;
     border-radius: 12pt;
     font-size: 9pt;
     font-weight: 500;
@@ -31,6 +32,7 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
     letter-spacing: -0.02em;
     top: 1pt;
     color: #ffffff !important;
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 

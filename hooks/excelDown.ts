@@ -2,9 +2,11 @@ import axios from 'axios';
 
 // 백엔드에 get 하는 url을 props 값으로 전달하면 됩니다!!!!!
 
-export const excelDownloadFile = async (propsUrl: string) => {
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  // export const BASE_URL = 'https://api.entizen.kr/api';
+export const excelDownloadFile = async (
+  propsUrl: string,
+  accessToken: string,
+) => {
+  // export const BASE_URL = 'https://test-api.entizen.kr/api';
   // 로컬에서 사용할때만 활성화 시키기
   const BASE_URL = `/api`;
   await axios({

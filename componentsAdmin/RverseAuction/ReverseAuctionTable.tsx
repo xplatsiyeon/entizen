@@ -51,7 +51,7 @@ const ReverseAuctionTable = ({
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // 오늘 날짜.
   const today = new Date();
   // console.log('🌸', adminNoPickDateFomat(String(today)));
@@ -269,7 +269,7 @@ const ReverseAuctionTable = ({
         <P>결과 {length}</P>
         <Button
           onClick={() => {
-            excelDownloadFile(excelUrl!);
+            excelDownloadFile(excelUrl!, accessToken);
           }}
           hide={hide}
         >

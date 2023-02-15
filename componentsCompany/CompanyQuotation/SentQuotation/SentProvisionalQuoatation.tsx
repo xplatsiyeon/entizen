@@ -205,6 +205,7 @@ const SentQuoatationFirst = () => {
   const routerId = router?.query?.preQuotationIdx!;
   const historyId = router?.query?.historyIdx!;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
@@ -589,9 +590,9 @@ const WebColumnContainer = styled.div`
 
 const CustomerRequestContent = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 20px;
+  font-size: 15pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   color: ${colors.main};
@@ -663,7 +664,7 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -719,7 +720,7 @@ const EditBtn = styled.div`
   padding-top: 15pt;
   text-align: center;
   padding-bottom: 15pt;
-  border: 1px solid ${colors.main};
+  border: 0.75pt solid ${colors.main};
   color: ${colors.main};
   border-radius: 6pt;
   font-family: 'Spoqa Han Sans Neo';
@@ -730,7 +731,7 @@ const EditBtn = styled.div`
   text-align: center;
   cursor: pointer;
   @media (min-width: 900pt) {
-    width: 774px;
+    width: 580.5pt;
   }
 `;
 
@@ -805,8 +806,15 @@ const LastBtn = styled.div`
   color: #eeeeee;
   cursor: pointer;
   @media (min-width: 900pt) {
-    width: 774px;
+    width: 580.5pt;
     z-index: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: white;
   }
 `;
 

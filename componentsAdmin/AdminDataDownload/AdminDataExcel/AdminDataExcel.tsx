@@ -12,6 +12,7 @@ type Props = {
 const AdminDataExcel = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
     alert('개발중입니다.');
@@ -39,7 +40,10 @@ const AdminDataExcel = ({ setNowHeight }: Props) => {
           <Label>엑셀 수익 예측 기록 다운로드</Label>
           <Btn
             onClick={() => {
-              excelDownloadFile('/admin/simulations/charge/histories/excel');
+              excelDownloadFile(
+                '/admin/simulations/charge/histories/excel',
+                accessToken,
+              );
             }}
           >
             다운로드
@@ -51,6 +55,7 @@ const AdminDataExcel = ({ setNowHeight }: Props) => {
             onClick={() => {
               excelDownloadFile(
                 '/admin/simulations/quotation-prediction/histories/excel',
+                accessToken,
               );
             }}
           >
