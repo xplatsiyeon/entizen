@@ -64,11 +64,12 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     localStorage.removeItem('MEMBER_TYPE');
     // 로그아웃 브릿지 연결
     appLogout(userAgent as string);
-    if (isSns) {
-      NaverLogout();
-      KakaoLogout();
-      googleLogout();
-    }
+
+    // if (isSns) {
+    //   NaverLogout();
+    //   KakaoLogout();
+    //   googleLogout();
+    // }
   });
 };
 
