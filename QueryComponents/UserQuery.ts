@@ -64,6 +64,7 @@ export interface FinalQuotation {
   quotationRequest: {
     installationPurpose: string;
   };
+  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
 }
 export interface ProjectCompletionFiles {
   projectCompletionFileIdx: string;
@@ -93,6 +94,13 @@ export interface ProjectReview {
   projectIdx: number;
 }
 
+export interface FinalQuotationDetailFiles {
+  finalQuotationDetailFileIdx: string;
+  originalName: string;
+  size: number;
+  url: string;
+}
+
 export interface ChargingStations {
   projectIdx: string;
   projectName: string;
@@ -104,6 +112,7 @@ export interface ChargingStations {
   projectCompletionFiles: ProjectCompletionFiles[];
   companyMember: CompanyMember;
   projectReview: ProjectReview;
+
   contract: {
     documentId: string;
     contractContent: string;
@@ -154,6 +163,13 @@ export const chargingStations = gql`
         quotationRequest {
           installationPurpose
         }
+        # 사업자 등록증, 상세 견적서
+        finalQuotationDetailFiles {
+          finalQuotationDetailFileIdx
+          originalName
+          size
+          url
+        }
       }
       # 완료 사진 리스트
       projectCompletionFiles {
@@ -187,63 +203,6 @@ export const chargingStations = gql`
       contract {
         contractContent
         documentId
-      }
-    }
-  }
-`;
-
-// AS 상단 부분 조회
-
-export interface AsRequest {
-  project: {
-    projectIdx: string;
-    projectName: string;
-    projectNumber: string;
-    finalQuotation: {
-      subscribeProduct: string;
-      userInvestRate: string;
-      subscribePeriod: string;
-      quotationRequest: {
-        installationPurpose: string;
-        etcRequest: string;
-      };
-      finalQuotationChargers: [
-        {
-          finalQuotationChargerIdx: string;
-          kind: string;
-          standType: string;
-          channel: string;
-          count: number;
-          installationLocation: string;
-        },
-      ];
-    };
-  };
-}
-
-export const asRequest = gql`
-  query Query($projectIdx: ID!) {
-    project(projectIdx: $projectIdx) {
-      projectIdx
-      projectName
-      projectNumber
-
-      finalQuotation {
-        subscribeProduct
-        userInvestRate
-        subscribePeriod
-        quotationRequest {
-          installationPurpose
-          etcRequest
-        }
-        finalQuotationChargers {
-          finalQuotationChargerIdx
-          kind
-          standType
-          channel
-          count
-          installationLocation
-        }
       }
     }
   }

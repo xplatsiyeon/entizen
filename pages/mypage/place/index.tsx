@@ -113,6 +113,8 @@ const ChargingPlace = () => {
     (e) => e.projectIdx === routerId,
   );
 
+  console.log('🍎 target![0]', target![0]);
+
   return (
     <>
       <Body bgColor={open}>
