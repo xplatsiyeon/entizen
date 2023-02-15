@@ -17,6 +17,7 @@ interface UserInfo {
       member: {
         memberIdx: number;
         memberType: string;
+        snsLogin: null | string;
       } | null;
     };
   };
@@ -40,13 +41,15 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data: UserInfo) => {
+      console.log('memberType==>>', memberType);
       console.log(
         'data?.data?.data?.member?.memberType=>',
         data?.data?.data?.member?.memberType,
       );
       if (
         data?.data?.data?.member === null ||
-        data?.data?.data?.member?.memberType !== memberType
+        data?.data?.data?.member?.memberType !== memberType ||
+        data?.data?.data?.member?.snsLogin !== null
       ) {
         setIsModal(true);
         setModalMsg(
