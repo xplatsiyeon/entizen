@@ -64,6 +64,7 @@ export interface FinalQuotation {
   quotationRequest: {
     installationPurpose: string;
   };
+  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
 }
 export interface ProjectCompletionFiles {
   projectCompletionFileIdx: string;
@@ -93,6 +94,13 @@ export interface ProjectReview {
   projectIdx: number;
 }
 
+export interface FinalQuotationDetailFiles {
+  finalQuotationDetailFileIdx: string;
+  originalName: string;
+  size: number;
+  url: string;
+}
+
 export interface ChargingStations {
   projectIdx: string;
   projectName: string;
@@ -104,6 +112,7 @@ export interface ChargingStations {
   projectCompletionFiles: ProjectCompletionFiles[];
   companyMember: CompanyMember;
   projectReview: ProjectReview;
+
   contract: {
     documentId: string;
     contractContent: string;
@@ -153,6 +162,13 @@ export const chargingStations = gql`
         # 설치 목적
         quotationRequest {
           installationPurpose
+        }
+        # 사업자 등록증, 상세 견적서
+        finalQuotationDetailFiles {
+          finalQuotationDetailFileIdx
+          originalName
+          size
+          url
         }
       }
       # 완료 사진 리스트
@@ -227,7 +243,6 @@ export const asRequest = gql`
       projectIdx
       projectName
       projectNumber
-
       finalQuotation {
         subscribeProduct
         userInvestRate

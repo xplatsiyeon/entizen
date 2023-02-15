@@ -75,7 +75,7 @@ const AsRequest = ({ data }: Props) => {
       },
     });
   };
-  console.log('mobile 뭐아', mobile);
+
   return (
     <Body>
       {!mobile && (
