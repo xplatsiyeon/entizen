@@ -162,3 +162,15 @@ textarea:focus {
 input::placeholder {
   color: #caccd1;
 }
+
+.MuiInputBase-root {
+  padding-right: 9pt;
+  border-radius: 6pt;
+}
+
+.MuiOutlinedInput-root:hover fieldset {
+  border-color: #5221cb;
+}
+.Mui-focused fieldset {
+  border-color: #5221cb;
+}

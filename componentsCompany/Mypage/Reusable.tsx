@@ -30,6 +30,7 @@ import Carousel from 'components/mypage/projects/Carousel';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import Back from 'public/images/backImg.png';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
@@ -342,6 +343,9 @@ Props) => {
             <Box>
               <Top>
                 <div className="expectedDate">
+                  {/* <div className="backIcon">
+                    <Image src={Back} layout="fill" />
+                  </div> */}
                   {fin ? '완료일' : '완료 예정일'}
                 </div>
                 {fin === false &&
@@ -483,7 +487,11 @@ const FinishedBox = styled.div`
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
+  /* align-items: center; */
   .expectedDate {
+    /* display: flex;
+    flex-direction: column;
+    gap: 29.43pt; */
     font-family: Spoqa Han Sans Neo;
     font-size: 9pt;
     font-weight: 400;
@@ -504,6 +512,11 @@ const Top = styled.div`
     text-align: left;
     cursor: pointer;
   }
+  /* .backIcon {
+    position: relative;
+    width: 8.75px;
+    height: 17.5px;
+  } */
 `;
 const FinishedFirst = styled.div`
   font-family: Spoqa Han Sans Neo;
