@@ -154,9 +154,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
-      setTimeout(() => {
-        if (mobInputRef.current) mobInputRef.current.focus();
-      }, 300);
+      // setTimeout(() => {
+      //   if (mobInputRef.current) mobInputRef.current.focus();
+      // }, 300);
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
