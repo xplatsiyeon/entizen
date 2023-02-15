@@ -83,6 +83,8 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
 
+    console.log('data==>', data);
+
     if (isValid) {
       if (data.name !== name || data.id !== id) {
         localStorage.removeItem('key');
