@@ -493,12 +493,14 @@ const Signin = () => {
       //todo success logic
 
       const token = data.detail.authorization.id_token;
-
+      console.log(token);
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64'); 
       const result = JSON.parse(payload.toString())
       console.log('애플로그인 user 유니크값 : ', result);
-      console.log('애플 로그인 user email : ', data.detail.authorization.user.email);
+      if(data.detail.authorization.user.email){
+        console.log('애플로그인 user 유니크값 : ', data.detail.authorization.user.email);
+      }
       
     });
     //애플로 로그인 실패 시.
