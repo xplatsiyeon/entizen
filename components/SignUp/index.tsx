@@ -63,7 +63,10 @@ const SignUpContainer = (props: Props) => {
   const onClickModal = () => {
     router.push('/signUp/Complete');
   };
-  const handleHomeClick = () => router.push('/');
+  // const handleHomeClick = () => router.push('/');
+  const handleHomeClick = () => {
+    setModalOpen(true);
+  };
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => router.push('/signin');
   const handleBackClick = () => setModalOpen(true);
