@@ -8,6 +8,7 @@ import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import NoProject from './NoProject';
 import { useQuery } from '@apollo/client';
+import { excelDownloadFile } from 'hooks/excelDown';
 import {
   GET_historyProjectsDetail,
   ResponseHistoryProjectsDetail,
@@ -33,6 +34,9 @@ const FinishedProjects = ({
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const keyword = useDebounce(searchWord, 2000);
   const sortType = ['SUBSCRIBE_START', 'SUBSCRIBE_END'];
+  const excelUrl =
+    '/projects/completion/download?searchKeyword&sort=SUBSCRIBE_START';
+
   const {
     loading: historyLoading,
     error: historyError,
@@ -56,8 +60,6 @@ const FinishedProjects = ({
   if (historyError) {
     console.log('??', historyError);
   }
-
-  const handleDownload = () => {};
 
   if (!historyData?.completedProjects?.length!) {
     console.log('no', historyData);
@@ -144,7 +146,13 @@ const FinishedProjects = ({
           )}
         </>
       )}
-      <Button onClick={handleDownload}>완료 프로젝트 리스트 다운로드</Button>
+      <Button
+        onClick={() => {
+          excelDownloadFile(excelUrl, accessToken);
+        }}
+      >
+        완료 프로젝트 리스트 다운로드
+      </Button>
     </Wrapper>
   );
 };

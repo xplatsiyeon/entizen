@@ -51,6 +51,7 @@ const PlaceTopBox = ({ data }: Props) => {
 
   console.log('👀 내 충전소 데이터 확인 ~53 --> ');
   console.log(data);
+
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>

@@ -81,7 +81,7 @@ const CommunicationTable = ({
 
   // 🎀 소통하기 리스트 조회
   // /admin/chatting/members?page=1&limit=10&startDate=2022-12-19&endDate=2022-12-19
-
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const { data: userChatting, refetch: userChattingRefetch } =
     useQuery<UserChattingListResponse>(
       'userChatting',
@@ -127,7 +127,7 @@ const CommunicationTable = ({
                         onClick={() => {
                           setDetailId(cell);
                           setIsDetail(true);
-                          excelDownloadFile(excelUrl!);
+                          excelDownloadFile(excelUrl!, accessToken);
                         }}
                       >
                         엑셀 다운로드

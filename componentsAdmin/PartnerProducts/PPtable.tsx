@@ -33,8 +33,7 @@ Props) => {
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-
-  console.log(selected);
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
 
   /*
   
@@ -175,7 +174,7 @@ Props) => {
         <P>결과 {length}</P>
         {/* <Button
           onClick={() => {
-            excelDownloadFile(productsExcel);
+            excelDownloadFile(productsExcel, accessToken);
           }}
         >
           엑셀 다운로드

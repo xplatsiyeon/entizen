@@ -48,6 +48,7 @@ const ASListTable = ({
 
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
 
   /*
   
@@ -151,7 +152,7 @@ const ASListTable = ({
         <P>결과 {length}</P>{' '}
         <Button
           onClick={() => {
-            excelDownloadFile(excelUrl);
+            excelDownloadFile(excelUrl, accessToken);
           }}
           hide={hide}
         >
