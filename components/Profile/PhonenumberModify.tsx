@@ -13,6 +13,7 @@ import useDebounce from 'hooks/useDebounce';
 import { useMutation } from 'react-query';
 import { isPostApi, isTokenPatchApi } from 'api';
 import Modal from 'components/Modal/Modal';
+import { checkedPassword } from 'utils/calculatePackage';
 interface Key {
   id: string;
   isMember: boolean;
@@ -40,15 +41,19 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
   const [existingPassword, setExistingPassword] = useState('');
-  // -1: 초기값, 0: 비밀번호 체크 성공, 1: 비밀번호 체크 실패
-  const [checkPassword, setCheckPassword] = useState(-1);
+  const [isFailedPassword, setIsFailedPassword] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  const value = useDebounce(existingPassword, 1500);
+  const value = useDebounce(existingPassword, 500);
   const memeberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+
+  const phoneNumber = profile?.phone
+    .replace(/[^0-9]/g, '')
+    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
   // 비밀번호 체크 mutate
   const { mutate: passowrdCheckMutate } = useMutation(isPostApi, {
@@ -62,14 +67,14 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
           'REFRESH_TOKEN',
           JSON.stringify(res.data.refreshToken),
         );
-        setCheckPassword(0);
+        fnPopup();
       } else {
-        setCheckPassword(1);
+        setIsFailedPassword(true);
       }
     },
     onError: (error) => {
       console.log('🔥error==>', error);
-      setCheckPassword(1);
+      setIsFailedPassword(true);
     },
   });
   // 휴대폰 번호 변경 mutate
@@ -87,9 +92,10 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     },
   });
 
-  // 비밀번호 검사
-  useEffect(() => {
-    if (value.length > 0) {
+  const onClickChangeBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('isValid==>', isValid);
+    if (isValid) {
       passowrdCheckMutate({
         url: '/members/login',
         data: {
@@ -99,24 +105,17 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
         },
       });
     }
+  };
+
+  // 비밀번호 검사
+  useEffect(() => {
+    setIsValid(checkedPassword(value));
+    setIsFailedPassword(false);
   }, [value]);
-
-  const phoneNumber = profile?.phone
-    .replace(/[^0-9]/g, '')
-    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
-  // 휴대폰 변경
-  // const HandlePhone = async () => {
-  //   const key: Key = JSON.parse(localStorage.getItem('key')!);
-  //   const newnumber = key?.phone
-  //     .replace(/[^0-9]/g, '')
-  //     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-  //   setNewPhoneNumber(newnumber);
-  // };
 
   const onClickBtn = () => {
     const key: Key = JSON.parse(localStorage.getItem('key')!);
-    if (checkPassword === 0) {
+    if (isFailedPassword) {
       changePhoneMutate({
         url: '/members/phone',
         data: {
@@ -128,11 +127,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
 
   // 나이스 인증 2
-  const fnPopup = (event: any) => {
-    console.log('나이스 인증');
-    console.log(event);
-    const { id } = event.currentTarget;
-    console.log(`id -> ${id}`);
+  const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -170,18 +165,12 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('⭐️ SNS 데이터 확인 ~라인 121');
-    console.log(checkSns);
-    console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 나이스 인증 테스트
   useEffect(() => {
-    console.log('⭐️ 나이스 인증 테스트 ~라인 132');
-    console.log(key);
-    console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
-  }, [newPhoneNumber, key]);
+    console.log('isFailedPassword==>', isFailedPassword);
+  }, [isFailedPassword]);
 
   return (
     <React.Fragment>
@@ -223,7 +212,12 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
                 onChange={(e) => setExistingPassword(e.currentTarget.value)}
               />
             </InputBox>
-            {checkPassword === 1 && (
+            {!isValid && value.length > 0 && (
+              <AlertMessage color={colors.sub4}>
+                영문,숫자,특수문자 조합 8자 이상
+              </AlertMessage>
+            )}
+            {isFailedPassword && (
               <AlertMessage color={colors.sub4}>
                 비밀번호가 일치하지 않습니다.
               </AlertMessage>
@@ -246,6 +240,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
                 해당 번호로 변경됩니다.
               </AlertMessage>
             )}
+
             {/* 나이스 인증을 위한 form */}
             <form name="form_phone" method="get">
               <input type="hidden" name="m" value="checkplusService" />
@@ -258,10 +253,10 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
               <input type="hidden" name="recvMethodType" value="get" />
               <BtnBox>
                 <Btn
-                  checkPassword={checkPassword}
+                  isValid={isValid}
                   onClick={
-                    checkPassword === 0
-                      ? fnPopup
+                    isValid
+                      ? (e) => onClickChangeBtn(e)
                       : (e) => {
                           e.preventDefault();
                         }
@@ -424,11 +419,10 @@ const BtnBox = styled.div`
     top: 300pt;
   }
 `;
-const Btn = styled.button<{ checkPassword: number }>`
+const Btn = styled.button<{ isValid: boolean }>`
   cursor: pointer;
-  cursor: ${({ checkPassword }) => (checkPassword === 0 ? 'pointer' : 'auto')};
-  background: ${({ checkPassword }) =>
-    checkPassword === 0 ? colors.main : colors.gray};
+  cursor: ${({ isValid }) => (isValid ? 'pointer' : 'auto')};
+  background: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;

@@ -1,3 +1,11 @@
+export const checkedPassword = (password: string): boolean => {
+  let check =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+      password,
+    );
+  return check;
+};
+
 // -----------기본 가격 콤마 계산----------------
 export const PriceBasicCalculation = (price: number) => {
   if (price === 0) return 0;

@@ -92,15 +92,13 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
         );
+      } else if ('소셜 로그인이면') {
+        setIsModal(true);
+        setModalMsg(
+          '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
+        );
       } else {
         setStep(1);
-        // mutate({
-        //   url: '/members/verification/identity',
-        //   data: {
-        //     name,
-        //     id,
-        //   },
-        // });
       }
     }
   };
