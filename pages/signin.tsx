@@ -90,6 +90,7 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
+  const appleRef = useRef<HTMLDivElement>(null);
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -490,6 +491,17 @@ const Signin = () => {
       console.log('AppleIDSignInOnSuccess', data);
       console.log(data.detail.authorization);
       //todo success logic
+
+      const token = data.detail.authorization.id_token;
+      console.log(token);
+      const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+      const payload = Buffer.from(base64Payload, 'base64'); 
+      const result = JSON.parse(payload.toString())
+      console.log('애플로그인 user 유니크값 : ', result);
+      if(data.detail.authorization.user.email){
+        console.log('애플로그인 user 유니크값 : ', data.detail.authorization.user.email);
+      }
+      
     });
     //애플로 로그인 실패 시.
     document.addEventListener('AppleIDSignInOnFailure', (error) => {
@@ -762,16 +774,18 @@ const Signin = () => {
                     )} */}
                   </Box>
                 </Box>
-                {/*<TestWrap>
-                  <div id="appleid-signin" 
-                    data-color="black" 
-                    data-border="true" 
-                    data-type="sign in" 
+                <TestWrap>
+                  <div
+                    ref={appleRef}
+                    id="appleid-signin"
+                    data-color="black"
+                    data-border="true"
+                    data-type="sign in"
                     data-width="100"
                     data-height="32"
-                    data-mode="center-align">
-                  </div> 
-                    </TestWrap> */}
+                    data-mode="center-align"
+                  ></div>
+                </TestWrap>
 
                 {selectedLoginType === 0 && (
                   <>
@@ -796,16 +810,18 @@ const Signin = () => {
                         </Link>
                       </Box>
                       {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
-                      {/* <Box
+                      <Box
                         sx={{
                           height: '33pt',
                           marginRight: '15pt',
                           cursor: 'pointer',
                         }}
-                        onClick={handleAlert}
+                        onClick={() => {
+                          if (appleRef.current) appleRef.current.click();
+                        }}
                       >
                         <Image src={apple} alt="apple" />
-                      </Box> */}
+                      </Box>
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
@@ -1018,4 +1034,5 @@ const Buttons = styled.button`
 const TestWrap = styled.div`
   margin: 20pt auto;
   position: relative;
+  display: none;
 `;
