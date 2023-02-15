@@ -61,7 +61,7 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -90,7 +90,7 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
-  const appleRef = useRef<HTMLDivElement>(null)
+  const appleRef = useRef<HTMLDivElement>(null);
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -229,7 +229,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -397,7 +397,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -528,7 +528,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
@@ -763,16 +763,18 @@ const Signin = () => {
                     )} */}
                   </Box>
                 </Box>
-                <TestWrap >
-                  <div ref={appleRef} id="appleid-signin" 
-                    data-color="black" 
-                    data-border="true" 
-                    data-type="sign in" 
+                <TestWrap>
+                  <div
+                    ref={appleRef}
+                    id="appleid-signin"
+                    data-color="black"
+                    data-border="true"
+                    data-type="sign in"
                     data-width="100"
                     data-height="32"
-                    data-mode="center-align">
-                  </div> 
-                    </TestWrap> 
+                    data-mode="center-align"
+                  ></div>
+                </TestWrap>
 
                 {selectedLoginType === 0 && (
                   <>
@@ -803,10 +805,12 @@ const Signin = () => {
                           marginRight: '15pt',
                           cursor: 'pointer',
                         }}
-                        onClick={()=>{if(appleRef.current)appleRef.current.click()}}
+                        onClick={() => {
+                          if (appleRef.current) appleRef.current.click();
+                        }}
                       >
                         <Image src={apple} alt="apple" />
-                      </Box> 
+                      </Box>
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
