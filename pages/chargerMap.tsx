@@ -15,13 +15,9 @@ import { coordinateAction } from 'store/lnglatSlice';
 import { useDispatch } from 'react-redux';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-import axios from 'axios';
 import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
-import ChargerInfo2 from 'components/ChargerInfoCopy';
-import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
 
 type Props = {};
 export interface SlowFast {
@@ -32,8 +28,6 @@ export interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
-  const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -78,35 +72,6 @@ const ChargerMap = (props: Props) => {
     }
   }, [checkHeight, changeHeight]);
 
-  // 예상 매출 구하는 함수
-  const callInfo = async (speed: string) => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
-        params: {
-          siDo: locationList.siNm,
-          siGunGu: locationList.sggNm ? locationList.sggNm : '',
-          chargerSpeed: speed,
-          address: locationList.roadAddrPart,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-      });
-
-      if (speed === 'SLOW') {
-        setSlowCharger(res.data.charge);
-      }
-      if (speed === 'FAST') {
-        setFastCharger(res.data.charge);
-      }
-    } catch (error) {
-      console.log('에러입니다.');
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (locationList.roadAddrPart) {
       naver.maps.Service.geocode(
@@ -134,10 +99,6 @@ const ChargerMap = (props: Props) => {
           );
         },
       );
-    }
-    if (locationList.siNm) {
-      callInfo('SLOW');
-      callInfo('FAST');
     }
   }, [locationList]);
 
@@ -242,16 +203,10 @@ const ChargerMap = (props: Props) => {
                 setChargeInfoOpen={setChargeInfoOpen}
                 selectedCharger={selectedCharger}
                 setSelectedCharger={setSelectedCharger}
-                slowCharger={slowCharger}
-                fastCharger={fastCharger}
               />
             </WrapAddress>
           ) : (
-            <ChargerInfo
-              checkHeight={checkHeight}
-              slowCharger={slowCharger}
-              fastCharger={fastCharger}
-            />
+            <ChargerInfo checkHeight={checkHeight} />
           )}
         </WholeMap>
       </Wrapper>

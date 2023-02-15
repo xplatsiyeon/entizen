@@ -14,11 +14,11 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import mapPin from 'public/images/Web-MapPin.png';
-import { SlowFast } from 'pages/chargerMap';
 import WebChargerInfo from './WebChargerInfo';
 import Loader from 'components/Loader';
 import { coordinateAction } from 'store/lnglatSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
+import useCharger from 'hooks/useCharger';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,8 +26,6 @@ type Props = {
   setChargeInfoOpen: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
-  slowCharger: SlowFast[];
-  fastCharger: SlowFast[];
 };
 
 export interface addressType {
@@ -60,18 +58,15 @@ export interface addressType {
 const WebSearchAddress = ({
   chargeInfoOpen,
   setChargeInfoOpen,
-  setType,
   selectedCharger,
   setSelectedCharger,
-  slowCharger,
-  fastCharger,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
-  // const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { callInfo } = useCharger();
 
   const keyWord = useDebounce(searchWord, 300);
   const { searchKeyword, locationList } = useSelector(
@@ -83,7 +78,6 @@ const WebSearchAddress = ({
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-    // setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
@@ -93,6 +87,16 @@ const WebSearchAddress = ({
         siNm: sinm,
       }),
     );
+    // 예상 매출 금액
+    const location = {
+      jibunAddr: jibun,
+      roadAddrPart: roadad,
+      sggNm: sggnm,
+      siNm: sinm,
+    };
+
+    callInfo('SLOW', location);
+    callInfo('FAST', location);
 
     setChargeInfoOpen(true);
   };
@@ -156,7 +160,6 @@ const WebSearchAddress = ({
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
-          // value={fakeWord ? fakeWord : searchWord}
           value={searchWord}
         />
 
@@ -183,8 +186,6 @@ const WebSearchAddress = ({
         <WebChargerInfo
           selectedCharger={selectedCharger}
           setSelectedCharger={setSelectedCharger}
-          slowCharger={slowCharger}
-          fastCharger={fastCharger}
         />
       ) : (
         <>
@@ -232,7 +233,6 @@ const HeaderBox = styled.div`
   left: 0;
   z-index: 99999;
   background-color: ${colors.lightWhite};
-
   .img-box {
     position: relative;
     width: 17.51pt; //width 15pt 인데 안맞아서 약간 수정
@@ -262,7 +262,6 @@ const FindAddress = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }

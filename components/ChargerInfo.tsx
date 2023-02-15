@@ -5,16 +5,15 @@ import React, { useRef, useState } from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
-import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   checkHeight: number;
-  slowCharger: SlowFast[];
-  fastCharger: SlowFast[];
 };
 
-const ChargerInfo = ({ checkHeight, slowCharger, fastCharger }: Props) => {
+const ChargerInfo = ({ checkHeight }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
@@ -25,6 +24,10 @@ const ChargerInfo = ({ checkHeight, slowCharger, fastCharger }: Props) => {
   const chargerText = useRef<HTMLDivElement>(null);
 
   const [selectedCharger, setSelectedCharger] = useState(0);
+
+  const { fastCharger, slowCharger } = useSelector(
+    (state: RootState) => state.speedData,
+  );
 
   const start = (e: React.TouchEvent) => {
     sRef.current = e.changedTouches[0].clientY;
@@ -127,7 +130,7 @@ const ChargerInfo = ({ checkHeight, slowCharger, fastCharger }: Props) => {
             </ChargerTypeNCountBox>
             <PredictBoxWrapper>
               {selectedCharger === 0 &&
-                slowCharger.map((el, index) => (
+                slowCharger?.map((el, index) => (
                   <PredictBox key={index}>
                     <div>{el.year}</div>
                     <div>충전량 (월)</div>
@@ -137,7 +140,7 @@ const ChargerInfo = ({ checkHeight, slowCharger, fastCharger }: Props) => {
                   </PredictBox>
                 ))}
               {selectedCharger === 1 &&
-                fastCharger.map((el, index) => (
+                fastCharger?.map((el, index) => (
                   <PredictBox key={index}>
                     <div>{el.year}</div>
                     <div>충전량 (월)</div>

@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import rootReducer, { RootState } from 'store/store';
 import { checkSearchedWord } from 'utils/adrressFilter';
 import { coordinateAction } from 'store/lnglatSlice';
+import useCharger from 'hooks/useCharger';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,6 +54,7 @@ const SearchAddress = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 300);
+  const { callInfo } = useCharger();
   const { searchKeyword } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -70,9 +72,20 @@ const SearchAddress = (props: Props) => {
         siNm: sinm,
       }),
     );
+    // 예상 매출 금액
+    const location = {
+      jibunAddr: jibun,
+      roadAddrPart: roadad,
+      sggNm: sggnm,
+      siNm: sinm,
+    };
+
+    callInfo('SLOW', location);
+    callInfo('FAST', location);
+
     router.push('/chargerMap');
   };
-  const { setType } = props;
+
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord === '') {

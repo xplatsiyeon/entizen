@@ -12,6 +12,7 @@ const persistConfig = {
   blacklist: [
     'redirectSlice',
     'lnglatList',
+    'speedData',
     'locationList',
     'requestList',
     'quotationData',

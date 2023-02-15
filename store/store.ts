@@ -17,12 +17,14 @@ import { adminReverseSlice } from 'storeAdmin/adminReverseSlice';
 import { adminPageNumberSlice } from 'storeAdmin/adminPageNumberSlice';
 import { userAgentSlice } from './userAgent';
 import { redirectSlice } from './redirectUrlSlice';
-import { unavailableGraphSlice } from './ unavailableGraph';
+import { unavailableGraphSlice } from './unavailableGraph';
 import { subsidySlice } from './subsidySlice';
+import { speedSlice } from './speed';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 const rootReducer = combineReducers({
+  speedData: speedSlice.reducer,
   locationList: locationSlice.reducer,
   lnglatList: lnglatSlice.reducer,
   requestList: requestSlice.reducer,
