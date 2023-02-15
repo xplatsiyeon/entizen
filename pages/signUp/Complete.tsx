@@ -12,7 +12,7 @@ const SignUpComplete = () => {
   const router = useRouter();
 
   const mobile = useMediaQuery({
-    query: '(min-width:899.25pt)',
+    query: '(min-width:900pt)',
   });
 
   return (

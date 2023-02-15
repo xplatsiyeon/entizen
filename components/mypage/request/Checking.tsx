@@ -20,7 +20,7 @@ const Checking = ({ date }: Props) => {
 export default Checking;
 
 const Wrapper = styled.div`
-  margin: 30pt 15pt 0 15pt;
+  margin: 0 15pt 0 15pt;
   padding-bottom: 18pt;
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
@@ -38,6 +38,7 @@ const P = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.gray2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Date = styled.div`
   padding-top: 12pt;
@@ -46,4 +47,5 @@ const Date = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 `;

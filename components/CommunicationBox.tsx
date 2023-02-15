@@ -61,6 +61,7 @@ const Button = styled.button`
   background: #f3f4f7;
   color: ${colors.main2};
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 12pt;
   @media (min-width: 900pt) {
     padding: 10.5pt 16pt;

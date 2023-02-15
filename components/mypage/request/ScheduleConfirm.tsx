@@ -37,7 +37,7 @@ const ScheduleConfirm = ({ date, spotId, routerId }: Props) => {
 export default ScheduleConfirm;
 
 const Wrapper = styled.div`
-  margin: 30pt 0 0;
+  /* margin: 36.75pt 0 0; */
   padding-bottom: 18pt;
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   text-align: center;
 
   @media (max-width: 899.25pt) {
-    margin: 30pt 15pt 0 15pt;
+    margin: 0 15pt 0 15pt;
   }
 `;
 const P = styled.p`
@@ -55,6 +55,7 @@ const P = styled.p`
   letter-spacing: -0.02em;
   padding-top: 18pt;
   color: ${colors.gray2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Date = styled.h1`
   padding-top: 12pt;
@@ -74,4 +75,5 @@ const Btn = styled(Button)`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding: 6pt 9pt;
+  font-family: 'Spoqa Han Sans Neo';
 `;
