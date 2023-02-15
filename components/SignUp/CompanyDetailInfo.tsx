@@ -237,6 +237,7 @@ const CompanyDetailInfo = ({
         setPostNumber={setPostNumber}
         setCompanyAddress={setCompanyAddress}
         setAddressOn={setAddressOn}
+        setCompanyDetailAddress={setCompanyDetailAddress}
       />
     );
   }
