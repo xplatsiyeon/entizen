@@ -27,6 +27,7 @@ import { requestPermissionCheck } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import Loader from 'components/Loader';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
@@ -57,6 +58,9 @@ const CompanyDetailInfo = ({
   companyDetailAddress,
   setCompanyDetailAddress,
 }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -252,17 +256,20 @@ const CompanyDetailInfo = ({
           cencleBtn={closeButton}
         />
       )}
-      <Info>
-        상세 내용을
-        <br />
-        입력해주세요
-      </Info>
+      {mobile && (
+        <Info>
+          상세 내용을
+          <br />
+          입력해주세요
+        </Info>
+      )}
+      {!mobile && <Info>상세 내용을 입력해주세요</Info>}
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: '24pt',
+          marginTop: mobile ? '24pt' : '49.5pt',
           width: '100%',
           position: 'relative',
         }}
@@ -426,11 +433,21 @@ const CompanyDetailInfo = ({
 };
 
 const Info = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 6pt;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    padding-top: 45.75pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 22.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const Label = styled.label`
   font-weight: 500;
@@ -440,22 +457,43 @@ const Label = styled.label`
   color: ${colors.main2};
 `;
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
+  /* border: 0.75pt solid ${colors.gray}; */
+
   border-radius: 6pt;
   margin-top: 9pt;
+  outline: none;
+  .MuiOutlinedInput-notchedOutline {
+    border: 1px solid #e2e5ed;
+  }
   & input {
     padding: 10.875pt 0 10.875pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
+    ::placeholder {
+      /* color: ${colors.gray}; */
+      color: #caccd1;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 
   & .MuiInputBase-root {
     padding-right: 9pt;
+    border-radius: 6pt;
   }
 
-  ::placeholder {
-    color: ${colors.gray};
-    font-weight: 500;
+  .MuiOutlinedInput-root {
+    /* &:hover fieldset {
+      border-color: #5221cb;
+    } */
+
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
   }
   & .remove {
     display: none;

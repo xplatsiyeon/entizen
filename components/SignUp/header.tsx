@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
 import Home from 'public/images/home.svg';
+import { css } from '@emotion/react';
 
 interface Props {
   title?: string;
@@ -14,6 +15,7 @@ interface Props {
   handleOnClick?: () => void;
   handleHomeClick?: () => void;
   handleBackClick?: () => void;
+  web?: boolean;
 }
 
 const SignUpHeader = ({
@@ -25,11 +27,12 @@ const SignUpHeader = ({
   handleOnClick,
   handleHomeClick,
   handleBackClick,
+  web,
 }: Props) => {
   const route = useRouter();
 
   return (
-    <Header>
+    <Header web={web}>
       {/* 뒤로가기 버튼 */}
       {back && (
         <div className="back-img" onClick={handleBackClick}>
@@ -54,7 +57,7 @@ const SignUpHeader = ({
 
 export default SignUpHeader;
 
-const Header = styled.div`
+const Header = styled.div<{ web?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,6 +77,16 @@ const Header = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    ${({ web }) =>
+      web === true &&
+      css`
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 18pt;
+        font-weight: 700;
+        line-height: 21pt;
+        letter-spacing: -0.02em;
+        text-align: center;
+      `}
   }
   .cancel {
     position: absolute;

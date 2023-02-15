@@ -204,6 +204,7 @@ const Wrapper = styled.div`
   }
 `;
 const H1 = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   padding-left: 15pt;
   font-weight: 500;
   font-size: 18pt;
@@ -212,6 +213,7 @@ const H1 = styled.h1`
   color: ${colors.main2};
 `;
 const Notice = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   padding-left: 15pt;
   padding-top: 45pt;
   font-weight: 700;
@@ -241,6 +243,7 @@ const Item = styled.li<{ idx: string; check: string }>`
   justify-content: center;
   gap: 4.5pt;
   .date {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 600;
     font-size: 15pt;
     line-height: 18pt;
@@ -250,6 +253,7 @@ const Item = styled.li<{ idx: string; check: string }>`
       check === idx ? colors.main : colors.lightGray2};
   }
   .day {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 18pt;
@@ -266,6 +270,7 @@ const Btn = styled.div<{ tabNumber: number }>`
   bottom: 0;
   width: 100%;
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
   @media (min-width: 900pt) {
     gap: 8.25pt;
   }

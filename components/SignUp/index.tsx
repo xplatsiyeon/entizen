@@ -9,7 +9,7 @@ import SignUpHeader from './header';
 import IdPwInput from './IdPwInput';
 import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
-
+import { useMediaQuery } from 'react-responsive';
 export interface BusinessRegistrationType {
   url: any;
   size: number;
@@ -20,12 +20,17 @@ type Props = {};
 
 const SignUpContainer = (props: Props) => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
   const [level, setLevel] = useState<number>(0);
-  // const [level, setLevel] = useState<number>(2);
+  // const [level, setLevel] = useState<number>(4);
   // Type 1 일때 일반, 0 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
   // const [userType, setUserType] = useState<number>(1);
+  // const [userType, setUserType] = useState<number>(0);
   // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -113,10 +118,11 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
             exitBtn={true}
             handleBackClick={handleBackClick}
             handleHomeClick={handleHomeClick}
+            title={mobile ? '' : '회원가입'}
+            web={true}
           />
           <Wrapper>
             <TermContent
@@ -144,10 +150,11 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
             exitBtn={true}
             handleHomeClick={handleHomeClick}
             handleBackClick={handleBackClick}
+            title={mobile ? '' : '회원가입'}
+            web={true}
           />
           <Wrapper>
             <IdPwInput
@@ -184,10 +191,11 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
             exitBtn={true}
             handleBackClick={handleBackClick}
             handleHomeClick={handleHomeClick}
+            title={mobile ? '' : '회원가입'}
+            web={true}
           />
           <Wrapper>
             <TermContent
@@ -215,10 +223,11 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
             exitBtn={true}
             handleHomeClick={() => router.push('/signin')}
             handleBackClick={handleBackClick}
+            title={mobile ? '' : '회원가입'}
+            web={true}
           />
           <Wrapper>
             <CompanyDetailInfo
@@ -244,7 +253,8 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
+            title={mobile ? '' : '회원가입'}
+            web={true}
             exitBtn={true}
             handleHomeClick={() => router.push('/signin')}
             handleBackClick={handleBackClick}
@@ -269,7 +279,8 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             back={true}
             homeBtn={true}
-            title={''}
+            title={mobile ? '' : '회원가입'}
+            web={true}
             exitBtn={true}
             handleHomeClick={handleHomeClick}
             handleBackClick={handleBackClick}
