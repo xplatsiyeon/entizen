@@ -20,7 +20,7 @@ const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
   const dispatch = useDispatch();
   const outside = useRef();
   const mobile = useMediaQuery({
-    query: '(min-width:899.25pt)',
+    query: '(min-width:900pt)',
   });
 
   const handleModalClose = (

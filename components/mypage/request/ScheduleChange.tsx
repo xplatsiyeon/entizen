@@ -31,7 +31,7 @@ const ScheduleChange = ({ spotId, routerId }: Props) => {
 export default ScheduleChange;
 
 const Wrapper = styled.div`
-  margin: 30pt 15pt 0 15pt;
+  margin: 0 15pt 0 15pt;
   padding-bottom: 18pt;
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
@@ -45,6 +45,7 @@ const P = styled.p`
   letter-spacing: -0.02em;
   padding-top: 18pt;
   color: ${colors.main};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Btn = styled(Button)`
   margin-top: 15pt;
@@ -58,4 +59,5 @@ const Btn = styled(Button)`
   background-color: ${colors.main};
   padding: 6pt 9pt;
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
 `;

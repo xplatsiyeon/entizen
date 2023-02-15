@@ -34,6 +34,7 @@ const complete = (props: Props) => {
         handleOnClick={onClickFn}
         title={'고객에게 전달 완료!'}
         user={'seller'}
+        yesExit={true}
       />
       <WebFooter />
     </>

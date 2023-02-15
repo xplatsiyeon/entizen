@@ -107,8 +107,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
 export default SubscriptionProduct;
 
 const Wrapper = styled.div`
-  padding: 6pt 15pt 69pt 15pt;
-  padding-top: 75pt;
+  padding: 0 15pt 69pt 15pt;
 
   @media (max-width: 899.25pt) {
     padding-top: 0pt;
@@ -117,21 +116,54 @@ const Wrapper = styled.div`
 
 const H1 = styled.h1`
   font-weight: 700;
-  font-size: 12pt;
-  line-height: 18pt;
+  font-size: 19.5pt;
+  line-height: 28.5pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
   .accent {
+    font-weight: 700;
+    font-size: 19.5pt;
+    line-height: 28.5pt;
+    letter-spacing: -0.02em;
     color: ${colors.main};
+    font-family: 'Spoqa Han Sans Neo';
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 700;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 899.25pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const Notice = styled.p`
   padding-top: 9pt;
   font-weight: 400;
-  font-size: 9pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
+  font-family: 'Spoqa Han Sans Neo';
+
+  @media (max-width: 899.25pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const GridContainer = styled.div`
   display: grid;
@@ -147,8 +179,11 @@ const GridItem = styled.div<{ isFailed: boolean }>`
   padding-top: 12pt;
   padding-bottom: 15pt;
   padding-left: 9pt;
+  width: 128.25pt;
+  height: 138pt;
   cursor: pointer;
   & > h2 {
+    font-family: 'Spoqa Han Sans Neo';
     padding-top: 15pt;
     font-weight: 400;
     font-size: 9pt;
@@ -157,6 +192,7 @@ const GridItem = styled.div<{ isFailed: boolean }>`
     color: ${colors.gray2};
   }
   & > p {
+    font-family: 'Spoqa Han Sans Neo';
     padding-top: 6pt;
     font-weight: 400;
     font-size: 9pt;
@@ -169,6 +205,10 @@ const GridItem = styled.div<{ isFailed: boolean }>`
     width: 48pt;
     height: 48pt;
   }
+  @media (max-width: 899.25pt) {
+    width: 120pt;
+    height: 138pt;
+  }
 `;
 const PriceBox = styled.div`
   display: flex;
@@ -176,6 +216,7 @@ const PriceBox = styled.div`
   align-items: center;
   padding-top: 6pt;
   & h1 {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;

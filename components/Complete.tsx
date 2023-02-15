@@ -42,7 +42,7 @@ const Complete = ({
             <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
           )}
         </IconWrap>
-        <Nav>
+        {/* <Nav>
           {yesExit && (
             <Image
               onClick={handleExitClick}
@@ -51,7 +51,7 @@ const Complete = ({
               style={{ cursor: 'pointer' }}
             />
           )}
-        </Nav>
+        </Nav> */}
         <ContainerBox disableGutters>
           <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
         </ContainerBox>
@@ -99,18 +99,19 @@ const ContainerBox = styled(Container)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   @media (max-width: 899.25pt) {
-    margin-top: 90pt;
+    padding-top: 107.25pt;
   }
 `;
 const Title = styled.h1`
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
-  margin-top: 22.5pt;
+  margin-top: 23.25pt;
+  margin-bottom: 45pt;
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
+  color: #222222;
   @media (min-width: 900pt) {
     font-size: 25.5pt;
     line-height: 37.5pt;
@@ -159,6 +160,7 @@ const TextBox = styled.div`
   }
 `;
 const Btn = styled(Button)`
+  font-family: 'Spoqa Han Sans Neo';
   background: ${colors.main};
   border-radius: 21.75pt;
   width: 30%;
@@ -187,20 +189,23 @@ const Btn = styled(Button)`
 
 const WebBtn = styled(Button)`
   background: ${colors.main};
-  border-radius: 21.75pt;
+
   /* width: 30%; */
-  width: 120pt;
-  height: 30pt;
-  border-radius: 21.75pt;
+  width: 342pt;
+  height: 39pt;
+  border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
   font-weight: 700;
-  font-size: 10.5pt;
   line-height: 12pt;
-  text-align: center;
   letter-spacing: -0.02em;
+  text-align: center;
+
   color: ${colors.lightWhite};
   /* margin-bottom: 60pt; */
-  margin-bottom: 150pt;
+  margin-bottom: 60pt;
   padding: 9pt 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   @media (max-width: 899.25pt) {
     display: none;
   }
