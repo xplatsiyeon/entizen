@@ -537,9 +537,18 @@ const Body = styled.div`
   }
 `;
 const DownArrowBox = styled.div`
-  padding-top: 21pt;
-  padding-bottom: 30pt;
+  padding-top: 27.75pt;
+  padding-bottom: 36.75pt;
   text-align: center;
+  @media (max-width: 900pt) {
+    padding-top: 25.5pt;
+    padding-bottom: 34.5pt;
+  }
+`;
+
+const ImgTag = styled.img`
+  width: 48px;
+  height: 48px;
 `;
 const Inner = styled.div`
   display: block;
@@ -623,6 +632,7 @@ const ChoiceText = styled.div`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightGray3};
   @media (min-width: 900pt) {
     margin-bottom: 5pt;
@@ -639,6 +649,7 @@ const ButtonBox = styled.div`
   padding: 50pt 15pt 50pt 15pt;
 `;
 const Button = styled.button<{ isWhite: boolean }>`
+  font-family: 'Spoqa Han Sans Neo';
   padding: 15pt 19.5pt;
   width: 100%;
   border: 0.75pt solid ${colors.main1};
@@ -652,4 +663,13 @@ const Button = styled.button<{ isWhite: boolean }>`
   text-align: center;
   letter-spacing: -0.02em;
   cursor: pointer;
+`;
+
+const ImgBox = styled.div`
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 `;

@@ -73,6 +73,8 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             layout="fill"
             priority={true}
             unoptimized={true}
+            objectFit="cover"
+            style={{ borderRadius: '6pt' }}
           />
         </ImageBox>
       ) : (
@@ -488,12 +490,19 @@ const Item = styled.li`
 `;
 const ImageBox = styled.div`
   position: relative;
-  width: 48pt;
-  height: 48pt;
-  margin-left: 15pt;
+  width: 75pt;
+  height: 75pt;
+  /* margin-left: 15pt; */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 900pt) {
+    width: 48pt;
+    height: 48pt;
+    margin-left: 15pt;
+    margin-bottom: 15pt;
+  }
 `;
 const Subtitle = styled.h2`
   font-weight: 700;

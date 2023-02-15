@@ -270,6 +270,7 @@ const ConfirmedReservation = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   margin-top: 15pt;
   border-radius: 6pt;
+
   .text {
     font-family: 'Spoqa Han Sans Neo';
     color: #747780;
