@@ -90,6 +90,7 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
+  const appleRef = useRef<HTMLDivElement>(null)
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -762,8 +763,8 @@ const Signin = () => {
                     )} */}
                   </Box>
                 </Box>
-                {/*<TestWrap>
-                  <div id="appleid-signin" 
+                <TestWrap >
+                  <div ref={appleRef} id="appleid-signin" 
                     data-color="black" 
                     data-border="true" 
                     data-type="sign in" 
@@ -771,7 +772,7 @@ const Signin = () => {
                     data-height="32"
                     data-mode="center-align">
                   </div> 
-                    </TestWrap> */}
+                    </TestWrap> 
 
                 {selectedLoginType === 0 && (
                   <>
@@ -796,16 +797,16 @@ const Signin = () => {
                         </Link>
                       </Box>
                       {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
-                      {/* <Box
+                      <Box
                         sx={{
                           height: '33pt',
                           marginRight: '15pt',
                           cursor: 'pointer',
                         }}
-                        onClick={handleAlert}
+                        onClick={()=>{if(appleRef.current)appleRef.current.click()}}
                       >
                         <Image src={apple} alt="apple" />
-                      </Box> */}
+                      </Box> 
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
@@ -1018,4 +1019,5 @@ const Buttons = styled.button`
 const TestWrap = styled.div`
   margin: 20pt auto;
   position: relative;
+  display: none;
 `;
