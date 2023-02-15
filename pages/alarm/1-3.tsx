@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 import { adminDateFomat } from 'utils/calculatePackage';
+import { useMediaQuery } from 'react-responsive';
 
 type NoticeResponse = {
   isSuccess: boolean;
@@ -26,9 +27,14 @@ const Alam1_3 = () => {
   // /notices/:noticeIdx
   const router = useRouter();
   const routerID = router.query.noticesIdx;
+  const tabList: string[] = ['전체 알림', '공지사항'];
+  const [tab, setTab] = useState<number>(1);
+  const tabHandler = (num: number) => setTab(num);
 
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
-
+  const mobile = useMediaQuery({
+    query: '(max-width:810pt)',
+  });
   const {
     data: notice,
     isLoading: noticeIsLoading,
@@ -43,7 +49,7 @@ const Alam1_3 = () => {
 
   return (
     <WebBody>
-      {memberType === 'COMPANY' ? (
+      {memberType === 'COMPANY' && !mobile ? (
         <WebBuyerHeader
           setOpenSubLink={setOpenSubLink}
           setTabNumber={setTabNumber}
@@ -55,25 +61,50 @@ const Alam1_3 = () => {
       )}
       <Inner>
         <Wrapper>
-          <Header>
-            <div
-              className="img-item"
-              onClick={() => {
-                router.back();
-              }}
-            >
-              <Image
-                style={{
-                  cursor: 'pointer',
-                  width: '18pt',
-                  height: '18pt',
+          {mobile && (
+            <Header>
+              <div
+                className="img-item"
+                onClick={() => {
+                  router.back();
                 }}
-                src={BackImg}
-                alt="btn"
-              />
-            </div>
-            <span className="text">공지 사항</span>
-          </Header>
+              >
+                <Image
+                  style={{
+                    cursor: 'pointer',
+                    width: '18pt',
+                    height: '18pt',
+                  }}
+                  src={BackImg}
+                  alt="btn"
+                />
+              </div>
+              <span className="text">공지 사항</span>
+            </Header>
+          )}
+          <Tab>
+            {tabList.map((text, index) => (
+              <Text
+                tab={tab.toString()}
+                idx={index.toString()}
+                className="tab-item"
+                key={index}
+                onClick={() => {
+                  tabHandler(index);
+                  router.push({
+                    pathname: '/alarm',
+                    query: {
+                      id: index,
+                    },
+                  });
+                }}
+              >
+                {text}
+                {tab === index && <Line2 />}
+              </Text>
+            ))}
+          </Tab>
+
           <Title>{notice?.data?.title}</Title>
           <Date>{adminDateFomat(notice?.data?.createdAt!)}</Date>
           <Line></Line>
@@ -81,6 +112,15 @@ const Alam1_3 = () => {
             {/* <h3 className="name">1. 충전기 종류</h3> */}
             <p className="contents">{notice?.data?.content}</p>
           </BodyContainer>
+          {!mobile && (
+            <ListButton
+              onClick={() => {
+                router.push('/alarm?id=1');
+              }}
+            >
+              <span>목록으로 돌아가기</span>
+            </ListButton>
+          )}
         </Wrapper>
       </Inner>
       <WebFooter />
@@ -194,5 +234,56 @@ const BodyContainer = styled(Box)`
     letter-spacing: -0.02em;
     padding-top: 9pt;
     color: ${colors.main2};
+  }
+`;
+
+const Tab = styled(Box)`
+  display: flex;
+  border-bottom: 1px solid #f3f4f7;
+  @media (min-width: 899.25pt) {
+    justify-content: center;
+  }
+`;
+const Text = styled.div<{ tab: string; idx: string }>`
+  width: 50%;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${({ tab, idx }) => (tab === idx ? colors.main : '#caccd1')};
+  padding: 12pt 0;
+  position: relative;
+  cursor: pointer;
+  @media (min-width: 899.25pt) {
+    /* width: 17.334%; */
+    width: 24.19%;
+  }
+`;
+const Line2 = styled.div`
+  position: absolute;
+  left: 15pt;
+  right: 15pt;
+  bottom: 0;
+  border-bottom: 3pt solid ${colors.main};
+  border-radius: 3.75pt;
+`;
+
+const ListButton = styled.div`
+  padding: 9pt 15pt;
+  background: #5221cb;
+  border-radius: 21.75pt;
+  margin: 60pt auto 0;
+  width: 108pt;
+  cursor: pointer;
+  & span {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: white;
   }
 `;

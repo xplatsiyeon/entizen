@@ -108,6 +108,10 @@ const Alam = () => {
     [arr],
   );
 
+  useEffect(() => {
+    setTab(Number(router.query.id));
+  }, [router]);
+
   // 무한 스크롤
   // useEffect(() => {
   //   if (
