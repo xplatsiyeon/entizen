@@ -207,3 +207,59 @@ export const chargingStations = gql`
     }
   }
 `;
+
+// AS 상단 부분 조회
+
+export interface AsRequest {
+  project: {
+    projectIdx: string;
+    projectName: string;
+    projectNumber: string;
+    finalQuotation: {
+      subscribeProduct: string;
+      userInvestRate: string;
+      subscribePeriod: string;
+      quotationRequest: {
+        installationPurpose: string;
+        etcRequest: string;
+      };
+      finalQuotationChargers: [
+        {
+          finalQuotationChargerIdx: string;
+          kind: string;
+          standType: string;
+          channel: string;
+          count: number;
+          installationLocation: string;
+        },
+      ];
+    };
+  };
+}
+
+export const asRequest = gql`
+  query Query($projectIdx: ID!) {
+    project(projectIdx: $projectIdx) {
+      projectIdx
+      projectName
+      projectNumber
+      finalQuotation {
+        subscribeProduct
+        userInvestRate
+        subscribePeriod
+        quotationRequest {
+          installationPurpose
+          etcRequest
+        }
+        finalQuotationChargers {
+          finalQuotationChargerIdx
+          kind
+          standType
+          channel
+          count
+          installationLocation
+        }
+      }
+    }
+  }
+`;
