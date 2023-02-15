@@ -67,6 +67,7 @@ const ChattingRoom = ({}: Props) => {
             {router.query.entizen ? (
               <ChattingRoomLogsEntizen
                 userChatting={true}
+                isCompany={true}
                 listRefetch={refetch}
               />
             ) : (
