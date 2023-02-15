@@ -834,12 +834,15 @@ const WebBottomBox = styled.div`
   width: 100%;
   padding: 3pt 0pt 16.5pt;
   background: white;
+  button{
+    background: transparent;
+  }
   button.typing {
     width: 18.75pt;
     height: 20.6pt;
     position: relative;
-    background: none;
     cursor: pointer;
+
     &.on {
       display: none;
     }
@@ -856,6 +859,7 @@ const FlexBox2 = styled.form`
   display: flex;
   gap: 14.25pt;
   align-items: center;
+
 `;
 const InputWrap = styled.div`
   width: 100%;
@@ -945,6 +949,7 @@ const IconWrap2 = styled.button`
   min-width: 18.75pt;
   width: 18.75pt;
   height: 20.7pt;
+  background: transparent;
 `;
 const TopBox = styled.div`
   position: fixed;

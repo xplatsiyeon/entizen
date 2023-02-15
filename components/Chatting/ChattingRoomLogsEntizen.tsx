@@ -87,11 +87,12 @@ export interface ChattingResponse {
 
 type Props = {
   userChatting: boolean;
+  isCompany?: boolean;
   listRefetch: () => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
+const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -238,13 +239,13 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
   };
 
   const handleRoute = () => {
-    if (userChatting) {
+    if (isCompany) {
       router.push({
-        pathname: '/chatting',
+        pathname: '/company/chatting',
       });
     } else {
       router.push({
-        pathname: '/company/chatting',
+        pathname: '/chatting',
       });
     }
   };
@@ -860,6 +861,10 @@ const FlexBox2 = styled.form`
   display: flex;
   gap: 14.25pt;
   align-items: center;
+
+  button{
+    background: transparent;
+  }
 `;
 const InputWrap = styled.div`
   width: 100%;
@@ -940,6 +945,7 @@ const IconWrap2 = styled.button`
   min-width: 18.75pt;
   width: 18.75pt;
   height: 20.7pt;
+  background: transparent;
 `;
 const TopBox = styled.div`
   position: fixed;
