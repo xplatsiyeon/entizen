@@ -115,15 +115,13 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   const onClickBtn = () => {
     const key: Key = JSON.parse(localStorage.getItem('key')!);
-    if (isFailedPassword) {
-      changePhoneMutate({
-        url: '/members/phone',
-        data: {
-          name: key.name,
-          phone: key.phone,
-        },
-      });
-    }
+    changePhoneMutate({
+      url: '/members/phone',
+      data: {
+        name: key.name,
+        phone: key.phone,
+      },
+    });
   };
 
   // 나이스 인증 2
@@ -159,6 +157,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
