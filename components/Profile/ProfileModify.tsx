@@ -146,7 +146,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   //   const memberType = selectedType;
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType },
   //   })
   //     .then((res) => {
@@ -201,19 +201,19 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                 />
               </button>
               {/* 포토 이미지 */}
-              <label className="avatar-photo">
-                <input
-                  ref={imgRef}
-                  className="file-input"
-                  type={'file'}
-                  accept="image/*"
-                  onChange={onImgInputBtnClick}
-                  capture={userAgent === 'Android_App' && true}
-                  style={{ display: 'none' }}
-                />
+              <button className="avatar-photo" onClick={imgHandler}>
                 <Image src={AvatarPhoto} alt="avatar-photo" />
-              </label>
+              </button>
             </div>
+            <input
+              ref={imgRef}
+              className="file-input"
+              type={'file'}
+              accept="image/*"
+              onChange={onImgInputBtnClick}
+              capture={userAgent === 'Android_App' && true}
+              style={{ display: 'none' }}
+            />
           </Avatar>
           <Label mt={33}>아이디</Label>
           <InputBox type="text" readOnly placeholder={profile?.id} />
@@ -337,6 +337,7 @@ const Body = styled.div`
 const Avatar = styled.div`
   display: flex;
   justify-content: center;
+
   .img-bg {
     position: relative;
   }
@@ -352,6 +353,7 @@ const Avatar = styled.div`
     cursor: pointer;
     bottom: 0;
     right: 0;
+    background: none;
   }
   .file-input {
     display: none;
