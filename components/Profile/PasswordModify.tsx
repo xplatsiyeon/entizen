@@ -121,7 +121,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
 
     // return;
 
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
+    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${token.memberIdx}`;
 
     axios({
       method: 'patch',
