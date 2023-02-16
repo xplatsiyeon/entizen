@@ -210,7 +210,7 @@ interface ProjectDetailResponse {
       projectCompletionFiles: {
         projectCompletionFileIdx: number;
         url: string;
-        originalName?: string;
+        originalName: string;
       }[];
     };
   };

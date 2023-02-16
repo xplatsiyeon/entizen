@@ -130,6 +130,9 @@ const SearchMapWrapper = styled.div`
   /* height: 470px; */
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
+    border: 1px solid red;
+    min-width: 251.25pt;
+    min-height: 88.5pt;
   }
 `;
 

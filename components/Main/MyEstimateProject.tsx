@@ -130,6 +130,8 @@ const BoxWrapper = styled.div<{ borders: number }>`
     padding-left: 12pt;
     padding-right: 12.75pt;
     padding-bottom: 12.75pt;
+    min-width: 113.625pt;
+    min-height: 75pt;
   }
 `;
 

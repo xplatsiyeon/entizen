@@ -207,7 +207,7 @@ interface ProjectDetailResponse {
       currentStep: string;
       // 완료 된 현장사진
       projectCompletionFiles: {
-        originalName?: string;
+        originalName: string;
         projectCompletionFileIdx: number;
         url: string;
       }[];
