@@ -230,75 +230,70 @@ const Signin = () => {
   // 네이버 로그인
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
-    try {
-      await axios({
-        method: 'post',
-        url: NAVER_POST,
-        data: {
-          uuid: '' + data.user.id,
-          snsType: 'NAVER',
-          snsResponse: JSON.stringify(data),
-          email: data.user.email,
-        },
+    await axios({
+      method: 'post',
+      url: NAVER_POST,
+      data: {
+        uuid: '' + data.user.id,
+        snsType: 'NAVER',
+        snsResponse: JSON.stringify(data),
+        email: data.user.email,
+      },
 
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        console.log('[axios] 리스폰스 => ');
-        console.log(res);
-        console.log(res.data);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = res.data;
-        let d = JSON.parse(res.config.data);
-        console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-        console.log(c);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: d.uuid,
-            email: d.email,
-            snsType: d.snsType,
-            snsLoginIdx: c.snsLoginIdx,
-            isMember: c.isMember,
-          }),
-        );
-        if (c.isMember === true) {
-          const token: JwtTokenType = jwt_decode(res.data.accessToken);
-          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-          console.log(user.email);
-          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-          dispatch(originUserAction.set(data.user.email));
+      headers: {
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => {
+      console.log('[axios] 리스폰스 => ');
+      console.log(res);
+      console.log(res.data);
+      // const match = res.config.data.match(/\((.*)\)/);
+      let c = res.data;
+      let d = JSON.parse(res.config.data);
+      console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+      console.log(c);
+      dispatch(
+        userAction.add({
+          ...user,
+          uuid: d.uuid,
+          email: d.email,
+          snsType: d.snsType,
+          snsLoginIdx: c.snsLoginIdx,
+          isMember: c.isMember,
+        }),
+      );
+      if (c.isMember === true) {
+        const token: JwtTokenType = jwt_decode(res.data.accessToken);
+        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+        console.log(user.email);
+        localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        dispatch(originUserAction.set(data.user.email));
 
-          // ================브릿지 연결=====================
-          const userInfo = {
-            SNS_MEMBER: token.isSnsMember,
-            MEMBER_TYPE: token.memberType,
-            ACCESS_TOKEN: res.data.accessToken,
-            REFRESH_TOKEN: res.data.refreshToken,
-            USER_ID: data.user.email,
-          };
-          console.log('==========userInfo==========');
-          console.log(userInfo);
-          if (userAgent === 'Android_App') {
-            window.entizen!.setUserInfo(JSON.stringify(userInfo));
-          } else if (userAgent === 'iOS_App') {
-            window.webkit.messageHandlers.setUserInfo.postMessage(
-              JSON.stringify(userInfo),
-            );
-          }
-          router.push('/');
-        } else {
-          router.push('/signUp/SnsTerms');
+        // ================브릿지 연결=====================
+        const userInfo = {
+          SNS_MEMBER: token.isSnsMember,
+          MEMBER_TYPE: token.memberType,
+          ACCESS_TOKEN: res.data.accessToken,
+          REFRESH_TOKEN: res.data.refreshToken,
+          USER_ID: data.user.email,
+        };
+        console.log('==========userInfo==========');
+        console.log(userInfo);
+        if (userAgent === 'Android_App') {
+          window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (userAgent === 'iOS_App') {
+          window.webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
         }
-      });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
+        router.push('/');
+      } else {
+        router.push('/signUp/SnsTerms');
+      }
+    });
   };
   // 네이버 온클릭
   const handleNaver = async () => {
@@ -496,14 +491,8 @@ const Signin = () => {
       console.log(token);
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
-      const result = JSON.parse(payload.toString());
-      console.log('애플로그인 user 유니크값 : ', result);
-      if (data.detail.authorization.user.email) {
-        console.log(
-          '애플로그인 user 유니크값 : ',
-          data.detail.authorization.user.email,
-        );
-      }
+      const result: any = JSON.parse(payload.toString());
+      handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
     document.addEventListener('AppleIDSignInOnFailure', (error) => {
@@ -512,6 +501,81 @@ const Signin = () => {
       //todo fail logic
     });
   }, []);
+
+  // 애플로그인 핸들러
+  const handleAppleLogin = async (result: any) => {
+    console.log('애플로그인 user 유니크값 : ', result);
+    const email = data.detail.authorization.user.email
+      ? data.detail.authorization.user.email
+      : '';
+
+    const APPLE_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    await axios({
+      method: 'post',
+      url: APPLE_POST,
+      data: {
+        uuid: '' + data.detail.authorization.user.sub,
+        snsType: 'NAVER',
+        snsResponse: JSON.stringify(result),
+        email: email,
+      },
+
+      headers: {
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => {
+      console.log('[axios] 리스폰스 => ');
+      console.log(res);
+      console.log(res.data);
+      // const match = res.config.data.match(/\((.*)\)/);
+      let c = res.data;
+      let d = JSON.parse(res.config.data);
+      console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+      console.log(c);
+      dispatch(
+        userAction.add({
+          ...user,
+          uuid: d.uuid,
+          email: d.email,
+          snsType: d.snsType,
+          snsLoginIdx: c.snsLoginIdx,
+          isMember: c.isMember,
+        }),
+      );
+      if (c.isMember === true) {
+        const token: JwtTokenType = jwt_decode(res.data.accessToken);
+        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+        console.log(user.email);
+        localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        dispatch(originUserAction.set(data.user.email));
+
+        // ================브릿지 연결=====================
+        const userInfo = {
+          SNS_MEMBER: token.isSnsMember,
+          MEMBER_TYPE: token.memberType,
+          ACCESS_TOKEN: res.data.accessToken,
+          REFRESH_TOKEN: res.data.refreshToken,
+          USER_ID: data.user.email,
+        };
+        console.log('==========userInfo==========');
+        console.log(userInfo);
+        if (userAgent === 'Android_App') {
+          window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (userAgent === 'iOS_App') {
+          window.webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
+        }
+        router.push('/');
+      } else {
+        router.push('/signUp/SnsTerms');
+      }
+    });
+  };
+
   // 유저타입 확인하는 useEffect
   useEffect(() => {
     if (selectedLoginType === 0) {
