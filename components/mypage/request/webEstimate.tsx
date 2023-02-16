@@ -141,6 +141,7 @@ const Wrapper = styled.div`
   //padding-top: 21pt;
 `;
 const Label = styled.label`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 15pt;
@@ -148,6 +149,7 @@ const Label = styled.label`
   //padding-left: 15pt;
   color: ${colors.main2};
   .num {
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main};
   }
 `;

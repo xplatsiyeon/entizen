@@ -19,10 +19,14 @@ import MainImageWrap from './MainImageWrap';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = { num?: number; now?: string };
 
 const CompanyMainPage = ({ num, now }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const userID = JSON.parse(localStorage?.getItem('USER_ID')!);
   const dispatch = useDispatch();
@@ -91,28 +95,32 @@ const CompanyMainPage = ({ num, now }: Props) => {
             <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
-            {(['right'] as const).map((anchor) => (
-              <React.Fragment key={anchor}>
-                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                  <IconBox>
-                    <Image src={Hamburger} alt="listIcon" />
-                  </IconBox>
-                </HamburgerOn>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-                >
-                  <HamburgerBar
-                    anchor={anchor}
-                    toggleDrawer={toggleDrawer}
-                    setState={setState}
-                    state={state}
-                  />
-                </Drawer>
-              </React.Fragment>
-            ))}
+            {mobile && (
+              <>
+                {(['right'] as const).map((anchor) => (
+                  <React.Fragment key={anchor}>
+                    <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                      <IconBox>
+                        <Image src={Hamburger} alt="listIcon" />
+                      </IconBox>
+                    </HamburgerOn>
+                    <Drawer
+                      anchor={anchor}
+                      open={state[anchor]}
+                      onClose={toggleDrawer(anchor, false)}
+                      // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                    >
+                      <HamburgerBar
+                        anchor={anchor}
+                        toggleDrawer={toggleDrawer}
+                        setState={setState}
+                        state={state}
+                      />
+                    </Drawer>
+                  </React.Fragment>
+                ))}
+              </>
+            )}
           </IconWrapper>
         </HeadWrapper>
 
