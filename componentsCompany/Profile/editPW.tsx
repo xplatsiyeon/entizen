@@ -119,6 +119,8 @@ const EditPW = ({ setComponent }: Props) => {
     setPwShow(temp);
   };
 
+  useEffect(() => setPasswordError(false), [beforePasswordInput]);
+
   useEffect(() => {
     if (password) {
       if (password) {
@@ -136,6 +138,7 @@ const EditPW = ({ setComponent }: Props) => {
     }
     console.log(password, checkPassword);
   }, [password, checkPassword, checkSamePw]);
+
   const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
