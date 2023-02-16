@@ -41,15 +41,17 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data: UserInfo) => {
+      console.log('data==>>', data);
       console.log('memberType==>>', memberType);
       console.log(
         'data?.data?.data?.member?.memberType=>',
         data?.data?.data?.member?.memberType,
       );
       if (
-        data?.data?.data?.member === null ||
-        data?.data?.data?.member?.memberType !== memberType ||
-        data?.data?.data?.member?.snsLogin !== null
+        data?.data?.data?.member === null
+        // ||
+        // data?.data?.data?.member?.snsLogin !== null||
+        // data?.data?.data?.member?.memberType !== memberType
       ) {
         setIsModal(true);
         setModalMsg(
@@ -127,7 +129,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
