@@ -55,8 +55,8 @@ const ImageBox = styled.div<{ borders: number }>`
 `;
 
 const ButtonBox = styled.div`
-  padding: 9pt 12pt;
-  width: 123.75pt;
+  padding: 9pt 15.75pt 9pt 12pt;
+  width: 162.75pt;
   position: absolute;
   left: 28.5pt;
   bottom: 28.5pt;
@@ -74,6 +74,7 @@ const ButtonBox = styled.div`
 `;
 
 const BtnText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;

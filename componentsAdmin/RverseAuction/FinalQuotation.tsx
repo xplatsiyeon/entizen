@@ -397,13 +397,17 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                     {charger?.finalQuotationChargerFiles?.map(
                       (file, innerIndex) =>
                         file.productFileType === 'CATALOG' && (
-                          <a
-                            className="fileBox"
-                            key={innerIndex}
-                            download={file?.originalName}
-                            href={file?.url}
-                          >
-                            <p className="businessName">{file.originalName}</p>
+                          <DisplayBox>
+                            <a
+                              className="fileBox"
+                              key={innerIndex}
+                              download={file?.originalName}
+                              href={file?.url}
+                            >
+                              <p className="businessName">
+                                {file?.originalName}
+                              </p>
+                            </a>
                             <button
                               className="businessBtn"
                               onClick={() => {
@@ -412,7 +416,7 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                             >
                               삭제
                             </button>
-                          </a>
+                          </DisplayBox>
                         ),
                     )}
                   </React.Fragment>
@@ -563,12 +567,16 @@ const BusinessList = styled.div`
     /* identical to box height, or 21px */
     background: none;
     text-decoration-line: underline;
-
     color: #747780;
   }
   .fileContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
+`;
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;

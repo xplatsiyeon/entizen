@@ -104,6 +104,7 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 22.5pt;
   height: 165pt;
+
   @media (max-width: 899.25pt) {
     gap: 11.25pt;
     flex: none;
@@ -113,10 +114,13 @@ const Wrapper = styled.div`
 `;
 
 const BoxWrapper = styled.div<{ borders: number }>`
-  border: 1px solid #e2e5ed;
+  border: 1.5pt solid #e2e5ed;
   border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
-  box-shadow: 0px 0px 10px 0px #89a3c933;
-  padding: 33pt 28.5pt 26.25pt;
+  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
+  min-width: 210pt;
+  min-height: 168pt;
+  /* padding: 33pt 28.5pt 26.25pt; */
+  padding: 44px 28.5pt 35px 38px;
   & div:nth-of-type(2) {
     display: flex;
     justify-content: end;
@@ -152,6 +156,7 @@ const BoxName = styled.div`
   @media (max-width: 899.25pt) {
     margin-bottom: 21pt;
     & P {
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       line-height: 12pt;
     }

@@ -124,9 +124,10 @@ const SalesProjection = ({ text, setText }: Props) => {
 };
 
 const SearchMapWrapper = styled.div`
-  width: 100%;
+  /* width: 100%; */
   margin-top: 52.5pt;
-
+  min-width: 331.5pt;
+  /* height: 470px; */
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
   }
