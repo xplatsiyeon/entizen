@@ -40,7 +40,18 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
-
+interface AppleResult {
+  aud: string;
+  auth_time: number;
+  c_hash: string;
+  email: string;
+  email_verified: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  nonce_supported: string;
+  sub: string;
+}
 export interface AdminJwtTokenType {
   exp: number;
   iat: number;
@@ -480,18 +491,6 @@ const Signin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  interface AppleResult {
-    aud: string;
-    auth_time: number;
-    c_hash: string;
-    email: string;
-    email_verified: string;
-    exp: number;
-    iat: number;
-    iss: string;
-    nonce_supported: string;
-    sub: string;
-  }
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
@@ -518,7 +517,6 @@ const Signin = () => {
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
     console.log('애플로그인 user 유니크값 : ', result);
-    const email = result.email ? result.email : '';
 
     const APPLE_POST = `https://api.entizen.kr/api/members/login/sns`;
     await axios({
@@ -528,7 +526,7 @@ const Signin = () => {
         uuid: result.sub,
         snsType: 'APPLE',
         snsResponse: JSON.stringify(result),
-        email: email,
+        email: result.email,
       },
 
       headers: {
