@@ -479,6 +479,19 @@ const Signin = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  interface AppleResult {
+    aud: string;
+    auth_time: number;
+    c_hash: string;
+    email: string;
+    email_verified: string;
+    exp: number;
+    iat: number;
+    iss: string;
+    nonce_supported: string;
+    sub: string;
+  }
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
@@ -491,7 +504,7 @@ const Signin = () => {
       console.log(token);
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
-      const result: any = JSON.parse(payload.toString());
+      const result: AppleResult = JSON.parse(payload.toString());
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
@@ -503,19 +516,17 @@ const Signin = () => {
   }, []);
 
   // 애플로그인 핸들러
-  const handleAppleLogin = async (result: any) => {
+  const handleAppleLogin = async (result: AppleResult) => {
     console.log('애플로그인 user 유니크값 : ', result);
-    const email = data.detail.authorization.user.email
-      ? data.detail.authorization.user.email
-      : '';
+    const email = result.email ? result.email : '';
 
     const APPLE_POST = `https://api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: APPLE_POST,
       data: {
-        uuid: '' + data.detail.authorization.user.sub,
-        snsType: 'NAVER',
+        uuid: result.sub,
+        snsType: 'APPLE',
         snsResponse: JSON.stringify(result),
         email: email,
       },
