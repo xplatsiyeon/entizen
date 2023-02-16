@@ -11,6 +11,8 @@ import React from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import Image from 'next/image';
 import axios from 'axios';
+import { JwtTokenType } from 'pages/signin';
+import jwt_decode from 'jwt-decode';
 
 export interface Key {
   id: string;
@@ -111,7 +113,13 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   // 비밀번호 변경 api
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const token: JwtTokenType = jwt_decode(accessToken);
+
+    // console.log('token==>', token.memberIdx);
+
+    // return;
+
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
     try {
       axios({
         method: 'patch',

@@ -40,7 +40,18 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
-
+interface AppleResult {
+  aud: string;
+  auth_time: number;
+  c_hash: string;
+  email: string;
+  email_verified: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  nonce_supported: string;
+  sub: string;
+}
 export interface AdminJwtTokenType {
   exp: number;
   iat: number;
@@ -368,21 +379,21 @@ const Signin = () => {
       localStorage.removeItem('key');
     }
   };
-  // 비밀번호 찾기
-  const HandleFindPassword = async () => {
-    let key = localStorage.getItem('key');
-    let data: FindKey = JSON.parse(key!);
-    if (data.isMember) {
-      console.log('멤버 확인 -> ' + data.isMember);
-      localStorage.getItem('key');
-      router.push('/find/password');
-    } else {
-      setErrorMessage(
-        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-      );
-      setErrorModal((prev) => !prev);
-    }
-  };
+  // // 비밀번호 찾기
+  // const HandleFindPassword = async () => {
+  //   let key = localStorage.getItem('key');
+  //   let data: FindKey = JSON.parse(key!);
+  //   if (data.isMember) {
+  //     console.log('멤버 확인 -> ' + data.isMember);
+  //     localStorage.getItem('key');
+  //     router.push('/find/password');
+  //   } else {
+  //     setErrorMessage(
+  //       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+  //     );
+  //     setErrorModal((prev) => !prev);
+  //   }
+  // };
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') originLogin();
@@ -480,18 +491,6 @@ const Signin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  interface AppleResult {
-    aud: string;
-    auth_time: number;
-    c_hash: string;
-    email: string;
-    email_verified: string;
-    exp: number;
-    iat: number;
-    iss: string;
-    nonce_supported: string;
-    sub: string;
-  }
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
@@ -505,6 +504,10 @@ const Signin = () => {
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
+
+      console.log(
+        '=============== apple login useEffect 실행 =========================',
+      );
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
@@ -517,8 +520,10 @@ const Signin = () => {
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    console.log('애플로그인 user 유니크값 : ', result);
-    const email = result.email ? result.email : '';
+    console.log(
+      '=============== apple login 핸들러 함수 실행 =========================',
+    );
+    // console.log('애플로그인 user 유니크값 : ', result);
 
     const APPLE_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({
@@ -528,7 +533,7 @@ const Signin = () => {
         uuid: result.sub,
         snsType: 'APPLE',
         snsResponse: JSON.stringify(result),
-        email: email,
+        email: result.email,
       },
 
       headers: {
@@ -557,11 +562,10 @@ const Signin = () => {
       if (c.isMember === true) {
         const token: JwtTokenType = jwt_decode(res.data.accessToken);
         localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-        console.log(user.email);
+        localStorage.setItem('USER_ID', JSON.stringify(result.email));
         localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-        dispatch(originUserAction.set(data.user.email));
+        dispatch(originUserAction.set(result.email));
 
         // ================브릿지 연결=====================
         const userInfo = {
@@ -569,7 +573,7 @@ const Signin = () => {
           MEMBER_TYPE: token.memberType,
           ACCESS_TOKEN: res.data.accessToken,
           REFRESH_TOKEN: res.data.refreshToken,
-          USER_ID: data.user.email,
+          USER_ID: result.email,
         };
         console.log('==========userInfo==========');
         console.log(userInfo);
