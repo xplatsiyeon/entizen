@@ -207,6 +207,7 @@ interface ProjectDetailResponse {
       currentStep: string;
       // 완료 된 현장사진
       projectCompletionFiles: {
+        originalName: string;
         projectCompletionFileIdx: number;
         url: string;
       }[];
@@ -252,6 +253,10 @@ const ProjectCompleteDetail = ({
   const [projectCompletionFileIdx, setProjectCompletionFileIdx] = useState<
     number | undefined
   >();
+
+  // 삭제 하고 싶은 상세 파일
+  const [finalQuotationDetailFileIdx, setFinalQuotationDetailFileIdx] =
+    useState<number | undefined>();
 
   // 계약서 보기 버튼 활성화
   // 0은 계약서 없음 / 1은 자체 계약서 / 2는 모두사인 계약서 있음
@@ -394,14 +399,14 @@ const ProjectCompleteDetail = ({
   // 카탈로그 파일 삭제
   const modalCatalogDeleteFileBtnControll = () => {
     deleteMutate({
-      url: `/admin/quotations/final-quotation-files/${fileIdx}`,
+      url: `/admin/quotations/final-quotations/charger/files/${fileIdx}`,
     });
   };
 
   // 충전기 이미지 삭제
   const modalDeleteChargerImgBtnControll = () => {
     deleteMutate({
-      url: `/admin/quotations/final-quotation-files/${chargerIdx}`,
+      url: `/admin/quotations/final-quotations/charger/files/${chargerIdx}`,
     });
   };
 
@@ -410,6 +415,13 @@ const ProjectCompleteDetail = ({
   const modalDeleteCompleteImgBtnControll = () => {
     deleteMutate({
       url: `/admin/projects/${data?.data?.project?.projectIdx}/completion/files/${projectCompletionFileIdx}`,
+    });
+  };
+
+  // 사업자 등록증, 상세 견적 파일 삭제
+  const modalDeleteFinalFileBtnControll = () => {
+    deleteMutate({
+      url: `/admin/quotations/final-quotations/detail/files/${finalQuotationDetailFileIdx}`,
     });
   };
 
@@ -494,9 +506,17 @@ const ProjectCompleteDetail = ({
       modalDeleteChargerImgBtnControll();
     } else if (projectCompletionFileIdx) {
       modalDeleteCompleteImgBtnControll();
+    } else if (finalQuotationDetailFileIdx) {
+      modalDeleteFinalFileBtnControll();
     }
     refetch();
-  }, [fileDetailIdx, fileIdx, chargerIdx, projectCompletionFileIdx]);
+  }, [
+    fileDetailIdx,
+    fileIdx,
+    chargerIdx,
+    projectCompletionFileIdx,
+    finalQuotationDetailFileIdx,
+  ]);
 
   useEffect(() => {
     if (setNowHeight) {
@@ -559,6 +579,20 @@ const ProjectCompleteDetail = ({
   useEffect(() => {
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
+
+  console.log(
+    '🍎 사업자 등록증, 상세 견적서',
+    data?.data?.project?.finalQuotation?.finalQuotationDetailFiles,
+  );
+
+  console.log(
+    '🍓 카탈로그',
+    data?.data?.project?.finalQuotation?.finalQuotationChargers?.map((item) => {
+      item?.finalQuotationChargerFiles?.filter((el) => {
+        el?.productFileType === 'CATALOG';
+      });
+    }),
+  );
 
   return (
     <Background>
@@ -904,17 +938,21 @@ const ProjectCompleteDetail = ({
             <List>
               <Label>첨부파일</Label>
               <FileContainer>
-                {data?.data?.project?.companyMember?.businessRegistrationFiles?.map(
+                {/* {data?.data?.project?.companyMember?.businessRegistrationFiles?.map(
                   (file, index) => (
-                    <a
-                      className="fileBox"
-                      key={index}
-                      download={file?.url}
-                      href={file?.url}
-                    >
-                      <div className="businessName">
-                        <p className="businessNameText">{file?.originalName}</p>
-                      </div>
+                    <DisplayBox>
+                      <a
+                        className="fileBox"
+                        key={index}
+                        download={file?.url}
+                        href={file?.url}
+                      >
+                        <div className="businessName">
+                          <p className="businessNameText">
+                            {file?.originalName}
+                          </p>
+                        </div>
+                      </a>
                       <button
                         className="businessBtn"
                         onClick={() => {
@@ -926,25 +964,27 @@ const ProjectCompleteDetail = ({
                       >
                         삭제
                       </button>
-                    </a>
+                    </DisplayBox>
                   ),
-                )}
+                )} */}
                 {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
                   (item, index) =>
                     item?.finalQuotationChargerFiles
                       ?.filter((el) => el.productFileType === 'CATALOG')
                       ?.map((ele, idx) => (
-                        <a
-                          className="fileBox"
-                          key={index}
-                          download={ele?.url}
-                          href={ele?.url}
-                        >
-                          <div className="businessName">
-                            <p className="businessNameText">
-                              {ele?.originalName}
-                            </p>
-                          </div>
+                        <DisplayBox>
+                          <a
+                            className="fileBox"
+                            key={index}
+                            download={ele?.url}
+                            href={ele?.url}
+                          >
+                            <div className="businessName">
+                              <p className="businessNameText">
+                                {ele?.originalName}
+                              </p>
+                            </div>
+                          </a>
                           <button
                             className="businessBtn"
                             onClick={() => {
@@ -953,8 +993,64 @@ const ProjectCompleteDetail = ({
                           >
                             삭제
                           </button>
-                        </a>
+                        </DisplayBox>
                       )),
+                )}
+                {/* {data?.data?.project?.projectCompletionFiles?.map(
+                  (item, index) => (
+                    <DisplayBox>
+                      <a
+                        className="fileBox"
+                        key={index}
+                        download={item?.url}
+                        href={item?.url}
+                      >
+                        <div className="businessName">
+                          <p className="businessNameText">
+                            {item?.originalName}
+                          </p>
+                        </div>
+                      </a>
+                      <button
+                        className="businessBtn"
+                        onClick={() => {
+                          setProjectCompletionFileIdx(
+                            item?.projectCompletionFileIdx,
+                          );
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </DisplayBox>
+                  ),
+                )} */}
+                {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
+                  (item, index) => (
+                    <DisplayBox>
+                      <a
+                        className="fileBox"
+                        key={index}
+                        download={item?.originalName}
+                        href={item?.url}
+                      >
+                        <div className="businessName">
+                          <p className="businessNameText">
+                            {item?.originalName}
+                          </p>
+                        </div>
+                      </a>
+                      <button
+                        className="businessBtn"
+                        onClick={() => {
+                          setFinalQuotationDetailFileIdx(
+                            item?.finalQuotationDetailFileIdx,
+                          );
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </DisplayBox>
+                  ),
                 )}
               </FileContainer>
             </List>
@@ -1286,4 +1382,9 @@ const ImgList = styled.div<{ dataLength?: number }>`
       border-radius: 10px;
     }
   }
+`;
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;

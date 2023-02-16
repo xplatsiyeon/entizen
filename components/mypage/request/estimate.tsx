@@ -93,7 +93,7 @@ const Estimate = ({ listUp }: Props) => {
       {data?.inProgressQuotationRequests.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중
+            진행 중{' '}
             <span className="num">
               {data?.inProgressQuotationRequests.length}
             </span>
@@ -166,6 +166,7 @@ const Wrapper = styled.div`
   }
 `;
 const Label = styled.label`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 15pt;
@@ -173,10 +174,12 @@ const Label = styled.label`
   padding-left: 15pt;
   color: ${colors.main2};
   .num {
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main};
   }
 
   @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 18pt;
     line-height: 15pt;
     padding-left: 4pt;
@@ -208,35 +211,50 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     grid-template-columns: 1fr 1fr 1fr;
     gap: ${({ listUp }) => (listUp ? '9pt' : '22.5pt')};
     padding: 6pt 4pt 30pt;
-    width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')};
+    /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
+    width: 100%;
     padding-right: 5pt;
     padding-top: 21pt;
   }
 `;
 const CarouselItem = styled.div<{ listUp: boolean }>`
-  width: 105pt;
-  height: 135pt;
+  /* width: 105pt;
+  height: 135pt; */
+  width: 140px;
+  height: 180px;
   padding-left: 9pt;
-  padding-top: 9pt;
+  /* padding-top: 9pt; */
+  padding-top: 11pt;
   border-radius: 6pt;
   background-color: ${colors.lightWhite};
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   position: relative;
   cursor: pointer;
+
   .store-name {
-    padding-top: 16.5pt;
-    padding-right: 15pt;
-    font-weight: 700;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
-    line-height: 12pt;
+    font-weight: 700;
+    line-height: 18pt;
+    text-align: left;
+    width: 116px;
+    padding-top: 14.5pt;
+    /* padding-right: 15pt; */
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    text-overflow: ellipsis;
+    word-break: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; // 원하는 라인수
+    -webkit-box-orient: vertical;
   }
   .date {
     position: absolute;
-    bottom: 9pt;
-    right: 9pt;
-    font-weight: 400;
+    /* bottom: 9pt; */
+    bottom: 8pt;
+    right: 13pt;
+    font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -244,21 +262,64 @@ const CarouselItem = styled.div<{ listUp: boolean }>`
     display: ${({ listUp }) => (listUp ? 'none' : 'block')};
   }
 
-  @media (min-width: 899.25pt) {
-    width: 163.5pt;
-    height: ${({ listUp }) => (listUp ? 'auto' : '99pt')};
-    padding-left: 15pt;
-    padding-top: 15pt;
+  @media (min-width: 900pt) {
+    /* width: 163.5pt; */
+    border-radius: 12pt;
+    width: 178.5pt;
+    /* height: ${({ listUp }) => (listUp ? 'auto' : '99pt')}; */
+    height: ${({ listUp }) => (listUp ? 'auto' : '114pt')};
+    /* padding-left: 15pt; */
+    padding-left: 12.75pt;
+    padding-top: 16.5pt;
     padding-bottom: ${({ listUp }) => (listUp ? '12pt' : '0')};
+    .store-name {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 13.5pt;
+      font-weight: 700;
+      line-height: 18pt;
+      text-align: left;
+      width: 150pt;
+      padding-top: 16.5pt;
+      /* padding-right: 15pt; */
+      letter-spacing: -0.02em;
+      color: ${colors.main2};
+      text-overflow: ellipsis;
+      overflow: hidden;
+      /* display: -webkit-box; */
+      -webkit-line-clamp: 1; // 원하는 라인수
+      -webkit-box-orient: vertical;
+    }
+    .date {
+      position: absolute;
+      /* bottom: 9pt; */
+      bottom: 15pt;
+      right: 18pt;
+      font-weight: 500;
+      font-size: 10.5pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      color: ${colors.lightGray3};
+      display: ${({ listUp }) => (listUp ? 'none' : 'block')};
+    }
   }
 `;
 const Badge = styled.span<{ color: string }>`
+  // position: absolute;
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
-  font-size: 9pt;
+  font-size: 10.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background: ${({ color }) => color};
   border-radius: 12pt;
   padding: 4.5pt 7.5pt;
+  @media (max-width: 899.25pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;

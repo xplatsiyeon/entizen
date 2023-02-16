@@ -504,6 +504,10 @@ const Signin = () => {
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
+
+      console.log(
+        '=============== apple login useEffect 실행 =========================',
+      );
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
@@ -516,7 +520,10 @@ const Signin = () => {
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    console.log('애플로그인 user 유니크값 : ', result);
+    console.log(
+      '=============== apple login 핸들러 함수 실행 =========================',
+    );
+    // console.log('애플로그인 user 유니크값 : ', result);
 
     const APPLE_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({

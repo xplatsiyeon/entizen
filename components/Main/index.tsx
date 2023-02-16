@@ -32,6 +32,7 @@ import {
   requestPermissionCheck,
 } from 'bridge/appToWeb';
 import colors from 'styles/colors';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {};
 
@@ -43,6 +44,10 @@ export interface Count {
 }
 const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
   const router = useRouter();
   const dispatch = useDispatch();
   const userID = localStorage.getItem('USER_ID');
@@ -127,28 +132,32 @@ const MainPage = (props: Props) => {
                 <Image src={BellNormal} alt="alarmIcon" />
               )}
             </FirstIconBox>
-            {(['right'] as const).map((anchor) => (
-              <React.Fragment key={anchor}>
-                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                  <IconBox>
-                    <Image src={Hamburger} alt="listIcon" />
-                  </IconBox>
-                </HamburgerOn>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-                >
-                  <HamburgerBar
-                    anchor={anchor}
-                    toggleDrawer={toggleDrawer}
-                    setState={setState}
-                    state={state}
-                  />
-                </Drawer>
-              </React.Fragment>
-            ))}
+            {mobile && (
+              <>
+                {(['right'] as const).map((anchor) => (
+                  <React.Fragment key={anchor}>
+                    <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                      <IconBox>
+                        <Image src={Hamburger} alt="listIcon" />
+                      </IconBox>
+                    </HamburgerOn>
+                    <Drawer
+                      anchor={anchor}
+                      open={state[anchor]}
+                      onClose={toggleDrawer(anchor, false)}
+                      // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                    >
+                      <HamburgerBar
+                        anchor={anchor}
+                        toggleDrawer={toggleDrawer}
+                        setState={setState}
+                        state={state}
+                      />
+                    </Drawer>
+                  </React.Fragment>
+                ))}
+              </>
+            )}
           </IconWrapper>
         </HeadWrapper>
         {/* 브릿지 테스트용 코드 */}

@@ -4,7 +4,6 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
-import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import React from 'react';
@@ -19,7 +18,6 @@ const FindPassword = () => {
 
   const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
-  const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
   const [pwShow, setPwShow] = useState<boolean>(false);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
@@ -62,7 +60,6 @@ const FindPassword = () => {
       await axios({
         method: 'patch',
         url: PROFILE_API,
-        // params: { memberIdx: data.memberIdx },
         data: {
           password: pwInput,
         },
@@ -125,19 +122,9 @@ const FindPassword = () => {
       setOpenModal(false);
     }
   };
-  const beforeAdornment = beforePwSelected ? iconAdorment : {};
+
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
-
-  // useEffect(() => {
-  //   let key = localStorage.getItem('key');
-  //   let data = JSON.parse(key!);
-  //   if (data.snsType) {
-  //     setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
-  //     setOpenModal(true);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useEffect(() => {
     if (pwInput.length > 7 && checkPw === pwInput) {

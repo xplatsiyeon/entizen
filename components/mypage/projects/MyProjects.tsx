@@ -90,7 +90,7 @@ const MyProjects = ({ listUp }: Props) => {
                 text={item?.badge}
                 backgroundColor={handleColor(item?.badge)}
                 bottom={'12pt'}
-                top={'12pt'}
+                top={'15pt'}
                 left={'12pt'}
               />
               <P>{item?.projectName}</P>
@@ -131,12 +131,16 @@ const ProjectBox = styled.li`
   position: relative;
   cursor: pointer;
   @media (min-width: 900pt) {
+    border-radius: 12pt;
     width: 178.5pt;
-    height: 99pt;
+    /* height: 99pt; */
+    height: 114pt;
+    padding-top: 3.75pt;
   }
 `;
 
 const P = styled.p`
+  width: 91.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
@@ -146,6 +150,31 @@ const P = styled.p`
   left: 12pt;
   position: absolute;
   padding-right: 12.75pt;
+  color: #222222;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // 원하는 라인수
+  -webkit-box-orient: vertical;
+  padding-top: 10pt;
+  @media (min-width: 900pt) {
+    /* width: 150pt; */
+    width: 160pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 13.5pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; // 원하는 라인수
+    -webkit-box-orient: vertical;
+    padding-top: 12pt;
+  }
 `;
 
 const P2 = styled.p`
@@ -154,8 +183,18 @@ const P2 = styled.p`
   font-weight: 400;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  left: 12pt;
+  left: 13pt;
   bottom: 12pt;
   position: absolute;
   color: #caccd1;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    right: 18pt;
+    bottom: 12pt;
+  }
 `;

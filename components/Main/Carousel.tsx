@@ -69,7 +69,7 @@ const Carousel = () => {
       <SwiperMain
         spaceBetween={0}
         pagination={{
-          type: 'fraction',
+          type: 'bullets',
         }}
         autoplay={{
           delay: 3000,
@@ -153,9 +153,11 @@ const SwiperMain = styled(Swiper)`
     border-radius: 6pt;
   }
   .swiper-pagination {
-    width: fit-content;
-    right: 9.75pt;
-    left: auto;
+    /* width: fit-content; */
+    /* right: 9.75pt;
+    left: auto; */
+
+    top: 321pt;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 500;
@@ -163,14 +165,23 @@ const SwiperMain = styled(Swiper)`
     line-height: 9pt;
     letter-spacing: -0.02em;
     color: #ffffff;
-
     padding: 1.5pt 4.5pt;
-    background: rgba(0, 0, 0, 0.3);
+    /* background: rgba(0, 0, 0, 0.3); */
     border-radius: 7.5pt;
   }
 
   .swiper-wrapper {
     width: 0;
+  }
+
+  .swiper-pagination-bullet {
+    background-color: white;
+    margin: 0 3pt !important;
+  }
+  .swiper-pagination-bullet-active {
+    width: 18pt;
+    height: 6pt;
+    border-radius: 12pt;
   }
 
   .swiper-button-next {
@@ -179,6 +190,7 @@ const SwiperMain = styled(Swiper)`
     position: absolute;
     width: 21pt;
     height: 21pt;
+    margin-right: 150pt;
     @media (max-width: 899.25pt) {
       display: none;
     }
@@ -188,6 +200,7 @@ const SwiperMain = styled(Swiper)`
     width: 21pt;
     height: 21pt;
     position: absolute;
+    margin-left: 150pt;
     @media (max-width: 899.25pt) {
       display: none;
     }
