@@ -155,9 +155,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
-      // setTimeout(() => {
-      //   if (mobInputRef.current) mobInputRef.current.focus();
-      // }, 300);
+      setTimeout(() => {
+        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
+      }, 300);
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
@@ -498,6 +498,12 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
+          const inner = logs.current?.querySelector('.inner');
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
             webInputRef.current.focus({
@@ -511,6 +517,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   useEffect(() => {
 
     const inner = logs.current?.querySelector('.inner');
+    
     setTimeout(() => {
       console.log('처음에만');
       //focusRef.current?.focus();
