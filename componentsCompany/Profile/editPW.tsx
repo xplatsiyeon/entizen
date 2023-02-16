@@ -75,24 +75,6 @@ const EditPW = ({ setComponent }: Props) => {
     },
   );
 
-  useEffect(() => {
-    if (password) {
-      if (password) {
-        let check1 =
-          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-            password,
-          );
-        console.log(check1);
-        setCheckedPw(check1);
-      }
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-  }, [password, checkPassword]);
-
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
       setPwInput(e.target.value);
@@ -136,6 +118,24 @@ const EditPW = ({ setComponent }: Props) => {
     temp[id] = !temp[id];
     setPwShow(temp);
   };
+
+  useEffect(() => {
+    if (password) {
+      if (password) {
+        let check1 =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+            password,
+          );
+        console.log(check1);
+        setCheckedPw(check1);
+      }
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword, checkSamePw]);
   const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
