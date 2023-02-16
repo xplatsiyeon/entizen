@@ -39,30 +39,14 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
   const key: Key = JSON.parse(localStorage.getItem('key')!);
 
   const router = useRouter();
-
-  useEffect(() => {
-    if (password) {
-      if (password) {
-        let check1 =
-          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-            password,
-          );
-        console.log(check1);
-        setCheckedPw(check1);
-      }
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-  }, [password, checkPassword]);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
@@ -114,38 +98,70 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
-
-    // console.log('token==>', token.memberIdx);
-
-    // return;
-
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
-    try {
-      axios({
-        method: 'patch',
-        url: PASSWORD_CHANGE,
-        data: {
-          oldPassword: beforePasswordInput,
-          newPassword: password,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
+    // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
+
+    axios({
+      method: 'patch',
+      url: PASSWORD_CHANGE,
+      data: {
+        oldPassword: beforePasswordInput,
+        newPassword: password,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
         setOpenModal(true);
+      })
+      .catch((err) => {
+        console.log('===============err==================');
+        console.log(err);
+        if (
+          err?.response?.data?.message! ===
+          '기존과 동일한 비밀번호로 변경할 수 없습니다.'
+        ) {
+          setPasswordError(true);
+          setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+          console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
+        }
+        if (err?.response?.data?.message! === '올바르지 않는 비밀번호입니다.') {
+          setPasswordError(true);
+          setErrorMessage('비밀번호가 일치하지 않습니다.');
+        }
       });
-    } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
-    }
   };
   const handleModalYes = () => {
     localStorage.removeItem('key');
     setOpenModal(false);
     router.push('/signin');
   };
+
+  useEffect(() => setPasswordError(false), [beforePasswordInput]);
+
+  useEffect(() => {
+    if (password) {
+      if (password) {
+        let check1 =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+            password,
+          );
+        console.log(check1);
+        setCheckedPw(check1);
+      }
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) {
+        setCheckSamePw(false);
+      } else {
+        setCheckSamePw(true);
+      }
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword, checkSamePw]);
 
   const iconAdorment = {
     endAdornment: (
@@ -236,7 +252,18 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                 onFocus={(e) => setBeforePwSelected(true)}
                 onBlur={(e) => setBeforePwSelected(false)}
               />
-
+              {passwordError && (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    {errorMessage}
+                  </Typography>
+                </Box>
+              )}
               <NewPassword>새로운 비밀번호</NewPassword>
               <Input
                 placeholder="비밀번호 입력"
