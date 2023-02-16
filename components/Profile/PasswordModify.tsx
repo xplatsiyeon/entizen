@@ -39,6 +39,8 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
@@ -120,32 +122,47 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     // return;
 
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
-    try {
-      axios({
-        method: 'patch',
-        url: PASSWORD_CHANGE,
-        data: {
-          oldPassword: beforePasswordInput,
-          newPassword: password,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
+
+    axios({
+      method: 'patch',
+      url: PASSWORD_CHANGE,
+      data: {
+        oldPassword: beforePasswordInput,
+        newPassword: password,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
         setOpenModal(true);
+      })
+      .catch((err) => {
+        console.log('===============err==================');
+        if (
+          err.response.data.message ===
+          '기존과 동일한 비밀번호로 변경할 수 없습니다.'
+        ) {
+          setPasswordError(true);
+          setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+        }
+        if (err.response.data.message === '올바르지 않는 비밀번호입니다.') {
+          setPasswordError(true);
+          setErrorMessage('올바르지 않는 비밀번호입니다.');
+        }
       });
-    } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
-    }
   };
   const handleModalYes = () => {
     localStorage.removeItem('key');
     setOpenModal(false);
     router.push('/signin');
   };
+
+  useEffect(() => {
+    setPasswordError(false);
+  }, [beforePasswordInput]);
 
   const iconAdorment = {
     endAdornment: (
@@ -236,7 +253,18 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                 onFocus={(e) => setBeforePwSelected(true)}
                 onBlur={(e) => setBeforePwSelected(false)}
               />
-
+              {passwordError && (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    {errorMessage}
+                  </Typography>
+                </Box>
+              )}
               <NewPassword>새로운 비밀번호</NewPassword>
               <Input
                 placeholder="비밀번호 입력"
