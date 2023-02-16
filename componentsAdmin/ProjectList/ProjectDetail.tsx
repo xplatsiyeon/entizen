@@ -972,7 +972,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                         </DisplayBox>
                       )),
                 )}
-                {data?.data?.project?.projectCompletionFiles?.map(
+                {/* {data?.data?.project?.projectCompletionFiles?.map(
                   (item, index) => (
                     <DisplayBox>
                       <a
@@ -999,7 +999,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                       </button>
                     </DisplayBox>
                   ),
-                )}
+                )} */}
                 {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
                   (item, index) => (
                     <DisplayBox>

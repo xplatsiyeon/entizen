@@ -54,7 +54,7 @@ const FindPassword = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
-    const PROFILE_API = `https://api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
+    const PROFILE_API = `https://test-api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
     try {
       console.log('이름 =>   ' + data.name);
       console.log('번호 =>   ' + data.phone);
