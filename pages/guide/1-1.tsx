@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
-import Platform from 'public/guide/platform_guide.png';
+// import Platform from 'public/guide/platform_guide.png';
+import Platform from 'public/guide/GuideBannerMobilePng.png';
 import { useState } from 'react';
 import Infom from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
@@ -10,7 +12,8 @@ import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import Guide from 'public/guide/guide1.png';
+// import Guide from 'public/guide/guide1.png';
+import Guide from 'public/guide/GuideBannerSvgPng.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
@@ -44,10 +47,52 @@ const Guide1_1 = () => {
           rightOnClick={() => router.push('/')}
         />
         <PlatformImgBox>
-          <Image src={Platform} alt="platform" />
+          <Image
+            src={Platform}
+            alt="platform"
+            layout="fill"
+            objectFit="cover"
+          />
+          <MobileBannerText>
+            <span className="title">
+              내일의 충전생활,
+              <br />그 일상을 오늘로
+            </span>
+            <span className="smallText">
+              엔티즌은 EV 충전기 구매자와
+              <br />
+              CaaS 사업자를 연결해주고, 충전사업 가이드를
+              <br />
+              지원하는 CaaS 중개 플랫폼 입니다.
+              <br />
+              <br />
+              이제 엔티즌에서 제품과 서비스들을 하나로 묶은
+              <br />
+              구독상품으로 전기차 세상을 쉽고 간편하게 누리세요!
+            </span>
+            <span className="annotationText">
+              * CaaS: Charging as a Service, 구독 운영 / 파트너
+            </span>
+          </MobileBannerText>
         </PlatformImgBox>
         <GuideImgBox>
-          <Image src={Guide} alt="guide" />
+          <BannerTextBox>
+            <span className="title">
+              내일의 충전생활,
+              <br />그 일상을 오늘로
+            </span>
+            <span className="smallText">
+              엔티즌은 EV 충전기 구매자와 CaaS 사업자를 연결해주고, 충전사업
+              가이드를 지원하는 CaaS 중개 플랫폼 입니다.
+              <br />
+              이제 엔티즌에서 제품과 서비스들을 하나로 묶은 구독상품으로 전기차
+              세상을 쉽고 간편하게 누리세요!
+            </span>
+            <span className="annotationText">
+              * CaaS: Charging as a Service, 구독 운영 / 파트너
+            </span>
+          </BannerTextBox>
+          <Image src={Guide} alt="guide" layout="fill" objectFit="cover" />
         </GuideImgBox>
         <ModalBox>
           <TabBox>
@@ -73,6 +118,16 @@ const Guide1_1 = () => {
 
 export default Guide1_1;
 
+const align = css`
+  position: absolute;
+  left: 50;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const Wrapper = styled.div`
   padding-bottom: 48pt;
 
@@ -85,18 +140,29 @@ const PlatformImgBox = styled(Box)`
   justify-content: center;
   align-items: center;
   position: relative;
-
+  min-height: 249pt;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (max-width: 899.25pt) {
     margin: 12pt 15pt 0 15pt;
     display: flex;
   }
 `;
 const GuideImgBox = styled(Box)`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  min-height: 330pt;
+  width: 100%;
 
+  & > span {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
   @media (max-width: 899.25pt) {
     margin: 12pt 15pt 0 15pt;
     display: none;
@@ -111,7 +177,7 @@ const TabBox = styled.div`
   justify-content: center;
   width: 105%;
   padding-bottom: 12pt;
-  border-bottom: 1px solid #f3f4f7;
+  border-bottom: 0.75pt solid #f3f4f7;
 
   @media (max-width: 899.25pt) {
     padding-left: 15pt;
@@ -133,11 +199,88 @@ const Item = styled.div<{ idx: string; num: string }>`
     bottom: -12pt;
     width: 100%;
     border-bottom: ${({ idx, num }) =>
-      idx === num && `  4px solid ${colors.main};`};
+      idx === num && `  3pt solid ${colors.main};`};
     border-radius: 10pt;
   }
 
   @media (max-width: 899.25pt) {
     padding: 0 11.25pt;
+  }
+`;
+
+const BannerTextBox = styled.div`
+  ${align}
+  .title {
+    padding-top: 69.75pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 30pt;
+    font-weight: 700;
+    line-height: 45pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .smallText {
+    padding-top: 21pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 22.5pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    white-space: nowrap;
+    color: white;
+  }
+
+  .annotationText {
+    padding-top: 45pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: white;
+  }
+`;
+
+const MobileBannerText = styled.div`
+  ${align}
+  .title {
+    padding-top: 28.5pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 13.5pt;
+    font-weight: 700;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .smallText {
+    padding-top: 9pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 16.5pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    white-space: nowrap;
+    color: white;
+  }
+
+  .annotationText {
+    padding-top: 30pt;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    white-space: nowrap;
+    color: white;
   }
 `;
