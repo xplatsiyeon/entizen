@@ -66,18 +66,16 @@ export const handleColor = (badge: string | undefined): string => {
  * @returns
  */
 export const handleColor2 = (badge: number) => {
-  if (badge === 0) {
+  if ((badge) > 100) {
     return colors.main;
-  } else if (badge === 1) {
+  } else if ( (badge > 30) && (badge <= 99)) {
     return '#FFC043';
-  } else if (badge === 2) {
+  } else if ((badge <= 30)) {
     return '#F75015';
-  } else if (badge === 3) {
+  } else if(!badge) {
     return '#222222';
-  } else if (badge === 4) {
-    return '#CACCD1';
   } else {
-    return '';
+    return '#CACCD1';
   }
 };
 
