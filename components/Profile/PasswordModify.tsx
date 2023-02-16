@@ -128,9 +128,9 @@ const PasswordModify = ({ setTabNumber }: Props) => {
           err.response.data.message ===
           '기존과 동일한 비밀번호로 변경할 수 없습니다.'
         ) {
-          console.log('기존과 동일한 비밀번호로 변경할 수 없습니다.');
           setCheckSamePw(true);
           setCheckMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+          console.log('비밀번호 확인 -->>', err.response.data.message);
         }
         if (err.response.data.message === '올바르지 않는 비밀번호입니다.') {
           setPasswordError(true);
@@ -161,8 +161,8 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     }
     if (checkPassword) {
       if (password !== checkPassword) {
-        setCheckSamePw(false);
         setCheckMessage('');
+        setCheckSamePw(false);
       } else {
         setCheckSamePw(true);
         setCheckMessage('비밀번호를 확인해주세요');
