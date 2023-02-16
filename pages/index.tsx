@@ -42,15 +42,6 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          // alert(jsonGetUserInfo.ACCESS_TOKEN);
-          // axios
-          //   .get(`https://test-api.entizen.kr/api/members/info`, {
-          //     headers: {
-          //       Authorization: `Bearer ${jsonGetUserInfo.ACCESS_TOKEN}`,
-          //     },
-          //   })
-          //   .then((res: any) => {
-          // alert('성공 then');
           localStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
@@ -72,25 +63,12 @@ const Home: NextPage<Props> = ({}: Props) => {
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
           setLoginChecking(false);
-          // })
-          // .catch(async (error) => {
-          //   setIsModal(true);
-          //   await appLogout(userAgent as string);
-          //   setLoginChecking(false);
-          // });
         }
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          // axios
-          //   .get(`https://test-api.entizen.kr/api/members/info`, {
-          //     headers: {
-          //       Authorization: `Bearer ${userInfo.ACCESS_TOKEN}`,
-          //     },
-          //   })
-          //   .then((res: any) => {
           localStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
@@ -109,24 +87,16 @@ const Home: NextPage<Props> = ({}: Props) => {
           );
           localStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
           setLoginChecking(false);
-          // })
-          // .catch(async (error) => {
-          //   setIsModal(true);
-          //   await appLogout(userAgent as string);
-          //   setLoginChecking(false);
-          // });
         }
       };
     }
   }, []);
 
-  useEffect(() => {
-    // 모달창 업데이트
-  }, [isModal]);
+  useEffect(() => {}, [isModal]);
 
-  if (loginChecking) {
-    // return <Loader />;
-  }
+  // if (loginChecking) {
+  // return <Loader />;
+  // }
 
   return (
     <>

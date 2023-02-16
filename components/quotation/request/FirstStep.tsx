@@ -384,5 +384,6 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;

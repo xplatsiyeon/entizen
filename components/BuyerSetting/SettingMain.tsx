@@ -17,6 +17,7 @@ import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
 import { appLogout } from 'bridge/appToWeb';
+import { googleLogout } from '@react-oauth/google';
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -102,6 +103,7 @@ const SettingMain = ({
       withCredentials: true,
     })
       .then((res) => {
+        const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
         // ============ 로그아웃 브릿지 =================
         appLogout(userAgent);
         localStorage.removeItem('SNS_MEMBER');
@@ -111,6 +113,11 @@ const SettingMain = ({
         localStorage.removeItem('MEMBER_TYPE');
         setLogoutModal(false);
         setAlertModal(false);
+        if (isSns) {
+          NaverLogout();
+          KakaoLogout();
+          googleLogout();
+        }
       })
       .then((res) => router.push('/'));
   };

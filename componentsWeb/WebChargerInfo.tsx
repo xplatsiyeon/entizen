@@ -6,22 +6,19 @@ import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
+import useCharger from 'hooks/useCharger';
 
 type Props = {
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
-  slowCharger: SlowFast[];
-  fastCharger: SlowFast[];
 };
 
-const WebChargerInfo = ({
-  selectedCharger,
-  setSelectedCharger,
-  slowCharger,
-  fastCharger,
-}: Props) => {
+const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
+
+  const { slowCharger, fastCharger } = useCharger();
+
   return (
     <InfoBox>
       <SelectChargerBox className="forScroll">
@@ -59,7 +56,7 @@ const WebChargerInfo = ({
         </ChargerTypeNCountBox>
         <PredictBoxWrapper>
           {selectedCharger == 0 &&
-            slowCharger.map((el, index) => (
+            slowCharger?.map((el, index) => (
               <PredictBox key={index}>
                 <div>{el.year}</div>
                 <div>충전량 (월)</div>
@@ -69,7 +66,7 @@ const WebChargerInfo = ({
               </PredictBox>
             ))}
           {selectedCharger == 1 &&
-            fastCharger.map((el, index) => (
+            fastCharger?.map((el, index) => (
               <PredictBox key={index}>
                 <div>{el.year}</div>
                 <div>충전량 (월)</div>

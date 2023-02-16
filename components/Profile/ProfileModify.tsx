@@ -160,6 +160,19 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   //     });
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);

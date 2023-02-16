@@ -14,6 +14,7 @@ declare global {
     webkit?: any;
     // test?: () => void;
     returnUserInfo?: (userInfo: any) => void;
+    onClickBackButton: () => void;
     openGallery?: () => void;
     openFileUpload?: () => void;
     responseGoogleLogin?: (
