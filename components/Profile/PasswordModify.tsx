@@ -99,12 +99,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
-
-    // console.log('token==>', token.memberIdx);
-
-    // return;
-
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${token.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
 
     axios({
       method: 'patch',
@@ -124,15 +119,16 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       })
       .catch((err) => {
         console.log('===============err==================');
+        console.log(err);
         if (
-          err.response.data.message ===
+          err?.response?.data?.message! ===
           '기존과 동일한 비밀번호로 변경할 수 없습니다.'
         ) {
           setCheckSamePw(true);
           setCheckMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
-          console.log('비밀번호 확인 -->>', err.response.data.message);
+          console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
         }
-        if (err.response.data.message === '올바르지 않는 비밀번호입니다.') {
+        if (err?.response?.data?.message! === '올바르지 않는 비밀번호입니다.') {
           setPasswordError(true);
           setErrorMessage('비밀번호가 일치하지 않습니다.');
         }
