@@ -368,21 +368,21 @@ const Signin = () => {
       localStorage.removeItem('key');
     }
   };
-  // 비밀번호 찾기
-  const HandleFindPassword = async () => {
-    let key = localStorage.getItem('key');
-    let data: FindKey = JSON.parse(key!);
-    if (data.isMember) {
-      console.log('멤버 확인 -> ' + data.isMember);
-      localStorage.getItem('key');
-      router.push('/find/password');
-    } else {
-      setErrorMessage(
-        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-      );
-      setErrorModal((prev) => !prev);
-    }
-  };
+  // // 비밀번호 찾기
+  // const HandleFindPassword = async () => {
+  //   let key = localStorage.getItem('key');
+  //   let data: FindKey = JSON.parse(key!);
+  //   if (data.isMember) {
+  //     console.log('멤버 확인 -> ' + data.isMember);
+  //     localStorage.getItem('key');
+  //     router.push('/find/password');
+  //   } else {
+  //     setErrorMessage(
+  //       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+  //     );
+  //     setErrorModal((prev) => !prev);
+  //   }
+  // };
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') originLogin();
@@ -557,11 +557,10 @@ const Signin = () => {
       if (c.isMember === true) {
         const token: JwtTokenType = jwt_decode(res.data.accessToken);
         localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-        console.log(user.email);
+        localStorage.setItem('USER_ID', JSON.stringify(result.email));
         localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-        dispatch(originUserAction.set(data.user.email));
+        dispatch(originUserAction.set(result.email));
 
         // ================브릿지 연결=====================
         const userInfo = {
@@ -569,7 +568,7 @@ const Signin = () => {
           MEMBER_TYPE: token.memberType,
           ACCESS_TOKEN: res.data.accessToken,
           REFRESH_TOKEN: res.data.refreshToken,
-          USER_ID: data.user.email,
+          USER_ID: result.email,
         };
         console.log('==========userInfo==========');
         console.log(userInfo);
