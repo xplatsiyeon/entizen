@@ -11,7 +11,7 @@ export interface PropsApi {
 
 export const BASE_URL = 'https://test-api.entizen.kr/api';
 // 로컬에서 사용할때만 활성화 시키기
-// export const BASE_URL = `/api`;
+//export const BASE_URL = `/api`;
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {

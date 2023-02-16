@@ -5,8 +5,8 @@ type Props = {
   text: string;
   backgroundColor: string;
   bottom?: string;
-  top?: string
-  left?: string
+  top?: string;
+  left?: string;
 };
 
 const CommonBtn = (props: Props) => {
@@ -24,22 +24,36 @@ const CommonBtn = (props: Props) => {
   );
 };
 
-const StatusBtn = styled.span<{ backgroundColor: string; bottom: string; top: string|undefined; left: string|undefined; }>`
+const StatusBtn = styled.span<{
+  backgroundColor: string;
+  bottom: string;
+  top: string | undefined;
+  left: string | undefined;
+}>`
   padding: 4.5pt 7.5pt;
+  font-family: 'Spoqa Han Sans Neo';
   background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 12pt;
   position: relative;
   margin-top: ${({ bottom }) => bottom};
   text-align: center;
   position: relative;
-  top: ${({ top }) => top? top : '1pt'};
-  left: ${({ left }) => left? left : '0'};
+  top: ${({ top }) => (top ? top : '1pt')};
+  left: ${({ left }) => (left ? left : '0')};
   color: #ffffff;
   font-size: 9pt;
   font-weight: 500;
   line-height: 9pt;
   letter-spacing: -0.02em;
   & span {
+  }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 

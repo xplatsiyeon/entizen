@@ -20,6 +20,7 @@ import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { UserChattingRooms } from 'pages/chatting';
+import { useMediaQuery } from 'react-responsive';
 
 export interface ChattingListResponse {
   isSuccess: true;
@@ -107,6 +108,9 @@ type Props = {
 
 const TAG = 'pages/chatting/index.tsx';
 const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
@@ -188,28 +192,32 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
           <IconWrap onClick={() => router.push('/alarm')}>
             <Image src={bell} alt="alarmIcon" layout="fill" />
           </IconWrap>
-          {(['right'] as const).map((anchor) => (
-            <React.Fragment key={anchor}>
-              <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                <IconBox>
-                  <Image src={Hamburger} alt="listIcon" />
-                </IconBox>
-              </HamburgerOn>
-              <Drawer
-                anchor={anchor}
-                open={state[anchor]}
-                onClose={toggleDrawer(anchor, false)}
-                // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-              >
-                <HamburgerBar
-                  anchor={anchor}
-                  toggleDrawer={toggleDrawer}
-                  setState={setState}
-                  state={state}
-                />
-              </Drawer>
-            </React.Fragment>
-          ))}
+          {mobile && (
+            <>
+              {(['right'] as const).map((anchor) => (
+                <React.Fragment key={anchor}>
+                  <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                    <IconBox>
+                      <Image src={Hamburger} alt="listIcon" />
+                    </IconBox>
+                  </HamburgerOn>
+                  <Drawer
+                    anchor={anchor}
+                    open={state[anchor]}
+                    onClose={toggleDrawer(anchor, false)}
+                    // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                  >
+                    <HamburgerBar
+                      anchor={anchor}
+                      toggleDrawer={toggleDrawer}
+                      setState={setState}
+                      state={state}
+                    />
+                  </Drawer>
+                </React.Fragment>
+              ))}
+            </>
+          )}
         </IconWrapper>
       </Header>
       <FlexBox chattingRoom={Boolean(chattingRoom)}>

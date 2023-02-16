@@ -234,7 +234,6 @@ const ListBox = styled.div`
   padding-left: 24pt;
   padding-right: 24pt;
   height: 100vh;
-
   background-color: ${colors.main};
 `;
 const XBtnWrapper = styled.div`

@@ -42,6 +42,7 @@ import ReportModal from './ReportModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
+import { CollectionsBookmarkOutlined } from '@mui/icons-material';
 
 type ChattingLogs = {
   createdAt: string;
@@ -154,9 +155,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
-      // setTimeout(() => {
-      //   if (mobInputRef.current) mobInputRef.current.focus();
-      // }, 300);
+      setTimeout(() => {
+        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
+      }, 300);
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
@@ -496,10 +497,17 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       } else {
         console.log('chat');
         setTimeout(() => {
-          focusRef.current?.focus();
+          //focusRef.current?.focus()
+          const inner = logs.current?.querySelector('.inner');
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 100);
       }
@@ -507,15 +515,24 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   useEffect(() => {
+
+    const inner = logs.current?.querySelector('.inner');
+    
     setTimeout(() => {
       console.log('처음에만');
       //focusRef.current?.focus();
+      
       const width = window.innerWidth;
       console.log(width);
-      if (width > 1200) {
-        focusRef.current?.focus();
+      if (width > 900) {
+        //focusRef.current?.focus();
+        if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
       } else {
-        focusRef.current?.scrollIntoView();
+       // focusRef.current?.scrollIntoView();
       }
       console.log(focusRef.current);
     }, 600);
@@ -523,7 +540,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     setTimeout(() => {
       console.log('처음에만');
       if (webInputRef.current) {
-        webInputRef.current.focus();
+      //  webInputRef.current.focus();
       }
     }, 2000);
 
@@ -585,7 +602,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           />
         )}
       </TopBox>
-      <Inner>
+      <Inner className='inner'>
         <div className="wrap">
           {data.map((d, idx) => {
             return (
@@ -994,7 +1011,7 @@ const Inner = styled.div`
     position: relative;
   }
   @media (min-width: 900pt) {
-    margin-top: 105pt;
+    margin-top: 80pt;
     height: 330pt;
     overflow-y: scroll;
     padding: 0;

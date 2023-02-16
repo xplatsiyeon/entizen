@@ -10,14 +10,18 @@ import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
 import colors from 'styles/colors';
-import xBtn from 'public/images/X.png';
+// import xBtn from 'public/images/X.png';
+import xBtn from 'public/images/HAMBURGERX.svg';
 import whiteRight from 'public/images/whiteRight20.png';
 import simpleEstimate from 'public/images/simpleEstimate.png';
 import mypageIcon from 'public/images/mypageIcon.png';
 import guide from 'public/images/guide.png';
-import grayInsta from 'public/images/grayCircleInsta.png';
-import grayNaver from 'public/images/grayCircleNaver.png';
-import Nut from 'public/images/Nut.png';
+// import grayInsta from 'public/images/grayCircleInsta.png';
+// import grayNaver from 'public/images/grayCircleNaver.png';
+import grayInsta from 'public/images/InstaHamburgerSvg.svg';
+import grayNaver from 'public/images/NaverHamburgerSvg.svg';
+// import Nut from 'public/images/Nut.png';
+import Nut from 'public/images/NutSVG.svg';
 import Bell from 'public/images/mobBell.png';
 import myProduct from 'public/images/myProductList.png';
 import hamburgerAs from 'public/images/hamburgerAs.png';
@@ -34,6 +38,12 @@ import BellNormal from 'public/images/BellNormal.svg';
 import { openExternalBrowser } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import CompanyASSVG from 'public/images/CompanyASSVG.svg';
+import CompanyQuotationAndGuideSVG from 'public/images/CompanyQuotationAndGuideSVG.svg';
+import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
+import mypageIconSVG from 'public/images/mypageIconSVG.svg';
+import MyProductListSVG from 'public/images/MyProductListSVG.svg';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   anchor: string;
@@ -52,6 +62,10 @@ type Props = {
 };
 
 const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
@@ -216,9 +230,15 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
         <WhiteArea>
           <WhiteAreaMenus onClick={estimateRouting}>
-            <span>
-              <Image src={simpleEstimate} alt="내 견적" />
-            </span>
+            {memberType === 'COMPANY' ? (
+              <span>
+                <Image src={CompanyQuotationAndGuideSVG} alt="내 견적" />
+              </span>
+            ) : (
+              <span>
+                <Image src={EasyQuotationSVG} alt="내 견적" />
+              </span>
+            )}
             {memberType === 'COMPANY' ? (
               <span>내 견적</span>
             ) : (
@@ -236,7 +256,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             ) : (
               <>
                 <span>
-                  <Image src={guide} alt="가이드" />
+                  <Image src={CompanyQuotationAndGuideSVG} alt="가이드" />
                 </span>
                 <span>가이드</span>
               </>
@@ -246,7 +266,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             {memberType === 'COMPANY' ? (
               <>
                 <span>
-                  <Image src={hamburgerAs} alt="A/S" />
+                  <Image src={CompanyASSVG} alt="A/S" />
                 </span>
                 <span>A/S</span>
               </>
@@ -263,14 +283,14 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             {memberType === 'COMPANY' ? (
               <>
                 <span>
-                  <Image src={mypageIcon} alt="내 프로젝트" />
+                  <Image src={mypageIconSVG} alt="내 프로젝트" />
                 </span>
                 <span>내프로젝트</span>
               </>
             ) : (
               <>
                 <span>
-                  <Image src={mypageIcon} alt="내 프로젝트" />
+                  <Image src={mypageIconSVG} alt="내 프로젝트" />
                 </span>
                 <span>마이 페이지</span>
               </>
@@ -285,19 +305,20 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               }
             >
               <span>
-                <Image src={myProduct} alt="내 제품" />
+                <Image src={MyProductListSVG} alt="내 제품" />
               </span>
               <span>내 제품 리스트</span>
             </WhiteAreaMenus>
           )}
-          <Divider
+          {/* <Divider
             sx={{
               width: '100%',
               marginTop: '15pt',
               marginBottom: '3pt',
-              borderTop: '1px solid #E2E5ED',
+              borderTop: '0.75pt solid #E2E5ED',
             }}
-          />
+          /> */}
+          <Line />
           <WhiteAreaMenus onClick={() => router.push('/alarm?id=1')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
@@ -331,13 +352,14 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           >
             <span>제휴문의</span>
           </WhiteAreaMenus>
-          <Divider
+          {/* <Divider
             sx={{
               width: '100%',
               marginTop: '3pt',
               borderTop: '1px solid #E2E5ED',
             }}
-          />
+          /> */}
+          <Line2 />
           <WhiteAreaBottomMenus>
             {/* 인스타 그램 임시로 막기 */}
             {/* <span
@@ -424,7 +446,8 @@ const ListBox = styled.div`
   position: relative;
   width: 179pt;
   padding-left: 24pt;
-  padding-right: 24pt;
+  /* padding-right: 24pt; */
+  padding-right: 18.75pt;
   height: 100vh;
 
   background-color: ${colors.main};
@@ -454,6 +477,7 @@ const WhetherLogin = styled.div`
   & span {
   }
   .label {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -469,7 +493,8 @@ const WhetherLogin = styled.div`
 const WhetherLoginComplete = styled.div`
   display: flex;
   align-items: flex-end;
-  margin-top: 9.75pt;
+  /* margin-top: 9.75pt; */
+  margin-top: 15.75pt;
   position: relative;
   & span:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
@@ -485,6 +510,7 @@ const WhetherLoginComplete = styled.div`
     gap: 6pt;
   }
   .label {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -503,9 +529,9 @@ const WhiteArea = styled.div`
   width: 100%;
   border-radius: 15pt 15pt 0 0;
   width: 179pt;
-  padding: 15pt 24pt 34.5pt 24pt;
+  padding: 15pt 24pt 34.5pt 25.5pt;
   left: 0;
-  top: 127.5pt;
+  top: 134pt;
   background-color: #ffffff;
 `;
 
@@ -516,9 +542,15 @@ const WhiteAreaMenus = styled.div`
   align-items: center;
   padding-top: 12pt;
   padding-bottom: 12pt;
-
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
   & span:first-of-type {
-    margin-right: 6pt;
+    margin-right: 7.5pt;
   }
 `;
 const WhiteAreaBottomMenus = styled.div`
@@ -551,7 +583,8 @@ const WhiteAreaBottomText = styled.div`
 const Imagewrap = styled.div`
   width: 18pt;
   height: 18pt;
-  margin-right: 9pt;
+  /* margin-right: 9pt; */
+  margin-right: 22.5pt;
   &:nth-last-of-type(1) {
     margin-right: 0;
   }
@@ -623,4 +656,18 @@ const MobileNone = styled.div`
   @media (min-width: 900pt) {
     display: none;
   }
+`;
+
+const Line = styled.div`
+  border-top: 0.75pt solid #e2e5ed;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  width: 100%;
+`;
+
+const Line2 = styled.div`
+  border-top: 0.75pt solid #e2e5ed;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  width: 100%;
 `;
