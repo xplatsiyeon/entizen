@@ -58,7 +58,7 @@ const PlaceTopBox = ({ data }: Props) => {
         <StoreName>
           <CommonBtns
             text={data?.badge}
-            backgroundColor={handleColor(data?.badge)}
+            backgroundColor={handleColor2(Number(data?.badge.split('D-')[1]))}
             // backgroundColor={'black'}
           />
           <div>
