@@ -10,6 +10,7 @@ import WebFilter from './webFilter';
 import Loader from 'components/Loader';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 export interface AfterSalesServices {
   requestTitle: string;
@@ -62,6 +63,8 @@ const AsHistory = ({
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const [modal, setModal] = useState<boolean>(false);
+  const excelUrl =
+    '/after-sales-services/histories/download?sort=lowRate&searchKeyword=';
 
   const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
@@ -151,7 +154,13 @@ const AsHistory = ({
                   </React.Fragment>
                 ))}
                 {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
-                <BtnBox>A/S 히스토리 다운받기</BtnBox>
+                <BtnBox
+                  onClick={() => {
+                    excelDownloadFile(excelUrl, accessToken);
+                  }}
+                >
+                  A/S 히스토리 다운받기
+                </BtnBox>
               </ListWrap>
             ) : (
               <NoAsHistyory />
@@ -285,6 +294,7 @@ const BtnBox = styled.div`
   text-align: center;
   color: #ffffff;
   padding: 9pt 30pt;
+  cursor: pointer;
   background-color: #5221cb;
   border-radius: 6pt;
   width: 83.25pt;
