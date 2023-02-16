@@ -140,9 +140,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     router.push('/signin');
   };
 
-  useEffect(() => {
-    setPasswordError(false);
-  }, [beforePasswordInput]);
+  useEffect(() => setPasswordError(false), [beforePasswordInput]);
 
   useEffect(() => {
     if (password) {
@@ -165,7 +163,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       }
     }
     console.log(password, checkPassword);
-  }, [password, checkPassword]);
+  }, [password, checkPassword, checkSamePw]);
 
   const iconAdorment = {
     endAdornment: (
