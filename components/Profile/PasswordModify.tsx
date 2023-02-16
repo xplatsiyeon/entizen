@@ -37,7 +37,6 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkPw, setCheckPw] = useState<string>('');
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
-  const [checkMessage, setCheckMessage] = useState<string>('');
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -100,6 +99,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
+    // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
 
     axios({
       method: 'patch',
@@ -124,8 +124,8 @@ const PasswordModify = ({ setTabNumber }: Props) => {
           err?.response?.data?.message! ===
           '기존과 동일한 비밀번호로 변경할 수 없습니다.'
         ) {
-          setCheckSamePw(true);
-          setCheckMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+          setPasswordError(true);
+          setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
           console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
         }
         if (err?.response?.data?.message! === '올바르지 않는 비밀번호입니다.') {
@@ -155,11 +155,9 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     }
     if (checkPassword) {
       if (password !== checkPassword) {
-        setCheckMessage('');
         setCheckSamePw(false);
       } else {
         setCheckSamePw(true);
-        setCheckMessage('비밀번호를 확인해주세요');
       }
     }
     console.log(password, checkPassword);
@@ -310,7 +308,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                       fontSize: '9pt',
                     }}
                   >
-                    {checkMessage}
+                    비밀번호를 확인해주세요
                   </Typography>
                 </Box>
               ) : (
