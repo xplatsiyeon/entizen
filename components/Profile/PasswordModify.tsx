@@ -104,7 +104,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
 
     // return;
 
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${token.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${token.memberIdx}`;
 
     axios({
       method: 'patch',
@@ -128,6 +128,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
           err.response.data.message ===
           '기존과 동일한 비밀번호로 변경할 수 없습니다.'
         ) {
+          console.log('기존과 동일한 비밀번호로 변경할 수 없습니다.');
           setCheckSamePw(true);
           setCheckMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
         }
