@@ -37,6 +37,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkPw, setCheckPw] = useState<string>('');
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
+  const [checkMessage, setCheckMessage] = useState<string>('');
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState(false);
@@ -47,24 +48,6 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const key: Key = JSON.parse(localStorage.getItem('key')!);
 
   const router = useRouter();
-
-  useEffect(() => {
-    if (password) {
-      if (password) {
-        let check1 =
-          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-            password,
-          );
-        console.log(check1);
-        setCheckedPw(check1);
-      }
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-  }, [password, checkPassword]);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
@@ -145,12 +128,12 @@ const PasswordModify = ({ setTabNumber }: Props) => {
           err.response.data.message ===
           '기존과 동일한 비밀번호로 변경할 수 없습니다.'
         ) {
-          setPasswordError(true);
-          setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+          setCheckSamePw(true);
+          setCheckMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
         }
         if (err.response.data.message === '올바르지 않는 비밀번호입니다.') {
           setPasswordError(true);
-          setErrorMessage('올바르지 않는 비밀번호입니다.');
+          setErrorMessage('비밀번호가 일치하지 않습니다.');
         }
       });
   };
@@ -163,6 +146,29 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   useEffect(() => {
     setPasswordError(false);
   }, [beforePasswordInput]);
+
+  useEffect(() => {
+    if (password) {
+      if (password) {
+        let check1 =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+            password,
+          );
+        console.log(check1);
+        setCheckedPw(check1);
+      }
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) {
+        setCheckSamePw(false);
+        setCheckMessage('');
+      } else {
+        setCheckSamePw(true);
+        setCheckMessage('비밀번호를 확인해주세요');
+      }
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword]);
 
   const iconAdorment = {
     endAdornment: (
@@ -309,7 +315,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                       fontSize: '9pt',
                     }}
                   >
-                    비밀번호를 확인해주세요
+                    {checkMessage}
                   </Typography>
                 </Box>
               ) : (
