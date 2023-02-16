@@ -334,13 +334,15 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                   {charger?.preQuotationFiles?.map(
                     (file, innerIndex) =>
                       file.productFileType === 'CATALOG' && (
-                        <a
-                          className="fileBox"
-                          key={innerIndex}
-                          download={file?.originalName}
-                          href={file?.url}
-                        >
-                          <p className="businessName">{file?.originalName}</p>
+                        <DisplayBox>
+                          <a
+                            className="fileBox"
+                            key={innerIndex}
+                            download={file?.originalName}
+                            href={file?.url}
+                          >
+                            <p className="businessName">{file?.originalName}</p>
+                          </a>
                           <button
                             className="businessBtn"
                             onClick={() => {
@@ -349,7 +351,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                           >
                             삭제
                           </button>
-                        </a>
+                        </DisplayBox>
                       ),
                   )}
                 </div>
@@ -473,9 +475,9 @@ const BusinessList = styled.div`
     text-decoration-line: none;
   }
   .businessName {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     font-weight: 400;
     font-size: 16px;
     line-height: 150%;
@@ -486,6 +488,10 @@ const BusinessList = styled.div`
     padding: 4px 14px 4px 10px;
     gap: 8px;
     margin-right: 10px;
+    white-space: nowrap;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .businessBtn {
     font-weight: 400;
@@ -494,7 +500,6 @@ const BusinessList = styled.div`
     /* identical to box height, or 21px */
     background: none;
     text-decoration-line: underline;
-
     color: #747780;
   }
   .fileContainer {
@@ -502,4 +507,9 @@ const BusinessList = styled.div`
     flex-direction: column;
     gap: 8px;
   }
+`;
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
