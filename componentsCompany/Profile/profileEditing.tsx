@@ -157,7 +157,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -170,14 +170,24 @@ const ProfileEditing = ({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
+
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    // console.log('여기임둥');
-    // console.log(checkSns);
-    // console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -205,19 +215,19 @@ const ProfileEditing = ({
               />
             </button>
             {/* 포토 이미지 */}
-            <label className="avatar-photo">
-              <input
-                ref={imgRef}
-                className="file-input"
-                type={'file'}
-                accept="image/*"
-                onChange={onImgInputBtnClick}
-                capture={userAgent === 'Android_App' && true}
-                style={{ display: 'none' }}
-              />
+            <button className="avatar-photo" onClick={imgHandler}>
               <Image src={AvatarPhoto} alt="avatar-photo" />
-            </label>
+            </button>
           </div>
+          <input
+            ref={imgRef}
+            className="file-input"
+            type={'file'}
+            accept="image/*"
+            onChange={onImgInputBtnClick}
+            capture={userAgent === 'Android_App' && true}
+            style={{ display: 'none' }}
+          />
         </Avatar>
         <Label mt={33}>아이디</Label>
         <InputBox type="text" readOnly placeholder={profile?.id} />
@@ -324,6 +334,7 @@ const Avatar = styled.div`
     cursor: pointer;
     bottom: 0;
     right: 0;
+    background: none;
   }
   .file-input {
     display: none;

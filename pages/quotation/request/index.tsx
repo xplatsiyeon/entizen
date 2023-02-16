@@ -64,7 +64,7 @@ const Quotation1_1 = () => {
                 leftBtnText={'그만하기'}
                 rightBtnColor={colors.main}
                 rightBtnText={'계속 작성하기'}
-                leftBtnControl={() => route.push('/')}
+                leftBtnControl={() => route.replace('/')}
                 rightBtnControl={HandleModal}
               />
             )}
