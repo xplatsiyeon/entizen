@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -24,15 +24,20 @@ interface Components {
 
 const Quotation1_1 = () => {
   const route = useRouter();
-  // const [tabNumber, setTabNumber] = useState<number>(0);
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
-
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
 
-  console.log(tabNumber);
-
   const HandleModal = () => setIsModal((prev) => !prev);
+
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    if (userAgent === 'Android_App') {
+      window.onClickBackButton = () => HandleModal();
+    }
+  }, []);
 
   const components: Components = {
     0: <FirstStep tabNumber={tabNumber} />,
