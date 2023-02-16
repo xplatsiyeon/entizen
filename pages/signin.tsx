@@ -72,7 +72,7 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -240,7 +240,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: NAVER_POST,
@@ -403,7 +403,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -504,6 +504,10 @@ const Signin = () => {
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
+
+      console.log(
+        '=============== apple login useEffect 실행 =========================',
+      );
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
@@ -516,9 +520,12 @@ const Signin = () => {
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    console.log('애플로그인 user 유니크값 : ', result);
+    console.log(
+      '=============== apple login 핸들러 함수 실행 =========================',
+    );
+    // console.log('애플로그인 user 유니크값 : ', result);
 
-    const APPLE_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const APPLE_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: APPLE_POST,
@@ -613,7 +620,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
