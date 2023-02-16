@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import MyProjects from 'components/mypage/projects/MyProjects';
 import Loader from 'components/Loader';
 import Charging from 'components/mypage/place/Charging';
@@ -33,6 +33,7 @@ const Request = () => {
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const [tabNumber, setTabNumber] = useState<number>();
 
@@ -71,6 +72,10 @@ const Request = () => {
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
+
+    useEffect(() => {
+      queryClient.removeQueries('mypage-request-id');
+    }, [router.isReady]);
   } else {
     return (
       <WebBody>
