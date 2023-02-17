@@ -566,6 +566,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     }
   }, []);
 
+  const handleFocus = (e:MouseEvent)=>{
+    mobInputRef.current?.focus();
+    const target = e.currentTarget as HTMLButtonElement;
+  }
+
   return (
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
@@ -752,7 +757,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             onChange={onChangeText}
             ref={mobInputRef}
           />
-          <IconWrap2>
+          <IconWrap2 onClick={handleFocus}>
             <Image src={send} layout="fill" />
           </IconWrap2>
         </FlexBox>
