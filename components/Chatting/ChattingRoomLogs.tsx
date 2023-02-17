@@ -746,7 +746,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         </div>
       </Inner>
 
-      <BottomBox ref={mobBox}>
+      <BottomBox ref={mobBox} onClick={handleFocus}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
             <ImgTag src={'/images/addBtnSvg.svg'} />
@@ -756,7 +756,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             value={text}
             onChange={onChangeText}
             ref={mobInputRef}
-          />
+          />ß
           <IconWrap2 onClick={handleFocus}>
             <Image src={send} layout="fill" />
           </IconWrap2>
