@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import AvatarIcon from 'public/images/AvatarIconSvg.svg';
 import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
@@ -13,8 +13,6 @@ import { isTokenPatchApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import useProfile from 'hooks/useProfile';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import Loader from 'components/Loader';
-
 export interface ImgFile {
   originalName: string;
   size: number;
@@ -24,7 +22,6 @@ export interface UploadFileResponse {
   isSuccess: boolean;
   uploadedFiles: ImgFile[];
 }
-
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -33,7 +30,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [data, setData] = useState<any>();
-  const [isPassword, setIsPassword] = useState(false);
+  const [imgFile, setImgFile] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -94,18 +91,19 @@ const ProfileModify = ({ setTabNumber }: Props) => {
       requestPermissionCheck(userAgent, 'photo');
     }
   };
-  const [imgFile, setImgFile] = useState<any>('');
+
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 이미지 미리보기
     let reader = new FileReader();
     if (e.target.files![0]) {
       reader.readAsDataURL(e.target.files![0]);
     }
     reader.onloadend = () => {
       const resultImage = reader.result;
-      setImgFile(resultImage);
+      setImgFile(resultImage as string);
     };
-
+    // 이미지 multer 저장
     const { files } = e.target;
     const maxLength = 1;
     // 이미지 저장
@@ -128,28 +126,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     let data = JSON.parse(key!);
     setTabNumber(1);
   };
-  // 나이스 인증
-  // const fnPopup = (event: any) => {
-  //   const { id } = event.currentTarget;
-  //   if (id === 'password') {
-  //     setIsPassword(true);
-  //   }
-  //   if (typeof window !== 'object') return;
-  //   else {
-  //     window.open(
-  //       '',
-  //       'popupChk',
-  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-  //     );
-  //     let cloneDocument = document as any;
-  //     console.log(cloneDocument.form_chk);
-
-  //     cloneDocument.form_chk.action =
-  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-  //     cloneDocument.form_chk.target = 'popupChk';
-  //     cloneDocument?.form_chk?.submit();
-  //   }
-  // };
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
@@ -174,6 +150,12 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useLayoutEffect(() => {
+    if (profile?.profileImageUrl) {
+      setImgFile(profile?.profileImageUrl!);
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {/* 에러 모달 */}
@@ -188,9 +170,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
 
       <Wrapper>
         <Body>
-          {/* {isLoading ? (
-            <Loader />
-          ) : ( */}
           <Avatar>
             <div className="img-bg">
               {/* 아바타 */}
@@ -199,9 +178,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   src={
                     imgFile
                       ? imgFile
-                      : profile?.profileImageUrl?.length! > 1
-                      ? profile?.profileImageUrl!
-                      : AvatarIcon
+                      : // : profile?.profileImageUrl!
+                        // ? profile?.profileImageUrl
+                        AvatarIcon
                   }
                   alt="avatar"
                   layout="fill"
@@ -226,7 +205,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
               style={{ display: 'none' }}
             />
           </Avatar>
-          {/* )} */}
           <Label mt={33}>아이디</Label>
           <InputBox type="text" readOnly placeholder={profile?.id} />
           <Label mt={30}>이름</Label>
