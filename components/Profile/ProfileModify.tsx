@@ -156,11 +156,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     // }
   }, [isLoading]);
 
-  useEffect(() => {
-    console.log('profile?.profileImageUrl ==>', profile?.profileImageUrl);
-    console.log('imgFile===>>>', imgFile);
-  }, [imgFile]);
-
   return (
     <React.Fragment>
       {/* 에러 모달 */}
@@ -183,9 +178,10 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   src={
                     imgFile
                       ? imgFile
-                      : // : profile?.profileImageUrl!
-                        // ? profile?.profileImageUrl
-                        AvatarIcon
+                      : profile?.profileImageUrl! &&
+                        profile?.profileImageUrl?.length! > 0
+                      ? profile?.profileImageUrl
+                      : AvatarIcon
                   }
                   alt="avatar"
                   layout="fill"
