@@ -22,6 +22,7 @@ import {
 import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   pb?: number;
@@ -30,6 +31,9 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
@@ -51,6 +55,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             layout="fill"
             priority={true}
             unoptimized={true}
+            objectFit="cover"
           />
         </ImageBox>
       ) : (
@@ -132,8 +137,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             {`${finalQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
-        <Line2 />
-        {finalQuotation?.finalQuotationChargers?.length == 1 ? (
+        {finalQuotation?.finalQuotationChargers?.length > 1 && <Line2 />}
+        {finalQuotation?.finalQuotationChargers?.length === 1 ? (
           <>
             {/* 충전량 1개 일 때  */}
             <Item>
@@ -258,7 +263,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           ),
         )}
       </Section>
-      <Section grid={true}>
+      <Section grid={true} style={{ paddingTop: mobile ? '' : '30pt' }}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
           {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
@@ -272,6 +277,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
                       layout="fill"
                       priority={true}
                       unoptimized={true}
+                      objectFit="cover"
                     />
                   </GridItem>
                 ))}
@@ -282,7 +288,9 @@ const FinalBottomBox = ({ pb, data }: Props) => {
       </Section>
       <Section className="underLine" pb={pb}>
         {/* 여기에 충전기 카탈로그 + 사업자 등록증 같이 나와야함 */}
-        <Subtitle>첨부 파일</Subtitle>
+        <Subtitle style={{ paddingBottom: mobile ? '15pt' : '15pt' }}>
+          첨부 파일
+        </Subtitle>
         {/* 충전기 카탈로그 불러옴 */}
         {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
           (item, index) => (
@@ -305,6 +313,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             </React.Fragment>
           ),
         )}
+
         {/* 사업자 등록증 불러옴 */}
         {finalQuotation?.finalQuotationDetailFiles.map((item, index) => (
           <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
@@ -317,7 +326,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
               }}
             >
               <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-              {item.originalName}
+              <FileName> {item.originalName}</FileName>
             </FileDownload>
           </FileDownloadBtn>
         ))}
@@ -347,6 +356,14 @@ const ImageBox = styled.div`
   position: relative;
   margin-left: 15pt;
   margin-bottom: 15pt;
+  & > span {
+    border-radius: 6pt;
+  }
+  @media (min-width: 900pt) {
+    margin-left: 0;
+    width: 75pt;
+    height: 75pt;
+  }
 `;
 
 const Title = styled.h1`
@@ -372,7 +389,7 @@ const Title = styled.h1`
 `;
 
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
-  padding: 18pt 0pt;
+  padding: 22.5pt 0pt 30pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
@@ -380,13 +397,17 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     css`
       padding-right: 0;
     `};
+
+  @media (max-width: 899.25pt) {
+    padding: 18pt 0 15pt;
+  }
 `;
 const List = styled.ul`
-  padding: 30pt 0 51pt;
+  padding: 30pt 0 30pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   @media (max-width: 899.25pt) {
-    padding-top: 30pt;
+    padding-top: 18pt;
     padding-bottom: 18pt;
   }
 `;
@@ -409,11 +430,13 @@ const Item = styled.li`
 
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+
     @media (min-width: 900pt) {
       padding-top: 15pt;
     }
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -429,6 +452,7 @@ const Item = styled.li`
     }
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -440,7 +464,7 @@ const Item = styled.li`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
-      line-height: 12pt;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       text-align: left;
     }
@@ -567,6 +591,7 @@ const GridImg = styled.div`
 
   @media (min-width: 900pt) {
     padding-left: 0;
+    padding-top: 24pt;
   }
 `;
 const GridItem = styled.span`
@@ -575,19 +600,25 @@ const GridItem = styled.span`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
-
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
     height: 144pt;
+    margin-right: 22.5pt;
   }
 `;
 const FileDownloadBtn = styled(Button)`
-  margin: 15pt 15pt 6pt 15pt;
+  margin: 3pt 15pt 3pt 15pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
+
   @media (min-width: 900pt) {
-    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 7pt 0;
   }
 `;
 

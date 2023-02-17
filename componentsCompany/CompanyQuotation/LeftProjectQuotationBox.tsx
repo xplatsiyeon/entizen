@@ -198,7 +198,7 @@ const LeftProjectQuotationBox = ({
             <h1>{tab}</h1>
           </span>
         </Header>
-        <div> {webComponents[underNum!]}</div>
+        <div className="box"> {webComponents[underNum!]}</div>
       </Wrapper>
     </>
   );
@@ -210,6 +210,12 @@ const Wrapper = styled.div`
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
+    .box {
+      /* padding: 0 18.5pt; */
+      /* padding: 0 28.5pt; */
+      /* display: flex;
+      justify-content: center; */
+    }
   }
   @media (max-width: 899.25pt) {
     display: none;
@@ -219,12 +225,15 @@ const Wrapper = styled.div`
 const Header = styled.header`
   display: flex;
   width: 198pt;
-  margin: 27pt auto 21pt;
+  padding: 27pt 0 13pt 28.5pt;
   & h1 {
-    font-weight: 700;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
-    line-height: 27pt;
+    font-weight: 700;
+    line-height: 15pt;
     letter-spacing: -0.02em;
+    text-align: left;
+
     color: ${colors.main2};
   }
   & h2 {

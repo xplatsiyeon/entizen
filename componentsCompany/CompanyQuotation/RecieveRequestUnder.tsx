@@ -86,15 +86,15 @@ const RecieveRequestUnder = ({
                   bottom={'12pt'}
                 />
               </DdayBox>
+            </DdayNAddress>
+            <DisplayBox>
               <AddressBox>
                 {el?.quotationRequest?.maskingInstallationAddress}
               </AddressBox>
-            </DdayNAddress>
-            <IconBox>
               <ArrowIconBox>
                 <Image src={CaretDown24} alt="RightArrow" />
               </ArrowIconBox>
-            </IconBox>
+            </DisplayBox>
           </Contents>
         ))}
       </ContentsContainer>
@@ -104,12 +104,15 @@ const RecieveRequestUnder = ({
 
 const ContentsContainer = styled.div`
   @media (min-width: 900pt) {
-    width: 200pt;
-    margin: 0 auto;
-    border-radius: 6pt;
+    /* width: 198pt; */
     height: 313pt;
+    border-radius: 6pt;
+    /* height: 66pt; */
     overflow-y: scroll;
-    padding: 6pt 7.5pt 0 7.5pt;
+    display: flex;
+    flex-direction: column;
+    padding: 5pt 28.5pt 0;
+    /* padding: 6pt 7.5pt 0 7.5pt; */
   }
 `;
 
@@ -118,10 +121,8 @@ const Contents = styled.div<{
   componentId: number | undefined;
 }>`
   padding: 12pt 13.5pt;
-  display: flex;
   margin-bottom: 9pt;
-  justify-content: space-between;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2) !important;
   border-radius: 6pt;
   border: ${({ select, componentId }) =>
     select === componentId ? `0.75pt solid #5221CB` : ''};
@@ -146,17 +147,21 @@ const AddressBox = styled.div`
   text-align: left;
   margin-top: 12pt;
   color: ${colors.main2};
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 140pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default RecieveRequestUnder;
