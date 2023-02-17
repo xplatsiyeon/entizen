@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-// import AvatarIcon from 'public/images/avatar.png';
 import AvatarIcon from 'public/images/AvatarIconSvg.svg';
-// import AvatarPhoto from 'public/images/avatar-photo.png';
 import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMutation } from 'react-query';
@@ -15,6 +13,7 @@ import { isTokenPatchApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import useProfile from 'hooks/useProfile';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import Loader from 'components/Loader';
 
 export interface ImgFile {
   originalName: string;
@@ -33,7 +32,6 @@ const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
@@ -148,7 +146,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   //   const memberType = selectedType;
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType },
   //   })
   //     .then((res) => {
@@ -184,6 +182,10 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (profileLoading) {
+    return <Loader />;
+  }
+
   return (
     <React.Fragment>
       {/* 에러 모달 */}
@@ -195,41 +197,46 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           text={errorMessage}
         />
       )}
+
       <Wrapper>
         <Body>
-          <Avatar>
-            <div className="img-bg">
-              {/* 아바타 */}
-              <button className="avatar-bg" onClick={imgHandler}>
-                <Image
-                  src={
-                    profile?.profileImageUrl?.length! > 1
-                      ? profile?.profileImageUrl!
-                      : AvatarIcon
-                  }
-                  alt="avatar"
-                  layout="fill"
-                  className="test"
-                  priority={true}
-                  unoptimized={true}
-                  objectFit="cover"
-                />
-              </button>
-              {/* 포토 이미지 */}
-              <button className="avatar-photo" onClick={imgHandler}>
-                <Image src={AvatarPhoto} alt="avatar-photo" />
-              </button>
-            </div>
-            <input
-              ref={imgRef}
-              className="file-input"
-              type={'file'}
-              accept="image/*"
-              onChange={onImgInputBtnClick}
-              capture={userAgent === 'Android_App' && true}
-              style={{ display: 'none' }}
-            />
-          </Avatar>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Avatar>
+              <div className="img-bg">
+                {/* 아바타 */}
+                <button className="avatar-bg" onClick={imgHandler}>
+                  <Image
+                    src={
+                      profile?.profileImageUrl?.length! > 1
+                        ? profile?.profileImageUrl!
+                        : AvatarIcon
+                    }
+                    alt="avatar"
+                    layout="fill"
+                    className="test"
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                </button>
+                {/* 포토 이미지 */}
+                <button className="avatar-photo" onClick={imgHandler}>
+                  <Image src={AvatarPhoto} alt="avatar-photo" />
+                </button>
+              </div>
+              <input
+                ref={imgRef}
+                className="file-input"
+                type={'file'}
+                accept="image/*"
+                onChange={onImgInputBtnClick}
+                capture={userAgent === 'Android_App' && true}
+                style={{ display: 'none' }}
+              />
+            </Avatar>
+          )}
           <Label mt={33}>아이디</Label>
           <InputBox type="text" readOnly placeholder={profile?.id} />
           <Label mt={30}>이름</Label>
@@ -293,47 +300,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
 };
 
 export default ProfileModify;
-const WebBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  //height: 810pt;
-  background: #fcfcfc;
-
-  @media (max-height: 800pt) {
-    display: block;
-  }
-`;
-
-const Inner = styled.div`
-  display: block;
-  position: relative;
-  margin: 45.75pt auto;
-  width: 345pt;
-  //width: 281.25pt;
-  background: #ffff;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-    background: none;
-  }
-`;
-
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899.25pt) {
     height: 100%;
     width: 100%;
