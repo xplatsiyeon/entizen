@@ -145,8 +145,8 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log(`☂️ SNS 멤버 확인 ~line 180 -> ${TAG}`);
-    console.log(snsMember);
+    // console.log(`☂️ SNS 멤버 확인 ~line 180 -> ${TAG}`);
+    // console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -167,7 +167,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           text={errorMessage}
         />
       )}
-
       <Wrapper>
         <Body>
           <Avatar>
