@@ -29,7 +29,7 @@ const FinishedTopBox = ({ data }: Props) => {
   const formatter = new Intl.NumberFormat('ko');
   const formatter2 = new Intl.RelativeTimeFormat('ko', { numeric: 'auto' });
   const today = new Date();
-  const started = new Date(data?.subscribeEndDate?.replaceAll('-', ','));
+  const started = new Date(data?.subscribeEndDate);
   // today - started
   const subscribePassed = Math.ceil(
     (started.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
