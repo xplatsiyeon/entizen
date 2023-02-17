@@ -517,17 +517,20 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
   useEffect(() => {
     setTimeout(() => {
-      listRefetch();
+    const inner = logs.current?.querySelector('.inner');
+
       console.log('처음에만');
       //focusRef.current?.focus();
       const width = window.innerWidth;
       console.log(width);
       if (width > 1200) {
-        focusRef.current?.focus();
-      } else {
-        focusRef.current?.scrollIntoView();
-      }
-      console.log(focusRef.current);
+        if(inner) inner.scroll({
+          top: inner.scrollHeight,
+          left: 0,
+          behavior: 'auto'
+      })
+        focusRef.current?.focus({preventScroll: true});
+      } 
     }, 600);
 
     setTimeout(() => {
@@ -592,7 +595,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
           />
         )}
       </TopBox>
-      <Inner>
+      <Inner className='inner'>
         <div className="wrap">
           {data.map((d, idx) => {
             return (

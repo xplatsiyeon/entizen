@@ -531,24 +531,21 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       
       const width = window.innerWidth;
       console.log(width);
-      if (width > 900) {
+      if (width > 1200) {
         //focusRef.current?.focus();
         if(inner) inner.scroll({
             top: inner.scrollHeight,
             left: 0,
             behavior: 'auto'
         })
-      } else {
-       // focusRef.current?.scrollIntoView();
-      }
+
+        focusRef.current?.focus({preventScroll: true});
+      } 
       console.log(focusRef.current);
     }, 600);
 
     setTimeout(() => {
       console.log('처음에만');
-      if (webInputRef.current) {
-      //  webInputRef.current.focus();
-      }
     }, 2000);
 
     listRefetch();
