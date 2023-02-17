@@ -262,6 +262,7 @@ const StoreName = styled(ListItemText)`
   padding-top: 16.5pt;
   padding-bottom: 16.5pt;
   margin-top: 4.5pt;
+
   & div {
     margin-top: 12pt;
     display: flex;

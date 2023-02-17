@@ -94,8 +94,18 @@ const ProfileModify = ({ setTabNumber }: Props) => {
       requestPermissionCheck(userAgent, 'photo');
     }
   };
+  const [imgFile, setImgFile] = useState<any>('');
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let reader = new FileReader();
+    if (e.target.files![0]) {
+      reader.readAsDataURL(e.target.files![0]);
+    }
+    reader.onloadend = () => {
+      const resultImage = reader.result;
+      setImgFile(resultImage);
+    };
+
     const { files } = e.target;
     const maxLength = 1;
     // 이미지 저장
@@ -141,24 +151,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     }
   };
 
-  // 나이스 인증
-  // useEffect(() => {
-  //   const memberType = selectedType;
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
-  //     data: { memberType },
-  //   })
-  //     .then((res) => {
-  //       setData(res.data.executedData);
-  //     })
-  //     .catch((error) => {
-  //       console.error('나이스 인증 에러 발생');
-  //       console.error(error);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
-
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {
@@ -181,10 +173,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (profileLoading) {
-    return <Loader />;
-  }
 
   return (
     <React.Fragment>
@@ -209,7 +197,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                 <button className="avatar-bg" onClick={imgHandler}>
                   <Image
                     src={
-                      profile?.profileImageUrl?.length! > 1
+                      imgFile
+                        ? imgFile
+                        : profile?.profileImageUrl?.length! > 1
                         ? profile?.profileImageUrl!
                         : AvatarIcon
                     }

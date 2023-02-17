@@ -95,15 +95,28 @@ const FinishedTopBox = ({ data }: Props) => {
               )} 원`}</span>
             </div>
             <div className="text-box">
-              <span className="name">충전요금</span>
-              <span className="text">
+              {/* <span className="text">
                 {`${formatter.format(
                   Number(
                     data?.finalQuotation?.finalQuotationChargers[0]
                       ?.chargePrice,
                   ),
                 )} 월/kW`}
-              </span>
+              </span> */}
+              <span className="name">충전요금</span>
+              {data?.finalQuotation?.finalQuotationChargers[0]
+                .chargePriceType === 'PURCHASER_AUTONOMY' ? (
+                <span className="text">구매자 자율</span>
+              ) : (
+                <span className="text">
+                  {`${formatter.format(
+                    Number(
+                      data?.finalQuotation?.finalQuotationChargers[0]
+                        ?.chargePrice,
+                    ),
+                  )} 월/kW`}
+                </span>
+              )}
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>

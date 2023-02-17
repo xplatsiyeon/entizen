@@ -143,7 +143,15 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span>
+              {/* <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span> */}
+              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]
+                .chargePriceType === 'PURCHASER_AUTONOMY' ? (
+                <span className="value">구매자 자율</span>
+              ) : (
+                <span className="value">
+                  {`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}
+                </span>
+              )}
             </Item>
             <Item>
               <span className="name">충전기 설치 위치</span>

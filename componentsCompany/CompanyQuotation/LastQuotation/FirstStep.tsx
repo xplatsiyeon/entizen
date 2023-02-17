@@ -322,8 +322,10 @@ const FirstStep = ({
     <WebRapper>
       <Wrapper>
         <TopStep>
-          <div>STEP 1</div>
-          <div>* 필수 입력</div>
+          <div className="step">STEP 1</div>
+          <div>
+            <span className="redColor">*</span> 필수 입력
+          </div>
         </TopStep>
         <SubWord>
           최종 견적가 및<br />
@@ -381,7 +383,7 @@ const FirstStep = ({
                   placeholder="0"
                   name="subscribeMoney"
                 />
-                <div className="percent">%</div>
+                <Percent>%</Percent>
               </SmallInputBox>
             </FirstBox>
             <FirstBox>
@@ -399,7 +401,7 @@ const FirstStep = ({
                       : chargePoint.replace(/(^0+)/, '')
                   }
                   // value={chargePoint}
-                  className="inputTextLeft"
+                  className="inputTextRight"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
@@ -412,7 +414,7 @@ const FirstStep = ({
                   placeholder="0"
                   name="subscribeMoney"
                 />
-                <div className="percent">%</div>
+                <Percent>%</Percent>
               </SmallInputBox>
             </FirstBox>
           </ProfitBox>
@@ -440,7 +442,9 @@ const FirstStep = ({
                   value={chargingStationInstallationPrice}
                   name="chargeInstall"
                 />
-                <AfterWord>원</AfterWord>
+                <AfterWord>
+                  <span>원</span>
+                </AfterWord>
               </div>
             </InputBox>
           </PartSubscribeVisible>
@@ -470,7 +474,9 @@ const FirstStep = ({
               value={subscribePricePerMonth}
               name="subscribeMoney"
             />
-            <AfterWord>원</AfterWord>
+            <AfterWord>
+              <span>원</span>
+            </AfterWord>
           </div>
         </InputBox>
 
@@ -562,13 +568,15 @@ const FirstStep = ({
               value={constructionPeriod}
               name="subscribeMoney"
             />
-            <AfterWord>일</AfterWord>
+            <AfterWord>
+              <span>일</span>
+            </AfterWord>
           </div>
         </InputBox>
         <InputBox>
           <div className="withAfter withTextNumber">
             <span>현장실사 결과</span>
-            <span>{dueDiligenceResult?.length}/500</span>
+            <span className="textLength">{dueDiligenceResult?.length}/500</span>
           </div>
           <div className="monthFlex">
             <TextArea
@@ -584,7 +592,9 @@ const FirstStep = ({
         <InputBox className="lastInputBox">
           <div className="withTextNumber">
             <span>구독상품 특장점</span>
-            <span>{subscribeProductFeature?.length!}/500</span>
+            <span className="textLength">
+              {subscribeProductFeature?.length!}/500
+            </span>
           </div>
           <div className="monthFlex">
             <TextArea
@@ -631,13 +641,10 @@ const Wrapper = styled.div`
   }
 `;
 const TopStep = styled.div`
-  @media (min-width: 900pt) {
-    margin-top: 0;
-    padding-top: 70pt;
-  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
+  color: #222222;
   & div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -655,6 +662,27 @@ const TopStep = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
   }
+  @media (min-width: 900pt) {
+    padding-top: 50pt;
+    .step {
+      font-family: ' Spoqa Han Sans Neo';
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: ${colors.main};
+    }
+  }
+  .redColor {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #f75015;
+  }
 `;
 const InputBox = styled.div`
   display: flex;
@@ -662,7 +690,9 @@ const InputBox = styled.div`
   flex-direction: column;
   position: relative;
   margin-top: 30pt;
-
+  @media (min-width: 900pt) {
+    gap: 12pt;
+  }
   & > div {
   }
   & > div:first-of-type {
@@ -672,6 +702,33 @@ const InputBox = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
+    .textLength {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 9pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+      color: #222222;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 10.5pt;
+        font-weight: 500;
+        line-height: 10.5pt;
+        letter-spacing: -0.02em;
+        text-align: right;
+      }
+    }
   }
   & > .withAfter::after {
     content: ' *';
@@ -725,10 +782,18 @@ const AfterWord = styled.div`
   align-items: center;
   & div {
   }
+
+  span {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #222222;
+  }
 `;
 const Input = styled(TextField)`
-  border-radius: 6pt;
-  width: 100%;
   b & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
@@ -736,16 +801,42 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
+  /* border: 0.75pt solid ${colors.gray}; */
+  border-radius: 6pt;
+  width: 100%;
+  outline: none;
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
+
+  /* & fieldset {
+    border: 0.75pt solid ${colors.gray};
+  } */
   & .MuiInputBase-root {
     padding-right: 9pt;
-  }
-  & > .MuiInputBase-root > fieldset {
-    border: 1pt solid #e2e5ed !important;
-    border-radius: 6pt !important;
+    /* @media (min-width: 900pt) {
+      width: 512.25pt;
+    } */
   }
   ::placeholder {
-    color: ${colors.gray};
+    /* color: ${colors.gray}; */
+    color: #caccd1;
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   & .remove {
     display: none;
@@ -759,6 +850,9 @@ const ProfitBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 39.75pt;
+  @media (min-width: 900pt) {
+    gap: 75pt;
+  }
 `;
 
 const FirstBox = styled.div`
@@ -779,6 +873,17 @@ const SmallInputBox = styled.div`
     align-items: center;
   }
   .inputTextLeft {
+    @media (min-width: 900pt) {
+      width: 202.5pt;
+    }
+    & input {
+      text-align: center;
+    }
+  }
+  .inputTextRight {
+    @media (min-width: 900pt) {
+      width: 202.5pt;
+    }
     & input {
       text-align: center;
     }
@@ -796,6 +901,15 @@ const SubTitle = styled.div`
   align-items: center;
   letter-spacing: -0.02em;
   text-align: left !important;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
   .x-img {
     position: absolute;
     right: 0;
@@ -812,6 +926,16 @@ const SubTitle = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      padding-bottom: 12pt;
+    }
     &::after {
       content: ' *';
       margin-left: 1pt;
@@ -827,6 +951,7 @@ const SubWord = styled.div`
   line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
 `;
 const TextArea = styled.textarea`
   resize: none;
@@ -842,6 +967,25 @@ const TextArea = styled.textarea`
   letter-spacing: -0.02em;
   &::placeholder {
     color: #caccd1;
+  }
+  :focus {
+    border: 0.75pt solid #5221cb;
+    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
   }
 `;
 const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
@@ -892,5 +1036,16 @@ const WebRapper = styled.div`
     margin-bottom: 54pt;
     margin-top: -2.1%;
   }
+`;
+
+const Percent = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: right;
+  color: #3e3a39;
+  padding-top: 15pt;
 `;
 export default FirstStep;

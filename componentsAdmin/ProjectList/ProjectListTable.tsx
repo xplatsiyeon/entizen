@@ -73,7 +73,7 @@ const ProjectListTable = ({
           }&endDate=${
             pickedDate ? pickedDate[1] : adminDateFomat(String(today))
           }&searchType=${searchType}&searchKeyword=${searchKeyword}${
-            projectQueryString ? projectQueryString : '&steps[]=undefined'
+            projectQueryString ? projectQueryString : ''
           }`,
         ),
       {

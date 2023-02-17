@@ -222,6 +222,7 @@ const Wrapper = styled.div`
 `;
 
 const H1 = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 27pt;
   font-weight: 500;
   font-size: 18pt;
@@ -230,7 +231,11 @@ const H1 = styled.h1`
   color: ${colors.main2};
   padding-left: 15pt;
   @media (min-width: 900pt) {
-    padding-left: 47.25pt;
+    padding-left: 48pt;
+    font-weight: 500;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const P = styled.p`

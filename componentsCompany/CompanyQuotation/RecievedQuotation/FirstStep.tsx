@@ -111,8 +111,10 @@ const FirstStep = ({
   return (
     <Wrapper>
       <TopStep>
-        <div>STEP 1</div>
-        <div>* 필수 입력</div>
+        <div className="step">STEP 1</div>
+        <div>
+          <span className="redColor">*</span> 필수 입력
+        </div>
       </TopStep>
       <SubWord>월 구독료와 특장점을 입력해주세요.</SubWord>
       {/* 부분구독은 충전기 설치비 추가로 생겨야함 */}
@@ -121,6 +123,7 @@ const FirstStep = ({
           <div className="withAfter">충전소 설치비</div>
           <div>
             <Input
+              placeholder="0"
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
                   setChargingStationInstallationPrice(
@@ -138,14 +141,15 @@ const FirstStep = ({
               value={chargingStationInstallationPrice}
               name="chargeInstall"
             />
-            <div>원</div>
+            <div className="won">원</div>
           </div>
         </InputBox>
       )}
       <InputBox>
         <div className="withAfter">월 구독료</div>
-        <div>
+        <div className="displayBox">
           <Input
+            placeholder="0"
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
@@ -166,13 +170,14 @@ const FirstStep = ({
             value={monthlySubscribePrice}
             name="subscribeMoney"
           />
-          <div>원</div>
+          <div className="won">원</div>
         </div>
       </InputBox>
       <InputBox>
         <div className="withAfter">공사기간</div>
         <div>
           <Input
+            placeholder="0"
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setConstructionPeriod(e.target.value);
@@ -186,13 +191,13 @@ const FirstStep = ({
             value={constructionPeriod}
             name="constructionPeriod"
           />
-          <div>일</div>
+          <div className="won">일</div>
         </div>
       </InputBox>
       <InputBox2>
         <TextFlex>
-          <div>구독상품 특장점</div>
-          <div>
+          <div className="title">구독상품 특장점</div>
+          <div className="textLength">
             {firstPageTextArea.length}
             /500
           </div>
@@ -228,9 +233,12 @@ const Wrapper = styled.div`
   padding-bottom: 45pt;
   height: 100vh;
   @media (min-width: 900pt) {
+    width: 100%;
     height: auto;
-    padding-left: 25pt;
-    padding-right: 25pt;
+    padding-left: 22.5pt;
+    padding-right: 22.5pt;
+    /* padding-left: 25pt; */
+    /* padding-right: 25pt; */
   }
   @media (max-width: 899.25pt) {
     padding-top: 20pt;
@@ -241,6 +249,7 @@ const TopStep = styled.div`
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
+  color: #222222;
   & div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -260,6 +269,24 @@ const TopStep = styled.div`
   }
   @media (min-width: 900pt) {
     padding-top: 50pt;
+    .step {
+      font-family: ' Spoqa Han Sans Neo';
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: ${colors.main};
+    }
+  }
+  .redColor {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #f75015;
   }
 `;
 
@@ -268,7 +295,9 @@ const InputBox = styled.div`
   gap: 9pt;
   flex-direction: column;
   margin-top: 30pt;
-
+  @media (min-width: 900pt) {
+    gap: 12pt;
+  }
   & > div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
@@ -276,12 +305,23 @@ const InputBox = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
   }
   & > .withAfter::after {
     content: ' *';
     margin-left: 1pt;
     color: #f75015;
   }
+
   & div:nth-of-type(2) {
     display: flex;
     gap: 12pt;
@@ -289,15 +329,34 @@ const InputBox = styled.div`
     & div {
     }
   }
+  .won {
+    color: #3e3a39;
+    font-family: 'Spoqa Han Sans Neo';
+    letter-spacing: -0.02em;
+    text-align: right;
+    font-weight: 400;
+    line-height: 12pt;
+    font-size: 12pt;
+    @media (min-width: 900pt) {
+      font-weight: 500;
+    }
+  }
+  .displayBox {
+    @media (min-width: 900pt) {
+      display: flex;
+      align-items: center;
+    }
+  }
 `;
 
 const InputBox2 = styled.div`
   display: flex;
-  gap: 9pt;
+  gap: 12pt;
   flex-direction: column;
   margin-top: 30pt;
   @media (max-width: 899.25pt) {
     padding-bottom: 100pt;
+    gap: 9pt;
   }
   & > div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
@@ -322,9 +381,21 @@ const InputBox2 = styled.div`
 `;
 
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
+  /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   width: 100%;
+  outline: none;
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
@@ -332,15 +403,26 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
-  & fieldset {
+  /* & fieldset {
     border: 0.75pt solid ${colors.gray};
-  }
+  } */
   & .MuiInputBase-root {
     padding-right: 9pt;
+    /* @media (min-width: 900pt) {
+      width: 512.25pt;
+    } */
   }
   ::placeholder {
-    color: ${colors.gray};
+    /* color: ${colors.gray}; */
+    color: #caccd1;
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   & .remove {
     display: none;
@@ -358,6 +440,7 @@ const SubWord = styled.div`
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
 `;
 
 const TextArea = styled.textarea`
@@ -365,7 +448,7 @@ const TextArea = styled.textarea`
   border: 1px solid ${colors.gray};
   width: 100%;
   padding: 12pt;
-  margin-top: 9pt;
+  margin-top: 12pt;
   border-radius: 6pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
@@ -375,6 +458,25 @@ const TextArea = styled.textarea`
   letter-spacing: -0.02em;
   &::placeholder {
     color: #caccd1;
+  }
+  :focus {
+    border: 0.75pt solid #5221cb;
+    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
   }
 `;
 
@@ -386,6 +488,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   box-sizing: border-box;
   color: ${colors.lightWhite};
   padding: 15pt 0 39pt 0;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -409,6 +512,41 @@ const TextFlex = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .title {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
+  }
+  .textLength {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 500;
+      line-height: 10.5pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+  }
 `;
 
 export default FirstStep;

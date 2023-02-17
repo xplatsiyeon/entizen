@@ -688,13 +688,15 @@ const SecondStep = ({
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Wrapper>
         <TopStep>
-          <div>STEP {tabNumber + 1}</div>
-          <div>* 필수 입력</div>
+          <div className="title">STEP {tabNumber + 1}</div>
+          <div>
+            <span className="redColor">*</span>필수 입력
+          </div>
         </TopStep>
 
         {charger?.standType ? (
           <SubWord>
-            <p>
+            <p className="boldText">
               {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)}, ${convertKo(
                 M6_LIST,
                 M6_LIST_EN,
@@ -752,10 +754,13 @@ const SecondStep = ({
       <Divide></Divide>
       <SecondWrapper>
         <TopBox>
-          <div>
-            [선택사항] 내 제품 리스트에서 <div>가져오기</div>
+          <div className="titleText">
+            [선택사항] 내 제품 리스트에서{' '}
+            <div className="highlight">가져오기</div>
           </div>
-          <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
+          <div className="smallText">
+            * 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.
+          </div>
         </TopBox>
         <SelectContainer>
           <SelectComponents
@@ -777,8 +782,8 @@ const SecondStep = ({
         </BottomInputBox>
         <InputBox className="secondChargerText">
           <FlexText>
-            <div>충전기 특장점</div>
-            <div>{chargeFeatures.length}/500</div>
+            <span className="titleText">충전기 특장점</span>
+            <span className="lengthText">{chargeFeatures.length}/500</span>
           </FlexText>
           <div>
             <TextArea
@@ -927,8 +932,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding-bottom: 30pt;
   @media (min-width: 900pt) {
-    padding-left: 25pt;
-    padding-right: 25pt;
+    /* padding-left: 25pt; */
+    /* padding-right: 25pt; */
+    padding-left: 22.5pt;
+    padding-right: 22.5pt;
   }
 
   @media (max-width: 899.25pt) {
@@ -970,6 +977,25 @@ const TopStep = styled.div`
   @media (min-width: 900pt) {
     padding-top: 50pt;
   }
+  .title {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .redColor {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #f75015;
+  }
 `;
 const SubWord = styled.div`
   margin-top: 6pt;
@@ -982,6 +1008,24 @@ const SubWord = styled.div`
   & p {
     font-weight: 700;
     display: inline-block;
+  }
+  .boldText {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
   }
 `;
 // 충전요금 버튼, 인풋 부분
@@ -997,6 +1041,17 @@ const ChargeMoney = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+      padding-bottom: 15pt;
+    }
   }
   & .withAfter::after {
     content: ' *';
@@ -1069,8 +1124,21 @@ const BottomInputBox = styled.div`
   margin-top: 30pt;
   flex-direction: column;
   gap: 9pt;
+  @media (min-width: 900pt) {
+    gap: 12pt;
+  }
   & .withAfter {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
     font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -1081,6 +1149,17 @@ const BottomInputBox = styled.div`
     content: ' *';
     margin-left: 1pt;
     color: #f75015;
+  }
+  .withAfter {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
   }
   // input border 색 맞추기
   & div > .MuiFormControl-root > .MuiInputBase-root > fieldset {
@@ -1152,14 +1231,14 @@ const Divide = styled.div`
   }
 `;
 const TopBox = styled.div`
-  & div:first-of-type {
+  /* & div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
-  }
+  } */
   & > div > div {
     display: inline-block;
     color: ${colors.main};
@@ -1174,12 +1253,50 @@ const TopBox = styled.div`
     text-align: left;
     color: #747780;
   }
+  .highlight {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #5221cb;
+    }
+  }
+  .titleText {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+      padding-bottom: 15pt;
+    }
+  }
+  .smallText {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #747780;
+    }
+  }
 `;
 const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
   margin-top: 9pt;
+
+  @media (min-width: 900pt) {
+    margin-top: 12pt;
+  }
 `;
 const SelectBox = styled(Select)`
   width: 100%;
@@ -1230,6 +1347,26 @@ const TextArea = styled.textarea`
   &::placeholder {
     color: #caccd1;
   }
+  :focus {
+    border: 0.75pt solid #5221cb;
+    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
+  }
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;
@@ -1271,6 +1408,16 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    padding-bottom: 12pt;
+  }
 `;
 const PhotosBox = styled.div`
   width: 100%;
@@ -1303,15 +1450,15 @@ const PhotosBoxs = styled.div`
 
 const AddPhotos = styled.button`
   /* display: inline-block; */
-  width: 56.0625pt;
-  height: 56.0625pt;
+  min-width: 56.0625pt;
+  min-height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
   background-color: #ffffff;
   @media (min-width: 900pt) {
     background-color: #ffffff;
-    width: 77.25pt;
+    min-width: 77.25pt;
     height: 77.25pt;
     margin-right: 10pt;
   }
@@ -1357,9 +1504,10 @@ const ImgSpan = styled.div`
 const Xbox = styled.div`
   position: absolute;
   right: -7pt;
+  top: -5pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    top: -7pt;
+    top: -6pt;
   }
 `;
 const FileBox = styled.div`
@@ -1419,11 +1567,20 @@ const Form = styled.form`
   position: relative;
   & > label {
     font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    padding-bottom: 12pt;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & > div {
     margin-top: 9pt;
@@ -1530,6 +1687,32 @@ const FlexText = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  .titleText {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-bottom: 12pt;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .lengthText {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #222222;
+  }
 `;
 
 export default SecondStep;

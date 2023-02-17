@@ -166,6 +166,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
   .left-btn {
     position: relative;
@@ -243,10 +244,15 @@ const Day = styled.div<{ selectedDay?: boolean }>`
     color: #a6a9b0;
   }
   .item {
+    @media (min-width: 900pt) {
+      width: 27pt;
+      height: 27pt;
+      padding-top: 5pt;
+    }
     width: 16.5pt;
     height: 16.5pt;
-    margin-top: 2px;
-    padding-bottom: 2px;
+    margin-top: 1.5pt;
+    padding-bottom: 1.5pt;
     ${({ selectedDay }) =>
       selectedDay &&
       css`

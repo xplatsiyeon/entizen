@@ -283,6 +283,14 @@ const ImageBox = styled.div`
   position: relative;
   margin-left: 15pt;
   margin-bottom: 15pt;
+  & > span {
+    border-radius: 6pt;
+  }
+  @media (min-width: 900pt) {
+    margin-left: 0;
+    width: 75pt;
+    height: 75pt;
+  }
 `;
 
 const Title = styled.h1`
@@ -296,6 +304,14 @@ const Title = styled.h1`
   @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
+  }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
@@ -490,6 +506,7 @@ const GridImg = styled.div`
   gap: 6pt;
   @media (min-width: 900pt) {
     padding-left: 0;
+    padding-top: 24pt;
   }
 `;
 const GridItem = styled.span`
@@ -498,9 +515,13 @@ const GridItem = styled.span`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
     height: 144pt;
+    margin-right: 22.5pt;
   }
 `;
 const FileDownloadBtn = styled(Button)`

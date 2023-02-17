@@ -310,6 +310,7 @@ const H1 = styled.h1`
     text-align: left;
     color: #222222;
     padding-left: 47.25pt;
+    padding-bottom: 15pt;
   }
 `;
 const P = styled.p`
@@ -329,6 +330,12 @@ const P = styled.p`
   cursor: pointer;
   @media (min-width: 900pt) {
     margin-left: 47.25pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const Explanation = styled.p`

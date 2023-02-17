@@ -145,7 +145,7 @@ const AddressBox = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-  margin-top: 12pt;
+  /* margin-top: 12pt; */
   color: ${colors.main2};
   width: 140pt;
   overflow: hidden;
