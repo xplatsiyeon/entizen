@@ -59,7 +59,7 @@ const Box = styled.div`
   overflow: hidden;
   border-radius: 9pt;
   background: white;
-  width: 60pt;
+  width: 100pt;
   bottom: 55pt;
   //border: 1px solid;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
