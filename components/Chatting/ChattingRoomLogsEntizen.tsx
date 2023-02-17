@@ -6,9 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, {
   MouseEvent,
-  useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -17,7 +15,6 @@ import MoreModal from 'components/Chatting/MoreModal';
 import QuitModal from 'components/Chatting/QuitModal';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
-import addBtn from 'public/images/addBtn.png';
 import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
@@ -35,7 +32,6 @@ import { AxiosError } from 'axios';
 import fileImg from 'public/mypage/file-icon.svg';
 import Modal from 'components/Modal/Modal';
 import chatFileAdd from 'public/images/chatFileAdd.png';
-import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
@@ -91,7 +87,6 @@ type Props = {
   listRefetch: () => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
-const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -158,7 +153,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
       setText('');
       await queryClient.invalidateQueries('chatting-data');
       setTimeout(() => {
-        if (mobInputRef.current) mobInputRef.current.focus();
+        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
       }, 300);
     },
     onError: (error) => {
@@ -486,23 +481,35 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
       //   console.log('temp', temp);
       setData(temp);
 
+      const inner = logs.current?.querySelector('.inner');
+
       if (loading) {
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-          focusRef.current?.focus();
+         if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 300);
       } else {
         console.log('chat');
         setTimeout(() => {
-          focusRef.current?.focus();
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 100);
       }

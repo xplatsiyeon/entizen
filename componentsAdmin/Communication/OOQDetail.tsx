@@ -454,23 +454,37 @@ const OOQDetail = ({
       //   console.log('temp', temp);
       setData(temp);
 
+      const inner = logs.current?.querySelector('.OOQ-inner');
+
       if (loading) {
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-          focusRef.current?.focus();
+
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 300);
       } else {
         console.log('chat');
         setTimeout(() => {
-          focusRef.current?.focus();
+
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 100);
       }
@@ -671,11 +685,17 @@ const OOQDetail = ({
             <FocusBox tabIndex={1} className="target" ref={focusRef} />
           </div>
         </Inner>
-
+        {fileModal && (
+          <WebFileModal
+            setFileModal={setFileModal}
+            imgClick={imgHandler}
+            fileClick={fileHandler}
+          />
+        )}
         <WebBottomBox className="OOQ-bottom">
           <FlexBox2 onSubmit={onSubmitText}>
             <InputWrap>
-              <FileIconWrap onClick={() => setFileModal(true)}>
+              <FileIconWrap onClick={() => setFileModal(!fileModal)}>
                 <Image src={fileBtn} layout="fill" />
               </FileIconWrap>
               <TextInput
@@ -710,13 +730,7 @@ const OOQDetail = ({
         onChange={saveFile}
       />
 
-      {fileModal && (
-        <WebFileModal
-          setFileModal={setFileModal}
-          imgClick={imgHandler}
-          fileClick={fileHandler}
-        />
-      )}
+ 
     </Body>
   );
 };
@@ -794,6 +808,18 @@ const IsRead = styled.p<{ userChatting?: string }>`
   text-align: center;
   /* color: #000000; */
   color: #caccd1;
+  display: none;
+  
+  &.user-p {
+    &.p-target {
+      display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
+    }
+  }
+  &.admin-p{
+    &.p-target {
+      display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
+    }
+  }
 `;
 
 const FlexBox2 = styled.form`
@@ -914,7 +940,7 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
-  &.target-p {
+  /* &.target-p {
     .admin-p {
       &.p-target {
         display: block;
@@ -925,7 +951,7 @@ const DateChatting = styled.div`
         display: block;
       }
     }
-  }
+  } */
 `;
 const Date = styled.span`
   display: inline-block;

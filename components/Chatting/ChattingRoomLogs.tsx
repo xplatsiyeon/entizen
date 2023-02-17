@@ -485,11 +485,17 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       //   console.log('temp', temp);
       setData(temp);
 
+      const inner = logs.current?.querySelector('.inner');
+
       if (loading) {
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-          focusRef.current?.focus();
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
             webInputRef.current.focus({
@@ -500,7 +506,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
-          const inner = logs.current?.querySelector('.inner');
           if(inner) inner.scroll({
             top: inner.scrollHeight,
             left: 0,
@@ -959,7 +964,6 @@ const ImgTag = styled.img`
   top: 50%;
   transform: translate(-50%, -50%);
 `;
-
 const TextInput = styled.input`
   flex: 2;
   border-radius: 37.5pt;
