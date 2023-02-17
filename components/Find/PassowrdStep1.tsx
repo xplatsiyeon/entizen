@@ -46,18 +46,22 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         'data?.data?.data?.member?.memberType=>',
         data?.data?.data?.member?.memberType,
       );
+
       if (
         data?.data?.data?.member === null ||
-        data?.data?.data?.member?.snsLogin !== null ||
         data?.data?.data?.member?.memberType !== memberType
       ) {
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
         );
+      } else if (data?.data?.data?.member?.snsLogin !== null) {
+        setIsModal(true);
+        setModalMsg(
+          'SNS 계정으로 가입된 회원입니다.\nSNS 계정으로 로그인해주세요.',
+        );
       } else {
         fnPopup();
-        // setStep(1);
         console.log('data==>>', data);
         return;
       }
