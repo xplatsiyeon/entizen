@@ -62,22 +62,29 @@ const WebSearchAddress = ({
   setSelectedCharger,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
+  const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const { callInfo } = useCharger();
 
-  const keyWord = useDebounce(searchWord, 300);
+  let keyWord = useDebounce(searchWord, 300);
   const { searchKeyword, locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setFakeWord('');
+    setFakeWord('');
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    console.log('jibun==>', jibun);
+    console.log('roadad==>', roadad);
+    console.log('sggnm==>', sggnm);
+    console.log('sinm==>', sinm);
+
+    setFakeWord(jibun!);
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
@@ -115,6 +122,7 @@ const WebSearchAddress = ({
     // setFakeWord(locationList.jibunAddr);
   }, [results]);
 
+  // 특수 문자 예외 처리
   useEffect(() => {
     const findAddresss = async () => {
       if (keyWord === '') {
@@ -160,7 +168,7 @@ const WebSearchAddress = ({
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
-          value={searchWord}
+          value={fakeWord.length > 0 ? fakeWord : searchWord}
         />
 
         {searchWord?.length > 0 ? (
@@ -168,6 +176,7 @@ const WebSearchAddress = ({
             <Image
               onClick={() => {
                 setSearchWord('');
+                setFakeWord('');
                 setResults([]);
                 setChargeInfoOpen(false);
               }}
