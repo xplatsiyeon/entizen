@@ -84,7 +84,7 @@ const WebSearchAddress = ({
     console.log('sggnm==>', sggnm);
     console.log('sinm==>', sinm);
 
-    setFakeWord(jibun!);
+    setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
