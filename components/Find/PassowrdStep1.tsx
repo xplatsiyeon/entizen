@@ -58,7 +58,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       } else if (data?.data?.data?.member?.snsLogin !== null) {
         setIsModal(true);
         setModalMsg(
-          'SNS 계정으로 가입된 회원입니다.\nSNS 계정으로 로그인해주세요.',
+          'SNS 계정으로 가입된 회원입니다.\nSNS 계정으로 로그인해 주세요.',
         );
       } else {
         fnPopup();
@@ -126,7 +126,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
