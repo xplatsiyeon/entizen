@@ -86,6 +86,8 @@ const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
                   bottom={'12pt'}
                 />
               </DdayBox>
+            </DdayNAddress>
+            <DisplayBox>
               {el?.badge === '선택대기' ? (
                 <AddressBox>
                   {el?.quotationRequest.maskingInstallationAddress}
@@ -95,12 +97,10 @@ const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
                   {el?.quotationRequest.installationAddress}
                 </AddressBox>
               )}
-            </DdayNAddress>
-            <IconBox>
               <ArrowIconBox>
                 <Image src={CaretDown24} alt="RightArrow" />
               </ArrowIconBox>
-            </IconBox>
+            </DisplayBox>
           </Contents>
         ))}
       </ContentsContainer>
@@ -110,13 +110,16 @@ const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
 
 const ContentsContainer = styled.div`
   @media (min-width: 900pt) {
-    width: 198pt;
-    height: 66pt;
-    margin: 0 auto;
+    /* width: 198pt; */
+
     border-radius: 6pt;
     height: 313pt;
     overflow-y: scroll;
-    padding: 6pt 7.5pt 0 7.5pt;
+    display: flex;
+    flex-direction: column;
+    padding: 5pt 28.5pt 0;
+    /* padding: 0 5.25pt; */
+    /* padding: 6pt 7.5pt 0 7.5pt; */
   }
 `;
 const Contents = styled.div<{
@@ -124,15 +127,14 @@ const Contents = styled.div<{
   componentId: number | undefined;
 }>`
   padding: 12pt 13.5pt;
-  display: flex;
   margin-bottom: 9pt;
-  justify-content: space-between;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2) !important;
   border-radius: 6pt;
   cursor: pointer;
   border: ${({ select, componentId }) =>
     select === componentId ? `0.75pt solid #5221CB` : ''};
 `;
+
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
@@ -148,27 +150,23 @@ const AddressBox = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-  margin-top: 12pt;
+
   color: ${colors.main2};
+  width: 140pt;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
 `;
-const TopContainer = styled.div`
-  @media (min-width: 900pt) {
-    width: 580.5pt;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    margin-top: 60pt;
-    margin-bottom: 30pt;
-  }
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default SendRequestUnder;

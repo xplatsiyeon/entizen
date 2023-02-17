@@ -597,10 +597,17 @@ const CustomerRequestContent = styled.div`
   text-align: center;
   color: ${colors.main};
   margin-top: 21pt;
+
   @media (min-width: 900pt) {
     padding-top: 0;
     margin-top: 0;
     margin-bottom: 21pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 18pt;
+    font-weight: 700;
+    line-height: 18.75pt;
+    letter-spacing: -0.02em;
+    text-align: center;
   }
 `;
 

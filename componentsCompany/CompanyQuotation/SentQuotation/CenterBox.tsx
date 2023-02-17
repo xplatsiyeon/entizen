@@ -161,6 +161,7 @@ const Wrapper = styled.div`
     border-bottom: 0;
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 21pt;
   }
 `;
 
@@ -181,6 +182,12 @@ const SecondTitle = styled.div`
   text-align: center;
   @media (min-width: 900pt) {
     margin-top: 60pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 18pt;
+    font-weight: 700;
+    line-height: 18.75pt;
+    letter-spacing: -0.02em;
+    text-align: center;
   }
 `;
 
