@@ -75,7 +75,12 @@ const Button = styled.button<{
   bottom?: number;
   propsGet?: boolean;
 }>`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: center;
   margin-top: 30pt;
   width: 100%;
   padding-top: 15pt;

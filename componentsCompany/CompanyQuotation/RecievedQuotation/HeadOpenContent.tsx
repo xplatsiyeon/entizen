@@ -717,6 +717,7 @@ const Wrapper = styled.div`
     padding-left: 26.25pt;
     padding-right: 26.25pt;
     margin-bottom: 30pt;
+    border-radius: 12pt;
   }
 `;
 const Badge = styled.span`
@@ -861,8 +862,8 @@ const WebProgressbar = styled.div<{ tabNumber: number }>`
 const TabBox = styled.div<{ open: boolean }>`
   z-index: 1;
   //display:flex;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  /* padding-left: 15pt;
+  padding-right: 15pt; */
   margin-top: 30pt;
   box-sizing: border-box;
   position: absolute;
@@ -879,8 +880,10 @@ const TabBox = styled.div<{ open: boolean }>`
     display: flex;
     flex-direction: row;
     margin-top: 53pt;
-    padding-left: 25pt;
-    padding-right: 25pt;
+
+    /* padding-left: 25pt; */
+    /* padding-right: 25pt; */
+    padding: 0 22.5pt 0 22.5pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -907,7 +910,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
 
 const WebContainer = styled.div`
   @media (min-width: 900pt) {
-    width: 610.5pt;
+    width: 580.5pt;
     margin-top: 30pt;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);

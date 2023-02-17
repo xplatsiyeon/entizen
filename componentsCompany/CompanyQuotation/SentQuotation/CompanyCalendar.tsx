@@ -224,7 +224,7 @@ const CompanyCalendar = ({
         ) : (
           <Notice>
             <span></span>
-            <span>● 고객이 선택한 일정</span>
+            <span>• 고객이 선택한 일정</span>
           </Notice>
         )}
       </Title>
@@ -251,6 +251,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   cursor: pointer;
   .left-btn {
     position: relative;
@@ -272,19 +273,37 @@ const Pagenation = styled.div`
   }
 `;
 const Notice = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
   color: ${colors.main};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const Notice2 = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   font-size: 10.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
   color: #f75015;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const Weeks = styled.div`
   padding-top: 25.5pt;
@@ -321,6 +340,11 @@ const Day = styled.div<{ selectedDay?: boolean }>`
   line-height: 16.5pt;
   color: ${colors.main2};
   .item {
+    @media (min-width: 900pt) {
+      width: 27pt;
+      height: 27pt;
+      padding-top: 5pt;
+    }
     width: 16.5pt;
     height: 16.5pt;
     margin-top: 2px;

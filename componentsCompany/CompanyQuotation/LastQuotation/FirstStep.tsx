@@ -322,8 +322,10 @@ const FirstStep = ({
     <WebRapper>
       <Wrapper>
         <TopStep>
-          <div>STEP 1</div>
-          <div>* 필수 입력</div>
+          <div className="step">STEP 1</div>
+          <div>
+            <span className="redColor">*</span> 필수 입력
+          </div>
         </TopStep>
         <SubWord>
           최종 견적가 및<br />
@@ -631,13 +633,10 @@ const Wrapper = styled.div`
   }
 `;
 const TopStep = styled.div`
-  @media (min-width: 900pt) {
-    margin-top: 0;
-    padding-top: 70pt;
-  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
+  color: #222222;
   & div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -654,6 +653,27 @@ const TopStep = styled.div`
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+  @media (min-width: 900pt) {
+    padding-top: 50pt;
+    .step {
+      font-family: ' Spoqa Han Sans Neo';
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: ${colors.main};
+    }
+  }
+  .redColor {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #f75015;
   }
 `;
 const InputBox = styled.div`
@@ -827,6 +847,15 @@ const SubWord = styled.div`
   line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (max-width: 899.25pt) {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const TextArea = styled.textarea`
   resize: none;
