@@ -158,7 +158,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -196,44 +196,49 @@ const ProfileEditing = ({
     <Wrapper>
       <Header back={true} title="프로필 변경" />
       <Body component={component}>
-        {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
+        {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
         {isLoading ? (
           <Loader />
         ) : (
-          <Avatar>
-            <div className="img-bg">
-              {/* 아바타 */}
-              <button className="avatar-bg" onClick={imgHandler}>
-                <Image
-                  src={
-                    profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
-                      ?.length! > 1
-                      ? profile?.companyMemberAdditionalInfo
-                          ?.companyLogoImageUrl!
-                      : AvatarIcon
-                  }
-                  alt="avatar"
-                  layout="fill"
-                  priority={true}
-                  unoptimized={true}
-                  objectFit="cover"
-                />
-              </button>
-              {/* 포토 이미지 */}
-              <button className="avatar-photo" onClick={imgHandler}>
-                <Image src={AvatarPhoto} alt="avatar-photo" />
-              </button>
-            </div>
-            <input
-              ref={imgRef}
-              className="file-input"
-              type={'file'}
-              accept="image/*"
-              onChange={onImgInputBtnClick}
-              capture={userAgent === 'Android_App' && true}
-              style={{ display: 'none' }}
-            />
-          </Avatar>
+          <>
+            {component === 0 && (
+              <ChangeProfileText>프로필 변경</ChangeProfileText>
+            )}
+            <Avatar>
+              <div className="img-bg">
+                {/* 아바타 */}
+                <button className="avatar-bg" onClick={imgHandler}>
+                  <Image
+                    src={
+                      profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                        ?.length! > 1
+                        ? profile?.companyMemberAdditionalInfo
+                            ?.companyLogoImageUrl!
+                        : AvatarIcon
+                    }
+                    alt="avatar"
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                </button>
+                {/* 포토 이미지 */}
+                <button className="avatar-photo" onClick={imgHandler}>
+                  <Image src={AvatarPhoto} alt="avatar-photo" />
+                </button>
+              </div>
+              <input
+                ref={imgRef}
+                className="file-input"
+                type={'file'}
+                accept="image/*"
+                onChange={onImgInputBtnClick}
+                capture={userAgent === 'Android_App' && true}
+                style={{ display: 'none' }}
+              />
+            </Avatar>
+          </>
         )}
         <Label mt={33}>아이디</Label>
         <InputBox type="text" readOnly placeholder={profile?.id} />
@@ -244,7 +249,7 @@ const ProfileEditing = ({
           placeholder={profile?.companyMemberAdditionalInfo?.companyName}
         />
         <Div onClick={() => setComponent(1)}>
-          <span>주소 변경</span>
+          <SubTitle>기업 주소 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -258,14 +263,14 @@ const ProfileEditing = ({
           </form> */}
         {/* <Div className="PW" onClick={fnPopup}> */}
         <Div className="PW" onClick={HandlePassword}>
-          <span>비밀번호 변경</span>
+          <SubTitle>비밀번호 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
         </Div>
 
         <Div onClick={() => setComponent(3)}>
-          <span>사업자 등록 변경</span>
+          <SubTitle>사업자 등록증 수정</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -313,6 +318,7 @@ const ChangeProfileText = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 50.25pt;
+  color: #222222;
 `;
 const Body = styled.div<{ component: number }>`
   /* padding: 21.5pt 15pt 0; */
@@ -347,6 +353,7 @@ const Avatar = styled.div`
   }
 `;
 const Label = styled.h3<{ mt: number }>`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
@@ -452,4 +459,14 @@ const MBtn = styled.button`
 `;
 const Buttons = styled.button`
   display: none;
+`;
+
+const SubTitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
 `;

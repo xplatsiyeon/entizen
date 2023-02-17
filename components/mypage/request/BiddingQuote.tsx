@@ -844,6 +844,7 @@ const GridImg = styled.div`
   display: flex;
   overflow-x: scroll;
   padding-top: 15pt;
+  grid-template-columns: repeat(4, 1fr);
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
@@ -860,6 +861,9 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
     margin-right: 22.5pt;

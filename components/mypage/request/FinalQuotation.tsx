@@ -113,7 +113,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
             ) : (
               <span className="name" />
             )}
-            <span className="value">
+            <span className="value" style={{ lineHeight: '18pt' }}>
               {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
               <br />
               {item.standType
@@ -275,7 +275,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           );
         })}
       </Section>
-
+      <Line style={{ marginTop: '30pt' }} />
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -289,6 +289,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
                     layout="fill"
                     priority={true}
                     unoptimized={true}
+                    objectFit="cover"
                   />
                 </GridItem>
               ))}
@@ -296,7 +297,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           ))}
         </GridImg>
       </Section>
-
+      <Line style={{ marginTop: '30pt' }} />
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -357,7 +358,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 60pt;
+  /* padding-top: 36.75pt; */
   @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
@@ -416,6 +417,9 @@ const Item = styled.li`
 
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
   }
   .name {
     font-weight: 500;
@@ -617,8 +621,15 @@ const GridImg = styled.div`
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    padding-left: 0;
+    width: 580.5pt;
+    display: flex;
+    overflow: scroll;
+    padding-top: 24pt;
+    padding-bottom: 30pt;
   }
+  /* @media (min-width: 900pt) {
+    padding-left: 0;
+  } */
 `;
 const GridItem = styled.div`
   position: relative;
@@ -626,10 +637,12 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
-
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
-    height: 144pt;
+    margin-right: 22.5pt;
   }
 `;
 

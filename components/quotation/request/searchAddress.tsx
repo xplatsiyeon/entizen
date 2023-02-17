@@ -108,7 +108,12 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
     <Wrap>
       <Container>
         <HeaderBox>
-          <Image src={btnImg} alt="backBtn" />
+          <Image
+            src={btnImg}
+            alt="backBtn"
+            onClick={() => setIsSearch(false)}
+            style={{ cursor: 'pointer' }}
+          />
           <FindAddress
             placeholder="상호명 또는 주소 검색"
             onChange={handleChange}
@@ -178,6 +183,7 @@ const FindAddress = styled(TextField)`
   margin-left: 6pt;
   display: flex;
   justify-content: center;
+
   .MuiInputBase-root {
     padding-top: 12pt;
     padding-bottom: 12pt;

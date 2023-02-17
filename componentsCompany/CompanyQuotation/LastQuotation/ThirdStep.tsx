@@ -331,7 +331,7 @@ const ThirdStep = ({
           {/* 에러 모달 */}
           {isModal && <Modal click={onClickModal} text={errorMessage} />}
           <TopStep>
-            <div>STEP {maxIndex + 2}</div>
+            <div className="title">STEP {maxIndex + 2}</div>
           </TopStep>
           <SubWord>
             사업자 등록증, 상세 견적서를
@@ -439,6 +439,23 @@ const Wrapper = styled.div`
 `;
 
 const TopStep = styled.div`
+  .title {
+    color: #5221cb;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 18pt;
+    font-weight: 500;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
   @media (min-width: 900pt) {
     margin-top: 0;
     padding-top: 70pt;
@@ -465,13 +482,14 @@ const TopStep = styled.div`
   }
 `;
 const SubWord = styled.div`
+  margin-top: 21pt;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: left;
-  margin-top: 21pt;
+  color: #222222;
 `;
 
 const RemainderInputBoxs = styled.div`

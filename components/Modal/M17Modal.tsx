@@ -64,7 +64,7 @@ const Modal = styled.div<{ border?: boolean }>`
   @media (min-width: 900pt) {
     border-radius: 12pt;
     width: 324pt;
-    padding: 42pt 15pt;
+    padding: 42pt 28.5pt 10pt;
   }
 `;
 const H1 = styled.h1`
@@ -97,17 +97,6 @@ const BtnBox = styled.div`
   }
 `;
 const LeftBtn = styled(Button)`
-  background: ${colors.gray};
-  border-radius: 6pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  text-align: center;
-  letter-spacing: -0.02em;
-  color: ${colors.darkGray};
-  padding: 15pt 26.25pt;
-`;
-const RightBtn = styled(Button)<{ border?: boolean }>`
   background: ${colors.main};
   border-radius: 6pt;
   font-weight: 700;
@@ -115,6 +104,16 @@ const RightBtn = styled(Button)<{ border?: boolean }>`
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: ${colors.lightWhite};
+  color: white;
+  padding: 15pt 26.25pt;
+`;
+const RightBtn = styled(Button)<{ border?: boolean }>`
+  border-radius: 6pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${colors.darkGray};
   padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; ;
 `;
