@@ -3,7 +3,6 @@ import { isTokenPostApi } from 'api';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import MypageHeader from 'components/mypage/request/header';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FindKey } from 'pages/signin';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -81,7 +80,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     });
   };
 
-  // 버튼 클릭
+  // 나이스 인증 후 숨겨진 버튼 클릭
   const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let key = localStorage.getItem('key');
@@ -92,11 +91,6 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     if (isValid) {
       if (data.name !== name || data.id !== id) {
         localStorage.removeItem('key');
-        setIsModal(true);
-        setModalMsg(
-          '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
-        );
-      } else if ('소셜 로그인이면') {
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',

@@ -4,11 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useCallback } from 'react';
-import {
-  FinalQuotations,
-  PreQuotationResponse,
-} from 'pages/mypage/request/detail';
+import React from 'react';
 import {
   convertKo,
   hyphenFn,
@@ -26,40 +22,26 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import ManagerInfo from './ManagerInfo';
-import { log } from 'console';
 import { PreQuotations } from 'pages/mypage/request';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { fileDownload } from 'bridge/appToWeb';
+import { useRouter } from 'next/router';
 
 interface Props {
   pb?: number;
-  // data?: PreQuotationResponse;
   data?: PreQuotations;
   isSpot?: boolean;
+  isFinalItmeIndex?: number;
 }
-
-const TAG = 'components/mypage/request/FinalQuotation.tsx';
-const FinalQuotation = ({ pb, data, isSpot }: Props) => {
+const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
-  console.log(data);
-  // console.log('구매자 자율', data?.preQuotation);
 
-  // console.log('부분 구독', data?.finalQuotation?.subscribeProduct);
-
-  //a링크에 넘길거
   const callPhone = hyphenFn(data?.member?.phone!);
-
-  data?.finalQuotation;
-  // const finalQuotation = data?.preQuotation?.finalQuotation;
   const finalQuotation = data?.finalQuotation;
 
-  console.log(
-    '🔥finalQuotation?.finalQuotationChargers==>>>',
-    finalQuotation?.finalQuotationChargers,
-  );
+  console.log('finalQuotation===>>', finalQuotation);
+
   return (
     <Wrapper>
       {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl! !==
@@ -159,7 +141,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              {finalQuotation?.finalQuotationChargers[0]?.chargePriceType! ==
+              {finalQuotation?.finalQuotationChargers[0]?.chargePriceType !==
               'PURCHASER_AUTONOMY' ? (
                 <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span>
               ) : (
@@ -338,9 +320,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         {finalQuotation?.finalQuotationDetailFiles?.map((item, index) => (
           <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
             <FileDownload
-              // onClick={DownloadFile}
               download={item.originalName}
-              // href={item.url}
               onClick={() => {
                 fileDownload(userAgent, item.originalName, item.url);
               }}
@@ -378,7 +358,6 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
 
 const Wrapper = styled.div`
   padding-top: 60pt;
-
   @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
@@ -404,7 +383,6 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     css`
       padding-right: 0;
     `};
-
   @media (max-width: 899.25pt) {
     margin-left: 15pt;
   }
@@ -412,7 +390,6 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
 const List = styled.ul`
   margin: 30pt 0 30pt;
   gap: 12pt;
-  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
@@ -423,11 +400,8 @@ const MultiSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12pt;
-
   :nth-of-type(1) {
-    /* padding-bottom: 18pt; */
     margin-top: 18pt;
-    /* border-bottom: 0.75pt solid ${colors.lightGray}; */
     border-top: 0.75pt solid ${colors.lightGray};
     @media (min-width: 900pt) {
       margin-top: 30pt;
@@ -492,11 +466,9 @@ const ImageBox = styled.div`
   position: relative;
   width: 75pt;
   height: 75pt;
-  /* margin-left: 15pt; */
   display: flex;
   justify-content: center;
   align-items: center;
-
   @media (max-width: 900pt) {
     width: 48pt;
     height: 48pt;
@@ -511,21 +483,17 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-bottom: 24pt;
-
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
   }
 `;
-
 const Subtitle2 = styled.h2`
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  /* padding-top: 24pt; */
-
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
@@ -612,7 +580,6 @@ const FeaturesList = styled.ol`
     flex: none;
   }
 `;
-
 const FeaturesList3 = styled.ol`
   padding-top: 6pt;
   list-style-type: decimal;
@@ -682,25 +649,13 @@ const FileDownload = styled.a`
   gap: 3pt;
   color: ${colors.gray2};
 `;
-
 const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
 `;
-
 const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
   margin-top: 18pt;
 `;
-
-const TextResult = styled.div`
-  display: flex;
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-`;
-
 const Label2 = styled.div`
   font-weight: 700;
   font-size: 15pt;
@@ -708,7 +663,6 @@ const Label2 = styled.div`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   flex: 1;
-
   @media (max-width: 899.25pt) {
     flex: none;
     font-size: 10.5pt;
@@ -719,7 +673,6 @@ const Label2 = styled.div`
     padding-top: 3pt;
   }
 `;
-
 const FeaturesList2 = styled.div`
   list-style-type: decimal;
   list-style-position: inside;
@@ -740,7 +693,6 @@ const FeaturesList2 = styled.div`
     letter-spacing: -0.02em;
   }
 `;
-
 const NoImage = styled.div`
   height: 75pt;
   width: 75pt;
@@ -754,7 +706,6 @@ const NoImage = styled.div`
     margin-bottom: 15pt;
   }
 `;
-
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
@@ -762,7 +713,6 @@ const Contents = styled.div`
   @media (min-width: 900pt) {
     padding: 19.5pt 0 18pt;
   }
-
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -770,7 +720,6 @@ const Contents = styled.div`
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
     }
-
     .emailText {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
@@ -788,7 +737,6 @@ const Contents = styled.div`
       }
     }
   }
-
   .name {
     font-weight: 500;
     font-size: 10.5pt;
@@ -826,7 +774,6 @@ const Contents = styled.div`
 
     text-align: center;
   }
-
   .phone {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
@@ -840,7 +787,6 @@ const Contents = styled.div`
       display: none;
     }
   }
-
   .webPhone {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
@@ -853,17 +799,6 @@ const Contents = styled.div`
     }
   }
 `;
-
-const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
-  font-weight: 700;
-  line-height: 12pt;
-  letter-spacing: 0em;
-  text-align: left;
-  padding-bottom: 24pt;
-`;
-
 const FileName = styled.div`
   display: block;
   width: 150pt;

@@ -38,6 +38,9 @@ const EditPW = ({ setComponent }: Props) => {
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  const [passwordError, setPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
@@ -55,30 +58,22 @@ const EditPW = ({ setComponent }: Props) => {
         setOpenModal(true);
         setModalMessage('비밀번호 변경이 완료되었습니다.');
       },
-      onError: () => {
-        setOpenModal(true);
-        setModalMessage('비밀번호 변경이 실패했습니다.\n다시 시도 해주세요.');
+      onError: (err: any) => {
+        if (
+          err?.response?.data?.message! ===
+          '기존과 동일한 비밀번호로 변경할 수 없습니다.'
+        ) {
+          setPasswordError(true);
+          setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
+          console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
+        }
+        if (err?.response?.data?.message! === '올바르지 않는 비밀번호입니다.') {
+          setPasswordError(true);
+          setErrorMessage('비밀번호가 일치하지 않습니다.');
+        }
       },
     },
   );
-
-  useEffect(() => {
-    if (password) {
-      if (password) {
-        let check1 =
-          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-            password,
-          );
-        console.log(check1);
-        setCheckedPw(check1);
-      }
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-  }, [password, checkPassword]);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
@@ -123,6 +118,27 @@ const EditPW = ({ setComponent }: Props) => {
     temp[id] = !temp[id];
     setPwShow(temp);
   };
+
+  useEffect(() => setPasswordError(false), [beforePasswordInput]);
+
+  useEffect(() => {
+    if (password) {
+      if (password) {
+        let check1 =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+            password,
+          );
+        console.log(check1);
+        setCheckedPw(check1);
+      }
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword, checkSamePw]);
+
   const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
@@ -269,7 +285,18 @@ const EditPW = ({ setComponent }: Props) => {
           onFocus={(e) => setBeforePwSelected(true)}
           onBlur={(e) => setBeforePwSelected(false)}
         />
-
+        {passwordError && (
+          <Box>
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+              }}
+            >
+              {errorMessage}
+            </Typography>
+          </Box>
+        )}
         <NewPassword>새로운 비밀번호</NewPassword>
         <Input
           placeholder="비밀번호 입력"

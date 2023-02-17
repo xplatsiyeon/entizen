@@ -155,9 +155,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
-      // setTimeout(() => {
-      //   if (mobInputRef.current) mobInputRef.current.focus();
-      // }, 300);
+      setTimeout(() => {
+        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
+      }, 300);
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
@@ -498,6 +498,12 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
+          const inner = logs.current?.querySelector('.inner');
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
             webInputRef.current.focus({
@@ -511,6 +517,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   useEffect(() => {
 
     const inner = logs.current?.querySelector('.inner');
+    
     setTimeout(() => {
       console.log('처음에만');
       //focusRef.current?.focus();
@@ -558,6 +565,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       };
     }
   }, []);
+
+  const handleFocus = (e:MouseEvent)=>{
+    mobInputRef.current?.focus();
+    const target = e.currentTarget as HTMLButtonElement;
+  }
 
   return (
     <Body ref={logs}>
@@ -745,7 +757,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             onChange={onChangeText}
             ref={mobInputRef}
           />
-          <IconWrap2>
+          <IconWrap2 onClick={handleFocus}>
             <Image src={send} layout="fill" />
           </IconWrap2>
         </FlexBox>

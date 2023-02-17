@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import {
   PreQuotationChargers,
   PreQuotationResponse,
@@ -12,9 +12,7 @@ import {
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
-import { SolarPower } from '@mui/icons-material';
 import TwoButton from './TwoButton';
-import { reverse } from 'dns';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload } from 'bridge/appToWeb';
@@ -27,25 +25,16 @@ interface Props {
   onClcikModal?: () => void;
 }
 
-const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const [chargeIdx, setChargeIdx] = useState<number>(0);
   const [webIdx, setWebIdx] = useState<number>(0);
-  const [rightUrl, setRightUrl] = useState<string>();
 
   const webHandleNum = (idx: number) => {
     setWebIdx(idx);
   };
-
-  // 오른쪽 큰 이미지
-  // const DataFilter =
-  //   data?.preQuotation?.preQuotationChargers[chargeIdx]?.chargerImageFiles[
-  //     webIdx
-  //   ]?.url;
 
   // 부분 구독 판별
   const partSubscribe = data?.quotationRequest?.subscribeProduct;
@@ -62,8 +51,6 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
 
   // 오른쪽 큰 사진
   const DataFilter = newChargerImageFiles ? newChargerImageFiles![webIdx] : '';
-
-  const handleFileDownload = () => {};
 
   return (
     <Wrapper>

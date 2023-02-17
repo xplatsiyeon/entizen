@@ -10,8 +10,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenDeleteApi, isTokenGetApi, isTokenPatchApi } from 'api';
-import Loader from 'components/Loader';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { FinalQuotations, PreQuotationResponse } from './detail';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
@@ -53,17 +52,6 @@ export interface Member {
   isAdminJoinApproved: true;
   profileImageUrl: string;
   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
-  // {
-  //   createdAt: string;
-  //   companyMemberAdditionalInfoIdx: number;
-  //   companyLogoImageUrl: string;
-  //   companyName: string;
-  //   companyAddress: string;
-  //   companyDetailAddress: string;
-  //   companyZipCode: string;
-  //   managerEmail: string;
-  //   memberIdx: number;
-  // };
 }
 export interface PreQuotations {
   createdAt: string;
@@ -112,7 +100,6 @@ export interface QuotationRequestsResponse {
   preQuotations: PreQuotations[];
 }
 
-const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
@@ -128,7 +115,7 @@ const Mypage1_3 = ({}: any) => {
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
-      'mypage/request/id',
+      'mypage-request-id',
       () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
         enabled: router.isReady,
@@ -155,21 +142,6 @@ const Mypage1_3 = ({}: any) => {
       // enabled: false,
     },
   );
-
-  useEffect(() => {
-    if (routerId) {
-      console.log('refetch');
-      refetch();
-      //quotationRefetch();
-    }
-  }, [routerId]);
-
-  useEffect(() => {
-    if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
-      console.log('refetch2');
-      quotationRefetch();
-    }
-  }, [data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -283,36 +255,42 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
+  useEffect(() => {
+    if (routerId && router.isReady) {
+      // console.log('refetch');
+      refetch();
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+      quotationRefetch();
+    }
+  }, [data?.quotationRequest?.currentInProgressPreQuotationIdx]);
+
   useLayoutEffect(() => {
     const currentInProgressPreQuotationIdx =
       data?.quotationRequest?.currentInProgressPreQuotationIdx!;
-    if (currentInProgressPreQuotationIdx !== null) {
-      console.log('currentInProgressPreQuotationIdx 존재한다');
 
+    if (currentInProgressPreQuotationIdx !== null) {
       data?.preQuotations?.forEach((preQuotation, index) => {
-        if (
-          preQuotation?.finalQuotation?.preQuotationIdx! ===
-          currentInProgressPreQuotationIdx!
-        ) {
+        const preQuotationIdx = preQuotation?.finalQuotation?.preQuotationIdx!;
+
+        if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
           setIsFinalItmeIndex(index);
+        } else {
+          setIsFinalItmeIndex(-1);
         }
       });
     }
   }, [data]);
+
   useEffect(() => {
     if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
       refetch();
       quotationRefetch();
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
-
-  // if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
-  //   return <Loader />;
-  // }
-
-  console.log('🔥 data 확인 ~line 315');
-  console.log(data?.badge);
-  console.log('router==>>', router);
 
   if (isError || spotIsError) {
     return (
@@ -383,7 +361,6 @@ const Mypage1_3 = ({}: any) => {
                   <Image src={DoubleArrow} alt="double-arrow" />
                 </DownArrowBox>
                 {/* 현장실사 해당 기업 상세 페이지 */}
-                {/* {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx  ? ( */}
                 {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx &&
                 isFinalItmeIndex === -1 ? (
                   // ---------------------- 구독 상품 리스트 (가견적 작성 회사) ------------------------
@@ -433,82 +410,73 @@ const Mypage1_3 = ({}: any) => {
                     ) : null}
 
                     {/* 최종견적 가견적 구별 조견문 */}
-                    {
-                      // (data?.badge !== '낙찰성공' &&
-                      // quotationData?.preQuotation?.finalQuotation !== null)
-                      isFinalItmeIndex !== -1 ? (
-                        <>
-                          {/* --------------------최종견적 상세 내용--------------------------*/}
-                          <FinalQuotation
-                            // data={quotationData!}
-                            data={data?.preQuotations[isFinalItmeIndex]!}
-                            isSpot={
-                              spotData?.data?.spotInspection ? true : false
+                    {isFinalItmeIndex !== -1 ? (
+                      <>
+                        {/* --------------------최종견적 상세 내용--------------------------*/}
+                        <FinalQuotation
+                          data={data?.preQuotations[isFinalItmeIndex]!}
+                          isFinalItmeIndex={isFinalItmeIndex}
+                          isSpot={spotData?.data?.spotInspection ? true : false}
+                        />
+                        <TextBox>
+                          <CommunicationBox
+                            text="파트너와 소통하기"
+                            id={
+                              quotationData?.companyMemberAdditionalInfo
+                                ?.memberIdx
                             }
                           />
-                          <TextBox>
-                            <CommunicationBox
-                              text="파트너와 소통하기"
-                              id={
-                                quotationData?.companyMemberAdditionalInfo
-                                  ?.memberIdx
+                        </TextBox>
+                        {router.isReady && router.query.history === 'false' ? (
+                          <ButtonBox>
+                            <Button
+                              isWhite={true}
+                              onClick={() =>
+                                onClickConfirm(
+                                  0,
+                                  '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                                )
                               }
-                            />
-                          </TextBox>
-                          {router.isReady &&
-                          router.query.history === 'false' ? (
-                            <ButtonBox>
-                              <Button
-                                isWhite={true}
-                                onClick={() =>
-                                  onClickConfirm(
-                                    0,
-                                    '다른 파트너에게\n재견적을 받아보시겠습니까?',
-                                  )
-                                }
-                              >
-                                다른 파트너 선정
-                              </Button>
-                              <Button
-                                isWhite={false}
-                                onClick={() =>
-                                  onClickConfirm(
-                                    1,
-                                    `${finalItme?.member
-                                      ?.companyMemberAdditionalInfo
-                                      ?.companyName!}로\n확정하시겠습니까?`,
-                                  )
-                                }
-                              >
-                                확정하기
-                              </Button>
-                            </ButtonBox>
-                          ) : (
-                            ''
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {/* ----------------------가견적------------------------- */}
-                          <SendTextTitle>보낸 가견적서</SendTextTitle>
-                          <BiddingQuote
-                            data={quotationData!}
-                            isSpot={
-                              spotData?.data?.spotInspection ? true : false
+                            >
+                              다른 파트너 선정
+                            </Button>
+                            <Button
+                              isWhite={false}
+                              onClick={() =>
+                                onClickConfirm(
+                                  1,
+                                  `${finalItme?.member
+                                    ?.companyMemberAdditionalInfo
+                                    ?.companyName!}로\n확정하시겠습니까?`,
+                                )
+                              }
+                            >
+                              확정하기
+                            </Button>
+                          </ButtonBox>
+                        ) : (
+                          ''
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {/* ----------------------가견적------------------------- */}
+                        <SendTextTitle>보낸 가견적서</SendTextTitle>
+                        <BiddingQuote
+                          data={quotationData!}
+                          isSpot={spotData?.data?.spotInspection ? true : false}
+                        />
+                        <TextBox>
+                          <CommunicationBox
+                            text="파트너와 소통하기"
+                            id={
+                              quotationData?.companyMemberAdditionalInfo
+                                ?.memberIdx
                             }
                           />
-                          <TextBox>
-                            <CommunicationBox
-                              text="파트너와 소통하기"
-                              id={
-                                quotationData?.companyMemberAdditionalInfo
-                                  ?.memberIdx
-                              }
-                            />
-                          </TextBox>
-                        </>
-                      )
-                    }
+                        </TextBox>
+                      </>
+                    )}
                   </>
                 )}
               </Wrap2>
