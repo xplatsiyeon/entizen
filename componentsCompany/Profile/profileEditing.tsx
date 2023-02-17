@@ -19,6 +19,7 @@ import jwt_decode from 'jwt-decode';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import Loader from 'components/Loader';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -196,39 +197,44 @@ const ProfileEditing = ({
       <Header back={true} title="프로필 변경" />
       <Body component={component}>
         {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
-        <Avatar>
-          <div className="img-bg">
-            {/* 아바타 */}
-            <button className="avatar-bg" onClick={imgHandler}>
-              <Image
-                src={
-                  profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
-                    ?.length! > 1
-                    ? profile?.companyMemberAdditionalInfo?.companyLogoImageUrl!
-                    : AvatarIcon
-                }
-                alt="avatar"
-                layout="fill"
-                priority={true}
-                unoptimized={true}
-                objectFit="cover"
-              />
-            </button>
-            {/* 포토 이미지 */}
-            <button className="avatar-photo" onClick={imgHandler}>
-              <Image src={AvatarPhoto} alt="avatar-photo" />
-            </button>
-          </div>
-          <input
-            ref={imgRef}
-            className="file-input"
-            type={'file'}
-            accept="image/*"
-            onChange={onImgInputBtnClick}
-            capture={userAgent === 'Android_App' && true}
-            style={{ display: 'none' }}
-          />
-        </Avatar>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Avatar>
+            <div className="img-bg">
+              {/* 아바타 */}
+              <button className="avatar-bg" onClick={imgHandler}>
+                <Image
+                  src={
+                    profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                      ?.length! > 1
+                      ? profile?.companyMemberAdditionalInfo
+                          ?.companyLogoImageUrl!
+                      : AvatarIcon
+                  }
+                  alt="avatar"
+                  layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="cover"
+                />
+              </button>
+              {/* 포토 이미지 */}
+              <button className="avatar-photo" onClick={imgHandler}>
+                <Image src={AvatarPhoto} alt="avatar-photo" />
+              </button>
+            </div>
+            <input
+              ref={imgRef}
+              className="file-input"
+              type={'file'}
+              accept="image/*"
+              onChange={onImgInputBtnClick}
+              capture={userAgent === 'Android_App' && true}
+              style={{ display: 'none' }}
+            />
+          </Avatar>
+        )}
         <Label mt={33}>아이디</Label>
         <InputBox type="text" readOnly placeholder={profile?.id} />
         <Label mt={30}>기업명</Label>

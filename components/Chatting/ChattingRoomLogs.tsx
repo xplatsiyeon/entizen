@@ -221,6 +221,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   /* 파일버튼 누르면 나타나는 애니메이션 */
   const mobBox = useRef<HTMLDivElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
+
     const target = e.currentTarget;
     const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
 
@@ -484,21 +485,27 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       //   console.log('temp', temp);
       setData(temp);
 
+      const inner = logs.current?.querySelector('.inner');
+
       if (loading) {
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-          focusRef.current?.focus();
+          if(inner) inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto'
+        })
 
           if (webInputRef.current) {
-            webInputRef.current.focus();
+            webInputRef.current.focus({
+              preventScroll: true});
           }
         }, 300);
       } else {
         console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
-          const inner = logs.current?.querySelector('.inner');
           if(inner) inner.scroll({
             top: inner.scrollHeight,
             left: 0,
@@ -524,24 +531,21 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       
       const width = window.innerWidth;
       console.log(width);
-      if (width > 900) {
+      if (width > 1200) {
         //focusRef.current?.focus();
         if(inner) inner.scroll({
             top: inner.scrollHeight,
             left: 0,
             behavior: 'auto'
         })
-      } else {
-       // focusRef.current?.scrollIntoView();
-      }
+
+        focusRef.current?.focus({preventScroll: true});
+      } 
       console.log(focusRef.current);
     }, 600);
 
     setTimeout(() => {
       console.log('처음에만');
-      if (webInputRef.current) {
-      //  webInputRef.current.focus();
-      }
     }, 2000);
 
     listRefetch();
@@ -568,6 +572,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const handleFocus = (e:MouseEvent)=>{
     mobInputRef.current?.focus();
+    mobInputRef.current?.classList.add('on')
     const target = e.currentTarget as HTMLButtonElement;
   }
 
@@ -746,33 +751,38 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         </div>
       </Inner>
 
-      <BottomBox ref={mobBox}>
-        <FlexBox onSubmit={onSubmitText}>
-          <AddBtn onClick={handleButton}>
-            <ImgTag src={'/images/addBtnSvg.svg'} />
-          </AddBtn>
-          <TextInput
-            placeholder="메세지를 입력하세요"
-            value={text}
-            onChange={onChangeText}
-            ref={mobInputRef}
-          />
-          <IconWrap2 onClick={handleFocus}>
-            <Image src={send} layout="fill" />
-          </IconWrap2>
-        </FlexBox>
-        <div className="hidden">
-          <IconWrap3 onClick={imgHandler}>
-            <Image src={chatPhotoAdd} layout="fill" />
-          </IconWrap3>
-          {/* <IconWrap3>
-            <Image src={chatCamera} layout="fill" />
-          </IconWrap3> */}
-          <IconWrap3 onClick={fileHandler}>
-            <Image src={chatFileAdd} layout="fill" />
-          </IconWrap3>
-        </div>
-      </BottomBox>
+      <MobBottomWrap>
+        <BottomBox ref={mobBox} onClick={handleFocus}>
+          <FlexBox onSubmit={onSubmitText}>
+        
+            <TextInput
+              placeholder="메세지를 입력하세요"
+              value={text}
+              onChange={onChangeText}
+              ref={mobInputRef}
+              onBlur={(e)=>e.target.classList.remove('on')}
+            />
+            <IconWrap2 onClick={handleFocus}>
+              <Image src={send} layout="fill" />
+            </IconWrap2>
+          </FlexBox>
+          <div className="hidden">
+            <IconWrap3 onClick={imgHandler}>
+              <Image src={chatPhotoAdd} layout="fill" />
+            </IconWrap3>
+            {/* <IconWrap3>
+              <Image src={chatCamera} layout="fill" />
+            </IconWrap3> */}
+            <IconWrap3 onClick={fileHandler}>
+              <Image src={chatFileAdd} layout="fill" />
+            </IconWrap3>
+          </div>
+        </BottomBox>
+        <AddBtn onClick={handleButton}>
+          <ImgTag src={'/images/addBtnSvg.svg'} />
+        </AddBtn>
+      </MobBottomWrap>      
+
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
@@ -896,12 +906,14 @@ const FileIconWrap = styled.div`
   height: 15.45pt;
   margin: 0 0 0 13.5pt;
 `;
-const BottomBox = styled.div`
-  background: #e9eaee;
+const MobBottomWrap = styled.div`
   position: fixed;
   bottom: 0;
-  padding: 3pt 0pt 36pt;
   width: 100%;
+`
+const BottomBox = styled.div`
+  background: #e9eaee;
+  padding: 3pt 0pt 36pt;
   /* border: 1px solid red; */
   @media (min-width: 900pt) {
     position: absolute;
@@ -927,14 +939,14 @@ const FlexBox = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10.5pt;
-  padding: 0 15pt;
+  padding: 0 15pt 0 40pt;
 `;
 const AddBtn = styled.div`
-  position: relative;
+  position: absolute;
+  top: 6pt;
+  left: 10.5pt;
   width: 20pt;
   height: 20pt;
-  padding: 5pt 6pt 6pt;
   border-radius: 50%;
   background: #a6a9b0;
   transition: 0.3s;
@@ -945,12 +957,10 @@ const AddBtn = styled.div`
 
 const ImgTag = styled.img`
   position: absolute;
-  z-index: 5;
-  width: 65%;
-  left: 3.5pt;
-  top: 3.5pt;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
-
 const TextInput = styled.input`
   flex: 2;
   border-radius: 37.5pt;
@@ -962,6 +972,7 @@ const TextInput = styled.input`
   letter-spacing: -0.02em;
   width: 50px;
   padding: 6pt 7.8pt;
+  margin-right: 10.5pt;
   ::placeholder {
     color: #d3d3d3;
   }
