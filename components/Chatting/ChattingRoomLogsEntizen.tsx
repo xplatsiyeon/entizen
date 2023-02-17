@@ -517,24 +517,26 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
   useEffect(() => {
     setTimeout(() => {
-      listRefetch();
+    const inner = logs.current?.querySelector('.inner');
+
       console.log('처음에만');
       //focusRef.current?.focus();
       const width = window.innerWidth;
       console.log(width);
       if (width > 1200) {
-        focusRef.current?.focus();
-      } else {
-        focusRef.current?.scrollIntoView();
-      }
-      console.log(focusRef.current);
+        if(inner) inner.scroll({
+          top: inner.scrollHeight,
+          left: 0,
+          behavior: 'auto'
+      })
+        focusRef.current?.focus({preventScroll: true});
+      } 
     }, 600);
 
     setTimeout(() => {
       console.log('처음에만');
-      if (webInputRef.current) {
-        webInputRef.current.focus();
-      }
+
+    listRefetch();
     }, 2000);
   }, []);
 
@@ -556,6 +558,13 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
       };
     }
   }, []);
+
+  const handleFocus = (e:MouseEvent)=>{
+    mobInputRef.current?.focus();
+    mobInputRef.current?.classList.add('on')
+    const target = e.currentTarget as HTMLButtonElement;
+  }
+
 
   return (
     <Body ref={logs}>
@@ -593,7 +602,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
           />
         )}
       </TopBox>
-      <Inner>
+      <Inner className='inner'>
         <div className="wrap">
           {data.map((d, idx) => {
             return (
@@ -735,19 +744,16 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
         </div>
       </Inner>
 
-      <BottomBox ref={mobBox}>
+    <MobBottomWrap>
+      <BottomBox ref={mobBox} onClick={handleFocus}>
         <FlexBox onSubmit={onSubmitText}>
-          <AddBtn onClick={handleButton}>
-            {/* <Image src={addBtn} layout="intrinsic" /> */}
-            <ImgTag src={'/images/addBtnSvg.svg'} />
-          </AddBtn>
           <TextInput
             placeholder="메세지를 입력하세요"
             value={text}
             onChange={onChangeText}
             ref={mobInputRef}
           />
-          <IconWrap2>
+          <IconWrap2 onClick={handleFocus}>
             <Image src={send} layout="fill" />
           </IconWrap2>
         </FlexBox>
@@ -763,6 +769,12 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
           </IconWrap3>
         </div>
       </BottomBox>
+      <AddBtn onClick={handleButton}>
+        {/* <Image src={addBtn} layout="intrinsic" /> */}
+        <ImgTag src={'/images/addBtnSvg.svg'} />
+      </AddBtn>
+    </MobBottomWrap>
+
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
@@ -886,10 +898,13 @@ const FileIconWrap = styled.div`
   height: 15.45pt;
   margin: 0 0 0 13.5pt;
 `;
-const BottomBox = styled.div`
-  background: #e9eaee;
+const MobBottomWrap = styled.div`
   position: fixed;
   bottom: 0;
+  width: 100%;
+`
+const BottomBox = styled.div`
+  background: #e9eaee;
   padding: 3pt 0pt 36pt;
   width: 100%;
   /* border: 1px solid red; */
@@ -917,14 +932,14 @@ const FlexBox = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10.5pt;
-  padding: 0 15pt;
+  padding: 0 15pt 0 40pt;
 `;
 const AddBtn = styled.div`
-  position: relative;
+ position: absolute;
+  top: 6pt;
+  left: 10.5pt;
   width: 20pt;
   height: 20pt;
-  padding: 5pt 6pt 6pt;
   border-radius: 50%;
   background: #a6a9b0;
   transition: 0.3s;
