@@ -184,6 +184,7 @@ const Input = styled.input<{
   box-sizing: border-box;
   border-radius: 6pt;
   border: 0.75pt solid ${colors.gray};
+  /* border: 0.75pt solid #e2e5ed; */
   cursor: pointer;
   font-weight: 400;
   font-size: 12pt;

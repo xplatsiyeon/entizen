@@ -232,7 +232,7 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  box-shadow: 0px 0pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;
@@ -240,7 +240,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   @media (min-width: 900pt) {
+    border-radius: 12pt;
     margin-top: 0;
+    border-top: 0;
     padding-left: 26.25pt;
     padding-right: 26.25pt;
   }
@@ -313,7 +315,7 @@ const Contents = styled.div`
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -340,7 +342,7 @@ const Contents = styled.div`
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
-      line-height: 12pt;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       text-align: left;
     }
@@ -385,13 +387,23 @@ const Contents = styled.div`
 `;
 
 const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
-  padding-bottom: 24pt;
+  padding-bottom: 10.5pt;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-top: 10.5pt;
+  }
 `;
 const ElseTextBox = styled.div`
   padding-top: 12pt;
@@ -420,6 +432,7 @@ const ElseText = styled.div`
     line-height: 16pt;
     letter-spacing: -0.02em;
     text-align: left;
+    margin-bottom: 12pt;
   }
 `;
 

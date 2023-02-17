@@ -566,6 +566,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     }
   }, []);
 
+  const handleFocus = (e:MouseEvent)=>{
+    mobInputRef.current?.focus();
+    const target = e.currentTarget as HTMLButtonElement;
+  }
+
   return (
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
@@ -741,7 +746,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         </div>
       </Inner>
 
-      <BottomBox ref={mobBox}>
+      <BottomBox ref={mobBox} onClick={handleFocus}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
             <ImgTag src={'/images/addBtnSvg.svg'} />
@@ -751,8 +756,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             value={text}
             onChange={onChangeText}
             ref={mobInputRef}
-          />
-          <IconWrap2>
+          />ß
+          <IconWrap2 onClick={handleFocus}>
             <Image src={send} layout="fill" />
           </IconWrap2>
         </FlexBox>
