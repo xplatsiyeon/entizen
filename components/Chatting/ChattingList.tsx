@@ -191,19 +191,13 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     )}
                   </Created>
                   <Box>
-                    <UnRead
+                    <EnUnRead
                       wasRead={
-                        data?.data?.chattingRooms?.entizenChattingRoom
-                          ?.chattingLog?.fromMemberIdx !==
-                          data?.data?.chattingRooms?.entizenChattingRoom
-                            ?.chattingRoomIdx! &&
+                        (data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.fromMemberType !== 'USER') &&
                         !Boolean(
                           data?.data?.chattingRooms?.entizenChattingRoom
-                            ?.chattingLog?.wasRead,
-                        )
-                          ? true
-                          : false
-                      }
+                            ?.chattingLog?.wasRead
+                        )?true:false}
                     />
                     <Favorite>
                       {data?.data.chattingRooms.entizenChattingRoom
@@ -409,18 +403,13 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                       )}
                     </Created>
                     <Box>
-                      <UnRead
-                        wasRead={
-                          data?.data?.chattingRooms?.entizenChattingRoom
-                            .chattingLog?.fromMemberIdx ===
-                            data?.data?.chattingRooms?.entizenChattingRoom
-                              .chattingRoomIdx &&
+                      <EnUnRead
+                        wasRead={  
+                          (data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.fromMemberType !== 'USER') &&
                           !Boolean(
                             data?.data?.chattingRooms?.entizenChattingRoom
-                              ?.chattingLog?.wasRead,
-                          )
-                            ? true
-                            : false
+                              ?.chattingLog?.wasRead
+                          )?true:false
                         }
                       />
                       {/* 앱 심사로 인해 일시적으로 주석 처리 */}
@@ -704,6 +693,13 @@ const UnRead = styled.div<{ wasRead: boolean | null }>`
   border-radius: 50%;
   background: ${({ wasRead }) => (Boolean(wasRead) ? `#5221CB` : `none`)};
 `;
+const EnUnRead = styled.div<{ wasRead: boolean}>`
+  width: 6pt;
+  height: 6pt;
+  border-radius: 50%;
+  background: ${({ wasRead }) => (wasRead ? `#5221CB`:`none`)};
+`;
+
 
 const Favorite = styled.div`
   position: relative;
