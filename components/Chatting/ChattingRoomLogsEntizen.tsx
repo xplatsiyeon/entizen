@@ -532,9 +532,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
 
     setTimeout(() => {
       console.log('처음에만');
-      if (webInputRef.current) {
-        webInputRef.current.focus();
-      }
+
+    listRefetch();
     }, 2000);
   }, []);
 
