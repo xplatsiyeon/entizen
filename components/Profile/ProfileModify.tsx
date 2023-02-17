@@ -129,27 +129,27 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     setTabNumber(1);
   };
   // 나이스 인증
-  const fnPopup = (event: any) => {
-    const { id } = event.currentTarget;
-    if (id === 'password') {
-      setIsPassword(true);
-    }
-    if (typeof window !== 'object') return;
-    else {
-      window.open(
-        '',
-        'popupChk',
-        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-      );
-      let cloneDocument = document as any;
-      console.log(cloneDocument.form_chk);
+  // const fnPopup = (event: any) => {
+  //   const { id } = event.currentTarget;
+  //   if (id === 'password') {
+  //     setIsPassword(true);
+  //   }
+  //   if (typeof window !== 'object') return;
+  //   else {
+  //     window.open(
+  //       '',
+  //       'popupChk',
+  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+  //     );
+  //     let cloneDocument = document as any;
+  //     console.log(cloneDocument.form_chk);
 
-      cloneDocument.form_chk.action =
-        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument?.form_chk?.submit();
-    }
-  };
+  //     cloneDocument.form_chk.action =
+  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+  //     cloneDocument.form_chk.target = 'popupChk';
+  //     cloneDocument?.form_chk?.submit();
+  //   }
+  // };
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
@@ -188,45 +188,45 @@ const ProfileModify = ({ setTabNumber }: Props) => {
 
       <Wrapper>
         <Body>
-          {isLoading ? (
+          {/* {isLoading ? (
             <Loader />
-          ) : (
-            <Avatar>
-              <div className="img-bg">
-                {/* 아바타 */}
-                <button className="avatar-bg" onClick={imgHandler}>
-                  <Image
-                    src={
-                      imgFile
-                        ? imgFile
-                        : profile?.profileImageUrl?.length! > 1
-                        ? profile?.profileImageUrl!
-                        : AvatarIcon
-                    }
-                    alt="avatar"
-                    layout="fill"
-                    className="test"
-                    priority={true}
-                    unoptimized={true}
-                    objectFit="cover"
-                  />
-                </button>
-                {/* 포토 이미지 */}
-                <button className="avatar-photo" onClick={imgHandler}>
-                  <Image src={AvatarPhoto} alt="avatar-photo" />
-                </button>
-              </div>
-              <input
-                ref={imgRef}
-                className="file-input"
-                type={'file'}
-                accept="image/*"
-                onChange={onImgInputBtnClick}
-                capture={userAgent === 'Android_App' && true}
-                style={{ display: 'none' }}
-              />
-            </Avatar>
-          )}
+          ) : ( */}
+          <Avatar>
+            <div className="img-bg">
+              {/* 아바타 */}
+              <button className="avatar-bg" onClick={imgHandler}>
+                <Image
+                  src={
+                    imgFile
+                      ? imgFile
+                      : profile?.profileImageUrl?.length! > 1
+                      ? profile?.profileImageUrl!
+                      : AvatarIcon
+                  }
+                  alt="avatar"
+                  layout="fill"
+                  className="test"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="cover"
+                />
+              </button>
+              {/* 포토 이미지 */}
+              <button className="avatar-photo" onClick={imgHandler}>
+                <Image src={AvatarPhoto} alt="avatar-photo" />
+              </button>
+            </div>
+            <input
+              ref={imgRef}
+              className="file-input"
+              type={'file'}
+              accept="image/*"
+              onChange={onImgInputBtnClick}
+              capture={userAgent === 'Android_App' && true}
+              style={{ display: 'none' }}
+            />
+          </Avatar>
+          {/* )} */}
           <Label mt={33}>아이디</Label>
           <InputBox type="text" readOnly placeholder={profile?.id} />
           <Label mt={30}>이름</Label>
