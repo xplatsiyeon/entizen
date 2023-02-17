@@ -25,20 +25,23 @@ const Loader = ({ type }: Props) => {
 export default memo(Loader);
 
 const LoaderWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
   z-index: 999;
   height: 100%;
   width: 100%;
-  /* background-color: red; */
 `;
 
 const LoaderBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   margin: 15pt auto;
 `;
