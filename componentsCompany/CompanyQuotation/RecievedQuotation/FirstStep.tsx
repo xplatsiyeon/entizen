@@ -386,9 +386,9 @@ const Input = styled(TextField)`
   width: 100%;
   outline: none;
   .MuiOutlinedInput-root {
-    /* &:hover fieldset {
-      border-color: #5221cb;
-    } */
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
     &.Mui-focused fieldset {
       border: 0.75pt solid #5221cb;
     }
@@ -532,12 +532,20 @@ const TextFlex = styled.div`
   }
   .textLength {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 10.5pt;
+    font-size: 9pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: right;
     color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 500;
+      line-height: 10.5pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
   }
 `;
 
