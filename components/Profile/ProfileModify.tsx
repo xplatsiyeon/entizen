@@ -151,10 +151,15 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   }, []);
 
   useLayoutEffect(() => {
-    if (profile?.profileImageUrl) {
+    if (!isLoading && profile?.profileImageUrl?.length! > 0)
       setImgFile(profile?.profileImageUrl!);
-    }
-  }, []);
+    // }
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log('profile?.profileImageUrl ==>', profile?.profileImageUrl);
+    console.log('imgFile===>>>', imgFile);
+  }, [imgFile]);
 
   return (
     <React.Fragment>
