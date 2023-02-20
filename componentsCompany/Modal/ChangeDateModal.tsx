@@ -152,9 +152,7 @@ const ChangeDateModal = ({
     }
     if (beforeStepDate !== '' && beforeStepDate) {
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
-      // const preDay = new Date(2022, 12, 16);
       const preDay = beforeStepDate?.split('-').map((e) => parseInt(e));
-      // console.log('preDay==>>', preDay);
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
