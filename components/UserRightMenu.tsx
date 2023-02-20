@@ -28,7 +28,7 @@ const UserRightMenu = () => {
           }}
         >
           <ImageBoxS>
-            <Image src={Chats} alt="Chats" />
+            <ImgTag src="/images/Chats.png" alt="Chat" />
           </ImageBoxS>
           <MenuTitle onClick={() => router.push('/chatting')}>
             소통하기
@@ -41,7 +41,9 @@ const UserRightMenu = () => {
           }}
         >
           <ImageBoxL>
-            <Image src={EntizenLibrary} alt="Chats" />
+            {/* <Image src={EntizenLibrary} alt="Chats" /> */}
+
+            <ImgTag src="/images/EntizenLibraryIcon.png" alt="Library" />
           </ImageBoxL>
           <MenuTitle2>엔티즌 도서관</MenuTitle2>
         </MenuBox>
@@ -91,10 +93,13 @@ const ImageBoxS = styled.div`
 `;
 
 const ImageBoxL = styled.div`
-  width: 22pt;
+  /* width: 22pt; */
+
   margin: 0 auto;
   display: flex;
   align-items: center;
+  display: flex;
+  justify-content: center;
   @media (max-width: 1125pt) {
   }
 `;
@@ -166,6 +171,10 @@ const ImageIcon = styled.div`
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }
+`;
+
+const ImgTag = styled.img`
+  width: 24pt;
 `;
 
 export default UserRightMenu;
