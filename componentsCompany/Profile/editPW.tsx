@@ -397,9 +397,22 @@ const Wrapper = styled.div`
 `;
 
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
-  border-radius: 6pt;
+  /* border: 0.75pt solid ${colors.gray};
+  border-radius: 6pt; */
   margin-top: 9pt;
+  outline: none;
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid ${colors.gray};
+    border-radius: 6pt;
+  }
   & input {
     padding: 13.5pt 0 13.5pt 12pt;
     font-size: 12pt;

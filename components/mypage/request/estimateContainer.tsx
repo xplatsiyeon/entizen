@@ -96,7 +96,7 @@ const EstimateContainer = ({ data }: Props) => {
                   ) : (
                     <span className="name" />
                   )}
-                  <span className="text">
+                  <span className="text2">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
                     {item.standType
@@ -241,6 +241,21 @@ const Contents = styled.div`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .text2 {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       text-align: left;
     }

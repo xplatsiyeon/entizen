@@ -5,7 +5,8 @@ import React, { Dispatch, SetStateAction, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
-import CheckCircleOn from 'public/images/CheckCircle-on.png';
+// import CheckCircleOn from 'public/images/CheckCircle-on.png';
+import CheckCircleOn from 'public/images/checkRoundSvg.svg';
 import Image from 'next/image';
 import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPostApi } from 'api';
@@ -72,18 +73,20 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
           </div>
         </ImageBox>
         <ContentText>
-          <h2 className="title">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
-            </div>
-            고객님의 동의를 받으셨나요?
-          </h2>
-          <h2 className="title">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
-            </div>
-            현장사진을 전달 받으셨나요?
-          </h2>
+          <DisplayBox>
+            <h2 className="title">
+              <div className="check-icon">
+                <Image src={CheckIcon} alt="check-icon" />
+              </div>
+              고객님의 동의를 받으셨나요?
+            </h2>
+            <h2 className="title">
+              <div className="check-icon">
+                <Image src={CheckIcon} alt="check-icon" />
+              </div>
+              현장사진을 전달 받으셨나요?
+            </h2>
+          </DisplayBox>
           <h2 className="subText">
             * 사전 동의없이 진행할 경우 견적이 취소될 수 있습니다.
           </h2>
@@ -124,9 +127,18 @@ const ModalBox = styled(Box)`
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
+  @media (min-width: 900pt) {
+    width: 517.5pt;
+    padding: 0 37.5pt;
+    border-radius: 12pt;
+    bottom: 170pt;
+  }
 `;
 const ImageBox = styled.div`
   padding-top: 21.9975pt;
+  @media (min-width: 900pt) {
+    padding-top: 23.4975pt;
+  }
 `;
 
 const ContentText = styled.div`
@@ -135,7 +147,12 @@ const ContentText = styled.div`
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
-  padding-bottom: 18pt;
+  padding-bottom: 24pt;
+  padding-top: 4pt;
+  @media (min-width: 900pt) {
+    padding-top: 9.75pt;
+    padding-bottom: 30pt;
+  }
   .title {
     display: flex;
     flex-direction: row;
@@ -150,6 +167,9 @@ const ContentText = styled.div`
     color: ${colors.main2};
     padding-top: 6pt;
     padding-bottom: 12pt;
+    @media (max-width: 899.25pt) {
+      padding-bottom: 0;
+    }
   }
   .subText {
     font-family: 'Spoqa Han Sans Neo';
@@ -159,6 +179,12 @@ const ContentText = styled.div`
     letter-spacing: -0.02em;
     color: #747780;
     text-align: center;
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 15pt;
+      letter-spacing: -0.02em;
+    }
   }
   .text-box {
     display: flex;
@@ -174,6 +200,10 @@ const ContentText = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+  .check-icon {
+    /* width: 10.3125pt; */
+    width: 11.25pt;
+  }
 `;
 const BtnBox = styled(Box)`
   width: 100%;
@@ -181,6 +211,9 @@ const BtnBox = styled(Box)`
   display: flex;
   gap: 9pt;
   padding-bottom: 30pt;
+  @media (min-width: 900pt) {
+    justify-content: center;
+  }
 `;
 const BtnLeft = styled(Box)`
   width: 100px;
@@ -190,6 +223,7 @@ const BtnLeft = styled(Box)`
   color: ${colors.darkGray};
   background: ${colors.gray};
   border-radius: 6pt;
+  cursor: pointer;
 `;
 const BtnRight = styled(Box)`
   width: 223px;
@@ -199,8 +233,10 @@ const BtnRight = styled(Box)`
   background-color: ${colors.main};
   color: ${colors.lightWhite};
   border-radius: 6pt;
+  cursor: pointer;
 `;
 const BtnText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   display: flex;
   align-items: center;
@@ -212,6 +248,23 @@ const BtnText = styled.div`
   line-height: 12pt;
   letter-spacing: -2%;
   color: ${(props) => props.color};
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+`;
+
+const DisplayBox = styled.div`
+  padding-bottom: 12pt;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: center;
+    gap: 17.8125pt;
+    padding-bottom: 0;
+  }
 `;
 
 export default ReplacePhotoModal;

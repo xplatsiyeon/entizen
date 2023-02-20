@@ -29,7 +29,8 @@ import { RootState } from 'store/store';
 import arrowR from 'public/images/arrowR.png';
 import guideIndex1 from 'public/guide/guideIndex1.png';
 import guideIndex2 from 'public/guide/guideIndex2.png';
-import BingGuideBanner from 'public/guide/Big-guide-banner.png';
+// import BingGuideBanner from 'public/guide/Big-guide-banner.png';
+import BingGuideBanner from 'public/guide/EntizenGuidePng.png';
 import UserRightMenu from 'components/UserRightMenu';
 
 const Guide1 = () => {
@@ -141,7 +142,7 @@ const Guide1 = () => {
               width: '100%',
               marginTop: '15pt',
               marginBottom: '3pt',
-              borderTop: '1px solid #E2E5ED',
+              borderTop: '0.75pt solid #E2E5ED',
             }}
           />
           <WhiteAreaMenus onClick={() => router.push('/alarm')}>
@@ -167,7 +168,7 @@ const Guide1 = () => {
             sx={{
               width: '100%',
               marginTop: '3pt',
-              borderTop: '1px solid #E2E5ED',
+              borderTop: '0.75pt solid #E2E5ED',
             }}
           />
           <WhiteAreaBottomMenus>
@@ -226,7 +227,12 @@ const Guide1 = () => {
                 <br /> 사용설명서
               </h3>
               <div className="banner">
-                <Image src={BingGuideBanner} alt="platform" layout="fill" />
+                <Image
+                  src={BingGuideBanner}
+                  alt="platform"
+                  layout="fill"
+                  objectFit="contain"
+                />
               </div>
             </Platform>
 
@@ -325,6 +331,9 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+  @media (min-width: 900pt) {
+    background-color: white;
+  }
 `;
 
 const Inner = styled.div`
@@ -389,17 +398,22 @@ const Platform = styled.button`
   flex: 2.2;
   margin-right: 7pt; //나중에 수정할 수도.
   background-color: ${colors.main1};
-  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   width: 100%;
   height: 210pt;
   cursor: pointer;
   .banner {
     position: absolute;
-    bottom: 6pt;
-    right: 8.25pt;
+    /* bottom: 6pt; */
+    bottom: 10pt;
+    /* right: 8.25pt; */
+    left: 60pt;
     width: 258.06pt;
     height: 167.7375pt;
+    @media (min-width: 900pt) {
+      left: 300pt;
+    }
   }
   & > p {
     font-weight: 700;
@@ -479,7 +493,7 @@ const Subsidy = styled.button`
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #e8e3f8;
-  border-radius: 8px;
+  border-radius: 6pt;
   width: 100%;
   text-align: left;
   .text {
@@ -518,7 +532,7 @@ const Fee = styled.button`
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #fff1d5;
-  border-radius: 8px;
+  border-radius: 6pt;
   width: 100%;
   text-align: left;
   .text {
@@ -617,7 +631,7 @@ const EntizenLibrary = styled.div`
 const Btn = styled.button`
   background-color: ${colors.lightWhite};
   border: 0.75pt solid ${colors.gray};
-  border-radius: 29px;
+  border-radius: 21.75pt;
   margin-top: 30pt;
   padding: 6pt 9pt;
   font-weight: 500;

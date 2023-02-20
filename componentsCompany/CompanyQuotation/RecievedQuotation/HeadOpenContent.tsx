@@ -196,6 +196,7 @@ const HeadOpenContent = () => {
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
+  const handleExitClick = () => setTabNumber(-1);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -445,9 +446,10 @@ const HeadOpenContent = () => {
           )}
           {tabNumber >= 0 && nowWidth < 1200 && (
             <SignUpHeader
-              back={true}
+              // back={true}
               title={'가견적 작성'}
-              handleBackClick={handleModalOpen}
+              handleExitClick={handleExitClick}
+              exitBtn={true}
             />
           )}
           <CompanyRightMenu />

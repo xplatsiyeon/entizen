@@ -167,7 +167,7 @@ const ProfileEditing = ({
     <Wrapper>
       <Header back={true} title="프로필 변경" />
       <Body component={component}>
-        {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
+        {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
         {isLoading ? (
           <Loader />
         ) : (
@@ -225,7 +225,7 @@ const ProfileEditing = ({
           placeholder={profile?.companyMemberAdditionalInfo?.companyName}
         />
         <Div onClick={() => setComponent(1)}>
-          <span>주소 변경</span>
+          <SubTitle>기업 주소 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -239,14 +239,14 @@ const ProfileEditing = ({
           </form> */}
         {/* <Div className="PW" onClick={fnPopup}> */}
         <Div className="PW" onClick={HandlePassword}>
-          <span>비밀번호 변경</span>
+          <SubTitle>비밀번호 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
         </Div>
 
         <Div onClick={() => setComponent(3)}>
-          <span>사업자 등록 변경</span>
+          <SubTitle>사업자 등록증 수정</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -294,6 +294,7 @@ const ChangeProfileText = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 50.25pt;
+  color: #222222;
 `;
 const Body = styled.div<{ component: number }>`
   /* padding: 21.5pt 15pt 0; */
@@ -328,6 +329,7 @@ const Avatar = styled.div`
   }
 `;
 const Label = styled.h3<{ mt: number }>`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
@@ -433,4 +435,14 @@ const MBtn = styled.button`
 `;
 const Buttons = styled.button`
   display: none;
+`;
+
+const SubTitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
 `;

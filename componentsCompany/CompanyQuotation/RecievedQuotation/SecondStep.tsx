@@ -688,9 +688,10 @@ const SecondStep = ({
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Wrapper>
         <TopStep>
-          <div className="title">STEP {tabNumber + 1}</div>
+          <span className="title">STEP {tabNumber + 1}</span>
           <div>
-            <span className="redColor">*</span>필수 입력
+            <span className="redColor">*</span>{' '}
+            <span className="sub">필수 입력</span>
           </div>
         </TopStep>
 
@@ -978,6 +979,13 @@ const TopStep = styled.div`
     padding-top: 50pt;
   }
   .title {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 500;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #5221cb;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 18pt;
@@ -985,6 +993,18 @@ const TopStep = styled.div`
       line-height: 24pt;
       letter-spacing: -0.02em;
       text-align: left;
+    }
+  }
+  .sub {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (max-width: 899.25pt) {
+      font-size: 9pt;
     }
   }
   .redColor {
@@ -995,6 +1015,9 @@ const TopStep = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
     color: #f75015;
+    @media (max-width: 899.25pt) {
+      font-size: 9pt;
+    }
   }
 `;
 const SubWord = styled.div`
@@ -1139,7 +1162,7 @@ const BottomInputBox = styled.div`
     }
     font-family: 'Spoqa Han Sans Neo';
     color: #222222;
-    font-size: 10.5pt;
+    font-size: 15pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -1176,7 +1199,21 @@ const BottomInputBox = styled.div`
   }
 `;
 const Input = styled(TextField)`
+  /* border: 0.75pt solid ${colors.gray}; */
+  border-radius: 6pt;
   width: 100%;
+  outline: none;
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
@@ -1184,12 +1221,26 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
+  /* & fieldset {
+    border: 0.75pt solid ${colors.gray};
+  } */
   & .MuiInputBase-root {
     padding-right: 9pt;
+    /* @media (min-width: 900pt) {
+      width: 512.25pt;
+    } */
   }
   ::placeholder {
-    color: ${colors.gray};
+    /* color: ${colors.gray}; */
+    color: #caccd1;
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   & .remove {
     display: none;

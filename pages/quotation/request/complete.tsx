@@ -146,11 +146,11 @@ const TextBox = styled.div`
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
   & > h3 {
-    font-weight: 700;
     font-size: 12pt;
+    font-weight: 700;
     line-height: 15pt;
-    text-align: center;
     letter-spacing: -0.02em;
+    text-align: center;
     color: ${colors.main};
     font-family: 'Spoqa Han Sans Neo';
   }

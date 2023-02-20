@@ -92,6 +92,7 @@ const BigText = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
   @media (min-width: 900pt) {
     font-family: ' Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -113,7 +114,8 @@ const List = styled.div`
   text-align: left;
 
   & li {
-    color: #747780;
+    /* color: #747780; */
+    color: #222222;
   }
   @media (min-width: 900pt) {
     padding-top: 12pt;

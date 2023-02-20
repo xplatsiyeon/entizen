@@ -34,9 +34,16 @@ const Wrapper = styled.div`
   margin: 0 15pt 0 15pt;
   padding-bottom: 18pt;
   background: ${colors.lightWhite};
-  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
-  border-radius: 8px;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
   text-align: center;
+  @media (min-width: 900pt) {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 12pt;
+    padding-top: 12.75pt;
+    padding-bottom: 30.75pt;
+  }
 `;
 const P = styled.p`
   font-weight: 400;
@@ -46,6 +53,14 @@ const P = styled.p`
   padding-top: 18pt;
   color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const Btn = styled(Button)`
   margin-top: 15pt;
@@ -60,4 +75,12 @@ const Btn = styled(Button)`
   padding: 6pt 9pt;
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo';
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;

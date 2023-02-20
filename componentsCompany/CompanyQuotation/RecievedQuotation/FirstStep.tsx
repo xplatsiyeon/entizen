@@ -112,9 +112,9 @@ const FirstStep = ({
     <Wrapper>
       <TopStep>
         <div className="step">STEP 1</div>
-        <div>
+        <span className="important">
           <span className="redColor">*</span> 필수 입력
-        </div>
+        </span>
       </TopStep>
       <SubWord>월 구독료와 특장점을 입력해주세요.</SubWord>
       {/* 부분구독은 충전기 설치비 추가로 생겨야함 */}
@@ -279,14 +279,40 @@ const TopStep = styled.div`
       color: ${colors.main};
     }
   }
+  .important {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 500;
+      line-height: 10.5pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
   .redColor {
-    font-family: ' Spoqa Han Sans Neo';
-    font-size: 10.5pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
     color: #f75015;
+    @media (min-width: 900pt) {
+      font-family: ' Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 500;
+      line-height: 10.5pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #f75015;
+    }
   }
 `;
 

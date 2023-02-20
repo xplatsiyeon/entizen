@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRef } from 'react';
 import colors from 'styles/colors';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   contents: string;
@@ -21,7 +22,9 @@ const M17Modal = ({
   backgroundOnClick,
 }: Props) => {
   const outside = useRef(null);
-
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -33,10 +36,18 @@ const M17Modal = ({
     <ModalBackground ref={outside} onClick={(e) => handleModalClose(e)}>
       <Modal>
         <H1>{contents}</H1>
-        <BtnBox>
-          <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
-          <RightBtn onClick={rightControl}>{rightText}</RightBtn>
-        </BtnBox>
+        {!mobile && (
+          <BtnBox>
+            <RightBtn onClick={rightControl}>{rightText}</RightBtn>
+            <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
+          </BtnBox>
+        )}
+        {mobile && (
+          <BtnBox>
+            <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
+            <RightBtn onClick={rightControl}>{rightText}</RightBtn>
+          </BtnBox>
+        )}
       </Modal>
     </ModalBackground>
   );
@@ -61,10 +72,13 @@ const Modal = styled.div<{ border?: boolean }>`
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
+  margin-top: 300pt;
+  width: 100%;
   @media (min-width: 900pt) {
     border-radius: 12pt;
     width: 324pt;
-    padding: 42pt 15pt;
+    padding: 42pt 28.5pt 10pt;
+    margin-top: 0;
   }
 `;
 const H1 = styled.h1`
@@ -96,25 +110,29 @@ const BtnBox = styled.div`
     flex-direction: column;
   }
 `;
+
 const LeftBtn = styled(Button)`
-  background: ${colors.gray};
+  color: #595757;
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: ${colors.darkGray};
   padding: 15pt 26.25pt;
+  @media (max-width: 899.25pt) {
+    background-color: #e2e5ed;
+  }
+  //
 `;
 const RightBtn = styled(Button)<{ border?: boolean }>`
-  background: ${colors.main};
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: ${colors.lightWhite};
-  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; ;
+  background: ${colors.main};
+  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
+  color: white;
 `;

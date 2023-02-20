@@ -107,11 +107,13 @@ const ProductList = (props: Props) => {
               <NoImageBox />
             )}
 
-            <TextBox>
-              <Title>{item.modelName}</Title>
-              <From>{`제조사: ${item.manufacturer}`}</From>
-            </TextBox>
-            <KwBox>{`${onlyNumber(item.kind)} kW`}</KwBox>
+            <DisplayBox>
+              <TextBox>
+                <Title>{item.modelName}</Title>
+                <From>{`제조사: ${item.manufacturer}`}</From>
+              </TextBox>
+              <KwBox>{`${onlyNumber(item.kind)} kW`}</KwBox>
+            </DisplayBox>
           </ListBox>
         ))}
       </Wrapper>
@@ -180,34 +182,36 @@ const TextBox = styled.div`
 `;
 
 const Title = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
 `;
 const From = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
 `;
 const KwBox = styled.div`
   padding: 4.5pt 7.5pt;
   background-color: ${colors.main};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 9pt;
   letter-spacing: -0.02em;
   position: absolute;
-  top: 11.25pt;
+  top: 19.25pt;
   right: 13.5pt;
-  border-radius: 12pt; ;
+  border-radius: 12pt;
 `;
 
 const BtnBox = styled.div`
@@ -248,5 +252,10 @@ const ProductAddBtn = styled.div`
     text-align: center;
     color: #ffffff;
   }
+`;
+
+const DisplayBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 export default ProductList;

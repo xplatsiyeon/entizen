@@ -100,7 +100,8 @@ const ContainerBox = styled(Container)`
   align-items: center;
   flex-direction: column;
   @media (max-width: 899.25pt) {
-    padding-top: 107.25pt;
+    /* padding-top: 107.25pt; */
+    padding-top: 86.25pt;
   }
 `;
 const Title = styled.h1`
@@ -152,6 +153,7 @@ const TextBox = styled.div`
 
   @media (max-width: 899.25pt) {
     border: 0.75pt solid ${colors.lightGray};
+    margin-bottom: 24pt;
   }
 
   @media (min-width: 900pt) {
@@ -191,21 +193,21 @@ const WebBtn = styled(Button)`
   background: ${colors.main};
 
   /* width: 30%; */
-  width: 342pt;
-  height: 39pt;
-  border-radius: 6pt;
+  width: 120pt;
+  height: 30pt;
+  border-radius: 21.75pt;
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 12pt;
+  font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
-
   color: ${colors.lightWhite};
   /* margin-bottom: 60pt; */
   margin-bottom: 60pt;
   padding: 9pt 12pt;
   font-family: 'Spoqa Han Sans Neo';
+  padding: 9pt 15pt;
   @media (max-width: 899.25pt) {
     display: none;
   }
