@@ -620,7 +620,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                 key={idx}
                 className={`${idx === data.length - 1 ? 'target-p' : ''}`}
               >
-                <Date>{d.date}</Date>
+                <Date>{d.date.split('.')[0]}년 {d.date.split('.')[1]}월 {d.date.split('.')[2]}일</Date>
                 <List>
                   {d.logs.map((item, idx) => {
                     if (item.messageType === 'SYSTEM') {
@@ -1003,7 +1003,7 @@ const IconBox = styled.div`
   transform: translateY(-50%);
   display: flex;
   align-items: center;
-  gap: 6.4pt;
+  //gap: 6.4pt;
   @media (min-width: 900pt) {
     right: 21pt;
   }
@@ -1013,6 +1013,10 @@ const IconWrap = styled.div`
   width: 18pt;
   height: 18pt;
   cursor: pointer;
+
+  &.alarm{
+    margin-right: 19pt;
+  }
   @media (min-width: 900pt) {
     width: 21pt;
     height: 21pt;
@@ -1095,6 +1099,7 @@ const Date = styled.span`
   letter-spacing: -0.02em;
   color: #a6a9b0;
   position: relative;
+  margin-bottom: 18pt;
 
   @media (min-width: 900pt) {
     border: 1px solid #e2e5ed;
@@ -1154,6 +1159,7 @@ const Chat = styled.div<{ userChatting: boolean }>`
   font-size: 12pt;
   line-height: 16.5pt;
   letter-spacing: -0.02em;
+  max-width: 300pt;
   &.user {
     color: ${({ userChatting }) => (userChatting ? 'white' : '#222222')};
     background: ${({ userChatting }) => (userChatting ? '#5221cb' : '#f3f4f7')};

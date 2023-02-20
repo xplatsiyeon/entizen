@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/defaultImg.png';
-import { TouchEvent, useEffect, useRef, useState } from 'react';
+import entizenCK from 'public/images/entizenCK.png';
+import { useState } from 'react';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
 import QuitModal from 'components/Chatting/QuitModal';
@@ -151,23 +151,21 @@ const ComChattingList = ({ data, refetch }: Props) => {
               </AlramBtn>
             </HiddenBox1>
             <ChattingRoom
-              className="content-box"
-              onClick={() =>
-                handleRoute(
-                  data?.data?.chattingRooms.entizenChattingRoom
-                    ?.chattingRoomIdx!,
-                  true,
-                )
-              }
-            >
+              className="content-box">
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
                 <ImageWrap>
                   <Image src={newChatEntizen} layout="fill" />
                 </ImageWrap>
               </ChattingRoomImage>
-              <ChattingRoomPreview>
-                <FromMember>엔티즌</FromMember>
+              <ChattingRoomPreview onClick={() =>
+                handleRoute(
+                  data?.data?.chattingRooms.entizenChattingRoom
+                    ?.chattingRoomIdx!,
+                  true,
+                )
+              }>
+                <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16}/></FromMember>
                 <Previw>
                   {
                     data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog
@@ -192,7 +190,12 @@ const ComChattingList = ({ data, refetch }: Props) => {
                       )?true:false
                     }
                   />
-                  <Favorite>
+                  <Favorite onClick={() =>
+                  onClickFavorite(
+                    data?.data?.chattingRooms?.entizenChattingRoom
+                      ?.chattingRoomIdx!,
+                  )
+                }>
                     {data?.data.chattingRooms.entizenChattingRoom
                       ?.chattingRoomFavorite.isFavorite ? (
                       <Image src={checked} layout="fill" />
@@ -243,8 +246,6 @@ const ComChattingList = ({ data, refetch }: Props) => {
                   </HiddenBox1>
                   <ChattingRoom
                     className="content-box"
-                    /* 자신의 Id, 상대방 id, name, alarm여부(채팅목록에는 알람여부 정보가 없어서) */
-                    onClick={() => handleRoute(chatting.chattingRoomIdx!)}
                   >
                     <ChattingRoomImage>
                       {/* 이미지 파일 src가 없으면 */}
@@ -256,7 +257,8 @@ const ComChattingList = ({ data, refetch }: Props) => {
                         )}
                       </ImageWrap>
                     </ChattingRoomImage>
-                    <ChattingRoomPreview>
+                    <ChattingRoomPreview 
+                    onClick={() => handleRoute(chatting.chattingRoomIdx!)}>
                       <FromMember>{chatting.userMember?.name}</FromMember>
                       <Previw>{chatting.chattingLogs?.content}</Previw>
                     </ChattingRoomPreview>
@@ -274,7 +276,9 @@ const ComChattingList = ({ data, refetch }: Props) => {
                               : false
                           }
                         />
-                        <Favorite>
+                        <Favorite onClick={() =>
+                        onClickFavorite(chatting?.chattingRoomIdx!)
+                      }>
                           {chatting.chattingRoomFavorite.isFavorite ? (
                             <Image src={checked} layout="fill" />
                           ) : (
@@ -369,7 +373,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                     </ImageWrap>
                   </ChattingRoomImage>
                   <ChattingRoomPreview>
-                    <FromMember>엔티즌</FromMember>
+                    <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16}/> </FromMember>
                     <Previw>
                       {
                         data?.data?.chattingRooms?.entizenChattingRoom
@@ -632,6 +636,9 @@ const FromMember = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #222222;
+  span{
+    margin-right: 3pt;
+    }
 `;
 const Previw = styled.p`
   font-style: normal;
@@ -642,6 +649,8 @@ const Previw = styled.p`
   color: #222222;
   position: absolute;
   width: 120%;
+  height: 18pt;
+  overflow: hidden;
 `;
 
 const Created = styled.div`
@@ -737,6 +746,7 @@ const QuitBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2px;
 
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;

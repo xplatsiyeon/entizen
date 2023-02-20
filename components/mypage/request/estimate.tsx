@@ -91,11 +91,11 @@ const Estimate = ({ listUp }: Props) => {
     <Wrapper>
       {/* 진행중 */}
       {data?.inProgressQuotationRequests.length! > 0 && (
-        <Proceeding>
-          <Label>
-            진행 중{' '}
+        <Proceeding listUp={listUp}>
+          <Label listUp={listUp}>
+            진행 중&nbsp;&nbsp;
             <span className="num">
-              {data?.inProgressQuotationRequests.length}
+               {data?.inProgressQuotationRequests.length}
             </span>
           </Label>
           <Carousel
@@ -124,7 +124,7 @@ const Estimate = ({ listUp }: Props) => {
       {data?.historyQuotationRequests.length! > 0 && (
         <History listUp={Boolean(listUp)}>
           <Label>
-            히스토리{' '}
+            히스토리&nbsp;&nbsp;
             <span className="num">
               {data?.historyQuotationRequests.length!}
             </span>
@@ -165,7 +165,7 @@ const Wrapper = styled.div`
     padding-top: 0;
   }
 `;
-const Label = styled.label`
+const Label = styled.label<{ listUp?: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
@@ -180,18 +180,19 @@ const Label = styled.label`
 
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 18pt;
+    font-size: ${({ listUp }) => (Boolean(listUp) ? '12pt' : '18pt')};
     line-height: 15pt;
     padding-left: 4pt;
   }
 `;
-const Proceeding = styled.section`
+const Proceeding = styled.section<{listUp?:boolean}>`
   padding-top: 21pt;
   margin-bottom: 0;
   @media (min-width: 900pt) {
     padding-right: 5pt;
     padding-top: 0;
-    margin-bottom: 60pt;
+    margin-bottom: ${({ listUp }) => (Boolean(listUp) ? '0pt' : '60pt')};
+    margin-top: ${({ listUp }) => (Boolean(listUp) ? '30pt' : 'none')};
   }
 `;
 const History = styled.section<{ listUp: boolean }>`
@@ -214,7 +215,7 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
     width: 100%;
     padding-right: 5pt;
-    padding-top: 21pt;
+    padding-top:${({ listUp }) => (Boolean(listUp) ? '9pt' : '21pt')};;
   }
 `;
 const CarouselItem = styled.div<{ listUp: boolean }>`
@@ -265,7 +266,7 @@ const CarouselItem = styled.div<{ listUp: boolean }>`
   @media (min-width: 900pt) {
     /* width: 163.5pt; */
     border-radius: 12pt;
-    width: 178.5pt;
+    width: ${({ listUp }) => (listUp ? '190pt' : '178.5pt')};
     /* height: ${({ listUp }) => (listUp ? 'auto' : '99pt')}; */
     height: ${({ listUp }) => (listUp ? 'auto' : '114pt')};
     /* padding-left: 15pt; */

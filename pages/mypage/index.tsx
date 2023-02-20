@@ -195,8 +195,8 @@ const Wrapper = styled.div`
 const FlexBox = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 12pt;
-  height: 400pt;
-  width: 216pt;
+  height: 424pt;
+  width: 255pt;
   padding: 42pt 19.5pt;
 
   @media (max-width: 899.25pt) {
@@ -211,7 +211,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 15pt 0 15pt;
+  padding: 0 11.5pt 0 9pt;
   & h1 {
     font-weight: 700;
     font-size: 21pt;
@@ -235,10 +235,10 @@ const Header = styled.header`
   }
 `;
 const Body = styled.div`
-  padding-top: 15pt;
+  padding-top: 21pt;
 
   .profile-icon {
-    margin-left: 15pt;
+    margin-left: 8.5pt;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -251,14 +251,13 @@ const Body = styled.div`
   }
 `;
 const Line = styled.div`
-  margin-top: 21pt;
+  margin-top: 25pt;
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
-  margin-bottom: 24pt;
+  margin-bottom: 27pt;
 `;
 const TabContainer = styled.div`
   display: flex;
-  gap: 15pt;
   padding-left: 15pt;
   flex-direction: column;
   cursor: pointer;
@@ -277,7 +276,7 @@ const Wrap = styled.div`
 `;
 
 const TabItem = styled.span<{ tab: string; index: string }>`
-  padding-top: 21pt;
+  padding-top: 18pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 15pt;
@@ -289,12 +288,13 @@ const TabItem = styled.span<{ tab: string; index: string }>`
 
   @media (max-width: 899.25pt) {
     flex-direction: column;
+    margin-right: 15pt;
   }
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 0 9pt 0;
+  margin: 6pt 9pt 0;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
