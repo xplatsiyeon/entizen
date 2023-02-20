@@ -271,7 +271,7 @@ const Wrap = styled.div`
   flex: 1;
 
   @media (min-width: 900pt) {
-    width: 580.5pt;
+    width: 600pt;
   }
 `;
 

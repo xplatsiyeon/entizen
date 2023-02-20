@@ -161,7 +161,7 @@ export default Estimate;
 const Wrapper = styled.div`
   padding-top: 21pt;
   @media (min-width: 900pt) {
-    padding-right: 5pt;
+    //padding-right: 5pt;
     padding-top: 0;
   }
 `;
@@ -189,7 +189,7 @@ const Proceeding = styled.section<{listUp?:boolean}>`
   padding-top: 21pt;
   margin-bottom: 0;
   @media (min-width: 900pt) {
-    padding-right: 5pt;
+    //padding-right: 5pt;
     padding-top: 0;
     margin-bottom: ${({ listUp }) => (Boolean(listUp) ? '0pt' : '60pt')};
     margin-top: ${({ listUp }) => (Boolean(listUp) ? '30pt' : 'none')};
@@ -211,10 +211,10 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
     grid-template-columns: 1fr 1fr 1fr;
     gap: ${({ listUp }) => (listUp ? '9pt' : '22.5pt')};
-    padding: 6pt 4pt 30pt;
+    padding: ${({ listUp }) => (listUp ? '6pt 4pt 10pt' : '6pt 4pt 30pt')};
     /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
     width: 100%;
-    padding-right: 5pt;
+    //padding-right: 5pt;
     padding-top:${({ listUp }) => (Boolean(listUp) ? '9pt' : '21pt')};;
   }
 `;
