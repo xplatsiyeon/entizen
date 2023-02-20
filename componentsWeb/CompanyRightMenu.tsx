@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import RightArrow from 'public/images/CaretRightArrow.png';
+// import RightArrow from 'public/images/CaretRightArrow.png';
+import RightArrow from 'public/images/RightMenuArrowSvg.svg';
 import Image from 'next/image';
 import Chats from '../public/images/Chats.png';
 import MyProductList from '../public/images/MyProductListPng.png';
@@ -21,9 +22,11 @@ const CompanyRightMenu = () => {
             <Image src={RightArrow} alt="right-arrow" />
           </ImageIcon>
         </LeftArrow>
-        <MenuBox 
+        <MenuBox
           onClick={() => {
-            router.push('/company/chatting')}}>
+            router.push('/company/chatting');
+          }}
+        >
           <ImageBoxS>
             <Image src={Chats} alt="Chats" />
           </ImageBoxS>
@@ -141,7 +144,7 @@ const LeftArrow = styled.div`
   right: 90pt;
   background-color: #ffffff;
   border-radius: 100%;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  /* box-shadow: 0px 0px 7.5pt 0px #89a3c933; */
 
   @media (max-width: 1125pt) {
     right: 63pt;
@@ -150,6 +153,11 @@ const LeftArrow = styled.div`
 
 const ImageIcon = styled.div`
   padding: 8pt 10pt;
+  width: 27pt;
+  height: 27pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }

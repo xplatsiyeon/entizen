@@ -4,7 +4,8 @@ import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useRef } from 'react';
 import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
-import CheckCircleOn from 'public/images/CheckCircle-on.png';
+// import CheckCircleOn from 'public/images/CheckCircle-on.png';
+import CheckCircleOn from 'public/images/checkArrowSvg.svg';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { locationAction } from 'store/locationSlice';
@@ -101,11 +102,11 @@ const ModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
   border-radius: 12pt;
-
-  padding-left: 69.75pt;
-  padding-right: 69.75pt;
+  padding-left: 37.5pt;
+  padding-right: 37.5pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
+  width: 420pt;
   @media (max-width: 899.25pt) {
     top: auto;
     left: auto;
@@ -117,7 +118,10 @@ const ModalBox = styled(Box)`
   }
 `;
 const ImageBox = styled.div`
-  padding-top: 21.9975pt;
+  padding-top: 23.4975pt;
+  @media (max-width: 899.25pt) {
+    padding-top: 21.9975pt;
+  }
 `;
 
 const ContentText = styled.div`
@@ -126,7 +130,8 @@ const ContentText = styled.div`
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
-  padding-bottom: 18pt;
+  padding-bottom: 12pt;
+
   .title {
     font-weight: 700;
     font-size: 15pt;
@@ -136,12 +141,22 @@ const ContentText = styled.div`
     color: ${colors.main2};
     padding-top: 6pt;
     padding-bottom: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 10pt;
+      padding-bottom: 18pt;
+    }
   }
   .text-box {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 6pt;
+    @media (max-width: 899.25pt) {
+      padding-bottom: 6pt;
+    }
+  }
+  .check-icon {
+    width: 9.75pt;
   }
   .text {
     font-weight: 400;
@@ -183,6 +198,9 @@ const BtnRight = styled(Box)<{ mobile: boolean }>`
   color: ${colors.lightWhite};
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    margin-top: 10.5pt;
+  }
 `;
 const BtnText = styled.div`
   position: relative;

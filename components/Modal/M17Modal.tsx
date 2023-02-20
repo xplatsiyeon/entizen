@@ -67,6 +67,7 @@ const Modal = styled.div<{ border?: boolean }>`
     border-radius: 12pt;
     width: 324pt;
     padding: 42pt 28.5pt 10pt;
+    margin-top: 0;
   }
 `;
 const H1 = styled.h1`
