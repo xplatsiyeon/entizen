@@ -59,6 +59,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   // const presentProgress = info.state;
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
+  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
 
   const contractContent: SelfContract[] =
     data?.project?.contract &&
@@ -83,79 +84,135 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
 
   switch (badge) {
     case '계약대기':
-      textArr = [
-        '공사 준비가 진행됩니다.',
-        '충전기를 설치, 시운전이 진행됩니다.',
-        '충전기 검수를 진행됩니다!',
-        '프로젝트를 완료됩니다!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
       initToggle = [false, false, false, false, false];
       break;
 
     case '준비 중':
-      textArr = [
-        '공사 준비가 진행됩니다.',
-        '충전기를 설치, 시운전이 진행됩니다.',
-        '충전기 검수가 진행됩니다!',
-        '곧 프로젝트가 완료됩니다!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
 
       initToggle = [false, true, false, false, false];
       break;
 
     case '설치 중':
-      textArr = [
-        '공사 준비가 완료되었습니다!.',
-        '충전기를 설치, 시운전이 진행됩니다.',
-        '충전기 검수가 진행됩니다!',
-        '곧 프로젝트가 완료됩니다!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
 
       initToggle = [false, false, true, false, false];
       break;
 
     case '검수 중':
-      textArr = [
-        '공사 준비가 완료되었습니다!',
-        '충전기를 설치, 시운전이 완료되었습니다!',
-        '충전기 검수가 진행됩니다.',
-        '프로젝트를 완료해주세요',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
 
       initToggle = [false, false, false, true, false];
       break;
 
     case '완료 중':
-      textArr = [
-        '공사 준비가 완료되었습니다!',
-        '충전기를 설치, 시운전이 완료되었습니다!',
-        '충전기 검수가 완료되었습니다!',
-        '곧 프로젝트가 완료됩니다!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
 
       initToggle = [false, false, false, false, true];
 
       break;
 
     case '완료 대기':
-      textArr = [
-        '공사 준비가 완료되었습니다!',
-        '충전기를 설치, 시운전이 완료되었습니다!',
-        '충전기 검수가 완료되었습니다!',
-        '프로젝트 완료에 동의해주세요!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트 완료 진행중입니다.',
+            ];
 
       initToggle = [false, false, false, false, true];
 
       break;
 
     default:
-      textArr = [
-        '공사 준비가 진행됩니다.',
-        '충전기를 설치, 시운전이 진행됩니다.',
-        '충전기 검수를 진행됩니다!',
-        '프로젝트를 완료됩니다!',
-      ];
+      textArr =
+        memberType === 'USER'
+          ? [
+              '공사 준비가 진행됩니다.',
+              '충전기를 설치, 시운전이 진행됩니다.',
+              '충전기 검수가 진행됩니다.',
+              '곧 프로젝트가 완료됩니다!',
+            ]
+          : [
+              '공사 준비를 진행해주세요.',
+              '충전기를 설치, 시운전을 진행해주세요.',
+              '충전기 검수를 진행해주세요.',
+              '프로젝트를 완료해주세요.',
+            ];
 
       initToggle = [false, false, false, false, false];
   }
@@ -398,8 +455,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="contract" onClick={handleToggleClick}>
-                <div>계약</div>
-                <div>
+                <span className="titleText">계약</span>
+                <div className="imgBox">
                   <Image
                     src={!toggleOpen[0] ? DownArrow : UpArrow}
                     alt="up"
@@ -470,8 +527,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="prepare" onClick={handleToggleClick}>
-                <div>준비</div>
-                <div>
+                <span className="titleText">준비</span>
+                <div className="imgBox">
                   <Image
                     src={!toggleOpen[1] ? DownArrow : UpArrow}
                     alt="up"
@@ -545,8 +602,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="install" onClick={handleToggleClick}>
-                <div>설치</div>
-                <div>
+                <span className="titleText">설치</span>
+                <div className="imgBox">
                   <Image
                     src={!toggleOpen[2] ? DownArrow : UpArrow}
                     alt="up"
@@ -610,8 +667,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="inspection" onClick={handleToggleClick}>
-                <div>검수</div>
-                <div>
+                <span className="titleText">검수</span>
+                <div className="imgBox">
                   <Image
                     src={!toggleOpen[3] ? DownArrow : UpArrow}
                     alt="up"
@@ -675,8 +732,9 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="success" onClick={handleToggleClick}>
-                <div>완료</div>
-                <div>
+                {/* <span className="titleText">완료</span> */}
+                <span className="titleText">완료</span>
+                <div className="imgBox">
                   <Image
                     src={!toggleOpen[4] ? DownArrow : UpArrow}
                     alt="up"
@@ -832,6 +890,36 @@ const ProgressName = styled.div`
     width: 12pt !important;
     height: 12pt !important;
     position: relative;
+  }
+
+  .titleText {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 700;
+      line-height: 15pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+
+  .imgBox {
+    /* width: 7.5pt;
+    height: 3.75pt; */
+    width: 13pt;
+    height: 13pt;
+    @media (min-width: 900pt) {
+      width: 16pt;
+      height: 16pt;
+      margin-left: 6pt;
+      margin-bottom: 2pt;
+    }
   }
 `;
 
