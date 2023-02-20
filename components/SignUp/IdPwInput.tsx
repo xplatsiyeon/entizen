@@ -575,9 +575,9 @@ const Input = styled(TextField)<{
     border-radius: 6pt;
   }
   .MuiOutlinedInput-root {
-    /* &:hover fieldset {
-      border-color: #5221cb;
-    } */
+    &:hover fieldset {
+      border-color: #e2e5ed;
+    }
     &.Mui-focused fieldset {
       border: 0.75pt solid #5221cb;
     }
