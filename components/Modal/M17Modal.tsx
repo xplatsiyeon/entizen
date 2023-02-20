@@ -34,8 +34,8 @@ const M17Modal = ({
       <Modal>
         <H1>{contents}</H1>
         <BtnBox>
-          <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
           <RightBtn onClick={rightControl}>{rightText}</RightBtn>
+          <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
         </BtnBox>
       </Modal>
     </ModalBackground>
@@ -61,6 +61,8 @@ const Modal = styled.div<{ border?: boolean }>`
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
+  margin-top: 160pt;
+  width: 100%;
   @media (min-width: 900pt) {
     border-radius: 12pt;
     width: 324pt;
@@ -96,24 +98,26 @@ const BtnBox = styled.div`
     flex-direction: column;
   }
 `;
-const LeftBtn = styled(Button)`
+
+const LeftBtn = styled(Button)<{ border?: boolean }>`
+  border-radius: 6pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
   background: ${colors.main};
-  border-radius: 6pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  text-align: center;
-  letter-spacing: -0.02em;
+  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
   color: white;
-  padding: 15pt 26.25pt;
 `;
-const RightBtn = styled(Button)<{ border?: boolean }>`
+const RightBtn = styled(Button)`
+  color: #595757;
+  background-color: #e2e5ed;
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: ${colors.darkGray};
-  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; ;
+  padding: 15pt 26.25pt;
 `;
