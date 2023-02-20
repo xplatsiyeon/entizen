@@ -511,8 +511,11 @@ const SecondStep = ({
         {isModal && <Modal click={onClickModal} text={errorMessage} />}
         <Wrapper>
           <TopStep>
-            <div>STEP {tabNumber + 1}</div>
-            <div>* 필수 입력</div>
+            <span className="title">STEP {tabNumber + 1}</span>
+            <div>
+              <span className="redColor">*</span>{' '}
+              <span className="sub">필수 입력</span>
+            </div>
           </TopStep>
           <SubWord>
             {`${selectedOption[tabNumber! - 1]?.kind}, ${
@@ -581,10 +584,13 @@ const SecondStep = ({
         <Divide></Divide>
         <SecondWrapper>
           <TopBox>
-            <div>
-              [선택사항] 내 제품 리스트에서 <div>가져오기</div>
+            <div className="titleText">
+              [선택사항] 내 제품 리스트에서{' '}
+              <div className="highlight">가져오기</div>
             </div>
-            <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
+            <div className="smallText">
+              * 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.
+            </div>
           </TopBox>
           <SelectContainer>
             <SelectComponents
@@ -606,8 +612,8 @@ const SecondStep = ({
           </BottomInputBox>
           <InputBox className="secondChargerText">
             <FlexText>
-              <div>충전기 특장점</div>
-              <div>{textLength}/500</div>
+              <span className="titleText">충전기 특장점</span>
+              <span className="lengthText">{textLength}/500</span>
             </FlexText>
             <div>
               <TextArea
@@ -765,6 +771,47 @@ const TopStep = styled.div`
     margin-top: 0;
     padding-top: 70pt;
   }
+  .redColor {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #f75015;
+    @media (max-width: 899.25pt) {
+      font-size: 9pt;
+    }
+  }
+  .sub {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (max-width: 899.25pt) {
+      font-size: 9pt;
+    }
+  }
+  .title {
+    color: #5221cb;
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 18pt;
+    font-weight: 500;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
@@ -794,7 +841,7 @@ const SubWord = styled.div`
   line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: ${colors.main2};
+  color: #222222;
   & p {
     font-weight: 700;
     display: inline-block;
@@ -813,6 +860,17 @@ const ChargeMoney = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+      padding-bottom: 15pt;
+    }
   }
   & .withAfter::after {
     content: ' *';
@@ -882,8 +940,21 @@ const BottomInputBox = styled.div`
   margin-top: 30pt;
   flex-direction: column;
   gap: 9pt;
+  @media (min-width: 900pt) {
+    gap: 12pt;
+  }
   & .withAfter {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
     font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -910,8 +981,21 @@ const BottomInputBox = styled.div`
   }
 `;
 const Input = styled(TextField)`
+  /* border: 0.75pt solid ${colors.gray}; */
+  border-radius: 6pt;
   width: 100%;
-
+  outline: none;
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border: 0.75pt solid #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
@@ -919,12 +1003,26 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
+  /* & fieldset {
+    border: 0.75pt solid ${colors.gray};
+  } */
   & .MuiInputBase-root {
     padding-right: 9pt;
+    /* @media (min-width: 900pt) {
+      width: 512.25pt;
+    } */
   }
   ::placeholder {
-    color: ${colors.gray};
+    /* color: ${colors.gray}; */
+    color: #caccd1;
     font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   & .remove {
     display: none;
@@ -966,14 +1064,14 @@ const Divide = styled.div`
   }
 `;
 const TopBox = styled.div`
-  & div:first-of-type {
+  /* & div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
-  }
+  } */
   & > div > div {
     display: inline-block;
     color: ${colors.main};
@@ -987,6 +1085,40 @@ const TopBox = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
     color: #747780;
+  }
+  .highlight {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #5221cb;
+    }
+  }
+  .titleText {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+      padding-bottom: 15pt;
+    }
+  }
+  .smallText {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #747780;
+    }
   }
 `;
 const SelectContainer = styled.div`
@@ -1044,6 +1176,26 @@ const TextArea = styled.textarea`
   &::placeholder {
     color: #caccd1;
   }
+  :focus {
+    border: 0.75pt solid #5221cb;
+    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: #222222;
+    }
+  }
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;
@@ -1080,6 +1232,16 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    padding-bottom: 12pt;
+  }
 `;
 const PhotosBox = styled.div`
   width: 100%;
@@ -1218,6 +1380,15 @@ const Form = styled.form`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    padding-bottom: 12pt;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & > div {
     margin-top: 9pt;
@@ -1253,6 +1424,7 @@ const File = styled.label`
   }
 `;
 const NextBtn = styled.div<{ canNext: boolean }>`
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightWhite};
   width: 100%;
   padding: 15pt 0;
@@ -1273,6 +1445,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   }
 `;
 const PrevBtn = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightWhite};
   width: 36%;
   padding: 15pt 0;
@@ -1338,6 +1511,32 @@ const FlexText = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  .titleText {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-bottom: 12pt;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .lengthText {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #222222;
+  }
 `;
 
 export default SecondStep;

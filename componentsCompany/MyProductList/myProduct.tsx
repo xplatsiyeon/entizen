@@ -309,6 +309,7 @@ const WebChargeTitle = styled.div`
   text-align: center;
   padding-top: 32.25pt;
   padding-bottom: 72pt;
+  color: #222222;
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -355,6 +356,12 @@ const Item = styled.li`
   display: flex;
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+  }
+  @media (min-width: 900pt) {
+    padding-top: 15pt;
+    :not(:nth-of-type(1)) {
+      padding-top: 15pt;
+    }
   }
 
   .name {
@@ -427,20 +434,21 @@ const FeatureBox = styled(TextareaAutosize)`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const Subtitle = styled.h2`
+const Subtitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.gray2};
-  flex: 1;
+  /* flex: 1; */
   @media (min-width: 900pt) {
-    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    width: 90pt;
   }
 `;
 const GridImg = styled.div`

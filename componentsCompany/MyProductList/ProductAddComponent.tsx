@@ -567,7 +567,7 @@ const ProductAddComponent = (props: Props) => {
               <LabelBox>
                 <TextAlign>
                   <UnRequired>특장점</UnRequired>
-                  <UnRequired> {advantagesText} / 500</UnRequired>
+                  <TextLength> {advantagesText} / 500</TextLength>
                 </TextAlign>
               </LabelBox>
               <TextArea
@@ -637,7 +637,7 @@ const ProductAddComponent = (props: Props) => {
                     <div>
                       <File onClick={handleFileClick}>
                         <Image src={AddImg} alt="img" />
-                        <div>파일 업로드</div>
+                        <UploadText>파일 업로드</UploadText>
                       </File>
                     </div>
                   </Form>
@@ -779,6 +779,7 @@ const AddProductText = styled.div`
   text-align: center;
   padding-top: 32.25pt;
   padding-bottom: 26.25pt;
+  color: #222222;
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -823,15 +824,24 @@ const RequiredLabel = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
   &::after {
     content: ' *';
     margin-left: 1pt;
     color: #f75015;
   }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const RightLabel = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 500;
   line-height: 10.5pt;
@@ -840,10 +850,19 @@ const RightLabel = styled.div`
   position: absolute;
   right: 0;
   top: 0;
+  color: #222222;
   &::before {
     content: '* ';
     margin-left: 1pt;
     color: #f75015;
+  }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
@@ -858,16 +877,42 @@ const RightPlus = styled.div`
 
 const Input = styled(TextField)`
   width: 100%;
+  outline: none;
+  .MuiOutlinedInput-notchedOutline {
+    border: 1pt solid #e2e5ed !important;
+  }
+
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border-color: #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border-color: #5221cb;
+    }
+  }
+
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: left;
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
+    ::placeholder {
+      /* color: ${colors.gray}; */
+      color: #caccd1;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
+    border-radius: 6pt;
   }
+
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -875,10 +920,7 @@ const Input = styled(TextField)`
   & .remove {
     display: none;
   }
-  & > .MuiInputBase-root > fieldset {
-    border: 1pt solid #e2e5ed !important;
-    border-radius: 6pt !important;
-  }
+
   :focus > .remove {
     display: block;
   }
@@ -927,6 +969,33 @@ const UnRequired = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+`;
+
+const TextLength = styled.span`
+  color: #222222;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 9pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: right;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -944,6 +1013,15 @@ const TextArea = styled.textarea`
   letter-spacing: -0.02em;
   &::placeholder {
     color: #caccd1;
+  }
+  :focus {
+    color: #222222;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
@@ -1042,6 +1120,15 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const PhotosBox = styled.div`
@@ -1153,12 +1240,21 @@ const Form = styled.form`
   /* margin-top: 24pt; */
   position: relative;
   & > label {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & > div {
     margin-top: 9pt;
@@ -1212,6 +1308,16 @@ const WebHide = styled.div`
   @media (min-width: 900pt) {
     display: none;
   }
+`;
+
+const UploadText = styled.span`
+  color: #caccd1;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 400;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: center;
 `;
 
 export default ProductAddComponent;

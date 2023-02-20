@@ -326,12 +326,12 @@ const Mypage1_3 = ({}: any) => {
           <M17Modal
             backgroundOnClick={() => setPartnerModal(false)}
             contents={modalMessage}
-            leftText={'취소'}
-            leftControl={() => setPartnerModal(false)}
             rightText={'확인'}
             rightControl={
               modalNumber === 0 ? onClickOtherPartnerModal : onClickConfirmModal
             }
+            leftText={'취소'}
+            leftControl={() => setPartnerModal(false)}
           />
         )}
 

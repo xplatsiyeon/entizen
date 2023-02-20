@@ -113,7 +113,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
             ) : (
               <span className="name" />
             )}
-            <span className="value">
+            <span className="value" style={{ lineHeight: '18pt' }}>
               {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
               <br />
               {item.standType
@@ -231,7 +231,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           </>
         )}
       </List>
-      <Line />
+      <Line style={{ paddingTop: '30pt' }} />
       <Section>
         <FlexWrap2>
           {/* 현장실사 결과 */}
@@ -275,7 +275,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           );
         })}
       </Section>
-
+      <Line />
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -289,6 +289,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
                     layout="fill"
                     priority={true}
                     unoptimized={true}
+                    objectFit="cover"
                   />
                 </GridItem>
               ))}
@@ -296,40 +297,42 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           ))}
         </GridImg>
       </Section>
-
+      <Line />
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
-        {finalQuotation?.finalQuotationChargers?.map((item, index) => (
-          <React.Fragment key={item.finalQuotationChargerIdx}>
-            {item.catalogFiles.map((file, index) => (
-              <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
-                <FileDownload
-                  download={file.originalName}
-                  // href={file.url}
-                  onClick={() => {
-                    fileDownload(userAgent, file.originalName, file.url);
-                  }}
-                >
-                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                  <FileName>{file.originalName}</FileName>
-                </FileDownload>
-              </FileDownloadBtn>
-            ))}
-          </React.Fragment>
-        ))}
-        {finalQuotation?.finalQuotationDetailFiles?.map((item, index) => (
-          <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
-            <FileDownload
-              download={item.originalName}
-              onClick={() => {
-                fileDownload(userAgent, item.originalName, item.url);
-              }}
-            >
-              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-              {item.originalName}
-            </FileDownload>
-          </FileDownloadBtn>
-        ))}
+        <FileWrapper>
+          {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+            <React.Fragment key={item.finalQuotationChargerIdx}>
+              {item.catalogFiles.map((file, index) => (
+                <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
+                  <FileDownload
+                    download={file.originalName}
+                    // href={file.url}
+                    onClick={() => {
+                      fileDownload(userAgent, file.originalName, file.url);
+                    }}
+                  >
+                    <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                    <FileName>{file.originalName}</FileName>
+                  </FileDownload>
+                </FileDownloadBtn>
+              ))}
+            </React.Fragment>
+          ))}
+          {finalQuotation?.finalQuotationDetailFiles?.map((item, index) => (
+            <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
+              <FileDownload
+                download={item.originalName}
+                onClick={() => {
+                  fileDownload(userAgent, item.originalName, item.url);
+                }}
+              >
+                <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                <FileName>{item.originalName}</FileName>
+              </FileDownload>
+            </FileDownloadBtn>
+          ))}
+        </FileWrapper>
       </Section>
       <Line2 />
       <Contents>
@@ -357,7 +360,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 60pt;
+  /* padding-top: 36.75pt; */
   @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
@@ -376,7 +379,7 @@ const Title = styled.h1`
   }
 `;
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
-  padding: 18pt 0pt;
+  padding: 30pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
     grid &&
@@ -385,6 +388,7 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     `};
   @media (max-width: 899.25pt) {
     margin-left: 15pt;
+    padding: 18pt 0;
   }
 `;
 const List = styled.ul`
@@ -416,6 +420,9 @@ const Item = styled.li`
 
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
   }
   .name {
     font-weight: 500;
@@ -482,10 +489,11 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  padding-bottom: 24pt;
+  padding-bottom: 15pt;
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
+    padding-bottom: 24pt;
   }
 `;
 const Subtitle2 = styled.h2`
@@ -613,12 +621,20 @@ const GridImg = styled.div`
   display: flex;
   overflow-x: scroll;
   grid-template-columns: repeat(4, 1fr);
-  padding-top: 15pt;
+  /* padding-top: 15pt; */
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    padding-left: 0;
+    width: 580.5pt;
+    display: flex;
+    overflow: scroll;
+
+    /* padding-top: 24pt; */
+    /* padding-bottom: 30pt; */
   }
+  /* @media (min-width: 900pt) {
+    padding-left: 0;
+  } */
 `;
 const GridItem = styled.div`
   position: relative;
@@ -626,10 +642,12 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
-
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
-    height: 144pt;
+    margin-right: 22.5pt;
   }
 `;
 
@@ -639,7 +657,7 @@ const FileDownloadBtn = styled(Button)`
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
   @media (max-width: 899.25pt) {
-    padding-bottom: 24pt;
+    /* padding-bottom: 24pt; */
   }
 `;
 const FileDownload = styled.a`
@@ -654,7 +672,7 @@ const Line = styled.div`
 `;
 const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
-  margin-top: 18pt;
+  /* margin-top: 18pt; */
 `;
 const Label2 = styled.div`
   font-weight: 700;
@@ -811,5 +829,11 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const FileWrapper = styled.div`
+  width: 200pt;
+  display: flex;
+  flex-direction: column;
 `;
 export default FinalQuotation;

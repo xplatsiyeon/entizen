@@ -134,7 +134,7 @@ const WebBuyerHeader = ({
     {
       id: 0,
       type: 'estimate',
-      menu: '내견적',
+      menu: '내 견적',
       linkUrl: '/company/quotation',
       alert: allAlert?.wasReadQuotation,
     },

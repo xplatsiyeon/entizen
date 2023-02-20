@@ -219,6 +219,7 @@ const SettingMain = ({
           border={true}
         />
       )}
+
       {alertModal && (
         <TwoBtnModal
           exit={() => setAlertModal(false)}

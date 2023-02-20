@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import colors from 'styles/colors';
+import { css } from '@emotion/react';
 
 type Props = {
   setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
@@ -34,6 +35,11 @@ const MyprojectLink = ({
   let linkNum: number[];
 
   const router = useRouter();
+  // 클릭 시
+  const [tabIdx, setTabIdx] = useState(-1);
+  // 마우스 오버
+  const [hoverIdx, setHoverIdx] = useState(-1);
+  const [show, setShow] = useState(false);
 
   switch (type) {
     case 'myProject':
@@ -115,6 +121,7 @@ const MyprojectLink = ({
   return (
     <Wrap openSubLink={openSubLink}>
       {linkName.map((i, idx) => {
+        console.log('tab, idx', tabIdx === idx);
         return (
           <StyledLink
             key={idx}
@@ -124,9 +131,20 @@ const MyprojectLink = ({
             onClick={() => {
               // setTabNumber(idx);
               handleLink(idx);
+              setTabIdx(idx);
+            }}
+            onMouseOver={() => {
+              setShow(true);
+              setHoverIdx(idx);
+            }}
+            onMouseOut={() => {
+              setShow(false);
+              setHoverIdx(-1);
             }}
           >
             {i}
+            {idx === tabIdx && <UnderLine />}
+            {hoverIdx === idx && show && idx !== tabIdx && <UnderLine />}
           </StyledLink>
         );
       })}
@@ -156,18 +174,28 @@ const StyledLink = styled.li<{ tab: string; index: string }>`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 500;
+  font-weight: ${({ tab, index }) => (tab === index ? 700 : 500)};
   font-size: 12pt;
   line-height: 13.5pt;
   letter-spacing: -0.02em;
   color: ${({ tab, index }) => (tab === index ? colors.main : colors.main2)};
   text-decoration: none;
+  /* ${({ tab, index }) =>
+    tab === index &&
+    css`
+      border-bottom: 3pt solid #5a2dc9;
+      box-sizing: border-box;
+    `} */
   cursor: pointer;
-  &:hover {
+  /* &:hover {
     border-bottom: 3pt solid #5a2dc9;
     box-sizing: border-box;
-  }
-  &.on {
-    border-bottom: 3pt solid #5a2dc9;
-    box-sizing: border-box;
-  }
+  } */
+`;
+const UnderLine = styled.div`
+  width: 100%;
+  height: 3pt;
+  border-radius: 5pt;
+  background-color: #5a2dc9;
+  margin-top: 14pt;
 `;

@@ -39,7 +39,7 @@ const ProfileEditing = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [checkSns, setCheckSns] = useState<boolean>(false);
-  const [isPassword, setIsPassword] = useState(false);
+  const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
@@ -111,6 +111,16 @@ const ProfileEditing = ({
   };
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 이미지 미리보기
+    let reader = new FileReader();
+    if (e.target.files![0]) {
+      reader.readAsDataURL(e.target.files![0]);
+    }
+    reader.onloadend = () => {
+      const resultImage = reader.result;
+      setImgFile(resultImage as string);
+    };
+    // 이미지 multer 저장
     const { files } = e.target;
     const maxLength = 1;
     // 이미지 저장
@@ -129,47 +139,8 @@ const ProfileEditing = ({
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
-    // let key = localStorage.getItem('key');
-    // let data = JSON.parse(key!);
     setComponent(2);
   };
-
-  // // 나이스 인증
-  // const fnPopup = (event: any) => {
-  //   console.log('나이스 인증');
-  //   console.log(event);
-  //   const { id } = event.currentTarget;
-  //   console.log(`id -> ${id}`);
-  //   if (typeof window !== 'object') return;
-  //   else {
-  //     window.open(
-  //       '',
-  //       'popupChk',
-  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-  //     );
-  //     let cloneDocument = document as any;
-  //     cloneDocument.form_chk.action =
-  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-  //     cloneDocument.form_chk.target = 'popupChk';
-  //     cloneDocument.form_chk.submit();
-  //   }
-  // };
-  // // // 나이스 인증
-  // useEffect(() => {
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://test-api.entizen.kr/api/auth/nice',
-  //     data: { memberType: token.memberType },
-  //   })
-  //     .then((res) => {
-  //       setData(res.data.executedData);
-  //     })
-  //     .catch((error) => {
-  //       console.error('나이스 인증 에러 발생');
-  //       console.error(error);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
@@ -196,7 +167,7 @@ const ProfileEditing = ({
     <Wrapper>
       <Header back={true} title="프로필 변경" />
       <Body component={component}>
-        {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
+        {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
         {isLoading ? (
           <Loader />
         ) : (
@@ -206,10 +177,20 @@ const ProfileEditing = ({
               <button className="avatar-bg" onClick={imgHandler}>
                 <Image
                   src={
-                    profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
-                      ?.length! > 1
+                    // profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                    //   ?.length! > 1
+                    //   ? profile?.companyMemberAdditionalInfo
+                    //       ?.companyLogoImageUrl!
+                    //   : AvatarIcon
+
+                    imgFile
+                      ? imgFile
+                      : profile?.companyMemberAdditionalInfo
+                          ?.companyLogoImageUrl! &&
+                        profile?.companyMemberAdditionalInfo
+                          ?.companyLogoImageUrl?.length! > 0
                       ? profile?.companyMemberAdditionalInfo
-                          ?.companyLogoImageUrl!
+                          ?.companyLogoImageUrl
                       : AvatarIcon
                   }
                   alt="avatar"
@@ -244,7 +225,7 @@ const ProfileEditing = ({
           placeholder={profile?.companyMemberAdditionalInfo?.companyName}
         />
         <Div onClick={() => setComponent(1)}>
-          <span>주소 변경</span>
+          <SubTitle>기업 주소 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -258,14 +239,14 @@ const ProfileEditing = ({
           </form> */}
         {/* <Div className="PW" onClick={fnPopup}> */}
         <Div className="PW" onClick={HandlePassword}>
-          <span>비밀번호 변경</span>
+          <SubTitle>비밀번호 변경</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
         </Div>
 
         <Div onClick={() => setComponent(3)}>
-          <span>사업자 등록 변경</span>
+          <SubTitle>사업자 등록증 수정</SubTitle>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
@@ -313,6 +294,7 @@ const ChangeProfileText = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 50.25pt;
+  color: #222222;
 `;
 const Body = styled.div<{ component: number }>`
   /* padding: 21.5pt 15pt 0; */
@@ -347,6 +329,7 @@ const Avatar = styled.div`
   }
 `;
 const Label = styled.h3<{ mt: number }>`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
@@ -452,4 +435,14 @@ const MBtn = styled.button`
 `;
 const Buttons = styled.button`
   display: none;
+`;
+
+const SubTitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
 `;

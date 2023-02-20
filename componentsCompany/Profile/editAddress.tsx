@@ -90,7 +90,7 @@ const EditAddress = ({ setComponent }: Props) => {
       />
       <Wrapper>
         <Address>
-          <p style={{ marginTop: '22.5pt' }}>기업 주소</p>
+          <SubTitle style={{ marginTop: '22.5pt' }}>기업 주소</SubTitle>
           <InputWrap>
             <InputBox
               placeholder="회사 우편번호 입력"
@@ -227,4 +227,15 @@ const EditAdressBtn = styled.button`
 
 const Wrap = styled.div`
   margin-left: -15pt;
+`;
+
+const SubTitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
+  margin-bottom: 15pt;
 `;

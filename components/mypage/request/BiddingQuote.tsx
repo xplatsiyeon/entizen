@@ -145,11 +145,14 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               <WebItem>
                 <span className="name">공사기간</span>
                 <span className="value">
-                  {data?.preQuotation?.constructionPeriod} 일
+                  {data?.preQuotation?.constructionPeriod
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  일
                 </span>
               </WebItem>
               {/* 🍎 충전기 제조사 1개 일 때 */}
-              {data?.preQuotation?.preQuotationChargers.length === 1 ? (
+              {data?.preQuotation?.preQuotationChargers.length === 1 && (
                 <>
                   <WebItem>
                     <span className="name">충전요금</span>
@@ -172,67 +175,6 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                       {data?.preQuotation?.preQuotationChargers[0].manufacturer}
                     </span>
                   </WebItem>
-                </>
-              ) : (
-                <>
-                  {/* 🍎 충전기 제조사 2개 이상 일 때 */}
-                  <MultiSection>
-                    <Subtitle>충전요금</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 index 뒤집어져서 나오는 이슈가 있어서 여기는 map전에 reverse()해줌 이상있으면 바로 수정 / 여기 위치는 웹에서 오른쪽 상단박스 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
-                          <WebItem>
-                            <span className="name">
-                              {convertKo(
-                                M5_LIST,
-                                M5_LIST_EN,
-                                data?.quotationRequest
-                                  ?.quotationRequestChargers[index]?.kind,
-                              )}
-                            </span>
-                            <span className="value">{`${PriceBasicCalculation(
-                              item.chargePrice,
-                            )} 원 / kW`}</span>
-                          </WebItem>
-                        ) : (
-                          <WebItem>
-                            <span className="name">
-                              {convertKo(
-                                M5_LIST,
-                                M5_LIST_EN,
-                                data?.quotationRequest
-                                  ?.quotationRequestChargers[index]?.kind,
-                              )}
-                            </span>
-                            <span className="value">구매자 자율</span>
-                          </WebItem>
-                        )}
-                      </MultiBox>
-                    ))}
-                  </MultiSection>
-                  <MultiSection>
-                    <Subtitle>충전기 제조사</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        <WebItem>
-                          <span className="name">
-                            {convertKo(
-                              M5_LIST,
-                              M5_LIST_EN,
-                              data?.quotationRequest?.quotationRequestChargers[
-                                index
-                              ]?.kind,
-                            )}
-                          </span>
-                          <span className="value">{item.manufacturer}</span>
-                        </WebItem>
-                      </MultiBox>
-                    ))}
-                  </MultiSection>
                 </>
               )}
             </WebList>
@@ -290,7 +232,10 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               <Item>
                 <span className="name">공사기간</span>
                 <span className="value">
-                  {data?.preQuotation?.constructionPeriod} 일
+                  {data?.preQuotation?.constructionPeriod
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  일
                 </span>
               </Item>
               {/* 🍎 충전기 제조사 1개 일 때 */}
@@ -385,8 +330,87 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           </>
         )}
       </>
-      <Line />
+      {data?.preQuotation?.preQuotationChargers !== undefined &&
+        data?.preQuotation?.preQuotationChargers.length > 1 && (
+          <Line style={{ marginTop: '60pt' }} />
+        )}
       <UnderInfo>
+        {!mobile && (
+          <>
+            {/* 🍎 충전기 제조사 1개 일 때 */}
+            {data?.preQuotation?.preQuotationChargers !== undefined &&
+              data?.preQuotation?.preQuotationChargers.length > 1 && (
+                <>
+                  {/* 🍎 충전기 제조사 2개 이상 일 때 */}
+                  <Section pb={580.5}>
+                    <Subtitle>충전요금</Subtitle>
+                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                    {/* 🍎 index 뒤집어져서 나오는 이슈가 있어서 여기는 map전에 reverse()해줌 이상있으면 바로 수정 / 여기 위치는 웹에서 오른쪽 상단박스 */}
+                    {reverseNewArr?.map((item, index) => (
+                      <MultiBox key={index}>
+                        {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                          <FlexWrap>
+                            <Label>
+                              {convertKo(
+                                M5_LIST,
+                                M5_LIST_EN,
+                                data?.quotationRequest
+                                  ?.quotationRequestChargers[index]?.kind,
+                              )}
+                            </Label>
+                            <FeaturesList>
+                              <li>{`${PriceBasicCalculation(
+                                item.chargePrice,
+                              )} 원 / kW`}</li>
+                            </FeaturesList>
+                          </FlexWrap>
+                        ) : (
+                          <WebItem>
+                            <Label>
+                              {convertKo(
+                                M5_LIST,
+                                M5_LIST_EN,
+                                data?.quotationRequest
+                                  ?.quotationRequestChargers[index]?.kind,
+                              )}
+                            </Label>
+                            <FeaturesList>
+                              <li>구매자 자율</li>
+                            </FeaturesList>
+                          </WebItem>
+                        )}
+                      </MultiBox>
+                    ))}
+                  </Section>
+                  <Line style={{ marginTop: '30pt', marginBottom: '16pt' }} />
+                  <MultiSection>
+                    <Subtitle>충전기 제조사</Subtitle>
+                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                    {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
+                    {reverseNewArr?.map((item, index) => (
+                      <MultiBox key={index}>
+                        <FlexWrap>
+                          <Label>
+                            {convertKo(
+                              M5_LIST,
+                              M5_LIST_EN,
+                              data?.quotationRequest?.quotationRequestChargers[
+                                index
+                              ]?.kind,
+                            )}
+                          </Label>
+                          <FeaturesList>
+                            <li>{item.manufacturer}</li>
+                          </FeaturesList>
+                        </FlexWrap>
+                      </MultiBox>
+                    ))}
+                  </MultiSection>
+                </>
+              )}
+          </>
+        )}
+        <Line style={{ marginTop: '30pt' }} />
         <Section>
           <Subtitle>특장점</Subtitle>
           <FlexWrap>
@@ -628,7 +652,7 @@ const MultiSection = styled.div`
   :nth-of-type(1) {
     padding-bottom: 18pt;
     margin-top: 18pt;
-    border-bottom: 0.75pt solid ${colors.lightGray};
+    /* border-bottom: 0.75pt solid ${colors.lightGray}; */
     border-top: 0.75pt solid ${colors.lightGray};
   }
 `;
@@ -844,6 +868,7 @@ const GridImg = styled.div`
   display: flex;
   overflow-x: scroll;
   padding-top: 15pt;
+  grid-template-columns: repeat(4, 1fr);
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
@@ -860,6 +885,9 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 178.5pt;
     margin-right: 22.5pt;

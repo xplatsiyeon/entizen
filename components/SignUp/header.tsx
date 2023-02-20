@@ -5,6 +5,7 @@ import BackImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
 import Home from 'public/images/home.svg';
 import { css } from '@emotion/react';
+import ExitImg from 'public/images/X.svg';
 
 interface Props {
   title?: string;
@@ -15,6 +16,7 @@ interface Props {
   handleOnClick?: () => void;
   handleHomeClick?: () => void;
   handleBackClick?: () => void;
+  handleExitClick?: () => void;
   web?: boolean;
 }
 
@@ -27,6 +29,7 @@ const SignUpHeader = ({
   handleOnClick,
   handleHomeClick,
   handleBackClick,
+  handleExitClick,
   web,
 }: Props) => {
   const route = useRouter();
@@ -47,7 +50,12 @@ const SignUpHeader = ({
       </div>
       {/* 닫기 이미지 */}
       {exitBtn && (
-        <div className="exit" onClick={handleHomeClick}>
+        <div className="exit" onClick={handleExitClick}>
+          <Image src={ExitImg} alt="home-icon" />
+        </div>
+      )}
+      {homeBtn && (
+        <div className="home" onClick={handleHomeClick}>
           <Image src={Home} alt="home-icon" />
         </div>
       )}

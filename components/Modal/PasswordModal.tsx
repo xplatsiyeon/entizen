@@ -3,6 +3,7 @@ import { Box, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import colors from 'styles/colors';
+import { css } from '@emotion/react';
 
 type Props = {
   passwordInput: string;
@@ -52,8 +53,18 @@ const PasswordModal = ({
         <BtnBox>
           <CheckBtn
             checkPassword={checkPassword}
+            onClick={() => {
+              setPasswordModal(false);
+            }}
+            check={false}
+          >
+            취소
+          </CheckBtn>
+          <CheckBtn
+            checkPassword={checkPassword}
             disabled={!checkPassword}
             onClick={click}
+            check={true}
           >
             확인
           </CheckBtn>
@@ -86,47 +97,98 @@ const ModalBox = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 220.5pt;
   @media (min-width: 900pt) {
     margin-top: 10%;
+    width: 354pt;
   }
 `;
 
 const ContentText = styled(Typography)`
+  font-family: 'Spoqa Han Sans Neo';
+  color: #222222;
   white-space: pre-wrap;
   font-size: 12pt;
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
   text-align: center;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const Content = styled(Box)`
   width: 190.5pt;
 `;
 const Inputs = styled(TextField)`
+  width: 190.5pt;
   margin-top: 21pt;
   width: 100%;
   border-radius: 6pt;
+  outline: none;
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.75pt solid #e2e5ed;
+  }
+  & .MuiInputBase-root {
+    padding-right: 9pt;
+    border-radius: 6pt;
+  }
+  .MuiOutlinedInput-root {
+    &:hover fieldset {
+      border-color: #e2e5ed;
+    }
+    &.Mui-focused fieldset {
+      border: 0.75pt solid #5221cb;
+    }
+  }
   & > span {
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
     padding-left: 12pt;
   }
+  @media (min-width: 900pt) {
+    width: 297pt;
+  }
 `;
 const BtnBox = styled(Box)`
+  display: flex;
+  justify-content: center;
   width: 100%;
   margin-top: 30pt;
+  gap: 9pt;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: center;
+    gap: 12pt;
+  }
 `;
-const CheckBtn = styled.button<{ checkPassword: boolean }>`
-  width: 100%;
-  padding: 15pt 84pt;
+const CheckBtn = styled.button<{ checkPassword?: boolean; check?: boolean }>`
+  width: 90.75pt;
+  padding: 15pt 34.5pt;
   font-size: 12pt;
   font-weight: 400;
   border-radius: 6pt;
   line-height: 12pt;
   letter-spacing: -2%;
-  background-color: ${({ checkPassword }) =>
-    checkPassword ? `${colors.main}` : `${colors.lightGray}`};
+
   color: #ffffff;
+  background-color: ${({ check }) => (check === true ? '#B096EF' : '#E2E5ED')};
+  ${({ checkPassword, check }) =>
+    checkPassword === true &&
+    check === true &&
+    css`
+      background-color: #5221cb;
+    `}
+
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 142.5pt;
+    padding: 13.5pt 60pt;
+  }
 `;
 const Alert = styled.p`
   margin-top: 9pt;

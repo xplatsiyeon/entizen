@@ -229,7 +229,7 @@ const EditCertificate = ({ setComponent }: Props) => {
       <RemainderInputBox>
         <PhotosBox>
           <Form>
-            <label>사업자 등록증</label>
+            <SubTitle>사업자 등록증</SubTitle>
             <div>
               <File onClick={handleOnClick}>
                 <Image src={AddImg} alt="img" />
@@ -502,4 +502,15 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const SubTitle = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
+  margin-bottom: 15pt;
 `;

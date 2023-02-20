@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import RightArrow from 'public/images/CaretRightArrow.png';
+// import RightArrow from 'public/images/CaretRightArrow.png';
+import RightArrow from 'public/images/RightMenuArrowSvg.svg';
 import Image from 'next/image';
 import Chats from '../public/images/Chats.png';
 import MyProductList from '../public/images/MyProductListPng.png';
@@ -27,7 +28,7 @@ const UserRightMenu = () => {
           }}
         >
           <ImageBoxS>
-            <Image src={Chats} alt="Chats" />
+            <ImgTag src="/images/Chats.png" alt="Chat" />
           </ImageBoxS>
           <MenuTitle onClick={() => router.push('/chatting')}>
             소통하기
@@ -40,7 +41,9 @@ const UserRightMenu = () => {
           }}
         >
           <ImageBoxL>
-            <Image src={EntizenLibrary} alt="Chats" />
+            {/* <Image src={EntizenLibrary} alt="Chats" /> */}
+
+            <ImgTag src="/images/EntizenLibraryIcon.png" alt="Library" />
           </ImageBoxL>
           <MenuTitle2>엔티즌 도서관</MenuTitle2>
         </MenuBox>
@@ -90,10 +93,13 @@ const ImageBoxS = styled.div`
 `;
 
 const ImageBoxL = styled.div`
-  width: 22pt;
+  /* width: 22pt; */
+
   margin: 0 auto;
   display: flex;
   align-items: center;
+  display: flex;
+  justify-content: center;
   @media (max-width: 1125pt) {
   }
 `;
@@ -147,7 +153,7 @@ const LeftArrow = styled.div`
   right: 90pt;
   background-color: #ffffff;
   border-radius: 100%;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  /* box-shadow: 0px 0px 7.5pt 0px #89a3c933; */
 
   @media (max-width: 1125pt) {
     top: 155pt;
@@ -157,9 +163,18 @@ const LeftArrow = styled.div`
 
 const ImageIcon = styled.div`
   padding: 8pt 10pt;
+  width: 27pt;
+  height: 27pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }
+`;
+
+const ImgTag = styled.img`
+  width: 24pt;
 `;
 
 export default UserRightMenu;
