@@ -216,7 +216,7 @@ const SubsidyTable = ({
     if (tabNumber === 0) {
       return subsidyData?.data?.simulation[0]?.year;
     } else if (tabNumber === 1) {
-      return subsidyData?.data?.simulation[1]?.year;
+      return subsidyData?.data?.simulation[0]?.year - 1;
     }
   };
 
@@ -255,7 +255,7 @@ const SubsidyTable = ({
               </TableTopTDCharge>
             ) : (
               <TableTopTDCharge style={{ background: '#FFFF00' }}>
-                {subsidyData?.data?.simulation[1]?.year}
+                {subsidyData?.data?.simulation[200]?.year}
               </TableTopTDCharge>
             )}
 
