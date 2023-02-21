@@ -173,7 +173,7 @@ const asNumber = () => {
   if (isError || completeIsError) {
     console.log(error);
   }
-  // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  //  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
   // console.log(data);
 
   if (!accessToken && memberType !== 'USER') {

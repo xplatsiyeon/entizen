@@ -72,8 +72,9 @@ const Modal = styled.div<{ border?: boolean }>`
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
-  margin-top: 300pt;
   width: 100%;
+  position: fixed;
+  bottom: 0;
   @media (min-width: 900pt) {
     border-radius: 12pt;
     width: 324pt;

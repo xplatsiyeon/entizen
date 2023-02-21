@@ -346,6 +346,7 @@ const AsIndex = ({ listUp }: Props) => {
 };
 
 const Wrapper = styled.div`
+  width: 550.5pt;
   padding-left: 15pt;
   padding-right: 15pt;
   position: relative;
@@ -489,6 +490,9 @@ const ContentCenterText = styled(Typography)`
   letter-spacing: -0.02em;
   text-align: left;
   height: 18pt;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 `;
 
 const ContentBottom = styled.div`

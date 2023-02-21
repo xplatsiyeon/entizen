@@ -842,7 +842,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       )}
       {/* 나가기 모달 제어 */}
       {quitModal && (
-        <QuitModal setModal={setQuitModal} deleteId={Number(routerId)} />
+        <QuitModal setModal={setQuitModal} deleteId={Number(routerId)}/>
       )}
 
       {/* 신고하기 누르면 나오는 모달 추가 수정 필요 */}

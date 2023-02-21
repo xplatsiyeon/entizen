@@ -181,8 +181,8 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 60pt auto;
   display: flex;
-  gap: 60pt;
   flex-direction: row;
+  justify-content: space-between;
   @media (max-width: 899.25pt) {
     padding-bottom: 60pt;
     flex-direction: column;
@@ -271,11 +271,7 @@ const TabContainer = styled.div`
 `;
 
 const Wrap = styled.div`
-  flex: 1;
 
-  @media (min-width: 900pt) {
-    width: 600pt;
-  }
 `;
 
 const TabItem = styled.span<{ tab: string; index: string }>`
