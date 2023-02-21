@@ -244,6 +244,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
+  border-radius: 12pt;
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;

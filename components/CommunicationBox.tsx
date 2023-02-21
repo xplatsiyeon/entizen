@@ -11,10 +11,11 @@ import jwt_decode from 'jwt-decode';
 interface Props {
   id?: number | string;
   text: string;
+  hide?: boolean;
   // clickHandler: () => void;
 }
 
-const CommunicationBox = ({ id, text }: Props) => {
+const CommunicationBox = ({ id, text, hide }: Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken!);
@@ -37,7 +38,10 @@ const CommunicationBox = ({ id, text }: Props) => {
   return (
     <Button onClick={onClickBtn}>
       <div>
-        <Image src={CommunicationIcon} alt="right-arrow" />
+        {hide === false ||
+          (hide === undefined && (
+            <Image src={CommunicationIcon} alt="right-arrow" />
+          ))}
       </div>
       {text}
       <div>
