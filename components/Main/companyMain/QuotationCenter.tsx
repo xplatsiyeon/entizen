@@ -3,13 +3,14 @@ import Image from 'next/image';
 import lightning from 'public/images/lightning.png';
 import clipboardText from 'public/images/ClipboardText.png';
 import emptyClipboardText from 'public/images/EmptyClipboardText.png';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
 import { ReceivedRequest } from 'pages/company/quotation';
+import { css } from '@emotion/react';
 
 export interface RecivedCountResponse {
   isSuccess: boolean;
@@ -21,6 +22,8 @@ const TAG = 'commponents/Main/companyMain/QuotationCenter';
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
 
+  const [total, setTotal] = useState(18);
+
   // 실제 새롭게 받은 요청 개수
   // api 호출
   const {
@@ -30,6 +33,25 @@ const QuotationCenter = ({}: Props) => {
   } = useQuery<ReceivedRequest>('received-request', () =>
     isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
   );
+
+  console.log(total, 'total');
+
+  useEffect(() => {
+    if (newReceived?.receivedQuotationRequests.length! < 10) {
+      setTotal(18);
+    } else if (
+      newReceived?.receivedQuotationRequests.length! > 9 &&
+      newReceived?.receivedQuotationRequests.length! < 100
+    ) {
+      setTotal(21);
+    } else if (newReceived?.receivedQuotationRequests.length! > 99) {
+      setTotal(23);
+    } else {
+      setTotal(18);
+    }
+  }, [newReceived]);
+
+  // newReceived?.receivedQuotationRequests.length! > 300? '300+': newReceived?.receivedQuotationRequests.length!
   if (receivedIsError) {
     alert('잠시 후 다시 시도해주세요.');
     router.push('/404');
@@ -37,7 +59,6 @@ const QuotationCenter = ({}: Props) => {
   if (receivedIsLoading) {
     return <Loader />;
   }
-
   return (
     <Wrapper>
       <ImgBox>
@@ -50,8 +71,13 @@ const QuotationCenter = ({}: Props) => {
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle>
-            {newReceived?.receivedQuotationRequests.length!}
+          <CountCircle
+            total={total}
+            length={newReceived?.receivedQuotationRequests.length!}
+          >
+            {newReceived?.receivedQuotationRequests.length! > 300
+              ? '300+'
+              : newReceived?.receivedQuotationRequests.length!}
           </CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
@@ -108,10 +134,19 @@ const BlueIcon = styled.div`
   }
 `;
 
-const CountCircle = styled.div`
+const CountCircle = styled.span<{ length: number | string; total: number }>`
   font-family: 'Spoqa Han Sans Neo';
   position: absolute;
-  right: 0;
+  ${({ length }) =>
+    (length > 10 || length === '300+') &&
+    css`
+      left: 23pt;
+    `};
+  ${({ length }) =>
+    length < 10 &&
+    css`
+      right: 0;
+    `};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,11 +155,15 @@ const CountCircle = styled.div`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: center;
-  width: 18pt;
+  padding: 4px;
+  min-width: 18pt;
+  /* width: ${({ total }) => total && `${total}pt`}; */
+  /* width: ${({ length }) =>
+    length > 10 || length === '300+' ? '65%' : '18pt'}; */
   height: 18pt;
   background-color: ${colors.main};
   color: #ffffff;
-  border-radius: 50%;
+  border-radius: ${({ length }) => (length < 10 ? '50%' : '16pt')};
   z-index: 100 !important;
 `;
 
