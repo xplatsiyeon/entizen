@@ -840,7 +840,6 @@ const FeaturesList = styled.ol`
   list-style-position: inside;
   flex: 2;
   list-style: none;
-
   & li {
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';

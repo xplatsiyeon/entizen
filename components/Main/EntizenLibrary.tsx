@@ -141,6 +141,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               window.open('http://post.naver.com/entizen_ev', 'entizen_post')
             }
           >
+          
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -157,7 +158,8 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
             </TitleNDetail>
           </LibraryList>
         </BoardBox> */}
-        <ShowAllBtnBox>
+        {/* 심사후에 주석 해제 */}
+        {/* <ShowAllBtnBox>
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
@@ -170,7 +172,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               />
             </ImageWrap>
           </ShowAllBtn>
-        </ShowAllBtnBox>
+        </ShowAllBtnBox> */}
       </Wrapper>
     </>
   );

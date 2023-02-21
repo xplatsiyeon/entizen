@@ -97,11 +97,13 @@ const Title = styled.h1`
   line-height: 37.5pt;
   letter-spacing: -0.02em;
   text-align: left;
-
+  color: #222222;
+  padding-top: 23.25pt;
   @media (max-width: 899.25pt) {
+    padding-top: 29.625pt;
     font-size: 18pt;
     line-height: 24pt;
-    margin-top: 24pt;
+    /* margin-top: 24pt; */
     text-align: center;
   }
 `;
@@ -114,6 +116,7 @@ const Footer = styled.div`
   width: 100%;
 `;
 const TextBox = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   display: flex;
   flex-direction: column;
   justify-content: center;

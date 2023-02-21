@@ -256,10 +256,12 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 6pt;
+  border-radius: 12pt;
   /* border-top: 1px solid #e2e5ed; */
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
+    border-radius: 0;
   }
 `;
 

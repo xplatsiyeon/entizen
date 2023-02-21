@@ -467,16 +467,29 @@ const ContentsWrapper = styled.div`
   margin-bottom: 9pt;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    padding: 21.75pt 20.25pt 17.25pt 26.25pt;
+    border-radius: 12pt;
+  }
 `;
 
 const ContentTop = styled.div``;
 
 const ContentTitle = styled(Typography)`
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 13.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const ContentCenter = styled.div`
@@ -484,21 +497,40 @@ const ContentCenter = styled.div`
 `;
 
 const ContentCenterText = styled(Typography)`
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: left;
   height: 18pt;
+  width: 200pt;
+  text-overflow: ellipsis;
   overflow: hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  height: auto;
+  white-space: pre;
+  @media (min-width: 900pt) {
+    padding-top: 9pt;
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    width: 450pt;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: auto;
+    white-space: pre;
+  }
 `;
 
 const ContentBottom = styled.div`
   margin-top: 12pt;
   display: flex;
   justify-content: space-between;
+  @media (min-width: 900pt) {
+    margin-top: 21pt;
+  }
 `;
 
 const DateText = styled(Typography)`
@@ -526,10 +558,21 @@ const Btn = styled(Button)`
   margin-top: 27pt;
   border-radius: 6pt;
   padding: 15pt 93pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: center;
 
   cursor: pointer;
   @media (max-width: 899.25pt) {
     padding: 9pt 30pt;
+    font-size: 9pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 

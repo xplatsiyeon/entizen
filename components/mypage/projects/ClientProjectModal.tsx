@@ -112,6 +112,7 @@ const ClientProjectModal = ({
           <CommunicationBox
             text="소통하기"
             id={data?.project.companyMember.memberIdx}
+            hide={true}
           />
           <button
             onClick={
@@ -148,16 +149,20 @@ const Body = styled.div`
   bottom: 0;
   z-index: 2;
   @media (min-width: 900pt) {
-    position: relative;
+    position: absolute;
     top: 30%;
+    right: 25%;
     margin: 0 auto;
     width: 420pt;
-    height: 333pt;
+    /* height: 333pt; */
+    height: auto;
+    /* height: 349pt; */
     border-radius: 12pt;
     display: flex;
     justify-content: center;
     flex-direction: column;
     z-index: 2;
+    padding: 30pt 37.5pt;
   }
 `;
 
@@ -170,9 +175,10 @@ const P = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   text-align: center;
-  margin: 21pt 0 32pt;
+  padding-bottom: 21pt;
   @media (max-width: 899.25pt) {
     margin: 21pt 24pt;
+    padding-bottom: 12pt;
   }
 `;
 
@@ -196,6 +202,9 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 9pt;
+  @media (min-width: 900pt) {
+    margin: 45pt 37.5pt 0;
+  }
   button {
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
@@ -212,6 +221,9 @@ const ButtonBox = styled.div`
       border-radius: 6pt;
       flex: 1;
       color: #595757;
+      @media (min-width: 900pt) {
+        margin-top: 0;
+      }
     }
     &:nth-of-type(2) {
       background: #5221cb;
@@ -220,8 +232,9 @@ const ButtonBox = styled.div`
       color: #ffffff;
       height: 46.875pt;
       margin-top: 12pt;
-    }
-    @media (min-width: 900pt) {
+      @media (min-width: 900pt) {
+        margin-top: 0;
+      }
     }
   }
 
@@ -252,12 +265,20 @@ const PBox1 = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   > .date1 {
+    font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 18pt;
     color: #222222;
     margin-top: 12pt;
+    text-align: center;
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   > .date2 {
     font-style: normal;
@@ -266,9 +287,18 @@ const PBox1 = styled.div`
     line-height: 15pt;
     color: #5221cb;
     margin-top: 3pt;
+    text-align: center;
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 700;
+      line-height: 15pt;
+      letter-spacing: -0.02em;
+      padding-top: 12pt;
+    }
   }
 
   > .notice1 {
+    font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 700;
     font-size: 12pt;
@@ -277,12 +307,21 @@ const PBox1 = styled.div`
     margin: 30pt 0 6pt;
   }
   > .notice2 {
+    font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 15pt;
     color: #222222;
     margin-bottom: 15pt;
+    @media (min-width: 900pt) {
+      padding-top: 6pt;
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
   }
 `;
 const PBox2 = styled.div`
@@ -293,26 +332,49 @@ const PBox2 = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 15pt;
+  @media (min-width: 900pt) {
+    padding: 0;
+  }
   .label {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 400;
     font-size: 10.5pt;
-    line-height: 12pt;
+    /* line-height: 12pt; */
+    line-height: 10.5pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    text-align: left;
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   .date {
     font-weight: 500;
     font-size: 10.5pt;
-    line-height: 12pt;
+    /* line-height: 12pt; */
+    line-height: 10.5pt;
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
     width: 50%;
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
   }
 `;
 const P2DateBox = styled(PBox2)`
   padding-top: 42pt;
   align-items: flex-start;
+  @media (min-width: 900pt) {
+    padding-top: 39pt;
+  }
   .dateBox {
     display: flex;
     /* justify-content: center; */
@@ -322,15 +384,30 @@ const P2DateBox = styled(PBox2)`
     padding: 0 15pt;
   }
   .beforeDate {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 400;
     font-size: 15pt;
     line-height: 18pt;
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.lightGray2};
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
   }
   .beforeDay {
     color: ${colors.lightGray2};
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
   }
   .afterDate {
     font-weight: 500;
@@ -339,9 +416,23 @@ const P2DateBox = styled(PBox2)`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main1};
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
   }
   .afterDay {
     color: ${colors.lightGray2};
+    @media (min-width: 900pt) {
+      font-size: 18pt;
+      font-weight: 500;
+      line-height: 24pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
   }
   .imgBox {
     position: relative;

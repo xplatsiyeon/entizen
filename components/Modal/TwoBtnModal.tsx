@@ -69,10 +69,13 @@ const TwoBtnModal = ({
 
 const ContentText = styled(Typography)`
   white-space: pre-wrap;
-  font-size: 21pt;
+
+  font-size: 15pt;
   font-weight: 700;
-  line-height: 33pt;
-  letter-spacing: -2%;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   margin: 42pt 23.5pt 33pt;
@@ -182,8 +185,8 @@ const BtnText = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 12pt;
+  line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${(props) => props.color};

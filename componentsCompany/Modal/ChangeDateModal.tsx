@@ -183,9 +183,9 @@ const ChangeDateModal = ({
     const differenceBeforeDate = beforeCalculateDifference(day);
     const differenceAfterDate = afterCalculateDifference(day);
 
-    // console.log('differenceDate=>', differenceDate);
-    // console.log('differenceBeforeDate=>', differenceBeforeDate);
-    // console.log('differenceAfterDate=>', differenceAfterDate);
+    console.log('differenceDate=>', differenceDate);
+    console.log('differenceBeforeDate=>', differenceBeforeDate);
+    console.log('differenceAfterDate=>', differenceAfterDate);
 
     // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
