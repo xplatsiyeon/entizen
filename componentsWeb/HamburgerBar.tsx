@@ -164,24 +164,17 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Imagewrap
+        {userID && (<Imagewrap
             onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')
-            }
-          >
-            {userID ? (
-              <Image src={Bell} alt="bellBtn" />
-            ) : (
+              userID ? router.push('/alarm') : router.push('/signin')}>
               <Image src={BellNormal} alt="BellNormal" />
-            )}
-          </Imagewrap>
-          <Imagewrap
-            onClick={() =>
-              userID ? router.push('/setting') : router.push('/signin')
+          </Imagewrap> )}
+         {userID && <Imagewrap
+            onClick={() => router.push('/setting') 
             }
           >
             <Image src={Nut} alt="NutBtn" />
-          </Imagewrap>
+          </Imagewrap> }
           <Imagewrap onClick={toggleDrawer(anchor, false)}>
             <Image src={xBtn} alt="xBtn" />
           </Imagewrap>
@@ -444,10 +437,10 @@ const WholeBox = styled(Box)`
 
 const ListBox = styled.div`
   position: relative;
-  width: 179pt;
+  width: 207pt;
   padding-left: 24pt;
   /* padding-right: 24pt; */
-  padding-right: 18.75pt;
+  padding-right: 15pt;
   height: 100vh;
 
   background-color: ${colors.main};
@@ -528,7 +521,6 @@ const WhiteArea = styled.div`
   position: absolute;
   width: 100%;
   border-radius: 15pt 15pt 0 0;
-  width: 179pt;
   padding: 15pt 24pt 34.5pt 25.5pt;
   left: 0;
   top: 134pt;
@@ -584,10 +576,7 @@ const Imagewrap = styled.div`
   width: 18pt;
   height: 18pt;
   /* margin-right: 9pt; */
-  margin-right: 22.5pt;
-  &:nth-last-of-type(1) {
-    margin-right: 0;
-  }
+  margin-left: 22.5pt;
 `;
 
 const CarouselWrap = styled.section`

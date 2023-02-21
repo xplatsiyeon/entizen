@@ -1015,7 +1015,7 @@ const IconWrap = styled.div`
   cursor: pointer;
 
   &.alarm{
-    margin-right: 19pt;
+    margin-right: 15pt;
   }
   @media (min-width: 900pt) {
     width: 21pt;

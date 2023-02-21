@@ -259,7 +259,7 @@ const IconBox = styled.div`
 const IconWrap = styled.div`
   position: absolute;
   top: 0;
-  right: 24pt;
+  right: 33pt;
   width: 18pt;
   height: 18pt;
   cursor: pointer;

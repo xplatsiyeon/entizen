@@ -212,6 +212,9 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: flex-start;
   padding: 0 11.5pt 0 9pt;
+  @media  (max-width: 899.25pt) {
+     padding: 21pt 11.5pt 0 9pt;
+  }
   & h1 {
     font-weight: 700;
     font-size: 21pt;
