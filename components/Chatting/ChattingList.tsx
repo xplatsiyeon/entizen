@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/defaultImg.png';
-import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from 'react';
+import entizenCK from 'public/images/entizenCK.png';
+import { Dispatch, SetStateAction, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -18,9 +18,7 @@ import {
   QueryObserverResult,
   RefetchOptions,
   RefetchQueryFilters,
-  useMutation,
-  useQueryClient,
-} from 'react-query';
+  useMutation} from 'react-query';
 import { isTokenPatchApi } from 'api';
 import { handleTime } from 'utils/messageTime';
 
@@ -158,24 +156,21 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                   )}
                 </AlramBtn>
               </HiddenBox1>
-              <ChattingRoom
-                className="content-box"
-                onClick={() =>
-                  handleRoute(
-                    data?.data?.chattingRooms?.entizenChattingRoom
-                      ?.chattingRoomIdx!,
-                    true,
-                  )
-                }
-              >
+              <ChattingRoom className="content-box">
                 <ChattingRoomImage>
                   {/* 이미지 파일 src가 없으면 */}
                   <ImageWrap>
                     <Image src={newChatEntizen} layout="fill" />
                   </ImageWrap>
                 </ChattingRoomImage>
-                <ChattingRoomPreview>
-                  <FromMember>엔티즌</FromMember>
+                <ChattingRoomPreview onClick={() =>
+                  handleRoute(
+                    data?.data?.chattingRooms?.entizenChattingRoom
+                      ?.chattingRoomIdx!,
+                    true,
+                  )
+                }>
+                  <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16}/> </FromMember>
                   <Previw>
                     {
                       data?.data?.chattingRooms?.entizenChattingRoom
@@ -199,7 +194,11 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                             ?.chattingLog?.wasRead
                         )?true:false}
                     />
-                    <Favorite>
+                    <Favorite onClick={(e) => {e.preventDefault(); 
+                    onClickFavorite(
+                      data?.data?.chattingRooms?.entizenChattingRoom
+                        ?.chattingRoomIdx!,
+                    )}}>
                       {data?.data.chattingRooms.entizenChattingRoom
                         ?.chattingRoomFavorite.isFavorite ? (
                         <Image src={checked} layout="fill" />
@@ -248,10 +247,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                       )}
                     </AlramBtn>
                   </HiddenBox1>
-                  <ChattingRoom
-                    className="content-box"
-                    onClick={() => handleRoute(chatting.chattingRoomIdx)}
-                  >
+                  <ChattingRoom className="content-box">
                     <ChattingRoomImage>
                       {/* 이미지 파일 src가 없으면 */}
                       <ImageWrap>
@@ -268,7 +264,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                         )}
                       </ImageWrap>
                     </ChattingRoomImage>
-                    <ChattingRoomPreview>
+                    <ChattingRoomPreview onClick={() => handleRoute(chatting.chattingRoomIdx)}>
                       <FromMember>
                         {
                           chatting.companyMember.companyMemberAdditionalInfo
@@ -292,7 +288,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                               : false
                           }
                         />
-                        <Favorite>
+                        <Favorite  
+                          onClick={(e) => {e.preventDefault(); onClickFavorite(chatting.chattingRoomIdx!)}}>
                           {chatting.chattingRoomFavorite.isFavorite ? (
                             <Image src={checked} layout="fill" />
                           ) : (
@@ -334,10 +331,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     onClick={() =>
                       onClickFavorite(
                         data?.data?.chattingRooms?.entizenChattingRoom
-                          ?.chattingRoomIdx!,
-                      )
-                    }
-                  >
+                          ?.chattingRoomIdx!
+                      )}>
                     {data?.data.chattingRooms.entizenChattingRoom
                       ?.chattingRoomFavorite.isFavorite ? (
                       <HiddenIconWrap>
@@ -387,7 +382,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     </ImageWrap>
                   </ChattingRoomImage>
                   <ChattingRoomPreview>
-                    <FromMember>엔티즌</FromMember>
+                    <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16} /></FromMember>
                     <Previw>
                       {
                         data?.data.chattingRooms.entizenChattingRoom
@@ -437,8 +432,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     <HiddenBox1>
                       {/* 버튼에 즐겨찾기 설정 api함수 */}
                       <FavoriteBtn
-                        onClick={() =>
-                          onClickFavorite(chatting.chattingRoomIdx!)
+                        onClick={(e) => {e.preventDefault();
+                          onClickFavorite(chatting.chattingRoomIdx!);}
                         }
                       >
                         {chatting.chattingRoomFavorite.isFavorite ? (
@@ -657,6 +652,11 @@ const FromMember = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #222222;
+  display: flex;
+  align-items: center;
+  span{
+    margin-right: 3pt;
+  }
 `;
 const Previw = styled.p`
   font-style: normal;
@@ -667,6 +667,8 @@ const Previw = styled.p`
   color: #222222;
   position: absolute;
   width: 120%;
+  height: 18pt;
+  overflow: hidden;
 `;
 
 const Created = styled.div`
@@ -767,6 +769,7 @@ const QuitBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2px;
 
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;

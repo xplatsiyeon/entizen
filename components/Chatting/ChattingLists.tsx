@@ -3,21 +3,16 @@ import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
 import ChattingList from 'components/Chatting/ChattingList';
-import Loader from 'components/Loader';
-import WebFooter from 'componentsWeb/WebFooter';
-import WebHeader from 'componentsWeb/WebHeader';
 import useDebounce from 'hooks/useDebounce';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
-import React, { ReactNode, useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import bell from 'public/images/bell.png';
-import Bell_outline from 'public/images/Bell_outline.png';
-import List from 'public/images/List.png';
 import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 import Hamburger from 'public/images/list-bar.svg';
-import { Box, Divider, Drawer } from '@mui/material';
+import { Drawer } from '@mui/material';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { UserChattingRooms } from 'pages/chatting';
 import { useMediaQuery } from 'react-responsive';
@@ -49,57 +44,6 @@ export interface ChattingListResponse {
     };
   };
 }
-
-const arr = {
-  isSuccess: true,
-  data: {
-    chattingRooms: {
-      entizenChattingRoom: {
-        chattingRoomIdx: 6,
-        chattingLog: null,
-        chattingRoomFavorite: {
-          chattingRoomFavoriteIdx: 8,
-          isFavorite: false,
-        },
-        chattingRoomNotification: {
-          chattingRoomNotificationIdx: 8,
-          isSetNotification: true,
-        },
-      },
-      userChattingRooms: [
-        {
-          chattingRoomIdx: 21,
-          companyMember: {
-            memberIdx: 31,
-            companyMemberAdditionalInfo: {
-              companyName: 'ste',
-            },
-          },
-          userMember: {
-            memberIdx: 80,
-            name: '문수정',
-          },
-          chattingLogs: {
-            fromMemberIdx: null,
-            fromMemberType: null,
-            wasRead: false,
-            createdAt: '2022-12-02T07:17:44.610Z',
-            content: '2022-12-02',
-            fileUrl: null,
-          },
-          chattingRoomFavorite: {
-            chattingRoomFavoriteIdx: 32,
-            isFavorite: true,
-          },
-          chattingRoomNotification: {
-            chattingRoomNotificationIdx: 32,
-            isSetNotification: true,
-          },
-        },
-      ],
-    },
-  },
-};
 
 type Props = {
   chattingRoom?: boolean;
@@ -343,7 +287,7 @@ const Input = styled(TextField)`
   -moz-box-sizing: border-box;
   margin-top: 0pt;
   .MuiInputBase-root {
-    padding: 10.5pt 12pt;
+    padding: 6.7pt 12pt;
   }
   & input {
     font-size: 10.5pt;

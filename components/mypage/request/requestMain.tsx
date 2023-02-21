@@ -196,7 +196,7 @@ const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30pt;
-  padding: 0 28.5pt;
+  padding: 0 27pt;
   margin: 20pt 0;
 `;
 
