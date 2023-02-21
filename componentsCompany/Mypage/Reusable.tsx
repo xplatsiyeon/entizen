@@ -31,6 +31,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import Back from 'public/images/backImg.png';
+import { useMediaQuery } from 'react-responsive';
+import { css } from '@emotion/react';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
@@ -93,6 +95,9 @@ const Reusable = ({
 // setData,
 
 Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
@@ -312,21 +317,57 @@ Props) => {
           </DoubleArrowBox>
           <Wrapper>
             <FinishedBox>
-              <FinishedFirst>완료 요청일</FinishedFirst>
-              <FinishedDate>
-                {/* {planed ? planed : '목표일을 정해주세요'} */}
-                {planed
-                  ? planed === 'CHANGING'
-                    ? '목표일 변경 중'
-                    : changeDataFn(planed)
-                  : '목표일을 정해주세요'}
-              </FinishedDate>
-              <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
-              <FinishedSecondText>
-                구매자 동의 후 프로젝트가
-                <br />
-                최종 완료됩니다!
-              </FinishedSecondText>
+              {!mobile && (
+                <>
+                  <ImgBox>
+                    <ImgTag
+                      src="/images/LeftArrowBackSvg.svg"
+                      alt="arrow"
+                      onClick={() => {
+                        setProgressNum(-1);
+                      }}
+                    />
+                  </ImgBox>
+                  <Top3>
+                    <FinishedFirst>완료 요청일</FinishedFirst>
+                    <FinishedDate>
+                      {/* {planed ? planed : '목표일을 정해주세요'} */}
+                      {planed
+                        ? planed === 'CHANGING'
+                          ? '목표일 변경 중'
+                          : changeDataFn(planed)
+                        : '목표일을 정해주세요'}
+                    </FinishedDate>
+                  </Top3>
+                </>
+              )}
+              {mobile && (
+                <>
+                  <FinishedFirst>완료 요청일</FinishedFirst>
+                  <FinishedDate>
+                    {/* {planed ? planed : '목표일을 정해주세요'} */}
+                    {planed
+                      ? planed === 'CHANGING'
+                        ? '목표일 변경 중'
+                        : changeDataFn(planed)
+                      : '목표일을 정해주세요'}
+                  </FinishedDate>
+                </>
+              )}
+              <FinishedTextBox>
+                <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
+                {mobile ? (
+                  <FinishedSecondText>
+                    구매자 동의 후 프로젝트가
+                    <br />
+                    최종 완료됩니다!
+                  </FinishedSecondText>
+                ) : (
+                  <FinishedSecondText>
+                    구매자 동의 후 프로젝트가 최종 완료됩니다!
+                  </FinishedSecondText>
+                )}
+              </FinishedTextBox>
               <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
               <FinishedPhotoBox>
                 <Carousel file={data?.project?.projectCompletionFiles!} />
@@ -341,34 +382,79 @@ Props) => {
           </DoubleArrowBox>
           <Wrapper>
             <Box>
-              <Top>
-                <div className="expectedDate">
-                  {/* <div className="backIcon">
+              {!mobile && (
+                <>
+                  <Top>
+                    <ImgTag
+                      src="/images/LeftArrowBackSvg.svg"
+                      alt="arrow"
+                      onClick={() => {
+                        setProgressNum(-1);
+                      }}
+                    />
+                    {fin === false &&
+                      (planed === 'CHANGING' ? (
+                        <div
+                          className="changeDate"
+                          onClick={() => deleteData(type!)}
+                        >
+                          일정 변경 취소
+                        </div>
+                      ) : (
+                        <div className="changeDate" onClick={changeData}>
+                          일정 변경 요청
+                        </div>
+                      ))}
+                  </Top>
+                  <Top2>
+                    <div className="expectedDate">
+                      {fin ? '완료일' : '완료 예정일'}
+                    </div>
+                    <Date>
+                      {planed
+                        ? planed === 'CHANGING'
+                          ? '목표일 변경 중'
+                          : changeDataFn(
+                              CompletionDate ? CompletionDate : planed,
+                            )
+                        : '목표일을 정해주세요'}
+                    </Date>
+                  </Top2>
+                  <Line />
+                </>
+              )}
+              {mobile && (
+                <>
+                  <Top>
+                    <div className="expectedDate">
+                      {/* <div className="backIcon">
                     <Image src={Back} layout="fill" />
                   </div> */}
-                  {fin ? '완료일' : '완료 예정일'}
-                </div>
-                {fin === false &&
-                  (planed === 'CHANGING' ? (
-                    <div
-                      className="changeDate"
-                      onClick={() => deleteData(type!)}
-                    >
-                      일정 변경 취소
+                      {fin ? '완료일' : '완료 예정일'}
                     </div>
-                  ) : (
-                    <div className="changeDate" onClick={changeData}>
-                      일정 변경 요청
-                    </div>
-                  ))}
-              </Top>
-              <Date>
-                {planed
-                  ? planed === 'CHANGING'
-                    ? '목표일 변경 중'
-                    : changeDataFn(CompletionDate ? CompletionDate : planed)
-                  : '목표일을 정해주세요'}
-              </Date>
+                    {fin === false &&
+                      (planed === 'CHANGING' ? (
+                        <div
+                          className="changeDate"
+                          onClick={() => deleteData(type!)}
+                        >
+                          일정 변경 취소
+                        </div>
+                      ) : (
+                        <div className="changeDate" onClick={changeData}>
+                          일정 변경 요청
+                        </div>
+                      ))}
+                  </Top>
+                  <Date>
+                    {planed
+                      ? planed === 'CHANGING'
+                        ? '목표일 변경 중'
+                        : changeDataFn(CompletionDate ? CompletionDate : planed)
+                      : '목표일을 정해주세요'}
+                  </Date>
+                </>
+              )}
               <SubTitle>{fin ? textOne : textTwo}</SubTitle>
               <ListBox>
                 <li>{textThree}</li>
@@ -445,6 +531,7 @@ const DoubleArrowBox = styled.div`
   width: 24pt;
   height: 24pt;
 `;
+
 const Wrapper = styled.div`
   position: relative;
   padding-left: 15pt;
@@ -492,19 +579,27 @@ const Top = styled.div`
     /* display: flex;
     flex-direction: column;
     gap: 29.43pt; */
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 400;
     line-height: 18pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .changeDate {
     padding: 4.5pt 7.5pt;
     border: 1px solid #e2e5ed;
     border-radius: 6pt;
     color: #a6a9b0;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 9pt;
@@ -519,15 +614,22 @@ const Top = styled.div`
   } */
 `;
 const FinishedFirst = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: center;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FinishedDate = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 15pt;
   font-weight: 700;
   line-height: 15pt;
@@ -535,33 +637,78 @@ const FinishedDate = styled.div`
   text-align: left;
   color: ${colors.main};
   margin-top: 3pt;
+  @media (min-width: 900pt) {
+    font-size: 21pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
 `;
+const FinishedTextBox = styled.div`
+  @media (min-width: 900pt) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+`;
+
 const FinishedText = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 30pt;
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FinishedSecondText = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   margin-top: 6pt;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FinishedPhotoText = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
   margin-top: 39pt;
+  color: #222222;
+
+  @media (min-width: 900pt) {
+    margin-top: 45pt;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FinishedPhotoBox = styled.div`
   width: 100%;
@@ -591,6 +738,14 @@ const SubTitle = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   margin-top: 30pt;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const ListBox = styled.div`
@@ -599,12 +754,20 @@ const ListBox = styled.div`
   flex-direction: column;
 
   & li {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 400;
     line-height: 18pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 `;
 
@@ -625,6 +788,14 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const PhotosBox = styled.div`
   width: 100%;
@@ -696,12 +867,92 @@ const Button = styled.div<{ finalStep?: boolean; onValid: boolean }>`
   border-radius: 6pt;
   margin-top: ${({ finalStep }) => (finalStep ? 38.25 : 48.75)}pt;
   box-sizing: border-box;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
+`;
+
+const ImgTag = styled.img<{ option?: boolean }>`
+  cursor: pointer;
+  ${({ option }) =>
+    option === true &&
+    css`
+      padding-top: 13.6875pt;
+      border: 1px solid red;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+    `}
+`;
+
+const ImgBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 13.6875pt;
+`;
+
+const Top2 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30pt;
+  /* align-items: center; */
+  .expectedDate {
+    /* display: flex;
+    flex-direction: column;
+    gap: 29.43pt; */
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .changeDate {
+    padding: 4.5pt 7.5pt;
+    border: 1px solid #e2e5ed;
+    border-radius: 6pt;
+    color: #a6a9b0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    cursor: pointer;
+  }
+  /* .backIcon {
+    position: relative;
+    width: 8.75px;
+    height: 17.5px;
+  } */
+`;
+
+const Top3 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 29.4375pt;
+  border-bottom: 0.65pt solid #e9eaee;
+  padding-bottom: 25.5pt;
+`;
+
+const Line = styled.div`
+  @media (min-width: 900pt) {
+    border-bottom: 0.75pt solid #e9eaee;
+    padding-top: 25.5pt;
+  }
 `;
 
 export default Reusable;
