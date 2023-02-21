@@ -98,7 +98,7 @@ const asNumber = () => {
   const [modalMessage, setModalMessage] = useState('');
 
   const mobile = useMediaQuery({
-    query: '(min-width:810pt)',
+    query: '(max-width:899.25ptpt)',
   });
 
   // --------------------- AS detail API ------------------------------

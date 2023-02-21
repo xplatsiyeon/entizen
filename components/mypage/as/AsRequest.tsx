@@ -153,7 +153,7 @@ const AsRequest = ({ data }: Props) => {
                       <span className="name">
                         {index === 0 ? '충전기 종류 및 수량' : ''}
                       </span>
-                      <span className="text">
+                      <span className="text2">
                         {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                         <br />
                         {item.standType
@@ -279,6 +279,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
+  border-radius: 12pt;
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
@@ -388,6 +389,22 @@ const Contents = styled.div`
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .text2 {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       text-align: left;
     }

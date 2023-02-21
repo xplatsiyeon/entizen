@@ -382,6 +382,7 @@ const AsRequestWrite = () => {
                   src={img.url}
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
                 <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
@@ -449,6 +450,11 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    line-height: 12pt;
+  }
 `;
 const Input = styled(TextField)`
   width: 100%;
@@ -509,6 +515,14 @@ const TextArea = styled.textarea`
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
+  :focus {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const PhotosBox = styled.div`
   width: 100%;
@@ -556,6 +570,9 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  & > span {
+    border-radius: 6pt;
+  }
 `;
 const Xbox = styled.div`
   position: absolute;

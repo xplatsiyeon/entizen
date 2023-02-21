@@ -117,7 +117,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Items>
           <Items>
             <div className="name">첨부파일</div>
-            <div className="value">
+            <div className="value2">
               {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceRequestFiles?.map(
                 (file, index) => (
                   <FileDownloadBtn key={index}>
@@ -197,7 +197,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               </Items>
               <Items>
                 <div className="name">첨부파일</div>
-                <div className="value">
+                <div className="value2">
                   {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceCompletionFiles?.map(
                     (file, index) => (
                       <FileDownloadBtn key={index}>
@@ -250,6 +250,9 @@ const Title = styled.h1`
   margin-top: 37.5pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    margin-top: 66.75pt;
+  }
 `;
 const ReceiptTitle = styled.h1`
   font-weight: 700;
@@ -347,6 +350,22 @@ const Item = styled.li`
       text-align: left;
     }
   }
+  .value2 {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
   & button {
   }
   @media (min-width: 900pt) {
@@ -392,7 +411,7 @@ const Items = styled.li`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
-      line-height: 12pt;
+      line-height: 16pt;
       letter-spacing: -0.02em;
       text-align: left;
     }
@@ -440,10 +459,36 @@ const Items = styled.li`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
-      line-height: 12pt;
+      line-height: 16pt;
       letter-spacing: -0.02em;
       text-align: left;
       gap: 15pt;
+    }
+  }
+  .value2 {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    /* margin-left: 89pt; */
+    color: ${colors.main2};
+    display: flex;
+    gap: 6pt;
+    flex-direction: column;
+    justify-content: start;
+    word-break: break-all;
+    width: 100%;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 16pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      gap: 10pt;
     }
   }
   @media (max-width: 899.25pt) {
@@ -457,7 +502,7 @@ const Items = styled.li`
 `;
 
 const FileDownloadBtn = styled(Button)`
-  margin: 0 15pt 6pt 0;
+  /* margin: 0 15pt 6pt 0; */
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 6pt;
@@ -487,7 +532,9 @@ const FileName = styled.div`
   font-size: 10.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${colors.dark2};
+  color: #747780;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
+
+const DisplayBox = styled.div``;
