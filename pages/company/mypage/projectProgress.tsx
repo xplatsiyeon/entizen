@@ -6,6 +6,7 @@ import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
+import { getToday } from 'utils/calculatePackage';
 import { Data } from './runningProgress';
 
 type Props = {
@@ -127,6 +128,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
         )}
         {/* 64 ~ 93 여기까지가 기본 페이지 */}
         {/* 준비, 설치, 검수, 완료 토글 된거 눌렀을때 */}
+        {/* 준비 단계 */}
         {progressNum === 1 && (
           <Reusable
             type={'READY'}
@@ -145,10 +147,11 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             CompletionDate={data?.project?.readyStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
-            // beforeStepDate={preStepDate[dateArr.indexOf(true) - 1]}
+            beforeStepDate={getToday()}
             afterStepDate={preStepDate[1]}
           />
         )}
+        {/* 설치 단계 */}
         {progressNum === 2 && (
           <Reusable
             type={'INSTALLATION'}
@@ -169,6 +172,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             afterStepDate={preStepDate[2]}
           />
         )}
+        {/* 검수 단계 */}
         {progressNum === 3 && (
           <Reusable
             type={'EXAM'}
@@ -189,6 +193,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             afterStepDate={preStepDate[3]}
           />
         )}
+        {/* 완료 단계 */}
         {progressNum === 4 && (
           <Reusable
             type={'COMPLETION'}

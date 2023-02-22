@@ -52,6 +52,7 @@ const ChangeDateModal = ({
     date: new Date().getDate(), //오늘 날짜
     day: new Date().getDay(), //오늘 요일
   };
+
   const week = ['일', '월', '화', '수', '목', '금', '토']; //일주일
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
@@ -161,15 +162,16 @@ const ChangeDateModal = ({
   };
   // 선택된 이후 날짜 차이 계산
   const afterCalculateDifference = (day: number) => {
-    // console.log('afterStepDate==>', afterStepDate);
+    console.log('afterStepDate==>', afterStepDate);
 
     if (afterStepDate === '') {
       return -1;
     }
     if (afterStepDate !== '' && afterStepDate) {
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
+      console.log('selectedAdd=>', selectedAdd);
       const preDay = afterStepDate?.split('-').map((e) => parseInt(e));
-
+      console.log('preDay=>', preDay);
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
@@ -435,6 +437,9 @@ const TextArea = styled.textarea`
   text-align: left;
   border-radius: 6pt;
   border: 1px solid #e2e5ed;
+  :focus {
+    font-weight: 400;
+  }
 `;
 
 const Button = styled.div`

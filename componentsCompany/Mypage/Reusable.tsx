@@ -277,6 +277,19 @@ Props) => {
     }
   };
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
+
   useEffect(() => {
     console.log('핀 업데이트 되면 새로 고침');
     console.log(almostFinish);

@@ -175,6 +175,7 @@ const BtnBox = styled(Box)`
   padding-bottom: 21pt;
   @media (max-width: 899.25pt) {
     padding-bottom: 30pt;
+    justify-content: center;
   }
 `;
 const BtnLeft = styled(Box)`
