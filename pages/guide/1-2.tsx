@@ -419,6 +419,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-top: 33pt;
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
   cursor: pointer;
@@ -426,5 +427,6 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
     position: fixed;
     padding: 15pt 0 39pt 0;
     width: 100%;
+    border-radius: 0pt;
   }
 `;

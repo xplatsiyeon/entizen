@@ -12,12 +12,12 @@ const SignUpComplete = () => {
   const router = useRouter();
 
   const mobile = useMediaQuery({
-    query: '(min-width:900pt)',
+    query: '(max-width:899.25pt)',
   });
 
   return (
     <Body>
-      {mobile && <WebHeader />}
+      {!mobile && <WebHeader />}
       <Inner>
         <Exit onClick={() => router.push('/')}>
           <Image src={ExitImg} alt="exit-icon" />

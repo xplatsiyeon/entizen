@@ -97,6 +97,7 @@ const Step1 = ({ clicked, handlePurposeOnClick }: Props) => {
 export default Step1;
 
 const Step = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 25.5pt;
   font-weight: 500;
   font-size: 15pt;
@@ -105,6 +106,7 @@ const Step = styled.h3`
   color: ${colors.main};
 `;
 const Text = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   font-size: 12pt;
   line-height: 18pt;
@@ -119,6 +121,7 @@ const Intersection = styled.div`
   padding-top: 30pt;
 `;
 const GridItem = styled.div<{ index: string; clicked: string }>`
+  font-family: 'Spoqa Han Sans Neo';
   border-radius: 8px;
   font-weight: 400;
   font-size: 12pt;

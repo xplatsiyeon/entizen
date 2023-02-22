@@ -23,7 +23,7 @@ const SalesProjection = ({ text, setText }: Props) => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
-    query: '(max-width:810pt)',
+    query: '(max-width:899.25pt)',
   });
   const handleOnClick = () => {
     if (userID === null) {
