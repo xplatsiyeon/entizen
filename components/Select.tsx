@@ -185,6 +185,7 @@ const Input = styled.input<{
   border-radius: 6pt;
   border: 0.75pt solid ${colors.gray};
   /* border: 0.75pt solid #e2e5ed; */
+
   cursor: pointer;
   font-weight: 400;
   font-size: 12pt;
@@ -227,6 +228,8 @@ const Ul = styled.ul`
   border: 0.75pt solid ${colors.gray};
   z-index: 99;
   background-color: ${colors.lightWhite};
+  border-bottom-left-radius: 6pt;
+  border-bottom-right-radius: 6pt;
 `;
 const Li = styled.li<{ fontSize: FontSize; isSelected: boolean }>`
   padding-left: 12pt;
