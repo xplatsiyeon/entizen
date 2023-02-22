@@ -20,6 +20,7 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
   justify-content: start;
   align-items: center;
   position: relative;
+  border-radius: 12pt;
   & p {
     position: relative;
     background-color: ${({ backgroundColor }) => backgroundColor};

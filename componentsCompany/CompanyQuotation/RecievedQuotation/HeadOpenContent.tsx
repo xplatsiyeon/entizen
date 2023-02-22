@@ -196,7 +196,7 @@ const HeadOpenContent = () => {
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
-  const handleExitClick = () => setTabNumber(-1);
+  const handleExitClick = () => setModalOpen(true)
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -416,8 +416,7 @@ const HeadOpenContent = () => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
-        <Container>
-          {modalOpen && (
+              {modalOpen && (
             <TwoBtnModal
               text={
                 '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
@@ -427,16 +426,14 @@ const HeadOpenContent = () => {
               leftBtnColor={'#A6A9B0'}
               rightBtnColor={'#5221CB'}
               leftBtnControl={() => {
-                if (nowWidth < 1200) {
-                  router.back();
-                } else if (nowWidth >= 1200) {
-                  setModalOpen(false);
-                }
+                setTabNumber(-1);
+                setModalOpen(false);
               }}
               rightBtnControl={() => setModalOpen(false)}
               exit={() => setModalOpen(false)}
             />
           )}
+        <Container>
           {tabNumber === -1 && nowWidth < 1200 && (
             <SignUpHeader
               back={true}

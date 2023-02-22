@@ -346,6 +346,7 @@ const AsIndex = ({ listUp }: Props) => {
 };
 
 const Wrapper = styled.div`
+  width: 550.5pt;
   padding-left: 15pt;
   padding-right: 15pt;
   position: relative;

@@ -42,10 +42,9 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
           <Btn onClick={() => setModal(false)}>
             <span>취소</span>
           </Btn>
-
           {/* onClick에 대화 나가기 api(del) 달기. */}
           <Btn className="quit" onClick={onClickDelete}>
-            <span>나가기</span>
+            <span>채팅방 나가기</span>
           </Btn>
         </Box>
       </Modal>
@@ -103,19 +102,29 @@ const P = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   padding: 21pt 15pt;
-
   @media (min-width: 900pt) {
-    width: 250.5pt;
-    padding: 42pt 51pt 33pt;
+    width: 281.25pt;
+    padding: 30pt 40pt 24pt;
     font-weight: 700;
-    font-size: 21pt;
-    line-height: 33pt;
+    font-size: 20px;
+    line-height: 30px;
     color: #222222;
   }
 `;
 
 const Box = styled.div`
   display: flex;
+ 
+  @media (min-width: 900pt) {
+    button{
+      &:nth-of-type(1){
+        background: #E2E5ED;
+      }
+      &:nth-of-type(2){
+        background: #5221CB;
+      }
+    }
+  }
 `;
 const Btn = styled.button`
   flex: 1;
@@ -140,11 +149,13 @@ const Btn = styled.button`
   @media (min-width: 900pt) {
     margin: 0pt 30pt 30pt 0;
     border-radius: 6pt;
+    font-weight: 700;
     &:nth-of-type(1) {
       margin: 0pt 12pt 30pt 30pt;
     }
     &.quit {
       border-radius: 6pt;
+      color: white;
     }
   }
 `;

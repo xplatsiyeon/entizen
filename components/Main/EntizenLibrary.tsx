@@ -141,6 +141,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               window.open('http://post.naver.com/entizen_ev', 'entizen_post')
             }
           >
+          
             <ProfileImg>
               <div></div>
             </ProfileImg>

@@ -98,7 +98,7 @@ const asNumber = () => {
   const [modalMessage, setModalMessage] = useState('');
 
   const mobile = useMediaQuery({
-    query: '(max-width:899.25ptpt)',
+    query: '(max-width:899.25pt)',
   });
 
   // --------------------- AS detail API ------------------------------
@@ -173,8 +173,12 @@ const asNumber = () => {
   if (isError || completeIsError) {
     console.log(error);
   }
-  // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  //  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
   // console.log(data);
+
+  console.log('rofsdfsd', router);
+  console.log('isReview==>', isReview);
+  console.log('mobile==>', mobile);
 
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
@@ -200,7 +204,9 @@ const asNumber = () => {
             </Wrap1>
             <Wrap2>
               {/* AS 상단 부분 */}
-              {!mobile && <AsRequest data={data!} />}
+              {!isReview && !mobile && <AsRequest data={data!} />}
+              {mobile && <AsRequest data={data!} />}
+
               {/* 하단 부분 내용 */}
               {isReview ? (
                 <AsWriteReview
@@ -341,7 +347,7 @@ const Wrap3 = styled.div`
 const Btn = styled.button`
   position: relative;
   padding: 15pt 0;
-  margin-top: 40pt;
+  margin-top: 30pt;
   margin-bottom: 15pt;
   margin-left: 15pt;
   margin-right: 15pt;

@@ -161,6 +161,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   @media (min-width: 900pt) {
     padding: 27pt 26.25pt;
+    border-radius: 12pt;
   }
 `;
 const Badge = styled.span<{ color: string }>`

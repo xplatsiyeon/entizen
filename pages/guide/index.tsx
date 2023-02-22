@@ -32,6 +32,10 @@ import guideIndex2 from 'public/guide/guideIndex2.png';
 // import BingGuideBanner from 'public/guide/Big-guide-banner.png';
 import BingGuideBanner from 'public/guide/EntizenGuidePng.png';
 import UserRightMenu from 'components/UserRightMenu';
+import useProfile from 'hooks/useProfile';
+import BellNormal from 'public/images/BellNormal.svg';
+import Nut from 'public/images/NutSVG.svg';
+
 
 const Guide1 = () => {
   const router = useRouter();
@@ -73,6 +77,14 @@ const Guide1 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
+ // 이름 가져오기
+ const _accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    profile: profileData,
+    isLoading: profileIsLoading,
+    invalidate: profileInvalidate,
+  } = useProfile(_accessToken);
+
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -81,13 +93,24 @@ const Guide1 = () => {
     >
       <ListBox>
         <XBtnWrapper>
+        {userID && (<Imagewrap
+            onClick={() =>
+              userID ? router.push('/alarm') : router.push('/signin')}>
+              <Image src={BellNormal} alt="BellNormal" />
+          </Imagewrap> )}
+         {userID && <Imagewrap
+            onClick={() => router.push('/setting') 
+            }
+          >
+            <Image src={Nut} alt="NutBtn" />
+          </Imagewrap> }
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         {isLogin ? (
           <WhetherLoginComplete>
             <span>
               <label className="label">일반회원</label>
-              {userId}
+              {`${profileData?.name} 님`}
             </span>
             <span className="arrow-img">
               <Image src={whiteRight} alt="arrow" layout="fill" />
@@ -120,7 +143,7 @@ const Guide1 = () => {
             </span>
             <span>가이드</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          <WhiteAreaMenus>
             <span>
               <Image src={conversation} alt="소통하기" />
             </span>
@@ -351,7 +374,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 0 20pt;
+  padding: 0 15pt;
   padding-bottom: 30pt;
 
   @media (max-width: 899.25pt) {
@@ -362,22 +385,21 @@ const Wrapper = styled.div`
 const Header = styled(Box)`
   display: none;
   justify-content: space-between;
-  align-items: center;
-  padding-top: 11.25pt;
   .left {
     font-weight: 700;
     font-size: 21pt;
     line-height: 21pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    margin-top: 12pt;
   }
   .right {
     display: flex;
-    align-items: center;
-    gap: 9.75pt;
   }
   .bell-img {
     cursor: pointer;
+    margin-top: 12pt;
+    margin-right: 15pt;
   }
   @media (max-width: 899.25pt) {
     display: flex;
@@ -458,6 +480,12 @@ const Platform = styled.button`
       bottom: 15pt;
     }
   }
+`;
+const Imagewrap = styled.div`
+  width: 18pt;
+  height: 18pt;
+  /* margin-right: 9pt; */
+  margin-right: 22.5pt;
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
@@ -664,9 +692,9 @@ const WholeBox = styled(Box)`
 
 const ListBox = styled.div`
   position: relative;
-  width: 179pt;
+  width: 206pt;
   padding-left: 24pt;
-  padding-right: 24pt;
+  padding-right: 15pt;
   height: 100vh;
 
   background-color: ${colors.main};
@@ -744,7 +772,6 @@ const WhiteArea = styled.div`
   position: absolute;
   width: 100%;
   border-radius: 15pt 15pt 0 0;
-  width: 179pt;
   padding: 15pt 24pt 34.5pt 24pt;
   left: 0;
   top: 127.5pt;
@@ -757,7 +784,7 @@ const WhiteAreaMenus = styled.div`
   display: flex;
   align-items: center;
   padding-top: 12pt;
-  padding-bottom: 12pt;
+  padding-bottom: 14.25pt;
 
   & span:first-of-type {
     margin-right: 6pt;
@@ -792,6 +819,6 @@ const WhiteAreaBottomText = styled.div`
 
 const IconBox = styled.div`
   cursor: pointer;
-  margin-top: 9pt;
-  margin-bottom: 9pt;
+  margin-top: 12pt;
+  margin-bottom: 14.25pt;
 `;

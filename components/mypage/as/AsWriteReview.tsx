@@ -171,22 +171,30 @@ const ReviewTitleBox = styled.div`
 `;
 
 const ReviewTitle = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: center;
+  color: #222222;
+  padding-bottom: 9pt;
 `;
 
 const OpinionThanks = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   color: #747780;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+  }
 `;
 
 const RatingForm = styled.div`
@@ -218,6 +226,15 @@ const TextArea = styled.textarea`
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
+  :focus {
+    color: #222222;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const BtnBox = styled.div`
@@ -238,13 +255,16 @@ const RightBtn = styled.button<{ isValid: boolean }>`
   background-color: ${({ isValid }) =>
     isValid ? `${colors.main}` : `${colors.blue3}`};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
   cursor: pointer;
+  @media (max-width: 899.25pt) {
+    padding: 15pt 42.75pt;
+  }
 `;
 const LeftBtn = styled.button`
   width: 100%;
@@ -252,13 +272,17 @@ const LeftBtn = styled.button`
   border-radius: 6pt;
   background-color: ${colors.gray};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
   cursor: pointer;
+  @media (max-width: 899.25pt) {
+    word-break: keep-all;
+    padding: 15pt 38.25pt;
+  }
 `;
 
 export default AsWriteReview;

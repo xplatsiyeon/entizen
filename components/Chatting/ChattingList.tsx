@@ -568,27 +568,28 @@ const Chatting = styled.div`
   //transition: 0.4s;
   .target {
     width: 100% !important;
+    height: 61pt!important;
     .slick-track {
-      width: 199% !important;
+      width: calc(100% + 240px)!important;
       margin-left: 0% !important;
-
+      transition: 0.2s!important;
       .slick-slide {
         &:nth-of-type(1) {
-          width: 20% !important;
+          width: 160px!important;
           > div {
             width: 100%;
             position: relative;
           }
         }
         &:nth-of-type(2) {
-          width: 15% !important;
+          width: 80px!important;
           > div {
             width: 100%;
             position: relative;
           }
         }
         &:nth-of-type(3) {
-          width: 55% !important;
+          width: calc(100% - 240px)!important;
           > div {
             width: 100%;
             position: relative;
@@ -600,12 +601,12 @@ const Chatting = styled.div`
 `;
 const ChattingRoom = styled.div`
   display: flex !important;
-  padding: 13.5pt 1pt 13.5pt 0;
+  padding: 12pt 1pt 12pt 0;
   border-bottom: 1px solid #e2e5ed;
   width: calc((100% / 8) * 5);
 
-  @media (max-width: 899pt) {
-    width: 340% !important;
+  @media (max-width: 899.75pt) {
+    width: 100vw!important;
   }
 `;
 const ChattingRoomImage = styled.div`
@@ -722,7 +723,7 @@ const HiddenBox1 = styled.div`
 
   @media (max-width: 899.25pt) {
     display: flex !important;
-    height: 65.25pt;
+    height: 60.75pt;
   }
 `;
 const HiddenBox2 = styled.div`
@@ -731,10 +732,10 @@ const HiddenBox2 = styled.div`
   position: relative;
 
   @media (max-width: 899pt) {
-    width: 28% !important;
+    width: 60pt!important;
     position: absolute;
-    height: 65.25pt;
-    right: 8%;
+    height: 60.75pt;
+    right: 0%;
   }
 `;
 
@@ -769,7 +770,6 @@ const QuitBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 2px;
 
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;

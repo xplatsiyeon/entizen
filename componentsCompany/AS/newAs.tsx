@@ -196,6 +196,8 @@ const IconBox = styled.div<{ arrow?: boolean }>`
 
 const List = styled.div`
   margin: 18pt 0;
+  /* margin-left: 23pt; */
+
   @media (max-width: 899.25pt) {
     padding-bottom: 80pt;
   }
@@ -207,26 +209,62 @@ const ListBox = styled.div`
   padding: 13.5pt;
   margin-bottom: 9pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    padding: 21.75pt 20.25pt 17.25pt 26.25pt;
+    border-radius: 12pt;
+  }
 `;
 const StoreName = styled.p`
-  font-style: normal;
-  font-weight: 700;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
+  font-weight: 700;
   line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: left;
   color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 13.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const Text = styled.p`
-  font-style: normal;
-  font-weight: 400;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
+  font-weight: 400;
   line-height: 18pt;
-  color: #222222;
-  margin-bottom: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  height: 18pt;
+  width: 200pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: auto;
+  white-space: pre;
+  @media (min-width: 900pt) {
+    padding-top: 9pt;
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    width: 450pt;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: auto;
+    white-space: pre;
+  }
 `;
 
 const FlexWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  padding-top: 12pt;
+  @media (min-width: 900pt) {
+    padding-top: 21pt;
+  }
 `;
 
 const Badge = styled.div<{ bgColor: string }>`

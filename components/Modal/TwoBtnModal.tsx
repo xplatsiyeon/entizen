@@ -128,7 +128,6 @@ const BtnBox = styled(Box)`
   width: 100%;
   position: relative;
   display: flex;
-  gap: 12pt;
 `;
 const BtnLeft = styled(Box)`
   display: none;

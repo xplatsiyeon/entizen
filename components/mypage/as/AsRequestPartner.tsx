@@ -97,7 +97,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
         <SecondList>
           <Items>
             <span className="name">제목</span>
-            <span className="value">
+            <span className="contentsValue">
               {data?.data?.afterSalesService?.afterSalesService?.requestTitle}
             </span>
           </Items>
@@ -277,7 +277,7 @@ const SecondList = styled.ul`
   gap: 12pt;
   margin-top: 24pt;
   padding-bottom: 30pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   &.listChildren {
     border-bottom: none;
   }
@@ -292,6 +292,9 @@ const Item = styled.li`
   justify-content: space-between;
   :not(:nth-of-type(1)) {
     margin-top: 12pt;
+    @media (min-width: 900pt) {
+      margin-top: 15pt;
+    }
   }
   .name {
     font-family: 'Spoqa Han Sans Neo';
@@ -381,14 +384,16 @@ const Items = styled.li`
   display: flex;
   :not(:nth-of-type(1)) {
     margin-top: 12pt;
+    @media (min-width: 900pt) {
+      margin-top: 15pt;
+    }
   }
   .contentsValue {
     @media (max-width: 899.25pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
       font-weight: 500;
-      font-size: 10.5pt;
-      line-height: 12pt;
+      line-height: 16pt;
       text-align: left;
       letter-spacing: -0.02em;
       color: ${colors.main2};
@@ -411,7 +416,7 @@ const Items = styled.li`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
-      line-height: 16pt;
+      line-height: 20pt;
       letter-spacing: -0.02em;
       text-align: left;
     }

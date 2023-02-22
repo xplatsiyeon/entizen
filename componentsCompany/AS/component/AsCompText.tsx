@@ -26,12 +26,16 @@ import CommunicationBox from 'components/CommunicationBox';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   data: AsDetailReseponse;
 };
 
 const AsCompText = ({ data }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   //dummy text
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
@@ -218,7 +222,13 @@ const AsCompText = ({ data }: Props) => {
   return (
     <>
       <Wrapper>
-        {isModal && <Modal click={onClickModal} text={modalMessage} />}
+        {isModal && (
+          <Modal
+            click={onClickModal}
+            text={modalMessage}
+            textAlignLeft={true}
+          />
+        )}
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
@@ -273,13 +283,13 @@ const AsCompText = ({ data }: Props) => {
         <SecondList>
           <Items>
             <span className="name">제목</span>
-            <span className="value">
+            <span className="value2">
               {data?.data?.afterSalesService?.afterSalesService?.requestTitle}
             </span>
           </Items>
           <Items>
             <span className="name">요청내용</span>
-            <span className="value">
+            <span className="value2">
               {data?.data?.afterSalesService?.afterSalesService?.requestContent}
             </span>
           </Items>
@@ -317,7 +327,7 @@ const AsCompText = ({ data }: Props) => {
         {data?.data?.afterSalesService?.badge?.includes('요청') && (
           <InputBox className="lastInputBox">
             <div className="withTextNumber">
-              <span>접수확인</span>
+              <span className="titleText">접수확인</span>
               <span>{acceptanceContent.length}/500</span>
             </div>
             <div className="monthFlex">
@@ -359,11 +369,13 @@ const AsCompText = ({ data }: Props) => {
 
             <InputBox className="lastInputBox">
               <div className="requiredLabel">
-                <span>필수 입력</span>
+                <span className="withAfter"> 필수 입력</span>
               </div>
               <div className="withTextNumber">
                 <span className="asLabel">A/S결과</span>
-                <span>{afterSalesServiceResultContent.length}/500</span>
+                <span className="length">
+                  {afterSalesServiceResultContent.length}/500
+                </span>
               </div>
               <div className="monthFlex">
                 <TextArea
@@ -378,9 +390,10 @@ const AsCompText = ({ data }: Props) => {
                 />
               </div>
             </InputBox>
+            <Line />
             {/* 사진 첨부 부분 */}
             <RemainderInputBox>
-              <Label>사진첨부</Label>
+              <Label>파일첨부</Label>
               <PhotosBox>
                 <AddPhotos onClick={imgHandler}>
                   <Image src={camera} alt="camera-icon" />
@@ -567,7 +580,11 @@ const DownArrowBox = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
+  @media (min-width: 900pt) {
+    padding-top: 66.75pt;
+    padding-bottom: 30pt;
+  }
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -639,12 +656,14 @@ const Contents = styled.div`
 
 const Customer = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 12pt;
+  font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+  color: #222222;
+
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -669,6 +688,7 @@ const ReceiptTitle = styled.h1`
     line-height: 15pt;
     letter-spacing: -0.02em;
     text-align: left;
+    margin-top: 30pt;
   }
 `;
 
@@ -697,6 +717,7 @@ const SecondList = styled.ul<{ isLastChildren?: boolean }>`
     isLastChildren === true ? 'none' : '1px solid #e9eaee'};
   @media (min-width: 900pt) {
     margin-top: 23.25pt;
+    padding-bottom: 30pt;
   }
 `;
 
@@ -717,6 +738,29 @@ const Items = styled.li`
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .value2 {
+    width: 80%;
+    font-size: 10.5pt;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    display: flex;
+    gap: 6pt;
+    flex-direction: column;
+    justify-content: start;
+    position: relative;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       text-align: left;
     }
@@ -751,9 +795,29 @@ const InputBox = styled.div`
   flex-direction: column;
   position: relative;
   margin-top: 30pt;
-
+  .titleText {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 15pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .withAfter {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+  }
   & > .withAfter::after {
-    content: ' *';
+    content: ' * ';
+    font-family: 'Spoqa Han Sans Neo';
     margin-left: 1pt;
     color: #f75015;
   }
@@ -832,7 +896,26 @@ const InputBox = styled.div`
       color: #f75015;
     }
   }
+  .length {
+    color: #222222;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
   .asLabel {
+    font-family: 'Spoqa Han Sans Neo';
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      padding-bottom: 24pt;
+    }
     ::after {
       content: ' *';
       color: #f75015;
@@ -854,6 +937,14 @@ const TextArea = styled.textarea`
   letter-spacing: -0.02em;
   &::placeholder {
     color: #caccd1;
+  }
+  :focus {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
@@ -933,15 +1024,27 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 18pt;
+  }
 `;
 
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-bottom: 24pt;
+  }
 `;
 
 const PhotosBox = styled.div`
@@ -1044,4 +1147,13 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  padding-top: 18pt;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+    padding-bottom: 6pt;
+  }
 `;
