@@ -62,7 +62,7 @@ const Complete = ({
           <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
         </Footer>
         <WebTextArea user={user!}>
-          <WebTextTitle>소중한 의견 감사드립니다.</WebTextTitle>
+          <WebTextTitle>소중한 견적 감사드립니다.</WebTextTitle>
           <WebText>
             고객님과 좋은 인연이 있기를 기대합니다. <br />
             견적마감은 영업일 최대 5일 입니다.
@@ -80,7 +80,10 @@ const Complete = ({
 export default Complete;
 
 const Wrapper = styled.div`
-  margin-top: 43.5pt;
+  margin-top: 12.9375pt;
+  @media (min-width: 900pt) {
+    margin-top: 97.5pt;
+  }
 `;
 
 const Nav = styled.div`
@@ -238,6 +241,7 @@ const WebTextTitle = styled.div`
   letter-spacing: -0.02em;
   padding-top: 21pt;
   padding-bottom: 15pt;
+  color: #222222;
 `;
 
 const WebText = styled.div`
@@ -254,10 +258,13 @@ const WebText = styled.div`
 const IconWrap = styled.div`
   display: none;
   @media (max-width: 899.25pt) {
-    display: block;
-    position: absolute;
+    /* display: block; */
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 12.9375pt;
+    /* position: absolute;
     top: 20pt;
-    left: 250pt;
+    left: 250pt; */
   }
 `;
 
