@@ -621,7 +621,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
                 key={idx}
                 className={`${idx === data.length - 1 ? 'target-p' : ''}`}
               >
-                <Date>{d.date}</Date>
+               <Date>{d.date.split('.')[0]}년 {d.date.split('.')[1]}월 {d.date.split('.')[2]}일</Date>
                 <List>
                   {d.logs.map((item, idx) => {
                     if (item.messageType === 'SYSTEM') {
