@@ -350,15 +350,29 @@ const ChargeGuide = styled.div`
   color: ${colors.gray2};
   margin-top: 75pt;
   cursor: pointer;
+
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
     font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    @media (min-width: 900pt) {
+      text-align: right;
+    }
   }
   .arrow-icon {
     position: relative;
     width: 12pt;
     height: 12pt;
+  }
+  @media (min-width: 900pt) {
+    padding-bottom: 90pt;
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
