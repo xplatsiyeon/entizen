@@ -131,7 +131,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                   ) : (
                     <span className="name" />
                   )}
-                  <span className="text">
+                  <span className="text2">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
                     {item.standType
@@ -262,7 +262,6 @@ const StoreName = styled(ListItemText)`
   padding-top: 16.5pt;
   padding-bottom: 16.5pt;
   margin-top: 4.5pt;
-
   & div {
     margin-top: 12pt;
     display: flex;
@@ -343,7 +342,7 @@ const Contents = styled.div`
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
-      line-height: 18pt;
+      line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: left;
     }
@@ -354,6 +353,23 @@ const Contents = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+
+  .text2 {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+
   .img-box {
     padding-top: 42pt;
     padding-bottom: 24pt;
