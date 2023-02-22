@@ -28,7 +28,7 @@ export default function useCharger() {
   const callInfo = async (speed: 'SLOW' | 'FAST', location: Location) => {
     console.log('실행');
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const res = await axios.get('https://api.entizen.kr/api/charge', {
+    const res = await axios.get('https://test-api.entizen.kr/api/charge', {
       params: {
         siDo: location.siNm,
         siGunGu: location.sggNm ? location.sggNm : '',
