@@ -196,7 +196,7 @@ const HeadOpenContent = () => {
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
-  const handleExitClick = () => setModalOpen(true)
+  const handleExitClick = () => setModalOpen(true);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -298,6 +298,11 @@ const HeadOpenContent = () => {
     data?.receivedQuotationRequest.maskingInstallationAddress! ||
     editData?.sendQuotationRequest?.quotationRequest
       ?.maskingInstallationAddress!;
+
+  const homeSelect =
+    data?.receivedQuotationRequest.quotationRequestChargers.filter(
+      (el) => el.kind === '7-HOME',
+    );
 
   // step별 컴포넌트
   const components: Components = {
@@ -416,23 +421,23 @@ const HeadOpenContent = () => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
-              {modalOpen && (
-            <TwoBtnModal
-              text={
-                '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
-              }
-              leftBtnText={'그만하기'}
-              rightBtnText={'계속 작성하기'}
-              leftBtnColor={'#A6A9B0'}
-              rightBtnColor={'#5221CB'}
-              leftBtnControl={() => {
-                setTabNumber(-1);
-                setModalOpen(false);
-              }}
-              rightBtnControl={() => setModalOpen(false)}
-              exit={() => setModalOpen(false)}
-            />
-          )}
+        {modalOpen && (
+          <TwoBtnModal
+            text={
+              '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
+            }
+            leftBtnText={'그만하기'}
+            rightBtnText={'계속 작성하기'}
+            leftBtnColor={'#A6A9B0'}
+            rightBtnColor={'#5221CB'}
+            leftBtnControl={() => {
+              setTabNumber(-1);
+              setModalOpen(false);
+            }}
+            rightBtnControl={() => setModalOpen(false)}
+            exit={() => setModalOpen(false)}
+          />
+        )}
         <Container>
           {tabNumber === -1 && nowWidth < 1200 && (
             <SignUpHeader
@@ -526,9 +531,16 @@ const HeadOpenContent = () => {
                       </div>
                       <div className="text-box">
                         <span className="name">수익지분</span>
-                        <span className="text">
-                          {`${Math.floor(Number(investRate!) * 100)} %`}
-                        </span>
+
+                        {data?.receivedQuotationRequest
+                          ?.quotationRequestChargers?.length! ===
+                        homeSelect?.length! ? (
+                          <span className="text">-</span>
+                        ) : (
+                          <span>{`${Math.floor(
+                            Number(investRate!) * 100,
+                          )} %`}</span>
+                        )}
                       </div>
                       {quotationRequestChargers?.map((item, index) => (
                         <div className="text-box" key={index}>

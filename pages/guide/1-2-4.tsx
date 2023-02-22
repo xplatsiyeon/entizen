@@ -28,14 +28,13 @@ interface Subsidy {
 const Guide1_2_4 = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [subsidy, setSubsidy] = useState<Subsidy>();
 
   const { subsidyGuideData } = useSelector((state: RootState) => state);
   const thisYearSubsidy = subsidyGuideData.thisYearSubsidy;
   const checkYear = Object.entries(thisYearSubsidy)
     .slice(0, 5)
     .map((e) => e[1])
-    .every((e) => e !== 0);
+    .every((e) => e === 0);
 
   const changeMoneyUnit = (num: any): string => {
     if (num) {
@@ -68,15 +67,8 @@ const Guide1_2_4 = () => {
     dispatch(subsidyAction.reset());
   }, []);
 
-  useEffect(() => {
-    if (checkYear === true) {
-      // 올해 보조금 금액
-      setSubsidy(subsidyGuideData.thisYearSubsidy);
-    } else {
-      // 작년 보조금 금액
-      setSubsidy(subsidyGuideData.lastYearSubsidy);
-    }
-  }, [subsidyGuideData]);
+  console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
+  console.log(subsidyGuideData);
 
   return (
     <Body>
@@ -89,7 +81,7 @@ const Guide1_2_4 = () => {
           rightOnClick={() => router.push('/')}
         />
 
-        {checkYear ? (
+        {!checkYear ? (
           <>
             {' '}
             <SubsidyResult>
@@ -99,7 +91,9 @@ const Guide1_2_4 = () => {
                 <br /> 신청 가능한 보조금은 <br />
                 최대&nbsp;
                 <span className="accent">
-                  {`${changeMoneyUnit(subsidy?.maxApplyPrice)}만원`}
+                  {`${changeMoneyUnit(
+                    subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+                  )}만원`}
                 </span>
                 &nbsp;입니다
               </p>
@@ -110,19 +104,21 @@ const Guide1_2_4 = () => {
                 <div className="name">환경부</div>
                 <div className="price">
                   {`${changeMoneyUnit(
-                    subsidy?.ministryOfEnvironmentApplyPrice,
+                    subsidyGuideData?.thisYearSubsidy
+                      ?.ministryOfEnvironmentApplyPrice,
                   )}만원`}
                 </div>
               </div>
 
-              {subsidy?.canDuplicateApply ? (
+              {subsidyGuideData?.thisYearSubsidy?.canDuplicateApply ? (
                 <>
                   {/* 한국에너지공단 */}
                   <div className="box">
                     <div className="name overlap">한국에너지공단</div>
                     <div className="price overlap">
                       {`${changeMoneyUnit(
-                        subsidy?.koreaEnergyAgencyApplyPrice,
+                        subsidyGuideData?.thisYearSubsidy
+                          ?.koreaEnergyAgencyApplyPrice,
                       )}만원`}
                       <div className="badge">중복 신청 가능</div>
                     </div>
@@ -132,7 +128,8 @@ const Guide1_2_4 = () => {
                     <div className="name overlap">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
                     <div className="price overlap">
                       {`${changeMoneyUnit(
-                        subsidy?.localGovernmentApplyPrice,
+                        subsidyGuideData?.thisYearSubsidy
+                          ?.localGovernmentApplyPrice,
                       )}만원`}
                       <div className="badge">중복 신청 가능</div>
                     </div>
@@ -145,7 +142,8 @@ const Guide1_2_4 = () => {
                     <div className="name">한국에너지공단</div>
                     <div className="price">
                       {`${changeMoneyUnit(
-                        subsidy?.koreaEnergyAgencyApplyPrice,
+                        subsidyGuideData?.thisYearSubsidy
+                          ?.koreaEnergyAgencyApplyPrice,
                       )}만원`}
                     </div>
                   </div>
@@ -154,7 +152,8 @@ const Guide1_2_4 = () => {
                     <div className="name">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
                     <div className="price">
                       {`${changeMoneyUnit(
-                        subsidy?.localGovernmentApplyPrice,
+                        subsidyGuideData?.thisYearSubsidy
+                          ?.localGovernmentApplyPrice,
                       )}만원`}
                     </div>
                   </div>
@@ -194,7 +193,9 @@ const Guide1_2_4 = () => {
                 <br />
                 최대{' '}
                 <span className="highlight">
-                  {`${subsidy?.maxApplyPrice?.toLocaleString('ko-KR')}원`}
+                  {`${subsidyGuideData.lastMaximumSubsidy.toLocaleString(
+                    'ko-KR',
+                  )}원`}
                 </span>{' '}
                 이었습니다.
               </p>

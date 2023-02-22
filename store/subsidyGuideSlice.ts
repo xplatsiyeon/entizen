@@ -10,15 +10,7 @@ export interface SubsidyGuideSlice {
     canDuplicateApply: boolean;
     date: string;
   };
-  lastYearSubsidy: {
-    ministryOfEnvironmentApplyPrice: number;
-    koreaEnergyAgencyApplyPrice: number;
-    localGovernmentApplyPrice: number;
-    duplicateApplyPrice: number;
-    maxApplyPrice: number;
-    canDuplicateApply: boolean;
-    date: string;
-  };
+  lastMaximumSubsidy: number;
   memberName: string;
   installationSiDo: string;
   installationSiGunGu: string;
@@ -34,15 +26,7 @@ const initialState: SubsidyGuideSlice = {
     canDuplicateApply: false,
     date: '',
   },
-  lastYearSubsidy: {
-    ministryOfEnvironmentApplyPrice: 0,
-    koreaEnergyAgencyApplyPrice: 0,
-    localGovernmentApplyPrice: 0,
-    duplicateApplyPrice: 0,
-    maxApplyPrice: 0,
-    canDuplicateApply: false,
-    date: '',
-  },
+  lastMaximumSubsidy: 0,
   memberName: '',
   installationSiDo: '',
   installationSiGunGu: '',
@@ -53,7 +37,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     addDate(state, action) {
-      state.lastYearSubsidy = { ...action.payload.lastYearSubsidy };
+      state.lastMaximumSubsidy = action.payload.lastMaximumSubsidy;
       state.thisYearSubsidy = { ...action.payload.thisYearSubsidy };
       state.memberName = action.payload.memberName;
     },
