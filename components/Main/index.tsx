@@ -9,7 +9,7 @@ import SalesProjection from './SalesProjection';
 import SubscribeRequest from './SubscribeRequest';
 import WhyEntizen from './WhyEntizen';
 import Logos from 'public/images/entizenLogo.png';
-import Ring from 'public/images/guide-bell.svg';
+
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
 import { Drawer } from '@mui/material';
@@ -23,7 +23,10 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
-import BellNormal from 'public/images/BellNormal.svg';
+// import BellOn from 'public/images/guide-bell.svg';
+import BellOn from 'public/images/BellOnSvg.svg';
+// import BellNormal from 'public/images/BellNormal.svg';
+import BellOff from 'public/images/BellOffSvg.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import {
@@ -36,6 +39,16 @@ import { useMediaQuery } from 'react-responsive';
 
 type Props = {};
 
+type GetUnread = {
+  isSuccess: boolean;
+  data: {
+    wasReadQuotation: boolean;
+    wasReadAfterSalesService: boolean;
+    wasReadProject: boolean;
+    wasReadChatting: boolean;
+    wasReadAlert: boolean;
+  };
+};
 export interface Count {
   isSuccess: boolean;
   data: {
@@ -56,6 +69,24 @@ const MainPage = (props: Props) => {
   const [state, setState] = useState({
     right: false,
   });
+
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: userID !== null ? true : false,
+    },
+  );
+
+  const allAlert = historyUnread?.data;
+
   const {
     data: quotationData,
     isLoading: quotationIsLoading,
@@ -126,10 +157,17 @@ const MainPage = (props: Props) => {
           </LogoBox>
           <IconWrapper>
             <FirstIconBox onClick={() => router.push('/alarm')}>
-              {userID ? (
-                <Image src={Ring} alt="alarmIcon" />
+              {/* {userID ? (
+                <Image src={BellOn} alt="alarmIcon" />
               ) : (
                 <Image src={BellNormal} alt="alarmIcon" />
+              )} */}
+              {!userID && <Image src={BellOff} alt="alarmIcon" />}
+              {userID && allAlert?.wasReadAlert === true && (
+                <Image src={BellOff} alt="alarmIcon" />
+              )}
+              {userID && allAlert?.wasReadAlert === false && (
+                <Image src={BellOn} alt="alarmIcon" />
               )}
             </FirstIconBox>
             {mobile && (

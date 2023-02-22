@@ -44,6 +44,10 @@ const TopBox = ({
   //a링크에 넘길거
   const callCompany = hyphenFn(data?.project?.companyMember?.phone);
   const callUser = hyphenFn(data?.project?.userMember?.phone!);
+  const homeSelect =
+    data?.project?.finalQuotation?.finalQuotationChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
   return (
     <>
       <Wrapper className={className !== undefined ? className : ''}>
@@ -93,11 +97,17 @@ const TopBox = ({
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                <span className="text">
-                  {`${Math.floor(
-                    Number(data?.project?.finalQuotation?.userInvestRate) * 100,
-                  )} %`}
-                </span>
+                {data?.project?.finalQuotation?.finalQuotationChargers
+                  ?.length! === homeSelect?.length ? (
+                  <span className="text">-</span>
+                ) : (
+                  <span className="text">
+                    {`${Math.floor(
+                      Number(data?.project?.finalQuotation?.userInvestRate) *
+                        100,
+                    )} %`}
+                  </span>
+                )}
               </div>
               {data?.project?.finalQuotation?.finalQuotationChargers?.map(
                 (item, index) => (
@@ -276,7 +286,7 @@ const ItemButton = styled(ListItemButton)`
   &:hover{
     background: transparent!important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;
@@ -311,7 +321,6 @@ const StoreName = styled(ListItemText)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
-  
 `;
 
 const ArrowImg = styled.div`

@@ -200,6 +200,7 @@ const Step2 = ({
 export default Step2;
 
 const Text = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   font-size: 12pt;
   line-height: 18pt;
@@ -208,6 +209,7 @@ const Text = styled.p`
   color: ${colors.main2};
 `;
 const Title = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 45pt;
   font-weight: 500;
   font-size: 15pt;
@@ -221,11 +223,20 @@ const QuantityBox = styled.div`
   align-items: center;
   padding-top: 30pt;
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 700;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-size: 12pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      padding-bottom: 9pt;
+    }
   }
 `;
 const SelectBoxWrapper = styled.div`
@@ -242,6 +253,7 @@ const SelectComponentsContainer = styled.div`
 `;
 
 const Label = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -250,5 +262,13 @@ const Label = styled.div`
   margin-top: 33pt;
   &.chargerRegion {
     margin-bottom: 9pt;
+  }
+
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;

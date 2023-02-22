@@ -427,7 +427,6 @@ const DivBox2 = styled.div`
   margin-right: 18pt;
   display: flex;
   align-items: center;
-
   a {
     font-weight: normal;
     font-size: 10.5pt;

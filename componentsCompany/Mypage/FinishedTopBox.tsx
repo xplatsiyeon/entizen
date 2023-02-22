@@ -37,6 +37,10 @@ const FinishedTopBox = ({ data }: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
 
+  const homeSelect = data?.finalQuotation?.finalQuotationChargers?.filter(
+    (el) => el.kind === '7-HOME',
+  );
+
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
@@ -120,9 +124,14 @@ const FinishedTopBox = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">{`${Math.floor(
-                Number(data?.finalQuotation?.userInvestRate) * 100,
-              )} %`}</span>
+              {data?.finalQuotation?.finalQuotationChargers?.length! ===
+              homeSelect?.length! ? (
+                <span className="text">-</span>
+              ) : (
+                <span className="text">{`${Math.floor(
+                  Number(data?.finalQuotation?.userInvestRate) * 100,
+                )} %`}</span>
+              )}
             </div>
             {data?.finalQuotation?.finalQuotationChargers?.map(
               (item, index) => (
@@ -256,7 +265,7 @@ const ItemButton = styled(ListItemButton)`
   &:hover{
     background: transparent!important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;

@@ -66,6 +66,11 @@ const AsRequest = ({ data }: Props) => {
   // console.log('🔥 프로젝트  상단 데이터 확인 ~line 45 ' + TAG);
   // console.log(projectData);
 
+  const homeSelect =
+    projectData?.project?.finalQuotation?.finalQuotationChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   const handleClick = () => setOpen(!open);
   const headerOnClick = () => {
     router.push({
@@ -140,10 +145,16 @@ const AsRequest = ({ data }: Props) => {
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                <span className="text">{`${Math.floor(
-                  Number(projectData?.project?.finalQuotation?.userInvestRate) *
-                    100,
-                )} %`}</span>
+                {projectData?.project?.finalQuotation?.finalQuotationChargers
+                  .length! === homeSelect?.length! ? (
+                  <span className="text">-</span>
+                ) : (
+                  <span className="text">{`${Math.floor(
+                    Number(
+                      projectData?.project?.finalQuotation?.userInvestRate,
+                    ) * 100,
+                  )} %`}</span>
+                )}
               </div>
 
               {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(

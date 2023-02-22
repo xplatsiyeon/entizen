@@ -40,7 +40,9 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   const callPhone = hyphenFn(data?.member?.phone!);
   const finalQuotation = data?.finalQuotation;
 
-  console.log('finalQuotation===>>', finalQuotation);
+  const homeSelect = data?.finalQuotation?.finalQuotationChargers.filter(
+    (el) => el.kind === '7-HOME',
+  );
 
   return (
     <Wrapper>
@@ -102,9 +104,14 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
-          <span className="value">
-            {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
-          </span>
+          {data?.finalQuotation?.finalQuotationChargers?.length! ===
+          homeSelect?.length! ? (
+            <span className="value">-</span>
+          ) : (
+            <span className="value">
+              {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
+            </span>
+          )}
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <Item key={index}>

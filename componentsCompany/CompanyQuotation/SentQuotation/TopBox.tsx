@@ -46,6 +46,11 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
     data?.sendQuotationRequest?.quotationRequest?.member?.phone,
   );
 
+  const homeSelect =
+    data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
@@ -106,23 +111,24 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">
+              {data?.sendQuotationRequest?.quotationRequest
+                ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
+                <span className="text">-</span>
+              ) : (
+                <span>{`${Math.floor(
+                  Number(
+                    data?.sendQuotationRequest?.quotationRequest?.investRate!,
+                  ) * 100,
+                )} %`}</span>
+              )}
+              {/* <span className="text">
                 {`${Math.floor(
                   Number(
                     data?.sendQuotationRequest?.quotationRequest?.investRate!,
                   ) * 100,
                 )} %`}
-              </span>
+              </span> */}
             </div>
-            {/* <div className="text-box">
-              <span className="name">충전기 종류 및 수량</span>
-              <span className="text">
-                100 kW 충전기
-                <br />
-                :벽걸이, 싱글, 3 대
-              </span>
-            </div> */}
-
             {data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!.map(
               (item, index) => (
                 <div className="text-box" key={index}>

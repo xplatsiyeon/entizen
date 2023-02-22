@@ -49,6 +49,10 @@ const PlaceTopBox = ({ data }: Props) => {
   // 부분 구독 판별
   const partSubscribe = data?.finalQuotation?.subscribeProduct;
 
+  const homeSelect = data?.finalQuotation?.finalQuotationChargers?.filter(
+    (el) => el.kind === '7-HOME',
+  );
+
   console.log('👀 내 충전소 데이터 확인 ~53 --> ');
   console.log(data);
 
@@ -135,11 +139,16 @@ const PlaceTopBox = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">
-                {`${Math.floor(
-                  Number(data?.finalQuotation?.userInvestRate) * 100,
-                )} %`}
-              </span>
+              {data?.finalQuotation?.finalQuotationChargers?.length! ===
+              homeSelect?.length! ? (
+                <span className="text">-</span>
+              ) : (
+                <span className="text">
+                  {`${Math.floor(
+                    Number(data?.finalQuotation?.userInvestRate) * 100,
+                  )} %`}
+                </span>
+              )}
             </div>
             {/* 충전기 종류 및 수량 */}
             {data?.finalQuotation?.finalQuotationChargers?.map(

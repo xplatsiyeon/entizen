@@ -576,6 +576,11 @@ const ProjectCompleteDetail = ({
     data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
       ?.etcRequest;
 
+  const homeSelect =
+    data?.data?.project?.finalQuotation?.finalQuotationChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   useEffect(() => {
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
@@ -752,10 +757,14 @@ const ProjectCompleteDetail = ({
             <List>
               <Label>수익지분</Label>
               <Contents>
-                {`${Math.floor(
-                  Number(data?.data?.project?.finalQuotation?.userInvestRate) *
-                    100,
-                )}%`}
+                {data?.data?.project?.finalQuotation?.finalQuotationChargers
+                  ?.length! === homeSelect?.length!
+                  ? '-'
+                  : `${Math.floor(
+                      Number(
+                        data?.data?.project?.finalQuotation?.userInvestRate,
+                      ) * 100,
+                    )}%`}
               </Contents>
             </List>
             {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
