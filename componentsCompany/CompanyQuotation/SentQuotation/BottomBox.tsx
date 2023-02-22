@@ -32,6 +32,11 @@ const BottomBox = ({ pb, data }: Props) => {
   const reverseNewArr: PreQuotationCharger[] = [];
   preQuotationChargers?.forEach((el, idx) => reverseNewArr.unshift(el));
 
+  const homeSelect =
+    data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   return (
     <Wrapper>
       {data?.sendQuotationRequest.companyMemberAdditionalInfo
@@ -78,12 +83,18 @@ const BottomBox = ({ pb, data }: Props) => {
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
-          <span className="value">
-            {`${Math.floor(
-              Number(data?.sendQuotationRequest?.quotationRequest?.investRate) *
-                100,
-            )} %`}
-          </span>
+          {data?.sendQuotationRequest?.quotationRequest
+            ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
+            <span className="value">-</span>
+          ) : (
+            <span className="value">
+              {`${Math.floor(
+                Number(
+                  data?.sendQuotationRequest?.quotationRequest?.investRate,
+                ) * 100,
+              )} %`}
+            </span>
+          )}
         </Item>
         <Item>
           <span className="name">공사기간</span>

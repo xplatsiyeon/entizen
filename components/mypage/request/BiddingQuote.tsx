@@ -49,6 +49,10 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
     ?.map((item) => item.chargerImageFiles.map((el) => el.url))
     .flat();
 
+  const homeSelect = data?.quotationRequest?.quotationRequestChargers?.filter(
+    (el) => el.kind === '7-HOME',
+  );
+
   // 오른쪽 큰 사진
   const DataFilter = newChargerImageFiles ? newChargerImageFiles![webIdx] : '';
 
@@ -137,10 +141,19 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               </WebItem>
               <WebItem>
                 <span className="name">수익지분</span>
-                <span className="value">
+                {/* <span className="value">
                   {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
                   %
-                </span>
+                </span> */}
+
+                {data?.quotationRequest?.quotationRequestChargers?.length! ===
+                homeSelect?.length! ? (
+                  <span className="text">-</span>
+                ) : (
+                  <span className="text">{`${Math.floor(
+                    Number(data?.quotationRequest?.investRate) * 100,
+                  )} %`}</span>
+                )}
               </WebItem>
               <WebItem>
                 <span className="name">공사기간</span>
@@ -224,10 +237,18 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               </Item>
               <Item>
                 <span className="name">수익지분</span>
-                <span className="value">
+                {/* <span className="value">
                   {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
                   %
-                </span>
+                </span> */}
+                {data?.quotationRequest?.quotationRequestChargers?.length! ===
+                homeSelect?.length! ? (
+                  <span className="text">-</span>
+                ) : (
+                  <span className="text">{`${Math.floor(
+                    Number(data?.quotationRequest?.investRate) * 100,
+                  )} %`}</span>
+                )}
               </Item>
               <Item>
                 <span className="name">공사기간</span>

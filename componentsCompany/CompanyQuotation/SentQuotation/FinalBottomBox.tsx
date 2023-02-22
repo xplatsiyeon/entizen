@@ -41,6 +41,12 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   // 부분 구독 판독
   const partSubscribe =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProduct!;
+
+  const homeSelect =
+    data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   return (
     <Wrapper>
       {data?.sendQuotationRequest?.companyMemberAdditionalInfo
@@ -103,9 +109,14 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
-          <span className="value">
-            {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
-          </span>
+          {data?.sendQuotationRequest?.quotationRequest
+            ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
+            <span className="value">-</span>
+          ) : (
+            <span className="value">
+              {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
+            </span>
+          )}
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <Item key={index}>
@@ -484,7 +495,7 @@ const Item = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: right;
-
+    flex: 2;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
