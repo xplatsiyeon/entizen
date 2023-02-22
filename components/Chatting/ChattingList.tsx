@@ -735,7 +735,7 @@ const HiddenBox2 = styled.div`
     width: 60pt!important;
     position: absolute;
     height: 60.75pt;
-    right: 0%;
+    right: -2pt;
   }
 `;
 

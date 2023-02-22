@@ -122,8 +122,9 @@ const ListBox = styled.div<{ idx: number; componentId: number }>`
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
-  width: 180.5pt;
+  width: 196pt;
   padding: 9pt 13.5pt;
+  transform: translateX(3.5pt);
   margin-bottom: 9pt;
   cursor: pointer;
   display: flex;
@@ -144,12 +145,16 @@ const StoreName = styled.p`
   font-size: 12pt;
   line-height: 15pt;
   color: #222222;
+  width: 150pt;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 `;
 
 const FlexWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 14.5pt;
+  margin-bottom: 12pt;
 `;
 
 const Badge = styled.div<{ bgColor: string }>`
