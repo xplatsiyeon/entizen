@@ -54,6 +54,11 @@ const AsCompTop = ({ id, data }: Props) => {
     skip: !projectIdx,
   });
 
+  const homeSelect =
+    projectData?.project?.finalQuotation?.finalQuotationChargers?.filter(
+      (el) => el.kind === '7-HOME',
+    );
+
   const handleClick = () => setOpen(!open);
 
   return (
@@ -112,10 +117,16 @@ const AsCompTop = ({ id, data }: Props) => {
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                <span className="text">{`${Math.floor(
-                  Number(projectData?.project?.finalQuotation?.userInvestRate) *
-                    100,
-                )} %`}</span>
+                {projectData?.project?.finalQuotation?.finalQuotationChargers
+                  ?.length! === homeSelect?.length! ? (
+                  <span className="text">-</span>
+                ) : (
+                  <span className="text">{`${Math.floor(
+                    Number(
+                      projectData?.project?.finalQuotation?.userInvestRate,
+                    ) * 100,
+                  )} %`}</span>
+                )}
               </div>
 
               {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(
@@ -257,12 +268,11 @@ const ItemButton = styled(ListItemButton)`
   padding: 0;
   &div {
     margin: 0;
-    
   }
-  &:hover{
-    background: white!important;
+  &:hover {
+    background: white !important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;
