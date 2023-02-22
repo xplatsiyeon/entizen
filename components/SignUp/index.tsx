@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import SignUpHeader from './header';
@@ -26,11 +26,8 @@ const SignUpContainer = (props: Props) => {
 
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
   const [level, setLevel] = useState<number>(0);
-  // const [level, setLevel] = useState<number>(4);
   // Type 1 일때 일반, 0 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
-  // const [userType, setUserType] = useState<number>(1);
-  // const [userType, setUserType] = useState<number>(0);
   // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -75,6 +72,20 @@ const SignUpContainer = (props: Props) => {
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => router.push('/signin');
   const handleBackClick = () => setModalOpen(true);
+
+  useEffect(() => {
+    if (
+      router.isReady &&
+      router.query.setting &&
+      router.query.setting === 'true'
+    ) {
+      const {
+        query: { userType },
+      } = router;
+      setLevel(1);
+      setUserType(Number(userType));
+    }
+  }, [router]);
 
   return (
     <>
