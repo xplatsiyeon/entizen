@@ -291,15 +291,16 @@ const Btn = styled.div<{ tabNumber: number }>`
     }
   }
   .left {
-    background: rgba(90, 45, 201, 0.5);
+    background: ${({ tabNumber }) =>
+      tabNumber !== -1 ? colors.main : colors.gray};
+
     cursor: pointer;
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
   }
   .right {
-    background: ${({ tabNumber }) =>
-      tabNumber !== -1 ? colors.main : colors.gray};
+    background: rgba(90, 45, 201, 0.5);
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }

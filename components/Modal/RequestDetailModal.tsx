@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRef } from 'react';
 import colors from 'styles/colors';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   leftControl?: () => void;
@@ -12,7 +13,7 @@ interface Props {
   border?: boolean | undefined;
 }
 
-const RequestModal = ({
+const RequestDetailModal = ({
   title,
   subtitle,
   leftControl,
@@ -21,7 +22,9 @@ const RequestModal = ({
   exit,
 }: Props) => {
   const outside = useRef(null);
-
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -56,7 +59,7 @@ const RequestModal = ({
   );
 };
 
-export default RequestModal;
+export default RequestDetailModal;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -74,19 +77,22 @@ const Modal = styled.div<{ border?: boolean }>`
   background: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
-  padding: 30pt 15pt 10pt;
 
   @media (max-width: 899.25pt) {
     position: absolute;
     bottom: 0;
-    border-radius: 6pt;
-    bottom: 150pt;
+    width: 100%;
+    border-top-left-radius: 20pt;
+    border-top-right-radius: 20pt;
+    padding-top: 30pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 
   @media (min-width: 900pt) {
     border-radius: 12pt;
-    width: 354pt;
-    padding: 42pt 28.5pt 10pt;
+    width: 420pt;
+    padding: 30pt 37.5pt;
   }
 `;
 const H1 = styled.h1`
@@ -98,11 +104,11 @@ const H1 = styled.h1`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
   @media (min-width: 900pt) {
-    white-space: normal;
-    font-size: 21pt;
+    font-size: 15pt;
     font-weight: 700;
-    line-height: 33pt;
+    line-height: 24pt;
     letter-spacing: -0.02em;
     text-align: center;
   }
@@ -131,8 +137,11 @@ const BtnBox = styled.div`
   padding-top: 24pt;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   gap: 9pt;
+
+  @media (max-width: 899.25pt) {
+    padding-bottom: 30pt;
+  }
 `;
 const LeftBtn = styled(Button)`
   /* background: ${colors.gray}; */
@@ -143,7 +152,9 @@ const LeftBtn = styled(Button)`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.darkGray};
+  background-color: #e2e5ed;
   padding: 15pt 26.25pt;
+  flex: 1;
   @media (min-width: 900pt) {
     width: 100%;
   }
@@ -159,6 +170,7 @@ const RightBtn = styled(Button)<{ border?: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
+  flex: 2;
   @media (min-width: 900pt) {
     width: 100%;
     font-size: 12pt;
