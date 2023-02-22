@@ -89,9 +89,9 @@ const Guide1_2_4 = () => {
           rightOnClick={() => router.push('/')}
         />
 
-        {checkYear ? (
+        {/* {checkYear ? ( */}
+        {checkYear === false ? (
           <>
-            {' '}
             <SubsidyResult>
               <p>
                 <span className="accent">{subsidyGuideData.memberName}</span>
