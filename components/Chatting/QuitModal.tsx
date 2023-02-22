@@ -140,22 +140,26 @@ const Btn = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: #222222;
+  border-top: 0.75pt solid #F3F4F7;
   &.quit {
     color: #f75015;
     border-bottom-left-radius: 0pt;
     border-bottom-right-radius: 6pt;
+    border-left: 0.75pt solid #F3F4F7;
   }
 
   @media (min-width: 900pt) {
     margin: 0pt 30pt 30pt 0;
     border-radius: 6pt;
     font-weight: 700;
+    border-top:none;
     &:nth-of-type(1) {
       margin: 0pt 12pt 30pt 30pt;
     }
     &.quit {
       border-radius: 6pt;
       color: white;
+      border-left:none;
     }
   }
 `;
