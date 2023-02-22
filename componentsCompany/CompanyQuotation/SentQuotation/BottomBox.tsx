@@ -507,7 +507,12 @@ const GridImg = styled.div`
   gap: 6pt;
   @media (min-width: 900pt) {
     padding-left: 0;
+    flex-wrap: wrap;
+    width: 580.5pt;
+    display: flex;
     padding-top: 24pt;
+    padding-bottom: 30pt;
+    gap: 22.5pt;
   }
 `;
 const GridItem = styled.span`
@@ -522,7 +527,7 @@ const GridItem = styled.span`
   @media (min-width: 900pt) {
     width: 178.5pt;
     height: 144pt;
-    margin-right: 22.5pt;
+    /* margin-right: 22.5pt; */
   }
 `;
 const FileDownloadBtn = styled(Button)`
