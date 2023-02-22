@@ -114,6 +114,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [typing, setTyping] = useState<boolean>(false);
+
   const logs = useRef<HTMLDivElement>(null);
   const webInputRef = useRef<HTMLInputElement>(null);
   const mobInputRef = useRef<HTMLInputElement>(null);
@@ -167,20 +169,29 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.currentTarget.value);
+    const val = event.currentTarget.value;
+    setText(val);
+    if(val.trim().length > 0){
+      setTyping(true)
+    }else{
+      setTyping(false)
+    }
   };
 
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    chattingPostMutate({
-      url: `/chatting/${routerId}`,
-      // url: `/chatting/2`,
-      data: {
-        content: text,
-        files: null,
-      },
-    });
+    if(text.trim().length > 0){
+      chattingPostMutate({
+        url: `/chatting/${routerId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: text,
+          files: null,
+        },
+      });
+      setTyping(false)
+    }
   };
 
   // 알람 설정
@@ -204,20 +215,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
-  const imgChange = (n: boolean) => {
-    const target = webBox.current;
-    const on = target?.querySelector('.typing.on') as HTMLElement;
-    const off = target?.querySelector('.typing.off') as HTMLElement;
-    if (on && off && n) {
-      on.style.display = 'block';
-      off.style.display = 'none';
-    }
-    if (on && off && !n) {
-      on.style.display = 'none';
-      off.style.display = 'block';
-    }
-  };
-
+  
   /* 파일버튼 누르면 나타나는 애니메이션 */
   const mobBox = useRef<HTMLDivElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
@@ -762,8 +760,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               ref={mobInputRef}
               onBlur={(e)=>e.target.classList.remove('on')}
             />
-            <IconWrap2 onClick={handleFocus}>
-              <Image src={send} layout="fill" />
+            <IconWrap2 onClick={handleFocus} className={`typing ${typing? 'on':'off'}`}>
+              {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
             </IconWrap2>
           </FlexBox>
           <div className="hidden">
@@ -791,19 +789,15 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             </FileIconWrap>
             <TextInput
               placeholder="메세지를 입력하세요"
-              onKeyDown={() => imgChange(true)}
-              onKeyUp={() => imgChange(false)}
+              // onKeyDown={() => imgChange(true)}
+              // onKeyUp={() => imgChange(false)}
               value={text}
               onChange={onChangeText}
               ref={webInputRef}
             />
           </InputWrap>
-          <button className="typing off">
-            <Image src={send} layout="fill" />
-          </button>
-
-          <button className="typing on">
-            <Image src={sendBlue} layout="fill" />
+          <button className={`typing ${typing? 'on':'off'}`}>
+            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
           </button>
         </FlexBox2>
       </WebBottomBox>
@@ -876,11 +870,9 @@ const WebBottomBox = styled.div`
     cursor: pointer;
 
     &.on {
-      display: none;
-    }
-    &.off {
       display: block;
     }
+
   }
   @media (max-width: 899.25pt) {
     display: none;
@@ -1163,10 +1155,12 @@ const Chat = styled.div<{ userChatting: boolean }>`
   &.user {
     color: ${({ userChatting }) => (userChatting ? 'white' : '#222222')};
     background: ${({ userChatting }) => (userChatting ? '#5221cb' : '#f3f4f7')};
+    text-align: left;
   }
   &.company {
     color: ${({ userChatting }) => (userChatting ? '#222222' : 'white')};
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
+    text-align: left;
   }
 `;
 const FileDownload = styled.a`
