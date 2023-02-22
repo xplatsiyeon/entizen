@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import colors from 'styles/colors';
-import Logos from 'public/images/webLogo.png';
+// import Logos from 'public/images/webLogo.png';
+import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Chat from 'public/images/chat.png';
 // 알림 0
 import Bell from 'public/images/bell.png';

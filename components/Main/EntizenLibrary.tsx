@@ -227,15 +227,15 @@ const LibraryList = styled.div<{ index: number }>`
   margin: ${({ index }) =>
     index === 0 ? '5pt 0 22.5pt 0' : '5pt 22.5pt 22.5pt 5pt'};
   /* margin-bottom: 22.5pt; */
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 16px;
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
 
   @media (max-width: 899.25pt) {
     width: 100%;
     height: auto;
-    border-top: 1px solid #e9eaee;
+    border-top: 0.75pt solid #e9eaee;
     box-shadow: none;
-    border-radius: 0;
+    border-radius: 6pt;
     margin: 0;
     padding-left: 0pt;
   }
