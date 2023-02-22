@@ -251,6 +251,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt -3pt #89a3c966;
   padding-left: 15pt;
   padding-right: 15pt;
+  border-radius: 12pt;
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
@@ -261,8 +262,8 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-  &:hover {
-    background: white !important;
+  &:hover{
+    background: transparent!important;
   }
   .MuiTouchRipple-root {
     display: none;

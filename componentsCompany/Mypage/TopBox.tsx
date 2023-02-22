@@ -283,8 +283,8 @@ const ItemButton = styled(ListItemButton)`
   &div {
     margin: 0;
   }
-  &:hover {
-    background: white !important;
+  &:hover{
+    background: transparent!important;
   }
   .MuiTouchRipple-root {
     display: none;

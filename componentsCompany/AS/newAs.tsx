@@ -154,6 +154,9 @@ export default NewAs;
 const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   height: 100%;
+  @media (max-width: 899.25pt) {
+    margin: 0 15pt;
+  }
 `;
 
 const Wrap = styled.div`
