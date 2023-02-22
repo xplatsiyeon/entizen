@@ -258,7 +258,7 @@ const Contents = styled.div`
       font-size: 12pt;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      text-align: right;
     }
   }
   .img-box {

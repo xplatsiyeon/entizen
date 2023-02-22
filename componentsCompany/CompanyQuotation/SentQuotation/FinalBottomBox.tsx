@@ -491,7 +491,7 @@ const Item = styled.li`
       font-weight: 500;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      text-align: right;
     }
   }
   @media (max-width: 899.25pt) {
@@ -615,9 +615,19 @@ const GridImg = styled.div`
   gap: 6pt;
 
   @media (min-width: 900pt) {
+    flex-wrap: wrap;
+    width: 580.5pt;
+    display: flex;
+    padding-top: 24pt;
+    padding-left: 0;
+    padding-bottom: 30pt;
+    gap: 22.5pt;
+  }
+  /* @media (min-width: 900pt) {
     padding-left: 0;
     padding-top: 24pt;
-  }
+    
+  } */
 `;
 const GridItem = styled.span`
   position: relative;
@@ -631,7 +641,7 @@ const GridItem = styled.span`
   @media (min-width: 900pt) {
     width: 178.5pt;
     height: 144pt;
-    margin-right: 22.5pt;
+    /* margin-right: 22.5pt; */
   }
 `;
 const FileDownloadBtn = styled(Button)`

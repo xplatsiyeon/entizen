@@ -452,7 +452,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
         </Section>
         <Line style={{ marginTop: '30pt' }} />
         {/* 이미지 부분 */}
-        <Section imgBox={true}>
+        <Section imgBox={true} width={true}>
           <Subtitle>충전기 이미지</Subtitle>
           <GridImg>
             {data?.preQuotation.preQuotationChargers.map((item, index) => (
@@ -560,7 +560,11 @@ const Title = styled.h1`
     letter-spacing: -0.02em;
   }
 `;
-const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
+const Section = styled.section<{
+  imgBox?: boolean;
+  pb?: number;
+  width?: boolean;
+}>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   :not(:last-child) {
@@ -579,7 +583,11 @@ const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
   @media (min-width: 900pt) {
     overflow-x: scroll;
     padding: 30pt 0;
-
+    ${({ width }) =>
+      width &&
+      css`
+        width: 580.5pt;
+      `}
     :not(:last-child) {
       border-bottom: 0;
       padding-bottom: 0;
@@ -871,11 +879,12 @@ const GridImg = styled.div`
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
+    flex-wrap: wrap;
     width: 580.5pt;
     display: flex;
-    overflow: scroll;
     padding-top: 24pt;
     padding-bottom: 30pt;
+    gap: 22.5pt;
   }
 `;
 const GridItem = styled.div`
@@ -889,13 +898,16 @@ const GridItem = styled.div`
   }
   @media (min-width: 900pt) {
     width: 178.5pt;
-    margin-right: 22.5pt;
+    height: 144pt;
   }
 `;
 const FileContainer = styled.div`
   padding-top: 15pt;
   @media (min-width: 900pt) {
-    width: 580.5pt;
+    width: 200pt;
+    /* width: 580.5pt; */
+    display: flex;
+    flex-direction: column;
   }
 `;
 const FileDownloadBtn = styled(Button)`
@@ -991,13 +1003,13 @@ const NoImage = styled.div`
 const FileName = styled.div`
   display: block;
   width: 150pt;
-  font-weight: 400;
+  font-weight: 500;
   padding-top: 2pt;
   white-space: nowrap;
   font-size: 10.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${colors.dark2};
+  color: #747780;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
