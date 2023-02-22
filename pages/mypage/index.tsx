@@ -182,7 +182,6 @@ const Wrapper = styled.div`
   margin: 60pt auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   @media (max-width: 899.25pt) {
     padding-bottom: 60pt;
     flex-direction: column;
@@ -198,12 +197,14 @@ const FlexBox = styled.div`
   height: 424pt;
   width: 255pt;
   padding: 42pt 19.5pt;
+  margin-right: 60pt;
 
   @media (max-width: 899.25pt) {
     border: none;
     width: auto;
     height: auto;
     padding: 0;
+    margin-right: 0;
   }
 `;
 

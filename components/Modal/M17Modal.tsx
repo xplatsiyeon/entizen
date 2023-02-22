@@ -78,8 +78,13 @@ const Modal = styled.div<{ border?: boolean }>`
   @media (min-width: 900pt) {
     border-radius: 12pt;
     width: 324pt;
-    padding: 42pt 28.5pt 10pt;
+    padding: 42pt 28.5pt 30pt;
     margin-top: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    bottom:auto;
+    transform: translate(-50%,-50%);
   }
 `;
 const H1 = styled.h1`
@@ -124,6 +129,9 @@ const LeftBtn = styled(Button)`
   @media (max-width: 899.25pt) {
     background-color: #e2e5ed;
   }
+    &:hover{
+    background:white!important;
+  }
   //
 `;
 const RightBtn = styled(Button)<{ border?: boolean }>`
@@ -136,4 +144,7 @@ const RightBtn = styled(Button)<{ border?: boolean }>`
   background: ${colors.main};
   padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
   color: white;
+  &:hover{
+    background:${colors.main}!important;
+  }
 `;

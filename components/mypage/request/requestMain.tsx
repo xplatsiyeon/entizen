@@ -142,7 +142,7 @@ export default RequestMain;
 const Wrapper = styled.div`
   position: relative;
   width: 255pt;
-  height: 413pt;
+  height: 424.5pt;
   overflow-y: scroll;
 `;
 const Header = styled.header`
@@ -195,15 +195,15 @@ const Line = styled.div`
 const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30pt;
   padding: 0 27pt;
   margin: 20pt 0;
 `;
 
-const Tab = styled.div``;
+const Tab = styled.div``
 
 const Wrap = styled.div`
   display: flex;
+  margin-bottom: 18pt;
   flex-direction: row;
   align-items: center;
   height: 24pt;

@@ -147,6 +147,7 @@ const BtnLeftWeb = styled.button`
   border-radius: 4.5pt;
   background-color: #e2e5ed;
   cursor: pointer;
+  margin-right: 8pt;
   @media (max-width: 899.25pt) {
     display: none;
   }
