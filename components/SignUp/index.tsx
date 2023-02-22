@@ -109,6 +109,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
+            homeBtn={false}
             title={''}
             handleBackClick={handleBackClick}
           />
@@ -128,7 +129,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
+            // homeBtn={false}
             exitBtn={true}
             handleBackClick={handleBackClick}
             handleHomeClick={handleHomeClick}
@@ -160,7 +161,6 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
             exitBtn={true}
             handleHomeClick={handleHomeClick}
             handleBackClick={handleBackClick}
@@ -201,7 +201,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
+            // homeBtn={true}
             exitBtn={true}
             handleBackClick={handleBackClick}
             handleHomeClick={handleHomeClick}
@@ -233,7 +233,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
+            // homeBtn={true}
             exitBtn={true}
             handleHomeClick={() => router.push('/signin')}
             handleBackClick={handleBackClick}
@@ -263,7 +263,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
+            // homeBtn={true}
             title={mobile ? '' : '회원가입'}
             web={true}
             exitBtn={true}
@@ -289,7 +289,7 @@ const SignUpContainer = (props: Props) => {
         <>
           <SignUpHeader
             back={true}
-            homeBtn={true}
+            // homeBtn={true}
             title={mobile ? '' : '회원가입'}
             web={true}
             exitBtn={true}
