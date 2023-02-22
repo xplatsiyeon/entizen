@@ -308,7 +308,14 @@ const ChargeGuide = styled.div`
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
     font-family: 'Spoqa Han Sans Neo';
-    cursor: pointer;
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    @media (min-width: 900pt) {
+      text-align: right;
+    }
   }
   .arrow-icon {
     position: relative;
@@ -317,8 +324,16 @@ const ChargeGuide = styled.div`
   }
   @media (max-width: 899.25pt) {
     margin-left: 0;
+    /* padding-bottom: 76.5pt; */
+    padding-bottom: 120pt;
+  }
+  @media (min-width: 900pt) {
+    padding-bottom: 90pt;
+    display: flex;
+    justify-content: flex-end;
   }
 `;
+
 const NextBtn = styled.div<{
   buttonActivate: boolean;
   subscribeNumber?: number;
@@ -359,6 +374,11 @@ const PrevBtn = styled.div`
   @media (max-width: 899.25pt) {
     border-radius: 0;
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 900pt) {
+    border: 0.75pt solid #e2e5ed;
+    background-color: white;
+    color: #a6a9b0;
   }
 `;
 const TwoBtn = styled.div`
