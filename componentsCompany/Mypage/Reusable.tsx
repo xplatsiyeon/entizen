@@ -33,6 +33,7 @@ import { requestPermissionCheck } from 'bridge/appToWeb';
 import Back from 'public/images/backImg.png';
 import { useMediaQuery } from 'react-responsive';
 import { css } from '@emotion/react';
+import Loader from 'components/Loader';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
@@ -277,6 +278,19 @@ Props) => {
     }
   };
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
+
   useEffect(() => {
     console.log('핀 업데이트 되면 새로 고침');
     console.log(almostFinish);
@@ -480,32 +494,36 @@ Props) => {
                     capture={userAgent === 'Android_App' && true}
                   />
                   {/* <Preview> */}
-                  <ImgSpanBox>
-                    {imgArr?.map((img, index) => (
-                      <ImgSpan key={index} data-name={index}>
-                        <Image
-                          layout="fill"
-                          alt="preview"
-                          data-name={index}
-                          key={index}
-                          src={img.url}
-                          priority={true}
-                          unoptimized={true}
-                          objectFit="cover"
-                        />
-                        <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  {multerImageLoading ? (
+                    <Loader type="images" />
+                  ) : (
+                    <ImgSpanBox>
+                      {imgArr?.map((img, index) => (
+                        <ImgSpan key={index} data-name={index}>
                           <Image
-                            src={CloseImg}
+                            layout="fill"
+                            alt="preview"
                             data-name={index}
-                            layout="intrinsic"
-                            alt="closeBtn"
-                            width={24}
-                            height={24}
+                            key={index}
+                            src={img.url}
+                            priority={true}
+                            unoptimized={true}
+                            objectFit="cover"
                           />
-                        </Xbox>
-                      </ImgSpan>
-                    ))}
-                  </ImgSpanBox>
+                          <Xbox onClick={handlePhotoDelete} data-name={index}>
+                            <Image
+                              src={CloseImg}
+                              data-name={index}
+                              layout="intrinsic"
+                              alt="closeBtn"
+                              width={24}
+                              height={24}
+                            />
+                          </Xbox>
+                        </ImgSpan>
+                      ))}
+                    </ImgSpanBox>
+                  )}
                   {/* </Preview> */}
                 </PhotosBox>
               </RemainderInputBox>
