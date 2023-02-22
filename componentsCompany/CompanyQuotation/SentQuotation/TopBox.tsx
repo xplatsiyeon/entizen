@@ -256,6 +256,9 @@ const ItemButton = styled(ListItemButton)`
   & div {
     margin: 0;
   }
+  &:hover{
+    background: white!important;
+  }
 `;
 
 const StoreName = styled(ListItemText)`
