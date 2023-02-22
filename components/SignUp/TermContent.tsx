@@ -138,6 +138,14 @@ const TermContent = ({
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
+    router.push({
+      pathname: '/setting',
+      query: {
+        id: 3,
+        setting: 'true',
+        userType: userType,
+      },
+    });
   };
   useEffect(() => {
     console.log();
@@ -208,7 +216,8 @@ const TermContent = ({
               />
               <p>[필수] 만 14세 이상</p>
             </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
+            {/* <span onClick={TermsofServiceHandler}>보기</span> */}
+            <span></span>
           </Item>
         </Check>
         <Check>
@@ -218,7 +227,7 @@ const TermContent = ({
                 alt="smallCheck"
                 src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
               />
-              <p>[필수]개인정보 처리방침 동의</p>
+              <p>[필수]개인정보 처리방침</p>
             </div>
             <span onClick={TermsofServiceHandler}>보기</span>
           </Item>
@@ -234,7 +243,8 @@ const TermContent = ({
               />
               <p>[선택]위치정보 서비스 약관</p>
             </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
+            {/* <span onClick={TermsofServiceHandler}>보기</span> */}
+            <span></span>
           </Item>
         </Box>
       </BottomForm>

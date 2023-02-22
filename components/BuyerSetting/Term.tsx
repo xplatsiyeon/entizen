@@ -9,6 +9,7 @@ import { isTokenGetApi } from 'api';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import term1 from 'public/images/term1.png';
+import { useRouter } from 'next/router';
 
 type Props = {
   tabNumber: number;
@@ -17,17 +18,39 @@ type Props = {
 };
 
 const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
-  const { data, isLoading, isError, refetch } = useQuery<any>(
-    'entizenTerms',
-    () => isTokenGetApi(`/terms/location`),
-  );
+  const router = useRouter();
+  // const { data, isLoading, isError, refetch } = useQuery<any>(
+  //   'entizenTerms',
+  //   () => isTokenGetApi(`/terms/location`),
+  // );
+
+  const onClickBack = () => {
+    if (
+      router.isReady &&
+      router.query.setting &&
+      router.query.setting === 'true'
+    ) {
+      const {
+        query: { userType },
+      } = router;
+      router.push({
+        pathname: 'signUp/Terms',
+        query: {
+          setting: 'true',
+          userType: userType,
+        },
+      });
+    } else {
+      setTabNumber(0);
+    }
+  };
 
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
       {nowWidth < 1200 && (
         <Header>
-          <div className="img-item" onClick={() => setTabNumber(0)}>
+          <div className="img-item" onClick={onClickBack}>
             <Image
               style={{
                 cursor: 'pointer',
