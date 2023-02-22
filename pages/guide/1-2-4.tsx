@@ -83,7 +83,6 @@ const Guide1_2_4 = () => {
 
         {!checkYear ? (
           <>
-            {' '}
             <SubsidyResult>
               <p>
                 <span className="accent">{subsidyGuideData.memberName}</span>

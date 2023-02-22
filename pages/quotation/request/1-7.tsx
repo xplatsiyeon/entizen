@@ -154,11 +154,6 @@ const Request1_7 = (props: Props) => {
     console.log(error);
   }
 
-  useEffect(() => {
-    console.log('🌸 requestData 홈충전기 key 찾아오셈 🌸', requestData);
-    console.log('💔 calculatedValue 💔', calculatedValue);
-  }, [value, calculatedValue]);
-
   return (
     <React.Fragment>
       <WebBody>
@@ -197,7 +192,7 @@ const Request1_7 = (props: Props) => {
                 disabled={disabled} //안내메세지 유&무
                 setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
                 setCalculatedValue={setCalculatedValue}
-                unavailableGraph={unavailableGraph}
+                unavailableGraph={true}
               />
               <ContentsWrapper>
                 <div className="contents-box">
