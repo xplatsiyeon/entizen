@@ -253,7 +253,7 @@ const ItemButton = styled(ListItemButton)`
   align-items: center;
   padding: 0;
   &:hover{
-    background: white!important;
+    background: transparent!important;
   }
   .MuiTouchRipple-root{
     display: none;

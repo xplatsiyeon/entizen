@@ -191,8 +191,8 @@ const Proceeding = styled.section<{listUp?:boolean}>`
   @media (min-width: 900pt) {
     //padding-right: 5pt;
     padding-top: 0;
-    margin-bottom: ${({ listUp }) => (Boolean(listUp) ? '0pt' : '60pt')};
-    margin-top: ${({ listUp }) => (Boolean(listUp) ? '30pt' : 'none')};
+    margin-bottom: ${({ listUp }) => (Boolean(listUp) ? '18pt' : '60pt')};
+    margin-top: ${({ listUp }) => (Boolean(listUp) ? '6pt' : 'none')};
   }
 `;
 const History = styled.section<{ listUp: boolean }>`

@@ -25,53 +25,6 @@ export interface testArr2 extends testArr {
   score: number[];
 }
 
-const tempProceeding: testArr2[] = [
-  {
-    id: 0,
-    badge: 1,
-    storeName: 'LS 카페 신림점',
-    date: 'D-67',
-    address: '',
-    review: true,
-    score: [2, 4, 5, 3],
-  },
-  {
-    id: 1,
-    badge: 0,
-    storeName: 'LS 용산 주유소',
-    date: 'D-177',
-    address: '',
-    review: false,
-    score: [],
-  },
-  {
-    id: 2,
-    badge: 2,
-    storeName: 'LS 25시 난곡점',
-    date: 'D-5',
-    address: '',
-    review: true,
-    score: [4, 4, 5, 4],
-  },
-  {
-    id: 3,
-    badge: 3,
-    storeName: 'LS 05시 곡점',
-    date: '',
-    address: '',
-    review: false,
-    score: [],
-  },
-  {
-    id: 4,
-    badge: 4,
-    storeName: 'LS 2시 난점',
-    date: 'D-100',
-    address: '',
-    review: true,
-    score: [5, 4, 5, 5],
-  },
-];
 const TAG = 'pages/mypage/place/index.tsx';
 const ChargingPlace = () => {
   const router = useRouter();
