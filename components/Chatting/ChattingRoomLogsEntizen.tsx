@@ -108,6 +108,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [typing, setTyping] = useState<boolean>(false);
+
   const logs = useRef<HTMLDivElement>(null);
   const webInputRef = useRef<HTMLInputElement>(null);
   const mobInputRef = useRef<HTMLInputElement>(null);
@@ -164,20 +166,29 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
 
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.currentTarget.value);
+    const val = event.currentTarget.value;
+    setText(val);
+    if(val.trim().length > 0){
+      setTyping(true)
+    }else{
+      setTyping(false)
+    }
   };
 
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    chattingPostMutate({
-      url: `/chatting/${routerId}`,
-      // url: `/chatting/2`,
-      data: {
-        content: text,
-        files: null,
-      },
-    });
+    if(text.trim().length > 0){
+      chattingPostMutate({
+        url: `/chatting/${routerId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: text,
+          files: null,
+        },
+      });
+      setTyping(false)
+    }  
   };
 
   // 알람 설정
@@ -753,8 +764,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
             onChange={onChangeText}
             ref={mobInputRef}
           />
-          <IconWrap2 onClick={handleFocus}>
-            <Image src={send} layout="fill" />
+          <IconWrap2 onClick={handleFocus} className={`typing ${typing? 'on':'off'}`}>
+            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
           </IconWrap2>
         </FlexBox>
         <div className="hidden">
@@ -783,19 +794,13 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
             </FileIconWrap>
             <TextInput
               placeholder="메세지를 입력하세요"
-              onKeyDown={() => imgChange(true)}
-              onKeyUp={() => imgChange(false)}
               value={text}
               onChange={onChangeText}
               ref={webInputRef}
             />
           </InputWrap>
-          <button className="typing off">
-            <Image src={send} layout="fill" />
-          </button>
-
-          <button className="typing on">
-            <Image src={sendBlue} layout="fill" />
+          <button className={`typing ${typing? 'on':'off'}`}>
+            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
           </button>
         </FlexBox2>
       </WebBottomBox>
@@ -865,9 +870,6 @@ const WebBottomBox = styled.div`
     background: none;
     cursor: pointer;
     &.on {
-      display: none;
-    }
-    &.off {
       display: block;
     }
   }
