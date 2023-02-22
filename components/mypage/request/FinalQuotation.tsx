@@ -276,7 +276,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         })}
       </Section>
       <Line />
-      <Section grid={true}>
+      <Section grid={true} width={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
           {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -378,7 +378,11 @@ const Title = styled.h1`
     padding: 0 15pt;
   }
 `;
-const Section = styled.section<{ grid?: boolean; pb?: number }>`
+const Section = styled.section<{
+  grid?: boolean;
+  pb?: number;
+  width?: boolean;
+}>`
   padding: 30pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
@@ -389,6 +393,13 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
   @media (max-width: 899.25pt) {
     margin-left: 15pt;
     padding: 18pt 0;
+  }
+  @media (min-width: 900pt) {
+    ${({ width }) =>
+      width &&
+      css`
+        width: 580.5pt;
+      `}
   }
 `;
 const List = styled.ul`
@@ -625,12 +636,18 @@ const GridImg = styled.div`
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    width: 580.5pt;
+    /* width: 580.5pt;
     display: flex;
-    overflow: scroll;
+    overflow: scroll; */
 
     /* padding-top: 24pt; */
     /* padding-bottom: 30pt; */
+    flex-wrap: wrap;
+    width: 580.5pt;
+    display: flex;
+    padding-top: 24pt;
+    padding-bottom: 30pt;
+    gap: 22.5pt;
   }
   /* @media (min-width: 900pt) {
     padding-left: 0;
@@ -647,7 +664,8 @@ const GridItem = styled.div`
   }
   @media (min-width: 900pt) {
     width: 178.5pt;
-    margin-right: 22.5pt;
+    height: 144pt;
+    /* margin-right: 22.5pt; */
   }
 `;
 
