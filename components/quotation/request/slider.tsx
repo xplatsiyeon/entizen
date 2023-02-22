@@ -218,7 +218,7 @@ const SliderSizes = ({
 
       {/* 하단 뱃지 */}
       {!sliderDisable! && (
-        <>
+        <BadgeBox>
           <PersentBadge
             disabled={disabled}
             client={true.toString()}
@@ -233,7 +233,7 @@ const SliderSizes = ({
           >
             {`${100 - value}%`}
           </PersentBadge>
-        </>
+        </BadgeBox>
       )}
     </SliderCustom>
   );
@@ -288,13 +288,19 @@ const SliderCustom = styled(Box)<{
       }
     `}
 `;
+const BadgeBox = styled.div`
+  width: calc(100% - 36pt);
+  margin: 0 auto;
+  position: relative;
+  height: 15px;
+`;
 const PersentBadge = styled.span<{
   persent: number;
   disabled: boolean;
   client: string;
 }>`
   position: absolute;
-  left: ${({ persent }) => `calc(${persent}% - 14.5pt)`};
+  left: ${({ persent }) => `calc(${persent}% - 16.725pt)`};
   bottom: -11.5pt; // 웹 화면에서 뱃지 간격
   color: ${colors.lightWhite};
   background-color: ${({ client }) =>
