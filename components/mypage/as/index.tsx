@@ -347,9 +347,13 @@ const AsIndex = ({ listUp }: Props) => {
 
 const Wrapper = styled.div`
   width: 550.5pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
   position: relative;
+  @media (max-width: 899.25pt) {
+    flex: 1;
+    width: auto;
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 const Input = styled(TextField)`
   width: 100%;
@@ -635,6 +639,7 @@ const WebFilter = styled.div`
   letter-spacing: -0.02em;
   align-items: center;
   border: 1px solid #e2e5ed;
+  border-radius: 6pt!important;
   width: 96pt;
   justify-content: center;
   box-sizing: border-box;

@@ -259,8 +259,14 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-  & div {
+  &div {
     margin: 0;
+  }
+  &:hover{
+    background: white!important;
+  }
+  .MuiTouchRipple-root{
+    display: none;
   }
 `;
 

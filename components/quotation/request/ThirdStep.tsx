@@ -160,6 +160,10 @@ const TypeBox = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
   padding-top: 9pt;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const Tab = styled.span<{ idx: string; tabNumber: string }>`
   font-weight: 400;
@@ -190,11 +194,21 @@ const ChargeGuide = styled.div`
   color: ${colors.gray2};
   margin-top: 139pt;
   margin-left: 30pt;
+  @media (min-width: 900pt) {
+    margin-top: 70pt;
+  }
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
     font-family: 'Spoqa Han Sans Neo';
-    cursor: pointer;
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    @media (min-width: 900pt) {
+      text-align: right;
+    }
   }
   .arrow-icon {
     position: relative;
@@ -203,6 +217,13 @@ const ChargeGuide = styled.div`
   }
   @media (max-width: 899.25pt) {
     margin-left: 0;
+    padding-bottom: 120pt;
+  }
+
+  @media (min-width: 900pt) {
+    padding-bottom: 90pt;
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 // 부분구독 선택 시 불가 화면
@@ -266,6 +287,12 @@ const PrevBtn = styled.div`
   @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
+  }
+
+  @media (min-width: 900pt) {
+    border: 0.75pt solid #e2e5ed;
+    background-color: white;
+    color: #a6a9b0;
   }
 `;
 const TwoBtn = styled.div`

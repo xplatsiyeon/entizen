@@ -502,7 +502,7 @@ const Item = styled.li`
       font-weight: 500;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      text-align: right;
     }
   }
   @media (max-width: 899.25pt) {

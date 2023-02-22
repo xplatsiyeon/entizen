@@ -120,7 +120,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
             ) : (
               <span className="name" />
             )}
-            <span className="value" style={{ lineHeight: '18pt' }}>
+            <span className="value2" style={{ lineHeight: '18pt' }}>
               {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
               <br />
               {item.standType
@@ -473,6 +473,24 @@ const Item = styled.li`
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: left;
+    }
+  }
+
+  .value2 {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 18pt;
+      letter-spacing: -0.02em;
+      text-align: right;
     }
   }
 

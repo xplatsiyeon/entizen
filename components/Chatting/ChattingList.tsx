@@ -730,12 +730,12 @@ const HiddenBox2 = styled.div`
   display: flex !important;
   width: 12.5%;
   position: relative;
+  right: -2pt;
 
   @media (max-width: 899pt) {
     width: 60pt!important;
     position: absolute;
     height: 60.75pt;
-    right: -2pt;
   }
 `;
 

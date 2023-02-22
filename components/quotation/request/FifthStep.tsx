@@ -234,6 +234,11 @@ const NextBtn = styled.div<{
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
+  @media (min-width: 900pt) {
+    border: 0.75pt solid #e2e5ed;
+    background-color: white;
+    color: #a6a9b0;
+  }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
