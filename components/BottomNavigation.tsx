@@ -131,8 +131,8 @@ const BottomNavigation = ({}: Props) => {
                     alt="guide"
                     layout="fill"
                   />
-                  <CountQuotation>
-                    {data?.receivedQuotationRequests?.length}
+                  <CountQuotation upNumber={ data?.receivedQuotationRequests.length && data?.receivedQuotationRequests.length > 9 ? true:false}>
+                    {data?.receivedQuotationRequests.length && data?.receivedQuotationRequests.length > 300 ? 300 + '+' : data?.receivedQuotationRequests.length}
                   </CountQuotation>
                 </ImgBox>
               )}
@@ -316,6 +316,7 @@ const ImgBox = styled.div`
   position: relative;
   height: 24pt;
   width: 24pt;
+
 `;
 const H3 = styled.h3<{ clicked: boolean }>`
   font-weight: 500;
@@ -325,22 +326,21 @@ const H3 = styled.h3<{ clicked: boolean }>`
   color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray3)};
 `;
 
-const CountQuotation = styled.div`
+const CountQuotation = styled.div<{upNumber : boolean}>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: -3pt;
+  right: ${({upNumber}) => upNumber? `-10pt` : `-3pt`};
   top: -3pt;
-  width: 10.5pt;
-  height: 10.5pt;
-  background-color: #222222;
-  border-radius: 50%;
+  background-color: #5a2dc9;
+  border-radius: ${({upNumber}) => upNumber? `21.75pt` : `50%`};
   color: #ffffff;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 6pt;
   font-weight: 700;
-  line-height: 6pt;
   letter-spacing: 0em;
+  line-height:${({upNumber}) => upNumber? `none` : `6pt`};
   text-align: center;
+  padding: ${({upNumber}) => upNumber?`2.25pt 3.375pt` : `2.25pt 3pt` };
 `;

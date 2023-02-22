@@ -181,8 +181,8 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 60pt auto;
   display: flex;
-  gap: 60pt;
   flex-direction: row;
+  justify-content: space-between;
   @media (max-width: 899.25pt) {
     padding-bottom: 60pt;
     flex-direction: column;
@@ -212,6 +212,9 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: flex-start;
   padding: 0 11.5pt 0 9pt;
+  @media  (max-width: 899.25pt) {
+     padding: 21pt 11.5pt 0 9pt;
+  }
   & h1 {
     font-weight: 700;
     font-size: 21pt;
@@ -268,11 +271,7 @@ const TabContainer = styled.div`
 `;
 
 const Wrap = styled.div`
-  flex: 1;
 
-  @media (min-width: 900pt) {
-    width: 600pt;
-  }
 `;
 
 const TabItem = styled.span<{ tab: string; index: string }>`

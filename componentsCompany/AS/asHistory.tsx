@@ -176,7 +176,6 @@ export default AsHistory;
 
 const Body = styled.div`
   /* flex: 1; */
-  margin: 0 15pt;
   font-family: 'Spoqa Han Sans Neo';
   display: flex;
   flex-direction: column;

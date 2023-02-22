@@ -305,3 +305,15 @@ export const moduSignDate = (date: string) => {
     return '';
   }
 };
+
+/**
+ * 오늘 날짜 구하기
+ * @returns 2022-10-03
+ */
+export const getToday = () => {
+  const newDate = new Date();
+  const year = newDate.getFullYear().toString();
+  const month = newDate.getMonth() + 1 + '';
+  const date = newDate.getDate().toString();
+  return `${year}-${month}-${date}`;
+};

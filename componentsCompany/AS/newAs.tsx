@@ -152,7 +152,6 @@ const NewAs = ({
 export default NewAs;
 
 const Body = styled.div`
-  margin: 0 15pt;
   font-family: 'Spoqa Han Sans Neo';
   height: 100%;
 `;

@@ -161,19 +161,19 @@ const HeadWrapper = styled.div`
 `;
 const LogoBox = styled.div`
   margin-top: 12pt;
-  margin-bottom: 12.015pt;
+  margin-bottom: 17.25pt;
   display: flex;
   align-items: center;
   position: relative;
 `;
 const FirstIconBox = styled.div`
-  margin-top: 9pt;
-  margin-bottom: 9pt;
+  margin-top: 12pt;
+  margin-bottom: 17.25pt;
 
-  margin-right: 9pt;
+  margin-right: 15pt;
 `;
 const IconBox = styled.div`
-  margin-top: 9pt;
+  margin-top: 12pt;
   margin-bottom: 9pt;
 `;
 const IconWrapper = styled.div`
