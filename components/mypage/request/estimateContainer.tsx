@@ -182,6 +182,12 @@ const ItemButton = styled(ListItemButton)`
   & div {
     margin: 0;
   }
+  &:hover{
+    background: white!important;
+  }
+  .MuiTouchRipple-root{
+    display: none;
+  }
 `;
 const StoreName = styled(ListItemText)`
   & h1 {

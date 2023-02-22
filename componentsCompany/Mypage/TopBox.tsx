@@ -270,8 +270,14 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-  & div {
+  &div {
     margin: 0;
+  }
+  &:hover{
+    background: white!important;
+  }
+  .MuiTouchRipple-root{
+    display: none;
   }
 `;
 
@@ -305,6 +311,7 @@ const StoreName = styled(ListItemText)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+  
 `;
 
 const ArrowImg = styled.div`
