@@ -15,6 +15,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { CalcDate } from 'utils/calculatePackage';
 import { subYears } from 'date-fns';
+import { css } from '@emotion/react';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -224,14 +225,17 @@ const Alam = () => {
           {tab === 0 && (
             <Main>
               {historyList?.data?.alertHistories?.map((item, index) => (
-                <ContensBox key={index} onClick={onClicklist1}>
+                // <ContensBox key={index} onClick={onClicklist1}>
+                <ContensBox key={index} cursor={false}>
                   <DisplayBox>
                     <DisplaySubBox>
                       {/* <label className="label">{[`${item.title}`]}</label> */}
+                      <HistoryBodyText>{item?.body}</HistoryBodyText>
                       <p className="contents">{item.title}</p>
                     </DisplaySubBox>
                     <div className="period">{CalcDate(item?.createdAt)}</div>
                   </DisplayBox>
+
                   <div className="line"></div>
                 </ContensBox>
               ))}
@@ -242,6 +246,7 @@ const Alam = () => {
             <Main>
               {noticeList?.data?.notices?.map((item, index) => (
                 <ContensBox
+                  cursor={true}
                   key={index}
                   onClick={() => {
                     router.push({
@@ -354,11 +359,13 @@ const Header = styled(Box)`
 const Tab = styled(Box)`
   display: flex;
   border-bottom: 1px solid #f3f4f7;
+  cursor: pointer;
   @media (min-width: 899.25pt) {
     justify-content: center;
   }
 `;
 const Text = styled.div<{ tab: string; idx: string }>`
+  font-family: 'Spoqa Han Sans Neo';
   width: 50%;
   text-align: center;
   font-weight: 700;
@@ -369,7 +376,7 @@ const Text = styled.div<{ tab: string; idx: string }>`
   color: ${({ tab, idx }) => (tab === idx ? colors.main : '#caccd1')};
   padding: 12pt 0;
   position: relative;
-  cursor: pointer;
+
   @media (min-width: 899.25pt) {
     /* width: 17.334%; */
     width: 24.19%;
@@ -401,12 +408,17 @@ const Body = styled.div`
 `;
 const Main = styled.div`
   padding-top: 30pt;
-  cursor: pointer;
+  /* cursor: pointer; */
 `;
-const ContensBox = styled(Box)`
+const ContensBox = styled(Box)<{ cursor: boolean }>`
   position: relative;
   padding-left: 15pt;
   margin-top: 16px;
+  ${({ cursor }) =>
+    cursor &&
+    css`
+      cursor: pointer;
+    `}
 
   .label {
     font-weight: 400;
@@ -451,4 +463,17 @@ const DisplayBox = styled.div`
 
 const DisplaySubBox = styled.div`
   display: flex;
+`;
+
+const HistoryBodyText = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 400;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #222222;
+  @media (min-width: 900pt) {
+    padding-right: 42pt;
+  }
 `;

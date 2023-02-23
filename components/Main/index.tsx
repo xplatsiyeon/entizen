@@ -156,7 +156,8 @@ const MainPage = (props: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            <FirstIconBox onClick={() => router.push('/alarm')}>
+            <FirstIconBox onClick={() => router.push('/alarm?id=0')}>
+              {/* <FirstIconBox onClick={() => router.push('/alarm')}> */}
               {/* {userID ? (
                 <Image src={BellOn} alt="alarmIcon" />
               ) : (

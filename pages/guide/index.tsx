@@ -36,7 +36,6 @@ import useProfile from 'hooks/useProfile';
 import BellNormal from 'public/images/BellNormal.svg';
 import Nut from 'public/images/NutSVG.svg';
 
-
 const Guide1 = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
@@ -77,8 +76,8 @@ const Guide1 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
- // 이름 가져오기
- const _accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // 이름 가져오기
+  const _accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
     profile: profileData,
     isLoading: profileIsLoading,
@@ -93,17 +92,20 @@ const Guide1 = () => {
     >
       <ListBox>
         <XBtnWrapper>
-        {userID && (<Imagewrap
-            onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')}>
+          {userID && (
+            <Imagewrap
+              onClick={() =>
+                userID ? router.push('/alarm') : router.push('/signin')
+              }
+            >
               <Image src={BellNormal} alt="BellNormal" />
-          </Imagewrap> )}
-         {userID && <Imagewrap
-            onClick={() => router.push('/setting') 
-            }
-          >
-            <Image src={Nut} alt="NutBtn" />
-          </Imagewrap> }
+            </Imagewrap>
+          )}
+          {userID && (
+            <Imagewrap onClick={() => router.push('/setting')}>
+              <Image src={Nut} alt="NutBtn" />
+            </Imagewrap>
+          )}
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         {isLogin ? (
@@ -168,9 +170,12 @@ const Guide1 = () => {
               borderTop: '0.75pt solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm?id=0')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
+          {/* <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+            <span>공지사항</span>
+          </WhiteAreaMenus> */}
           <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
@@ -219,9 +224,15 @@ const Guide1 = () => {
           <Header>
             <span className="left">가이드</span>
             <div className="right">
-              <div className="bell-img" onClick={() => pageHandler('/alarm')}>
+              <div
+                className="bell-img"
+                onClick={() => pageHandler('/alarm?id=0')}
+              >
                 <Image src={bell} alt="bell" />
               </div>
+              {/* <div className="bell-img" onClick={() => pageHandler('/alarm')}>
+                <Image src={bell} alt="bell" />
+              </div> */}
               {(['right'] as const).map((anchor) => (
                 <React.Fragment key={anchor}>
                   <HamburgerOn onClick={toggleDrawer(anchor, true)}>

@@ -145,13 +145,13 @@ const WebHeader = ({ num, now, sub }: Props) => {
                         <Image
                           src={Bell}
                           alt="bell off"
-                          onClick={() => router.push('/alarm')}
+                          onClick={() => router.push('/alarm?id=0')}
                         />
                       ) : (
                         <Image
                           src={BellOutline}
                           alt="bell on"
-                          onClick={() => router.push('/alarm')}
+                          onClick={() => router.push('/alarm?id=0')}
                         />
                       )}
                     </IconBox>
@@ -197,7 +197,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       <Image
                         src={Bell}
                         alt="alram"
-                        onClick={() => router.push('/alarm')}
+                        onClick={() => router.push('/signin')}
                       />
                     </IconBox>
                   </DivBox2>

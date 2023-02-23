@@ -9,6 +9,8 @@ import WebFooter from 'componentsWeb/WebFooter';
 import { useState } from 'react';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebHeader from 'componentsWeb/WebHeader';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 const Alam1_2 = () => {
   const mobile = useMediaQuery({
@@ -23,6 +25,7 @@ const Alam1_2 = () => {
 
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
+
   return (
     <WebBody>
       {memberType === 'COMPANY' && !mobile ? (

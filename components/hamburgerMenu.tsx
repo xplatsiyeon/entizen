@@ -108,7 +108,10 @@ const HamburgerMenu = ({ st }: Props) => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+          {/* <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+            <span>공지사항</span>
+          </WhiteAreaMenus> */}
+          <WhiteAreaMenus onClick={() => router.push('/alarm?id=1')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
