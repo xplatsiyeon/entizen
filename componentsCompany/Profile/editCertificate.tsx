@@ -102,7 +102,7 @@ const EditCertificate = ({ setComponent }: Props) => {
 
   // 이미지 클릭
   const onClickPhoto = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -112,7 +112,7 @@ const EditCertificate = ({ setComponent }: Props) => {
   };
   // 파일 클릭
   const onClickFile = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

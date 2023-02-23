@@ -423,7 +423,7 @@ const ChattingRoomLogsEntizen = ({
 
   //이미지 온클릭
   const imgHandler = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -431,7 +431,7 @@ const ChattingRoomLogsEntizen = ({
   };
   //파일 온클릭
   const fileHandler = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

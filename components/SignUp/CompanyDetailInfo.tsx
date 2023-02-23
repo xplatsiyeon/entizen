@@ -123,7 +123,7 @@ const CompanyDetailInfo = ({
   // 파일 클릭
   const onClickFile = () => {
     setFileModal(false);
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');
@@ -132,7 +132,7 @@ const CompanyDetailInfo = ({
   // 이미지 클릭
   const onClickPhoto = () => {
     setFileModal(false);
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');

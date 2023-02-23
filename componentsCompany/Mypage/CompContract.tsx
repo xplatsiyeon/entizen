@@ -234,7 +234,7 @@ const ComContranct = ({}: Props) => {
   // 사진 온클릭
   const imgHandler = () => {
     setType('IMAGE');
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -243,7 +243,7 @@ const ComContranct = ({}: Props) => {
   //파일 온클릭
   const handleFileClick = () => {
     setType('FILE');
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

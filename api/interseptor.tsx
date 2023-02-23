@@ -56,6 +56,8 @@ instance.interceptors.response.use(
       !isSuccess &&
       (message === 'jwt malformed' ||
         message === 'invalid token' ||
+        message === 'USER - 회원이 아닙니다.' ||
+        message === 'COMPANY - 회원이 아닙니다.' ||
         errorCode === 1003)
     ) {
       console.log('================ 1번 에러  ==================');

@@ -181,7 +181,7 @@ const ThirdStep = ({
 
   //파일 온클릭
   const handleFileClick = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

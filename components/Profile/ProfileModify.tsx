@@ -86,7 +86,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
