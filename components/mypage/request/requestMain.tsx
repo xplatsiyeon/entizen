@@ -188,8 +188,8 @@ const Body = styled.div`
   }
 `;
 const Line = styled.div`
-  width: 90%;
-  margin: 30pt auto 45pt;
+  width: calc(100% - 27pt);
+  margin: 25.5pt auto 45pt;
   border-bottom: 3pt solid ${colors.gray3};
 `;
 const TabContainer = styled.div`

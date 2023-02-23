@@ -176,7 +176,7 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
   height: 100%;
-  margin: 47.5pt auto;
+  margin: 60pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -225,7 +225,7 @@ const Wrap2 = styled.div`
 const Wrap1 = styled.div`
   //width: 255pt;
   border: 1px solid #e9eaee;
-  border-radius: 6pt;
+  border-radius: 12pt;
   height: 100%;
   @media (max-width: 899.25pt) {
     display: none;

@@ -211,7 +211,7 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
     grid-template-columns: 1fr 1fr 1fr;
     gap: ${({ listUp }) => (listUp ? '9pt' : '22.5pt')};
-    padding: ${({ listUp }) => (listUp ? '6pt 4pt 10pt' : '6pt 4pt 30pt')};
+    padding: ${({ listUp }) => (listUp ? '6pt 4pt 10pt' : '6pt 2pt 30pt')};
     /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
     width: 100%;
     //padding-right: 5pt;
