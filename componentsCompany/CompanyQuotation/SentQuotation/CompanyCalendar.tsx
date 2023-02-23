@@ -264,7 +264,7 @@ const Pagenation = styled.div`
     height: 12pt;
   }
   .name {
-    width: 62.25pt;
+    /* width: 62.25pt; */
     font-weight: 700;
     font-size: 15pt;
     line-height: 15pt;
