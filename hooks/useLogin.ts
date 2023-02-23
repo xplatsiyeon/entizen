@@ -19,7 +19,8 @@ function useLogin(
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { url } = useSelector((state: RootState) => state.redirectSlice);
   const {
     mutate: loginMutate,

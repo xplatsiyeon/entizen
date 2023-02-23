@@ -31,7 +31,8 @@ type Props = {};
 type ImageType = 'IMAGE' | 'FILE';
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({}: Props) => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const router = useRouter();
   const routerId = router.query.projectIdx!;

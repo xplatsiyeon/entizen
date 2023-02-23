@@ -15,9 +15,7 @@ function useAdminLogin(
   setErrorMessage: Dispatch<SetStateAction<string>>,
   signUp: boolean,
 ) {
-  const dispatch = useDispatch();
   const router = useRouter();
-  //   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { url } = useSelector((state: RootState) => state.redirectSlice);
   const {
     mutate: adminLoginMutate,

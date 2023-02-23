@@ -37,7 +37,8 @@ const AsCompText = ({ data }: Props) => {
     query: '(max-width:899.25pt)',
   });
   //dummy text
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);

@@ -29,7 +29,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
 
   const webHandleNum = (idx: number) => {

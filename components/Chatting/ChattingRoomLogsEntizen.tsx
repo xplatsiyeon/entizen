@@ -4,12 +4,7 @@ import defaultImg from 'public/images/defaultImg.png';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, {
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import MoreModal from 'components/Chatting/MoreModal';
 import QuitModal from 'components/Chatting/QuitModal';
@@ -87,14 +82,19 @@ type Props = {
   listRefetch: () => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
-const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props) => {
+const ChattingRoomLogsEntizen = ({
+  userChatting,
+  listRefetch,
+  isCompany,
+}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -155,7 +155,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
       setText('');
       await queryClient.invalidateQueries('chatting-data');
       setTimeout(() => {
-        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
+        if (mobInputRef.current)
+          mobInputRef.current.focus({ preventScroll: true });
       }, 300);
     },
     onError: (error) => {
@@ -168,17 +169,17 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.currentTarget.value;
     setText(val);
-    if(val.trim().length > 0){
-      setTyping(true)
-    }else{
-      setTyping(false)
+    if (val.trim().length > 0) {
+      setTyping(true);
+    } else {
+      setTyping(false);
     }
   };
 
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(text.trim().length > 0){
+    if (text.trim().length > 0) {
       chattingPostMutate({
         url: `/chatting/${routerId}`,
         // url: `/chatting/2`,
@@ -187,8 +188,8 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
           files: null,
         },
       });
-      setTyping(false)
-    }  
+      setTyping(false);
+    }
   };
 
   // 알람 설정
@@ -498,29 +499,33 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-         if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 300);
       } else {
         console.log('chat');
         setTimeout(() => {
-          if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 100);
       }
@@ -528,26 +533,27 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
   useEffect(() => {
     setTimeout(() => {
-    const inner = logs.current?.querySelector('.inner');
+      const inner = logs.current?.querySelector('.inner');
 
       console.log('처음에만');
       //focusRef.current?.focus();
       const width = window.innerWidth;
       console.log(width);
       if (width > 1200) {
-        if(inner) inner.scroll({
-          top: inner.scrollHeight,
-          left: 0,
-          behavior: 'auto'
-      })
-        focusRef.current?.focus({preventScroll: true});
-      } 
+        if (inner)
+          inner.scroll({
+            top: inner.scrollHeight,
+            left: 0,
+            behavior: 'auto',
+          });
+        focusRef.current?.focus({ preventScroll: true });
+      }
     }, 600);
 
     setTimeout(() => {
       console.log('처음에만');
 
-    listRefetch();
+      listRefetch();
     }, 2000);
   }, []);
 
@@ -570,12 +576,11 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
     }
   }, []);
 
-  const handleFocus = (e:MouseEvent)=>{
+  const handleFocus = (e: MouseEvent) => {
     mobInputRef.current?.focus();
-    mobInputRef.current?.classList.add('on')
+    mobInputRef.current?.classList.add('on');
     const target = e.currentTarget as HTMLButtonElement;
-  }
-
+  };
 
   return (
     <Body ref={logs}>
@@ -613,7 +618,7 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
           />
         )}
       </TopBox>
-      <Inner className='inner'>
+      <Inner className="inner">
         <div className="wrap">
           {data.map((d, idx) => {
             return (
@@ -621,7 +626,10 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
                 key={idx}
                 className={`${idx === data.length - 1 ? 'target-p' : ''}`}
               >
-               <Date>{d.date.split('.')[0]}년 {d.date.split('.')[1]}월 {d.date.split('.')[2]}일</Date>
+                <Date>
+                  {d.date.split('.')[0]}년 {d.date.split('.')[1]}월{' '}
+                  {d.date.split('.')[2]}일
+                </Date>
                 <List>
                   {d.logs.map((item, idx) => {
                     if (item.messageType === 'SYSTEM') {
@@ -755,36 +763,43 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
         </div>
       </Inner>
 
-    <MobBottomWrap>
-      <BottomBox ref={mobBox} onClick={handleFocus}>
-        <FlexBox onSubmit={onSubmitText}>
-          <TextInput
-            placeholder="메세지를 입력하세요"
-            value={text}
-            onChange={onChangeText}
-            ref={mobInputRef}
-          />
-          <IconWrap2 onClick={handleFocus} className={`typing ${typing? 'on':'off'}`}>
-            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
-          </IconWrap2>
-        </FlexBox>
-        <div className="hidden">
-          <IconWrap3 onClick={imgHandler}>
-            <Image src={chatPhotoAdd} layout="fill" />
-          </IconWrap3>
-          {/* <IconWrap3>
+      <MobBottomWrap>
+        <BottomBox ref={mobBox} onClick={handleFocus}>
+          <FlexBox onSubmit={onSubmitText}>
+            <TextInput
+              placeholder="메세지를 입력하세요"
+              value={text}
+              onChange={onChangeText}
+              ref={mobInputRef}
+            />
+            <IconWrap2
+              onClick={handleFocus}
+              className={`typing ${typing ? 'on' : 'off'}`}
+            >
+              {typing ? (
+                <Image src={sendBlue} layout="fill" />
+              ) : (
+                <Image src={send} layout="fill" />
+              )}
+            </IconWrap2>
+          </FlexBox>
+          <div className="hidden">
+            <IconWrap3 onClick={imgHandler}>
+              <Image src={chatPhotoAdd} layout="fill" />
+            </IconWrap3>
+            {/* <IconWrap3>
             <Image src={chatCamera} layout="fill" />
           </IconWrap3> */}
-          <IconWrap3 onClick={fileHandler}>
-            <Image src={chatFileAdd} layout="fill" />
-          </IconWrap3>
-        </div>
-      </BottomBox>
-      <AddBtn onClick={handleButton}>
-        {/* <Image src={addBtn} layout="intrinsic" /> */}
-        <ImgTag src={'/images/addBtnSvg.svg'} />
-      </AddBtn>
-    </MobBottomWrap>
+            <IconWrap3 onClick={fileHandler}>
+              <Image src={chatFileAdd} layout="fill" />
+            </IconWrap3>
+          </div>
+        </BottomBox>
+        <AddBtn onClick={handleButton}>
+          {/* <Image src={addBtn} layout="intrinsic" /> */}
+          <ImgTag src={'/images/addBtnSvg.svg'} />
+        </AddBtn>
+      </MobBottomWrap>
 
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
@@ -799,8 +814,12 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch, isCompany }: Props
               ref={webInputRef}
             />
           </InputWrap>
-          <button className={`typing ${typing? 'on':'off'}`}>
-            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
+          <button className={`typing ${typing ? 'on' : 'off'}`}>
+            {typing ? (
+              <Image src={sendBlue} layout="fill" />
+            ) : (
+              <Image src={send} layout="fill" />
+            )}
           </button>
         </FlexBox2>
       </WebBottomBox>
@@ -883,7 +902,7 @@ const FlexBox2 = styled.form`
   gap: 14.25pt;
   align-items: center;
 
-  button{
+  button {
     background: transparent;
   }
 `;
@@ -904,7 +923,7 @@ const MobBottomWrap = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-`
+`;
 const BottomBox = styled.div`
   background: #e9eaee;
   padding: 3pt 0pt 36pt;
@@ -937,7 +956,7 @@ const FlexBox = styled.form`
   padding: 0 15pt 0 40pt;
 `;
 const AddBtn = styled.div`
- position: absolute;
+  position: absolute;
   top: 6pt;
   left: 10.5pt;
   width: 20pt;

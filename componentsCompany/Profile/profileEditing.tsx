@@ -37,7 +37,8 @@ const ProfileEditing = ({
   setHeightOn,
 }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
