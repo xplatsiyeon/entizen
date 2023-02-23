@@ -1,14 +1,10 @@
-import { googleLogout } from '@react-oauth/google';
-import { BASE_URL } from 'api';
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { kakaoInit } from 'utils/kakao';
 
-const LOG_OUT_API = `${BASE_URL}/members/logout`;
+const LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/logout`;
 // 관리자 로그아웃 API
-const ADMIN_LOG_OUT_API = `${BASE_URL}/admin/auth/logout`;
+const ADMIN_LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/admin/auth/logout`;
 
 // 네이버 로그아웃
 export const NaverLogout = async () => {
@@ -45,6 +41,7 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
+  console.log('=============== 로그아웃 =================');
   const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
 
@@ -63,7 +60,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     localStorage.removeItem('USER_ID');
     localStorage.removeItem('MEMBER_TYPE');
     // 로그아웃 브릿지 연결
-    appLogout(userAgent as string);
+    // appLogout(userAgent as string);
 
     // if (isSns) {
     //   NaverLogout();

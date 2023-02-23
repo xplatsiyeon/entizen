@@ -98,7 +98,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${token.memberIdx}`;
+    const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members/password/${token.memberIdx}`;
     // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
 
     axios({

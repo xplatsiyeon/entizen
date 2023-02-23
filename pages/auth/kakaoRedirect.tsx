@@ -32,7 +32,7 @@ const Profile = () => {
 
   // 카카오 백엔드 API
   const KaKaApi = async (data: any) => {
-    const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     // try {
     await axios({
       method: 'post',
