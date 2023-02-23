@@ -70,6 +70,7 @@ const Carousel = () => {
         spaceBetween={0}
         pagination={{
           type: 'bullets',
+          clickable: true,
         }}
         autoplay={{
           delay: 3000,
@@ -177,11 +178,13 @@ const SwiperMain = styled(Swiper)`
   .swiper-pagination-bullet {
     background-color: white;
     margin: 0 3pt !important;
+    cursor: pointer;
   }
   .swiper-pagination-bullet-active {
     width: 18pt;
     height: 6pt;
     border-radius: 12pt;
+    cursor: pointer;
   }
 
   .swiper-button-next {
@@ -190,7 +193,7 @@ const SwiperMain = styled(Swiper)`
     position: absolute;
     width: 21pt;
     height: 21pt;
-    margin-right: 150pt;
+    margin-right: 170pt;
     @media (max-width: 899.25pt) {
       display: none;
     }
@@ -200,7 +203,7 @@ const SwiperMain = styled(Swiper)`
     width: 21pt;
     height: 21pt;
     position: absolute;
-    margin-left: 150pt;
+    margin-left: 170pt;
     @media (max-width: 899.25pt) {
       display: none;
     }
