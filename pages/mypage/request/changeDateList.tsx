@@ -85,8 +85,10 @@ const Mypage2_3 = () => {
     });
   // 해당 일자 요일 구하기
   function getDayOfWeek(target: string) {
+    const date = new Date();
     const week = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayOfWeek = week[new Date(target).getDay()];
+    const dayOfWeek = week[new Date(target.replace(/-/g, "/")).getDay()];
+    console.log('요일확인 ', dayOfWeek )
     return dayOfWeek;
   }
 

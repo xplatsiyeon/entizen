@@ -206,7 +206,7 @@ const Wrap = styled.div`
   margin-bottom: 18pt;
   flex-direction: row;
   align-items: center;
-  height: 24pt;
+  height: 15pt;
 `;
 const TabItem = styled.span<{ tab: string; index: string }>`
   //padding-top: 21pt;

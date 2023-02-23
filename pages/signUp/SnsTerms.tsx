@@ -9,7 +9,7 @@ import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import btnImg from 'public/images/back-btn.svg';
 import { useEffect, useState } from 'react';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import Btn from 'components/SignUp/button';
@@ -79,7 +79,7 @@ const SignUpTerms = () => {
       // try {
       await axios({
         method: 'post',
-        url: 'https://api.entizen.kr/api/members/join/sns',
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/members/join/sns`,
         data: {
           name: data.name,
           phone: data.phone,
@@ -138,7 +138,7 @@ const SignUpTerms = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },
     })
       .then((res) => {

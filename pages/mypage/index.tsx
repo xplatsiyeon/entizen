@@ -74,7 +74,9 @@ const Request = () => {
     router.push('/signin');
 
     useEffect(() => {
-      queryClient.removeQueries('mypage-request-id');
+      if (accessToken) {
+        queryClient.removeQueries('mypage-request-id');
+      }
     }, [router.isReady]);
   } else {
     return (
@@ -213,8 +215,8 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: flex-start;
   padding: 0 11.5pt 0 9pt;
-  @media  (max-width: 899.25pt) {
-     padding: 21pt 11.5pt 0 9pt;
+  @media (max-width: 899.25pt) {
+    padding: 21pt 11.5pt 0 9pt;
   }
   & h1 {
     font-weight: 700;
@@ -271,9 +273,7 @@ const TabContainer = styled.div`
   }
 `;
 
-const Wrap = styled.div`
-
-`;
+const Wrap = styled.div``;
 
 const TabItem = styled.span<{ tab: string; index: string }>`
   padding-top: 18pt;
