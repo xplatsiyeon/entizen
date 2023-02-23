@@ -301,7 +301,7 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
 
-  margin: 58.5pt auto 91.5pt auto;
+  margin: 60pt auto 91.5pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -317,7 +317,7 @@ const Wrap1 = styled.div<{ isReview: boolean }>`
   display: ${({ isReview }) => isReview && 'none'};
   width: 255pt;
   border: 1px solid #e9eaee;
-  border-radius: 6pt;
+  border-radius: 12pt;
   height: 100%;
 
   @media (max-width: 899.25pt) {

@@ -522,7 +522,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto;
+  margin: 60pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -537,7 +537,7 @@ const FlexBox = styled.div`
 const Wrap1 = styled.div`
   //width: 255pt;
   border: 1px solid #e9eaee;
-  border-radius: 6pt;
+  border-radius: 12pt;
   height: 100%;
   @media (max-width: 899.25pt) {
     display: none;

@@ -493,8 +493,9 @@ const Item = styled.li`
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 500;
-    line-height: 12pt;
+    line-height: 18pt;
     letter-spacing: -0.02em;
+    color: #222222;
     text-align: right;
     flex: 2;
     @media (min-width: 900pt) {
@@ -503,7 +504,7 @@ const Item = styled.li`
       font-weight: 500;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: right;
+      text-align: left!important;
     }
   }
   @media (max-width: 899.25pt) {
@@ -575,14 +576,14 @@ const Label = styled.h3`
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
-    line-height: 12pt;
+    line-height: 21pt;
     letter-spacing: -0.02em;
     text-align: left;
     padding-left: 0;
   }
 `;
 const FeaturesList = styled.ol`
-  padding-top: 6pt;
+  padding-top: 15pt;
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
@@ -595,7 +596,7 @@ const FeaturesList = styled.ol`
       line-height: 21pt;
       letter-spacing: -0.02em;
       text-align: left;
-      padding-top: 5pt;
+      //padding-top: 5pt;
     }
     font-weight: 500;
     font-size: 10.5pt;
@@ -613,8 +614,8 @@ const FeaturesList = styled.ol`
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
+    line-height: 21t;
     font-weight: 500;
-    line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
   }
