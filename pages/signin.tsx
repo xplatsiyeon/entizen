@@ -32,6 +32,7 @@ import Head from 'next/head';
 import MobileFindModal from 'components/Modal/MobileFindModal';
 import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
+import SignUpHeader from 'components/SignUp/header';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -72,7 +73,7 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -240,7 +241,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: NAVER_POST,
@@ -403,7 +404,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -525,7 +526,7 @@ const Signin = () => {
     );
     // console.log('애플로그인 user 유니크값 : ', result);
 
-    const APPLE_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const APPLE_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: APPLE_POST,
@@ -620,7 +621,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
@@ -680,14 +681,24 @@ const Signin = () => {
                 setIsModal={() => router.push('/')}
               />
             )}
-            <Container
+            {!mobile && (
+              <SignUpHeader
+                title={mobile ? '' : '로그인'}
+                back={false}
+                homeBtn={false}
+                web={true}
+              />
+            )}
+            {/* <Container
               disableGutters
               sx={{
                 width: '100%',
                 height: '580.5pt',
                 overflow: 'scroll !important',
               }}
-            >
+              style={{ border: '1px solid red' }}
+            > */}
+            <AllContainer>
               <BackBox onClick={() => router.push('/')}>
                 <BackBtn src="/images/back-btn.svg" />
               </BackBox>
@@ -695,8 +706,8 @@ const Signin = () => {
                 disableGutters
                 sx={{
                   width: '100%',
-                  paddingLeft: '9pt',
-                  paddingRight: '9pt',
+                  // paddingLeft: '9pt',
+                  // paddingRight: '9pt',
                 }}
               >
                 <Box
@@ -705,7 +716,7 @@ const Signin = () => {
                     display: 'flex',
                     gap: '15pt',
                     alignItems: 'center',
-                    marginTop: '6pt',
+                    marginTop: mobile ? '9.375pt' : '24pt',
                   }}
                 >
                   {loginTypeList.map((loginType, index) => (
@@ -723,7 +734,7 @@ const Signin = () => {
                           lineHeight: '15pt',
                           padding:
                             loginType === '일반회원 로그인'
-                              ? '6pt 0pt 6pt 6pt'
+                              ? '6pt 0pt 6pt 0pt'
                               : '6pt',
                           // padding: '6pt',
                           letterSpacing: '-0.02em',
@@ -748,42 +759,43 @@ const Signin = () => {
                   ))}
                 </Box>
               </Container>
-              <Container
+              {/* <Container
                 disableGutters
                 sx={{
                   width: '100%',
                   marginTop: '42pt',
                   padding: '0 25pt',
                 }}
-              >
-                <Box sx={{ textAlign: 'center' }}>
-                  <TextFields
-                    value={userId}
-                    id="outlined-basic"
-                    placeholder="아이디 입력"
-                    onChange={(e) => {
-                      setUserId(e.target.value);
-                    }}
-                  />
+              > */}
+              <ContainerBox>
+                {/* <Box sx={{ textAlign: 'center' }}> */}
+                <TextFields
+                  value={userId}
+                  id="outlined-basic"
+                  placeholder="아이디 입력"
+                  onChange={(e) => {
+                    setUserId(e.target.value);
+                  }}
+                />
 
-                  <TextFields
-                    value={password}
-                    id="outlined-basic"
-                    placeholder="비밀번호 입력"
-                    type="password"
-                    onBlur={(e) => {
-                      //유효성 검사
-                    }}
-                    onChange={(e) => {
-                      //비밀번호 입력값 변경
-                      setPassword(e.target.value);
-                    }}
-                    sx={{
-                      marginTop: '9pt',
-                    }}
-                    onKeyDown={onKeyPress}
-                  />
-                </Box>
+                <TextFields
+                  value={password}
+                  id="outlined-basic"
+                  placeholder="비밀번호 입력"
+                  type="password"
+                  onBlur={(e) => {
+                    //유효성 검사
+                  }}
+                  onChange={(e) => {
+                    //비밀번호 입력값 변경
+                    setPassword(e.target.value);
+                  }}
+                  sx={{
+                    marginTop: '9pt',
+                  }}
+                  onKeyDown={onKeyPress}
+                />
+                {/* </Box> */}
                 <LoginBtn onClick={originLogin}>
                   <BtnSpan>로그인</BtnSpan>
                 </LoginBtn>
@@ -876,7 +888,8 @@ const Signin = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        margin: '102pt auto 0',
+                        // margin: '102pt auto 0',
+                        margin: '48pt auto 0',
                       }}
                     >
                       <Box
@@ -924,13 +937,14 @@ const Signin = () => {
                         margin: '18pt 24.75pt 0 24.75pt',
                       }}
                     >
-                      <Divider
+                      {/* <Divider
                         sx={{
                           background: '#CACCD1',
                           width: '35%',
-                          height: '0.75pt',
+                          height: '0.375pt',
                         }}
-                      ></Divider>
+                      ></Divider> */}
+                      <Line />
                       <Typography
                         variant="h5"
                         sx={{
@@ -945,13 +959,14 @@ const Signin = () => {
                       >
                         또는
                       </Typography>
-                      <Divider
+                      <Line />
+                      {/* <Divider
                         sx={{
                           background: '#CACCD1',
                           width: '35%',
-                          height: '0.75pt',
+                          height: '0.375pt',
                         }}
-                      ></Divider>
+                      ></Divider> */}
                     </Box>
                   </>
                 )}
@@ -968,8 +983,10 @@ const Signin = () => {
                     </IdRegistBtnSpan>
                   </IdRegist>
                 </Box>
-              </Container>
-            </Container>
+              </ContainerBox>
+              {/* </Container> */}
+            </AllContainer>
+            {/* </Container> */}
           </WebWrapper>
         </Inner>
         <WebFooter />
@@ -988,6 +1005,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -996,16 +1014,22 @@ const Body = styled.div`
 const TextFields = styled(TextField)`
   width: 100%;
   font-weight: 400;
+  @media (min-width: 900pt) {
+    width: 250.5pt;
+  }
+  & .MuiInputBase-root {
+    padding-right: 0pt !important;
+  }
   .MuiOutlinedInput-root {
-    /* &:hover fieldset {
-      border-color: #5221cb;
-    } */
+    &:hover fieldset {
+      border: 0.75 solid #e2e5ed;
+    }
     &.Mui-focused fieldset {
       border: 0.75pt solid #5221cb;
     }
   }
   .MuiOutlinedInput-notchedOutline {
-    border: 1px solid #e2e5ed;
+    border: 0.75 solid #e2e5ed;
   }
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
@@ -1035,11 +1059,17 @@ const Inner = styled.div`
     padding: 0;
     box-shadow: none;
     background: none;
+    /* padding: 0 15pt; */
+    padding: 0 15pt 87pt;
+  }
+  @media (min-width: 900pt) {
+    padding: 23.25pt 46.5pt 49.5pt;
   }
 `;
 const WebWrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  /* margin: 0 31.875pt; */
+
   @media (max-width: 899.25pt) {
     margin: 0;
   }
@@ -1053,7 +1083,7 @@ const NaverBox = styled(Box)`
   }
 `;
 const BackBtn = styled.img`
-  margin-left: 15pt;
+  /* margin-left: 15pt; */
 `;
 const LoginBtn = styled.button`
   background: #5a2dc9;
@@ -1079,6 +1109,9 @@ const IdRegist = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: #595757;
+  @media (max-width: 899.25pt) {
+    margin-bottom: 87pt;
+  }
 `;
 const IdRegistBtnSpan = styled.span`
   cursor: pointer;
@@ -1116,4 +1149,34 @@ const TestWrap = styled.div`
   margin: 20pt auto;
   position: relative;
   display: none;
+`;
+
+const AllContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* width: 100%;
+  margin-top: 42pt; */
+  /* padding: 0 25pt; */
+
+  width: 100%;
+  /* height: 580.5pt; */
+  overflow: scroll !important;
+`;
+
+const ContainerBox = styled.div`
+  width: 100%;
+  margin-top: 42pt;
+  /* padding: 0 25pt; */
+`;
+
+const IDPWInput = styled.textarea`
+  width: 335px;
+  height: 52px;
+  border: 0.75pt solid #e2e5ed;
+`;
+
+const Line = styled.div`
+  width: 35%;
+  border: 0.375pt solid #caccd1;
 `;
