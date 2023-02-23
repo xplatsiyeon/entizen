@@ -36,7 +36,7 @@ const Index: NextPage = () => {
       naverLogin?.init();
     };
 
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     const NaverApi = async (data: any) => {
       try {
         await axios({

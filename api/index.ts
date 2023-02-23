@@ -1,4 +1,5 @@
 import axios from 'axios';
+import instance from './interseptor';
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   endpoint: string;
@@ -9,24 +10,24 @@ export interface PropsApi {
   data?: any;
 }
 
-export const BASE_URL = 'https://api.entizen.kr/api';
 // 로컬에서 사용할때만 활성화 시키기
-// export const BASE_URL = `/api`;
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { data, endpoint, method } = apiInfo;
 
   return await axios({
     method,
-    url: `${BASE_URL}${endpoint}`,
+    // url: `${BASE_URL}${endpoint}`,
+    url: `${endpoint}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res);
 };
 // API 호출 (토큰 X)
@@ -35,38 +36,41 @@ export const api = async (apiInfo: ApiProps) => {
 
   return await axios({
     method,
-    url: `${BASE_URL}${endpoint}`,
+    // url: `${BASE_URL}${endpoint}`,
+    url: `${endpoint}`,
     data,
-    headers: {
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // headers: {
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 // -----------------------------get-api--------------------------------------
 // API 호출 (토큰 X)
 export const getApi = async (url: string) => {
-  return await axios({
+  return await instance({
     method: 'GET',
-    url: `${BASE_URL}${url}`,
-    headers: {
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
+    // headers: {
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 
 // API 호출 (토큰 O)
 export const isTokenGetApi = async (url: string) => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  return await axios({
+  return await instance({
     method: 'GET',
-    url: `${BASE_URL}${url}`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 // -----------------------------post-api (token X)--------------------------------------
@@ -74,13 +78,14 @@ export const isTokenGetApi = async (url: string) => {
 // export const isTokenPostApi = async (url: string, data: any) => {
 export const isPostApi = async (apiInfo: PropsApi): Promise<any> => {
   const { url, data } = apiInfo;
-  return await axios({
+  return await instance({
     method: 'POST',
-    url: `${BASE_URL}${url}`,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      ContentType: 'application/json',
-    },
+    // headers: {
+    //   ContentType: 'application/json',
+    // },
     withCredentials: true,
   }).then((res) => res);
 };
@@ -88,65 +93,69 @@ export const isPostApi = async (apiInfo: PropsApi): Promise<any> => {
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
 export const isTokenPostApi = async (apiInfo: PropsApi): Promise<any> => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
-  return await axios({
+  return await instance({
     method: 'POST',
-    url: `${BASE_URL}${url}`,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res);
 };
 // -----------------------------patch-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPatchApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
-  return await axios({
+  return await instance({
     method: 'PATCH',
-    url: `${BASE_URL}${url}`,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 // -----------------------------put-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPutApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
-  return await axios({
+  return await instance({
     method: 'PUT',
-    url: `${BASE_URL}${url}`,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
-  return await axios({
+  return await instance({
     method: 'DELETE',
-    url: `${BASE_URL}${url}`,
-    // data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    // url: `${BASE_URL}${url}`,
+    url: `${url}`,
+    data,
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    // },
+    // withCredentials: true,
   }).then((res) => res.data);
 };
 
@@ -155,7 +164,23 @@ export async function multerApi(formData: any): Promise<any> {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return axios({
     method: 'POST',
-    url: `${BASE_URL}/files`,
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/files`,
+    data: formData,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'multipart/form-data; charset=EUC-KR',
+      Accept: '*/*',
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
+}
+
+// ---------------------------------- multer Img -----------------------------------
+export async function multerAdminApi(formData: any): Promise<any> {
+  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  return axios({
+    method: 'POST',
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/files`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'multipart/form-data; charset=EUC-KR',
@@ -259,19 +284,3 @@ export const isTokenAdminDeleteApi = async (apiInfo: PropsApi) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
-
-// ---------------------------------- multer Img -----------------------------------
-export async function multerAdminApi(formData: any): Promise<any> {
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  return axios({
-    method: 'POST',
-    url: `${BASE_URL}/files`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'multipart/form-data; charset=EUC-KR',
-      Accept: '*/*',
-    },
-    data: formData,
-    withCredentials: true,
-  }).then((res) => res.data);
-}

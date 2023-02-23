@@ -15,8 +15,8 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
-  console.log('=================window.location.href==================');
-  console.log(window.location.href);
+  // console.log('=================window.location.href==================');
+  // console.log(window.location.href);
 
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [loginChecking, setLoginChecking] = useState(false);

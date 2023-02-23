@@ -126,7 +126,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },
     })
       .then((res) => {
