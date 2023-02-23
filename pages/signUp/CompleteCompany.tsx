@@ -9,10 +9,14 @@ import { useRouter } from 'next/router';
 import CompleteModal from '../../components/Modal/CompleteModal';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import { useMediaQuery } from 'react-responsive';
 type Props = {};
 
-const CompleteCopany = (props: Props) => {
+const CompleteCompany = (props: Props) => {
   const [userCompleteModal, SetUserCompleteModal] = useState(false);
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const [tabNumber, setTabNumber] = useState<number>(7);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -55,19 +59,25 @@ const CompleteCopany = (props: Props) => {
           <br />
           성공적으로 입력되었습니다!
         </WelcomeText>
-        {/* <BtnBox>
-          <ConfirmBtn onClick={() => SetUserCompleteModal(false)}>
-            확인
-          </ConfirmBtn>
-        </BtnBox> */}
+        {mobile && (
+          <BtnBox>
+            <ConfirmBtn onClick={() => SetUserCompleteModal(false)}>
+              확인
+            </ConfirmBtn>
+          </BtnBox>
+        )}
         <InputContainer>
           <InputBox>
             <TextHeader>관리자의 승인이 필요해요!</TextHeader>
-            <TextBody>
-              승인 완료까지
-              <br />
-              1~2일 정도 소요됩니다.
-            </TextBody>
+            {mobile ? (
+              <TextBody>
+                승인 완료까지
+                <br />
+                1~2일 정도 소요됩니다.
+              </TextBody>
+            ) : (
+              <TextBody>승인 완료까지 1~2일 정도 소요됩니다.</TextBody>
+            )}
             <TextFooter>
               승인 완료 시 담당자 이메일로
               <br />
@@ -127,7 +137,7 @@ const ImaBox = styled(Container)`
   flex-direction: column;
 `;
 const BtnBox = styled.div`
-  padding: 22.5pt 15pt 30pt 15pt;
+  padding: 39pt 15pt 30pt 15pt;
 `;
 
 const ConfirmBtn = styled.div`
@@ -140,7 +150,7 @@ const ConfirmBtn = styled.div`
   background-color: ${colors.main};
   border-radius: 6pt;
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -163,15 +173,27 @@ const Nav = styled.div`
 const InputContainer = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
-  padding-top: 22.5pt;
+  /* padding-top: 22.5pt; */
+  @media (min-width: 900pt) {
+    padding-top: 60pt;
+  }
 `;
 
 const WelcomeText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
-  margin-top: 24pt;
+  margin-top: 23.25pt;
   text-align: center;
+  color: #222222;
+  @media (min-width: 900pt) {
+    font-size: 25.5pt;
+    font-weight: 700;
+    line-height: 37.5pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const InputBox = styled.div`
   display: flex;
@@ -182,18 +204,28 @@ const InputBox = styled.div`
   padding: 15pt 45.75pt 15pt 45pt;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    padding: 21pt 79.5pt;
+  }
 `;
 const TextHeader = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   color: #5221cb;
+  @media (min-width: 900pt) {
+    font-size: 18pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const TextBody = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 15pt;
@@ -201,15 +233,32 @@ const TextBody = styled.div`
   text-align: center;
   color: #222222;
   margin-top: 15pt;
+
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-top: 12pt;
+  }
 `;
 const TextFooter = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   margin-top: 15pt;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-top: 30pt;
+  }
 `;
 
 const Input = styled.input`
@@ -224,4 +273,4 @@ const Input = styled.input`
   border-radius: 6pt;
 `;
 
-export default CompleteCopany;
+export default CompleteCompany;

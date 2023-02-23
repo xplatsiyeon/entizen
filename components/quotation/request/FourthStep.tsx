@@ -16,11 +16,17 @@ import { quotationAction } from 'store/quotationSlice';
 
 interface Props {
   tabNumber: number;
-
+  setIsSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  isSearch: boolean;
   setHiddenTag: Dispatch<SetStateAction<boolean>>;
 }
 const TAG = 'componets/quotation/request/FourthStep.tsx';
-const FourthStep = ({ tabNumber, setHiddenTag }: Props) => {
+const FourthStep = ({
+  tabNumber,
+  setHiddenTag,
+  setIsSearch,
+  isSearch,
+}: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -28,7 +34,7 @@ const FourthStep = ({ tabNumber, setHiddenTag }: Props) => {
   const { installationLocation } = useSelector(
     (state: RootState) => state.quotationData,
   );
-  const [isSearch, setIsSearch] = useState<boolean>(false);
+  // const [isSearch, setIsSearch] = useState<boolean>(false);
   const [buildingNumber, setBuildingNumber] = useState(-1);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const location: string[] = ['INSIDE', 'OUTSIDE'];
