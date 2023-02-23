@@ -4,7 +4,8 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
 // import Platform from 'public/guide/platform_guide.png';
-import Platform from 'public/guide/GuideBannerMobilePng.png';
+// import Platform from 'public/guide/GuideBannerMobilePng.png';
+import Platform from 'public/guide/GuideBannerMobileSvg.svg';
 import { useState } from 'react';
 import Infom from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
@@ -14,6 +15,7 @@ import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
 // import Guide from 'public/guide/guide1.png';
 import Guide from 'public/guide/GuideBannerSvgPng.png';
+// import Guide from 'public/guide/GuideBannerSvg.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
@@ -92,7 +94,14 @@ const Guide1_1 = () => {
               * CaaS: Charging as a Service, 구독 운영 / 파트너
             </span>
           </BannerTextBox>
-          <Image src={Guide} alt="guide" layout="fill" objectFit="cover" />
+          <Image
+            src={Guide}
+            alt="guide"
+            layout="fill"
+            objectFit="cover"
+
+            // loading="eager"
+          />
         </GuideImgBox>
         <ModalBox>
           <TabBox>

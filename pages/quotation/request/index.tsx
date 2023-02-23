@@ -29,6 +29,7 @@ const Quotation1_1 = () => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -44,7 +45,14 @@ const Quotation1_1 = () => {
     0: <FirstStep tabNumber={tabNumber} />,
     1: <SecondStep tabNumber={tabNumber} />,
     2: <ThirdStep tabNumber={tabNumber} />,
-    3: <FourthStep tabNumber={tabNumber} setHiddenTag={setHiddenTag} />,
+    3: (
+      <FourthStep
+        tabNumber={tabNumber}
+        setHiddenTag={setHiddenTag}
+        setIsSearch={setIsSearch}
+        isSearch={isSearch}
+      />
+    ),
     4: <FifthStep tabNumber={tabNumber} />,
     5: <SixthStep tabNumber={tabNumber} />,
   };
@@ -77,22 +85,25 @@ const Quotation1_1 = () => {
               />
             )}
             {/* 메인 */}
+
             <Body hiddenTag={hiddenTag}>
-              <TabBox>
-                {Object.keys(components).map((tab, index) => (
-                  <React.Fragment key={index}>
-                    {!hiddenTag && (
-                      <TabLine
-                        idx={index.toString()}
-                        num={tabNumber.toString()}
-                        key={tab}
-                        // 테스트용
-                        // onClick={() => setTabNumber(index)}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </TabBox>
+              {isSearch === false && (
+                <TabBox>
+                  {Object.keys(components).map((tab, index) => (
+                    <React.Fragment key={index}>
+                      {!hiddenTag && (
+                        <TabLine
+                          idx={index.toString()}
+                          num={tabNumber.toString()}
+                          key={tab}
+                          // 테스트용
+                          // onClick={() => setTabNumber(index)}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </TabBox>
+              )}
               {components[tabNumber]}
             </Body>
           </Wrapper>
