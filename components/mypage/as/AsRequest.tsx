@@ -287,7 +287,7 @@ const Body = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   border-radius: 12pt;
