@@ -26,7 +26,8 @@ const Quotation1_1 = () => {
   const route = useRouter();
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
   const [isSearch, setIsSearch] = useState<boolean>(false);
 

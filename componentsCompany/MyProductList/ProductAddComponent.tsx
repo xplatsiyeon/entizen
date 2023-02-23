@@ -54,7 +54,8 @@ export interface MulterResponse {
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx;
 

@@ -34,7 +34,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 

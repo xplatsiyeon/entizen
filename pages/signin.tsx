@@ -87,7 +87,8 @@ const Signin = () => {
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   const { user } = useSelector((state: RootState) => state.userList);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');

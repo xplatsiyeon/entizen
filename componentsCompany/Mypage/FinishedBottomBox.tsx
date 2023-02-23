@@ -31,7 +31,8 @@ type Props = {
 
 const FinishedBottomBox = ({ data }: Props) => {
   const callPhone = hyphenFn(data?.userMember?.phone.toString());
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const contractContent: SelfContract[] =
     data?.contract && JSON.parse(data?.contract?.contractContent!);

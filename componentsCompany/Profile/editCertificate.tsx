@@ -29,7 +29,8 @@ const EditCertificate = ({ setComponent }: Props) => {
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [businessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]

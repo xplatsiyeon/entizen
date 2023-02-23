@@ -69,7 +69,8 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [tabNumber, setTabNumber] = useState<number>(-1);
   const [componentId, setComponentId] = useState<number>();
   // 서브 카테고리 열렸는지 아닌지
