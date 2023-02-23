@@ -8,8 +8,8 @@ import MyEstimateProject from './MyEstimateProject';
 import SalesProjection from './SalesProjection';
 import SubscribeRequest from './SubscribeRequest';
 import WhyEntizen from './WhyEntizen';
-import Logos from 'public/images/entizenLogo.png';
-
+// import Logos from 'public/images/entizenLogo.png';
+import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
 import { Drawer } from '@mui/material';

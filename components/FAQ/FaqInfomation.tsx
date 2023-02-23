@@ -131,6 +131,10 @@ const ItemButton = styled(ListItemButton)`
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
+  &:hover {
+    background-color: transparent;
+  }
+
   & span {
     padding: 15pt 0;
     letter-spacing: -0.02em;
