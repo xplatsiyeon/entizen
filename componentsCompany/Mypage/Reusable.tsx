@@ -57,6 +57,7 @@ type Props = {
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
+  modalText:string;
   // setBadgeState: React.Dispatch<React.SetStateAction<number>>;
   // setData: React.Dispatch<React.SetStateAction<Data>>;
   // setFin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -92,6 +93,7 @@ const Reusable = ({
   CompletionDate,
   beforeStepDate,
   afterStepDate,
+  modalText
 }: // setBadgeState,
 // setData,
 
@@ -302,7 +304,7 @@ Props) => {
       {twoBtnModalOpen && (
         <TwoBtnModal
           exit={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
-          text={'설치를 완료하시겠습니까?'}
+          text={modalText}
           leftBtnText={'취소'}
           rightBtnText={'완료하기'}
           leftBtnColor={'#222222'}

@@ -26,8 +26,10 @@ const SignUpContainer = (props: Props) => {
 
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
   const [level, setLevel] = useState<number>(0);
+
   // Type 1 일때 일반, 0 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
+
   // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -108,10 +110,11 @@ const SignUpContainer = (props: Props) => {
       {level === 0 && (
         <>
           <SignUpHeader
+            title={mobile ? '' : '어떤 용무로 오셨나요?'}
             back={true}
             homeBtn={false}
-            title={''}
             handleBackClick={handleBackClick}
+            web={true}
           />
           <Wrapper>
             <ChooseUserType

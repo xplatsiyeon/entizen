@@ -369,7 +369,7 @@ const IdPwInput = ({
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: '24pt',
+          marginTop: mobile ? '24pt' : '',
           width: '100%',
           position: 'relative',
         }}

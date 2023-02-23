@@ -92,7 +92,10 @@ const CompanyMainPage = ({ num, now }: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            <FirstIconBox onClick={() => router.push('/alarm')}>
+            {/* <FirstIconBox onClick={() => router.push('/alarm')}>
+              <Image src={Ring} alt="alarmIcon" />
+            </FirstIconBox> */}
+            <FirstIconBox onClick={() => router.push('/alarm?id=0')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
             {mobile && (

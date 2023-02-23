@@ -85,8 +85,10 @@ const Mypage2_3 = () => {
     });
   // 해당 일자 요일 구하기
   function getDayOfWeek(target: string) {
+    const date = new Date();
     const week = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayOfWeek = week[new Date(target).getDay()];
+    const dayOfWeek = week[new Date(target.replace(/-/g, "/")).getDay()];
+    console.log('요일확인 ', dayOfWeek )
     return dayOfWeek;
   }
 
@@ -291,15 +293,16 @@ const Btn = styled.div<{ tabNumber: number }>`
     }
   }
   .left {
-    background: rgba(90, 45, 201, 0.5);
+    background: ${({ tabNumber }) =>
+      tabNumber !== -1 ? colors.main : colors.gray};
+
     cursor: pointer;
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
   }
   .right {
-    background: ${({ tabNumber }) =>
-      tabNumber !== -1 ? colors.main : colors.gray};
+    background: rgba(90, 45, 201, 0.5);
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }

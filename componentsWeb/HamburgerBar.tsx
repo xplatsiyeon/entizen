@@ -164,17 +164,21 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-        {userID && (<Imagewrap
-            onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')}>
+          {userID && (
+            <Imagewrap
+              onClick={() =>
+                // userID ? router.push('/alarm') : router.push('/signin')}>
+                userID ? router.push('/alarm?id=0') : router.push('/signin')
+              }
+            >
               <Image src={BellNormal} alt="BellNormal" />
-          </Imagewrap> )}
-         {userID && <Imagewrap
-            onClick={() => router.push('/setting') 
-            }
-          >
-            <Image src={Nut} alt="NutBtn" />
-          </Imagewrap> }
+            </Imagewrap>
+          )}
+          {userID && (
+            <Imagewrap onClick={() => router.push('/setting')}>
+              <Image src={Nut} alt="NutBtn" />
+            </Imagewrap>
+          )}
           <Imagewrap onClick={toggleDrawer(anchor, false)}>
             <Image src={xBtn} alt="xBtn" />
           </Imagewrap>

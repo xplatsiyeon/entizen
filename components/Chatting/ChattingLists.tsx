@@ -133,7 +133,10 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
       <Header>
         <H2>소통하기</H2>
         <IconWrapper>
-          <IconWrap onClick={() => router.push('/alarm')}>
+          {/* <IconWrap onClick={() => router.push('/alarm')}>
+            <Image src={bell} alt="alarmIcon" layout="fill" />
+          </IconWrap> */}
+          <IconWrap onClick={() => router.push('/alarm?id=0')}>
             <Image src={bell} alt="alarmIcon" layout="fill" />
           </IconWrap>
           {mobile && (

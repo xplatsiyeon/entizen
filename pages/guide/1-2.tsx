@@ -29,7 +29,7 @@ import { isTokenPostApi } from 'api';
 import { subsidyAction, subsidySlice } from 'store/subsidySlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-
+import { useMediaQuery } from 'react-responsive';
 export interface SelectedOption {
   idx: number;
   kind: string;
@@ -49,6 +49,9 @@ export interface Region {
 }
 
 const Guide1_2 = () => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const dispatch = useDispatch();
   const InstallationPurposeType = [
@@ -319,12 +322,14 @@ const Guide1_2 = () => {
             onClickAdd={onClickAdd}
             onClickMinus={onClickMinus}
           />
-          <ChargeGuide onClick={onClickRouter}>
-            <span className="text">충전기 가이드</span>
-            <div className="img">
-              <Image src={arrow_small} alt="arrow_small" />
-            </div>
-          </ChargeGuide>
+          {mobile && (
+            <ChargeGuide onClick={onClickRouter}>
+              <span className="text">충전기 가이드</span>
+              <div className="img">
+                <Image src={arrow_small} alt="arrow_small" />
+              </div>
+            </ChargeGuide>
+          )}
           <Btn buttonActivate={buttonActivate} onClick={onClickButton}>
             보조금 확인하기
           </Btn>

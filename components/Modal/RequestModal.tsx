@@ -79,7 +79,6 @@ const Modal = styled.div<{ border?: boolean }>`
   @media (max-width: 899.25pt) {
     position: absolute;
     bottom: 0;
-    width: 2.5pt;
     border-radius: 6pt;
     bottom: 150pt;
   }

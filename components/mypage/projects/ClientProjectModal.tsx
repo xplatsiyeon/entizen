@@ -11,7 +11,7 @@ import React, {
   useRef,
 } from 'react';
 import colors from 'styles/colors';
-import changeArrow from 'public/images/date-change-arrow.png';
+import changeArrow from 'public/images/date-change-arrow.svg';
 import { getDayOfWeek } from 'utils/calculatePackage';
 import CommunicationBox from 'components/CommunicationBox';
 
@@ -149,10 +149,11 @@ const Body = styled.div`
   bottom: 0;
   z-index: 2;
   @media (min-width: 900pt) {
-    position: absolute;
-    top: 30%;
-    right: 25%;
-    margin: 0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    bottom: auto;
     width: 420pt;
     /* height: 333pt; */
     height: auto;
@@ -203,7 +204,8 @@ const ButtonBox = styled.div`
   justify-content: space-between;
   gap: 9pt;
   @media (min-width: 900pt) {
-    margin: 45pt 37.5pt 0;
+    margin: 45pt 0pt 0;
+    gap: 12.5pt;
   }
   button {
     font-family: 'Spoqa Han Sans Neo';
@@ -216,7 +218,7 @@ const ButtonBox = styled.div`
     cursor: pointer;
 
     &:nth-of-type(1) {
-      padding: 15pt 0;
+      padding: 12.75pt 0;
       background: #e2e5ed;
       border-radius: 6pt;
       flex: 1;
@@ -374,6 +376,8 @@ const P2DateBox = styled(PBox2)`
   align-items: flex-start;
   @media (min-width: 900pt) {
     padding-top: 39pt;
+    padding-left: 18pt;
+    padding-right: 18pt;
   }
   .dateBox {
     display: flex;
@@ -439,5 +443,11 @@ const P2DateBox = styled(PBox2)`
     top: 5.25pt;
     width: 25.875pt;
     height: 8.625pt;
+    @media (min-width: 900pt) {
+      top: 24pt;
+      transform: translateY(-50%);
+      width: 58.5pt;
+      height: 8.625pt;
+    }
   }
 `;

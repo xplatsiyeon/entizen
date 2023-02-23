@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import colors from 'styles/colors';
-import Logos from 'public/images/webLogo.png';
+// import Logos from 'public/images/webLogo.png';
+import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Chat from 'public/images/chat.png';
 // 알림 0
 import Bell from 'public/images/bell.png';
@@ -224,13 +225,13 @@ const WebBuyerHeader = ({
                         <Image
                           src={Bell}
                           alt="bell off"
-                          onClick={() => router.push('/alarm')}
+                          onClick={() => router.push('/alarm?id=0')}
                         />
                       ) : (
                         <Image
                           src={BellOutline}
                           alt="bell on"
-                          onClick={() => router.push('/alarm')}
+                          onClick={() => router.push('/alarm?id=0')}
                         />
                       )}
                     </IconBox>
@@ -276,7 +277,7 @@ const WebBuyerHeader = ({
                       <Image
                         src={Bell}
                         alt="alram"
-                        onClick={() => router.push('/alarm')}
+                        onClick={() => router.push('/signin')}
                       />
                     </IconBox>
                   </DivBox2>
@@ -359,6 +360,7 @@ const IconBox = styled.div`
   width: 21pt;
   height: 21pt;
   cursor: pointer;
+
   &:nth-last-of-type(1) {
     margin-right: 0;
   }

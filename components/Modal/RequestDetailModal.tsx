@@ -5,21 +5,21 @@ import colors from 'styles/colors';
 import { useMediaQuery } from 'react-responsive';
 
 interface Props {
-  contents: string;
-  leftText: string;
-  leftControl: () => void;
-  rightText: string;
-  rightControl: () => void;
-  backgroundOnClick: () => void;
+  leftControl?: () => void;
+  rightControl?: () => void;
+  exit: () => void;
+  title: string;
+  subtitle?: string;
+  border?: boolean | undefined;
 }
 
-const M17Modal = ({
-  contents,
-  leftText,
+const RequestDetailModal = ({
+  title,
+  subtitle,
   leftControl,
-  rightText,
   rightControl,
-  backgroundOnClick,
+  border,
+  exit,
 }: Props) => {
   const outside = useRef(null);
   const mobile = useMediaQuery({
@@ -29,31 +29,37 @@ const M17Modal = ({
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     if (outside.current === e.target) {
-      backgroundOnClick();
+      exit();
     }
   };
   return (
     <ModalBackground ref={outside} onClick={(e) => handleModalClose(e)}>
-      <Modal>
-        <H1>{contents}</H1>
-        {!mobile && (
+      {border ? (
+        <Modal border={border}>
+          <H1>{title}</H1>
+          <Text>{subtitle}</Text>
           <BtnBox>
-            <RightBtn onClick={rightControl}>{rightText}</RightBtn>
-            <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
+            <RightBtn border={border} onClick={rightControl}>
+              다시 생각해 볼게요
+            </RightBtn>
+            <LeftBtn onClick={leftControl}>계정 탈퇴</LeftBtn>
           </BtnBox>
-        )}
-        {mobile && (
+        </Modal>
+      ) : (
+        <Modal>
+          <H1>{title}</H1>
+          <Text>{subtitle}</Text>
           <BtnBox>
-            <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
-            <RightBtn onClick={rightControl}>{rightText}</RightBtn>
+            <LeftBtn onClick={leftControl}>취소</LeftBtn>
+            <RightBtn onClick={rightControl}>확인</RightBtn>
           </BtnBox>
-        )}
-      </Modal>
+        </Modal>
+      )}
     </ModalBackground>
   );
 };
 
-export default M17Modal;
+export default RequestDetailModal;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -71,81 +77,106 @@ const Modal = styled.div<{ border?: boolean }>`
   background: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
-  padding: 51pt 15pt 30pt; 
-  width: 100%;
-  position: fixed;
-  bottom: 0;
+
+  @media (max-width: 899.25pt) {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top-left-radius: 20pt;
+    border-top-right-radius: 20pt;
+    padding-top: 30pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
+
   @media (min-width: 900pt) {
     border-radius: 12pt;
-    width: 324pt;
-    padding: 42pt 28.5pt 30pt;
-    margin-top: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    bottom:auto;
-    transform: translate(-50%,-50%);
+    width: 420pt;
+    padding: 30pt 37.5pt;
   }
 `;
 const H1 = styled.h1`
   white-space: pre-wrap;
+  font-family: ' Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 21pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 24pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const Text = styled.p`
   white-space: pre-wrap;
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
-  font-size: 12pt;
-  line-height: 18pt;
+  font-size: 10.5pt;
+  line-height: 15pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-top: 12pt;
+
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 const BtnBox = styled.div`
   text-align: center;
-  padding-top: 51pt;
+  padding-top: 24pt;
   display: flex;
   justify-content: center;
   gap: 9pt;
-  @media (min-width: 900pt) {
-    flex-direction: column;
-    padding-top: 24pt;
+
+  @media (max-width: 899.25pt) {
+    padding-bottom: 30pt;
   }
 `;
-
 const LeftBtn = styled(Button)`
-  color: #595757;
+  /* background: ${colors.gray}; */
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
+  color: ${colors.darkGray};
+  background-color: #e2e5ed;
   padding: 15pt 26.25pt;
-  @media (max-width: 899.25pt) {
-    background-color: #e2e5ed;
+  flex: 1;
+  @media (min-width: 900pt) {
+    width: 100%;
   }
-    &:hover{
-    background:white!important;
-  }
-  //
 `;
 const RightBtn = styled(Button)<{ border?: boolean }>`
+  font-family: 'Spoqa Han Sans Neo';
+  background: ${colors.main};
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  background: ${colors.main};
+  color: ${colors.lightWhite};
   padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
-  color: white;
-  &:hover{
-    background:${colors.main}!important;
+  flex: 2;
+  @media (min-width: 900pt) {
+    width: 100%;
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
   }
 `;

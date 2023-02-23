@@ -10,6 +10,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { useDispatch } from 'react-redux';
 import { selectAction } from 'store/loginTypeSlice';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   userType: number;
@@ -20,7 +21,9 @@ type Props = {
 
 const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
   const dispatch = useDispatch();
-
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
     console.log(userType);
@@ -30,7 +33,7 @@ const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
   const UserTypeList: string[] = ['기업회원', '일반회원'];
   return (
     <>
-      <Notice variant="h3">어떤 용무로 오셨나요?</Notice>
+      {mobile && <Notice variant="h3">어떤 용무로 오셨나요?</Notice>}
       <SelectWrapper>
         {UserTypeList.map((type, index) => (
           <div key={index}>

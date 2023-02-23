@@ -17,6 +17,7 @@ import {
   QuotationRequest,
   SpotDataResponse,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+import RequestDetailModal from 'components/Modal/RequestDetailModal';
 export interface PreQuotationChargers {
   createdAt: string;
   preQuotationChargerIdx: number;
@@ -172,7 +173,7 @@ const MypageDetail = () => {
       <Inner>
         <Wrapper>
           {isModal && (
-            <RequestModal
+            <RequestDetailModal
               exit={() => setModal((prev) => !prev)}
               title={`${ModalCompany}의 \n 구독상품으로 선택하시겠습니까?`}
               subtitle={

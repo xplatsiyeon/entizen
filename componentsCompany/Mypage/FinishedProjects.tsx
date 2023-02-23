@@ -285,6 +285,9 @@ const ListTextBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5pt;
+
+  width: 100%;
+
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: row;
@@ -319,7 +322,7 @@ const ListIconBox = styled.div`
   position: relative;
   margin-left: 40pt;
   @media (max-width: 899.25pt) {
-    left: 170pt;
+    margin-left: 95%;
     bottom: 28pt;
   }
   @media (min-width: 900pt) {

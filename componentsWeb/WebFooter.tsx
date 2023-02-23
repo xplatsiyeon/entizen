@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import colors from 'styles/colors';
-import Insta from 'public/images/insta.png';
-import Pencil from 'public/images/pencil.png';
-import apple from 'public/images/appleLogo.png';
-import google from 'public/images/googlePlayIcon.png';
+import Insta from 'public/images/PencilSvg.svg';
+import Pencil from 'public/images/InstaSvg.svg';
+// import apple from 'public/images/appleLogo.png';
+// import google from 'public/images/googlePlayIcon.png';
+import apple from 'public/images/appleFooterSvg.svg';
+import google from 'public/images/googleWebFooterSvg.svg';
 
 const WebFooter = () => {
   const userID = localStorage.getItem('USER_ID');
