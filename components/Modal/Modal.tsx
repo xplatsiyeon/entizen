@@ -97,8 +97,7 @@ const ContentText = styled(Typography)<{ textAlignLeft?: boolean }>`
   letter-spacing: -2%;
   /* padding-top: 21pt;
   padding-bottom: 21pt; */
-  text-align: ${({ textAlignLeft }) =>
-    textAlignLeft === false || textAlignLeft === undefined ? 'center' : 'left'};
+  text-align: left;
   @media (min-width: 900pt) {
     font-size: 12pt;
     font-weight: 500;

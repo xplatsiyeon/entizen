@@ -71,7 +71,7 @@ const Modal = styled.div<{ border?: boolean }>`
   background: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
-  padding: 30pt 15pt;
+  padding: 51pt 15pt 30pt; 
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -108,12 +108,13 @@ const Text = styled.p`
 `;
 const BtnBox = styled.div`
   text-align: center;
-  padding-top: 24pt;
+  padding-top: 51pt;
   display: flex;
   justify-content: center;
   gap: 9pt;
   @media (min-width: 900pt) {
     flex-direction: column;
+    padding-top: 24pt;
   }
 `;
 
