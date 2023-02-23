@@ -18,7 +18,7 @@ export const isTokenApi = async (apiInfo: ApiProps) => {
   // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { data, endpoint, method } = apiInfo;
 
-  return await axios({
+  return await instance({
     method,
     // url: `${BASE_URL}${endpoint}`,
     url: `${endpoint}`,
@@ -34,7 +34,7 @@ export const isTokenApi = async (apiInfo: ApiProps) => {
 export const api = async (apiInfo: ApiProps) => {
   const { data, endpoint, method } = apiInfo;
 
-  return await axios({
+  return await instance({
     method,
     // url: `${BASE_URL}${endpoint}`,
     url: `${endpoint}`,
