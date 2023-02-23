@@ -158,7 +158,7 @@ export default EstimateContainer;
 
 const Wrapper = styled.div`
   padding: 21pt 15pt;
-  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   @media (min-width: 900pt) {
     padding: 27pt 26.25pt;
     border-radius: 12pt;

@@ -209,7 +209,7 @@ export default PlaceTopBox;
 const Wrapper = styled.div`
   display: block;
   border-top: none;
-  box-shadow: 0px 3pt 7.5pt -3pt #89a3c966;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 6pt;
