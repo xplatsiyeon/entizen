@@ -55,7 +55,7 @@ const Mypage2_3 = () => {
 
   // 수락하기 버튼
   const acceptModal = () => {
-    console.log(tabNumber);
+    // console.log(tabNumber);
     if (tabNumber === 0) {
       mutate({
         url: `/quotations/pre/${spotId}/spot-inspection`,
@@ -73,7 +73,7 @@ const Mypage2_3 = () => {
   };
   const anotherData = spotData?.data?.spotInspection.spotInspectionDate;
   const anotherData2 = spotData?.data?.spotInspection.createdAt;
-  console.log('72번째', anotherData);
+  // console.log('72번째', anotherData);
   // 다른 날짜 제안 버튼
   const HandleDateChange = () =>
     router.push({
@@ -87,8 +87,8 @@ const Mypage2_3 = () => {
   function getDayOfWeek(target: string) {
     const date = new Date();
     const week = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayOfWeek = week[new Date(target.replace(/-/g, "/")).getDay()];
-    console.log('요일확인 ', dayOfWeek )
+    const dayOfWeek = week[new Date(target.replace(/-/g, '/')).getDay()];
+    // console.log('요일확인 ', dayOfWeek )
     return dayOfWeek;
   }
 
@@ -97,13 +97,13 @@ const Mypage2_3 = () => {
   }
 
   if (spotIsError) {
-    console.log('에러발생');
-    console.log(spotError);
+    // console.log('에러발생');
+    // console.log(spotError);
   }
 
-  console.log('🔥 ~line 61 spotData 확인');
+  // console.log('🔥 ~line 61 spotData 확인');
 
-  console.log(spotData);
+  // console.log(spotData);
 
   const handleOnClick = () => {
     router.back();

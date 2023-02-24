@@ -158,8 +158,8 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
   useLayoutEffect(() => {
     setConstructionPeriod(data?.data?.finalQuotation?.constructionPeriod);
   }, [data]);
-  console.log('🔥 최종견적 데이트 확인 -> ' + TAG);
-  console.log(data);
+  // console.log('🔥 최종견적 데이트 확인 -> ' + TAG);
+  // console.log(data);
   return (
     <>
       {isLoading ? (

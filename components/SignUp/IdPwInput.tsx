@@ -111,8 +111,8 @@ const IdPwInput = ({
     {
       enabled: false,
       onError: (error) => {
-        console.log('----아이디 중복체크----');
-        console.log(error);
+        // console.log('----아이디 중복체크----');
+        // console.log(error);
         alert('다시 시도해주세요.');
       },
     },
@@ -124,20 +124,20 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async (res) => {
-      console.log('회원가입 후 로그인 테스트중');
+      // console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      console.log(res);
+      // console.log(res);
 
       if (res?.isSuccess === true) {
         signin(checkPw);
       } else {
-        console.log('에러');
+        // console.log('에러');
       }
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
-      console.log('----회원가입 실패----');
-      console.log(error);
+      // console.log('----회원가입 실패----');
+      // console.log(error);
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
@@ -148,13 +148,13 @@ const IdPwInput = ({
     error: companyError,
   } = useMutation(api, {
     onSuccess: () => {
-      console.log('성공');
+      // console.log('성공');
       queryClient.invalidateQueries();
       router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
-      console.log('----회원가입 실패----');
-      console.log(error);
+      // console.log('----회원가입 실패----');
+      // console.log(error);
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
@@ -258,7 +258,7 @@ const IdPwInput = ({
       if (passwords !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(passwords, checkPassword);
+    // console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
 

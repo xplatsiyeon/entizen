@@ -64,7 +64,7 @@ const EntizenLibraryTable = ({
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
-          console.log(entizenLibrary);
+          // console.log(entizenLibrary);
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
             entizenLibrary?.data?.forEach((ele, idx) => {
@@ -147,7 +147,7 @@ const EntizenLibraryTable = ({
       },
     );
 
-  console.log('pickedDate', pickedDate);
+  // console.log('pickedDate', pickedDate);
 
   useEffect(() => {
     switch (tableType) {

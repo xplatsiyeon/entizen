@@ -80,7 +80,7 @@ const MemberContents = ({
     });
   };
 
-  console.log('userData==>>', userData);
+  // console.log('userData==>>', userData);
   return (
     <Contents>
       {type === 'USER' ? (

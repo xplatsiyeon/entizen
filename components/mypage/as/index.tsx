@@ -203,7 +203,7 @@ const AsIndex = ({ listUp }: Props) => {
   };
 
   useEffect(() => {
-    console.log(checkedFilterIndex);
+    // console.log(checkedFilterIndex);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     setCheckedFilter(filterList[checkedFilterIndex]);
@@ -221,8 +221,8 @@ const AsIndex = ({ listUp }: Props) => {
     return <Loader />;
   }
   if (isError) {
-    console.log('🔥 유저 AS 리스트 에러 ~line 185 -> ' + TAG);
-    console.log(error);
+    // console.log('🔥 유저 AS 리스트 에러 ~line 185 -> ' + TAG);
+    // console.log(error);
   }
 
   return (
@@ -639,7 +639,7 @@ const WebFilter = styled.div`
   letter-spacing: -0.02em;
   align-items: center;
   border: 1px solid #e2e5ed;
-  border-radius: 6pt!important;
+  border-radius: 6pt !important;
   width: 96pt;
   justify-content: center;
   box-sizing: border-box;

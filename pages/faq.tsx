@@ -181,7 +181,7 @@ const Faq = () => {
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
-  console.log('data', data);
+  // console.log('data', data);
 
   return (
     <WebBody>

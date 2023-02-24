@@ -16,8 +16,8 @@ const UserProfile = (memberIdx: { memberIdx: number }) => {
   // 대문자로 읽으면 안읽어짐 그래서 하단처럼 사용하면 됨
   const userId = router.query['USER'];
   const comUserId = router.query['COMPANY'];
-  console.log(router.query);
-  console.log('dasdasd', router.asPath);
+  // console.log(router.query);
+  // console.log('dasdasd', router.asPath);
 
   const { data: userData, refetch: userRefetch } = useQuery<UserRespnse>(
     'user-detail',
@@ -25,7 +25,7 @@ const UserProfile = (memberIdx: { memberIdx: number }) => {
     {
       onSuccess: () => {},
       onError: (e) => {
-        console.log(e);
+        // console.log(e);
       },
       enabled: false,
       staleTime: 30000,

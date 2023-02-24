@@ -585,19 +585,19 @@ const ProjectCompleteDetail = ({
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
 
-  console.log(
-    '🍎 사업자 등록증, 상세 견적서',
-    data?.data?.project?.finalQuotation?.finalQuotationDetailFiles,
-  );
+  // console.log(
+  //   '🍎 사업자 등록증, 상세 견적서',
+  //   data?.data?.project?.finalQuotation?.finalQuotationDetailFiles,
+  // );
 
-  console.log(
-    '🍓 카탈로그',
-    data?.data?.project?.finalQuotation?.finalQuotationChargers?.map((item) => {
-      item?.finalQuotationChargerFiles?.filter((el) => {
-        el?.productFileType === 'CATALOG';
-      });
-    }),
-  );
+  // console.log(
+  //   '🍓 카탈로그',
+  //   data?.data?.project?.finalQuotation?.finalQuotationChargers?.map((item) => {
+  //     item?.finalQuotationChargerFiles?.filter((el) => {
+  //       el?.productFileType === 'CATALOG';
+  //     });
+  //   }),
+  // );
 
   return (
     <Background>

@@ -23,7 +23,7 @@ const contract = (props: Props) => {
   );
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     if (data) {
       let targetIframe = document.getElementById(
         'target-iframe',

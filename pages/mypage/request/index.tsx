@@ -171,8 +171,8 @@ const Mypage1_3 = ({}: any) => {
         setIsFinalItmeIndex(-1);
       },
       onError: (error: any) => {
-        console.log('다른 파트너 선정 patch error');
-        console.log(error);
+        // console.log('다른 파트너 선정 patch error');
+        // console.log(error);
       },
     });
   // ----------- 견적취소 하기 -----------
@@ -207,8 +207,8 @@ const Mypage1_3 = ({}: any) => {
         router.replace('/mypage/request/complete');
       },
       onError: (error: any) => {
-        console.log('다른 파트너 선정 patch error');
-        console.log(error);
+        // console.log('다른 파트너 선정 patch error');
+        // console.log(error);
       },
     });
 
@@ -338,7 +338,7 @@ const Mypage1_3 = ({}: any) => {
         <Body>
           <WebHeader num={0} now={'mypage'} sub={'mypage'} />
           <UserRightMenu />
-          <Inner >
+          <Inner>
             <FlexBox>
               <Wrap1>
                 <RequestMain page={0} />

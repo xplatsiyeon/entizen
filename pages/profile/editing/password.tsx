@@ -48,7 +48,7 @@ const FindPassword = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
             password,
           );
-        console.log(check1);
+        // console.log(check1);
         setCheckedPw(check1);
       }
     }
@@ -56,7 +56,7 @@ const FindPassword = () => {
       if (password !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    // console.log(password, checkPassword);
   }, [password, checkPassword]);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,8 +101,8 @@ const FindPassword = () => {
         setOpenModal(true);
       });
     } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
+      // console.log('비밀번호 변경 실패');
+      // console.log(error);
     }
   };
   const handleModalYes = () => {

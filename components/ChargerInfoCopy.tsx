@@ -34,7 +34,7 @@ const ChargerInfo2 = ({
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
-  console.log(checkHeight);
+  // console.log(checkHeight);
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });

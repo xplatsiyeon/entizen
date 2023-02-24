@@ -90,7 +90,7 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
+      // console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
       const temp = [...selectedOptionEn];
       const newArr = [...temp[tabNumber - 1].chargerImageFiles];
       res?.uploadedFiles.forEach((img) => {
@@ -126,8 +126,8 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
+      // console.log(res);
       const temp = [...selectedOptionEn];
       const newFile = [...temp[tabNumber - 1].catalogFiles];
       res?.uploadedFiles.forEach((img) => {
@@ -181,7 +181,7 @@ const SecondStep = ({
   };
   // 충전요금 탭
   const onClickCharge = (index: number) => {
-    console.log('클릭');
+    // console.log('클릭');
     const temp = [...selectedOptionEn];
     if (index === 0) {
       temp[tabNumber - 1] = {
@@ -227,7 +227,7 @@ const SecondStep = ({
   };
   // 충전기 설치 위치 탭
   const onClickLocation = (index: number) => {
-    console.log('클릭 로케이션');
+    // console.log('클릭 로케이션');
     const temp = [...selectedOptionEn];
     if (index === 0) {
       temp[tabNumber - 1] = {
@@ -501,9 +501,9 @@ const SecondStep = ({
     }
   }, []);
 
-  console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
-  console.log(selectedOption[maxIndex! - 1]);
-  console.log(maxIndex);
+  // console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
+  // console.log(selectedOption[maxIndex! - 1]);
+  // console.log(maxIndex);
 
   return (
     <>

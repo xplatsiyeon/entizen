@@ -29,9 +29,9 @@ const ProfileIndex = () => {
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
   ];
-  console.log('component', component);
+  // console.log('component', component);
 
-  console.log(heightOn);
+  // console.log(heightOn);
 
   return (
     <WebBody>

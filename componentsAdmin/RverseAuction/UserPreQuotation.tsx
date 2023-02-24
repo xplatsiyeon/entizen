@@ -88,7 +88,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
 
   const expiredAt = dateFomat(data?.expiredAt!).substring(0, 12);
 
-  console.log('data=>', data);
+  // console.log('data=>', data);
 
   return (
     <Background>

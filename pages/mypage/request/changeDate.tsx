@@ -60,7 +60,7 @@ const changeDate = () => {
       setModalMessage('변경 요청 되었습니다');
     },
     onError: (error: any) => {
-      console.log(error);
+      // console.log(error);
       setIsModal(true);
       setModalMessage('다시 시도해주세요');
     },

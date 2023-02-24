@@ -55,13 +55,13 @@ const Request1_7 = (props: Props) => {
   // react-query // api 호출
   const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
-      console.log(TAG + 'api/quotations/request' + 'success');
-      console.log(res);
+      // console.log(TAG + 'api/quotations/request' + 'success');
+      // console.log(res);
       router.push('/quotation/request/complete');
     },
     onError: (error) => {
-      console.log(TAG + '🔥 api/quotations/request' + 'fail');
-      console.log(error);
+      // console.log(TAG + '🔥 api/quotations/request' + 'fail');
+      // console.log(error);
       alert('다시 시도해주세요.');
       router.push('/');
     },
@@ -77,10 +77,10 @@ const Request1_7 = (props: Props) => {
   const { unavailableGraph } = useSelector(
     (state: RootState) => state.unavailableGraphBoolean,
   );
-  console.log('post 후 받은 request 데이터', requestData);
-  console.log('리덕스 post 데이터', quotationData);
+  // console.log('post 후 받은 request 데이터', requestData);
+  // console.log('리덕스 post 데이터', quotationData);
   // 홈충전기인지 아닌지
-  console.log('unavailableGraph', unavailableGraph);
+  // console.log('unavailableGraph', unavailableGraph);
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -157,7 +157,7 @@ const Request1_7 = (props: Props) => {
   };
 
   if (isError) {
-    console.log(error);
+    // console.log(error);
   }
 
   return (

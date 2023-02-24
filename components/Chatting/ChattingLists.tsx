@@ -104,7 +104,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   useEffect(() => {
     // queryClinet.invalidateQueries('chatting-list');
     refetch();
-    console.log(data);
+    // console.log(data);
   }, [index, keyword]);
 
   {

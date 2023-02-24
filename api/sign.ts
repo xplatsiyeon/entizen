@@ -25,7 +25,7 @@ export const modusign = (data: ModuSignResponse) => {
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
-  console.log('projectInProgress=>', projectInProgress);
+  // console.log('projectInProgress=>', projectInProgress);
   // // 계약하는 날짜 당일
   const today = new Date();
 
@@ -66,6 +66,7 @@ export const modusign = (data: ModuSignResponse) => {
       // authorization: process.env.MODUSIGN_KEY,
       authorization:
         'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      // `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
     body: JSON.stringify({
       templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',

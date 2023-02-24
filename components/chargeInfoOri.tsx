@@ -33,8 +33,8 @@ const ChargerInfo = ({
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
-  console.log('slowCharger=>>', slowCharger);
-  console.log('fastCharger=>>', fastCharger);
+  // console.log('slowCharger=>>', slowCharger);
+  // console.log('fastCharger=>>', fastCharger);
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });

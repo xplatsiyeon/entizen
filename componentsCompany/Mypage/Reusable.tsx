@@ -50,7 +50,7 @@ type Props = {
   planed?: string;
   stepType: string;
   preStepState: boolean;
-  CompletionDate: string;
+  completionDate: string;
   setProgressNum: Dispatch<SetStateAction<number>>;
   beforeStepDate?: string;
   afterStepDate?: string;
@@ -90,7 +90,7 @@ const Reusable = ({
   preStepState,
   inProgressRefetch,
   setProgressNum,
-  CompletionDate,
+  completionDate,
   beforeStepDate,
   afterStepDate,
   modalText,
@@ -119,7 +119,7 @@ Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  console.log('이미지 데이터 어케오노', data?.project);
+  // console.log('이미지 데이터 어케오노', data?.project);
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -128,7 +128,7 @@ Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(res);
+      // console.log(res);
       const newArr = [...imgArr];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -155,14 +155,14 @@ Props) => {
 
   const { mutate: deleteDataMutate, isLoading } = useMutation(isTokenPatchApi, {
     onSuccess(data, variables, context) {
-      console.log('일정 변경 취소 성공');
-      console.log(data);
+      // console.log('일정 변경 취소 성공');
+      // console.log(data);
       setErrorMessage('일정 변경이 취소되었습니다.');
       setIsModal(true);
     },
     onError(error, variables, context) {
-      console.log('일정 변경 취소 실패');
-      console.log(error);
+      // console.log('일정 변경 취소 실패');
+      // console.log(error);
       setErrorMessage('다시 시도해주세요.');
       setIsModal(true);
     },
@@ -178,8 +178,8 @@ Props) => {
       setProgressNum(-1);
     },
     onError: (error: any) => {
-      console.log(error);
-      console.log('에러 확인');
+      // console.log(error);
+      // console.log('에러 확인');
     },
   });
 
@@ -295,8 +295,8 @@ Props) => {
   }, []);
 
   useEffect(() => {
-    console.log('핀 업데이트 되면 새로 고침');
-    console.log(almostFinish);
+    // console.log('핀 업데이트 되면 새로 고침');
+    // console.log(almostFinish);
   }, [fin]);
 
   return (
@@ -324,6 +324,7 @@ Props) => {
           inProgressRefetch={inProgressRefetch}
           beforeStepDate={beforeStepDate!}
           afterStepDate={afterStepDate!}
+          completionDate={completionDate!}
         />
       )}
       {/* ------------- 프로젝트 완료하기 클릭시 보이는 곳  -------------*/}
@@ -432,7 +433,7 @@ Props) => {
                         ? planed === 'CHANGING'
                           ? '목표일 변경 중'
                           : changeDataFn(
-                              CompletionDate ? CompletionDate : planed,
+                              completionDate ? completionDate : planed,
                             )
                         : '목표일을 정해주세요'}
                     </Date>
@@ -467,7 +468,7 @@ Props) => {
                     {planed
                       ? planed === 'CHANGING'
                         ? '목표일 변경 중'
-                        : changeDataFn(CompletionDate ? CompletionDate : planed)
+                        : changeDataFn(completionDate ? completionDate : planed)
                       : '목표일을 정해주세요'}
                   </Date>
                 </>

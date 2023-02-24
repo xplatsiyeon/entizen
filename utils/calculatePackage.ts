@@ -216,9 +216,9 @@ export const addCommaBirthDay = (birthDay: string) => {
     const year = birthDay.slice(0, 4);
     const month = birthDay.slice(4, 6);
     const day = birthDay.slice(6, 8);
-    console.log(year);
-    console.log(month);
-    console.log(day);
+    // console.log(year);
+    // console.log(month);
+    // console.log(day);
 
     return `${year}.${month}.${day}`;
   } else {

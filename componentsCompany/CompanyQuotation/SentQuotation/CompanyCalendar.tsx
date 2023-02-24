@@ -31,7 +31,7 @@ const CompanyCalendar = ({
   types,
 }: Props) => {
   const router = useRouter();
-  console.log(router.pathname);
+  // console.log(router.pathname);
 
   const today = {
     year: new Date().getFullYear(), //오늘 연도
@@ -188,7 +188,7 @@ const CompanyCalendar = ({
     } else if (types === 'company') {
       // 이전 날짜 | 이미 선택된 날짜 클릭 금지
       if (differencerDate > 0 || days.includes(selectedDate)) return;
-      console.log(selectedDate);
+      // console.log(selectedDate);
 
       // 클릭 취소
       if (selectedDaysArr!.includes(selectedDate)) {

@@ -22,8 +22,8 @@ type Props = {};
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
 const DatePicker = ({}: Props) => {
   const router = useRouter();
-  console.log('~line 23 router.query.preQuotation ');
-  console.log(router.query.preQuotation);
+  // console.log('~line 23 router.query.preQuotation ');
+  // console.log(router.query.preQuotation);
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
@@ -32,7 +32,7 @@ const DatePicker = ({}: Props) => {
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
   const [selectIndex, setSelectIndex] = useState(-1);
 
-  console.log('🍎selectIndex', selectIndex);
+  // console.log('🍎selectIndex', selectIndex);
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -55,7 +55,7 @@ const DatePicker = ({}: Props) => {
   // 일정 확정하기 POST API
   const { data, mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       setModalMessage('확정되었습니다.');
       setIsModal((prev) => !prev);
       router.back();
@@ -78,9 +78,9 @@ const DatePicker = ({}: Props) => {
   // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
     if (selectedDays) {
-      console.log('온클릭 됐나요?');
+      // console.log('온클릭 됐나요?');
       const newDay = selectedDays?.replaceAll('.', '-');
-      console.log(newDay);
+      // console.log(newDay);
       mutate({
         url: `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
         data: {
@@ -94,7 +94,7 @@ const DatePicker = ({}: Props) => {
   };
   // 모달 확인 버튼 클릭
   const HandleModal = () => {
-    console.log('온클릭');
+    // console.log('온클릭');
     setIsModal((prev) => !prev);
     // router.push('/mypage');
     // dispatch(requestAction.addDate(selectedDays));
@@ -112,8 +112,8 @@ const DatePicker = ({}: Props) => {
     return <Loader />;
   }
   if (spotIsError) {
-    console.log(TAG + '🔥 ~line 42 에러 코드');
-    console.log(spotError);
+    // console.log(TAG + '🔥 ~line 42 에러 코드');
+    // console.log(spotError);
   }
 
   const spotInspectionDate = spotData?.data?.spotInspection.spotInspectionDate!;

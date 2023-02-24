@@ -64,22 +64,22 @@ const phone = () => {
         },
         withCredentials: true,
       }).then((res) => {
-        console.log('백엔드에서 받은 데이터');
-        console.log(res);
+        // console.log('백엔드에서 받은 데이터');
+        // console.log(res);
         router.push('/');
       });
     } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
+      // console.log('비밀번호 변경 실패');
+      // console.log(error);
     }
   };
 
   // 나이스 인증
   const fnPopup = (event: any) => {
-    console.log('나이스 인증');
-    console.log(event);
+    // console.log('나이스 인증');
+    // console.log(event);
     const { id } = event.currentTarget;
-    console.log(`id -> ${id}`);
+    // console.log(`id -> ${id}`);
 
     if (typeof window !== 'object') return;
     else {
@@ -118,17 +118,17 @@ const phone = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('⭐️ SNS 데이터 확인 ~라인 119');
-    console.log(checkSns);
-    console.log(snsMember);
+    // console.log('⭐️ SNS 데이터 확인 ~라인 119');
+    // console.log(checkSns);
+    // console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 나이스 인증 테스트
   useEffect(() => {
-    console.log('-----key-------');
-    console.log(key);
-    console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
+    // console.log('-----key-------');
+    // console.log(key);
+    // console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
   }, [newPhoneNumber, key]);
 
   return (

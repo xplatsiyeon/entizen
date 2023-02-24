@@ -52,7 +52,7 @@ const Chatting = () => {
     refetch();
   }, [index, keyword]);
 
-  console.log('list', data);
+  // console.log('list', data);
 
   const handle = () => {};
 

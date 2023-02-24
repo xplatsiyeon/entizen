@@ -36,10 +36,10 @@ type Props = {
 };
 
 const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
-  console.log(
-    data?.sendQuotationRequest.quotationRequest.etcRequest,
-    '39번째줄',
-  );
+  // console.log(
+  //   data?.sendQuotationRequest.quotationRequest.etcRequest,
+  //   '39번째줄',
+  // );
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   const callPhone = hyphenFn(
@@ -262,10 +262,10 @@ const ItemButton = styled(ListItemButton)`
   &div {
     margin: 0;
   }
-  &:hover{
-    background: transparent!important;
+  &:hover {
+    background: transparent !important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;

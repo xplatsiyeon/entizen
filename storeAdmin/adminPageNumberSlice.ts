@@ -15,7 +15,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setIsAdminPage(state, action: PayloadAction<number>) {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.isAdminPage = action.payload;
     },
 

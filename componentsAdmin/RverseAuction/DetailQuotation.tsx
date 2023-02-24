@@ -46,7 +46,7 @@ const DetailQuotation = ({
 
   // 테이블에서 onClick 하면 여기로 id 값 넘겨주기!
 
-  console.log('---------------------');
+  // console.log('---------------------');
 
   // console.log(window.document.documentElement.clientHeight);
 

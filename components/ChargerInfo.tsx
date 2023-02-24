@@ -48,11 +48,11 @@ const ChargerInfo = ({ checkHeight }: Props) => {
   const handle = (e: React.TouchEvent) => {
     const target = e.currentTarget as HTMLElement;
     const target2 = e.target as HTMLElement;
-    console.log('타겟의 스크롤탑', target.scrollTop, target2.scrollTop);
+    // console.log('타겟의 스크롤탑', target.scrollTop, target2.scrollTop);
 
     setTimeout(() => {
       //드래그 움직임이 완전히 끝난 후의 스크롤탑을 기준으로 애니메이션이 작동해야 한다,
-      console.log('타겟의 스크롤탑2', target.scrollTop, target2.scrollTop);
+      // console.log('타겟의 스크롤탑2', target.scrollTop, target2.scrollTop);
       //alert(target2.scrollTop)
       const endY = e.changedTouches[0].clientY;
       //alert(endY)
@@ -63,7 +63,7 @@ const ChargerInfo = ({ checkHeight }: Props) => {
         if (target.scrollTop < 30 && ref.current) {
           if (check.current !== 0) {
             check.current = 0;
-            console.log('now', check.current);
+            // console.log('now', check.current);
           } else {
             ref.current.style.height = '0px';
           }

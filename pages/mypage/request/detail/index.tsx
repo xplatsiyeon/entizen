@@ -158,14 +158,14 @@ const MypageDetail = () => {
     });
 
   if (isError && spotIsError) {
-    console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
-    console.log(error);
+    // console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
+    // console.log(error);
   }
   if (isLoading && spotLoading) {
     return <Loader />;
   }
-  console.log(TAG + '🔥 ~line 95 현장실사 데이터 api 로그');
-  console.log(spotData);
+  // console.log(TAG + '🔥 ~line 95 현장실사 데이터 api 로그');
+  // console.log(spotData);
 
   return (
     <WebBody>

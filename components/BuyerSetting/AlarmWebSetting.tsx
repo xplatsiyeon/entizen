@@ -94,7 +94,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
-        console.log('알람 수정 성공');
+        // console.log('알람 수정 성공');
         // alertsListRefetch();
       },
       onError: (error: any) => {
@@ -102,9 +102,9 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
           response: { data },
         } = error;
         if (data) {
-          console.log(data.message);
+          // console.log(data.message);
         } else {
-          console.log('다시 시도해주세요');
+          // console.log('다시 시도해주세요');
         }
       },
     },

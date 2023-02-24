@@ -40,12 +40,12 @@ const BottomNavigation = ({}: Props) => {
   );
 
   if (isError) {
-    console.log(TAG + '~line 43 ~에러 발생 콘솔');
-    console.log(error);
+    // console.log(TAG + '~line 43 ~에러 발생 콘솔');
+    // console.log(error);
   }
 
   useEffect(() => {
-    console.log(router.pathname);
+    // console.log(router.pathname);
     if (memberType === 'COMPANY') {
       switch (pathname) {
         case '/':
@@ -131,8 +131,18 @@ const BottomNavigation = ({}: Props) => {
                     alt="guide"
                     layout="fill"
                   />
-                  <CountQuotation upNumber={ data?.receivedQuotationRequests.length && data?.receivedQuotationRequests.length > 9 ? true:false}>
-                    {data?.receivedQuotationRequests.length && data?.receivedQuotationRequests.length > 300 ? 300 + '+' : data?.receivedQuotationRequests.length}
+                  <CountQuotation
+                    upNumber={
+                      data?.receivedQuotationRequests.length &&
+                      data?.receivedQuotationRequests.length > 9
+                        ? true
+                        : false
+                    }
+                  >
+                    {data?.receivedQuotationRequests.length &&
+                    data?.receivedQuotationRequests.length > 300
+                      ? 300 + '+'
+                      : data?.receivedQuotationRequests.length}
                   </CountQuotation>
                 </ImgBox>
               )}
@@ -316,7 +326,6 @@ const ImgBox = styled.div`
   position: relative;
   height: 24pt;
   width: 24pt;
-
 `;
 const H3 = styled.h3<{ clicked: boolean }>`
   font-weight: 500;
@@ -326,21 +335,21 @@ const H3 = styled.h3<{ clicked: boolean }>`
   color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray3)};
 `;
 
-const CountQuotation = styled.div<{upNumber : boolean}>`
+const CountQuotation = styled.div<{ upNumber: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: ${({upNumber}) => upNumber? `-10pt` : `-3pt`};
+  right: ${({ upNumber }) => (upNumber ? `-10pt` : `-3pt`)};
   top: -3pt;
   background-color: #5a2dc9;
-  border-radius: ${({upNumber}) => upNumber? `21.75pt` : `50%`};
+  border-radius: ${({ upNumber }) => (upNumber ? `21.75pt` : `50%`)};
   color: #ffffff;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 6pt;
   font-weight: 700;
   letter-spacing: 0em;
-  line-height:${({upNumber}) => upNumber? `none` : `6pt`};
+  line-height: ${({ upNumber }) => (upNumber ? `none` : `6pt`)};
   text-align: center;
-  padding: ${({upNumber}) => upNumber?`2.25pt 3.375pt` : `2.25pt 3pt` };
+  padding: ${({ upNumber }) => (upNumber ? `2.25pt 3.375pt` : `2.25pt 3pt`)};
 `;

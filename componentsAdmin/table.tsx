@@ -154,7 +154,7 @@ const Table = ({
       enabled: false,
       onSuccess: (userData) => {
         if (tableType === 'userData') {
-          console.log('userData');
+          // console.log('userData');
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
@@ -221,7 +221,7 @@ const Table = ({
         enabled: false,
         onSuccess: (comUserData) => {
           if (tableType === 'comUserData') {
-            console.log('comuserData');
+            // console.log('comuserData');
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [
@@ -729,7 +729,7 @@ const Table = ({
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
-          console.log(entizenLibrary);
+          // console.log(entizenLibrary);
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
             entizenLibrary?.data?.forEach((ele, idx) => {

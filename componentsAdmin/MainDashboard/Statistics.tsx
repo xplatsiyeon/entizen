@@ -71,9 +71,9 @@ const Statistics = ({ setNowHeight }: Props) => {
   //   value: DateRange | null,
   //   event: React.SyntheticEvent<Element, Event>,
   // ) => {
-  //   console.log('==================value=======================');
-  //   console.log('event==>>', event);
-  //   console.log('value==>>', value);
+  //   // console.log('==================value=======================');
+  //   // console.log('event==>>', event);
+  //   // console.log('value==>>', value);
 
   //   if (value?.length === 2) {
   //     setPickedDate([
@@ -118,7 +118,7 @@ const Statistics = ({ setNowHeight }: Props) => {
   const chartData = data?.data?.statistics?.chargers;
 
   useEffect(() => {
-    console.log('dateState=>', dateState);
+    // console.log('dateState=>', dateState);
   }, [dateState]);
 
   return (

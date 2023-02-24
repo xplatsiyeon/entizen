@@ -140,8 +140,8 @@ const CompanyQuotations = ({ num, now }: Props) => {
   //   return <Loader />;
   // }
   if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
+    // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    // console.log(error);
     return (
       <Modal
         text="다시 시도해주세요"
@@ -152,8 +152,8 @@ const CompanyQuotations = ({ num, now }: Props) => {
     );
   }
 
-  console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
-  console.log(data);
+  // console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
+  // console.log(data);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));

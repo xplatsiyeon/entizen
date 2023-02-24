@@ -48,7 +48,7 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
   const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const token: AdminJwtTokenType = jwt_decode(accessToken);
   // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
-  console.log('token', token);
+  // console.log('token', token);
 
   // managerIdx
   const { data, isLoading, isError } = useQuery<
@@ -66,14 +66,14 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
 
   const { mutate: gradeMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: (res) => {
-      console.log(res);
+      // console.log(res);
       setWriteModal(false);
       setAlertModal(true);
       setAlertModalMessage('관리자 등급 변경이 완료되었습니다.');
       clientQuery.refetchQueries('adminAccountList');
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
       alert('다시 시도해주세요.');
     },
   });
@@ -86,7 +86,7 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
       clientQuery.refetchQueries('adminAccountList');
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
       alert('다시 시도해주세요.');
     },
   });

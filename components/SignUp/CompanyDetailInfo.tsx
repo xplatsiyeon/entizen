@@ -83,8 +83,8 @@ const CompanyDetailInfo = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 77 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 77 multer onSuccess');
+      // console.log(res);
       const newArr = [...businessRegistration];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -198,7 +198,7 @@ const CompanyDetailInfo = ({
 
   // 이미지 or 파일 1개도 없을 땐 리셋
   useEffect(() => {
-    console.log();
+    // console.log();
 
     if (
       businessRegistration.length! > 0 &&

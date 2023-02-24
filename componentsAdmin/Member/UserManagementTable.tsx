@@ -81,7 +81,7 @@ const UserManagementTable = ({
       enabled: false,
       onSuccess: (userData) => {
         if (tableType === 'userData') {
-          console.log('userData');
+          // console.log('userData');
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
@@ -135,7 +135,7 @@ const UserManagementTable = ({
     },
   );
 
-  console.log('userData', userData?.data?.members);
+  // console.log('userData', userData?.data?.members);
 
   // 회사 데이터
   const { data: comUserData, refetch: comUserDataRefetch } =
@@ -153,7 +153,7 @@ const UserManagementTable = ({
         enabled: false,
         onSuccess: (comUserData) => {
           if (tableType === 'comUserData') {
-            console.log('comuserData');
+            // console.log('comuserData');
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [

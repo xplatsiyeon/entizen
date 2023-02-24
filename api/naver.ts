@@ -23,7 +23,7 @@ export const login = (
     }, // 로그인 버튼 설정
   });
 
-  console.log('naverLogin');
+  // console.log('naverLogin');
   naverLogin?.init();
 
   callBack(naverLogin);
@@ -37,8 +37,8 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
     naverLogin.getLoginStatus((status: any) => {
       if (status) {
         // 로그인 상태 값이 있을 경우
-        console.log('[로그인상태값] 네이버 => ' + status);
-        console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
+        // console.log('[로그인상태값] 네이버 => ' + status);
+        // console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
         let email = naverLogin.user.getEmail();
         NaverApi(naverLogin, function (result) {
           callBack(result);
@@ -75,11 +75,11 @@ const NaverApi = async (data: any, callBack: (result: any) => void) => {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('[axios] 리스폰스 => ' + res);
+      // console.log('[axios] 리스폰스 => ' + res);
       callBack(res);
     });
   } catch (error) {
-    console.log('post 요청 실패');
-    console.log(error);
+    // console.log('post 요청 실패');
+    // console.log(error);
   }
 };

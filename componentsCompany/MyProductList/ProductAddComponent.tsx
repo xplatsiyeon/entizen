@@ -144,8 +144,8 @@ const ProductAddComponent = (props: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
       const newArr = [...imgArr];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -176,8 +176,8 @@ const ProductAddComponent = (props: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
       const newFile = [...fileArr];
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
@@ -298,7 +298,7 @@ const ProductAddComponent = (props: Props) => {
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    //console.log('files', files, files![0])
+    //// console.log('files', files, files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -339,7 +339,7 @@ const ProductAddComponent = (props: Props) => {
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    //console.log('files', files, files![0])
+    //// console.log('files', files, files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -421,16 +421,16 @@ const ProductAddComponent = (props: Props) => {
   }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
 
   // useEffect(() => {
-  //   console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
-  //   console.log(detailData);
-  //   console.log(modelName);
-  //   console.log(chargerType);
-  //   console.log(chargingChannel);
-  //   console.log(chargingMethod);
-  //   console.log(manufacturer);
-  //   console.log(advantages);
-  //   console.log(imgArr);
-  //   console.log(fileArr);
+  //   // console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
+  //   // console.log(detailData);
+  //   // console.log(modelName);
+  //   // console.log(chargerType);
+  //   // console.log(chargingChannel);
+  //   // console.log(chargingMethod);
+  //   // console.log(manufacturer);
+  //   // console.log(advantages);
+  //   // console.log(imgArr);
+  //   // console.log(fileArr);
   // }, [imgArr]);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)

@@ -32,7 +32,7 @@ const Auth = () => {
         'https://kauth.kakao.com/oauth/token',
         payload,
       );
-      console.log(res);
+      // console.log(res);
 
       // Kakao Javascript SDK 초기화
       // kakao.init(REST_API_KEY);
@@ -41,7 +41,7 @@ const Auth = () => {
       kakao.Auth.setAccessToken(res.data.access_token);
       router.replace('/auth/kakaoRedirect');
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   useEffect(() => {

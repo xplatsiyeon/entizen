@@ -62,8 +62,8 @@ const ProductList = (props: Props) => {
   };
 
   if (isError) {
-    console.log(TAG + ' 에러 발생');
-    console.log(isError);
+    // console.log(TAG + ' 에러 발생');
+    // console.log(isError);
     return (
       <Modal
         text="다시 시도해주세요"
@@ -77,8 +77,8 @@ const ProductList = (props: Props) => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(data);
-  console.log('⭐️ 내 제품리스트 데이터 ~line 65 -> ' + TAG);
+  // console.log(data);
+  // console.log('⭐️ 내 제품리스트 데이터 ~line 65 -> ' + TAG);
 
   useEffect(() => {
     if (data?.chargerProduct?.length === 0) {

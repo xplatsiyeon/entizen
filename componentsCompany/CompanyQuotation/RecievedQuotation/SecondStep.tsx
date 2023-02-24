@@ -135,8 +135,8 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
+      // console.log(res);
       const newArr = [...imgArr];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -167,8 +167,8 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
-      console.log(res);
+      // console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
+      // console.log(res);
       const newFile = [...fileArr];
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
@@ -451,7 +451,7 @@ const SecondStep = ({
         constructionPeriod: constructionPeriod,
         chargers: newChargers,
       };
-      console.log(newData);
+      // console.log(newData);
 
       if (subscribeProductFeature.length < 1) {
         postMutate({
@@ -566,8 +566,8 @@ const SecondStep = ({
   // 내 제품 리스트 제품이름 선택 시 하단에 불러오기
   useEffect(() => {
     if (productId) {
-      console.log('🔥 productId 확인 -> ');
-      console.log(productId);
+      // console.log('🔥 productId 확인 -> ');
+      // console.log(productId);
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,
       )[0];

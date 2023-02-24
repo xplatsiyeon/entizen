@@ -46,7 +46,7 @@ const ProfileEditing = ({
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
-  console.log('프로필', profile);
+  // console.log('프로필', profile);
 
   //주소
   const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
@@ -62,13 +62,13 @@ const ProfileEditing = ({
     isTokenPatchApi,
     {
       onSuccess: (res) => {
-        console.log(`🔥 이미지 변경 성공 ~line 53 ${TAG}`);
-        console.log(res);
+        // console.log(`🔥 이미지 변경 성공 ~line 53 ${TAG}`);
+        // console.log(res);
         invalidate();
       },
       onError: (error) => {
-        console.log(`🔥 이미지 변경 실패 ~line 57 ${TAG}`);
-        console.log(error);
+        // console.log(`🔥 이미지 변경 실패 ~line 57 ${TAG}`);
+        // console.log(error);
       },
     },
   );
@@ -79,8 +79,8 @@ const ProfileEditing = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
-      console.log(res);
+      // console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
+      // console.log(res);
       profileMutae({
         url: '/members/profile-image',
         data: {

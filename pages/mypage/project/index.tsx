@@ -45,19 +45,19 @@ const ProjectInfo = () => {
     },
   });
 
-  console.log(routerId);
+  // console.log(routerId);
 
   if (projectLoading) {
     return <Loader />;
   }
   if (projectError) {
-    console.log('프로젝트 에러 발생');
-    console.log(projectError);
+    // console.log('프로젝트 에러 발생');
+    // console.log(projectError);
   }
-  console.log('🔥 ~line 49 프로젝트 상세 api 데이터 ' + TAG);
-  console.log(routerId);
+  // console.log('🔥 ~line 49 프로젝트 상세 api 데이터 ' + TAG);
+  // console.log(routerId);
 
-  console.log(projectData);
+  // console.log(projectData);
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');

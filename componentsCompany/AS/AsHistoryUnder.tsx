@@ -29,8 +29,8 @@ const AsHistoryUnder = () => {
     return <Loader />;
   }
   if (isError) {
-    console.log('🔥 에러 발생 ~line 28 ->' + TAG);
-    console.log(error);
+    // console.log('🔥 에러 발생 ~line 28 ->' + TAG);
+    // console.log(error);
   }
 
   const handleRoute = (afterSalesServiceIdx: number) => {

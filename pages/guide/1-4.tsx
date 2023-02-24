@@ -32,7 +32,7 @@ const Guide1_4 = () => {
   const handleTab = (index: number) => setTabNumber(index);
 
   const handleRouterBack = () => {
-    console.log(router.query.id);
+    // console.log(router.query.id);
     if (router.query.id) {
       dispatch(quotationAction.setTabNumber(Number(router.query.id)));
     }
@@ -47,7 +47,7 @@ const Guide1_4 = () => {
 
   return (
     <Body>
-      <WebHeader num={1} now={'guide'} sub={'guide'}/>
+      <WebHeader num={1} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
         <Wrapper>
@@ -129,15 +129,14 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;
   width: 100%;
   padding: 12pt 0;
-  font-weight: ${({ tab, index }) => tab === index ? '700' : '500'};
+  font-weight: ${({ tab, index }) => (tab === index ? '700' : '500')};
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   position: relative;
   cursor: pointer;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : '#CACCD1'};
+  color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
 `;
 const Line = styled.div<{ tab: string; index: string }>`
   position: absolute;

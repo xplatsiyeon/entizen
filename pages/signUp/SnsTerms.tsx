@@ -66,7 +66,7 @@ const SignUpTerms = () => {
     let key = localStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
-      console.log('sns data==>>', data);
+      // console.log('sns data==>>', data);
       dispatch(
         userAction.add({
           ...user,

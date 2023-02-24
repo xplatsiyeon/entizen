@@ -62,17 +62,17 @@ const FinPage = () => {
     },
   });
 
-  console.log(routerId);
+  // console.log(routerId);
 
   if (projectLoading) {
     return <Loader />;
   }
   if (projectError) {
-    console.log('프로젝트 에러 발생');
-    console.log(projectError);
+    // console.log('프로젝트 에러 발생');
+    // console.log(projectError);
   }
 
-  console.log(projectData?.project?.isApprovedByAdmin);
+  // console.log(projectData?.project?.isApprovedByAdmin);
   // const HandleOnClick = () => {
   //   if (type === 'commu') {
   //     const id = projectData?.project.companyMember.memberIdx;

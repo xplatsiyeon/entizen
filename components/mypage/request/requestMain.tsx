@@ -56,7 +56,7 @@ const RequestMain = (props: props) => {
     return <Loader />;
   }
   if (userError) {
-    console.log('유저 정보 에러');
+    // console.log('유저 정보 에러');
   }
 
   const handleList = (n: number) => {
@@ -199,7 +199,7 @@ const TabContainer = styled.div`
   margin: 20pt 0;
 `;
 
-const Tab = styled.div``
+const Tab = styled.div``;
 
 const Wrap = styled.div`
   display: flex;

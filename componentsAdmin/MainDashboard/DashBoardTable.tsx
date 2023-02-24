@@ -147,8 +147,8 @@ const DashBoardTable = ({
     {
       enabled: false,
       onSuccess: (reverseAuctionSituation) => {
-        console.log('🔥 reverseAuctionSituation ~line 83');
-        console.log(reverseAuctionSituation);
+        // console.log('🔥 reverseAuctionSituation ~line 83');
+        // console.log(reverseAuctionSituation);
         if (tableType === 'reverseAuctionSituation') {
           const temp: any = [];
           reverseAuctionSituation?.data?.quotationRequests?.forEach(

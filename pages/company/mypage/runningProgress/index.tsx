@@ -90,8 +90,8 @@ const RunningProgress = (props: Props) => {
     setNowWidth(window.innerWidth);
   };
 
-  console.log('🔥 진행중인 데이터 확인 -82' + TAG);
-  console.log(inProgressData);
+  // console.log('🔥 진행중인 데이터 확인 -82' + TAG);
+  // console.log(inProgressData);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);

@@ -121,7 +121,7 @@ const MyprojectLink = ({
   return (
     <Wrap openSubLink={openSubLink}>
       {linkName.map((i, idx) => {
-        console.log('tab, idx', tabIdx === idx);
+        // console.log('tab, idx', tabIdx === idx);
         return (
           <StyledLink
             key={idx}

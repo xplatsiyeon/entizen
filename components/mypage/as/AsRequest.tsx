@@ -312,11 +312,11 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-  
-  &:hover{
-    background: transparent!important;
+
+  &:hover {
+    background: transparent !important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;

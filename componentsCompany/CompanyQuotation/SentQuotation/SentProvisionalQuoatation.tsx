@@ -261,8 +261,8 @@ const SentQuoatationFirst = () => {
     isTokenPatchApi,
     {
       onSuccess: (data) => {
-        console.log('호출 성공');
-        console.log(data);
+        // console.log('호출 성공');
+        // console.log(data);
         setIsConfirmModal(false);
         refetch();
       },
@@ -294,7 +294,7 @@ const SentQuoatationFirst = () => {
     spotPatchMutate({
       url: `/quotations/pre/${routerId}/spot-inspection`,
     });
-    console.log('현장실사 patch api 호출!!');
+    // console.log('현장실사 patch api 호출!!');
   };
 
   // 모바일 헤더 뒤로가기 버튼
@@ -354,14 +354,14 @@ const SentQuoatationFirst = () => {
   }
 
   if (isError || spotIsError) {
-    console.log(TAG + '🔥 ~line 42 에러 코드');
-    console.log(error);
-    console.log(spotError);
+    // console.log(TAG + '🔥 ~line 42 에러 코드');
+    // console.log(error);
+    // console.log(spotError);
   }
   // console.log(TAG + '\n🔥 ~line 138 spotdata check');
   // console.log(spotData);
-  console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
-  console.log(data);
+  // console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
+  // console.log(data);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));

@@ -34,7 +34,7 @@ const download = ({ fileName, data, url }: IDownloadProps) => {
     }
   } else return;
 
-  console.log('url_internal==>>', url_internal);
+  // console.log('url_internal==>>', url_internal);
   return;
   // console.log('url_internal==>>', url_internal);
   // return;
@@ -55,12 +55,12 @@ const downloadPng = async ({ fileName, url }: IDownloadProps) => {
       download({ fileName: fileName, data });
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };
 // ------------------------------------------------------------
 const downloadAll = (data: string[]) => {
-  console.log('데이터 들어옴');
+  // console.log('데이터 들어옴');
   data?.map((item, idx) => {
     getFile(item);
     fnSleep(100);
@@ -199,11 +199,11 @@ function App() {
                 zip.file(filename, data, { binary: true });
               })
               .catch((err) => {
-                console.log(err);
+                // console.log(err);
               });
           }
           zip.generateAsync({ type: 'blob' }).then((content) => {
-            console.log(`${content}`);
+            // console.log(`${content}`);
             download({ fileName: `test_download.zip`, data: content });
           });
         }}

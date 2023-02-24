@@ -136,7 +136,7 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
     onError: (error) => {
       setFileModal(false);
       setMessage('엑셀파일 업로드에 실패했습니다');
-      console.log(error);
+      // console.log(error);
       // if (error.response.data.message) {
       //   setMessage(error.response.data.message);
       //   setIsModal(true);

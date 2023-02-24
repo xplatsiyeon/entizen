@@ -121,7 +121,7 @@ const OOQDetail = ({
 
   const chat = OOQDetailData?.data?.chattingLogs?.chattingLogs!;
 
-  console.log('chat', chat);
+  // console.log('chat', chat);
 
   // const endChatLogic = chat
   //   ?.map((item, idx) => item?.content?.includes('상담이 종료되었습니다.'))
@@ -170,8 +170,8 @@ const OOQDetail = ({
       }, 300);
     },
     onError: (error) => {
-      console.log('🔥 채팅방 POST 에러 발생');
-      console.log(error);
+      // console.log('🔥 채팅방 POST 에러 발생');
+      // console.log(error);
     },
   });
 
@@ -224,7 +224,7 @@ const OOQDetail = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(res);
+      // console.log(res);
       chattingPostMutate({
         url: `/chatting/${detatilId}`,
         // url: `/chatting/2`,
@@ -358,11 +358,11 @@ const OOQDetail = ({
   //     return '/images/newChatEntizen.png';
   //   } else {
   //     if (userChatting) {
-  //       //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+  //       //// console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
   //       return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
   //         ?.companyLogoImageUrl!;
   //     } else {
-  //       //console.log(chattingData?.data?.userMember?.profileImageUrl!)
+  //       //// console.log(chattingData?.data?.userMember?.profileImageUrl!)
   //       return chattingData?.data?.userMember?.profileImageUrl!;
   //     }
   //   }
@@ -373,10 +373,10 @@ const OOQDetail = ({
   const getProfile = (memberIdx: string) => {
     const popupX = document.body.offsetWidth / 2;
     const popupY = window.screen.height;
-    console.log(popupX, popupY);
+    // console.log(popupX, popupY);
 
     const style = `left: ${popupX - 200},top: ${popupY - 250},`;
-    console.log(style);
+    // console.log(style);
 
     window.open(
       `/admin/getUserProfile?${userType}=${memberIdx}`,
@@ -401,7 +401,7 @@ const OOQDetail = ({
 
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
-    console.log('쿼리아이디, 데이타 변경됨');
+    // console.log('쿼리아이디, 데이타 변경됨');
     // if (endChatLogic !== undefined) {
     //   setEndChat(endChatLogic);
     // }
@@ -421,7 +421,7 @@ const OOQDetail = ({
         }
         return 0;
       });
-      //console.log(sortArr)
+      //// console.log(sortArr)
 
       /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
             순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
@@ -451,40 +451,42 @@ const OOQDetail = ({
           }
         }
       });
-      //   console.log('temp', temp);
+      //   // console.log('temp', temp);
       setData(temp);
 
       const inner = logs.current?.querySelector('.OOQ-inner');
 
       if (loading) {
         setLoading(false);
-        console.log('img');
+        // console.log('img');
         setTimeout(() => {
-
-          if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 300);
       } else {
-        console.log('chat');
+        // console.log('chat');
         setTimeout(() => {
-
-          if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 100);
       }
@@ -729,8 +731,6 @@ const OOQDetail = ({
         accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
         onChange={saveFile}
       />
-
- 
     </Body>
   );
 };
@@ -809,13 +809,13 @@ const IsRead = styled.p<{ userChatting?: string }>`
   /* color: #000000; */
   color: #caccd1;
   display: none;
-  
+
   &.user-p {
     &.p-target {
       display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
     }
   }
-  &.admin-p{
+  &.admin-p {
     &.p-target {
       display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
     }

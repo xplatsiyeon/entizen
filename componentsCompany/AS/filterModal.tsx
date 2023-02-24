@@ -52,7 +52,7 @@ const FilterModal = ({
   setTimeout(heightAni, 50);
 
   const handleSelect = (idx: number) => {
-    console.log(historyText[idx]);
+    // console.log(historyText[idx]);
     if (type === 'historyAS') {
       setSelected(historyText[idx]);
       setFilterTypeEn(historyEnText[idx]);

@@ -36,8 +36,8 @@ const AdminFAQTable = ({
       queryClient.invalidateQueries('adminFaqList');
     },
     onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
+      // console.log('토글 버튼 에러');
+      // console.log(error);
     },
   });
 

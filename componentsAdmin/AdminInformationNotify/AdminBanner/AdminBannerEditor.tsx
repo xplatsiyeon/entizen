@@ -177,7 +177,7 @@ const AdminBannerEditor = ({
       if (insideImgArr !== undefined) {
         newFile = insideImgArr?.map((e) => {
           const { createdAt, bannerImageIdx, ...rest } = e;
-          console.log('rest', { ...rest });
+          // console.log('rest', { ...rest });
           return { ...rest };
         });
       } else {

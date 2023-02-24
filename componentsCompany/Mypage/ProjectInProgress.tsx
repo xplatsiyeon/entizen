@@ -52,7 +52,7 @@ const ProjectInProgress = ({
     return <Loader />;
   }
   if (error) {
-    console.log(error);
+    // console.log(error);
   }
 
   // if (data?.inProgressProjects.length === 0 && nowWidth >= 1200) {
@@ -79,9 +79,9 @@ const ProjectInProgress = ({
     }
   };
 
-  console.log('🔥 데이터 확인 ~line 87 ' + TAG);
+  // console.log('🔥 데이터 확인 ~line 87 ' + TAG);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

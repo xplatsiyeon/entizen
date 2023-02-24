@@ -26,7 +26,7 @@ const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
   });
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
-    console.log(userType);
+    // console.log(userType);
     if (userType === 1) dispatch(selectAction.select('USER'));
     if (userType === 0) dispatch(selectAction.select('COMPANY'));
   };

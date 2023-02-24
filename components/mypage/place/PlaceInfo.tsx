@@ -31,7 +31,7 @@ interface Props {
 }
 
 export const modusignPDF = async (url: string) => {
-  console.log('url===>>', url);
+  // console.log('url===>>', url);
   return;
   // 이정민
   // const url =
@@ -76,10 +76,10 @@ const PlaceInfo = ({ data }: Props) => {
 
   const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
-  console.log(
-    'data?.finalQuotation?.finalQuotationChargers?',
-    data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
-  );
+  // console.log(
+  //   'data?.finalQuotation?.finalQuotationChargers?',
+  //   data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
+  // );
 
   //a링크에 넘길거
   const callPhone = hyphenFn(data?.companyMember?.phone);
@@ -104,8 +104,8 @@ const PlaceInfo = ({ data }: Props) => {
   // download('modusgin');
   // download('data:text/html,Hello Developer!', 'HelloDeveloper.txt');
 
-  console.log(`🔥 프로젝트 상세 데이터 ~30 --> ${TAG}`);
-  console.log(data);
+  // console.log(`🔥 프로젝트 상세 데이터 ~30 --> ${TAG}`);
+  // console.log(data);
 
   return (
     <Wrapper>

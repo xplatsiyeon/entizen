@@ -66,7 +66,7 @@ const Request = () => {
     return <Loader />;
   }
   if (userError) {
-    console.log('유저 정보 에러');
+    // console.log('유저 정보 에러');
   }
 
   if (!accessToken && memberType !== 'USER') {

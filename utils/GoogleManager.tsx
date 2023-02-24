@@ -30,7 +30,7 @@ export function initGoogleLogin(
       })
       .then(
         function (auth2: any) {
-          console.log('[Success] Google Login Auth2 init');
+          // console.log('[Success] Google Login Auth2 init');
           attachSignin(element, auth2, function (_googleUser) {
             googleUser = _googleUser;
             googleUserProfile = _googleUser.getBasicProfile();
@@ -39,7 +39,7 @@ export function initGoogleLogin(
           });
         },
         function (fail: any) {
-          console.log('Google Login Auth2 init Fail -> ' + fail);
+          // console.log('Google Login Auth2 init Fail -> ' + fail);
         },
       );
   });
@@ -50,16 +50,16 @@ function attachSignin(
   auth2: any,
   callBack: (_googleUser: any) => void,
 ) {
-  console.log('[attachSignin] Google Login');
+  // console.log('[attachSignin] Google Login');
   auth2.attachClickHandler(
     element,
     {},
     function (_googleUser: any) {
-      console.log('[Success] Google Login');
+      // console.log('[Success] Google Login');
       callBack(_googleUser);
     },
     function (error: any) {
-      console.log(JSON.stringify(error, undefined, 2));
+      // console.log(JSON.stringify(error, undefined, 2));
     },
   );
 }

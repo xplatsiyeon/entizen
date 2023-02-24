@@ -101,7 +101,7 @@ const Chatting = () => {
   );
 
   useEffect(() => {
-    console.log('useeffect', company);
+    // console.log('useeffect', company);
     if (typeof router.query.companyMemberId === 'string') {
       setCompany(router.query.companyMemberId);
     } else {

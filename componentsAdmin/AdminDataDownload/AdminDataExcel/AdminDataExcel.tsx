@@ -25,7 +25,7 @@ const AdminDataExcel = ({ setNowHeight }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log('detatilId==>>', detatilId);
+    // console.log('detatilId==>>', detatilId);
   }, [detatilId]);
 
   return (

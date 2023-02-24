@@ -15,8 +15,8 @@ const UserProfile = () => {
   const router = useRouter();
   const userId = router.query['USER'];
   const comUserId = router.query['COMPANY'];
-  console.log(router.query);
-  console.log(comUserId);
+  // console.log(router.query);
+  // console.log(comUserId);
 
   const { data: userData, refetch: userRefetch } = useQuery<UserRespnse>(
     'user-detail',
@@ -24,7 +24,7 @@ const UserProfile = () => {
     {
       onSuccess: () => {},
       onError: (e) => {
-        console.log(e);
+        // console.log(e);
       },
       enabled: false,
       staleTime: 30000,

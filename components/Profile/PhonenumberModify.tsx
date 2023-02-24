@@ -73,7 +73,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       }
     },
     onError: (error) => {
-      console.log('🔥error==>', error);
+      // console.log('🔥error==>', error);
       setIsFailedPassword(true);
     },
   });
@@ -94,7 +94,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   const onClickChangeBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log('isValid==>', isValid);
+    // console.log('isValid==>', isValid);
     if (isValid) {
       passowrdCheckMutate({
         url: '/members/login',
@@ -168,7 +168,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log('isFailedPassword==>', isFailedPassword);
+    // console.log('isFailedPassword==>', isFailedPassword);
   }, [isFailedPassword]);
 
   return (

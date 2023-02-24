@@ -24,11 +24,11 @@ const useCreateChatting = () => {
         // 채팅방 아이디 값 추출
         const index = res?.data?.data?.chattingRoom?.chattingRoomIdx;
         // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
-        console.log('🔥 채팅방 생성 데이터 확인!! ', res);
-        console.log('🔥 채팅방 생성 데이터 확인!! ', index);
-        console.log('🔥 채팅방 생성 토큰 확인!! ', token);
+        // console.log('🔥 채팅방 생성 데이터 확인!! ', res);
+        // console.log('🔥 채팅방 생성 데이터 확인!! ', index);
+        // console.log('🔥 채팅방 생성 토큰 확인!! ', token);
         if (index && token && token?.memberType === 'USER') {
-          console.log('🔥 채팅방 생성 인덱스 확인!! ', index);
+          // console.log('🔥 채팅방 생성 인덱스 확인!! ', index);
           router.push({
             pathname: '/chatting/chattingRoom',
             query: {

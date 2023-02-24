@@ -40,7 +40,7 @@ const MyProjects = ({ listUp }: Props) => {
 
   const handleRoute = (projectIdx: string, idx: number) => {
     //mob일 때 router.push();
-    console.log(projectListData?.uncompletedProjects[idx]);
+    // console.log(projectListData?.uncompletedProjects[idx]);
 
     if (
       !projectListData?.uncompletedProjects[idx]?.isApprovedByAdmin &&
@@ -66,16 +66,16 @@ const MyProjects = ({ listUp }: Props) => {
     return <Loader />;
   }
   if (projectListError) {
-    console.log('🔥 ~line 98 ~프로젝트 에러 발생 ' + TAG);
-    console.log(projectListError);
+    // console.log('🔥 ~line 98 ~프로젝트 에러 발생 ' + TAG);
+    // console.log(projectListError);
   }
   // 아무런 데이터가 없을 때
   if (projectListData?.uncompletedProjects?.length === 0) {
     return <NoHistory type="project" />;
   }
 
-  console.log('🔥 ~프로젝트 리스트 데이터 확인 ~라인 51 ->  ' + TAG);
-  console.log(projectListData);
+  // console.log('🔥 ~프로젝트 리스트 데이터 확인 ~라인 51 ->  ' + TAG);
+  // console.log(projectListData);
 
   return (
     <>

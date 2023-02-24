@@ -57,7 +57,7 @@ const ChargerMap = (props: Props) => {
           0.75,
       );
       calcHeight = searchInput.getBoundingClientRect();
-      console.log(calcHeight);
+      // console.log(calcHeight);
 
       setCheckHeight(
         (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
@@ -85,7 +85,7 @@ const ChargerMap = (props: Props) => {
             }
             return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
-          console.log(response);
+          // console.log(response);
           if (response.v2.meta.totalCount === 0) {
             return alert('No result.');
           }
@@ -104,7 +104,7 @@ const ChargerMap = (props: Props) => {
 
   useEffect(() => {
     return () => {
-      console.log('컴포넌트 디드마운트');
+      // console.log('컴포넌트 디드마운트');
 
       dispatch(coordinateAction.reset());
       dispatch(locationAction.reset());

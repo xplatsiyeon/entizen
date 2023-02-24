@@ -79,7 +79,7 @@ const SliderSizes = ({
     };
 
     if (requestData?.subscribeProduct === 'ENTIRETY') {
-      console.log('⭐️ 전체구독');
+      // console.log('⭐️ 전체구독');
 
       ret = {
         maxSubscribePricePerMonth: setPriceByRate(
@@ -119,7 +119,7 @@ const SliderSizes = ({
         investRate: value,
       };
     } else {
-      console.log('⭐️ 부분구독');
+      // console.log('⭐️ 부분구독');
       ret = {
         maxSubscribePricePerMonth: setPriceByRate(
           requestData?.partMinAndMaxSubscribePrice?.maxSubscribePricePerMonth,
@@ -157,8 +157,8 @@ const SliderSizes = ({
       };
     }
 
-    console.log('⭐️ ret ~line 158');
-    console.log(ret);
+    // console.log('⭐️ ret ~line 158');
+    // console.log(ret);
 
     if (setCalculatedValue) {
       setCalculatedValue({

@@ -117,13 +117,13 @@ Props) => {
         setLength(data.data.totalCount ? data.data.totalCount : 0);
       },
       onError: (err) => {
-        console.log(err);
+        // console.log(err);
         alert('다시 시도해주세요');
       },
     },
   );
 
-  console.log('data', data);
+  // console.log('data', data);
 
   //파트너 등록 제품
   //  const partnerProduct = [
@@ -158,7 +158,7 @@ Props) => {
   //   },
   //  ];
 
-  console.log('data', data);
+  // console.log('data', data);
 
   useEffect(() => {
     refetch();
