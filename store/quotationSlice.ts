@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface EntiretyMinAndMaxSubscribePrice {
+export interface SubscribePrice {
   minChargingStationInstallationPrice: number;
   maxChargingStationInstallationPrice: number;
   minSubscribePricePerMonth: number;
@@ -18,8 +18,8 @@ export interface RequesQuotationtData {
     year: number;
     month: number;
   };
-  entiretyMinAndMaxSubscribePrice: EntiretyMinAndMaxSubscribePrice;
-  partMinAndMaxSubscribePrice: EntiretyMinAndMaxSubscribePrice;
+  entiretyMinAndMaxSubscribePrice: SubscribePrice;
+  partMinAndMaxSubscribePrice: SubscribePrice;
   subscribeProduct: 'ENTIRETY' | 'PART';
 }
 
