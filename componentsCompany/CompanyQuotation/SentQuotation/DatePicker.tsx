@@ -393,13 +393,16 @@ const UL = styled.ul`
     gap: 12pt;
     cursor: pointer;
   }
+  .img-box{
+    height: 36pt;
+  }
   .due-date {
     font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    padding-top: 2pt;
+    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;

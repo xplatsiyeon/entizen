@@ -252,6 +252,7 @@ const UL = styled.ul`
       padding: 24pt 15pt 0pt;
     }
   }
+
   li {
     border-radius: 6pt;
     padding: 6pt;
@@ -261,6 +262,11 @@ const UL = styled.ul`
 
     &.list {
       background-color: rgba(90, 45, 201, 0.7);
+      .img-box {
+        width: 36pt;
+        height: 36pt;
+        position: relative;
+      }
     }
     &.ex-list {
       background-color: #e2e5ed;
@@ -277,10 +283,11 @@ const UL = styled.ul`
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    padding-top: 2pt;
+    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
     &.ex {
       color: #a6a9b0;

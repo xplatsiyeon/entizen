@@ -505,8 +505,8 @@ const Body = styled.div`
   }
 `;
 const DownArrowBox = styled.div`
-  padding-top: 27.75pt;
-  padding-bottom: 36.75pt;
+  padding-top: 36.75pt;
+  padding-bottom: 30pt;
   text-align: center;
   @media (max-width: 900pt) {
     padding-top: 25.5pt;
