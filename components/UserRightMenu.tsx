@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 // import RightArrow from 'public/images/CaretRightArrow.png';
@@ -9,58 +9,74 @@ import MyProductList from '../public/images/MyProductListPng.png';
 import ReceivedQuotation from '../public/images/ReceivedQuotation.png';
 import EntizenLibrary from '../public/images/EntizenLibraryIcon.png';
 import { useRouter } from 'next/router';
+import { css } from '@emotion/react';
 
 type Props = { type: string };
 
 const UserRightMenu = () => {
   const router = useRouter();
+  const [open, setOpen] = useState(true);
   return (
-    <MenuRapper>
+    <MenuRapper open={open}>
       <MenuContainer>
         <LeftArrow>
-          <ImageIcon>
-            <Image src={RightArrow} alt="right-arrow" />
+          <ImageIcon open={open}>
+            <Image
+              src={RightArrow}
+              alt="right-arrow"
+              onClick={() => {
+                setOpen(!open);
+              }}
+            />
           </ImageIcon>
         </LeftArrow>
-        <MenuBox
-          onClick={() => {
-            router.push('/chatting');
-          }}
-        >
-          <ImageBoxS>
-            <ImgTag src="/images/Chats.png" alt="Chat" />
-          </ImageBoxS>
-          <MenuTitle onClick={() => router.push('/chatting')}>
-            소통하기
-          </MenuTitle>
-          <Divide />
-        </MenuBox>
-        <MenuBox
-          onClick={() => {
-            router.push('/library');
-          }}
-        >
-          <ImageBoxL>
-            {/* <Image src={EntizenLibrary} alt="Chats" /> */}
+        {open && (
+          <>
+            <MenuBox
+              onClick={() => {
+                router.push('/chatting');
+              }}
+            >
+              <ImageBoxS>
+                <ImgTag src="/images/Chats.png" alt="Chat" />
+              </ImageBoxS>
+              <MenuTitle onClick={() => router.push('/chatting')}>
+                소통하기
+              </MenuTitle>
+              <Divide />
+            </MenuBox>
+            <MenuBox
+              onClick={() => {
+                router.push('/library');
+              }}
+            >
+              <ImageBoxL>
+                {/* <Image src={EntizenLibrary} alt="Chats" /> */}
 
-            <ImgTag src="/images/EntizenLibraryIcon.png" alt="Library" />
-          </ImageBoxL>
-          <MenuTitle2>엔티즌 도서관</MenuTitle2>
-        </MenuBox>
+                <ImgTag src="/images/EntizenLibraryIcon.png" alt="Library" />
+              </ImageBoxL>
+              <MenuTitle2>엔티즌 도서관</MenuTitle2>
+            </MenuBox>
+          </>
+        )}
       </MenuContainer>
     </MenuRapper>
   );
 };
 
-const MenuRapper = styled.div`
+const MenuRapper = styled.div<{ open: boolean }>`
   position: fixed;
   z-index: 100;
   right: 20pt;
   top: 120pt;
   border-radius: 12pt;
-  background-color: #ffffff;
+  ${({ open }) =>
+    open === true &&
+    css`
+      background-color: #ffffff;
+      box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+    `}
   padding: 28pt 14pt 24pt;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
 
   @media (max-width: 1125pt) {
     top: 130pt;
@@ -161,13 +177,19 @@ const LeftArrow = styled.div`
   }
 `;
 
-const ImageIcon = styled.div`
+const ImageIcon = styled.div<{ open: boolean }>`
+  cursor: pointer;
   padding: 8pt 10pt;
   width: 27pt;
   height: 27pt;
   display: flex;
   align-items: center;
   justify-content: center;
+  ${({ open }) =>
+    open === false &&
+    css`
+      transform: rotate(180deg);
+    `}
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }

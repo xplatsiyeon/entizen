@@ -194,6 +194,7 @@ const TabBox = styled.div`
   }
 `;
 const Item = styled.div<{ idx: string; num: string }>`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 12pt;
   line-height: 15pt;
@@ -202,6 +203,7 @@ const Item = styled.div<{ idx: string; num: string }>`
   padding: 0 30pt;
   color: ${({ idx, num }) => (idx === num ? colors.main : '#caccd1')};
   position: relative;
+
   .line {
     position: absolute;
     left: 0;
@@ -214,6 +216,12 @@ const Item = styled.div<{ idx: string; num: string }>`
 
   @media (max-width: 899.25pt) {
     padding: 0 11.25pt;
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    white-space: pre;
   }
 `;
 
