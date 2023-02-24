@@ -66,7 +66,8 @@ const MainPage = (props: Props) => {
   const dispatch = useDispatch();
   const userID = localStorage.getItem('USER_ID');
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [state, setState] = useState({
     right: false,
   });

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { appLogout } from 'bridge/appToWeb';
 import { handleLogoutOnClickModalClick } from './logout';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -56,15 +57,11 @@ instance.interceptors.response.use(
       !isSuccess &&
       (message === 'jwt malformed' ||
         message === 'invalid token' ||
+        message === 'USER - 회원이 아닙니다.' ||
+        message === 'COMPANY - 회원이 아닙니다.' ||
         errorCode === 1003)
     ) {
-      console.log('================ 1번 에러  ==================');
-      localStorage.removeItem('SNS_MEMBER');
-      localStorage.removeItem('ACCESS_TOKEN');
-      localStorage.removeItem('REFRESH_TOKEN');
-      localStorage.removeItem('USER_ID');
-      localStorage.removeItem('MEMBER_TYPE');
-      window.location.href = '/';
+      deleteData();
       return Promise.reject(err);
     }
     /** 2 */
@@ -82,6 +79,19 @@ instance.interceptors.response.use(
     return axios(config);
   },
 );
+
+const deleteData = () => {
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  console.log('================ getRfreshToken catch ================');
+  // 리프레쉬 토큰을 요청하였는데도 실패가 했다는 건, 리프레쉬 토큰도 만료가 되었다는 것이기에 로그아웃 처리를 진행한다.
+  localStorage.removeItem('SNS_MEMBER');
+  localStorage.removeItem('ACCESS_TOKEN');
+  localStorage.removeItem('REFRESH_TOKEN');
+  localStorage.removeItem('USER_ID');
+  localStorage.removeItem('MEMBER_TYPE');
+  window.location.href = '/';
+  appLogout(userAgent as string);
+};
 
 // 응답이 왔는데, 토큰이 만료되어 다시 리프레쉬 토큰으로 토큰 값 호출
 const getRfreshToken = async (): Promise<string | void> => {
@@ -105,16 +115,7 @@ const getRfreshToken = async (): Promise<string | void> => {
         return ACCESS_TOKEN;
       });
   } catch (e) {
-    console.log('================ getRfreshToken catch ================');
-    // 리프레쉬 토큰을 요청하였는데도 실패가 했다는 건, 리프레쉬 토큰도 만료가 되었다는 것이기에 로그아웃 처리를 진행한다.
-    localStorage.removeItem('SNS_MEMBER');
-    localStorage.removeItem('ACCESS_TOKEN');
-    localStorage.removeItem('REFRESH_TOKEN');
-    localStorage.removeItem('USER_ID');
-    localStorage.removeItem('MEMBER_TYPE');
-    window.location.href = '/';
-
-    handleLogoutOnClickModalClick();
+    deleteData();
   }
 };
 

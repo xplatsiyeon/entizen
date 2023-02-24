@@ -33,7 +33,8 @@ const SettingMain = ({
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
   const { selectedType } = useSelector((state: RootState) => state.selectType);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =

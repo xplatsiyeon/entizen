@@ -34,7 +34,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
@@ -503,7 +504,7 @@ const Item = styled.li`
       font-weight: 500;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      text-align: left !important;
     }
   }
   @media (max-width: 899.25pt) {

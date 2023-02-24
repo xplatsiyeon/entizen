@@ -99,7 +99,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
@@ -158,7 +159,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
       setTimeout(() => {
-        if (mobInputRef.current) mobInputRef.current.focus({preventScroll: true});
+        if (mobInputRef.current)
+          mobInputRef.current.focus({ preventScroll: true });
       }, 300);
     },
     onError: (error) => {
@@ -171,17 +173,17 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.currentTarget.value;
     setText(val);
-    if(val.trim().length > 0){
-      setTyping(true)
-    }else{
-      setTyping(false)
+    if (val.trim().length > 0) {
+      setTyping(true);
+    } else {
+      setTyping(false);
     }
   };
 
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if(text.trim().length > 0){
+    if (text.trim().length > 0) {
       chattingPostMutate({
         url: `/chatting/${routerId}`,
         // url: `/chatting/2`,
@@ -190,7 +192,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           files: null,
         },
       });
-      setTyping(false)
+      setTyping(false);
     }
   };
 
@@ -215,11 +217,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
-  
+
   /* 파일버튼 누르면 나타나는 애니메이션 */
   const mobBox = useRef<HTMLDivElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
-
     const target = e.currentTarget;
     const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
 
@@ -413,7 +414,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   //이미지 온클릭
   const imgHandler = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -421,7 +422,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   };
   //파일 온클릭
   const fileHandler = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');
@@ -489,30 +490,34 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         setLoading(false);
         console.log('img');
         setTimeout(() => {
-          if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 300);
       } else {
         console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
-          if(inner) inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto'
-        })
+          if (inner)
+            inner.scroll({
+              top: inner.scrollHeight,
+              left: 0,
+              behavior: 'auto',
+            });
 
           if (webInputRef.current) {
             webInputRef.current.focus({
-              preventScroll: true});
+              preventScroll: true,
+            });
           }
         }, 100);
       }
@@ -520,25 +525,25 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   useEffect(() => {
-
     const inner = logs.current?.querySelector('.inner');
-    
+
     setTimeout(() => {
       console.log('처음에만');
       //focusRef.current?.focus();
-      
+
       const width = window.innerWidth;
       console.log(width);
       if (width > 1200) {
         //focusRef.current?.focus();
-        if(inner) inner.scroll({
+        if (inner)
+          inner.scroll({
             top: inner.scrollHeight,
             left: 0,
-            behavior: 'auto'
-        })
+            behavior: 'auto',
+          });
 
-        focusRef.current?.focus({preventScroll: true});
-      } 
+        focusRef.current?.focus({ preventScroll: true });
+      }
       console.log(focusRef.current);
     }, 600);
 
@@ -568,11 +573,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     }
   }, []);
 
-  const handleFocus = (e:MouseEvent)=>{
+  const handleFocus = (e: MouseEvent) => {
     mobInputRef.current?.focus();
-    mobInputRef.current?.classList.add('on')
+    mobInputRef.current?.classList.add('on');
     const target = e.currentTarget as HTMLButtonElement;
-  }
+  };
 
   return (
     <Body ref={logs}>
@@ -610,7 +615,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           />
         )}
       </TopBox>
-      <Inner className='inner'>
+      <Inner className="inner">
         <div className="wrap">
           {data.map((d, idx) => {
             return (
@@ -618,7 +623,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                 key={idx}
                 className={`${idx === data.length - 1 ? 'target-p' : ''}`}
               >
-                <Date>{d.date.split('.')[0]}년 {d.date.split('.')[1]}월 {d.date.split('.')[2]}일</Date>
+                <Date>
+                  {d.date.split('.')[0]}년 {d.date.split('.')[1]}월{' '}
+                  {d.date.split('.')[2]}일
+                </Date>
                 <List>
                   {d.logs.map((item, idx) => {
                     if (item.messageType === 'SYSTEM') {
@@ -752,16 +760,22 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       <MobBottomWrap>
         <BottomBox ref={mobBox} onClick={handleFocus}>
           <FlexBox onSubmit={onSubmitText}>
-        
             <TextInput
               placeholder="메세지를 입력하세요"
               value={text}
               onChange={onChangeText}
               ref={mobInputRef}
-              onBlur={(e)=>e.target.classList.remove('on')}
+              onBlur={(e) => e.target.classList.remove('on')}
             />
-            <IconWrap2 onClick={handleFocus} className={`typing ${typing? 'on':'off'}`}>
-              {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
+            <IconWrap2
+              onClick={handleFocus}
+              className={`typing ${typing ? 'on' : 'off'}`}
+            >
+              {typing ? (
+                <Image src={sendBlue} layout="fill" />
+              ) : (
+                <Image src={send} layout="fill" />
+              )}
             </IconWrap2>
           </FlexBox>
           <div className="hidden">
@@ -779,7 +793,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         <AddBtn onClick={handleButton}>
           <ImgTag src={'/images/addBtnSvg.svg'} />
         </AddBtn>
-      </MobBottomWrap>      
+      </MobBottomWrap>
 
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
@@ -796,8 +810,12 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               ref={webInputRef}
             />
           </InputWrap>
-          <button className={`typing ${typing? 'on':'off'}`}>
-            {typing ?<Image src={sendBlue} layout="fill" />:<Image src={send} layout="fill" /> }
+          <button className={`typing ${typing ? 'on' : 'off'}`}>
+            {typing ? (
+              <Image src={sendBlue} layout="fill" />
+            ) : (
+              <Image src={send} layout="fill" />
+            )}
           </button>
         </FlexBox2>
       </WebBottomBox>
@@ -836,7 +854,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       )}
       {/* 나가기 모달 제어 */}
       {quitModal && (
-        <QuitModal setModal={setQuitModal} deleteId={Number(routerId)}/>
+        <QuitModal setModal={setQuitModal} deleteId={Number(routerId)} />
       )}
 
       {/* 신고하기 누르면 나오는 모달 추가 수정 필요 */}
@@ -860,7 +878,7 @@ const WebBottomBox = styled.div`
   width: 100%;
   padding: 3pt 0pt 16.5pt;
   background: white;
-  button{
+  button {
     background: transparent;
   }
   button.typing {
@@ -872,7 +890,6 @@ const WebBottomBox = styled.div`
     &.on {
       display: block;
     }
-
   }
   @media (max-width: 899.25pt) {
     display: none;
@@ -883,7 +900,6 @@ const FlexBox2 = styled.form`
   display: flex;
   gap: 14.25pt;
   align-items: center;
-
 `;
 const InputWrap = styled.div`
   width: 100%;
@@ -902,7 +918,7 @@ const MobBottomWrap = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-`
+`;
 const BottomBox = styled.div`
   background: #e9eaee;
   padding: 3pt 0pt 36pt;
@@ -1006,7 +1022,7 @@ const IconWrap = styled.div`
   height: 18pt;
   cursor: pointer;
 
-  &.alarm{
+  &.alarm {
     margin-right: 15pt;
   }
   @media (min-width: 900pt) {

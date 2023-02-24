@@ -37,7 +37,8 @@ const ProfileEditing = ({
   setHeightOn,
 }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
@@ -103,7 +104,7 @@ const ProfileEditing = ({
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');

@@ -29,7 +29,8 @@ const EditCertificate = ({ setComponent }: Props) => {
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [businessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
@@ -101,7 +102,7 @@ const EditCertificate = ({ setComponent }: Props) => {
 
   // 이미지 클릭
   const onClickPhoto = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -111,7 +112,7 @@ const EditCertificate = ({ setComponent }: Props) => {
   };
   // 파일 클릭
   const onClickFile = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

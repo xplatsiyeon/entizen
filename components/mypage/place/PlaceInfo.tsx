@@ -61,7 +61,8 @@ const PlaceInfo = ({ data }: Props) => {
   const contractContent: SelfContract[] =
     data?.contract && JSON.parse(data?.contract?.contractContent!);
 
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // 자체 계약서 다운로드
   const onClickBtn = (data: fileDownLoad) => {
     const a = document.createElement('a');

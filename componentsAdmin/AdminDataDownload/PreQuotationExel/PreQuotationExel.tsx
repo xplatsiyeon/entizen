@@ -83,7 +83,8 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
   const dispatch = useDispatch();
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<boolean>(false);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임

@@ -198,7 +198,7 @@ const FlexBox = styled.div`
   border-radius: 12pt;
   height: 424pt;
   width: 255pt;
-  padding: 42pt 19.5pt;
+  padding: 42pt 13.5pt;
   margin-right: 60pt;
 
   @media (max-width: 899.25pt) {
@@ -214,7 +214,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 11.5pt 0 9pt;
+  padding: 0 15pt 0;
   @media (max-width: 899.25pt) {
     padding: 21pt 11.5pt 0 9pt;
   }
@@ -244,7 +244,7 @@ const Body = styled.div`
   padding-top: 21pt;
 
   .profile-icon {
-    margin-left: 8.5pt;
+    margin-left: 15pt;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 12pt;

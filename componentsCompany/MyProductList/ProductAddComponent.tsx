@@ -54,7 +54,8 @@ export interface MulterResponse {
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx;
 
@@ -288,7 +289,7 @@ const ProductAddComponent = (props: Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -329,7 +330,7 @@ const ProductAddComponent = (props: Props) => {
   };
   //파일 온클릭
   const handleFileClick = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

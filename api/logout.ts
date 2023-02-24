@@ -60,7 +60,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     localStorage.removeItem('USER_ID');
     localStorage.removeItem('MEMBER_TYPE');
     // 로그아웃 브릿지 연결
-    // appLogout(userAgent as string);
+    appLogout(userAgent as string);
 
     // if (isSns) {
     //   NaverLogout();

@@ -28,7 +28,8 @@ type Props = {
 const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [data, setData] = useState<any>();
   const [imgFile, setImgFile] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
@@ -85,7 +86,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');

@@ -36,7 +36,8 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
       isTokenGetApi(`/libraries?page=1&limit=10`),
     );
 
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   return (
     <>

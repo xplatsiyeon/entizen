@@ -75,32 +75,37 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    mutate({
-      url: '/members/verification/identity',
-      data: {
-        name,
-        id,
-      },
-    });
+    if (isValid) {
+      mutate({
+        url: '/members/verification/identity',
+        data: {
+          name,
+          id,
+        },
+      });
+    }
   };
 
   // 나이스 인증 후 숨겨진 버튼 클릭
   const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let key = localStorage.getItem('key');
-    let data: FindKey = JSON.parse(key!);
-
-    console.log('data==>', data);
-
     if (isValid) {
-      if (data.name !== name || data.id !== id) {
+      let key = localStorage.getItem('key');
+      console.log('key ===>', key);
+      let data: FindKey = JSON.parse(key!);
+      console.log('data==>', data);
+
+      console.log([data.name, name]);
+      console.log([data.id, id]);
+
+      if (data.name === name && data.id === id) {
+        setStep(1);
+      } else {
         localStorage.removeItem('key');
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
         );
-      } else {
-        setStep(1);
       }
     }
   };

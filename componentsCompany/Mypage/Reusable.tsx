@@ -57,7 +57,7 @@ type Props = {
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
-  modalText:string;
+  modalText: string;
   // setBadgeState: React.Dispatch<React.SetStateAction<number>>;
   // setData: React.Dispatch<React.SetStateAction<Data>>;
   // setFin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -93,7 +93,7 @@ const Reusable = ({
   CompletionDate,
   beforeStepDate,
   afterStepDate,
-  modalText
+  modalText,
 }: // setBadgeState,
 // setData,
 
@@ -101,7 +101,8 @@ Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   // img ref
@@ -220,7 +221,7 @@ Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');

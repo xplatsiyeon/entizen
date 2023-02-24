@@ -73,7 +73,8 @@ const ThirdStep = ({
   subscribeProductFeature,
   chargingStationInstallationPrice,
 }: Props) => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const router = useRouter();
 
@@ -180,7 +181,7 @@ const ThirdStep = ({
 
   //파일 온클릭
   const handleFileClick = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');

@@ -43,7 +43,8 @@ export interface Charger {
 }
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
 const AsRequestWrite = () => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);
@@ -173,7 +174,7 @@ const AsRequestWrite = () => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');

@@ -128,7 +128,7 @@ const ModalBox = styled(Box)`
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   @media (min-width: 900pt) {
-    width: 517.5pt;
+    width: 420pt;
     padding: 0 37.5pt;
     border-radius: 12pt;
     bottom: 170pt;

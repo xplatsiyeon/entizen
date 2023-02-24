@@ -57,7 +57,8 @@ const SecondStep = ({
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
   const chargeLocationTypeListEn: string[] = ['INSIDE', 'OUTSIDE'];
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
@@ -272,7 +273,7 @@ const SecondStep = ({
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (userAgent === '') {
+    if (!userAgent) {
       imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
@@ -308,7 +309,7 @@ const SecondStep = ({
   };
   //파일 온클릭
   const handleFileClick = () => {
-    if (userAgent === '') {
+    if (!userAgent) {
       fileRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'file');
