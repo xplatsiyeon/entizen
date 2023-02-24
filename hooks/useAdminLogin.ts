@@ -55,8 +55,8 @@ function useAdminLogin(
           '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
         );
         // console.log(
-          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-        );
+        //   '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+        // );
       } else if (message === '올바르지 않는 비밀번호입니다.') {
         setErrorModal(true);
         setErrorMessage('올바르지 않은 비밀번호 입니다.');

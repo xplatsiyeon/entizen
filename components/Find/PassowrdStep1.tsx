@@ -144,7 +144,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   }, [router.isReady]);
 
   // useEffect(() => {
-  //   // console.log('🔥 data check ==>>', data);
+  // console.log('🔥 data check ==>>', data);
   // }, [data]);
 
   useEffect(() => {

@@ -266,11 +266,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       return '/images/newChatEntizen.png';
     } else {
       if (userChatting) {
-        //// console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+        // console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
         return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
           ?.companyLogoImageUrl!;
       } else {
-        //// console.log(chattingData?.data?.userMember?.profileImageUrl!)
+        // console.log(chattingData?.data?.userMember?.profileImageUrl!)
         return chattingData?.data?.userMember?.profileImageUrl!;
       }
     }
@@ -451,7 +451,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         }
         return 0;
       });
-      //// console.log(sortArr)
+      // console.log(sortArr)
 
       /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
             순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
@@ -481,7 +481,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           }
         }
       });
-      //   // console.log('temp', temp);
+      // console.log('temp', temp);
       setData(temp);
 
       const inner = logs.current?.querySelector('.inner');
