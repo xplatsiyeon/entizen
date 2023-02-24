@@ -52,7 +52,9 @@ const Index: NextPage = () => {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => // console.log(res));
+        }).then((res) => {
+          // console.log(res);
+        });
       } catch (error) {
         // console.log('post 요청 실패');
         // console.log(error);
