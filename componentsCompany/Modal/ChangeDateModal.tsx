@@ -31,6 +31,7 @@ interface Props {
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
+  completionDate: string;
 }
 
 const ChangeDateModal = ({
@@ -42,6 +43,7 @@ const ChangeDateModal = ({
   inProgressRefetch,
   beforeStepDate,
   afterStepDate,
+  completionDate,
 }: Props) => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
@@ -145,12 +147,10 @@ const ChangeDateModal = ({
   // 선택된 이전 날짜 차이 계산
   const beforeCalculateDifference = (day: number) => {
     console.log('beforeStepDate==>', beforeStepDate);
-    if (beforeStepDate === 'CHANGING') {
+    if (beforeStepDate === 'CHANGING' || beforeStepDate === '') {
       return 1;
     }
-    if (beforeStepDate === '') {
-      return 1;
-    }
+
     if (beforeStepDate !== '' && beforeStepDate) {
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
       const preDay = beforeStepDate?.split('-').map((e) => parseInt(e));

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
-import { handleLogoutOnClickModalClick } from './logout';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const REFRESH_URL = `${BASE_URL}/auth/token`;
@@ -115,6 +114,7 @@ const getRfreshToken = async (): Promise<string | void> => {
         return ACCESS_TOKEN;
       });
   } catch (e) {
+    // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
     deleteData();
   }
 };

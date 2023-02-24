@@ -50,7 +50,7 @@ type Props = {
   planed?: string;
   stepType: string;
   preStepState: boolean;
-  CompletionDate: string;
+  completionDate: string;
   setProgressNum: Dispatch<SetStateAction<number>>;
   beforeStepDate?: string;
   afterStepDate?: string;
@@ -90,7 +90,7 @@ const Reusable = ({
   preStepState,
   inProgressRefetch,
   setProgressNum,
-  CompletionDate,
+  completionDate,
   beforeStepDate,
   afterStepDate,
   modalText,
@@ -324,6 +324,7 @@ Props) => {
           inProgressRefetch={inProgressRefetch}
           beforeStepDate={beforeStepDate!}
           afterStepDate={afterStepDate!}
+          completionDate={completionDate!}
         />
       )}
       {/* ------------- 프로젝트 완료하기 클릭시 보이는 곳  -------------*/}
@@ -432,7 +433,7 @@ Props) => {
                         ? planed === 'CHANGING'
                           ? '목표일 변경 중'
                           : changeDataFn(
-                              CompletionDate ? CompletionDate : planed,
+                              completionDate ? completionDate : planed,
                             )
                         : '목표일을 정해주세요'}
                     </Date>
@@ -467,7 +468,7 @@ Props) => {
                     {planed
                       ? planed === 'CHANGING'
                         ? '목표일 변경 중'
-                        : changeDataFn(CompletionDate ? CompletionDate : planed)
+                        : changeDataFn(completionDate ? completionDate : planed)
                       : '목표일을 정해주세요'}
                   </Date>
                 </>
