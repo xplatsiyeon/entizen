@@ -77,9 +77,9 @@ const PlaceInfo = ({ data }: Props) => {
   const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
   // console.log(
-    'data?.finalQuotation?.finalQuotationChargers?',
-    data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
-  );
+  //   'data?.finalQuotation?.finalQuotationChargers?',
+  //   data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
+  // );
 
   //a링크에 넘길거
   const callPhone = hyphenFn(data?.companyMember?.phone);
