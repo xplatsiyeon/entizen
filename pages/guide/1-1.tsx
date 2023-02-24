@@ -187,6 +187,7 @@ const TabBox = styled.div`
   width: 105%;
   padding-bottom: 12pt;
   border-bottom: 0.75pt solid #f3f4f7;
+  font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899.25pt) {
     padding-left: 15pt;
@@ -194,7 +195,7 @@ const TabBox = styled.div`
   }
 `;
 const Item = styled.div<{ idx: string; num: string }>`
-  font-weight: 700;
+  font-weight: ${({ idx, num }) => (idx === num ? '700' : '500')};
   font-size: 12pt;
   line-height: 15pt;
   text-align: center;
@@ -202,6 +203,7 @@ const Item = styled.div<{ idx: string; num: string }>`
   padding: 0 30pt;
   color: ${({ idx, num }) => (idx === num ? colors.main : '#caccd1')};
   position: relative;
+
   .line {
     position: absolute;
     left: 0;
@@ -214,6 +216,12 @@ const Item = styled.div<{ idx: string; num: string }>`
 
   @media (max-width: 899.25pt) {
     padding: 0 11.25pt;
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    white-space: pre;
   }
 `;
 

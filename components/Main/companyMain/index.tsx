@@ -157,6 +157,22 @@ const Container = styled.div`
   @media (min-width: 900pt) {
     padding-left: 0;
     padding-right: 0;
+
+    /* ::-webkit-scrollbar {
+      display: initial;
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: rgba(33, 122, 244, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      background: #217af4;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    } */
   }
 `;
 
