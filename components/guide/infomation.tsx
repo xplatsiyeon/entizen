@@ -71,9 +71,10 @@ const TextBox = styled(Box)`
   width: 645pt;
   padding: 0 10px;
   list-style-type: disc;
+  font-family: 'Spoqa Han Sans Neo';
 
   .text-item {
-    padding-bottom: 15pt;
+    //padding-bottom: 15pt;
     font-weight: 500;
     font-size: 12pt;
     line-height: 30pt;

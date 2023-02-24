@@ -96,12 +96,30 @@ const StyledLink = styled.li`
   color: ${colors.main2};
   text-decoration: none;
   cursor: pointer;
+  position: relative;
   &:hover {
-    border-bottom: 3pt solid #5a2dc9;
-    box-sizing: border-box;
+    /* border-bottom: 3pt solid #5a2dc9;
+    box-sizing: border-box; */
   }
   &.on {
-    border-bottom: 3pt solid #5a2dc9;
+    /* border-bottom: 3pt solid #5a2dc9; */
     box-sizing: border-box;
+    font-weight: 700;
+    color: #5a2dc9;
+  }
+  &:after{
+    content: '';
+    display: none;
+    width: 140%;
+    height: 3pt;
+    background-color: #5a2dc9;
+    position: absolute;
+    bottom: -2pt;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6pt;
+  }
+  &.on:after{
+    display: block;
   }
 `;

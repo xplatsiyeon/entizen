@@ -151,7 +151,6 @@ const FindPassword = () => {
   }, [password, checkPassword]);
 
   useEffect(() => {
-    console.log('🔥key ==>>', key);
     if (key) {
       setStep(1);
     }

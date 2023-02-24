@@ -28,31 +28,35 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
     data?.project?.completionStepGoalDate!,
   ];
 
-  let initToggle;
+   let initToggle;
 
-  switch (data?.project?.badge) {
-    case '계약대기':
-      initToggle = [false, false, false, false, false];
-      break;
-    case '준비 중':
-      initToggle = [false, true, false, false, false];
-      break;
-    case '설치 중':
-      initToggle = [false, false, true, false, false];
-      break;
-    case '검수 중':
-      initToggle = [false, false, false, true, false];
-      break;
-    case '완료 중':
-      initToggle = [false, false, false, false, true];
-      break;
-    case '완료 대기':
-      initToggle = [false, false, false, false, true];
-      break;
-    // 취소
-    default:
-      initToggle = [false, false, false, false, false];
-  }
+   initToggle = [false, true, true, true, true]
+
+  // switch (data?.project?.badge) {
+  //   case '계약대기':
+  //     initToggle = [false, false, false, false, false];
+  //     break;
+  //   case '준비 중':
+  //     initToggle = [false, true, false, false, false];
+  //     break;
+  //   case '설치 중':
+  //     initToggle = [false, false, true, false, false];
+  //     break;
+  //   case '검수 중':
+  //     initToggle = [false, false, false, true, false];
+  //     break;
+  //   case '완료 중':
+  //     initToggle = [false, false, false, false, true];
+  //     break;
+  //   case '완료 대기':
+  //     initToggle = [false, false, false, false, true];
+  //     break;
+  //   // 취소
+  //   default:
+  //     initToggle = [false, false, false, false, false];
+  // }
+
+  
 
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
