@@ -12,6 +12,7 @@ export const getDocument = (documentId: string) => {
       accept: 'application/json',
       authorization:
         'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      // `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
   };
 
@@ -40,7 +41,8 @@ export const modusignPdfDown = (documentId: string) => {
     headers: {
       accept: 'application/json',
       authorization:
-        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+        // 'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+        `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
   };
 

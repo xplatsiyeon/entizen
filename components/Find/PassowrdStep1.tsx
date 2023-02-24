@@ -98,7 +98,10 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       console.log([data.name, name]);
       console.log([data.id, id]);
 
-      if (data.name === name && data.id === id) {
+      if (
+        data.name.toLocaleLowerCase() === name.toLocaleLowerCase() &&
+        data.id.toLocaleLowerCase() === id.toLocaleLowerCase()
+      ) {
         setStep(1);
       } else {
         localStorage.removeItem('key');

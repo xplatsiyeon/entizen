@@ -66,6 +66,7 @@ export const modusign = (data: ModuSignResponse) => {
       // authorization: process.env.MODUSIGN_KEY,
       authorization:
         'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      // `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
     body: JSON.stringify({
       templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',
