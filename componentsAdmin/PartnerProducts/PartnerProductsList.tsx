@@ -34,9 +34,9 @@ const PartnerProductsList = ({ setNowHeight }: Props) => {
   const handleCommon = () => {};
 
   // console.log(
-    '🦋 제품리스트입니다',
-    window.document.documentElement.scrollHeight,
-  );
+  //   '🦋 제품리스트입니다',
+  //   window.document.documentElement.scrollHeight,
+  // );
 
   useEffect(() => {
     if (setNowHeight) {
