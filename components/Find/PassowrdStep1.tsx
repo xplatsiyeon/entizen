@@ -88,6 +88,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let key = localStorage.getItem('key');
+    console.log('key ===>', key);
     let data: FindKey = JSON.parse(key!);
 
     console.log('data==>', data);
