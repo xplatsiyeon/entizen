@@ -35,11 +35,42 @@ import UserRightMenu from 'components/UserRightMenu';
 import useProfile from 'hooks/useProfile';
 import BellNormal from 'public/images/BellNormal.svg';
 import Nut from 'public/images/NutSVG.svg';
+// import BellOn from 'public/images/guide-bell.svg';
+import BellOn from 'public/images/BellOnSvg.svg';
+// import BellNormal from 'public/images/BellNormal.svg';
+import BellOff from 'public/images/BellOffSvg.svg';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import { GetUnread } from 'components/Main';
+import HamburgerBar from 'componentsWeb/HamburgerBar';
+import { useMediaQuery } from 'react-responsive';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { useDispatch } from 'react-redux';
 
 const Guide1 = () => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const userID = localStorage.getItem('USER_ID');
+  const dispatch = useDispatch();
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: userID !== null ? true : false,
+    },
+  );
+
+  const allAlert = historyUnread?.data;
 
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
@@ -84,138 +115,6 @@ const Guide1 = () => {
     invalidate: profileInvalidate,
   } = useProfile(_accessToken);
 
-  const list = (anchor: string) => (
-    <WholeBox
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <ListBox>
-        <XBtnWrapper>
-          {userID && (
-            <Imagewrap
-              onClick={() =>
-                userID ? router.push('/alarm') : router.push('/signin')
-              }
-            >
-              <Image src={BellNormal} alt="BellNormal" />
-            </Imagewrap>
-          )}
-          {userID && (
-            <Imagewrap onClick={() => router.push('/setting')}>
-              <Image src={Nut} alt="NutBtn" />
-            </Imagewrap>
-          )}
-          <Image src={xBtn} alt="xBtn" />
-        </XBtnWrapper>
-        {isLogin ? (
-          <WhetherLoginComplete>
-            <span>
-              <label className="label">일반회원</label>
-              {`${profileData?.name} 님`}
-            </span>
-            <span className="arrow-img">
-              <Image src={whiteRight} alt="arrow" layout="fill" />
-            </span>
-          </WhetherLoginComplete>
-        ) : (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
-            <span>
-              <Image src={whiteRight} alt="arrow" />
-            </span>
-          </WhetherLogin>
-        )}
-
-        <WhiteArea>
-          <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
-            <span>
-              <Image src={simpleEstimate} alt="간편견적" />
-            </span>
-            <span>간편견적</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              // setLinklist(true)
-              router.push('/guide')
-            }
-          >
-            <span>
-              <Image src={guide} alt="가이드" />
-            </span>
-            <span>가이드</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus>
-            <span>
-              <Image src={conversation} alt="소통하기" />
-            </span>
-            <span>소통하기</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={mypageIcon} alt="마이페이지" />
-            </span>
-            <span>마이페이지</span>
-          </WhiteAreaMenus>
-
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '15pt',
-              marginBottom: '3pt',
-              borderTop: '0.75pt solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaMenus onClick={() => router.push('/alarm?id=0')}>
-            <span>공지사항</span>
-          </WhiteAreaMenus>
-          {/* <WhiteAreaMenus onClick={() => router.push('/alarm')}>
-            <span>공지사항</span>
-          </WhiteAreaMenus> */}
-          <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
-            <span>알림 설정</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/faq') : router.push('/signin')
-            }
-          >
-            <span>1:1 문의</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
-            <span>자주 묻는 질문</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>제휴문의</span>
-          </WhiteAreaMenus>
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '3pt',
-              borderTop: '0.75pt solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaBottomMenus>
-            <span>
-              <Image src={grayInsta} alt="인스타"></Image>
-            </span>
-            <span>
-              <Image src={grayNaver} alt="네이버"></Image>
-            </span>
-          </WhiteAreaBottomMenus>
-          <WhiteAreaBottomText>
-            <span>고객센터 | 9818-8856</span>
-            <span onClick={() => router.push('/setting')}>설정</span>
-          </WhiteAreaBottomText>
-        </WhiteArea>
-      </ListBox>
-    </WholeBox>
-  );
-
   return (
     <Body>
       <WebHeader sub="guide" />
@@ -224,31 +123,79 @@ const Guide1 = () => {
           <Header>
             <span className="left">가이드</span>
             <div className="right">
-              <div
+              {/* <div
                 className="bell-img"
                 onClick={() => pageHandler('/alarm?id=0')}
               >
                 <Image src={bell} alt="bell" />
-              </div>
+              </div> */}
+              {!userID && (
+                <div
+                  className="bell-img"
+                  onClick={() => {
+                    router.push('/signin');
+                  }}
+                >
+                  <Image src={BellOff} alt="alarmIcon" />
+                </div>
+              )}
+              {userID && allAlert?.wasReadAlert === true && (
+                <div
+                  className="bell-img"
+                  // onClick={() => {
+                  //   router.push('/alarm?id=0');
+                  // }}
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                >
+                  <Image src={BellOff} alt="alarmIcon" />
+                </div>
+              )}
+              {userID && allAlert?.wasReadAlert === false && (
+                <div
+                  className="bell-img"
+                  // onClick={() => {
+                  //   router.push('/alarm?id=0');
+                  // }}
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                >
+                  <Image src={BellOn} alt="alarmIcon" />
+                </div>
+              )}
               {/* <div className="bell-img" onClick={() => pageHandler('/alarm')}>
                 <Image src={bell} alt="bell" />
               </div> */}
-              {(['right'] as const).map((anchor) => (
-                <React.Fragment key={anchor}>
-                  <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                    <IconBox>
-                      <Image src={Hamburger} alt="listIcon" />
-                    </IconBox>
-                  </HamburgerOn>
-                  <Drawer
-                    anchor={anchor}
-                    open={state[anchor]}
-                    onClose={toggleDrawer(anchor, false)}
-                  >
-                    {list(anchor)}
-                  </Drawer>
-                </React.Fragment>
-              ))}
+              {mobile && (
+                <>
+                  {(['right'] as const).map((anchor) => (
+                    <React.Fragment key={anchor}>
+                      <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                        <IconBox>
+                          <Image src={Hamburger} alt="listIcon" />
+                        </IconBox>
+                      </HamburgerOn>
+                      <Drawer
+                        anchor={anchor}
+                        open={state[anchor]}
+                        onClose={toggleDrawer(anchor, false)}
+                        // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                      >
+                        <HamburgerBar
+                          anchor={anchor}
+                          toggleDrawer={toggleDrawer}
+                          setState={setState}
+                          state={state}
+                        />
+                      </Drawer>
+                    </React.Fragment>
+                  ))}
+                </>
+              )}
             </div>
           </Header>
           <Wrap>
@@ -409,7 +356,7 @@ const Header = styled(Box)`
   }
   .bell-img {
     cursor: pointer;
-    margin-top: 12pt;
+    margin-top: 15pt;
     margin-right: 15pt;
   }
   @media (max-width: 899.25pt) {

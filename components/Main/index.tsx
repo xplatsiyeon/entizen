@@ -36,10 +36,11 @@ import {
 } from 'bridge/appToWeb';
 import colors from 'styles/colors';
 import { useMediaQuery } from 'react-responsive';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type Props = {};
 
-type GetUnread = {
+export type GetUnread = {
   isSuccess: boolean;
   data: {
     wasReadQuotation: boolean;
@@ -157,19 +158,52 @@ const MainPage = (props: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            <FirstIconBox onClick={() => router.push('/alarm?id=0')}>
+            <FirstIconBox
+              onClick={() => {
+                router.push('/alarm');
+                dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+              }}
+            >
               {/* <FirstIconBox onClick={() => router.push('/alarm')}> */}
               {/* {userID ? (
                 <Image src={BellOn} alt="alarmIcon" />
               ) : (
                 <Image src={BellNormal} alt="alarmIcon" />
               )} */}
-              {!userID && <Image src={BellOff} alt="alarmIcon" />}
+              {!userID && (
+                <Image
+                  src={BellOff}
+                  alt="alarmIcon"
+                  onClick={() => {
+                    router.push('/signin');
+                  }}
+                />
+              )}
               {userID && allAlert?.wasReadAlert === true && (
-                <Image src={BellOff} alt="alarmIcon" />
+                <Image
+                  src={BellOff}
+                  alt="alarmIcon"
+                  // onClick={() => {
+                  //   router.push('/alarm?id=0');
+                  // }}
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                />
               )}
               {userID && allAlert?.wasReadAlert === false && (
-                <Image src={BellOn} alt="alarmIcon" />
+                <Image
+                  src={BellOn}
+                  alt="alarmIcon"
+                  // onClick={() => {
+                  //   router.push('/alarm?id=0');
+                  // }}
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                />
               )}
             </FirstIconBox>
             {mobile && (
@@ -276,8 +310,8 @@ const LogoBox = styled.div`
   align-items: center;
 `;
 const FirstIconBox = styled.div`
-  margin-top: 12pt;
-  margin-bottom: 15pt;
+  margin-top: 15pt;
+  /* margin-bottom: 15pt; */
 
   margin-right: 15pt;
 `;

@@ -13,6 +13,8 @@ import guide from 'public/images/guide.png';
 import conversation from 'public/images/conversation.png';
 import grayInsta from 'public/images/grayCircleInsta.png';
 import grayNaver from 'public/images/grayCircleNaver.png';
+import { useDispatch } from 'react-redux';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type Props = {
   st: string;
@@ -22,7 +24,7 @@ const HamburgerMenu = ({ st }: Props) => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const userID = localStorage.getItem('USER_ID');
-
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     right: false,
   });
@@ -111,7 +113,13 @@ const HamburgerMenu = ({ st }: Props) => {
           {/* <WhiteAreaMenus onClick={() => router.push('/alarm')}>
             <span>공지사항</span>
           </WhiteAreaMenus> */}
-          <WhiteAreaMenus onClick={() => router.push('/alarm?id=1')}>
+          {/* <WhiteAreaMenus onClick={() => router.push('/alarm?id=0')}> */}
+          <WhiteAreaMenus
+            onClick={() => {
+              router.push('/alarm');
+              dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+            }}
+          >
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
@@ -161,6 +169,7 @@ const WholeBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: relative;
+
   /* height: 100vh; */
 `;
 

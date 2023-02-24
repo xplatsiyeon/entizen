@@ -11,6 +11,8 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 const Alam1_2 = () => {
   const mobile = useMediaQuery({
@@ -22,7 +24,7 @@ const Alam1_2 = () => {
   const [tabNumber, setTabNumber] = useState<number>(7);
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const tabHandler = (num: number) => setTab(num);
-
+  const dispatch = useDispatch();
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
 
@@ -97,8 +99,12 @@ const Alam1_2 = () => {
           </BodyContainer>
           {!mobile && (
             <ListButton
+              // onClick={() => {
+              //   router.push('/alarm?id=0');
+              // }}
               onClick={() => {
-                router.push('/alarm?id=1');
+                router.push('/alarm');
+                dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
               }}
             >
               <span>목록으로 돌아가기</span>

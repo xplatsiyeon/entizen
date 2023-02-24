@@ -44,6 +44,7 @@ import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
 import mypageIconSVG from 'public/images/mypageIconSVG.svg';
 import MyProductListSVG from 'public/images/MyProductListSVG.svg';
 import { useMediaQuery } from 'react-responsive';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type Props = {
   anchor: string;
@@ -62,6 +63,8 @@ type Props = {
 };
 
 const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
+  // 햄버거바 컴포넌트
+
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
@@ -91,6 +94,11 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
   // 기업인지 판매자인지
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
+  const moveAlarm = () => {
+    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+    router.push('/alarm');
+  };
 
   // 이름 가져오기
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -169,7 +177,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             <Imagewrap
               onClick={() =>
                 // userID ? router.push('/alarm') : router.push('/signin')}>
-                userID ? router.push('/alarm?id=0') : router.push('/signin')
+                userID ? moveAlarm() : router.push('/signin')
               }
             >
               <Image src={BellNormal} alt="BellNormal" />
@@ -317,7 +325,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             }}
           /> */}
           <Line />
-          <WhiteAreaMenus onClick={() => router.push('/alarm?id=1')}>
+          <WhiteAreaMenus onClick={() => moveAlarm()}>
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
@@ -437,6 +445,7 @@ const WholeBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: relative;
+
   /* height: 100vh; */
 `;
 
