@@ -109,14 +109,14 @@ const SearchAddress = ({ isSearch, setIsSearch, setProgressShow }: Props) => {
     <Wrap>
       <Container>
         <HeaderBox>
-          <Image
-            src={btnImg}
-            alt="backBtn"
+          <ImgBox
             onClick={() => {
               setIsSearch(!isSearch);
+              setProgressShow(true);
             }}
-            style={{ cursor: 'pointer' }}
-          />
+          >
+            <Image src={btnImg} alt="backBtn" />
+          </ImgBox>
           <FindAddress
             placeholder="상호명 또는 주소 검색"
             onChange={handleChange}
@@ -180,7 +180,7 @@ const HeaderBox = styled.div`
     border: 0;
     border-radius: 0;
     border-bottom: 0.75pt solid #e9eaee;
-    padding-left: 0pt;
+    padding-left: 20.625pt;
     padding-right: 0pt;
   }
 `;
@@ -264,6 +264,13 @@ const AddressBox = styled.div`
     text-align: left;
     color: #747780;
   }
+`;
+
+const ImgBox = styled.div`
+  display: flex;
+  justify-content: center;
+
+  cursor: pointer;
 `;
 
 export default SearchAddress;

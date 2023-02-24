@@ -59,7 +59,9 @@ const Quotation1_1 = () => {
     5: <SixthStep tabNumber={tabNumber} />,
   };
 
-  console.log('isSearch 🍎', isSearch);
+  useEffect(() => {
+    console.log('isSearch 🍎', isSearch);
+  }, [isSearch]);
 
   return (
     <>
@@ -89,9 +91,9 @@ const Quotation1_1 = () => {
               />
             )}
             {/* 메인 */}
-
-            <Body hiddenTag={hiddenTag}>
-              {progressShow === true && (
+            <Body>
+              {/* <Body hiddenTag={hiddenTag}> */}
+              {progressShow && (
                 <TabBox>
                   {Object.keys(components).map((tab, index) => (
                     <React.Fragment key={index}>
@@ -162,14 +164,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const Body = styled.div<{ hiddenTag: boolean }>`
+const Body = styled.div<{ hiddenTag?: boolean }>`
   position: relative;
   width: 100%;
 
   @media (max-width: 899.25pt) {
     padding-top: ${({ hiddenTag }) => !hiddenTag && '12pt'};
-    padding-left: 15pt;
-    padding-right: 15pt;
   }
 `;
 
@@ -184,6 +184,8 @@ const TabBox = styled.div`
     position: relative;
     /* gap: 3pt; */
     gap: 0.75pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
