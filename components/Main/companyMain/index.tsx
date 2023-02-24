@@ -20,6 +20,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { useMediaQuery } from 'react-responsive';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type Props = { num?: number; now?: string };
 
@@ -95,7 +96,12 @@ const CompanyMainPage = ({ num, now }: Props) => {
             {/* <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox> */}
-            <FirstIconBox onClick={() => router.push('/alarm?id=0')}>
+            <FirstIconBox
+              onClick={() => {
+                router.push('/alarm');
+                dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+              }}
+            >
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
             {mobile && (

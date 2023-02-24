@@ -14,6 +14,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
+import { SubscribePrice } from 'store/quotationSlice';
 
 type Props = {};
 
@@ -92,6 +93,19 @@ const Request1_7 = (props: Props) => {
     setIsModal(!isModal);
   };
 
+  const setSubScribe = (data: SubscribePrice) => {
+    setCalculatedValue({
+      maxSubscribePricePerMonth: data?.maxSubscribePricePerMonth!,
+      maxTotalSubscribePrice: data?.maxTotalSubscribePrice!,
+      minSubscribePricePerMonth: data?.minSubscribePricePerMonth!,
+      minTotalSubscribePrice: data?.minTotalSubscribePrice!,
+      minChargingStationInstallationPrice:
+        data?.minChargingStationInstallationPrice!,
+      maxChargingStationInstallationPrice:
+        data?.maxChargingStationInstallationPrice!,
+    });
+  };
+
   useLayoutEffect(() => {
     const homeCharger = quotationData.chargers.every(
       (el) => el.kind === '7-HOME',
@@ -104,24 +118,16 @@ const Request1_7 = (props: Props) => {
       setDisabled(false);
     }
 
-    setCalculatedValue({
-      maxSubscribePricePerMonth:
-        requestData?.entiretyMinAndMaxSubscribePrice
-          ?.maxSubscribePricePerMonth!,
-      maxTotalSubscribePrice:
-        requestData?.entiretyMinAndMaxSubscribePrice?.maxTotalSubscribePrice!,
-      minSubscribePricePerMonth:
-        requestData?.entiretyMinAndMaxSubscribePrice
-          ?.minSubscribePricePerMonth!,
-      minTotalSubscribePrice:
-        requestData?.entiretyMinAndMaxSubscribePrice?.minTotalSubscribePrice!,
-      minChargingStationInstallationPrice:
-        requestData?.entiretyMinAndMaxSubscribePrice
-          ?.minChargingStationInstallationPrice!,
-      maxChargingStationInstallationPrice:
-        requestData?.entiretyMinAndMaxSubscribePrice
-          ?.maxChargingStationInstallationPrice!,
-    });
+    const {
+      subscribeProduct,
+      partMinAndMaxSubscribePrice,
+      entiretyMinAndMaxSubscribePrice,
+    } = requestData!;
+    if (subscribeProduct === 'ENTIRETY') {
+      setSubScribe(entiretyMinAndMaxSubscribePrice);
+    } else if (subscribeProduct === 'PART') {
+      setSubScribe(partMinAndMaxSubscribePrice);
+    }
 
     setDate({
       year: requestData?.predictedProfitTime?.year,
