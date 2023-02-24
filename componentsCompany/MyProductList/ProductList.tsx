@@ -80,13 +80,15 @@ const ProductList = (props: Props) => {
   // console.log(data);
   // console.log('⭐️ 내 제품리스트 데이터 ~line 65 -> ' + TAG);
 
-  useEffect(() => {
-    if (data?.chargerProduct?.length === 0) {
-      setIsData(false);
-    } else if (data?.chargerProduct?.length !== undefined) {
-      setIsData(true);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data?.chargerProduct?.length === 0) {
+  //     setIsData(false);
+  //   } else if (data?.chargerProduct?.length !== undefined) {
+  //     setIsData(true);
+  //   }
+  // }, [data]);
+
+  console.log('isData.length', data?.chargerProduct?.length);
 
   return (
     <>
@@ -147,15 +149,29 @@ const ProductList = (props: Props) => {
           </>
         )}
       </Wrapper>
-      <BtnBox isData={isData}>
-        <ProductAddBtn onClick={() => router.push('/company/addProduct')}>
-          {/* <div>
+      {data?.chargerProduct?.length === 0 ? (
+        <BtnBox isData={data?.chargerProduct?.length}>
+          <ProductAddBtn
+            onClick={() => router.push('/company/addProduct')}
+            isData={data?.chargerProduct?.length}
+          >
+            {/* <div>
             <Image src={plusBtn} alt="plus" />
           </div>
           <div>제품 추가하기</div> */}
-          <span className="text">내 제품 등록하기</span>
-        </ProductAddBtn>
-      </BtnBox>
+            <span className="text">내 제품 등록하기</span>
+          </ProductAddBtn>
+        </BtnBox>
+      ) : (
+        <BtnBox isData={data?.chargerProduct?.length}>
+          <ProductAddBtn onClick={() => router.push('/company/addProduct')}>
+            <div>
+              <Image src={plusBtn} alt="plus" />
+            </div>
+            <div className="plusProduct">제품 추가하기</div>
+          </ProductAddBtn>
+        </BtnBox>
+      )}
     </>
   );
 };
@@ -244,24 +260,25 @@ const KwBox = styled.div`
   border-radius: 12pt;
 `;
 
-const BtnBox = styled.div<{ isData: boolean }>`
+const BtnBox = styled.div<{ isData?: number }>`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   position: fixed;
   /* bottom: 30pt; */
-  bottom: 34.5pt;
+  bottom: ${({ isData }) => (isData === 0 ? '155pt' : '34.5pt')};
   width: 100%;
   cursor: pointer;
+
   @media (min-width: 900pt) {
     position: static;
     margin: 0 auto;
     width: 254.7pt;
-    padding-top: ${({ isData }) => (isData === true ? '150pt' : '42pt')};
+    padding-top: ${({ isData }) => (isData === 0 ? '42pt' : '150pt')};
   }
 `;
 
-const ProductAddBtn = styled.div`
+const ProductAddBtn = styled.div<{ isData?: number }>`
   padding-top: 13.5pt;
   padding-bottom: 13.5pt;
   display: flex;
@@ -270,7 +287,9 @@ const ProductAddBtn = styled.div`
   justify-content: center;
   border-radius: 6pt;
   background-color: ${colors.main};
-  width: 120.75pt;
+
+  width: ${({ isData }) => (isData === 0 ? '120.75pt' : '100%')};
+
   margin: 0 auto;
   @media (min-width: 900pt) {
     width: 100%;
@@ -280,7 +299,7 @@ const ProductAddBtn = styled.div`
     height: 15pt;
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 700;
     line-height: 12pt;
@@ -305,6 +324,15 @@ const ProductAddBtn = styled.div`
       text-align: left;
     }
   }
+  .plusProduct {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #ffffff;
+  }
 `;
 
 const DisplayBox = styled.div`
@@ -318,6 +346,7 @@ const ImgBox = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 83.25pt;
+
   @media (min-width: 900pt) {
     padding-top: 0;
   }
