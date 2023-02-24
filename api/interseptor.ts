@@ -66,7 +66,7 @@ instance.interceptors.response.use(
       localStorage.removeItem('REFRESH_TOKEN');
       localStorage.removeItem('USER_ID');
       localStorage.removeItem('MEMBER_TYPE');
-      window.location.href = '/';
+      // window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}`;
       return Promise.reject(err);
     }
     /** 2 */
@@ -114,9 +114,9 @@ const getRfreshToken = async (): Promise<string | void> => {
     localStorage.removeItem('REFRESH_TOKEN');
     localStorage.removeItem('USER_ID');
     localStorage.removeItem('MEMBER_TYPE');
-    window.location.href = '/';
+    // window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
-    handleLogoutOnClickModalClick();
+    // handleLogoutOnClickModalClick();
   }
 };
 
