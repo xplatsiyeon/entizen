@@ -167,7 +167,7 @@ const Container = styled.div`
 const HeaderBox = styled.div`
   padding-left: 15pt;
   padding-right: 12pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   display: flex;
 `;
 const FindAddress = styled(TextField)`

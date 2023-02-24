@@ -590,7 +590,8 @@ const Imagewrap = styled.div`
   width: 18pt;
   height: 18pt;
   /* margin-right: 9pt; */
-  margin-left: 22.5pt;
+  /* margin-left: 22.5pt; */
+  margin-left: 18.75pt;
 `;
 
 const CarouselWrap = styled.section`

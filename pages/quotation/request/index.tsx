@@ -30,6 +30,7 @@ const Quotation1_1 = () => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [progressShow, setProgressShow] = useState(true);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -51,11 +52,14 @@ const Quotation1_1 = () => {
         setHiddenTag={setHiddenTag}
         setIsSearch={setIsSearch}
         isSearch={isSearch}
+        setProgressShow={setProgressShow}
       />
     ),
     4: <FifthStep tabNumber={tabNumber} />,
     5: <SixthStep tabNumber={tabNumber} />,
   };
+
+  console.log('isSearch 🍎', isSearch);
 
   return (
     <>
@@ -87,7 +91,7 @@ const Quotation1_1 = () => {
             {/* 메인 */}
 
             <Body hiddenTag={hiddenTag}>
-              {isSearch === false && (
+              {progressShow === true && (
                 <TabBox>
                   {Object.keys(components).map((tab, index) => (
                     <React.Fragment key={index}>
@@ -164,6 +168,8 @@ const Body = styled.div<{ hiddenTag: boolean }>`
 
   @media (max-width: 899.25pt) {
     padding-top: ${({ hiddenTag }) => !hiddenTag && '12pt'};
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 
@@ -176,7 +182,8 @@ const TabBox = styled.div`
   @media (max-width: 899.25pt) {
     display: flex;
     position: relative;
-    gap: 3pt;
+    /* gap: 3pt; */
+    gap: 0.75pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -187,7 +194,8 @@ const TabLine = styled.div<{ idx: string; num: string }>`
 
   width: calc((100% - 15pt) / 6);
   display: inline-block;
-  margin-right: 3pt;
+  margin-right: 1.5pt;
+  /* margin-right: 3pt; */
   &:nth-last-of-type(1) {
     margin-right: 0;
   }

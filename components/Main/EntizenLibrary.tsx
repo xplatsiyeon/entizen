@@ -259,6 +259,7 @@ const ProfileImg = styled.div`
     padding-bottom: 13.5pt;
     padding-right: 12pt;
     padding-left: 6pt;
+
     & > div {
       width: 33pt;
       height: 33pt;
@@ -300,6 +301,9 @@ const DetailView = styled(Typography)<{ smallfont: number }>`
     display: flex;
     align-items: center;
     margin-left: 3pt;
+  }
+  @media (max-width: 899.25pt) {
+    margin-top: 0;
   }
 `;
 
@@ -381,6 +385,7 @@ const ImgDiv = styled.img`
   @media (max-width: 899.25pt) {
     width: 50pt;
     height: 50pt;
+    margin-right: 0;
   }
 `;
 

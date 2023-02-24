@@ -164,6 +164,7 @@ const List = styled.li`
     color: ${colors.main};
   }
   .color-text {
+    font-family: 'Spoqa Han Sans Neo';
     position: relative;
     top: 1.2pt; //  가운데 정렬 디테일 수정
     font-weight: 500;
