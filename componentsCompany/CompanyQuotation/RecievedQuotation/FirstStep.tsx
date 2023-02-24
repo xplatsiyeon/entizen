@@ -47,9 +47,9 @@ const FirstStep = ({
   const dispatch = useDispatch();
   const router = useRouter();
   // console.log(
-    'chargingStationInstallationPrice 뭐나옴?',
-    chargingStationInstallationPrice,
-  );
+  //   'chargingStationInstallationPrice 뭐나옴?',
+  //   chargingStationInstallationPrice,
+  // );
 
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
