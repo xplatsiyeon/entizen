@@ -19,7 +19,6 @@ interface Props {
   setIsSearch: React.Dispatch<React.SetStateAction<boolean>>;
   isSearch: boolean;
   setHiddenTag: Dispatch<SetStateAction<boolean>>;
-  setProgressShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const TAG = 'componets/quotation/request/FourthStep.tsx';
 const FourthStep = ({
@@ -27,7 +26,6 @@ const FourthStep = ({
   setHiddenTag,
   setIsSearch,
   isSearch,
-  setProgressShow,
 }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
@@ -47,7 +45,7 @@ const FourthStep = ({
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsSearch((prev) => !prev);
     setHiddenTag((prev) => !prev);
-    setProgressShow(false);
+    // setProgressShow(false);
   };
   // 이전버튼
   const HandlePrevBtn = () => {
@@ -115,13 +113,7 @@ const FourthStep = ({
   // }, []);
   // 주소 검색 컴포넌트 on/off
   if (isSearch) {
-    return (
-      <SearchAddress
-        isSearch={isSearch}
-        setIsSearch={setIsSearch}
-        setProgressShow={setProgressShow}
-      />
-    );
+    return <SearchAddress isSearch={isSearch} setIsSearch={setIsSearch} />;
   }
 
   return (
