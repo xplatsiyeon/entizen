@@ -185,6 +185,7 @@ const Time = styled.div`
       line-height: 18pt;
       font-family: 'Spoqa Han Sans Neo';
       color: #a6a9b0;
+      margin-top: 0!important;
     }
   }
 `;

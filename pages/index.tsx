@@ -130,6 +130,7 @@ export default Home;
 
 const WebWrap = styled.div`
   display: block;
+  
   @media (max-width: 899.25pt) {
     display: none;
   }

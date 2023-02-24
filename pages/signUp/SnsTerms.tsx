@@ -216,7 +216,7 @@ const SignUpTerms = () => {
                       />
                       <p>[필수] 만 14세 이상</p>
                     </div>
-                    <span onClick={TermsofServiceHandler}>보기</span>
+                    {/* <span onClick={TermsofServiceHandler}>보기</span> */}
                   </Item>
                 </Check>
                 <Check>
