@@ -80,6 +80,11 @@ const Wrapper = styled.div`
 `;
 const Wrap = styled.div`
   width: 100%;
+  display: flex;
+  align-items: baseline;
+  @media (max-width: 899.25pt) {
+    display: block;
+  }
 `;
 const BannerBox = styled.div`
   display: flex;
@@ -149,6 +154,7 @@ const Banner = styled.div`
 const ContentsBox = styled.div`
   padding-top: 49.5pt;
   display: flex;
+  flex-direction: column;
   flex: 1;
   gap: 30pt;
   @media (max-width: 899.25pt) {
@@ -164,18 +170,19 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  margin-top: 27pt;
+  //margin-top: 27pt;
   @media (max-width: 899.25pt) {
     display: block;
     font-size: 12pt;
+    margin-top: 27pt;
   }
 `;
 const Contents = styled.div`
-  flex: 1;
-  padding-top: 12pt;
+  flex: 2;
+  //padding-top: 12pt;
   font-weight: 400;
   font-size: 16px;
-  line-height: 16.5pt;
+  line-height: 19.5pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
   .list {
@@ -184,6 +191,7 @@ const Contents = styled.div`
   }
   @media (max-width: 899.25pt) {
     font-size: 10.5pt;
+    padding-top: 12pt;
   }
 `;
 const Notice = styled.p`

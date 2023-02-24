@@ -78,7 +78,7 @@ const TextBox = styled(Box)`
   list-style-type: disc;
 
   .text-item {
-    padding-bottom: 15pt;
+    //padding-bottom: 15pt;
     font-weight: 500;
     font-size: 12pt;
     line-height: 30pt;

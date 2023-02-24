@@ -123,7 +123,7 @@ const TabContainer = styled.div`
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-  border-bottom: 0.75pt solid #f3f4f7;
+  border-bottom: 0.75pt solid #E2E5ED;
 `;
 const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;

@@ -445,7 +445,7 @@ const InfoText = styled.div`
       font-weight: 500;
       font-size: 10.5pt;
       line-height: 16.5pt;
-      text-decoration: underline;
+      //text-decoration: underline;
       color: #a6a9b0;
     }
   }

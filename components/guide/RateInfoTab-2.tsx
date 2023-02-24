@@ -171,6 +171,7 @@ const Wrapper = styled.div`
 const Table = styled.table<{ layout?: string; shadow?: boolean }>`
   width: 100%;
   margin-top: 12pt;
+  border-collapse: unset!important;
   table-layout: ${({ layout }) => (layout ? layout : 'fixed')};
   .fisrt-col {
     border-right: 1.5pt solid ${colors.lightGray};
@@ -178,7 +179,7 @@ const Table = styled.table<{ layout?: string; shadow?: boolean }>`
   &:not(:nth-of-type(1)) {
     margin-top: 27pt;
   }
-  box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
+  //box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
 `;
 const Caption = styled.caption<{ shadow?: boolean }>`
   text-align: left;
@@ -188,8 +189,7 @@ const Caption = styled.caption<{ shadow?: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-bottom: 12pt;
-  filter: ${({ shadow }) =>
-    shadow && 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'};
+  //filter: ${({ shadow }) => shadow && 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'};
 `;
 const TableHeader = styled.thead`
   background: #f9f7ff;
@@ -215,7 +215,7 @@ const TableHeader = styled.thead`
   }
 `;
 const TableBody = styled.tbody<{ shadow?: boolean }>`
-  box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
+ // box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
   & th,
   td {
     text-align: center;
@@ -225,7 +225,7 @@ const TableBody = styled.tbody<{ shadow?: boolean }>`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    border-bottom: 0.75pt solid #f3f4f7;
+    border-bottom: 0.75pt solid #E2E5ED;
   }
   .contents {
     padding: 9pt 3pt 9pt 9pt;
