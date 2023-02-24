@@ -501,7 +501,7 @@ const ChattingRoomLogsEntizen = ({
         setTimeout(() => {
           if (inner)
             inner.scroll({
-              top: inner.scrollHeight,
+              top: inner.scrollHeight + 100,
               left: 0,
               behavior: 'auto',
             });
@@ -537,9 +537,6 @@ const ChattingRoomLogsEntizen = ({
 
       // console.log('처음에만');
       //focusRef.current?.focus();
-      const width = window.innerWidth;
-      // console.log(width);
-      if (width > 1200) {
         if (inner)
           inner.scroll({
             top: inner.scrollHeight,
@@ -547,7 +544,7 @@ const ChattingRoomLogsEntizen = ({
             behavior: 'auto',
           });
         focusRef.current?.focus({ preventScroll: true });
-      }
+
     }, 600);
 
     setTimeout(() => {
@@ -1027,8 +1024,9 @@ const IconWrap = styled.div`
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
-  height: 83vh;
+  height: 100vh;
   overflow-y: scroll;
+  padding-bottom: 60pt;
   .wrap {
     position: relative;
   }
@@ -1113,6 +1111,7 @@ const Date = styled.span`
   letter-spacing: -0.02em;
   color: #a6a9b0;
   position: relative;
+  margin: 8pt auto 18pt;
 
   @media (min-width: 900pt) {
     border: 1px solid #e2e5ed;
@@ -1173,6 +1172,8 @@ const Chat = styled.div<{ userChatting: boolean }>`
   font-size: 12pt;
   line-height: 16.5pt;
   letter-spacing: -0.02em;
+  max-width: 300pt;
+
   &.user {
     color: ${({ userChatting }) => (userChatting ? 'white' : '#222222')};
     background: ${({ userChatting }) => (userChatting ? '#5221cb' : '#f3f4f7')};
@@ -1180,6 +1181,10 @@ const Chat = styled.div<{ userChatting: boolean }>`
   &.company {
     color: ${({ userChatting }) => (userChatting ? '#222222' : 'white')};
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
+  }
+
+  @media (max-width: 899.25pt) {
+    max-width: 150pt;
   }
 `;
 const FileDownload = styled.a`
@@ -1222,9 +1227,7 @@ const FocusBox = styled.div`
     outline: none;
   }
 
-  @media (max-width: 899.25pt) {
-    height: 5pt;
-  }
+
 `;
 const WrapDate = styled.div`
   display: flex;
