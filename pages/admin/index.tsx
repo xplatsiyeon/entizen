@@ -50,14 +50,14 @@ const index = (props: Props) => {
 
   const [nowHeight, setNowHeight] = useState<number>();
 
-  const sessionNumber = localStorage.getItem('number');
+  const sessionNumber = sessionStorage.getItem('number');
 
   const router = useRouter();
 
   // console.log('🎀 인덱스임 number 🎀', number);
   // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
 
-  const accessToken = localStorage.getItem('ADMIN_ACCESS_TOKEN');
+  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
 
   useEffect(() => {
     if (!accessToken) {
