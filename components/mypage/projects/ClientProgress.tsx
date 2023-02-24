@@ -317,7 +317,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   );
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   // const selfRef = useRef<any>(null);
   // 자체계약서 다운로드

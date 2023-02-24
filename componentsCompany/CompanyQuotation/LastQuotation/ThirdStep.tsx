@@ -74,7 +74,7 @@ const ThirdStep = ({
   chargingStationInstallationPrice,
 }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   const router = useRouter();
 

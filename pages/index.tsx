@@ -19,7 +19,8 @@ const Home: NextPage<Props> = ({}: Props) => {
   // console.log(window.location.href);
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  // const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
   const [isModal, setIsModal] = useState(false);

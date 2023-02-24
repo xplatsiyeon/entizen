@@ -29,7 +29,7 @@ const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [data, setData] = useState<any>();
   const [imgFile, setImgFile] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);

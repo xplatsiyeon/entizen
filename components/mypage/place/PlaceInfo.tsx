@@ -62,7 +62,7 @@ const PlaceInfo = ({ data }: Props) => {
     data?.contract && JSON.parse(data?.contract?.contractContent!);
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // 자체 계약서 다운로드
   const onClickBtn = (data: fileDownLoad) => {
     const a = document.createElement('a');

@@ -37,7 +37,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
     );
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   return (
     <>

@@ -94,7 +94,7 @@ const ChattingRoomLogsEntizen = ({
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);

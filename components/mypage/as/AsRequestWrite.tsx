@@ -44,7 +44,7 @@ export interface Charger {
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
 const AsRequestWrite = () => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);

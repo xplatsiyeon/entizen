@@ -17,7 +17,7 @@ import { isTokenGetApi } from 'api';
 const Library = () => {
   const route = useRouter();
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // const HandleOnClick = () => {
   //   window.open(
   //     'https://post.naver.com/myProfile.naver?memberNo=58867144',
