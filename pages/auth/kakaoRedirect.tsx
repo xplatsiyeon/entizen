@@ -17,7 +17,7 @@ const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { user } = useSelector((state: RootState) => state.userList);
   const [errorModal, setErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

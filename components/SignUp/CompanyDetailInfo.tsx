@@ -65,7 +65,7 @@ const CompanyDetailInfo = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [addressOn, setAddressOn] = useState<boolean>(false);

@@ -102,7 +102,7 @@ Props) => {
     query: '(max-width:899.25pt)',
   });
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   // img ref

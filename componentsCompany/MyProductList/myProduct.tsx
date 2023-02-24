@@ -57,7 +57,7 @@ const MyProduct = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx!;
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 

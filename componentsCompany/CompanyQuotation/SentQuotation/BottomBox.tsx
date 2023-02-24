@@ -22,7 +22,7 @@ type Props = {
 
 const BottomBox = ({ pb, data }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // 부분 구독 판별
   const partSubscribe =
     data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;

@@ -62,7 +62,7 @@ const ProgressBody = ({
   const router = useRouter();
   const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {

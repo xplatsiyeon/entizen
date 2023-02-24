@@ -58,7 +58,7 @@ const SecondStep = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
   const chargeLocationTypeListEn: string[] = ['INSIDE', 'OUTSIDE'];
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];

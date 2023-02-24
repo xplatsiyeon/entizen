@@ -36,7 +36,7 @@ interface Props {
 }
 const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const callPhone = hyphenFn(data?.member?.phone!);
   const finalQuotation = data?.finalQuotation;

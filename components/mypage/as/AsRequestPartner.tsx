@@ -19,7 +19,7 @@ interface Props {
 const TAG = 'components/mypage/as/AsRequestPartner.tsx';
 const AsRequestPartner = ({ pb, data }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [modalOpen, setModalOpen] = useState<boolean>();
   const HandleModal = () => {
     setModalOpen(false);

@@ -88,7 +88,7 @@ const Signin = () => {
   const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   const { user } = useSelector((state: RootState) => state.userList);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
