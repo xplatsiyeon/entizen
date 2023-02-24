@@ -70,15 +70,15 @@ const PasswordNotifyPage = () => {
         setSuccess(res.data);
       },
       onError: (err) => {
-        console.log(err);
+        // console.log(err);
       },
     },
   );
 
   const adminExistence = () => {
-    console.log('=======관리자 유무 호출=======');
+    // console.log('=======관리자 유무 호출=======');
     if (sendStatus === true) {
-      console.log('=======관리자 유무 호출 조건 충족=======');
+      // console.log('=======관리자 유무 호출 조건 충족=======');
       passwordMutate({
         url: `/admin/managers/existence?id=${id}&name=${name}&email=${firstEmail}@${secondEmail}`,
       });
@@ -107,7 +107,7 @@ const PasswordNotifyPage = () => {
         );
       },
       onError: (err) => {
-        console.log(err);
+        // console.log(err);
         setAlertModal(true);
         setMessage(
           '비밀번호 변경에 실패했습니다.\n다시 한번 확인 부탁드립니다.',
@@ -117,9 +117,9 @@ const PasswordNotifyPage = () => {
   );
 
   const repassword = () => {
-    console.log('=======repassword fn 호출=======');
+    // console.log('=======repassword fn 호출=======');
     if (checkPassword === true && checkRePassword === true) {
-      console.log('=======repassword 조건 충족=======');
+      // console.log('=======repassword 조건 충족=======');
       rePasswordMutate({
         url: `/admin/managers/${success?.data?.manager?.managerIdx}/password`,
         data: {
@@ -147,10 +147,10 @@ const PasswordNotifyPage = () => {
   //   setErr(false);
   //   if (idRef.current && type === 'text') {
   //     idRef.current.value = e.target.value;
-  //     //console.log(idRef.current.value)
+  //     //// console.log(idRef.current.value)
   //   } else if (pwRef.current && type == 'password') {
   //     pwRef.current.value = e.target.value;
-  //     //console.log(pwRef.current.value)
+  //     //// console.log(pwRef.current.value)
   //   }
   // };
 

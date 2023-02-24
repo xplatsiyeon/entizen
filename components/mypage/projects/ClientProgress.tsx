@@ -253,8 +253,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         projectRefetch();
       },
       onError: (error: any) => {
-        console.log('날짜 변경 에러 발생');
-        console.log(error);
+        // console.log('날짜 변경 에러 발생');
+        // console.log(error);
       },
     });
 
@@ -272,8 +272,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         });
       },
       onError: (error: any) => {
-        console.log('수락 버튼 에러');
-        console.log(error);
+        // console.log('수락 버튼 에러');
+        // console.log(error);
       },
     },
   );
@@ -335,7 +335,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
 
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    console.log('contractDocumentData=>', contractDocumentData?.embeddedUrl);
+    // console.log('contractDocumentData=>', contractDocumentData?.embeddedUrl);
     // 새탭방식
     window.open(contractDocumentData?.embeddedUrl);
 
@@ -353,7 +353,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
 
   // 유저 날짜 동의하기
   const onClickChangeData = () => {
-    console.log('🔥 ~ line 166 유저 날짜 동의 버튼');
+    // console.log('🔥 ~ line 166 유저 날짜 동의 버튼');
     if (modalInfo?.projectDateChangeHistoryIdx) {
       dataChangeMutate({
         url: `/projects/${modalInfo?.projectIdx}/goal-date/${modalInfo?.projectDateChangeHistoryIdx}/agreement`,
@@ -362,7 +362,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   };
   // 유저 프로젝트 완료 동의 모달
   const onClickCompleteBtn = () => {
-    console.log('🔥 ~ line 176 유저 프로젝트 완료 모달');
+    // console.log('🔥 ~ line 176 유저 프로젝트 완료 모달');
     if (data?.project?.projectIdx) {
       CompleteMutate({
         url: `/projects/${data?.project?.projectIdx}/step/completion`,
@@ -426,8 +426,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     }
   }, [data, modalStep]);
 
-  console.log('⭐️ 계약서 데이터 확인 ~line 315 ');
-  console.log(data);
+  // console.log('⭐️ 계약서 데이터 확인 ~line 315 ');
+  // console.log(data);
 
   if (dataChangeLoading || contractLoading || CompleteLoading) {
     return <Loader />;

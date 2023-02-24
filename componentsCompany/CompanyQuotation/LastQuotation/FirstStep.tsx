@@ -178,8 +178,8 @@ const FirstStep = ({
   };
   // 충전기 종류 및 수량 추가
   const onClickChargerAdd = () => {
-    console.log(selectedOption);
-    console.log(selectedOptionEn);
+    // console.log(selectedOption);
+    // console.log(selectedOptionEn);
 
     if (selectedOptionEn.length === 5) return;
     const temp = selectedOption.concat({
@@ -212,8 +212,8 @@ const FirstStep = ({
       chargerImageFiles: [],
       catalogFiles: [],
     });
-    console.log(selectedOption);
-    console.log(selectedOptionEn);
+    // console.log(selectedOption);
+    // console.log(selectedOptionEn);
 
     setSelectedOption(temp);
     setSelectedOptionEn(tempEn);
@@ -251,7 +251,7 @@ const FirstStep = ({
 
   // 다음 버튼 클릭
   const buttonOnClick = () => {
-    console.log('check');
+    // console.log('check');
     if (canNext) {
       setTabNumber(tabNumber + 1);
     }
@@ -300,8 +300,8 @@ const FirstStep = ({
 
   // 수익 지분 100% 맞춰 주는 업데이트 useEffect
   useEffect(() => {
-    console.log(profitableInterestUser);
-    console.log(chargePoint);
+    // console.log(profitableInterestUser);
+    // console.log(chargePoint);
   }, [profitableInterestUser, chargePoint]);
   // 충전기 개수
   useEffect(() => {
@@ -313,8 +313,8 @@ const FirstStep = ({
 
   // 테스트
   // useEffect(() => {
-  //   console.log('🔥 ~line 226 ~selectedOptionEn data check');
-  //   console.log(selectedOption);
+  //   // console.log('🔥 ~line 226 ~selectedOptionEn data check');
+  //   // console.log(selectedOption);
   // }, [selectedOption]);
   // console.log(`first step입니다`, selectedOption.length);
 
@@ -454,7 +454,7 @@ const FirstStep = ({
           <div className="monthFlex">
             <Input
               onChange={(e) => {
-                console.log('월구독료 길이', e.target.value.length);
+                // console.log('월구독료 길이', e.target.value.length);
                 if (e.target.value[0] !== '0') {
                   setSubscribePricePerMonth(inputPriceFormat(e.target.value));
                 } else if (

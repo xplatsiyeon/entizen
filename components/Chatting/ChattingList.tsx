@@ -18,7 +18,8 @@ import {
   QueryObserverResult,
   RefetchOptions,
   RefetchQueryFilters,
-  useMutation} from 'react-query';
+  useMutation,
+} from 'react-query';
 import { isTokenPatchApi } from 'api';
 import { handleTime } from 'utils/messageTime';
 
@@ -53,8 +54,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
       // queryClinet.invalidateQueries('chatting-list');
     },
     onError: (error) => {
-      console.log('채팅 알림 기능 에러');
-      console.log(error);
+      // console.log('채팅 알림 기능 에러');
+      // console.log(error);
     },
   });
 
@@ -163,14 +164,20 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     <Image src={newChatEntizen} layout="fill" />
                   </ImageWrap>
                 </ChattingRoomImage>
-                <ChattingRoomPreview onClick={() =>
-                  handleRoute(
-                    data?.data?.chattingRooms?.entizenChattingRoom
-                      ?.chattingRoomIdx!,
-                    true,
-                  )
-                }>
-                  <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16}/> </FromMember>
+                <ChattingRoomPreview
+                  onClick={() =>
+                    handleRoute(
+                      data?.data?.chattingRooms?.entizenChattingRoom
+                        ?.chattingRoomIdx!,
+                      true,
+                    )
+                  }
+                >
+                  <FromMember>
+                    {' '}
+                    <span>엔티즌</span>{' '}
+                    <Image src={entizenCK} width={16} height={16} />{' '}
+                  </FromMember>
                   <Previw>
                     {
                       data?.data?.chattingRooms?.entizenChattingRoom
@@ -188,17 +195,25 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                   <Box>
                     <EnUnRead
                       wasRead={
-                        (data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.fromMemberType !== 'USER') &&
+                        data?.data?.chattingRooms?.entizenChattingRoom
+                          ?.chattingLog?.fromMemberType !== 'USER' &&
                         !Boolean(
                           data?.data?.chattingRooms?.entizenChattingRoom
-                            ?.chattingLog?.wasRead
-                        )?true:false}
+                            ?.chattingLog?.wasRead,
+                        )
+                          ? true
+                          : false
+                      }
                     />
-                    <Favorite onClick={(e) => {e.preventDefault(); 
-                    onClickFavorite(
-                      data?.data?.chattingRooms?.entizenChattingRoom
-                        ?.chattingRoomIdx!,
-                    )}}>
+                    <Favorite
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onClickFavorite(
+                          data?.data?.chattingRooms?.entizenChattingRoom
+                            ?.chattingRoomIdx!,
+                        );
+                      }}
+                    >
                       {data?.data.chattingRooms.entizenChattingRoom
                         ?.chattingRoomFavorite.isFavorite ? (
                         <Image src={checked} layout="fill" />
@@ -264,7 +279,9 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                         )}
                       </ImageWrap>
                     </ChattingRoomImage>
-                    <ChattingRoomPreview onClick={() => handleRoute(chatting.chattingRoomIdx)}>
+                    <ChattingRoomPreview
+                      onClick={() => handleRoute(chatting.chattingRoomIdx)}
+                    >
                       <FromMember>
                         {
                           chatting.companyMember.companyMemberAdditionalInfo
@@ -288,8 +305,12 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                               : false
                           }
                         />
-                        <Favorite  
-                          onClick={(e) => {e.preventDefault(); onClickFavorite(chatting.chattingRoomIdx!)}}>
+                        <Favorite
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onClickFavorite(chatting.chattingRoomIdx!);
+                          }}
+                        >
                           {chatting.chattingRoomFavorite.isFavorite ? (
                             <Image src={checked} layout="fill" />
                           ) : (
@@ -331,8 +352,10 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     onClick={() =>
                       onClickFavorite(
                         data?.data?.chattingRooms?.entizenChattingRoom
-                          ?.chattingRoomIdx!
-                      )}>
+                          ?.chattingRoomIdx!,
+                      )
+                    }
+                  >
                     {data?.data.chattingRooms.entizenChattingRoom
                       ?.chattingRoomFavorite.isFavorite ? (
                       <HiddenIconWrap>
@@ -382,7 +405,11 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     </ImageWrap>
                   </ChattingRoomImage>
                   <ChattingRoomPreview>
-                    <FromMember> <span>엔티즌</span> <Image src={entizenCK} width={16} height={16} /></FromMember>
+                    <FromMember>
+                      {' '}
+                      <span>엔티즌</span>{' '}
+                      <Image src={entizenCK} width={16} height={16} />
+                    </FromMember>
                     <Previw>
                       {
                         data?.data.chattingRooms.entizenChattingRoom
@@ -399,12 +426,15 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     </Created>
                     <Box>
                       <EnUnRead
-                        wasRead={  
-                          (data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.fromMemberType !== 'USER') &&
+                        wasRead={
+                          data?.data?.chattingRooms?.entizenChattingRoom
+                            ?.chattingLog?.fromMemberType !== 'USER' &&
                           !Boolean(
                             data?.data?.chattingRooms?.entizenChattingRoom
-                              ?.chattingLog?.wasRead
-                          )?true:false
+                              ?.chattingLog?.wasRead,
+                          )
+                            ? true
+                            : false
                         }
                       />
                       {/* 앱 심사로 인해 일시적으로 주석 처리 */}
@@ -432,9 +462,10 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     <HiddenBox1>
                       {/* 버튼에 즐겨찾기 설정 api함수 */}
                       <FavoriteBtn
-                        onClick={(e) => {e.preventDefault();
-                          onClickFavorite(chatting.chattingRoomIdx!);}
-                        }
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onClickFavorite(chatting.chattingRoomIdx!);
+                        }}
                       >
                         {chatting.chattingRoomFavorite.isFavorite ? (
                           <HiddenIconWrap>
@@ -568,28 +599,28 @@ const Chatting = styled.div`
   //transition: 0.4s;
   .target {
     width: 100% !important;
-    height: 61pt!important;
+    height: 61pt !important;
     .slick-track {
-      width: calc(100% + 240px)!important;
+      width: calc(100% + 240px) !important;
       margin-left: 0% !important;
-      transition: 0.2s!important;
+      transition: 0.2s !important;
       .slick-slide {
         &:nth-of-type(1) {
-          width: 160px!important;
+          width: 160px !important;
           > div {
             width: 100%;
             position: relative;
           }
         }
         &:nth-of-type(2) {
-          width: 80px!important;
+          width: 80px !important;
           > div {
             width: 100%;
             position: relative;
           }
         }
         &:nth-of-type(3) {
-          width: calc(100% - 240px)!important;
+          width: calc(100% - 240px) !important;
           > div {
             width: 100%;
             position: relative;
@@ -606,7 +637,7 @@ const ChattingRoom = styled.div`
   width: calc((100% / 8) * 5);
 
   @media (max-width: 899.75pt) {
-    width: 100vw!important;
+    width: 100vw !important;
   }
 `;
 const ChattingRoomImage = styled.div`
@@ -655,7 +686,7 @@ const FromMember = styled.p`
   color: #222222;
   display: flex;
   align-items: center;
-  span{
+  span {
     margin-right: 3pt;
   }
 `;
@@ -696,13 +727,12 @@ const UnRead = styled.div<{ wasRead: boolean | null }>`
   border-radius: 50%;
   background: ${({ wasRead }) => (Boolean(wasRead) ? `#5221CB` : `none`)};
 `;
-const EnUnRead = styled.div<{ wasRead: boolean}>`
+const EnUnRead = styled.div<{ wasRead: boolean }>`
   width: 6pt;
   height: 6pt;
   border-radius: 50%;
-  background: ${({ wasRead }) => (wasRead ? `#5221CB`:`none`)};
+  background: ${({ wasRead }) => (wasRead ? `#5221CB` : `none`)};
 `;
-
 
 const Favorite = styled.div`
   position: relative;
@@ -733,7 +763,7 @@ const HiddenBox2 = styled.div`
   right: -2pt;
 
   @media (max-width: 899pt) {
-    width: 60pt!important;
+    width: 60pt !important;
     position: absolute;
     height: 60.75pt;
   }

@@ -282,7 +282,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   //   };
   // }, [nowHeight]);
 
-  console.log('nowHeight', nowHeight);
+  // console.log('nowHeight', nowHeight);
 
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>

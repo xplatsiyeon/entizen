@@ -53,9 +53,9 @@ function useMap() {
         }
       }
     }
-    console.log('mapRef 로그 확인');
+    // console.log('mapRef 로그 확인');
     // console.log(mapRef);
-    console.log('useMap useEffect 입니다.');
+    // console.log('useMap useEffect 입니다.');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lnglatList, locationList]);
 

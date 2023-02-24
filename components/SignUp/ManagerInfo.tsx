@@ -114,7 +114,7 @@ const ManagerInfo = ({
           email,
         },
       }).then((res) => {
-        console.log(res);
+        // console.log(res);
         setModalMessage('이메일로 인증번호가 전송되었습니다.');
         setIsModal(true);
       });
@@ -147,8 +147,8 @@ const ManagerInfo = ({
 
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
-    console.log(TAB + '->>멤버타입 확인');
-    console.log(memberType);
+    // console.log(TAB + '->>멤버타입 확인');
+    // console.log(memberType);
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

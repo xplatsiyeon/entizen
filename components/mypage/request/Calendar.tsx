@@ -59,7 +59,7 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
     const selectedY = selectedDate[0];
     const selectedM = selectedDate[1];
     const selectedD = selectedDate[2];
-    console.log(selectedY, selectedM, selectedD);
+    // console.log(selectedY, selectedM, selectedD);
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       // 달력 날짜 추가

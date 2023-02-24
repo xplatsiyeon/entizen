@@ -59,8 +59,8 @@ const successedProject = (props: Props) => {
     },
   );
 
-  console.log('🔥 히스토리 프로젝트 데이터 ~line 68 -> ' + TAG);
-  console.log(historyDetailData);
+  // console.log('🔥 히스토리 프로젝트 데이터 ~line 68 -> ' + TAG);
+  // console.log(historyDetailData);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {

@@ -205,7 +205,7 @@ const Guide1_2 = () => {
   };
   // 셀렉터 빼기
   const onClickMinus = (index: number) => {
-    console.log(index);
+    // console.log(index);
     const copy = [...selectedOption];
     copy.splice(index, 1);
     setSelectedOption(copy);

@@ -83,17 +83,17 @@ const SentRequest = ({}: Props) => {
   }, [checkedFilterIndex, keyword]);
 
   if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
+    // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    // console.log(error);
   }
   if (isLoading) {
     return <Loader />;
   }
 
-  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  console.log(data);
+  // console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
+  // console.log(data);
 
-  console.log('badge', data?.sendQuotationRequests);
+  // console.log('badge', data?.sendQuotationRequests);
 
   //maskingInstallationAddress
   return (

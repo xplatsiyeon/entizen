@@ -19,29 +19,29 @@ export const NaverLogout = async () => {
       service_provider: 'NAVER',
     },
   });
-  console.log('네이버 로그아웃=>' + res);
-  console.log(res);
+  // console.log('네이버 로그아웃=>' + res);
+  // console.log(res);
 };
 // 카카오 로그아웃
 export const KakaoLogout = () => {
   const kakao = kakaoInit();
-  console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
+  // console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
   // 카카오 로그인 링크 해제
   kakao.API.request({
     url: '/v1/user/unlink',
     success: (res: any) => {
       // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
-      console.log('---------카카오로그아웃----------.');
-      console.log(res);
+      // console.log('---------카카오로그아웃----------.');
+      // console.log(res);
     },
     fail: (error: any) => {
-      console.log(error);
+      // console.log(error);
     },
   });
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
-  console.log('=============== 로그아웃 =================');
+  // console.log('=============== 로그아웃 =================');
   const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
 

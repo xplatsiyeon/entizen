@@ -232,7 +232,7 @@ const ThirdStep = ({
   });
   // 보내기 API 함수
   const onClickPost = () => {
-    console.log(changeCharger);
+    // console.log(changeCharger);
 
     const data = {
       quotationRequestIdx: quotationRequestIdx,
@@ -258,9 +258,9 @@ const ThirdStep = ({
       subscribeProductFeature: subscribeProductFeature,
     };
 
-    console.log(data);
-    console.log(userInvestRate);
-    console.log(chargingPointRate);
+    // console.log(data);
+    // console.log(userInvestRate);
+    // console.log(chargingPointRate);
     if (canNext) {
       postMutate({
         url: '/quotations/final',

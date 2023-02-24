@@ -47,8 +47,8 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
       // adminNoticeListRefetch();
     },
     onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
+      // console.log('토글 버튼 에러');
+      // console.log(error);
     },
   });
 
@@ -74,7 +74,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   // }, [changeNumber]);
 
   // useEffect(() => {
-  //   console.log(toggle);
+  //   // console.log(toggle);
   //   if (toggle?.id) {
   //     patchMutate({
   //       url: `/admin/notices/${toggle?.id}/exposure`,
@@ -82,7 +82,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   //   }
   // }, [toggle]);
 
-  console.log('실행');
+  // console.log('실행');
 
   return (
     <Wrapper>

@@ -78,7 +78,7 @@ const ReceivedAS = (props: Props) => {
   }, [router]);
 
   useEffect(() => {
-    console.log(routerId);
+    // console.log(routerId);
     remove();
   }, [routerId]);
 
@@ -97,7 +97,7 @@ const ReceivedAS = (props: Props) => {
   //   return <Loader />;
   // }
   if (isError) {
-    console.log(error);
+    // console.log(error);
   }
 
   // console.log('🔥 as 상세페이지 데이터 확인 ~line 104 ' + TAG);

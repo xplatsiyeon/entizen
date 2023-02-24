@@ -25,8 +25,8 @@ const AsRequestPartner = ({ pb, data }: Props) => {
     setModalOpen(false);
   };
 
-  console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
-  console.log(data);
+  // console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
+  // console.log(data);
 
   // width 실시간
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);

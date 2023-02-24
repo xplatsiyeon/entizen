@@ -227,7 +227,7 @@ const ReverseAuctionTable = ({
       },
     );
 
-  console.log(
+  // console.log(
     '🌸 역경매 주소 확인 🌸',
     `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
       pickedDate ? pickedDate[0] : '2022-09-05'

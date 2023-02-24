@@ -45,8 +45,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     isTokenPostApi,
     {
       onSuccess: (res) => {
-        console.log(res);
-        console.log(res.data.authCode);
+        // console.log(res);
+        // console.log(res.data.authCode);
 
         setModalMessage('이메일로 인증번호가 전송되었습니다.');
         setIsModal(true);
@@ -63,7 +63,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     isTokenPostApi,
     {
       onSuccess: (res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.isValidAuthCode) {
           setModalMessage('인증번호가 확인되었습니다.');
           setIsModal(true);
@@ -86,13 +86,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     isTokenPatchApi,
     {
       onSuccess: (res) => {
-        console.log(res);
+        // console.log(res);
         // console.log(res.data.authCode);
         setModalMessage('담당자가 변경되었습니다.');
         setIsModal(true);
       },
       onError: () => {
-        console.log('fail');
+        // console.log('fail');
         setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
         setIsModal(true);
       },
@@ -117,7 +117,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const onCickBtn = () => {
     //setIsTwoBtnModal(false);
     const key: Key = JSON.parse(localStorage.getItem('key')!);
-    console.log('profile', profile, key);
+    // console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',
@@ -127,7 +127,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           email: email,
         },
       });
-      console.log('온 클릭'); 
+      // console.log('온 클릭'); 
     } */
     if (name === key?.name) {
       changeMutate({
@@ -173,10 +173,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
 
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
-    console.log('나이스 인증');
-    console.log(event);
+    // console.log('나이스 인증');
+    // console.log(event);
     const { id } = event.currentTarget;
-    console.log(`id -> ${id}`);
+    // console.log(`id -> ${id}`);
     if (typeof window !== 'object') return;
     else {
       window.open(

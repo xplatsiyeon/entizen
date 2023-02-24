@@ -108,8 +108,8 @@ const MyProduct = (props: Props) => {
       },
     });
   };
-  console.log(TAG + '🔥 ~line 79 데이터 확인');
-  console.log(data);
+  // console.log(TAG + '🔥 ~line 79 데이터 확인');
+  // console.log(data);
 
   useEffect(() => {
     return () => {
@@ -118,8 +118,8 @@ const MyProduct = (props: Props) => {
   }, []);
 
   if (isError) {
-    console.log(TAG + '🔥 ~line 82 에러 발생');
-    console.log(error);
+    // console.log(TAG + '🔥 ~line 82 에러 발생');
+    // console.log(error);
   }
   if (isLoading) {
     return <Loader />;

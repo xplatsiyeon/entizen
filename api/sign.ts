@@ -25,7 +25,7 @@ export const modusign = (data: ModuSignResponse) => {
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
-  console.log('projectInProgress=>', projectInProgress);
+  // console.log('projectInProgress=>', projectInProgress);
   // // 계약하는 날짜 당일
   const today = new Date();
 

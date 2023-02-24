@@ -79,10 +79,10 @@ const WebSearchAddress = ({
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-    console.log('jibun==>', jibun);
-    console.log('roadad==>', roadad);
-    console.log('sggnm==>', sggnm);
-    console.log('sinm==>', sinm);
+    // console.log('jibun==>', jibun);
+    // console.log('roadad==>', roadad);
+    // console.log('sggnm==>', sggnm);
+    // console.log('sinm==>', sinm);
 
     setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
@@ -142,7 +142,7 @@ const WebSearchAddress = ({
         });
         setResults(result);
         setChargeInfoOpen(false);
-        console.log(result);
+        // console.log(result);
         setIsLoading(false);
       }
     };

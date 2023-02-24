@@ -29,7 +29,7 @@ const MyReview = (props: Props) => {
     return <Loader />;
   }
   if (isError) {
-    console.log(error);
+    // console.log(error);
   }
 
   const review =

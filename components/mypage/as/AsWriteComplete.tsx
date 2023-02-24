@@ -19,7 +19,7 @@ interface Props {
 const AsComplete = ({ text, title, buttonText, routerId, type }: Props) => {
   const router = useRouter();
   const onClickBtn = () => {
-    console.log(routerId);
+    // console.log(routerId);
     if (type === 'AS') {
       router.push({
         pathname: '/mypage',

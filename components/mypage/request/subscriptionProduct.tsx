@@ -30,7 +30,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
     // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
 
     if (company?.finalQuotation) {
-      console.log('최종견적 있다');
+      // console.log('최종견적 있다');
       setIsFinalItmeIndex(index);
     } else {
       route.push({
@@ -43,10 +43,10 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
   };
 
   if (userLoading) {
-    console.log('유저 정보 받아오는 중');
+    // console.log('유저 정보 받아오는 중');
   }
   if (userError) {
-    console.log('유저 정보 에러');
+    // console.log('유저 정보 에러');
   }
 
   return (

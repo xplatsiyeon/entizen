@@ -87,7 +87,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
 
           setResults(cc);
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       }
     };
@@ -101,7 +101,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
   useEffect(() => {
-    console.log(results !== undefined && results);
+    // console.log(results !== undefined && results);
   }, [results]);
 
   return (

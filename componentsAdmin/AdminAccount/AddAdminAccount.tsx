@@ -97,12 +97,12 @@ const AddAdminAccount = ({
     isError: postError,
   } = useMutation(isTokenAdminPostApi, {
     onSuccess: (res) => {
-      console.log('----아이디 중복체크 성공----');
+      // console.log('----아이디 중복체크 성공----');
       setIdDuplicated(res.data);
     },
     onError: (error) => {
-      console.log('----아이디 중복체크 실패----');
-      console.log(error);
+      // console.log('----아이디 중복체크 실패----');
+      // console.log(error);
       alert('다시 시도해주세요.');
     },
     onSettled: () => {},
@@ -124,12 +124,12 @@ const AddAdminAccount = ({
     isError: postEmailError,
   } = useMutation(isTokenAdminPostApi, {
     onSuccess: (res) => {
-      console.log('----아이디 중복체크 성공----');
+      // console.log('----아이디 중복체크 성공----');
       setEmailDuplicated(res.data);
     },
     onError: (error) => {
-      console.log('----아이디 중복체크 실패----');
-      console.log(error);
+      // console.log('----아이디 중복체크 실패----');
+      // console.log(error);
       alert('다시 시도해주세요.');
     },
     onSettled: () => {},
@@ -155,8 +155,8 @@ const AddAdminAccount = ({
       setMessage('추가가 완료 됐습니다.');
     },
     onError: (error) => {
-      console.log('----회원가입 실패----');
-      console.log(error);
+      // console.log('----회원가입 실패----');
+      // console.log(error);
       setMessageModal(true);
       setMessage('추가 요청을 실패했습니다.\n다시 시도해주세요.');
     },
@@ -312,7 +312,7 @@ const AddAdminAccount = ({
     isEmailChangeColor,
   ]);
 
-  console.log(
+  // console.log(
     ' emailDuplicate?.data?.isDuplicated',
     emailDuplicate?.data?.isDuplicated,
   );
@@ -403,7 +403,7 @@ const AddAdminAccount = ({
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
-  console.log('idDuplicate', idDuplicate);
+  // console.log('idDuplicate', idDuplicate);
 
   return (
     <Wrapper>

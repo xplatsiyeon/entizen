@@ -34,7 +34,7 @@ const QuotationCenter = ({}: Props) => {
     isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
   );
 
-  console.log(total, 'total');
+  // console.log(total, 'total');
 
   useEffect(() => {
     if (newReceived?.receivedQuotationRequests.length! < 10) {

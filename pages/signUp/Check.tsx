@@ -48,7 +48,7 @@ const SignUpCheck = () => {
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
           password,
         );
-      console.log(check1);
+      // console.log(check1);
       setCheckedPw(check1);
     }
     if (checkPassword) {
@@ -106,8 +106,8 @@ const SignUpCheck = () => {
         }
       });
     } catch (error) {
-      console.log('아이디 중복 체크 에러 발생!!');
-      console.log(error);
+      // console.log('아이디 중복 체크 에러 발생!!');
+      // console.log(error);
     }
   };
 

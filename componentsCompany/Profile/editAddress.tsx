@@ -33,18 +33,18 @@ const EditAddress = ({ setComponent }: Props) => {
 
   const { mutate: addressMutate } = useMutation(isTokenPatchApi, {
     onSuccess: (res) => {
-      console.log('주소 변경 성공 ', res);
+      // console.log('주소 변경 성공 ', res);
       setComponent(0);
     },
     onError: (error) => {
-      console.log('주소 변경 실패 ', error);
+      // console.log('주소 변경 실패 ', error);
     },
   });
 
   const handleEditAddress = () => {
-    console.log('companyAddress==>>', companyAddress);
-    console.log('companyDetailAddress==>>', companyDetailAddress);
-    console.log('postNumber==>>', postNumber);
+    // console.log('companyAddress==>>', companyAddress);
+    // console.log('companyDetailAddress==>>', companyDetailAddress);
+    // console.log('postNumber==>>', postNumber);
     //주소 수정할 경우
     addressMutate({
       url: '/members/address',
@@ -67,7 +67,7 @@ const EditAddress = ({ setComponent }: Props) => {
     }
   }, []);
 
-  console.log('addressOn', addressOn);
+  // console.log('addressOn', addressOn);
 
   if (addressOn) {
     return (

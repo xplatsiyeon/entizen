@@ -42,11 +42,11 @@ const FirstStep = ({
   chargingStationInstallationPrice,
   setChargingStationInstallationPrice,
 }: Props) => {
-  console.log(partSubscribe);
+  // console.log(partSubscribe);
 
   const dispatch = useDispatch();
   const router = useRouter();
-  console.log(
+  // console.log(
     'chargingStationInstallationPrice 뭐나옴?',
     chargingStationInstallationPrice,
   );
@@ -85,8 +85,8 @@ const FirstStep = ({
   useEffect(() => {
     if (editData) {
       const { preQuotation } = editData?.sendQuotationRequest;
-      console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
-      console.log(preQuotation);
+      // console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
+      // console.log(preQuotation);
 
       setChargingStationInstallationPrice(
         preQuotation?.chargingStationInstallationPrice?.toString(),

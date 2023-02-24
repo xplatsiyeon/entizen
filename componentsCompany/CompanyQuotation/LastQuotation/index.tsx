@@ -163,10 +163,10 @@ const LastWrite = (props: Props) => {
   };
   // 최종 견적 초기값 세팅
   useEffect(() => {
-    console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
-    console.log(data);
+    // console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
+    // console.log(data);
     if (data && !finalQuotationIdx) {
-      console.log('수정 데이터 없다');
+      // console.log('수정 데이터 없다');
       setChargingStationInstallationPrice(
         preQuotation?.chargingStationInstallationPrice?.toString(),
       );

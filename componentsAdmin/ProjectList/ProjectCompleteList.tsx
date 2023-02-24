@@ -97,7 +97,7 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
     const inputValue = dateRef.current
       ?.querySelector('.datePicker-input')
       ?.querySelector('input')?.value;
-    console.log('input?', inputValue);
+    // console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
     setTimeout(() => {
       dateRef.current?.querySelector('.date-btn')?.classList.remove('on');

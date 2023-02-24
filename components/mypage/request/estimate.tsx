@@ -95,7 +95,7 @@ const Estimate = ({ listUp }: Props) => {
           <Label listUp={listUp}>
             진행 중&nbsp;&nbsp;
             <span className="num">
-               {data?.inProgressQuotationRequests.length}
+              {data?.inProgressQuotationRequests.length}
             </span>
           </Label>
           <Carousel
@@ -185,7 +185,7 @@ const Label = styled.label<{ listUp?: boolean }>`
     padding-left: 4pt;
   }
 `;
-const Proceeding = styled.section<{listUp?:boolean}>`
+const Proceeding = styled.section<{ listUp?: boolean }>`
   padding-top: 21pt;
   margin-bottom: 0;
   @media (min-width: 900pt) {
@@ -215,7 +215,7 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
     width: 100%;
     //padding-right: 5pt;
-    padding-top:${({ listUp }) => (Boolean(listUp) ? '9pt' : '21pt')};;
+    padding-top: ${({ listUp }) => (Boolean(listUp) ? '9pt' : '21pt')};
   }
 `;
 const CarouselItem = styled.div<{ listUp: boolean }>`

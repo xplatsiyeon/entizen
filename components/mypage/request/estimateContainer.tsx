@@ -182,10 +182,10 @@ const ItemButton = styled(ListItemButton)`
   & div {
     margin: 0;
   }
-  &:hover{
-    background: white!important;
+  &:hover {
+    background: white !important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;

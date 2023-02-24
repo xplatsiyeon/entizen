@@ -53,8 +53,8 @@ const PlaceTopBox = ({ data }: Props) => {
     (el) => el.kind === '7-HOME',
   );
 
-  console.log('👀 내 충전소 데이터 확인 ~53 --> ');
-  console.log(data);
+  // console.log('👀 내 충전소 데이터 확인 ~53 --> ');
+  // console.log(data);
 
   return (
     <Wrapper>
@@ -227,10 +227,10 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-    &:hover{
-    background: white!important;
+  &:hover {
+    background: white !important;
   }
-  .MuiTouchRipple-root{
+  .MuiTouchRipple-root {
     display: none;
   }
 `;

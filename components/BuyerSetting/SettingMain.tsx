@@ -44,7 +44,7 @@ const SettingMain = ({
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
   const [passowrdValid, setPassowrdValid] = useState(false);
 
-  console.log('leftTabNumber', leftTabNumber);
+  // console.log('leftTabNumber', leftTabNumber);
 
   // 네이버 로그아웃
   const NaverLogout = async () => {
@@ -59,8 +59,8 @@ const SettingMain = ({
         service_provider: 'NAVER',
       },
     });
-    console.log('여기에요 여기  =>    ' + res);
-    console.log(res);
+    // console.log('여기에요 여기  =>    ' + res);
+    // console.log(res);
 
     if (res) {
       router.push('/'); // 로그인 페이지로 이동
@@ -69,18 +69,18 @@ const SettingMain = ({
   // 카카오 로그아웃
   const KakaoLogout = () => {
     const kakao = kakaoInit();
-    console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
+    // console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
     // 카카오 로그인 링크 해제
     kakao.API.request({
       url: '/v1/user/unlink',
       success: (res: any) => {
         // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
-        console.log('세팅 카카오로그아웃 부분입니다.');
-        console.log(res);
+        // console.log('세팅 카카오로그아웃 부분입니다.');
+        // console.log(res);
         router.push('/');
       },
       fail: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   };
@@ -165,11 +165,11 @@ const SettingMain = ({
             }
           })
           .catch((res) => {
-            console.log('api 에러 발생');
+            // console.log('api 에러 발생');
             setPassowrdValid(true);
           });
       } catch (error) {
-        console.log('error -->' + error);
+        // console.log('error -->' + error);
       }
     }
   };

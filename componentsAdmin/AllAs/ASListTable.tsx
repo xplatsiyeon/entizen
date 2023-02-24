@@ -136,7 +136,7 @@ const ASListTable = ({
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
 
-  console.log('asData', asData);
+  // console.log('asData', asData);
 
   useEffect(() => {
     switch (tableType) {

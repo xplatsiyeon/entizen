@@ -79,7 +79,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
   };
 
   useEffect(() => {
-    console.log(linklist);
+    // console.log(linklist);
   }, [linklist]);
 
   return (

@@ -30,8 +30,8 @@ const ProfileEditing = () => {
       setCheckSns(snsMember);
     }
 
-    console.log(checkSns);
-    console.log(snsMember);
+    // console.log(checkSns);
+    // console.log(snsMember);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

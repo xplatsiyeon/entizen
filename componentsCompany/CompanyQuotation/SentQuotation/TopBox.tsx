@@ -36,7 +36,7 @@ type Props = {
 };
 
 const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
-  console.log(
+  // console.log(
     data?.sendQuotationRequest.quotationRequest.etcRequest,
     '39번째줄',
   );

@@ -52,10 +52,10 @@ const Index: NextPage = () => {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => console.log(res));
+        }).then((res) => // console.log(res));
       } catch (error) {
-        console.log('post 요청 실패');
-        console.log(error);
+        // console.log('post 요청 실패');
+        // console.log(error);
       }
     };
 
@@ -66,10 +66,10 @@ const Index: NextPage = () => {
         naverLogin.getLoginStatus((status: any) => {
           if (status) {
             // 로그인 상태 값이 있을 경우
-            console.log(naverLogin); // 사용자 정보 조회
+            // console.log(naverLogin); // 사용자 정보 조회
             let email = naverLogin.user.getEmail();
-            console.log(email); // 사용자 이메일 정보를 받을수 있습니다.
-            console.log(naverLogin.user); //사용자 정보를 받을수 있습니다.
+            // console.log(email); // 사용자 이메일 정보를 받을수 있습니다.
+            // console.log(naverLogin.user); //사용자 정보를 받을수 있습니다.
             NaverApi(naverLogin);
             // if (!naverLogin.user.email()) {
             //   // 나이정보 제공을 동의하지 않았을 경우

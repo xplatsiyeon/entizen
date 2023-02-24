@@ -65,7 +65,7 @@ const EditPW = ({ setComponent }: Props) => {
         ) {
           setPasswordError(true);
           setErrorMessage('기존과 동일한 비밀번호로 변경할 수 없습니다.');
-          console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
+          // console.log('비밀번호 확인 -->>', err?.response?.data?.message!);
         }
         if (err?.response?.data?.message! === '올바르지 않는 비밀번호입니다.') {
           setPasswordError(true);
@@ -96,7 +96,7 @@ const EditPW = ({ setComponent }: Props) => {
   };
   // 비밀번호 변경 api
   const handleClick = () => {
-    console.log('check');
+    // console.log('check');
     passwordMutate({
       url: `/members/password/${token?.memberIdx}`,
       data: {
@@ -128,7 +128,7 @@ const EditPW = ({ setComponent }: Props) => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
             password,
           );
-        console.log(check1);
+        // console.log(check1);
         setCheckedPw(check1);
       }
     }
@@ -136,7 +136,7 @@ const EditPW = ({ setComponent }: Props) => {
       if (password !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    // console.log(password, checkPassword);
   }, [password, checkPassword, checkSamePw]);
 
   const beforeIcon = {

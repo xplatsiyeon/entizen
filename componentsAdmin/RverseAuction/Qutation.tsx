@@ -24,7 +24,7 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
   );
   const onChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    console.log(event);
+    // console.log(event);
     setOptionValue(event?.target?.value);
   };
 

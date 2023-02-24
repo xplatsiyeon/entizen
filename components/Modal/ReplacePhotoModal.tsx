@@ -30,14 +30,14 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
   const { mutate: isReplacedMutate, isLoading: isReplacedLoading } =
     useMutation(isTokenPostApi, {
       onSuccess: (data) => {
-        console.log(data);
+        // console.log(data);
         clinetQuery.invalidateQueries('spot-inspection');
         clinetQuery.invalidateQueries('company');
         setIsModal(false);
       },
       onError: (error) => {
-        console.log('에러 발생');
-        console.log(error);
+        // console.log('에러 발생');
+        // console.log(error);
       },
     });
 
@@ -50,7 +50,7 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
   };
 
   const HandleButton = () => {
-    console.log('온클릭');
+    // console.log('온클릭');
     isReplacedMutate({
       url: `/quotations/pre/${preQuotationIdx}/spot-inspection`,
       data: {

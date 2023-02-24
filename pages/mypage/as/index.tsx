@@ -171,14 +171,14 @@ const asNumber = () => {
     return <Loader />;
   }
   if (isError || completeIsError) {
-    console.log(error);
+    // console.log(error);
   }
-  //  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  //  // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
   // console.log(data);
 
-  console.log('rofsdfsd', router);
-  console.log('isReview==>', isReview);
-  console.log('mobile==>', mobile);
+  // console.log('rofsdfsd', router);
+  // console.log('isReview==>', isReview);
+  // console.log('mobile==>', mobile);
 
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));

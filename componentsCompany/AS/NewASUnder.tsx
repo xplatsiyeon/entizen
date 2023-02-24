@@ -37,8 +37,8 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
     return <Loader />;
   }
   if (isError) {
-    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
-    console.log(error);
+    // console.log('🔥 에러 발생 ~line 66 ->' + TAG);
+    // console.log(error);
   }
   // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
   // console.log(data);
@@ -49,7 +49,7 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
     }
   };
 
-  console.log('data.length', data?.data?.newReceivedAfterSalesServices?.length);
+  // console.log('data.length', data?.data?.newReceivedAfterSalesServices?.length);
 
   return (
     <Body>
@@ -146,9 +146,9 @@ const StoreName = styled.p`
   line-height: 15pt;
   color: #222222;
   width: 150pt;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const FlexWrap = styled.div`

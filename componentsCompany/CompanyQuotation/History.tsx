@@ -61,14 +61,14 @@ const History = ({}: Props) => {
     );
 
   useEffect(() => {
-    console.log(`🔥 리페치 테스트 ~line 63 -> ${TAG}`);
-    console.log(error);
+    // console.log(`🔥 리페치 테스트 ~line 63 -> ${TAG}`);
+    // console.log(error);
     refetch();
   }, [checkedFilterIndex, keyword]);
 
   if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
+    // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    // console.log(error);
     return (
       <Modal
         text="다시 시도해주세요"

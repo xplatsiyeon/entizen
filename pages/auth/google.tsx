@@ -47,8 +47,8 @@ const google: NextPage = () => {
     onSuccess: (res) => {
       let resData = res.data;
       let jsonData = JSON.parse(res.config.data);
-      console.log('onSuccess date check -->>>');
-      console.log(resData);
+      // console.log('onSuccess date check -->>>');
+      // console.log(resData);
 
       dispatch(
         userAction.add({
@@ -62,8 +62,8 @@ const google: NextPage = () => {
       );
       if (resData.isMember === true) {
         // 로그인
-        console.log('멤버 확인');
-        console.log(resData);
+        // console.log('멤버 확인');
+        // console.log(resData);
         const token: JwtTokenType = jwt_decode(resData.accessToken);
         localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
         localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
@@ -116,11 +116,11 @@ const google: NextPage = () => {
   };
   // 구글 로그인 실패
   const GoogleLoginonFailed = () => {
-    console.log('Login Failed');
+    // console.log('Login Failed');
   };
   // 구글 로그아웃
   const handleGoogleLogout = () => {
-    console.log('🔥 google 로그아웃 되었습니다.');
+    // console.log('🔥 google 로그아웃 되었습니다.');
     googleLogout();
   };
   return (

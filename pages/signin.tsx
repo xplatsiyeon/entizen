@@ -107,7 +107,7 @@ const Signin = () => {
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse.access_token);
+      // console.log(tokenResponse.access_token);
       // 구글에서 받아온 토큰값으로 유저정보 받아옴.
       // axios랑 fetch로는 CORS 에러 발생해서 XMLHTTP로 연결.
       const userInfo: any = await new Promise((resolve) => {
@@ -133,7 +133,7 @@ const Signin = () => {
       }
     },
     onError: () => {
-      console.log('구글 로그인 실패');
+      // console.log('구글 로그인 실패');
       setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
       setErrorModal(true);
     },
@@ -258,14 +258,14 @@ const Signin = () => {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('[axios] 리스폰스 => ');
-      console.log(res);
-      console.log(res.data);
+      // console.log('[axios] 리스폰스 => ');
+      // console.log(res);
+      // console.log(res.data);
       // const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
-      console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      console.log(c);
+      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+      // console.log(c);
       dispatch(
         userAction.add({
           ...user,
@@ -280,7 +280,7 @@ const Signin = () => {
         const token: JwtTokenType = jwt_decode(res.data.accessToken);
         localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
         localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-        console.log(user.email);
+        // console.log(user.email);
         localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(data.user.email));
@@ -293,8 +293,8 @@ const Signin = () => {
           REFRESH_TOKEN: res.data.refreshToken,
           USER_ID: data.user.email,
         };
-        console.log('==========userInfo==========');
-        console.log(userInfo);
+        // console.log('==========userInfo==========');
+        // console.log(userInfo);
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (userAgent === 'iOS_App') {
@@ -316,7 +316,7 @@ const Signin = () => {
   };
   // 나이스 인증 온클릭 함수
   const fnPopup = (type: 'id' | 'password') => {
-    console.log('🔥 type ==>>', type);
+    // console.log('🔥 type ==>>', type);
     if (type === 'id') {
       setIsId(true);
       // console.log(data);
@@ -368,7 +368,7 @@ const Signin = () => {
   const HandleFindId = async () => {
     let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
-    console.log(data);
+    // console.log(data);
     if (data.isMember) {
       dispatch(findUserInfoAction.addId(data.id));
       localStorage.removeItem('key');
@@ -386,7 +386,7 @@ const Signin = () => {
   //   let key = localStorage.getItem('key');
   //   let data: FindKey = JSON.parse(key!);
   //   if (data.isMember) {
-  //     console.log('멤버 확인 -> ' + data.isMember);
+  //     // console.log('멤버 확인 -> ' + data.isMember);
   //     localStorage.getItem('key');
   //     router.push('/find/password');
   //   } else {
@@ -465,7 +465,7 @@ const Signin = () => {
   useEffect(() => {
     login(naverLogin, (naverLogin) => {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-      console.log('hash -> ' + hash);
+      // console.log('hash -> ' + hash);
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
@@ -497,34 +497,34 @@ const Signin = () => {
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
       //handle successful response
-      console.log('AppleIDSignInOnSuccess', data);
-      console.log(data.detail.authorization);
+      // console.log('AppleIDSignInOnSuccess', data);
+      // console.log(data.detail.authorization);
       //todo success logic
 
       const token = data.detail.authorization.id_token;
-      console.log(token);
+      // console.log(token);
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
 
-      console.log(
-        '=============== apple login useEffect 실행 =========================',
-      );
+      // console.log(
+      //   '=============== apple login useEffect 실행 =========================',
+      // );
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
     document.addEventListener('AppleIDSignInOnFailure', (error) => {
       //handle error.
-      console.log('AppleIDSignInOnFailure');
+      // console.log('AppleIDSignInOnFailure');
       //todo fail logic
     });
   }, []);
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    console.log(
-      '=============== apple login 핸들러 함수 실행 =========================',
-    );
+    // console.log(
+    //   '=============== apple login 핸들러 함수 실행 =========================',
+    // );
     // console.log('애플로그인 user 유니크값 : ', result);
 
     const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
@@ -543,14 +543,14 @@ const Signin = () => {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('[axios] 리스폰스 => ');
-      console.log(res);
-      console.log(res.data);
+      // console.log('[axios] 리스폰스 => ');
+      // console.log(res);
+      // console.log(res.data);
       // const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
-      console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      console.log(c);
+      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+      // console.log(c);
       dispatch(
         userAction.add({
           ...user,
@@ -577,8 +577,8 @@ const Signin = () => {
           REFRESH_TOKEN: res.data.refreshToken,
           USER_ID: result.email,
         };
-        console.log('==========userInfo==========');
-        console.log(userInfo);
+        // console.log('==========userInfo==========');
+        // console.log(userInfo);
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (userAgent === 'iOS_App') {
@@ -608,7 +608,7 @@ const Signin = () => {
   }, []);
 
   if (loginLoading) {
-    console.log('loading..');
+    // console.log('loading..');
     // return <Loader />;
   }
 

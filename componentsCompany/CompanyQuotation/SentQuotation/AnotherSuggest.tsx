@@ -32,8 +32,8 @@ const AnotherSuggest = (props: Props) => {
       setIsModal((prev) => !prev);
     },
     onError: (error: any) => {
-      console.log('포스트 실패');
-      console.log(error);
+      // console.log('포스트 실패');
+      // console.log(error);
       setIsModal((prev) => !prev);
     },
   });
@@ -70,7 +70,7 @@ const AnotherSuggest = (props: Props) => {
       },
     });
   };
-  console.log(router.query.preQuotation, 'id 값만 가져오면 댐');
+  // console.log(router.query.preQuotation, 'id 값만 가져오면 댐');
 
   // 닫기 버튼 url로 변경
   const handleOnClick = () => {
@@ -93,8 +93,8 @@ const AnotherSuggest = (props: Props) => {
     );
   }
   if (spotIsError) {
-    console.log('🔥 ~line 42 에러 코드');
-    console.log(spotError);
+    // console.log('🔥 ~line 42 에러 코드');
+    // console.log(spotError);
   }
 
   const spotInspectionDate = spotData?.data?.spotInspection.spotInspectionDate!;

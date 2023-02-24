@@ -64,8 +64,8 @@ const Profile = () => {
         );
         if (resData.isMember === true) {
           // 로그인
-          console.log('멤버 확인');
-          console.log(resData);
+          // console.log('멤버 확인');
+          // console.log(resData);
           const token: JwtTokenType = jwt_decode(resData.accessToken);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
@@ -114,9 +114,9 @@ const Profile = () => {
         }
       });
     // } catch (error: any) {
-    //   console.log('post 요청 실패');
-    //   console.log('카카오로그인 에러  =>   ' + error);
-    //   console.log(error);
+    //   // console.log('post 요청 실패');
+    //   // console.log('카카오로그인 에러  =>   ' + error);
+    //   // console.log(error);
     //   setErrorMessage(error);
     //   setErrorModal(true);
     // }
@@ -129,11 +129,11 @@ const Profile = () => {
       let data = await kakao.API.request({
         url: '/v2/user/me',
       });
-      console.log('프로필 데이터');
-      console.log(data);
+      // console.log('프로필 데이터');
+      // console.log(data);
       KaKaApi(data);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   // 모달창 핸들러

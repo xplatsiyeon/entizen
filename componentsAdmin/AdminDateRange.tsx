@@ -28,7 +28,7 @@ export default function AdminDateRange({
   const dateContainerRef = useRef<HTMLDivElement>(null);
 
   const handleDateChange = (item: RangeKeyDict) => {
-    console.log(item);
+    // console.log(item);
     setDateState([item.selection]);
   };
 

@@ -30,7 +30,7 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
   const [checkedRequired, setCheckedRequired] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState('');
   const { reviewContent } = useSelector((state: RootState) => state.reviewList);
-  console.log(reviewContent);
+  // console.log(reviewContent);
   const { mutate: postMutate, isLoading: postIsLoading } = useMutation(
     isTokenPostApi,
     {
@@ -39,8 +39,8 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
         setModalOpen(true);
       },
       onError: (error: any) => {
-        console.log('리뷰 보내기 에러');
-        console.log(error);
+        // console.log('리뷰 보내기 에러');
+        // console.log(error);
         setModalMessage('다시 시도해주세요.');
         setModalOpen(true);
       },
@@ -55,8 +55,8 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
   };
 
   const onClickBtn = () => {
-    console.log('온클릭');
-    console.log(checkedRequired);
+    // console.log('온클릭');
+    // console.log(checkedRequired);
     if (checkedRequired) {
       postMutate({
         url: `/projects/${routerId}/review`,

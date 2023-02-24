@@ -54,8 +54,8 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
       adminFaqListRefetch();
     },
     onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
+      // console.log('토글 버튼 에러');
+      // console.log(error);
     },
   });
 

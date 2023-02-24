@@ -32,7 +32,7 @@ type Props = {
 
 // const ChartBar = () => {
 const ChartBar = ({ chartData }: Props) => {
-  console.log('🔥 chartData ==>', chartData);
+  // console.log('🔥 chartData ==>', chartData);
   const options = {
     interaction: {
       mode: 'index' as const,

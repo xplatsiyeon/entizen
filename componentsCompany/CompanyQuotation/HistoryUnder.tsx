@@ -43,7 +43,7 @@ export interface HistoryResponse {
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const HistoryUnder = ({ componentId, setComponentId, historyData }: Props) => {
   const router = useRouter();
-  console.log(historyData);
+  // console.log(historyData);
 
   return (
     <>

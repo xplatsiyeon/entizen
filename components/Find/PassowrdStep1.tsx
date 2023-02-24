@@ -40,12 +40,12 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data: UserInfo) => {
-      console.log('data==>>', data);
-      console.log('memberType==>>', memberType);
-      console.log(
-        'data?.data?.data?.member?.memberType=>',
-        data?.data?.data?.member?.memberType,
-      );
+      // console.log('data==>>', data);
+      // console.log('memberType==>>', memberType);
+      // console.log(
+      //   'data?.data?.data?.member?.memberType=>',
+      //   data?.data?.data?.member?.memberType,
+      // );
 
       if (
         data?.data?.data?.member === null ||
@@ -62,12 +62,12 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         );
       } else {
         fnPopup();
-        console.log('data==>>', data);
+        // console.log('data==>>', data);
         return;
       }
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
     },
   });
 
@@ -91,12 +91,12 @@ const PassowrdStep1 = ({ setStep }: Props) => {
     e.preventDefault();
     if (isValid) {
       let key = localStorage.getItem('key');
-      console.log('key ===>', key);
+      // console.log('key ===>', key);
       let data: FindKey = JSON.parse(key!);
-      console.log('data==>', data);
+      // console.log('data==>', data);
 
-      console.log([data.name, name]);
-      console.log([data.id, id]);
+      // console.log([data.name, name]);
+      // console.log([data.id, id]);
 
       if (data.name === name && data.id === id) {
         setStep(1);
@@ -128,7 +128,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   // 나이스 인증
   useEffect(() => {
-    console.log('🔥memberType=>', memberType);
+    // console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
@@ -144,7 +144,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   }, [router.isReady]);
 
   // useEffect(() => {
-  //   console.log('🔥 data check ==>>', data);
+  //   // console.log('🔥 data check ==>>', data);
   // }, [data]);
 
   useEffect(() => {

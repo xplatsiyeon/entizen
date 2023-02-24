@@ -33,8 +33,8 @@ const MoreModal = ({
       setMoreModal(false);
     },
     onError: (error) => {
-      console.log('채팅 알림 기능 에러');
-      console.log(error);
+      // console.log('채팅 알림 기능 에러');
+      // console.log(error);
       setMoreModal(false);
     },
   });

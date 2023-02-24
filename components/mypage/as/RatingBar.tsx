@@ -25,7 +25,7 @@ const RatingBar = ({ text, ratingScore, setRatingScore }: Props) => {
     }
   };
   useEffect(() => {
-    console.log(ratingScore);
+    // console.log(ratingScore);
   }, [ratingScore]);
   return (
     <RatingBarBox>

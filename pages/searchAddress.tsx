@@ -104,9 +104,9 @@ const SearchAddress = (props: Props) => {
             cc.push(el);
           });
           setResults(cc);
-          console.log(cc);
+          // console.log(cc);
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       }
     };

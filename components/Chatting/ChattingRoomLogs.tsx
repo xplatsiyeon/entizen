@@ -164,8 +164,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       }, 300);
     },
     onError: (error) => {
-      console.log('🔥 채팅방 POST 에러 발생');
-      console.log(error);
+      // console.log('🔥 채팅방 POST 에러 발생');
+      // console.log(error);
     },
   });
 
@@ -203,8 +203,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       setMoreModal(false);
     },
     onError: (error) => {
-      console.log('채팅 알림 기능 에러');
-      console.log(error);
+      // console.log('채팅 알림 기능 에러');
+      // console.log(error);
       setMoreModal(false);
     },
   });
@@ -266,11 +266,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       return '/images/newChatEntizen.png';
     } else {
       if (userChatting) {
-        //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+        //// console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
         return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
           ?.companyLogoImageUrl!;
       } else {
-        //console.log(chattingData?.data?.userMember?.profileImageUrl!)
+        //// console.log(chattingData?.data?.userMember?.profileImageUrl!)
         return chattingData?.data?.userMember?.profileImageUrl!;
       }
     }
@@ -340,7 +340,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(res);
+      // console.log(res);
       chattingPostMutate({
         url: `/chatting/${routerId}`,
         // url: `/chatting/2`,
@@ -437,7 +437,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
-    console.log('쿼리아이디, 데이타 변경됨');
+    // console.log('쿼리아이디, 데이타 변경됨');
     if (!chattingIsLoading && chattingData?.isSuccess === true) {
       const sortArr = Array.from(chattingData?.data?.chattingLogs!);
       sortArr.sort((a, b) => {
@@ -451,7 +451,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         }
         return 0;
       });
-      //console.log(sortArr)
+      //// console.log(sortArr)
 
       /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
             순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
@@ -481,14 +481,14 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           }
         }
       });
-      //   console.log('temp', temp);
+      //   // console.log('temp', temp);
       setData(temp);
 
       const inner = logs.current?.querySelector('.inner');
 
       if (loading) {
         setLoading(false);
-        console.log('img');
+        // console.log('img');
         setTimeout(() => {
           if (inner)
             inner.scroll({
@@ -504,7 +504,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           }
         }, 300);
       } else {
-        console.log('chat');
+        // console.log('chat');
         setTimeout(() => {
           //focusRef.current?.focus()
           if (inner)
@@ -528,11 +528,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     const inner = logs.current?.querySelector('.inner');
 
     setTimeout(() => {
-      console.log('처음에만');
+      // console.log('처음에만');
       //focusRef.current?.focus();
 
       const width = window.innerWidth;
-      console.log(width);
+      // console.log(width);
       if (width > 1200) {
         //focusRef.current?.focus();
         if (inner)
@@ -544,11 +544,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
         focusRef.current?.focus({ preventScroll: true });
       }
-      console.log(focusRef.current);
+      // console.log(focusRef.current);
     }, 600);
 
     setTimeout(() => {
-      console.log('처음에만');
+      // console.log('처음에만');
     }, 2000);
 
     listRefetch();

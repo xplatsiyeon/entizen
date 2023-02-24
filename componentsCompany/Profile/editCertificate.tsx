@@ -50,7 +50,7 @@ const EditCertificate = ({ setComponent }: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(' 👀 ~ line 77 multer onSuccess');
+      // console.log(' 👀 ~ line 77 multer onSuccess');
       const newArr = [...businessRegistration];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -84,7 +84,7 @@ const EditCertificate = ({ setComponent }: Props) => {
         router.replace('/');
       },
       onError: (error: any) => {
-        console.log(error);
+        // console.log(error);
         setErrorMessage('사업자 등록증이 실패했습니다\n다시 시도 해주세요.');
         setIsModal(true);
         router.replace('/');
@@ -157,15 +157,15 @@ const EditCertificate = ({ setComponent }: Props) => {
 
   const handleOnClick = () => {
     if (!imgPreview && !filePreview) {
-      console.log('처음 클릭');
+      // console.log('처음 클릭');
       setFileModal(true);
     }
     if (imgPreview) {
-      console.log('이미지');
+      // console.log('이미지');
       onClickPhoto();
     }
     if (filePreview) {
-      console.log('파일');
+      // console.log('파일');
       onClickFile();
     }
   };
@@ -203,7 +203,7 @@ const EditCertificate = ({ setComponent }: Props) => {
       setFilePreview(false);
     }
   }, [businessRegistration]);
-  console.log(businessRegistration);
+  // console.log(businessRegistration);
 
   if (businessLoading) {
     return <Loader />;

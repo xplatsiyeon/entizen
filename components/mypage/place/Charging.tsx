@@ -62,11 +62,11 @@ const Charging = ({ listUp }: Props) => {
     return <Loader />;
   }
   if (chargingError) {
-    console.log('🔥 ~line 85 ~내 충전소 에러 발생 ' + TAG);
-    console.log(chargingError);
+    // console.log('🔥 ~line 85 ~내 충전소 에러 발생 ' + TAG);
+    // console.log(chargingError);
   }
 
-  console.log('🔥 ~line 89 ~내 충전소 데이터 확인 ' + TAG);
+  // console.log('🔥 ~line 89 ~내 충전소 데이터 확인 ' + TAG);
   // console.log(chargingData?.chargingStations?.map((item) => item?.badge));
 
   return (
@@ -74,7 +74,7 @@ const Charging = ({ listUp }: Props) => {
       <List listUp={Boolean(listUp)}>
         {chargingData?.chargingStations?.length! > 0 ? (
           chargingData?.chargingStations?.map((el, idx) => {
-            console.log(el?.badge.split('D-')[1])
+            // console.log(el?.badge.split('D-')[1]);
             return (
               <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
                 <CommonBtn
@@ -82,7 +82,9 @@ const Charging = ({ listUp }: Props) => {
                   text={el?.badge}
                   // 뱃지 관련 컬러는 나중에 수정
                   // backgroundColor={handleColor2(el?.badge)}
-                  backgroundColor={handleColor2(Number(el?.badge.split('D-')[1]))}
+                  backgroundColor={handleColor2(
+                    Number(el?.badge.split('D-')[1]),
+                  )}
                   // bottom={'12pt'}
                   // top={'4.5pt'}
                   // left={'0pt'}

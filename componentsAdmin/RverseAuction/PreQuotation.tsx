@@ -107,8 +107,8 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
   useLayoutEffect(() => {
     setConstructionPeriod(data?.data?.preQuotation?.constructionPeriod);
   }, []);
-  console.log('🔥 가견적서 데이터 확인 -> ' + TAG);
-  console.log(data);
+  // console.log('🔥 가견적서 데이터 확인 -> ' + TAG);
+  // console.log(data);
 
   const {
     mutate: patchMutate,

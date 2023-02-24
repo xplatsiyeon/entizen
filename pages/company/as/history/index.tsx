@@ -54,7 +54,7 @@ const AsHistory = () => {
   }, [router]);
 
   if (isError) {
-    console.log(error);
+    // console.log(error);
   }
 
   return (

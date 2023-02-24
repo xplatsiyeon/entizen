@@ -33,7 +33,7 @@ const PartnerProductsList = ({ setNowHeight }: Props) => {
   // 엑셀 다운로드 버튼
   const handleCommon = () => {};
 
-  console.log(
+  // console.log(
     '🦋 제품리스트입니다',
     window.document.documentElement.scrollHeight,
   );

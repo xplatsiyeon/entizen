@@ -18,15 +18,15 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
         router.back();
       },
       onError: (error) => {
-        console.log('에러 발생');
-        console.log(error);
+        // console.log('에러 발생');
+        // console.log(error);
       },
     },
   );
 
   // 채팅방 삭제
   const onClickDelete = () => {
-    console.log(deleteId);
+    // console.log(deleteId);
     if (deleteId) {
       deleteMutate({
         url: `/chatting/${deleteId}`,
@@ -114,14 +114,14 @@ const P = styled.p`
 
 const Box = styled.div`
   display: flex;
- 
+
   @media (min-width: 900pt) {
-    button{
-      &:nth-of-type(1){
-        background: #E2E5ED;
+    button {
+      &:nth-of-type(1) {
+        background: #e2e5ed;
       }
-      &:nth-of-type(2){
-        background: #5221CB;
+      &:nth-of-type(2) {
+        background: #5221cb;
       }
     }
   }
@@ -140,26 +140,26 @@ const Btn = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: #222222;
-  border-top: 0.75pt solid #F3F4F7;
+  border-top: 0.75pt solid #f3f4f7;
   &.quit {
     color: #f75015;
     border-bottom-left-radius: 0pt;
     border-bottom-right-radius: 6pt;
-    border-left: 0.75pt solid #F3F4F7;
+    border-left: 0.75pt solid #f3f4f7;
   }
 
   @media (min-width: 900pt) {
     margin: 0pt 30pt 30pt 0;
     border-radius: 6pt;
     font-weight: 700;
-    border-top:none;
+    border-top: none;
     &:nth-of-type(1) {
       margin: 0pt 12pt 30pt 30pt;
     }
     &.quit {
       border-radius: 6pt;
       color: white;
-      border-left:none;
+      border-left: none;
     }
   }
 `;

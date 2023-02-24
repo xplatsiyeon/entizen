@@ -146,7 +146,7 @@ const DateModal = ({
   };
   // 선택된 이전 날짜 차이 계산
   const beforeCalculateDifference = (day: number) => {
-    console.log('before', beforeStepDate);
+    // console.log('before', beforeStepDate);
     if (beforeStepDate === '') {
       return 1;
     } else if (!beforeStepDate) {
@@ -155,7 +155,7 @@ const DateModal = ({
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
       // const preDay = new Date(2022, 12, 16);
       const preDay = beforeStepDate?.split('-').map((e) => parseInt(e));
-      console.log(preDay);
+      // console.log(preDay);
       const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
@@ -176,7 +176,7 @@ const DateModal = ({
       SetSelectedDays('');
       // 최대 5개까지 선택 가능
     } else {
-      console.log('🔥selectedDate==>>', selectedDate);
+      // console.log('🔥selectedDate==>>', selectedDate);
       SetSelectedDays(selectedDate);
     }
   };

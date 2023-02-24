@@ -179,7 +179,7 @@ const AsCompText = ({ data }: Props) => {
   };
   // A/S 완료하기
   const onClickCompletion = () => {
-    console.log(isValidCompletion);
+    // console.log(isValidCompletion);
 
     if (isValidCompletion) {
       completionMutate({

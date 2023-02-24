@@ -36,8 +36,8 @@ const ClientProjectModal = ({
 }: Props) => {
   const backRef = useRef<HTMLDivElement>(null);
 
-  console.log('--------------------------');
-  console.log(data);
+  // console.log('--------------------------');
+  // console.log(data);
   const onClickBack = (event: any) => {
     if (event.target.id === 'background') {
       setIsModal(false);
@@ -152,7 +152,7 @@ const Body = styled.div`
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     bottom: auto;
     width: 420pt;
     /* height: 333pt; */

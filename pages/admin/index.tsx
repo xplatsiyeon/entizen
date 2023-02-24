@@ -54,7 +54,7 @@ const index = (props: Props) => {
 
   const router = useRouter();
 
-  console.log('🎀 인덱스임 number 🎀', number);
+  // console.log('🎀 인덱스임 number 🎀', number);
   // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
 
   const accessToken = localStorage.getItem('ADMIN_ACCESS_TOKEN');

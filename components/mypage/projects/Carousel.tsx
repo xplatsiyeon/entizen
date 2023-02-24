@@ -22,11 +22,11 @@ const Carousel = ({ file }: Props) => {
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
   useEffect(() => {
-    console.log('캐러쉘', file);
+    // console.log('캐러쉘', file);
     if (file) {
       const copy = [...file!].reverse();
       setFileArr(copy);
-      console.log('new', copy);
+      // console.log('new', copy);
     }
   }, []);
   SwipeCore.use([Navigation]);

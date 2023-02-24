@@ -314,8 +314,8 @@ const AsRequestWrite = () => {
   }, []);
 
   if (chargingError || detailIsError) {
-    console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
-    console.log(chargingError);
+    // console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
+    // console.log(chargingError);
   }
 
   // console.log('🔥 ~line 107 ~ AS 충전소 리스트 데이터 확인 ' + TAG);

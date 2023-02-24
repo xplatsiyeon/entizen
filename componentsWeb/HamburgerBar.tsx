@@ -158,7 +158,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   }, []);
   useEffect(() => {
     if (localStorage.getItem('USER_ID')) {
-      console.log('login check!');
+      // console.log('login check!');
       setIsLogin(true);
     } else {
       setIsLogin(false);

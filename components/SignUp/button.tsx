@@ -27,7 +27,7 @@ const Btn = ({
     if (paddingOn) {
       setPropsGet(true);
     }
-    console.log(propsGet);
+    // console.log(propsGet);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingOn]);
   return (

@@ -21,12 +21,12 @@ const slice = createSlice({
   initialState,
   reducers: {
     setDate(state, action: PayloadAction<QuotationObject>) {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.quotationRequestIdx = action.payload;
     },
 
     setIsCompanyDetail(state, action: PayloadAction<boolean>) {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.isCompanyDetail = action.payload;
     },
 

@@ -57,18 +57,18 @@ const AdLogin = () => {
           JSON.stringify(res.data.data.refreshToken),
         );
 
-        console.log('로그인성공', res.data);
+        // console.log('로그인성공', res.data);
         router.push('/admin');
       },
       onError: (err) => {
-        console.log(err);
+        // console.log(err);
         setErr(true);
       },
     },
   );
 
   const signin = () => {
-    console.log('=======signin fn 호출=======');
+    // console.log('=======signin fn 호출=======');
     loginMutate({
       url: '/admin/auth/login',
       data: {
@@ -83,10 +83,10 @@ const AdLogin = () => {
     setErr(false);
     if (idRef.current && type === 'text') {
       idRef.current.value = e.target.value;
-      //console.log(idRef.current.value)
+      //// console.log(idRef.current.value)
     } else if (pwRef.current && type == 'password') {
       pwRef.current.value = e.target.value;
-      //console.log(pwRef.current.value)
+      //// console.log(pwRef.current.value)
     }
   };
 

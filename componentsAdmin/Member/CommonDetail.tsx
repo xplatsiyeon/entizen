@@ -111,7 +111,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     },
   );
 
-  console.log('memberIdx 🎃', memberIdx);
+  // console.log('memberIdx 🎃', memberIdx);
 
   const WriteModalHandle = () => {
     setIsModal(true);
@@ -127,9 +127,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   // 승인 미승인 값 담아 오슈...
   const [approve, setApprove] = useState<boolean>(currentApprove);
 
-  console.log(selectValue, 'selectValue', '💔');
-  console.log(approve, 'approve', '💔');
-  console.log(currentApprove, 'currentApprove', '💔');
+  // console.log(selectValue, 'selectValue', '💔');
+  // console.log(approve, 'approve', '💔');
+  // console.log(currentApprove, 'currentApprove', '💔');
 
   // 관리자 전용 특이사항
   const [specialNote, setSpecialNote] = useState<string | undefined>();

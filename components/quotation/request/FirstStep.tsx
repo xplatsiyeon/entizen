@@ -206,7 +206,7 @@ const FirstStep = ({ tabNumber }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log(selectedOption);
+    // console.log(selectedOption);
   }, [selectedOption]);
   return (
     <Wrraper>

@@ -28,9 +28,9 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
     data?.project?.completionStepGoalDate!,
   ];
 
-   let initToggle;
+  let initToggle;
 
-   initToggle = [false, true, true, true, true]
+  initToggle = [false, true, true, true, true];
 
   // switch (data?.project?.badge) {
   //   case '계약대기':
@@ -56,8 +56,6 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
   //     initToggle = [false, false, false, false, false];
   // }
 
-  
-
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
   // 달력모달 관련
@@ -82,14 +80,14 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
   };
 
   useEffect(() => {
-    console.log('🔥 ~ line 58 ~ 달력 모달 dateOn 데이트 확인');
-    console.log(data);
+    // console.log('🔥 ~ line 58 ~ 달력 모달 dateOn 데이트 확인');
+    // console.log(data);
   }, [data]);
 
-  console.log('---------------------------------');
+  // console.log('---------------------------------');
 
-  console.log(preStepDate[dateArr.indexOf(true)]);
-  console.log(preStepDate[dateArr.indexOf(true)] + 1);
+  // console.log(preStepDate[dateArr.indexOf(true)]);
+  // console.log(preStepDate[dateArr.indexOf(true)] + 1);
   return (
     <>
       {/* 목표일 설정 */}

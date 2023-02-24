@@ -48,14 +48,14 @@ const FindPassword = () => {
   };
 
   const onClickButton = async () => {
-    console.log('비밀번호 함수 실행');
+    // console.log('비밀번호 함수 실행');
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
     const PROFILE_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/reset/password/${data.memberIdx}`;
     try {
-      console.log('이름 =>   ' + data.name);
-      console.log('번호 =>   ' + data.phone);
+      // console.log('이름 =>   ' + data.name);
+      // console.log('번호 =>   ' + data.phone);
 
       await axios({
         method: 'patch',
@@ -69,17 +69,17 @@ const FindPassword = () => {
         },
         withCredentials: true,
       }).then((res) => {
-        console.log(res);
+        // console.log(res);
         setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');
         setOpenModal(true);
-        console.log(modalText);
+        // console.log(modalText);
       });
     } catch (error: any) {
-      console.log('post 실패!!!!!!');
-      console.log(error);
+      // console.log('post 실패!!!!!!');
+      // console.log(error);
       setModalText(error.response.data.message);
       setOpenModal(true);
-      console.log(modalText);
+      // console.log(modalText);
     }
   };
 
@@ -140,14 +140,14 @@ const FindPassword = () => {
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
           password,
         );
-      console.log(check1);
+      // console.log(check1);
       setCheckedPw(check1);
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    // console.log(password, checkPassword);
   }, [password, checkPassword]);
 
   useEffect(() => {

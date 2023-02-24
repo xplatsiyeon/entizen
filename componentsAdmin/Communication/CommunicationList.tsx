@@ -38,7 +38,7 @@ const CommunicationList = ({ setNowHeight }: Props) => {
     const inputValue = dateRef.current
       ?.querySelector('.datePicker-input')
       ?.querySelector('input')?.value;
-    console.log('input?', inputValue);
+    // console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
     setTimeout(() => {
       dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
@@ -55,7 +55,7 @@ const CommunicationList = ({ setNowHeight }: Props) => {
     //   ?.querySelector('input')?.value;
     // console.log('날짜조회 클릭', inputValue);
     // if (inputValue) {
-    //   console.log(inputValue);
+    //   // console.log(inputValue);
     //   const newDate = inputValue.split('~');
     //   setPickedDate(newDate);
     // } else {

@@ -76,7 +76,7 @@ const TermContent = ({
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
-      console.log(cloneDocument.form_chk);
+      // console.log(cloneDocument.form_chk);
 
       cloneDocument.form_chk.submit();
     }
@@ -148,7 +148,7 @@ const TermContent = ({
     });
   };
   useEffect(() => {
-    console.log();
+    // console.log();
     if (router.asPath.includes('Canceled')) {
       router.push('/signin');
     }

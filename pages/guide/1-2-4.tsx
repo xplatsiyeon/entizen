@@ -70,8 +70,8 @@ const Guide1_2_4 = () => {
     dispatch(subsidyAction.reset());
   }, []);
 
-  console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
-  console.log(subsidyGuideData);
+  // console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
+  // console.log(subsidyGuideData);
 
   return (
     <Body>
