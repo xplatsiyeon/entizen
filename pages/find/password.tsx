@@ -306,6 +306,7 @@ const NewPassword = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  padding-left: 15pt;
 
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
@@ -317,6 +318,7 @@ const NewPassword = styled.p`
     color: #222222;
     padding-bottom: 21pt;
     margin-top: 45.75pt;
+    padding-left: 0pt;
   }
 `;
 
@@ -361,6 +363,13 @@ const Input = styled(TextField)`
   }
   :focus > .remove {
     display: block;
+  }
+  @media (max-width: 900pt) {
+    margin-left: 15pt;
+    margin-right: 15pt;
+    :nth-of-type(2) {
+      margin-top: 45pt;
+    }
   }
 `;
 const BtnBox = styled.div`
