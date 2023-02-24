@@ -5,13 +5,11 @@ export const getDocument = (documentId: string) => {
   const fetch = require('node-fetch');
 
   const url = `https://api.modusign.co.kr/documents/${documentId}/embedded-view`;
-  // const url = `https://api.modusign.co.kr/documents/${documentId}`;
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      authorization:
-        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
   };
 
@@ -39,8 +37,7 @@ export const modusignPdfDown = (documentId: string) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      authorization:
-        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
     },
   };
 

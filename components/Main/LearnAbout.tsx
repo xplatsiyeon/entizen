@@ -118,9 +118,9 @@ const LearnAbout = ({ borders }: Props) => {
                     height={el.height}
                   />
                 </LeftImgBox>
-                <RightImgBox>
+                {/* <RightImgBox>
                   <Image src={el.rightImg} alt="icon" layout="intrinsic" />
-                </RightImgBox>
+                </RightImgBox> */}
               </Item>
             ))}
           </TabBox>
@@ -176,14 +176,15 @@ const Item = styled.div<{ borders: number }>`
   width: 207pt;
   height: 273pt;
   //padding-left: 12pt;
+
   border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   background-color: ${(props) => props.color};
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  /* box-shadow: 0px 0px 7.5pt 0px #89a3c933; */
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   position: relative;
   cursor: pointer;
   @media (max-width: 899.25pt) {
     width: 105pt;
-    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     height: 153.75pt;
     padding-top: 12pt;
     padding-left: 12pt;

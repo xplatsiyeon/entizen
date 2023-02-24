@@ -21,6 +21,11 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { useMediaQuery } from 'react-responsive';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import BellOn from 'public/images/BellOnSvg.svg';
+import BellOff from 'public/images/BellOffSvg.svg';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import { GetUnread } from '..';
 
 type Props = { num?: number; now?: string };
 
@@ -52,6 +57,23 @@ const CompanyMainPage = ({ num, now }: Props) => {
 
       setState({ ...state, [anchor]: open });
     };
+
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: userID !== null ? true : false,
+    },
+  );
+
+  const allAlert = historyUnread?.data;
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -96,14 +118,35 @@ const CompanyMainPage = ({ num, now }: Props) => {
             {/* <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox> */}
-            <FirstIconBox
-              onClick={() => {
-                router.push('/alarm');
-                dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
-              }}
-            >
-              <Image src={Ring} alt="alarmIcon" />
-            </FirstIconBox>
+            {!userID && (
+              <FirstIconBox
+                onClick={() => {
+                  router.push('/signin');
+                }}
+              >
+                <Image src={BellOff} alt="alarmIcon" />
+              </FirstIconBox>
+            )}
+            {userID && allAlert?.wasReadAlert === true && (
+              <FirstIconBox
+                onClick={() => {
+                  router.push('/alarm');
+                  dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                }}
+              >
+                <Image src={BellOff} alt="alarmIcon" />
+              </FirstIconBox>
+            )}
+            {userID && allAlert?.wasReadAlert === false && (
+              <FirstIconBox
+                onClick={() => {
+                  router.push('/alarm');
+                  dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                }}
+              >
+                <Image src={BellOn} alt="alarmIcon" />
+              </FirstIconBox>
+            )}
             {mobile && (
               <>
                 {(['right'] as const).map((anchor) => (

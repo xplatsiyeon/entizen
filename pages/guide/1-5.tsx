@@ -37,7 +37,7 @@ const Guide1_5 = () => {
 
   return (
     <Body>
-      <WebHeader num={2} now={'guide'} sub={'guide'}/>
+      <WebHeader num={2} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
         <GuideHeader
@@ -112,14 +112,14 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;
   width: 100%;
   padding: 12pt 0;
-  font-weight: ${({ tab, index }) => tab === index ? '700' : '500'};
+  font-weight: ${({ tab, index }) => (tab === index ? '700' : '500')};
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   position: relative;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : '#CACCD1'};
+  cursor: pointer;
+  color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
 `;
 const Line = styled.div<{ tab: string; index: string }>`
   position: absolute;

@@ -17,6 +17,7 @@ import { coordinateAction } from 'store/lnglatSlice';
 type Props = {
   isSearch?: boolean;
   setIsSearch: Dispatch<SetStateAction<boolean>>;
+  setProgressShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export interface addressType {
@@ -46,7 +47,7 @@ export interface addressType {
   zipNo?: string;
 }
 
-const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
+const SearchAddress = ({ isSearch, setIsSearch, setProgressShow }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
@@ -108,12 +109,14 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
     <Wrap>
       <Container>
         <HeaderBox>
-          <Image
-            src={btnImg}
-            alt="backBtn"
-            onClick={() => setIsSearch(false)}
-            style={{ cursor: 'pointer' }}
-          />
+          <ImgBox
+            onClick={() => {
+              setIsSearch(!isSearch);
+              setProgressShow(true);
+            }}
+          >
+            <Image src={btnImg} alt="backBtn" />
+          </ImgBox>
           <FindAddress
             placeholder="상호명 또는 주소 검색"
             onChange={handleChange}
@@ -153,8 +156,11 @@ const Wrap = styled.div`
   z-index: 3;
   position: relative;
   background-color: #fff;
+
   @media (max-width: 899.25pt) {
     width: 100%;
+    padding-left: 0pt;
+    padding-right: 0pt;
   }
 `;
 
@@ -166,14 +172,16 @@ const Container = styled.div`
 const HeaderBox = styled.div`
   padding-left: 15pt;
   padding-right: 12pt;
-  border: 1px solid #e9eaee;
+  border: 0.75pt solid #e9eaee;
   border-radius: 6pt;
   display: flex;
 
   @media (max-width: 899.25pt) {
     border: 0;
     border-radius: 0;
-    border-bottom: 1px solid #e9eaee;
+    border-bottom: 0.75pt solid #e9eaee;
+    padding-left: 20.625pt;
+    padding-right: 0pt;
   }
 `;
 
@@ -224,7 +232,7 @@ const SearchResult = styled.div`
   padding-left: 15pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   cursor: pointer;
 `;
 
@@ -256,6 +264,13 @@ const AddressBox = styled.div`
     text-align: left;
     color: #747780;
   }
+`;
+
+const ImgBox = styled.div`
+  display: flex;
+  justify-content: center;
+
+  cursor: pointer;
 `;
 
 export default SearchAddress;
