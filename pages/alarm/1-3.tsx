@@ -12,6 +12,8 @@ import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 import { adminDateFomat } from 'utils/calculatePackage';
 import { useMediaQuery } from 'react-responsive';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { useDispatch } from 'react-redux';
 
 type NoticeResponse = {
   isSuccess: boolean;
@@ -30,7 +32,7 @@ const Alam1_3 = () => {
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(1);
   const tabHandler = (num: number) => setTab(num);
-
+  const dispatch = useDispatch();
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
@@ -115,8 +117,12 @@ const Alam1_3 = () => {
           {!mobile && (
             <ListButton
               onClick={() => {
-                router.push('/alarm?id=1');
+                router.push('/alarm');
+                dispatch(alarmNumberSliceAction.setalarmNumberSlice(1));
               }}
+              // onClick={() => {
+              //   router.push('/alarm?id=1');
+              // }}
             >
               <span>목록으로 돌아가기</span>
             </ListButton>

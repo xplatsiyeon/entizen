@@ -18,6 +18,8 @@ import { useRouter } from 'next/router';
 import { handleLogoutOnClickModalClick } from 'api/logout';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
+import { useDispatch } from 'react-redux';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type Props = {
   num?: number;
@@ -60,6 +62,7 @@ const WebBuyerHeader = ({
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
   const isUser = localStorage.getItem('USER_ID');
+  const dispatch = useDispatch();
 
   // 알람 조회
   // alerts/histories/unread
@@ -225,13 +228,23 @@ const WebBuyerHeader = ({
                         <Image
                           src={Bell}
                           alt="bell off"
-                          onClick={() => router.push('/alarm?id=0')}
+                          onClick={() => {
+                            router.push('/alarm');
+                            dispatch(
+                              alarmNumberSliceAction.setalarmNumberSlice(0),
+                            );
+                          }}
                         />
                       ) : (
                         <Image
                           src={BellOutline}
                           alt="bell on"
-                          onClick={() => router.push('/alarm?id=0')}
+                          onClick={() => {
+                            router.push('/alarm');
+                            dispatch(
+                              alarmNumberSliceAction.setalarmNumberSlice(0),
+                            );
+                          }}
                         />
                       )}
                     </IconBox>

@@ -16,6 +16,8 @@ import { Drawer } from '@mui/material';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { UserChattingRooms } from 'pages/chatting';
 import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 export interface ChattingListResponse {
   isSuccess: true;
@@ -55,6 +57,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  const dispatch = useDispatch();
   const router = useRouter();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
@@ -136,7 +139,13 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
           {/* <IconWrap onClick={() => router.push('/alarm')}>
             <Image src={bell} alt="alarmIcon" layout="fill" />
           </IconWrap> */}
-          <IconWrap onClick={() => router.push('/alarm?id=0')}>
+          {/* <IconWrap onClick={() => router.push('/alarm?id=0')}> */}
+          <IconWrap
+            onClick={() => {
+              router.push('/alarm');
+              dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+            }}
+          >
             <Image src={bell} alt="alarmIcon" layout="fill" />
           </IconWrap>
           {mobile && (

@@ -16,6 +16,9 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { CalcDate } from 'utils/calculatePackage';
 import { subYears } from 'date-fns';
 import { css } from '@emotion/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -50,6 +53,7 @@ const Alam = () => {
   const router = useRouter();
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
+  const dispatch = useDispatch();
 
   // const [list, setList] = useState(arr.slice(0, 1));
   // const [isLoading, setIsLoading] = useState(false);
@@ -66,6 +70,10 @@ const Alam = () => {
   };
 
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
+  const { alarmNumberSlice } = useSelector(
+    (state: RootState) => state.alarmNumberSliceState,
+  );
 
   // /notices?page=1&limit=10
   // 공지사항 get api
@@ -109,9 +117,13 @@ const Alam = () => {
     [arr],
   );
 
+  // useEffect(() => {
+  //   setTab(Number(router.query.id));
+  // }, [router]);
+
   useEffect(() => {
-    setTab(Number(router.query.id));
-  }, [router]);
+    setTab(alarmNumberSlice);
+  }, [alarmNumberSlice]);
 
   // 무한 스크롤
   // useEffect(() => {
@@ -202,12 +214,14 @@ const Alam = () => {
                 key={index}
                 onClick={() => {
                   tabHandler(index);
-                  router.push({
-                    pathname: '/alarm',
-                    query: {
-                      id: index,
-                    },
-                  });
+                  // router.push({
+                  //   pathname: '/alarm',
+                  //   query: {
+                  //     id: index,
+                  //   },
+                  // });
+
+                  dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
                 }}
               >
                 {text}
@@ -463,6 +477,9 @@ const DisplayBox = styled.div`
 
 const DisplaySubBox = styled.div`
   display: flex;
+  @media (max-width: 900pt) {
+    flex-direction: column;
+  }
 `;
 
 const HistoryBodyText = styled.span`
@@ -473,6 +490,9 @@ const HistoryBodyText = styled.span`
   letter-spacing: -0.02em;
   text-align: left;
   color: #222222;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 3pt;
+  }
   @media (min-width: 900pt) {
     padding-right: 42pt;
   }
