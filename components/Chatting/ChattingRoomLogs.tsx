@@ -492,7 +492,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         setTimeout(() => {
           if (inner)
             inner.scroll({
-              top: inner.scrollHeight,
+              top: inner.scrollHeight + 500,
               left: 0,
               behavior: 'auto',
             });
@@ -531,10 +531,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       // console.log('처음에만');
       //focusRef.current?.focus();
 
-      const width = window.innerWidth;
       // console.log(width);
-      if (width > 1200) {
-        //focusRef.current?.focus();
         if (inner)
           inner.scroll({
             top: inner.scrollHeight,
@@ -543,7 +540,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           });
 
         focusRef.current?.focus({ preventScroll: true });
-      }
       // console.log(focusRef.current);
     }, 600);
 
@@ -1033,8 +1029,9 @@ const IconWrap = styled.div`
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
-  height: 83vh;
+  height: 100vh;
   overflow-y: scroll;
+  padding-bottom: 60pt;
   .wrap {
     position: relative;
   }
@@ -1107,7 +1104,7 @@ const Date = styled.span`
   letter-spacing: -0.02em;
   color: #a6a9b0;
   position: relative;
-  margin-bottom: 18pt;
+  margin: 8pt auto 18pt;
 
   @media (min-width: 900pt) {
     border: 1px solid #e2e5ed;
@@ -1178,6 +1175,9 @@ const Chat = styled.div<{ userChatting: boolean }>`
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
     text-align: left;
   }
+  @media (max-width: 899.25pt) {
+    max-width: 150pt;
+  }
 `;
 const FileDownload = styled.a`
   text-decoration: none;
@@ -1217,10 +1217,6 @@ const FocusBox = styled.div`
   position: relative;
   &:focus {
     outline: none;
-  }
-
-  @media (max-width: 899.25pt) {
-    height: 5pt;
   }
 `;
 const WrapDate = styled.div`
