@@ -244,7 +244,7 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   //margin-bottom: 45.75pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   background: #ffff;
   box-sizing: border-box;
 

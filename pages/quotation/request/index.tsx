@@ -59,10 +59,6 @@ const Quotation1_1 = () => {
     5: <SixthStep tabNumber={tabNumber} />,
   };
 
-  useEffect(() => {
-    console.log('isSearch 🍎', isSearch);
-  }, [isSearch]);
-
   return (
     <>
       <WebBody>
