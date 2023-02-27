@@ -185,6 +185,7 @@ const SelectBox = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   background-color: white;
+  border-radius: 6pt;
 `;
 
 const SelectContainer = styled.ul<{ hide: boolean }>`
@@ -197,6 +198,7 @@ const SelectContainer = styled.ul<{ hide: boolean }>`
   cursor: pointer;
   margin-top: 6pt;
   display: ${({ hide }) => (hide !== true ? 'none' : '')};
+ 
 `;
 
 const SelectOption = styled.li`

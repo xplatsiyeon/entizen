@@ -76,7 +76,7 @@ const NewAs = ({
     return <div></div>;
   } else {
     return (
-      <Body>
+      <Body> 
         {modal && (
           <FilterModal
             setModal={setModal}

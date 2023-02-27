@@ -405,7 +405,7 @@ const Contents = styled.div`
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      //text-align: left;
     }
   }
   .text2 {
