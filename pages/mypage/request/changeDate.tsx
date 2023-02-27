@@ -317,6 +317,7 @@ const Btn = styled.button`
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
+    border-radius: 0pt;
   }
 
   @media (min-width: 900pt) {
