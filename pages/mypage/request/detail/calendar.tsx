@@ -301,17 +301,22 @@ const UL = styled.ul`
     margin-bottom: 9pt;
     display: flex;
     gap: 12pt;
-  }
 
+
+    .img-box{
+      height: 36pt;
+    }
+  }
   .due-date {
     font-weight: 500;
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    padding-top: 2pt;
+    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
   }
 `;

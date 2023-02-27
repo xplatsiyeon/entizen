@@ -17,7 +17,6 @@ import { coordinateAction } from 'store/lnglatSlice';
 type Props = {
   isSearch?: boolean;
   setIsSearch: Dispatch<SetStateAction<boolean>>;
-  setProgressShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export interface addressType {
@@ -47,7 +46,7 @@ export interface addressType {
   zipNo?: string;
 }
 
-const SearchAddress = ({ isSearch, setIsSearch, setProgressShow }: Props) => {
+const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
@@ -112,7 +111,7 @@ const SearchAddress = ({ isSearch, setIsSearch, setProgressShow }: Props) => {
           <ImgBox
             onClick={() => {
               setIsSearch(!isSearch);
-              setProgressShow(true);
+              // setProgressShow(true);
             }}
           >
             <Image src={btnImg} alt="backBtn" />

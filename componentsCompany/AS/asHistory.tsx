@@ -180,6 +180,9 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  @media (max-width: 899.25pt) {
+    padding: 0 15pt;
+  }
 `;
 
 const Wrap = styled.div`
@@ -223,6 +226,7 @@ const List = styled.div`
   margin: 18pt 0;
   @media (max-width: 899.25pt) {
     padding-bottom: 80pt;
+    margin: 0;
   }
 `;
 const ListBox = styled.div`
@@ -292,14 +296,15 @@ const BtnBox = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #ffffff;
-  padding: 9pt 30pt;
+  padding: 9pt 0pt;
   cursor: pointer;
   background-color: #5221cb;
   border-radius: 6pt;
-  width: 83.25pt;
+  width: 142.25pt;
   margin: 27pt auto 90pt;
   @media (min-width: 900pt) {
     margin-bottom: 0;
+    padding: 9pt 30pt;
     width: 251.25pt;
   }
 `;

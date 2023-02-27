@@ -287,10 +287,11 @@ const UL = styled.ul`
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    padding-top: 2pt;
+    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
   }
 `;

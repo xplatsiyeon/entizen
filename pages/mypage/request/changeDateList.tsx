@@ -79,6 +79,7 @@ const Mypage2_3 = () => {
     router.push({
       pathname: '/mypage/request/changeDate',
       query: {
+        request: true,
         quotationRequestIdx: quotationRequestIdx,
         spotId: spotId,
       },

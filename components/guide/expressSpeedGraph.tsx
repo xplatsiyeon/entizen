@@ -81,7 +81,7 @@ const Table = styled.table`
   border-collapse: collapse;
 
   tr {
-    border-bottom: 0.75pt solid ${colors.borderColor};
+    border-bottom: 0.75pt solid #E2E5ED;
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;

@@ -30,7 +30,6 @@ const Quotation1_1 = () => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const [progressShow, setProgressShow] = useState(true);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -52,12 +51,15 @@ const Quotation1_1 = () => {
         setHiddenTag={setHiddenTag}
         setIsSearch={setIsSearch}
         isSearch={isSearch}
-        setProgressShow={setProgressShow}
       />
     ),
     4: <FifthStep tabNumber={tabNumber} />,
     5: <SixthStep tabNumber={tabNumber} />,
   };
+
+  // useEffect(() => {
+  //   console.log('isSearch 🍎', isSearch);
+  // }, [isSearch]);
 
   return (
     <>
@@ -88,23 +90,20 @@ const Quotation1_1 = () => {
             )}
             {/* 메인 */}
             <Body>
-              {/* <Body hiddenTag={hiddenTag}> */}
-              {progressShow && (
+              {!isSearch === true && !hiddenTag ? (
                 <TabBox>
                   {Object.keys(components).map((tab, index) => (
                     <React.Fragment key={index}>
-                      {!hiddenTag && (
-                        <TabLine
-                          idx={index.toString()}
-                          num={tabNumber.toString()}
-                          key={tab}
-                          // 테스트용
-                          // onClick={() => setTabNumber(index)}
-                        />
-                      )}
+                      <TabLine
+                        idx={index.toString()}
+                        num={tabNumber.toString()}
+                        key={tab}
+                      />
                     </React.Fragment>
                   ))}
                 </TabBox>
+              ) : (
+                ''
               )}
               {components[tabNumber]}
             </Body>

@@ -377,10 +377,10 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   padding-bottom: 100pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  /* padding-left: 15pt;
+  padding-right: 15pt; */
   position: relative;
-  margin: 0 31.875pt;
+  margin: 0 46.5pt;
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;

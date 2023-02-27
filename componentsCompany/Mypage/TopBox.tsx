@@ -466,7 +466,7 @@ const ElseText = styled.div<{ dataLength: number }>`
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
-    text-align: right;
+    text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
     border: ${({ dataLength }) =>
@@ -476,14 +476,13 @@ const ElseText = styled.div<{ dataLength: number }>`
     width: 97%;
     height: auto;
     margin-top: ${({ dataLength }) => (dataLength === 0 ? '' : '7.5pt')};
-    text-align: left;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 400;
       line-height: 12pt;
       letter-spacing: -0.02em;
-      text-align: left;
+     //text-align: left;
     }
   }
 `;

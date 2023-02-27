@@ -20,6 +20,7 @@ import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotati
 const changeDate = () => {
   const router = useRouter();
   const spotId = router.query.spotId;
+  const isReqest = router.query.request;
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -109,17 +110,16 @@ const changeDate = () => {
               <SelectDate>일정 변경</SelectDate>
             </WebSelectHeader>
             <Title>
-              현장실사 방문이
-              <br />
-              가능한 날짜를 선택해주세요
+             { isReqest? `가능한 날짜를 선택해주세요` : `현장실사 방문이 \n가능한 날짜를 선택해주세요` }
             </Title>
-            <DateNotice>
+            { !isReqest && <DateNotice>
               현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.
-            </DateNotice>
+            </DateNotice>}
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
               selected={spotData?.data.spotInspection.spotInspectionDate}
+              request={Boolean(isReqest)}
             />
 
             <NoticeP>
@@ -252,6 +252,7 @@ const UL = styled.ul`
       padding: 24pt 15pt 0pt;
     }
   }
+
   li {
     border-radius: 6pt;
     padding: 6pt;
@@ -261,6 +262,11 @@ const UL = styled.ul`
 
     &.list {
       background-color: rgba(90, 45, 201, 0.7);
+      .img-box {
+        width: 36pt;
+        height: 36pt;
+        position: relative;
+      }
     }
     &.ex-list {
       background-color: #e2e5ed;
@@ -277,10 +283,11 @@ const UL = styled.ul`
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    padding-top: 2pt;
+    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
     &.ex {
       color: #a6a9b0;
@@ -310,6 +317,7 @@ const Btn = styled.button`
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
+    border-radius: 0pt;
   }
 
   @media (min-width: 900pt) {

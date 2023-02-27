@@ -332,7 +332,7 @@ const H3 = styled.h3<{ clicked: boolean }>`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray3)};
+  color: ${({ clicked }) => (clicked ? colors.main2 : '#A6A9B0')};
 `;
 
 const CountQuotation = styled.div<{ upNumber: boolean }>`
