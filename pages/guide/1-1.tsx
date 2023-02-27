@@ -14,7 +14,8 @@ import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
 // import Guide from 'public/guide/guide1.png';
-import Guide from 'public/guide/GuideBannerSvgPng.png';
+// import Guide from 'public/guide/GuideBannerSvgPng.png';
+import Guide from 'public/guide/guide_banner_web.png';
 // import Guide from 'public/guide/GuideBannerSvg.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -99,7 +100,7 @@ const Guide1_1 = () => {
             alt="guide"
             layout="fill"
             objectFit="cover"
-
+            quality={100}
             // loading="eager"
           />
         </GuideImgBox>
