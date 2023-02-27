@@ -20,6 +20,7 @@ import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotati
 const changeDate = () => {
   const router = useRouter();
   const spotId = router.query.spotId;
+  const isReqest = router.query.request;
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -109,17 +110,16 @@ const changeDate = () => {
               <SelectDate>일정 변경</SelectDate>
             </WebSelectHeader>
             <Title>
-              현장실사 방문이
-              <br />
-              가능한 날짜를 선택해주세요
+             { isReqest? `가능한 날짜를 선택해주세요` : `현장실사 방문이 \n가능한 날짜를 선택해주세요` }
             </Title>
-            <DateNotice>
+            { !isReqest && <DateNotice>
               현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.
-            </DateNotice>
+            </DateNotice>}
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
               selected={spotData?.data.spotInspection.spotInspectionDate}
+              request={Boolean(isReqest)}
             />
 
             <NoticeP>

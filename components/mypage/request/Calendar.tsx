@@ -10,9 +10,10 @@ interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
   selected?: string[];
+  request?: boolean
 }
 
-const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
+const Calendar = ({ selectedDays, SetSelectedDays, selected, request }: Props) => {
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -145,7 +146,7 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
           </div>
         </Pagenation>
         {/* <Notice>• 재선택 날짜</Notice> */}
-        <Notice> 복수 선택 가능* </Notice>
+        {request?<Notice2> 재선택날짜 </Notice2> :<Notice> 복수 선택 가능* </Notice>}
       </Title>
       <Weeks className="Weeks">{returnWeek()}</Weeks>
       <Days className="date">{returnDay()}</Days>
@@ -205,6 +206,22 @@ const Notice = styled.span`
     text-align: left;
   }
 `;
+const Notice2 = styled(Notice)`
+  color: #5221cb;
+  position: relative;
+  &::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 3pt;
+    height: 3pt;
+    background-color: #5221cb;
+    border-radius: 50%;
+    top: 50%;
+    left: -6pt;
+    transform: translateY(-50%);
+  }
+`
 const Weeks = styled.div`
   padding-top: 25.5pt;
   display: flex;

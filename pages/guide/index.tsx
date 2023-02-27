@@ -288,7 +288,7 @@ const Guide1 = () => {
           </Wrap>
           <EntizenLibrary>
             <Btn onClick={() => router.push('/library')}>
-              보러가기
+              엔티즌 도서관 보러가기
               <div className="img">
                 <Image src={arrow_small} alt="arrow_small" layout="fill" />
               </div>
@@ -367,8 +367,10 @@ const Header = styled(Box)`
 const Wrap = styled.div`
   display: flex;
   position: relative;
+  width: 895.5pt;
   @media (max-width: 899.25pt) {
     display: block;
+    width: 100%;
   }
 `;
 
@@ -376,7 +378,7 @@ const Platform = styled.button`
   position: relative;
   padding: 0;
   flex: 2.2;
-  margin-right: 7pt; //나중에 수정할 수도.
+  margin-right: 22.5pt; //나중에 수정할 수도.
   background-color: ${colors.main1};
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
@@ -420,6 +422,7 @@ const Platform = styled.button`
   }
   @media (max-width: 899.25pt) {
     height: 159pt;
+    margin-right: 0;
     .banner {
       width: 195pt;
       height: 126.75pt;
@@ -448,9 +451,7 @@ const Imagewrap = styled.div`
 const SubsidyBox = styled(Box)`
   display: flex;
   flex: 1;
-  justify-content: space-between;
   align-items: center;
-  gap: 14.625pt;
   width: calc(100% - 600pt);
   .text {
     font-family: 'Spoqa Han Sans Neo';
@@ -469,6 +470,18 @@ const SubsidyBox = styled(Box)`
       line-height: 12pt;
     }
   }
+  .mobIcon{
+    @media (max-width: 899.25pt) {
+    width: 15pt;
+    height: 15pt;
+    }
+  }
+  .webIcon{
+    @media (max-width: 899.25pt) {
+    width: 15pt;
+    height: 15pt;
+    }
+  }
 `;
 const Subsidy = styled.button`
   display: flex;
@@ -479,11 +492,13 @@ const Subsidy = styled.button`
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #e8e3f8;
-  border-radius: 6pt;
+  border-radius: 12pt;
   width: 100%;
   text-align: left;
+  margin-right: 22.5pt;
   .text {
-    width: 70%;
+    width: 94.5pt;
+    padding: 0 30pt 0 0;
   }
   .mobIcon {
     display: none;
@@ -498,8 +513,11 @@ const Subsidy = styled.button`
     justify-content: space-between;
     align-items: center;
     padding: 0pt 15pt 0pt 10.125pt;
+    margin-right: 14.6pt;
+    
     .text {
       width: auto;
+      padding: 0 0 0 0;
     }
     .mobIcon {
       display: block;
@@ -518,11 +536,15 @@ const Fee = styled.button`
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #fff1d5;
-  border-radius: 6pt;
+  border-radius: 12pt;
   width: 100%;
   text-align: left;
   .text {
-    width: 50%;
+    width: 94.5pt;
+    padding: 0 50pt 0 0;
+    @media (max-width: 899.25pt) {
+      padding: 0 0 0 0;
+    }
   }
   .mobIcon {
     display: none;
@@ -576,14 +598,18 @@ const GuideBox = styled.button`
   width: 100%;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
-  margin-top: 15pt;
-  padding: 14.25pt 15pt;
+  margin-top: 22.5pt;
+  padding: 33pt 28.5pt 27.5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 700;
+  font-size: 19.5pt;
+  line-height: 21pt;
+
   &:nth-of-type(1) {
     margin-right: 22.5pt;
   }
   .name_box {
     display: flex;
-    justify-content: center;
     align-items: center;
   }
   .name {
@@ -591,189 +617,87 @@ const GuideBox = styled.button`
     font-size: 15pt;
     line-height: 21pt;
     letter-spacing: -0.02em;
+    margin-right: 6pt;
     color: ${colors.main2};
   }
   .text {
     font-weight: 400;
-    font-size: 12pt;
-    line-height: 16.5pt;
+    font-size: 13.5pt;
+    line-height: 21pt;
     letter-spacing: -0.02em;
-    padding-top: 7.5pt;
+    padding-top: 41.75pt;
     color: ${colors.lightGray2};
     text-align: start;
   }
   .img-box {
     position: absolute;
-    bottom: 16.5pt;
-    right: 15.75pt;
-    width: 45pt;
-    height: 45pt;
+    bottom: 19.5pt;
+    right: 22.5pt;
+    width: 102pt;
+    height: 102pt;
+  }
+    @media (max-width: 899.25pt) {
+      margin-top: 15pt;
+      padding: 14.25pt 15pt;
+
+    .text{
+      padding-top:7.5pt;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12pt;
+      line-height: 16.5pt;
+    }
+    .name{
+      font-style: normal;
+      font-weight: 700;
+      font-size: 15pt;
+      line-height: 21pt;
+    }
+    .img-box {
+      position: absolute;
+      bottom: 19.5pt;
+      right: 15.75pt;
+      width: 45pt;
+      height: 45pt;
+    }
   }
 `;
 const EntizenLibrary = styled.div`
   display: flex;
   justify-content: center;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Btn = styled.button`
   background-color: ${colors.lightWhite};
   border: 0.75pt solid ${colors.gray};
   border-radius: 21.75pt;
-  margin-top: 30pt;
-  padding: 6pt 9pt;
+  margin-top: 45pt;
+  padding: 12pt 120pt;
+  font-style: normal;
   font-weight: 500;
-  font-size: 9pt;
-  line-height: 12pt;
+  font-size: 12pt;
+  line-height: 18pt;
   letter-spacing: -0.02em;
   display: flex;
   justify-content: center;
   cursor: pointer;
-  gap: 3pt;
-  color: ${colors.main2};
+  color: #5221CB;
+  align-items: center;
   .img {
     position: relative;
     width: 9pt;
     height: 9pt;
+    margin-left: 3pt;
   }
-  ::before {
-    content: '앤티즌 도서관';
-    color: ${colors.main1};
-  }
-`;
 
-const WholeBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  @media (max-width: 899.25pt) {
+    margin-top: 30pt;
+    padding: 6pt 9pt;
+  }
 
-  /* height: 100vh; */
-`;
-
-const ListBox = styled.div`
-  position: relative;
-  width: 206pt;
-  padding-left: 24pt;
-  padding-right: 15pt;
-  height: 100vh;
-
-  background-color: ${colors.main};
-`;
-const XBtnWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 44.25pt;
-`;
-
-const WhetherLogin = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 27.75pt;
-  & span {
-  }
-  & span:first-of-type {
-    font-family: Spoqa Han Sans Neo;
-    font-size: 15pt;
-    font-weight: 700;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #ffffff;
-    margin-right: 6pt;
-  }
-  & span {
-  }
-  .label {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
-  }
-  .arrow-img {
-    position: relative;
-    width: 15pt;
-    height: 15pt;
-  }
-`;
-const WhetherLoginComplete = styled.div`
-  display: flex;
-  align-items: flex-end;
-  margin-top: 9.75pt;
-  position: relative;
-  & span:first-of-type {
-    font-family: Spoqa Han Sans Neo;
-    font-size: 15pt;
-    font-weight: 700;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #ffffff;
-    margin-right: 6pt;
-    display: flex;
-    flex-direction: column;
-    gap: 6pt;
-  }
-  .label {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
-  }
-  .arrow-img {
-    position: relative;
-    width: 15pt;
-    height: 15pt;
-  }
-`;
-
-const WhiteArea = styled.div`
-  position: absolute;
-  width: 100%;
-  border-radius: 15pt 15pt 0 0;
-  padding: 15pt 24pt 34.5pt 24pt;
-  left: 0;
-  top: 127.5pt;
-  background-color: #ffffff;
 `;
 
 const HamburgerOn = styled.div``;
-
-const WhiteAreaMenus = styled.div`
-  display: flex;
-  align-items: center;
-  padding-top: 12pt;
-  padding-bottom: 14.25pt;
-
-  & span:first-of-type {
-    margin-right: 6pt;
-  }
-`;
-const WhiteAreaBottomMenus = styled.div`
-  display: flex;
-  align-items: center;
-  z-index: 10000;
-  margin-top: 51pt;
-  & span:first-of-type {
-    margin-right: 15pt;
-  }
-`;
-const WhiteAreaBottomText = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15pt;
-  & span {
-    font-family: Spoqa Han Sans Neo;
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #a6a9b0;
-  }
-  & span:first-of-type {
-  }
-`;
 
 const IconBox = styled.div`
   cursor: pointer;
