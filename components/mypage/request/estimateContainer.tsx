@@ -249,7 +249,7 @@ const Contents = styled.div`
       font-size: 12pt;
       line-height: 12pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      //text-align: left;
     }
   }
   .text2 {

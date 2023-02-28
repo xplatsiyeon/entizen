@@ -252,13 +252,14 @@ export default AsCompTop;
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
   border-radius: 12pt;
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
+    border-radius: 0;
   }
 `;
 const ItemButton = styled(ListItemButton)`
@@ -364,7 +365,7 @@ const Contents = styled.div`
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      //text-align: left;
     }
   }
   .charger {

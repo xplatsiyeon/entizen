@@ -115,7 +115,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                 ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
-                <span>{`${Math.floor(
+                <span className='text'>{`${Math.floor(
                   Number(
                     data?.sendQuotationRequest?.quotationRequest?.investRate!,
                   ) * 100,
@@ -238,7 +238,7 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 4px 10px rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;
@@ -357,7 +357,7 @@ const Contents = styled.div`
       font-size: 12pt;
       line-height: 18pt;
       letter-spacing: -0.02em;
-      text-align: left;
+      //text-align: left;
     }
     font-weight: 500;
     font-size: 10.5pt;
@@ -449,71 +449,5 @@ const ElseText = styled.div`
   }
 `;
 
-const MultiSection = styled.div`
-  padding-top: 18pt;
-  display: flex;
-  flex-direction: column;
-  gap: 12pt;
-
-  :nth-of-type(1) {
-    padding-bottom: 18pt;
-    margin-top: 18pt;
-    border-bottom: 0.75pt solid ${colors.lightGray};
-    border-top: 0.75pt solid ${colors.lightGray};
-  }
-`;
-
-const BorderTop = styled.div`
-  border-top: 1px solid #e9eaee;
-  padding: 0 15pt;
-  padding-bottom: 15pt;
-`;
-
-const Subtitle = styled.h2`
-  font-weight: 700;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-`;
-
-const MultiBox = styled.div`
-  padding-top: 3pt;
-`;
-const Item = styled.li`
-  display: flex;
-
-  :not(:nth-of-type(1)) {
-    padding-top: 12pt;
-  }
-  .name {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.gray2};
-    flex: 1;
-  }
-  .value {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    text-align: left;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-    flex: 2;
-  }
-
-  @media (max-width: 899.25pt) {
-    justify-content: space-between;
-    .name {
-      flex: none;
-    }
-    .value {
-      flex: none;
-      text-align: right;
-    }
-  }
-`;
 
 export default TopBox;

@@ -998,6 +998,7 @@ const WebRightPhotoBox = styled.div`
   @media (min-width: 900pt) {
     width: 508.5pt;
     height: 396pt;
+    border-radius: 12pt;
 
     .imgBox {
       position: relative;
