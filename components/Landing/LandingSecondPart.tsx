@@ -16,7 +16,7 @@ const LandingSecondPart = () => {
 
       <Black>
         <MainImgBox>
-          <Image src={SecondMainImg} />
+          <Image src={SecondMainImg} width={1669} height={869} layout="fill" />
         </MainImgBox>
         <TextBox>
           <MainText color={'#838383'}>
@@ -55,7 +55,8 @@ const White = styled.div`
 const Black = styled.div`
   /* height: ${100 / (2 / 3)}; */
   position: relative;
-  height: 664.5pt;
+  /* min-height: 664.5pt; */
+  height: 100vh;
   width: 100%;
   background-color: #000000;
   @media (max-width: 600pt) {
@@ -74,14 +75,19 @@ const ImgBox = styled.div`
   }
 `;
 
+// 1669;
+// 869;
 const MainImgBox = styled.div`
   position: absolute;
   z-index: 50;
   padding: 0 94.5pt;
   padding-top: 56.25%;
   height: 869px;
-  width: auto;
-  top: -180%;
+  width: 1669px;
+  /* top: -180%; */
+  top: -466px;
+  width: 100%;
+  height: 300px;
   @media (max-width: 600pt) {
     /* top: 817.5pt; */
     top: 13.8%;
@@ -91,6 +97,9 @@ const MainImgBox = styled.div`
 
 const TextBox = styled.div`
   padding-top: 350.25pt;
+  position: absolute;
+  bottom: 151px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
