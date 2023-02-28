@@ -144,6 +144,7 @@ const TextArea = styled(Typography)`
   letter-spacing: -0.02em;
   text-align: center;
   margin: 0 auto 58.5pt;
+  color: #222222;
   & span {
     color: ${colors.main};
     font-weight: 700;

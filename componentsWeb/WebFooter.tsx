@@ -55,7 +55,7 @@ const WebFooter = () => {
             </li>
           </List>
           <Address>
-            (주)엔티즌 대표: 윤민호,오성흠 사업자등록번호 0000-000-0000
+            (주)엔티즌 대표: 윤민호,오성흠 사업자등록번호 116-81-19273
             <br />
             호스칭 사업자 : 블라블라 총신판매업: 2021-서울강남-2345
             <br />
@@ -185,7 +185,7 @@ const Time = styled.div`
       line-height: 18pt;
       font-family: 'Spoqa Han Sans Neo';
       color: #a6a9b0;
-      margin-top: 0!important;
+      margin-top: 0 !important;
     }
   }
 `;
