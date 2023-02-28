@@ -369,10 +369,10 @@ const Mypage1_3 = ({}: any) => {
                       data={data?.preQuotations!}
                       setIsFinalItmeIndex={setIsFinalItmeIndex}
                     />
-                    <TextBox>
+                    { /*<TextBox>
                       <ChoiceText>선택하기 어려우신가요?</ChoiceText>
                       <CommunicationBox text="엔티즌과 소통하기" />
-                    </TextBox>
+                </TextBox>*/}
                   </React.Fragment>
                 ) : (
                   <>

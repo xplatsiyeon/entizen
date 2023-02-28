@@ -9,7 +9,7 @@ import { companyRequestFilterNumberAction } from 'storeCompany/requestTabSlice';
 
 type Props = {};
 
-const complete = (props: Props) => {
+const completeMsg = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   // 서브 카테고리 열렸는지 아닌지
@@ -33,13 +33,14 @@ const complete = (props: Props) => {
       <CompleteMessage
         buttonText="보낸 견적 바로가기"
         handleOnClick={onClickFn}
-        title={'고객에게 전달 완료!'}
+        title={'최종 견적 전송완료!'}
         user={'seller'}
         yesExit={true}
+        textChange={true}
       />
       <WebFooter />
     </>
   );
 };
 
-export default complete;
+export default completeMsg;

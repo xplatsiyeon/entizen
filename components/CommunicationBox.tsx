@@ -68,6 +68,6 @@ const Button = styled.button`
   font-family: 'Spoqa Han Sans Neo';
   margin-top: 12pt;
   @media (min-width: 900pt) {
-    padding: 10.5pt 16pt;
+    padding: 10.5pt 12pt;
   }
 `;

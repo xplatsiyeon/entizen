@@ -77,6 +77,8 @@ const ImgBox = styled.div`
   }
 `;
 
+// 1669;
+// 869;
 const MainImgBox = styled.div`
   left: 0;
   z-index: 50;

@@ -309,6 +309,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo'!important;
   }
   & div > img {
     display: flex;

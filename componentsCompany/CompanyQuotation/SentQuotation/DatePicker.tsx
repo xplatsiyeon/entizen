@@ -241,7 +241,6 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
@@ -411,8 +410,8 @@ const UL = styled.ul`
   }
   .selected {
     font-family: 'Spoqa Han Sans Neo';
-    background-color: ${colors.main};
     cursor: pointer;
+    background: rgba(90, 45, 201, 0.7);
   }
 `;
 const Btn = styled.button<{ isValid: boolean }>`

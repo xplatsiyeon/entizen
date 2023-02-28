@@ -80,7 +80,7 @@ export default AsHistoryUnder;
 const Body = styled.div`
   flex: 1;
   /* margin: 0 15pt; */
-  font-family: 'Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo'!important;
   display: flex;
   flex-direction: column;
   @media (max-width: 899.25pt) {
