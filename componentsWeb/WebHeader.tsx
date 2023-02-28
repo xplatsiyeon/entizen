@@ -162,6 +162,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                           alt="bell on"
                           // onClick={() => router.push('/alarm?id=0')}
                           onClick={() => {
+                            router.push('/alarm');
                             dispatch(
                               alarmNumberSliceAction.setalarmNumberSlice(0),
                             );
