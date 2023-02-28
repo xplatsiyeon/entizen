@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { useMediaQuery } from 'react-responsive';
-import Image from 'next/image';
-import { isServerRuntime } from 'next/dist/server/config-shared';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
 
 type Img = {
   id: number;
@@ -20,38 +21,24 @@ const SubImg: Img[] = [
   { id: 6, url: 'Landing/LandingIcon_7.svg' },
 ];
 
-let slides = setSlides();
-
-function setSlides() {
-  let addedFront = [];
-  let addedLast = [];
-  let index = 0;
-  while (index < 7) {
-    addedLast.push(SubImg[index % SubImg.length]);
-    addedFront.unshift(SubImg[SubImg.length - 1 - (index % SubImg.length)]);
-    index++;
-  }
-  return [...addedFront, ...SubImg, ...addedLast];
-}
-
 const LandingFirstSlider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const slideRef = useRef<HTMLDivElement>(null);
   const [transition, setTransition] = useState(0.2);
 
-  useEffect(() => {
-    const timer = setInterval(
-      () => {
-        if (slideIndex !== SubImg.length) {
-          setSlideIndex(slideIndex + 1);
-        } else if (slideIndex === SubImg.length) {
-          setSlideIndex(0);
-        }
-      },
-      slideIndex === 7 ? 500 : 2000,
-    );
-    return () => clearInterval(timer);
-  }, [slideIndex]);
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: 'linear',
+    // variableWidth: true,
+    // centerMode: true,
+    // centerPadding: '0px',
+  };
 
   return (
     <Wrapper>
@@ -68,32 +55,30 @@ const LandingFirstSlider = () => {
         <MainImgBox>
           <ImgTag src="Landing/IPHONEMainSvg.svg" />
         </MainImgBox>
-        <RollingImgBox ref={slideRef}>
-          {slides.map((item, index) => (
-            <RollingmgTag
-              src={item.url}
-              key={index}
-              slideIndex={slideIndex}
-              transition={transition}
-            />
-          ))}
-        </RollingImgBox>
+        <RollingImgBox ref={slideRef}></RollingImgBox>
       </ImgContainer>
+
+      <SliderBox {...settings}>
+        {SubImg.map((item, index) => (
+          <img width={160} height={160} src={item.url} key={index} />
+        ))}
+      </SliderBox>
     </Wrapper>
   );
 };
 
 export default LandingFirstSlider;
 
+const SliderBox = styled(Slider)`
+  width: 1030px;
+`;
+
 const Wrapper = styled.div`
-  /* width: 100vw; */
-  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding-top: 94.5pt;
-  /* padding-top: 94.5pt; */
   overflow: hidden;
   background-color: white;
   padding-bottom: 225pt;
@@ -148,7 +133,6 @@ const RollingImgBox = styled.div`
   align-items: center;
   flex-direction: row;
   gap: 15pt;
-  /* padding-top: 221.25pt; */
   padding-top: 210pt;
   width: 960pt;
   justify-content: center;
@@ -180,7 +164,7 @@ const ImgTag = styled.img`
 
 const RollingmgTag = styled.img<{ slideIndex: number; transition: number }>`
   ${({ slideIndex }) =>
-    slideIndex !== 7 &&
+    slideIndex &&
     css`
       transition: 0.3s all ease-in;
     `}
