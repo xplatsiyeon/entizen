@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 // import Guide from 'public/guide/guide1.png';
 // import Guide from 'public/guide/GuideBannerSvgPng.png';
 import Guide from 'public/guide/guide_banner_web.png';
+import GuideApp from 'public/guide/guide_banner_app.png';
 // import Guide from 'public/guide/GuideBannerSvg.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -51,10 +52,11 @@ const Guide1_1 = () => {
         />
         <PlatformImgBox>
           <Image
-            src={Platform}
+            src={GuideApp}
             alt="platform"
             layout="fill"
             objectFit="cover"
+            quality={100}
           />
           <MobileBannerText>
             <span className="title">
