@@ -21,7 +21,8 @@ interface Props {
   [key: string]: any;
   buttonWeb?: string;
   user?: string;
-  cssDetail?:boolean
+  cssDetail?:boolean;
+  textChange?:boolean;
 }
 
 const CompleteMessage = ({
@@ -33,7 +34,8 @@ const CompleteMessage = ({
   handleExitClick,
   yesExit,
   user,
-  cssDetail
+  cssDetail,
+  textChange
 }: Props) => {
   const router = useRouter();
   return (
@@ -65,10 +67,13 @@ const CompleteMessage = ({
         </Footer>
         <WebTextArea user={user!}>
           <WebTextTitle>소중한 견적 감사드립니다.</WebTextTitle>
-          <WebText>
+          {textChange?<WebText>
+            고객님과 좋은 인연이 있기를 기대합니다. <br /> <br />
+            고객님과의 대화나, 엔티즌에 문의사항이 있으시면  <br />소통하기 기능을 활용해주세요!
+          </WebText>:<WebText>
             고객님과 좋은 인연이 있기를 기대합니다. <br />
             견적마감은 영업일 최대 5일 입니다.
-          </WebText>
+          </WebText>}
         </WebTextArea>
         <BuyerContainer user={user!}>
           {/* 임시로 막음 */}
@@ -220,7 +225,6 @@ const WebTextArea = styled.div<{ user: string }>`
   border: 0.75pt solid #e9eaee;
   border-radius: 6pt;
   width: 345pt;
-  height: 108pt;
   margin: 0 auto;
   margin-bottom: 90pt;
   display: ${({ user }) => user !== 'seller' && 'none'};

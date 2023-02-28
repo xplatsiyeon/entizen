@@ -123,7 +123,7 @@ const ThirdStep = ({
   // 보내기 POST API
   const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      router.push('/company/recievedRequest/complete');
+      router.push('/company/recievedRequest/completeMsg');
     },
     onError: (error: any) => {
       const {
