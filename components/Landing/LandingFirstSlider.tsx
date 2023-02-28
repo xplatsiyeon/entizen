@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
+import { useMediaQuery } from 'react-responsive';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
@@ -25,6 +25,9 @@ const LandingFirstSlider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const slideRef = useRef<HTMLDivElement>(null);
   const [transition, setTransition] = useState(0.2);
+  const mobile = useMediaQuery({
+    query: '(max-width:600pt)',
+  });
 
   const settings = {
     dots: false,
@@ -60,7 +63,12 @@ const LandingFirstSlider = () => {
 
       <SliderBox {...settings}>
         {SubImg.map((item, index) => (
-          <img width={160} height={160} src={item.url} key={index} />
+          <img
+            width={mobile ? 64 : 160}
+            height={mobile ? 64 : 160}
+            src={item.url}
+            key={index}
+          />
         ))}
       </SliderBox>
     </Wrapper>
@@ -70,7 +78,10 @@ const LandingFirstSlider = () => {
 export default LandingFirstSlider;
 
 const SliderBox = styled(Slider)`
-  width: 1030px;
+  width: 772.5pt;
+  @media (max-width: 600pt) {
+    width: 280pt;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -111,7 +122,7 @@ const MainTitle = styled.span`
 const SubTitle = styled.span`
   padding-top: 30pt;
   font-family: 'Apple SD Gothic Neo';
-  font-size: 21;
+  font-size: 21pt;
   font-weight: 600;
   line-height: 36pt;
   letter-spacing: -0.02em;
