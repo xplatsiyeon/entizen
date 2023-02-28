@@ -13,10 +13,11 @@ const LandingSecondPart = () => {
       </ImgBox>
 
       <White />
-      <MainImgBox>
-        <Image src={SecondMainImg} />
-      </MainImgBox>
+
       <Black>
+        <MainImgBox>
+          <Image src={SecondMainImg} />
+        </MainImgBox>
         <TextBox>
           <MainText color={'#838383'}>
             복잡하고 생소한 충전기 설치,
@@ -53,6 +54,7 @@ const White = styled.div`
 
 const Black = styled.div`
   /* height: ${100 / (2 / 3)}; */
+  position: relative;
   height: 664.5pt;
   width: 100%;
   background-color: #000000;
@@ -76,7 +78,10 @@ const MainImgBox = styled.div`
   position: absolute;
   z-index: 50;
   padding: 0 94.5pt;
-  top: 1260.5pt;
+  padding-top: 56.25%;
+  height: 869px;
+  width: auto;
+  top: -180%;
   @media (max-width: 600pt) {
     /* top: 817.5pt; */
     top: 13.8%;
