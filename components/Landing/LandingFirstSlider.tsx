@@ -97,6 +97,9 @@ const Wrapper = styled.div`
   overflow: hidden;
   background-color: white;
   padding-bottom: 225pt;
+  @media (max-width: 600pt) {
+    padding-bottom: 175pt;
+  }
 `;
 const Box = styled.div`
   margin-top: 94.5pt;
@@ -111,7 +114,7 @@ const MainTitle = styled.span`
   text-align: center;
   white-space: pre;
   color: #222222;
-  @media (max-width: 899.25pt) {
+  @media (max-width: 600pt) {
     font-size: 24pt;
     font-weight: 800;
     line-height: 34.5pt;
@@ -130,7 +133,7 @@ const SubTitle = styled.span`
   text-align: center;
   white-space: pre;
   color: #222222;
-  @media (max-width: 899.25pt) {
+  @media (max-width: 600pt) {
     padding-top: 12pt;
     font-size: 10.5pt;
     font-weight: 600;
@@ -145,27 +148,35 @@ const RollingImgBox = styled.div`
   align-items: center;
   flex-direction: row;
   gap: 15pt;
-
   /* padding-top: 221.25pt; */
   padding-top: 210pt;
   width: 960pt;
   justify-content: center;
   overflow: hidden;
+  @media (max-width: 600pt) {
+    gap: 6pt;
+    padding-top: 150pt;
+    width: 400pt;
+  }
 `;
 
 const MainImgBox = styled.div`
   position: absolute;
   z-index: 10;
-  height: auto;
   height: 112.5pt;
 `;
+
 const ImgContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
 `;
 
-const ImgTag = styled.img``;
+const ImgTag = styled.img`
+  @media (max-width: 600pt) {
+    width: 300pt;
+  }
+`;
 
 const RollingmgTag = styled.img<{ slideIndex: number; transition: number }>`
   ${({ slideIndex }) =>
@@ -174,4 +185,9 @@ const RollingmgTag = styled.img<{ slideIndex: number; transition: number }>`
       transition: 0.3s all ease-in;
     `}
   transform: ${({ slideIndex }) => `translateX(${slideIndex * 135}pt)`};
+  @media (max-width: 600pt) {
+    width: 64px;
+    height: 64px;
+    transform: ${({ slideIndex }) => `translateX(${slideIndex * 54}pt)`};
+  }
 `;

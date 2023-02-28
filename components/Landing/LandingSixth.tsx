@@ -7,6 +7,7 @@ import Sixth_2 from 'public/Landing/Sixth_2.svg';
 import Sixth_3 from 'public/Landing/Sixth_3.svg';
 import Sixth_4 from 'public/Landing/Sixth_4.svg';
 import Sixth_5 from 'public/Landing/Sixth_5.svg';
+import { useMediaQuery } from 'react-responsive';
 
 const ImgArray = [
   {
@@ -47,41 +48,59 @@ const ImgArray = [
 ];
 
 const LandingSixth = () => {
+  const mobile = useMediaQuery({
+    query: '(max-width:600pt)',
+  });
   return (
     <Wrapper>
       <Inner>
-        <MainText>엔티즌 100% 활용하기</MainText>
-        <Box>
-          <ImgContainer>
-            {ImgArray.map((item, index) => (
-              <Container>
-                <Align>
-                  <ArrowAlign>
-                    <ImgBox key={index}>
-                      <ImgTag src={item.url} />
-                    </ImgBox>
-                  </ArrowAlign>
-                  <TextBox>
+        {mobile ? (
+          <>
+            <MainText>
+              엔티즌
+              <br /> 100% 활용하기
+            </MainText>
+            <MobileBox>
+              {ImgArray.map((item, index) => (
+                <MobileWrapper key={index}>
+                  <ImgBox>
+                    <ImgTag src={item.url} />
+                  </ImgBox>
+                  <MobileTextBox>
                     <Step>{item.step}</Step>
                     <SubText>{item.text}</SubText>
-                  </TextBox>
-                </Align>
-                <ArrowImgBox index={index}>
-                  <ImgTag src={item.arrow} />
-                </ArrowImgBox>
-              </Container>
-            ))}
-          </ImgContainer>
-          {/* {ImgArray.map((item, index) => (
-            <ArrowAlign key={index}>
-              <TextBox>
-                <Step>{item.step}</Step>
-                <SubText>{item.text}</SubText>
-              </TextBox>
-              <ImgTag src={item.arrow} />
-            </ArrowAlign>
-          ))} */}
-        </Box>
+                  </MobileTextBox>
+                </MobileWrapper>
+              ))}
+            </MobileBox>
+          </>
+        ) : (
+          <>
+            <MainText>엔티즌 100% 활용하기</MainText>
+            <Box>
+              <ImgContainer>
+                {ImgArray.map((item, index) => (
+                  <Container>
+                    <Align>
+                      <ArrowAlign>
+                        <ImgBox key={index}>
+                          <ImgTag src={item.url} />
+                        </ImgBox>
+                      </ArrowAlign>
+                      <TextBox>
+                        <Step>{item.step}</Step>
+                        <SubText>{item.text}</SubText>
+                      </TextBox>
+                    </Align>
+                    <ArrowImgBox index={index}>
+                      <ImgTag src={item.arrow} />
+                    </ArrowImgBox>
+                  </Container>
+                ))}
+              </ImgContainer>
+            </Box>
+          </>
+        )}
       </Inner>
     </Wrapper>
   );
@@ -91,11 +110,19 @@ export default LandingSixth;
 
 const Wrapper = styled.div`
   background-color: #f8f8f8;
-  padding: 160px 0;
+  padding: 120pt 0;
+  @media (max-width: 600pt) {
+    padding-top: 60pt;
+    padding-bottom: 51pt;
+  }
 `;
 
 const Inner = styled.div`
-  padding: 0 363px;
+  padding: 0 272.25pt;
+  @media (max-width: 600pt) {
+    padding-left: 24pt;
+    padding-right: 0;
+  }
 `;
 
 const Box = styled.div`
@@ -115,17 +142,25 @@ const ImgBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   background-color: white;
-  height: 178px;
-  width: 178px;
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  height: 133.5pt;
+  width: 133.5pt;
+  border-radius: 15pt;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  @media (max-width: 600pt) {
+    width: 49.5pt;
+    height: 51pt;
+    border-radius: 6pt;
+  }
 `;
 
-const ImgTag = styled.img``;
+const ImgTag = styled.img`
+  @media (max-width: 600pt) {
+    width: 31.5pt;
+  }
+`;
 
-const MainText = styled.div`
+const MainText = styled.span`
   font-family: 'Apple SD Gothic Neo';
   font-size: 37.5pt;
   font-weight: 700;
@@ -134,6 +169,14 @@ const MainText = styled.div`
   text-align: center;
   color: #222222;
   padding-bottom: 60pt;
+  @media (max-width: 600pt) {
+    font-size: 19.5pt;
+    font-weight: 700;
+    line-height: 28.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-bottom: 0;
+  }
 `;
 
 const TextBox = styled.div`
@@ -151,6 +194,13 @@ const Step = styled.span`
   letter-spacing: -0.02em;
   text-align: center;
   color: #5221cb;
+  @media (max-width: 600pt) {
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const SubText = styled.span`
@@ -162,6 +212,14 @@ const SubText = styled.span`
   text-align: center;
   color: #222222;
   padding-top: 15pt;
+  @media (max-width: 600pt) {
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 10.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-top: 6pt;
+  }
 `;
 
 const ArrowAlign = styled.div`
@@ -182,5 +240,21 @@ const Container = styled.div`
 const ArrowImgBox = styled.div<{ index: number }>`
   padding-left: ${({ index }) => (index !== 4 ? '26.625pt' : '')};
   padding-right: ${({ index }) => (index !== 4 ? '26.625pt' : '')};
-  padding-top: 260px;
+  padding-top: 195pt;
+`;
+
+const MobileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15pt;
+  padding-bottom: 9pt;
+`;
+
+const MobileTextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MobileBox = styled.div`
+  padding-top: 27pt;
 `;

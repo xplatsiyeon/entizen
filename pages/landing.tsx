@@ -41,6 +41,7 @@ const Landing = () => {
           }}
         >
           <Image src={UpArrow} />
+
           <BtnText>TOP</BtnText>
         </Button>
       </Footer>
@@ -76,6 +77,7 @@ const Inner = styled.div`
     padding: 0;
     box-shadow: none;
     background: none;
+    overflow-x: hidden;
   }
   @media (max-height: 500pt) {
     height: 100%;
@@ -138,6 +140,13 @@ const CopyText = styled.span`
   letter-spacing: 0em;
   text-align: left;
   color: #a6a9b0;
+  @media (max-width: 600pt) {
+    font-size: 6pt;
+    font-weight: 400;
+    line-height: 7.5pt;
+    letter-spacing: 0em;
+    text-align: left;
+  }
 `;
 
 const Button = styled.div`
@@ -150,6 +159,10 @@ const Button = styled.div`
   flex-direction: column;
   justify-content: center;
   cursor: pointer;
+  @media (max-width: 600pt) {
+    width: 24pt;
+    height: 24pt;
+  }
 `;
 const BtnText = styled.span`
   font-family: 'Haan YHead M';
@@ -160,4 +173,7 @@ const BtnText = styled.span`
   text-align: left;
   padding-top: 4.5pt;
   color: white;
+  @media (max-width: 600pt) {
+    font-size: 6pt;
+  }
 `;
