@@ -13,7 +13,6 @@ import LandingEighth from 'components/Landing/LandingEighth';
 import LandingNinth from 'components/Landing/LandingNinth';
 import Image from 'next/image';
 import UpArrow from 'public/Landing/LandingFooterUpArrow.svg';
-import MobileUpArrow from 'public/Landing/LandingNinthArrowMobile.svg';
 const Landing = () => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -41,7 +40,7 @@ const Landing = () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
-          <Image src={mobile ? MobileUpArrow : UpArrow} />
+          <Image src={UpArrow} />
 
           <BtnText>TOP</BtnText>
         </Button>
@@ -122,17 +121,15 @@ const Footer = styled.div`
   align-items: center;
   justify-content: space-between;
   /* padding: 25.5pt 272.25pt; */
-  width: 895.5pt;
+  margin: 0 auto;
   height: 66pt;
   /* box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2); */
-  /* width: 100%; */
+  width: 895.5pt;
   /* border-bottom: 0.75pt solid #e9eaee; */
   box-sizing: border-box;
-  margin: 0 auto;
+
   @media (max-width: 899.25pt) {
     padding: 12pt 15pt;
-    height: 51pt;
-    width: 100%;
   }
 `;
 
