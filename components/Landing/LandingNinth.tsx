@@ -113,7 +113,8 @@ const Title = styled.span`
 const UnderLeftText = styled.span`
   position: absolute;
   z-index: 10;
-  top: 202.5pt;
+  /* top: 202.5pt; */
+  bottom: 45pt;
   left: 195pt;
   font-family: 'Apple SD Gothic Neo';
   font-size: 19.5pt;
@@ -137,7 +138,7 @@ const UnderLeftText = styled.span`
 const RightBox = styled.div`
   position: absolute;
   z-index: 10;
-  top: 232.5pt;
+  bottom: 45pt;
   right: 195pt;
   display: flex;
   align-items: center;

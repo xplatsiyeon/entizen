@@ -13,10 +13,10 @@ const LandingSecondPart = () => {
       </ImgBox>
 
       <White />
-
       <Black>
         <MainImgBox>
           <Image src={SecondMainImg} />
+          {/* <img src="Landing/SecondLanding.png" /> */}
         </MainImgBox>
         <TextBox>
           <MainText color={'#838383'}>
@@ -44,59 +44,59 @@ const Wrapper = styled.div`
 const White = styled.div`
   /* height: ${100 / (1 / 3)}vh; */
   width: 100%;
-  padding-top: 450pt;
+
+  /* padding-top: 450pt; */
+  padding-top: 33.3%;
   background-color: white;
   @media (max-width: 600pt) {
     /* padding-top: 280pt; */
-    padding-top: 50%;
+    /* padding-top: 50%; */
+    padding-top: 33.3%;
   }
 `;
 
 const Black = styled.div`
   /* height: ${100 / (2 / 3)}; */
-  position: relative;
-  height: 664.5pt;
+  /* height: 664.5pt; */
+  /* height: 66.6%; */
   width: 100%;
   background-color: #000000;
+  padding-bottom: 98.25pt;
   @media (max-width: 600pt) {
-    height: 207.75pt;
+    /* height: 207.75pt; */
+    height: 66.6%;
+    padding-bottom: 38.25pt;
   }
-`;
-
-const SeperatedeView = styled.div`
-  position: relative;
 `;
 
 const ImgBox = styled.div`
   padding-top: 75pt;
+  padding-bottom: 200pt;
   @media (max-width: 600pt) {
     padding-top: 0;
   }
 `;
 
 const MainImgBox = styled.div`
-  position: absolute;
+  left: 0;
   z-index: 50;
   padding: 0 94.5pt;
-  padding-top: 56.25%;
-  height: 869px;
-  width: auto;
-  top: -180%;
+  transform: translate(0, -55%);
   @media (max-width: 600pt) {
-    /* top: 817.5pt; */
-    top: 13.8%;
     padding: 0 24.75pt;
   }
 `;
 
 const TextBox = styled.div`
-  padding-top: 350.25pt;
+  /* padding-top: 350.25pt; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: -15%;
   @media (max-width: 600pt) {
-    padding-top: 100pt;
+    /* padding-top: 100pt; */
+    margin-top: -15%;
   }
 `;
 

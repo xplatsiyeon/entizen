@@ -15,38 +15,40 @@ const LandingEighth = () => {
         엔티즌과 함께
       </MainText>
       <Container>
-        <Box>
-          <Title>풍부한 정보</Title>
-          <ImgBox>
-            <Image src={Eighth_1} />
-          </ImgBox>
-          <SubTitle>
-            충전기의 모든 것,
-            <br />내 손 안에서
-          </SubTitle>
-        </Box>
-        <Box>
-          <Title>플러그 할 권리</Title>
-          <ImgBox>
-            <Image src={Eighth_2} />
-          </ImgBox>
-          <SubTitle>
-            누구나, 어디서나
-            <br />
-            이용가능한 충전기
-          </SubTitle>
-        </Box>
-        <Box>
-          <Title>그린라이프</Title>
-          <ImgBox>
-            <Image src={Eighth_3} />
-          </ImgBox>
-          <SubTitle>
-            너와 나, 우리 모두의
-            <br />
-            깨끗한 생활
-          </SubTitle>
-        </Box>
+        <MobileScroll>
+          <Box>
+            <Title>풍부한 정보</Title>
+            <ImgBox>
+              <Image src={Eighth_1} />
+            </ImgBox>
+            <SubTitle>
+              충전기의 모든 것,
+              <br />내 손 안에서
+            </SubTitle>
+          </Box>
+          <Box>
+            <Title>플러그 할 권리</Title>
+            <ImgBox>
+              <Image src={Eighth_2} />
+            </ImgBox>
+            <SubTitle>
+              누구나, 어디서나
+              <br />
+              이용가능한 충전기
+            </SubTitle>
+          </Box>
+          <Box>
+            <Title>그린라이프</Title>
+            <ImgBox>
+              <Image src={Eighth_3} />
+            </ImgBox>
+            <SubTitle>
+              너와 나, 우리 모두의
+              <br />
+              깨끗한 생활
+            </SubTitle>
+          </Box>
+        </MobileScroll>
       </Container>
     </Wrapper>
   );
@@ -64,6 +66,7 @@ const Wrapper = styled.div`
     align-items: flex-start;
     padding: 60pt 0;
     padding-left: 24pt;
+    width: 100vw;
   }
 `;
 
@@ -72,9 +75,9 @@ const Container = styled.div`
   align-items: center;
   gap: 33.75pt;
   @media (max-width: 600pt) {
-    display: flex;
-    justify-content: flex-start;
-    gap: 12pt;
+    display: block;
+    overflow-x: scroll;
+    width: 100vw;
   }
 `;
 
@@ -132,7 +135,7 @@ const Title = styled.span`
     line-height: 13.5pt;
     letter-spacing: -0.02em;
     text-align: left;
-    padding-bottom: 27px;
+    padding-bottom: 20.25pt;
   }
 `;
 
@@ -146,12 +149,12 @@ const SubTitle = styled.span`
   color: #828282;
   padding-top: 35.25pt;
   @media (max-width: 600pt) {
-    font-size: 14px;
+    font-size: 10.5pt;
     font-weight: 500;
-    line-height: 22px;
+    line-height: 16.5pt;
     letter-spacing: -0.02em;
     text-align: left;
-    padding-top: 37px;
+    padding-top: 27.75pt;
   }
 `;
 
@@ -160,5 +163,20 @@ const ImgBox = styled.div`
   padding-right: 30.75pt;
   @media (max-width: 600pt) {
     width: 90px;
+  }
+`;
+
+const MobileScroll = styled.div`
+  @media (min-width: 600.75pt) {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 33.75pt;
+  }
+  @media (max-width: 600pt) {
+    width: 675pt;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12pt;
   }
 `;

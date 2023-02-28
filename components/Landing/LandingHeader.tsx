@@ -9,11 +9,13 @@ const LandingHeader = () => {
   });
   return (
     <HeaderWrapper>
-      <ImgTag src="Landing/EntizenLogo.svg" alt="EntizenLogo" />
-      <Button>
-        <span className="text">무엇이든 물어보세요</span>
-        {!mobile && <ImgTag src="Landing/RightWhiteArrow.svg" />}
-      </Button>
+      <Box>
+        <ImgTag src="Landing/EntizenLogo.svg" alt="EntizenLogo" />
+        <Button>
+          <span className="text">무엇이든 물어보세요</span>
+          {!mobile && <ImgTag src="Landing/RightWhiteArrow.svg" />}
+        </Button>
+      </Box>
     </HeaderWrapper>
   );
 };
@@ -24,7 +26,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 25.5pt 272.25pt;
+  /* padding: 25.5pt 272.25pt; */
   height: 66pt;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   width: 100%;
@@ -67,5 +69,17 @@ const Button = styled.div`
       letter-spacing: -0.02em;
       text-align: left;
     }
+  }
+`;
+
+const Box = styled.div`
+  width: 895.5pt;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  @media (max-width: 600pt) {
+    padding: 12pt 15pt;
+    height: 36pt;
+    width: 100%;
   }
 `;

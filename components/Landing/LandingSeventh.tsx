@@ -28,22 +28,30 @@ const LandingSeventh = () => {
           grabCursor={true}
           className="mySwiper"
         >
-          <SwiperSlide>
+          <ImgTag style={{ marginLeft: mobile ? '71.25pt' : '292.5pt' }}>
             <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
-          </SwiperSlide>
-          <SwiperSlide>
+          </ImgTag>
+          <ImgTag>
             <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
-          </SwiperSlide>
-          <SwiperSlide>
+          </ImgTag>
+          <ImgTag>
             <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
-          </SwiperSlide>
-          <SwiperSlide>
+          </ImgTag>
+          <ImgTag>
             <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
-          </SwiperSlide>
-          <SwiperSlide>
+          </ImgTag>
+          <ImgTag>
             <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
-          </SwiperSlide>
+          </ImgTag>
         </SwiperWrapper>
+        {/* <WebBox>
+          <WebScroll>
+            <ImgTag src="images/main-slider-1.png" />
+            <ImgTag src="images/main-slider-2.png" />
+            <ImgTag src="images/main-slider-1.png" />
+            <ImgTag src="images/main-slider-2.png" />
+          </WebScroll>
+        </WebBox> */}
       </Inner>
     </SlideWrap>
   );
@@ -53,15 +61,17 @@ export default LandingSeventh;
 
 const SlideWrap = styled.div`
   width: 100%;
-  position: relative;
+  /* position: relative; */
   padding-top: 120pt;
+  padding-bottom: 120pt;
   @media (max-width: 600pt) {
     padding-top: 60pt;
+    padding-bottom: 60pt;
   }
 `;
 const P = styled.p`
-  margin-left: 10%;
-  white-space: pre-wrap;
+  margin-left: 15.5%;
+  white-space: pre;
   font-family: 'Apple SD Gothic Neo';
   font-style: normal;
   font-weight: 700;
@@ -80,10 +90,13 @@ const P = styled.p`
 const SwiperWrapper = styled(Swiper)`
   position: absolute;
   left: 45%;
-  height: 305pt;
-  width: 800pt;
+  height: 405pt;
+  /* width: 800pt; */
+  width: 775.5pt;
   overflow: hidden;
-
+  @media (max-width: 600pt) {
+    width: 257.25pt;
+  }
   .swiper-wrapper {
     justify-content: center !important;
     align-items: center;
@@ -93,7 +106,7 @@ const SwiperWrapper = styled(Swiper)`
 
   @media (max-width: 600pt) {
     top: 87pt;
-    left: 9%;
+    left: 6%;
     width: 429.75pt;
     height: 169.5pt;
   }
@@ -109,5 +122,38 @@ const Inner = styled.div`
     display: flex;
     flex-direction: column;
     height: 330pt;
+  }
+`;
+
+const WebBox = styled.div`
+  width: 100vw;
+  overflow-x: scroll;
+  margin-left: 244px;
+`;
+
+const WebScroll = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 1034px;
+  justify-content: flex-start;
+`;
+
+const ImgBox = styled.div`
+  width: 404px;
+  height: 540px;
+  /* & > span {
+    width: 404px;
+    height: 540px;
+    border-radius: 20px;
+  } */
+`;
+
+const ImgTag = styled(SwiperSlide)`
+  width: 303pt !important;
+  height: 405pt !important;
+  @media (max-width: 600pt) {
+    width: 135pt !important;
+    height: 169.5pt !important;
   }
 `;
