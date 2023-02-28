@@ -1,4 +1,5 @@
-import Complete from 'components/Complete';
+
+import CompleteMessage from 'components/CompleteMessage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
@@ -29,7 +30,7 @@ const complete = (props: Props) => {
         setOpenSubLink={setOpenSubLink}
         setTabNumber={setTabNumber}
       />
-      <Complete
+      <CompleteMessage
         buttonText="보낸 견적 바로가기"
         handleOnClick={onClickFn}
         title={'고객에게 전달 완료!'}

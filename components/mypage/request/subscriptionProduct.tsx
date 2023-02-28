@@ -59,7 +59,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
         {data?.map((company, index) => (
-          <GridItem
+          <GridItem 
             isFailed={company?.finalQuotation ? true : false}
             key={index}
             onClick={() => onClickCompany(company, index)}
@@ -107,7 +107,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
 export default SubscriptionProduct;
 
 const Wrapper = styled.div`
-  padding: 0 15pt 69pt 15pt;
+  padding: 0 15pt 30pt 15pt;
 
   @media (max-width: 899.25pt) {
     padding-top: 0pt;
@@ -166,10 +166,16 @@ const Notice = styled.p`
   }
 `;
 const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  //display: grid;
+  //grid-template-columns: repeat(2, 1fr); 
+  display: flex;
+  flex-wrap: wrap;
   padding-top: 30pt;
-  gap: 11.25pt;
+  gap: 22.5pt;
+  @media (max-width: 899.25pt) {
+    gap: 11.25pt;
+  }
+
 `;
 const GridItem = styled.div<{ isFailed: boolean }>`
   background: ${colors.lightWhite};
@@ -184,7 +190,7 @@ const GridItem = styled.div<{ isFailed: boolean }>`
   cursor: pointer;
   & > h2 {
     font-family: 'Spoqa Han Sans Neo';
-    padding-top: 15pt;
+    padding-top: 9pt;
     font-weight: 400;
     font-size: 9pt;
     line-height: 12pt;
@@ -193,7 +199,7 @@ const GridItem = styled.div<{ isFailed: boolean }>`
   }
   & > p {
     font-family: 'Spoqa Han Sans Neo';
-    padding-top: 6pt;
+    padding-top: 12pt;
     font-weight: 400;
     font-size: 9pt;
     line-height: 12pt;
@@ -204,10 +210,18 @@ const GridItem = styled.div<{ isFailed: boolean }>`
     position: relative;
     width: 48pt;
     height: 48pt;
+    border-radius: 6pt;
+    overflow: hidden;
   }
   @media (max-width: 899.25pt) {
     width: 120pt;
     height: 138pt;
+    > h2{
+      padding-top: 15pt;
+    }
+    > p{
+      padding-top: 6pt;
+    }
   }
 `;
 const PriceBox = styled.div`
@@ -232,15 +246,12 @@ const PriceBox = styled.div`
 `;
 
 const NoImage = styled.div`
-  height: 75pt;
-  width: 75pt;
+  position: relative;
+  width: 48pt;
+  height: 48pt;
   border-radius: 6pt;
   background: #caccd1;
   @media (max-width: 899.25pt) {
-    height: 48pt;
-    width: 48pt;
-    border-radius: 6pt;
-    margin-left: 18pt;
     margin-bottom: 15pt;
   }
 `;
