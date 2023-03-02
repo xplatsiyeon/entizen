@@ -118,7 +118,7 @@ const TopBox = ({
                       ) : (
                         <span className="name" />
                       )}
-                      <span className="text">
+                      <span className="text charge">
                         {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                         <br />
                         {item.standType
@@ -268,6 +268,7 @@ const Wrapper = styled.div`
   margin-top: 6pt;
   border-radius: 12pt;
   /* border-top: 1px solid #e2e5ed; */
+
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
@@ -391,6 +392,10 @@ const Contents = styled.div`
       letter-spacing: -0.02em;
       text-align: left;
     }
+  }
+  .text.charge {
+    text-align: right;
+    line-height: 18pt;
   }
   .img-box {
     padding-top: 42pt;
