@@ -49,12 +49,13 @@ const HeaderWrapper = styled.div`
   /* padding: 25.5pt 272.25pt; */
   height: 66pt;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
-  width: 100%;
+  width: 100vw;
   border-bottom: 0.75pt solid #e9eaee;
   box-sizing: border-box;
 
   @media (max-width: 899.25pt) {
     padding: 12pt 15pt;
+    height: 36pt;
   }
 `;
 
