@@ -163,10 +163,11 @@ const ProfileEditing = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log('component', component);
 
   return (
     <Scroll>
-      <Wrapper>
+      <Wrapper component={component}>
         <Header back={true} title="프로필 변경" />
         <Body component={component}>
           {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
@@ -261,7 +262,7 @@ const ProfileEditing = ({
         </Body>
         <Line />
 
-        <Wrap>
+        <Wrap component={component}>
           <Label mt={30}>담당자 이름</Label>
           <InputBox type="text" readOnly value={profile?.name} />
 
@@ -289,6 +290,7 @@ const Scroll = styled.div`
     height: 100vh;
     overflow: scroll;
     overflow-x: hidden;
+
     ::-webkit-scrollbar {
       display: initial;
       width: 7.5pt;
@@ -296,6 +298,8 @@ const Scroll = styled.div`
     ::-webkit-scrollbar-track {
       // 뒷배경
       background: rgba(33, 122, 244, 0.1);
+      border-bottom-right-radius: 12pt;
+      border-top-right-radius: 12pt;
     }
     ::-webkit-scrollbar-thumb {
       // 막대
@@ -303,14 +307,16 @@ const Scroll = styled.div`
       background-color: #5a2dc9;
       box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
       border-radius: 7.5pt;
-
       height: 7.5pt;
     }
   }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ component?: number }>`
+  padding-top: 32.25pt;
   padding-bottom: 132.75pt;
+  /* padding-bottom: 174.75pt; */
+  padding-right: ${({ component }) => (component === 0 ? '47.25pt' : '24pt')};
 `;
 const ChangeProfileText = styled.div`
   font-family: 'Spoqa Han Sans Neo';
@@ -326,7 +332,7 @@ const ChangeProfileText = styled.div`
 `;
 const Body = styled.div<{ component: number }>`
   /* padding: 21.5pt 15pt 0; */
-  padding: 0 15pt;
+  /* padding: 0 15pt; */
   padding-top: 21.5pt;
   @media (min-width: 900pt) {
     padding-top: ${({ component }) => (component === 1 ? '10.75pt' : '21.5pt')};
@@ -440,8 +446,10 @@ const Line = styled.div`
   }
 `;
 
-const Wrap = styled.div`
-  padding: 0 15pt;
+const Wrap = styled.div<{ component?: number }>`
+  /* padding: 0 15pt; */
+  /* padding: ${({ component }) =>
+    component === 0 ? '0 47.25pt' : '0 24pt'}; */
   position: relative;
 `;
 

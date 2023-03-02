@@ -78,6 +78,31 @@ const ProfileIndex = () => {
 
 export default ProfileIndex;
 
+const Scroll = styled.div`
+  @media (min-width: 900pt) {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      display: initial;
+      width: 7.5pt;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: rgba(33, 122, 244, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      /* background: #217af4; */
+      background-color: #5a2dc9;
+      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      border-radius: 7.5pt;
+
+      height: 7.5pt;
+    }
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -106,7 +131,12 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
-  padding: 32.25pt 31.5pt 42pt;
+  /* padding: 32.25pt 31.5pt 42pt; */
+  /* padding: 32.25pt 0 42pt; */
+  /* padding-bottom: 42pt; */
+  /* padding-left: 31.5pt; */
+  padding-left: 47.25pt;
+
   margin: ${({ heightOn }) => (heightOn ? '20vh 0' : '45.75pt 0')};
 
   @media (max-width: 899.25pt) {
@@ -145,10 +175,14 @@ const HiddenBox = styled.div`
   width: 282pt;
   height: 500pt;
   overflow-y: scroll;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
-  padding: 32.25pt 31.5pt 42pt;
+  /* padding: 32.25pt 31.5pt 42pt; */
+  /* padding-bottom: 42pt; */
+  /* padding-left: 31.5pt; */
+  padding-left: 24pt;
+  /* padding-right: 0; */
   margin: 120pt 0 47.5pt;
 
   @media (max-width: 899.25pt) {

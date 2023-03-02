@@ -22,7 +22,7 @@ const ProfileEditing = () => {
 
   // 오른쪽 컴포넌트 변경
   const [tabNumber, setTabNumber] = useState<number>(2);
-
+  console.log('tabNumber', tabNumber);
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
@@ -50,7 +50,12 @@ const ProfileEditing = () => {
         {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <WebRapper tabNumber={tabNumber}>
           <Inner tabNumber={tabNumber}>
-            {web && <ProfileModify setTabNumber={setTabNumber} />}
+            {web && (
+              <ProfileModify
+                setTabNumber={setTabNumber}
+                tabNumber={tabNumber}
+              />
+            )}
           </Inner>
           {!web && tabNumber === 2 && (
             <ProfileModify setTabNumber={setTabNumber} />
@@ -106,7 +111,8 @@ const Inner = styled.div<{ tabNumber: number }>`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
+  /* padding: 32.25pt 0 42pt; */
+  /* padding-left: 42pt; */
   margin: 0 auto;
 
   @media (max-width: 899.25pt) {

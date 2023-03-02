@@ -24,9 +24,10 @@ export interface UploadFileResponse {
 }
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber?: number;
 };
 const TAG = 'components/Profile/ProfileModify.tsx';
-const ProfileModify = ({ setTabNumber }: Props) => {
+const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
@@ -158,7 +159,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   }, [isLoading]);
 
   return (
-    <React.Fragment>
+    <Scroll>
       {/* 에러 모달 */}
       {isModal && (
         <Modal
@@ -168,7 +169,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           text={errorMessage}
         />
       )}
-      <Wrapper>
+      <Wrapper tabNumber={tabNumber}>
         <Body>
           <Avatar>
             <div className="img-bg">
@@ -264,14 +265,43 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           )} */}
         </Body>
       </Wrapper>
-    </React.Fragment>
+    </Scroll>
   );
 };
 
 export default ProfileModify;
-const Wrapper = styled.div`
+const Scroll = styled.div`
+  @media (min-width: 900pt) {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+
+    ::-webkit-scrollbar {
+      display: initial;
+      width: 7.5pt;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: rgba(33, 122, 244, 0.1);
+      border-bottom-right-radius: 12pt;
+      border-top-right-radius: 12pt;
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      /* background: #217af4; */
+      background-color: #5a2dc9;
+      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      border-radius: 7.5pt;
+      height: 5pt;
+    }
+  }
+`;
+
+const Wrapper = styled.div<{ tabNumber?: number }>`
   position: relative;
-  margin: 0 31.875pt;
+  /* margin: 0 31.875pt; */
+  margin: ${({ tabNumber }) => (tabNumber === 2 ? '0 47.25pt' : '0 24pt')};
+  padding: 32.25pt 0;
   @media (max-width: 899.25pt) {
     height: 100%;
     width: 100%;
