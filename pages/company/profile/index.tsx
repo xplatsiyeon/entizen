@@ -135,7 +135,7 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
   /* padding: 32.25pt 0 42pt; */
   /* padding-bottom: 42pt; */
   /* padding-left: 31.5pt; */
-  padding-left: 47.25pt;
+  //padding-left: 47.25pt;
 
   margin: ${({ heightOn }) => (heightOn ? '20vh 0' : '45.75pt 0')};
 
@@ -144,7 +144,7 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
     height: 100vh;
     position: relative;
     margin: 0 auto;
-    padding: 0;
+    padding-left: 47.25pt;
     box-shadow: none;
     background: none;
   }
@@ -181,7 +181,7 @@ const HiddenBox = styled.div`
   /* padding: 32.25pt 31.5pt 42pt; */
   /* padding-bottom: 42pt; */
   /* padding-left: 31.5pt; */
-  padding-left: 24pt;
+  //padding-left: 24pt;
   /* padding-right: 0; */
   margin: 120pt 0 47.5pt;
 

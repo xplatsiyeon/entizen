@@ -169,7 +169,7 @@ const ProfileEditing = ({
     <Scroll>
       <Wrapper component={component}>
         <Header back={true} title="프로필 변경" />
-        <Body component={component}>
+        <Body component={component} className={String(component)}>
           {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
           {isLoading ? (
             <Loader />
@@ -317,24 +317,15 @@ const Wrapper = styled.div<{ component?: number }>`
   padding-bottom: 132.75pt;
   /* padding-bottom: 174.75pt; */
   padding-right: ${({ component }) => (component === 0 ? '47.25pt' : '24pt')};
+
 `;
-const ChangeProfileText = styled.div`
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 21pt;
-  font-weight: 700;
-  line-height: 21pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 50.25pt;
-  color: #222222;
-`;
+
 const Body = styled.div<{ component: number }>`
   /* padding: 21.5pt 15pt 0; */
   /* padding: 0 15pt; */
   padding-top: 21.5pt;
   @media (min-width: 900pt) {
+    padding-left:${({ component }) => (component === 0 ? '47.5pt' : '24pt')};
     padding-top: ${({ component }) => (component === 1 ? '10.75pt' : '21.5pt')};
   }
 `;
@@ -388,38 +379,6 @@ const InputBox = styled.input`
   }
 `;
 
-const Address = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-`;
-
-const InputWrap = styled.div`
-  align-items: center;
-  position: relative;
-`;
-
-const InputBtn = styled.button`
-  position: absolute;
-  right: 6pt;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-top: 4.5pt;
-  background: #5221cb;
-  border-radius: 6pt;
-  padding: 7.5pt 9pt;
-  cursor: pointer;
-  span {
-    font-family: 'Spoqa Han Sans Neo';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-  }
-`;
-
 const Div = styled.div`
   padding-bottom: 18pt;
   border-bottom: 1px solid #e2e5ed;
@@ -440,16 +399,18 @@ const Line = styled.div`
   width: 100%;
   background: #f3f4f7;
   margin-top: 30pt;
+  position: relative;
   @media (min-width: 900pt) {
     width: 345pt;
-    margin-left: -31.5pt;
+    /* margin-left: -47.5pt; */
   }
+ 
 `;
 
 const Wrap = styled.div<{ component?: number }>`
   /* padding: 0 15pt; */
-  /* padding: ${({ component }) =>
-    component === 0 ? '0 47.25pt' : '0 24pt'}; */
+   padding: ${({ component }) =>
+    component === 0 ? '0 0 0 47.25pt  ' : '0 24pt'}; 
   position: relative;
 `;
 
