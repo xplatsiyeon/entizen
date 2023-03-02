@@ -176,7 +176,7 @@ export default AsHistory;
 
 const Body = styled.div`
   /* flex: 1; */
-  font-family: 'Spoqa Han Sans Neo'!important;
+  font-family: 'Spoqa Han Sans Neo' !important;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -306,5 +306,10 @@ const BtnBox = styled.div`
     margin-bottom: 0;
     padding: 9pt 30pt;
     width: 251.25pt;
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
   }
 `;

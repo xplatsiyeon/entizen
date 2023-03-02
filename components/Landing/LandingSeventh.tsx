@@ -6,6 +6,9 @@ import { Pagination } from 'swiper';
 import styled from '@emotion/styled';
 import MainSliderImg1 from 'public/images/main-slider-1.png';
 import MainSliderImg2 from 'public/images/main-slider-2.png';
+import MainSliderImg3 from 'public/images/main-slider-3.png';
+import MainSliderImg4 from 'public/images/main-slider-4.png';
+import MainSliderImg5 from 'public/images/main-slider-5.png';
 import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 
@@ -28,20 +31,63 @@ const LandingSeventh = () => {
           grabCursor={true}
           className="mySwiper"
         >
-          <ImgTag style={{ marginLeft: mobile ? '71.25pt' : '292.5pt' }}>
+          <ImgTag style={{ marginLeft: mobile ? '50.25pt' : '292.5pt' }}>
+            {mobile ? (
+              <ImgText>
+                주택, 빌라에 설치해서
+                <br />
+                개인 용도로
+                <br />
+                사용해 보세요.
+              </ImgText>
+            ) : (
+              <ImgText>
+                주택, 빌라에 설치해서
+                <br />
+                개인 용도로 사용해 보세요.
+              </ImgText>
+            )}
             <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
           </ImgTag>
           <ImgTag>
+            <ImgText>
+              카페, 마트에 설치해서
+              <br />
+              모객 효과도 노리고
+              <br />
+              충전 수익도 챙겨가세요.
+            </ImgText>
             <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
           </ImgTag>
           <ImgTag>
-            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+            <ImgText>
+              주유소, 주차장과 같은
+              <br />
+              장소에 설치해서
+              <br />
+              직접 충전사업을 해보세요.
+            </ImgText>
+            <Image src={MainSliderImg3} alt="MainSliderImg1" layout="fill" />
           </ImgTag>
           <ImgTag>
-            <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
+            <ImgText>
+              아파트, 오피스텔에
+              <br />
+              설치해서 입주민에게
+              <br />
+              편의를 제공해 보세요.
+            </ImgText>
+            <Image src={MainSliderImg4} alt="MainSliderImg2" layout="fill" />
           </ImgTag>
           <ImgTag>
-            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+            <ImgText>
+              회사, 사업장에
+              <br />
+              설치햐서 직원들에게
+              <br />
+              복지를 제공해 보세요.
+            </ImgText>
+            <Image src={MainSliderImg5} alt="MainSliderImg1" layout="fill" />
           </ImgTag>
         </SwiperWrapper>
         {/* <WebBox>
@@ -66,7 +112,8 @@ const SlideWrap = styled.div`
   padding-bottom: 120pt;
   @media (max-width: 600pt) {
     padding-top: 60pt;
-    padding-bottom: 60pt;
+    /* padding-bottom: 60pt; */
+    padding-bottom: 0;
   }
 `;
 const P = styled.p`
@@ -152,8 +199,34 @@ const ImgBox = styled.div`
 const ImgTag = styled(SwiperSlide)`
   width: 303pt !important;
   height: 405pt !important;
+  position: relative;
   @media (max-width: 600pt) {
     width: 135pt !important;
     height: 169.5pt !important;
+  }
+`;
+
+const ImgText = styled.span`
+  position: absolute;
+  z-index: 10;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 19.5pt;
+  font-weight: 800;
+  line-height: 31.5pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: white;
+  padding-top: 30.75pt;
+  padding-left: 35.25pt;
+  white-space: pre;
+
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    font-weight: 800;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-top: 16.5pt;
+    padding-left: 14.25pt;
   }
 `;
