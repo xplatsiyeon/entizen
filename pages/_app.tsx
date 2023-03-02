@@ -39,11 +39,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
     if (iOS) {
-      localStorage.setItem('userAgent', JSON.stringify('iOS_App'));
+      sessionStorage.setItem('userAgent', JSON.stringify('iOS_App'));
       dispatch(userAgentAction.set('iOS_App'));
     }
     if (Android) {
-      localStorage.setItem('userAgent', JSON.stringify('Android_App'));
+      sessionStorage.setItem('userAgent', JSON.stringify('Android_App'));
       dispatch(userAgentAction.set('Android_App'));
     }
   }, []);
