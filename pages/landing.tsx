@@ -60,6 +60,7 @@ const WebBody = styled.div`
   margin: 0 auto;
   /* background: #fcfcfc; */
   background-color: white;
+  overflow-x: hidden;
 `;
 
 const Inner = styled.div`
