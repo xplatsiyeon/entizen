@@ -191,8 +191,8 @@ const ListBox = styled.div`
   width: 100%;
   display: flex;
   box-sizing: border-box;
-  padding: 9pt 13.5pt;
-  box-shadow: 0px 0px 10px 0px #89a3c933;
+  padding: 9pt 13.5pt 9pt 13.5pt;
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
   border-radius: 6pt;
 
@@ -202,20 +202,30 @@ const ListBox = styled.div`
   @media (min-width: 900pt) {
     width: 580.5pt;
     margin: 0 auto;
+    padding: 17.25pt;
   }
 `;
 
 const ImageBox = styled.div`
   position: relative;
-  width: 42pt;
-  height: 42pt;
-  margin-right: 12pt;
+  width: 54pt;
+  height: 54pt;
+  margin-right: 18pt;
+  & > span {
+    border-radius: 6pt;
+  }
+  @media (max-width: 899.25pt) {
+    width: 42pt;
+    height: 42pt;
+    margin-right: 12pt;
+  }
 `;
+
 const NoImageBox = styled.div`
   position: relative;
   width: 42pt;
   height: 42pt;
-  margin-right: 12pt;
+  margin-right: 18pt;
   background-color: #a6a9b0;
 `;
 
@@ -224,40 +234,65 @@ const TextBox = styled.div`
   padding-bottom: 3.75pt;
   display: flex;
   flex-direction: column;
-  gap: 1.5pt;
+  gap: 12pt;
+  @media (max-width: 899.25pt) {
+    gap: 1.5pt;
+  }
 `;
 
 const Title = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 12pt;
+  font-size: 13.5pt;
   font-weight: 700;
-  line-height: 15pt;
+  line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
   color: #222222;
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const From = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 10.5pt;
+  font-size: 12pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: left;
   color: #222222;
+  @media (max-width: 899.25pt) {
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const KwBox = styled.div`
   padding: 4.5pt 7.5pt;
   background-color: ${colors.main};
   color: #ffffff;
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 10.5pt;
+  font-size: 12pt;
   font-weight: 500;
-  line-height: 9pt;
+  line-height: 12pt;
   letter-spacing: -0.02em;
   position: absolute;
-  top: 19.25pt;
-  right: 13.5pt;
+  /* top: 19.25pt; */
+  top: 35%;
+  right: 20.25pt;
   border-radius: 12pt;
+  @media (max-width: 899.25pt) {
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
 `;
 
 const BtnBox = styled.div<{ isData?: number }>`
