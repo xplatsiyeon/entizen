@@ -49,12 +49,14 @@ const HeaderWrapper = styled.div`
   /* padding: 25.5pt 272.25pt; */
   height: 66pt;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
-  width: 100%;
+  width: 100vw;
   border-bottom: 0.75pt solid #e9eaee;
   box-sizing: border-box;
 
   @media (max-width: 899.25pt) {
-    padding: 12pt 15pt;
+    display: flex;
+    align-items: center;
+    height: 36pt;
   }
 `;
 
@@ -72,6 +74,7 @@ const Button = styled.div`
   @media (max-width: 899.25pt) {
     padding: 6pt 9pt;
     height: 21pt;
+    gap: 0;
   }
   .text {
     font-family: 'Apple SD Gothic Neo';
@@ -98,9 +101,11 @@ const Box = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   @media (max-width: 600pt) {
-    padding: 12pt 15pt;
+    padding: 7.5pt 15pt;
     height: 36pt;
     width: 100%;
+    display: flex;
+    align-items: center;
   }
 `;
 

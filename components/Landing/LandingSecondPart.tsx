@@ -74,6 +74,7 @@ const ImgBox = styled.div`
   padding-bottom: 200pt;
   @media (max-width: 600pt) {
     padding-top: 0;
+    padding-bottom: 45pt;
   }
 `;
 
