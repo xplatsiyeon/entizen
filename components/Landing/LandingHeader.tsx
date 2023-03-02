@@ -54,7 +54,8 @@ const HeaderWrapper = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 899.25pt) {
-    padding: 12pt 15pt;
+    display: flex;
+    align-items: center;
     height: 36pt;
   }
 `;
@@ -73,6 +74,7 @@ const Button = styled.div`
   @media (max-width: 899.25pt) {
     padding: 6pt 9pt;
     height: 21pt;
+    gap: 0;
   }
   .text {
     font-family: 'Apple SD Gothic Neo';
@@ -99,9 +101,11 @@ const Box = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   @media (max-width: 600pt) {
-    padding: 12pt 15pt;
+    padding: 7.5pt 15pt;
     height: 36pt;
     width: 100%;
+    display: flex;
+    align-items: center;
   }
 `;
 
