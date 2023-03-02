@@ -186,8 +186,9 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
   height: 100%;
-  margin: 60pt 0 90pt 0;
 
+  margin: 60pt auto;
+  margin-bottom: 90pt;
   @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
