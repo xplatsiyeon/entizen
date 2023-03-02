@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
@@ -7,11 +7,31 @@ const LandingHeader = () => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  const [mailOn, setMailOn] = useState<boolean>(false);
+  // 이메일 주소 복사하는 함수
+  const handleCopyEmail = (text: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+    } catch (error) {}
+  };
   return (
     <HeaderWrapper>
+      {mailOn && (
+        <MailCopyBtn mailOn={mailOn}>
+          문의 이메일 주소가 복사 되었습니다.
+        </MailCopyBtn>
+      )}
       <Box>
         <ImgTag src="Landing/EntizenLogo.svg" alt="EntizenLogo" />
-        <Button>
+        <Button
+          onClick={() => {
+            setMailOn(true);
+            setTimeout(function () {
+              setMailOn(false);
+            }, 2000);
+            handleCopyEmail('entizen@entizen.kr');
+          }}
+        >
           <span className="text">무엇이든 물어보세요</span>
           {!mobile && <ImgTag src="Landing/RightWhiteArrow.svg" />}
         </Button>
@@ -81,5 +101,30 @@ const Box = styled.div`
     padding: 12pt 15pt;
     height: 36pt;
     width: 100%;
+  }
+`;
+
+const MailCopyBtn = styled.div<{ mailOn: boolean }>`
+  position: absolute;
+  width: 345pt;
+  height: 48pt;
+  /* top: 140pt; */
+  top: 50pt;
+  left: 30%;
+  z-index: 100;
+  padding: 16pt 49.5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  background-color: #464646;
+  color: #ffffff;
+  border-radius: 8pt;
+  @media (max-width: 600pt) {
+    top: 80pt;
+    width: 300pt;
+    left: 3%;
   }
 `;

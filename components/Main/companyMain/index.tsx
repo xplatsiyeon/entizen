@@ -90,7 +90,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
   }, [userID]);
 
   return (
-    <>
+    <Wrapper>
       <Container>
         <WebBuyerHeader
           setTabNumber={setTabNumber}
@@ -190,7 +190,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
         <Footer />
       </MobileNone>
       <BottomNavigation />
-    </>
+    </Wrapper>
   );
 };
 
@@ -200,11 +200,17 @@ const Container = styled.div`
   @media (min-width: 900pt) {
     padding-left: 0;
     padding-right: 0;
+  }
+`;
 
-    /* ::-webkit-scrollbar {
+const Wrapper = styled.div`
+  @media (min-width: 900pt) {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
       display: initial;
-      width: 8px;
-      height: 8px;
+      width: 7.5pt;
     }
     ::-webkit-scrollbar-track {
       // 뒷배경
@@ -212,10 +218,13 @@ const Container = styled.div`
     }
     ::-webkit-scrollbar-thumb {
       // 막대
-      background: #217af4;
-      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-    } */
+      /* background: #217af4; */
+      background-color: #5a2dc9;
+
+      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      border-radius: 7.5pt;
+      height: 15%;
+    }
   }
 `;
 

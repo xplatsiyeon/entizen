@@ -165,122 +165,149 @@ const ProfileEditing = ({
   }, []);
 
   return (
-    <Wrapper>
-      <Header back={true} title="프로필 변경" />
-      <Body component={component}>
-        {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <Avatar>
-            <div className="img-bg">
-              {/* 아바타 */}
-              <button className="avatar-bg" onClick={imgHandler}>
-                <Image
-                  src={
-                    // profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
-                    //   ?.length! > 1
-                    //   ? profile?.companyMemberAdditionalInfo
-                    //       ?.companyLogoImageUrl!
-                    //   : AvatarIcon
+    <Scroll>
+      <Wrapper>
+        <Header back={true} title="프로필 변경" />
+        <Body component={component}>
+          {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Avatar>
+              <div className="img-bg">
+                {/* 아바타 */}
+                <button className="avatar-bg" onClick={imgHandler}>
+                  <Image
+                    src={
+                      // profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                      //   ?.length! > 1
+                      //   ? profile?.companyMemberAdditionalInfo
+                      //       ?.companyLogoImageUrl!
+                      //   : AvatarIcon
 
-                    imgFile
-                      ? imgFile
-                      : profile?.companyMemberAdditionalInfo
-                          ?.companyLogoImageUrl! &&
-                        profile?.companyMemberAdditionalInfo
-                          ?.companyLogoImageUrl?.length! > 0
-                      ? profile?.companyMemberAdditionalInfo
-                          ?.companyLogoImageUrl
-                      : AvatarIcon
-                  }
-                  alt="avatar"
-                  layout="fill"
-                  priority={true}
-                  unoptimized={true}
-                  objectFit="cover"
-                />
-              </button>
-              {/* 포토 이미지 */}
-              <button className="avatar-photo" onClick={imgHandler}>
-                <Image src={AvatarPhoto} alt="avatar-photo" />
-              </button>
-            </div>
-            <input
-              ref={imgRef}
-              className="file-input"
-              type={'file'}
-              accept="image/*"
-              onChange={onImgInputBtnClick}
-              capture={userAgent === 'Android_App' && true}
-              style={{ display: 'none' }}
-            />
-          </Avatar>
-        )}
-        <Label mt={33}>아이디</Label>
-        <InputBox type="text" readOnly placeholder={profile?.id} />
-        <Label mt={30}>기업명</Label>
-        <InputBox
-          type="text"
-          readOnly
-          placeholder={profile?.companyMemberAdditionalInfo?.companyName}
-        />
-        <Div onClick={() => setComponent(1)}>
-          <SubTitle>기업 주소 변경</SubTitle>
-          <ImageWrap>
-            <Image src={arrowRight} layout="fill" />
-          </ImageWrap>
-        </Div>
+                      imgFile
+                        ? imgFile
+                        : profile?.companyMemberAdditionalInfo
+                            ?.companyLogoImageUrl! &&
+                          profile?.companyMemberAdditionalInfo
+                            ?.companyLogoImageUrl?.length! > 0
+                        ? profile?.companyMemberAdditionalInfo
+                            ?.companyLogoImageUrl
+                        : AvatarIcon
+                    }
+                    alt="avatar"
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                </button>
+                {/* 포토 이미지 */}
+                <button className="avatar-photo" onClick={imgHandler}>
+                  <Image src={AvatarPhoto} alt="avatar-photo" />
+                </button>
+              </div>
+              <input
+                ref={imgRef}
+                className="file-input"
+                type={'file'}
+                accept="image/*"
+                onChange={onImgInputBtnClick}
+                capture={userAgent === 'Android_App' && true}
+                style={{ display: 'none' }}
+              />
+            </Avatar>
+          )}
+          <Label mt={33}>아이디</Label>
+          <InputBox type="text" readOnly placeholder={profile?.id} />
+          <Label mt={30}>기업명</Label>
+          <InputBox
+            type="text"
+            readOnly
+            placeholder={profile?.companyMemberAdditionalInfo?.companyName}
+          />
+          <Div onClick={() => setComponent(1)}>
+            <SubTitle>기업 주소 변경</SubTitle>
+            <ImageWrap>
+              <Image src={arrowRight} layout="fill" />
+            </ImageWrap>
+          </Div>
 
-        {/* 나이스 인증 */}
-        {/* <form name="form_chk" method="get">
+          {/* 나이스 인증 */}
+          {/* <form name="form_chk" method="get">
           <input type="hidden" name="m" value="checkplusService" />
           <input type="hidden" id="encodeData" name="EncodeData" value={data} />
           <input type="hidden" name="recvMethodType" value="get" />
           </form> */}
-        {/* <Div className="PW" onClick={fnPopup}> */}
-        <Div className="PW" onClick={HandlePassword}>
-          <SubTitle>비밀번호 변경</SubTitle>
-          <ImageWrap>
-            <Image src={arrowRight} layout="fill" />
-          </ImageWrap>
-        </Div>
+          {/* <Div className="PW" onClick={fnPopup}> */}
+          <Div className="PW" onClick={HandlePassword}>
+            <SubTitle>비밀번호 변경</SubTitle>
+            <ImageWrap>
+              <Image src={arrowRight} layout="fill" />
+            </ImageWrap>
+          </Div>
 
-        <Div onClick={() => setComponent(3)}>
-          <SubTitle>사업자 등록증 수정</SubTitle>
-          <ImageWrap>
-            <Image src={arrowRight} layout="fill" />
-          </ImageWrap>
-        </Div>
+          <Div onClick={() => setComponent(3)}>
+            <SubTitle>사업자 등록증 수정</SubTitle>
+            <ImageWrap>
+              <Image src={arrowRight} layout="fill" />
+            </ImageWrap>
+          </Div>
 
-        {/* 나이스 인증 */}
-        {/* <Buttons className="firstNextPage" onClick={HandlePassword}>
+          {/* 나이스 인증 */}
+          {/* <Buttons className="firstNextPage" onClick={HandlePassword}>
           숨겨진 비밀번호 버튼
         </Buttons> */}
-      </Body>
-      <Line />
+        </Body>
+        <Line />
 
-      <Wrap>
-        <Label mt={30}>담당자 이름</Label>
-        <InputBox type="text" readOnly value={profile?.name} />
+        <Wrap>
+          <Label mt={30}>담당자 이름</Label>
+          <InputBox type="text" readOnly value={profile?.name} />
 
-        <Label mt={30}>담당자 휴대폰</Label>
-        <InputBox type="text" readOnly value={profile?.phone} />
+          <Label mt={30}>담당자 휴대폰</Label>
+          <InputBox type="text" readOnly value={profile?.phone} />
 
-        <Label mt={30}>담당자 이메일</Label>
-        <InputBox
-          type="text"
-          readOnly
-          value={profile?.companyMemberAdditionalInfo?.managerEmail}
-        />
+          <Label mt={30}>담당자 이메일</Label>
+          <InputBox
+            type="text"
+            readOnly
+            value={profile?.companyMemberAdditionalInfo?.managerEmail}
+          />
 
-        <MBtn onClick={() => setComponent(4)}>담당자 변경하기</MBtn>
-      </Wrap>
-    </Wrapper>
+          <MBtn onClick={() => setComponent(4)}>담당자 변경하기</MBtn>
+        </Wrap>
+      </Wrapper>
+    </Scroll>
   );
 };
 
 export default ProfileEditing;
+
+const Scroll = styled.div`
+  @media (min-width: 900pt) {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      display: initial;
+      width: 7.5pt;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: rgba(33, 122, 244, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      /* background: #217af4; */
+      background-color: #5a2dc9;
+      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      border-radius: 7.5pt;
+
+      height: 7.5pt;
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   padding-bottom: 132.75pt;
