@@ -537,7 +537,7 @@ const HeadOpenContent = () => {
                         homeSelect?.length! ? (
                           <span className="text">-</span>
                         ) : (
-                          <span className="text">{`${Math.floor(
+                          <span className='text'>{`${Math.floor(
                             Number(investRate!) * 100,
                           )} %`}</span>
                         )}
@@ -549,7 +549,7 @@ const HeadOpenContent = () => {
                           ) : (
                             <span className="name" />
                           )}
-                          <span className="text2">
+                          <span className="text">
                             {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                             <br />
                             {item.standType
@@ -731,24 +731,6 @@ const Wrapper = styled.div`
     border-radius: 12pt;
   }
 `;
-const Badge = styled.span`
-  background: ${colors.orange};
-  color: ${colors.lightWhite};
-  border-radius: 12pt;
-  padding: 4.5pt 7.5pt;
-  font-weight: 500;
-  font-size: 9pt;
-  line-height: 9pt;
-`;
-// const ItemButton = styled(ListItemButton)`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 0;
-//   & div {
-//     margin: 0;
-//   }
-// `;
 
 const ItemButton = styled.div<{ tabNumber: number }>`
   display: flex;
@@ -851,22 +833,6 @@ const Contents = styled.div`
       font-weight: 500;
       line-height: 18pt;
       letter-spacing: -0.02em;
-    }
-  }
-  .text2 {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    text-align: right;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-    @media (min-width: 900pt) {
-      font-family: 'Spoqa Han Sans Neo';
-      font-size: 12pt;
-      font-weight: 500;
-      line-height: 18pt;
-      letter-spacing: -0.02em;
-      text-align: left;
     }
   }
   .img-box {
