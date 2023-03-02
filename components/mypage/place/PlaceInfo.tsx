@@ -132,7 +132,7 @@ const PlaceInfo = ({ data }: Props) => {
           </span>
         </div>
         <div className="text-box">
-          <span className="name">연락처</span>
+          <span className="name">전화번호</span>
           <a href={'tel:' + callPhone} className="textPhone">
             {hyphenFn(data?.companyMember?.phone)}
           </a>
@@ -282,7 +282,7 @@ const Partner = styled.div`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
-  padding-bottom: 24pt;
+  padding-bottom: 12pt;
   color: #222222;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
@@ -345,6 +345,8 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: right;
+    color: #0057ff;
+    border-bottom: 0.75pt solid #0057ff;
     @media (max-width: 899.25pt) {
       display: none;
     }
@@ -514,6 +516,7 @@ const FileLabel = styled.div`
   padding-bottom: 15pt;
   color: #222222;
   @media (min-width: 900pt) {
+    padding-bottom: 24pt;
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 700;
