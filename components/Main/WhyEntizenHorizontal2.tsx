@@ -137,6 +137,7 @@ const WhyEntizenHorizontal2 = (props: Props) => {
   );
 };
 
+
 export default WhyEntizenHorizontal2;
 
 const Wrapper = styled.div`

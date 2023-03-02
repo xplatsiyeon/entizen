@@ -41,8 +41,12 @@ export interface Charger {
   projectName: string;
   projectIdx: string;
 }
+
+type Props={
+  rewrite?:boolean
+}
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
-const AsRequestWrite = () => {
+const AsRequestWrite = ({rewrite}:Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
@@ -327,9 +331,9 @@ const AsRequestWrite = () => {
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Container>
         {!mobile ? (
-          <Header text={'A/S 요청하기'} colorselect={checkAll} />
+          <Header text={rewrite? 'A/S 수정하기' :'A/S 요청하기'} colorselect={checkAll} />
         ) : (
-          <WebHeader>A/S 요청하기</WebHeader>
+          <WebHeader>{rewrite? 'A/S 수정하기' :'A/S 요청하기'}</WebHeader>
         )}
         <TitleInputBox>
           <Label>제목</Label>
