@@ -79,7 +79,7 @@ const Main = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       {isModal && (
         <Modal
           text="검색 키워드를 입력해주세요"
@@ -133,7 +133,7 @@ const Main = () => {
         </Wrap>
       </ImageWrap2>
       <WebFooter />
-    </>
+    </Wrapper>
   );
 };
 
@@ -151,6 +151,31 @@ const CarouselWrap = styled.section`
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
+  }
+`;
+
+const Wrapper = styled.div`
+  @media (min-width: 900pt) {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      display: initial;
+      width: 7.5pt;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: rgba(33, 122, 244, 0.1);
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      /* background: #217af4; */
+      background-color: #5a2dc9;
+
+      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      border-radius: 7.5pt;
+      height: 15%;
+    }
   }
 `;
 
