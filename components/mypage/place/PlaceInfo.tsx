@@ -283,6 +283,7 @@ const Partner = styled.div`
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+  color: #222222;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -435,7 +436,7 @@ const WebRightPhotoBox = styled.div`
     width: 508.5pt;
     height: 330pt;
     border-radius: 12pt;
-    box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.2);
+    /* box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.2); */
     .imgBox {
       position: relative;
       border-radius: 12pt;
@@ -453,6 +454,7 @@ const FinishedPhotoText = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   margin-top: 39pt;
+  color: #222222;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -465,7 +467,8 @@ const FinishedPhotoText = styled.div`
 const FinishedPhotoBox = styled.div`
   width: 100%;
   height: 91.5pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
+  border: 0.75pt solid ${colors.lightGray};
   margin-top: 12pt;
   border-radius: 6pt;
   position: relative;
@@ -497,7 +500,7 @@ const Wrap = styled.div`
   justify-content: center;
   padding-bottom: 135pt;
   @media (min-width: 900pt) {
-    padding-bottom: 50pt;
+    display: none;
   }
 `;
 const FileLabel = styled.div`
@@ -509,6 +512,7 @@ const FileLabel = styled.div`
   text-align: left;
   margin-top: 39pt;
   padding-bottom: 15pt;
+  color: #222222;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;

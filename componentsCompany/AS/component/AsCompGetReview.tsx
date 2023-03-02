@@ -137,14 +137,16 @@ const RatingForm = styled.div`
 `;
 
 const RBarBox = styled.div`
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
+  border: 0.75pt solid #e2e5ed;
+  border-radius: 6pt;
   padding: 12pt;
   height: 10.5pt;
   display: flex;
   gap: 1.5pt;
   width: calc(50% - 32pt);
   background-color: #ffffff;
+  height: 36pt;
+  width: 269.25pt;
   & > .forRadius:first-of-type {
     border-radius: 6pt 0 0 6pt;
   }
