@@ -364,7 +364,7 @@ const Contents = styled.div`
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
-      line-height: 12pt;
+      line-height: 18pt;
       letter-spacing: -0.02em;
       //text-align: left;
     }
