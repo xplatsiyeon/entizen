@@ -120,10 +120,11 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 25.5pt 272.25pt;
+  /* padding: 25.5pt 272.25pt; */
+  margin: 0 auto;
   height: 66pt;
   /* box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2); */
-  width: 100%;
+  width: 895.5pt;
   /* border-bottom: 0.75pt solid #e9eaee; */
   box-sizing: border-box;
 

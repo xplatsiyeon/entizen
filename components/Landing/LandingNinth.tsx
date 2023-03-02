@@ -51,24 +51,33 @@ const LandingNinth = () => {
         </>
       ) : (
         <>
-          <Title>Our Partners</Title>
-          <UnderLeftText>
-            엔티즌과 함께 일상을 바꾸실
-            <br />
-            파트너분들을 찾습니다.
-          </UnderLeftText>
-          <RightBox
-            onClick={() => {
-              setMailOn(true);
-              setTimeout(function () {
-                setMailOn(false);
-              }, 2000);
-              handleCopyEmail('entizen@entizen.kr');
-            }}
-          >
-            <Image src={Arrow} />
-            <UnderRightText>제휴 문의</UnderRightText>
-          </RightBox>
+          <WebTopContainer>
+            <WebUnderBox>
+              <Title>Our Partners</Title>
+              <div></div>
+            </WebUnderBox>
+          </WebTopContainer>
+          <WebUnderContainer>
+            <WebUnderBox>
+              <UnderLeftText>
+                엔티즌과 함께 일상을 바꾸실
+                <br />
+                파트너분들을 찾습니다.
+              </UnderLeftText>
+              <RightBox
+                onClick={() => {
+                  setMailOn(true);
+                  setTimeout(function () {
+                    setMailOn(false);
+                  }, 2000);
+                  handleCopyEmail('entizen@entizen.kr');
+                }}
+              >
+                <Image src={Arrow} />
+                <UnderRightText>제휴 문의</UnderRightText>
+              </RightBox>
+            </WebUnderBox>
+          </WebUnderContainer>
           {mailOn && (
             <MailCopyBtn mailOn={mailOn}>
               문의 이메일 주소가 복사 되었습니다.
@@ -88,7 +97,6 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.span`
-  position: absolute;
   z-index: 10;
   /* font-family: 'Haan YHead B'; */
   font-family: 'Apple SD Gothic Neo';
@@ -103,6 +111,7 @@ const Title = styled.span`
   top: 57.75pt;
   left: 195pt;
   @media (max-width: 600pt) {
+    position: absolute;
     font-size: 10.5pt;
     line-height: 10.5pt;
     top: 30pt;
@@ -111,9 +120,10 @@ const Title = styled.span`
 `;
 
 const UnderLeftText = styled.span`
-  position: absolute;
+  /* position: absolute; */
   z-index: 10;
-  top: 202.5pt;
+  /* top: 202.5pt; */
+  bottom: 45pt;
   left: 195pt;
   font-family: 'Apple SD Gothic Neo';
   font-size: 19.5pt;
@@ -124,6 +134,7 @@ const UnderLeftText = styled.span`
   white-space: pre;
   color: #ffffff;
   @media (max-width: 600pt) {
+    position: absolute;
     font-size: 15pt;
     font-weight: 700;
     line-height: 24pt;
@@ -135,15 +146,16 @@ const UnderLeftText = styled.span`
 `;
 
 const RightBox = styled.div`
-  position: absolute;
+  /* position: absolute; */
   z-index: 10;
-  top: 232.5pt;
+  bottom: 45pt;
   right: 195pt;
   display: flex;
   align-items: center;
   gap: 9pt;
   cursor: pointer;
   @media (max-width: 600pt) {
+    position: absolute;
     top: 204pt;
     left: 24pt;
   }
@@ -193,4 +205,27 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
 
 const MobileImgBox = styled.div`
   height: 240pt;
+`;
+
+const WebUnderContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 200pt;
+`;
+
+const WebTopContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  top: 50pt;
+`;
+
+const WebUnderBox = styled.div`
+  width: 895.5pt;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

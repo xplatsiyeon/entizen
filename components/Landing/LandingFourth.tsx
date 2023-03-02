@@ -9,10 +9,7 @@ const LandingFourth = () => {
     <Wrapper>
       <TextBox>
         <MainText>
-          미리 알아보는 <br />
-          내 충전기 비용과 수익
-          <br />
-          엔티즌 도서관
+          미리 알아보는 <br />내 충전기 비용과 수익
         </MainText>
         <SubText>
           전기차 충전기를 충전용으로만 생각하셨나요?
@@ -21,7 +18,9 @@ const LandingFourth = () => {
         </SubText>
       </TextBox>
       <MobileImgBox>
-        <Image src={mainImg} />
+        <MobileScroll>
+          <Image src={mainImg} />
+        </MobileScroll>
       </MobileImgBox>
     </Wrapper>
   );
@@ -93,7 +92,19 @@ const SubText = styled.span`
 
 const MobileImgBox = styled.div`
   @media (max-width: 600pt) {
+    display: block;
+    overflow-x: scroll;
+    width: 100vw;
+  }
+`;
+
+const MobileScroll = styled.div`
+  @media (max-width: 600pt) {
     width: 750pt;
     margin-left: -90pt;
+    width: 675pt;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12pt;
   }
 `;

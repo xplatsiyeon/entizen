@@ -118,7 +118,13 @@ const Wrapper = styled.div`
 `;
 
 const Inner = styled.div`
-  padding: 0 272.25pt;
+  @media (min-width: 600.75pt) {
+    /* padding: 0 272.25pt; */
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
   @media (max-width: 600pt) {
     padding-left: 24pt;
     padding-right: 0;

@@ -181,8 +181,8 @@ const RollingmgTag = styled.img<{ slideIndex: number; transition: number }>`
     `}
   transform: ${({ slideIndex }) => `translateX(${slideIndex * 135}pt)`};
   @media (max-width: 600pt) {
-    width: 64px;
-    height: 64px;
+    width: 48pt;
+    height: 48pt;
     transform: ${({ slideIndex }) => `translateX(${slideIndex * 54}pt)`};
   }
 `;

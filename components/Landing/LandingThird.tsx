@@ -30,12 +30,14 @@ const LandingThird = () => {
             </TextBox>
           </MobileTextWrapper>
           <MobileImgContainer>
-            <ImgBox>
-              <Image src={LeftImg} />
-            </ImgBox>
-            <RightBox>
-              <Image src={RightImg} />
-            </RightBox>
+            <MobileScroll>
+              <ImgBox>
+                <Image src={LeftImg} />
+              </ImgBox>
+              <RightBox>
+                <Image src={RightImg} />
+              </RightBox>
+            </MobileScroll>
           </MobileImgContainer>
         </MobileWrapper>
       ) : (
@@ -78,6 +80,8 @@ const Wrapper = styled.div`
     padding-top: 60pt;
     overflow-x: hidden;
     padding-bottom: 0;
+    /* width: 100vw; */
+    width: 100%;
     /* width: 800px; */
   }
 `;
@@ -100,7 +104,7 @@ const ImgBox = styled.div`
 
 const RightBox = styled.div`
   @media (max-width: 600pt) {
-    width: 262.5pt;
+    width: 300pt;
   }
 `;
 
@@ -154,12 +158,25 @@ const SubText = styled.span`
 `;
 
 const MobileImgContainer = styled.div`
-  display: flex;
+  /* display: flex; */
   /* align-items: center; */
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  overflow-x: scroll;
+
+  width: 100vw;
 `;
 
 const MobileWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  /* width: 100vw; */
+`;
+
+const MobileScroll = styled.div`
+  @media (max-width: 600pt) {
+    width: 675pt;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12pt;
+  }
 `;
