@@ -36,9 +36,7 @@ const Quotation1_1 = () => {
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출
-    alert(userAgent);
     if (userAgent === 'Android_App') {
-      alert('안드로이드 호출')
       window.onClickBackButton = () => HandleModal();
     }
   }, []);
