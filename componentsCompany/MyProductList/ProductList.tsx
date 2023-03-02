@@ -88,8 +88,6 @@ const ProductList = (props: Props) => {
   //   }
   // }, [data]);
 
-  console.log('isData.length', data?.chargerProduct?.length);
-
   return (
     <>
       <Wrapper>
@@ -177,7 +175,7 @@ const ProductList = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 27pt;
+  /* padding-top: 27pt; */
   padding-left: 17.25pt;
   padding-right: 17.25pt;
   display: flex;
@@ -203,6 +201,7 @@ const ListBox = styled.div`
     width: 580.5pt;
     margin: 0 auto;
     padding: 17.25pt;
+    height: 88.5pt;
   }
 `;
 

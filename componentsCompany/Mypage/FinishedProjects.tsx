@@ -185,7 +185,7 @@ const FilterBox = styled.div`
   gap: 6pt;
   align-items: center;
   justify-content: end;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 500;
   line-height: 12pt;
@@ -262,22 +262,25 @@ const List = styled.div`
     height: 76.5pt;
   }
   padding: 12.75pt 13.5pt;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
   border-radius: 6pt;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (min-width: 900pt) {
+    border-radius: 12pt;
+  }
 `;
 
 const ListContainer = styled.div`
   margin-top: 21pt;
   /* padding-left: 15pt;
   padding-right: 15pt; */
+  gap: 9pt;
   @media (min-width: 900pt) {
     margin: 0 auto;
-    gap: 10pt;
   }
 `;
 
@@ -285,7 +288,6 @@ const ListTextBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5pt;
-
   width: 100%;
 
   @media (min-width: 900pt) {
@@ -298,23 +300,37 @@ const ListTextBox = styled.div`
 `;
 
 const ListTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
   @media (max-width: 899.25pt) {
     padding-top: 20pt;
+    font-size: 12pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const ListDate = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
+  @media (max-width: 899.25pt) {
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const ListIconBox = styled.div`
   width: 18pt;
@@ -322,7 +338,7 @@ const ListIconBox = styled.div`
   position: relative;
   margin-left: 40pt;
   @media (max-width: 899.25pt) {
-    margin-left: 95%;
+    margin-left: 93%;
     bottom: 28pt;
   }
   @media (min-width: 900pt) {
@@ -340,12 +356,12 @@ const ListRight = styled.div`
 const Button = styled.div`
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
   color: #a6a9b0;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
