@@ -37,6 +37,7 @@ const Quotation1_1 = () => {
   useLayoutEffect(() => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
+      alert('안드로이드 호출')
       window.onClickBackButton = () => HandleModal();
     }
   }, []);
