@@ -796,6 +796,9 @@ const InputBox = styled.div`
   flex-direction: column;
   position: relative;
   margin-top: 30pt;
+  @media (min-width: 900pt) {
+    gap: 23.25pt;
+  }
   .titleText {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;

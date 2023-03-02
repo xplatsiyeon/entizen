@@ -551,7 +551,6 @@ const DateText = styled(Typography)`
 const BtnBox = styled.div<{ listUp: boolean }>`
   display: ${({ listUp }) => (listUp ? 'none' : 'flex')};
   justify-content: center;
-
   width: 100%;
   padding-bottom: 76.5pt;
 `;

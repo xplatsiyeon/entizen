@@ -18,6 +18,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
+import CommunicationBox from 'components/CommunicationBox';
 
 export interface testArr2 extends testArr {
   address: string;
@@ -143,6 +144,15 @@ const ChargingPlace = () => {
                       )}
                     </>
                   )}
+                  <CommuWrap>
+                    <CommunicationBox
+                      text="파트너와 소통하기"
+                      id={
+                        chargingData?.chargingStations[0]?.companyMember
+                          ?.memberIdx
+                      }
+                    />
+                  </CommuWrap>
                 </RightBox>
               </Wrap2>
             ) : null}
@@ -176,8 +186,9 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
   height: 100%;
-  margin: 60pt auto;
 
+  margin: 60pt auto;
+  margin-bottom: 90pt;
   @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
@@ -238,13 +249,16 @@ const HeaderWrap = styled.div`
 
 const BtnMob = styled.button`
   width: 100%;
-  background-color: ${colors.main};
+  /* background-color: ${colors.main}; */
+  background-color: white;
+  border: 0.75pt solid #e2e5ed;
   padding: 15pt 0;
   border-radius: 6pt;
   position: absolute;
   bottom: 30pt;
   span {
-    color: white;
+    /* color: white; */
+    color: #a6a9b0;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 700;
@@ -266,6 +280,16 @@ const BtnMob = styled.button`
 const BtnWeb = styled(BtnMob)`
   display: block;
   cursor: pointer;
+  margin-top: 110px;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const CommuWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40pt;
   @media (max-width: 899.25pt) {
     display: none;
   }

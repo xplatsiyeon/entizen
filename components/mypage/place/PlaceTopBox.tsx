@@ -209,16 +209,18 @@ export default PlaceTopBox;
 const Wrapper = styled.div`
   display: block;
   border-top: none;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
-  margin-top: 6pt;
   border-radius: 12pt;
 
   /* border-top: 1px solid #e2e5ed; */
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
+    margin-top: 6pt;
+    border-radius: 0;
+    box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
   }
 `;
 
@@ -239,6 +241,10 @@ const StoreName = styled(ListItemText)`
   padding-top: 6pt;
   padding-bottom: 16.5pt;
   margin-top: 4.5pt;
+  @media (min-width: 900pt) {
+    padding-top: 0;
+    margin-top: 27pt;
+  }
   & div {
     margin-top: 12pt;
     display: flex;
@@ -252,7 +258,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-  font-family: 'Spoqa Han Sans Neo'!important;
+    font-family: 'Spoqa Han Sans Neo' !important;
   }
   & div > img {
     display: flex;
@@ -330,7 +336,7 @@ const Contents = styled.div`
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
-     // text-align: left;
+      // text-align: left;
     }
   }
 
