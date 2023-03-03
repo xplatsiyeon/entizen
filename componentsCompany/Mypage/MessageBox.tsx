@@ -35,7 +35,7 @@ const MessageBox = ({
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
       <LeftSideBox presentProgress={presentProgress}>
         <BigText>{title}</BigText>
-        <List>
+        <List presentProgress={presentProgress}>
           <li>{firstText}</li>
           <li>{secondText}</li>
           {thirdText && <li>{thirdText}</li>}
@@ -69,7 +69,6 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   display: flex;
   justify-content: space-between;
   position: relative;
-
   cursor: pointer;
 
   @media (min-width: 900pt) {
@@ -82,7 +81,7 @@ const LeftSideBox = styled.div<{ presentProgress: boolean }>`
   flex-direction: column;
   gap: 6pt;
   width: 100%;
-  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
+  //opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
 `;
 
 const BigText = styled.div`
@@ -103,7 +102,7 @@ const BigText = styled.div`
   }
 `;
 
-const List = styled.div`
+const List = styled.div<{ presentProgress: boolean }>`
   display: flex;
   flex-direction: column;
   font-family: 'Spoqa Han Sans Neo';
@@ -112,7 +111,7 @@ const List = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
-
+  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
   & li {
     /* color: #747780; */
     color: #222222;
