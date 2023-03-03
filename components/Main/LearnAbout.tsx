@@ -138,6 +138,11 @@ const Wrapper = styled.div`
     margin: 30pt 0 0;
     overflow-x: scroll;
   }
+  @media (max-width: 337.5pt) {
+    width: auto;
+    margin: 30pt 0 0;
+    overflow-x: scroll;
+  }
 `;
 
 const LearnText = styled(Typography)`
@@ -162,14 +167,20 @@ const LearnCarousel = styled.div`
   padding: 10pt 7.5pt;
   @media (max-width: 899.25pt) {
     margin-top: 12pt;
-    padding: 0;
+    padding: 5px;
   }
 `;
 
 const TabBox = styled.div`
-  display: grid;
+  /* display: grid;
   gap: 12pt;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); */
+  display: flex;
+  gap: 12pt;
+  //자식 박스가 105p가 되는 지점,
+  @media (max-width: 502.5pt) {
+    width: 457.5pt;
+  }
 `;
 
 const Item = styled.div<{ borders: number }>`
@@ -184,6 +195,12 @@ const Item = styled.div<{ borders: number }>`
   position: relative;
   cursor: pointer;
   @media (max-width: 899.25pt) {
+    min-width: 105pt; //점차 작아지다가 105pt에서 스톱.
+    height: 153pt;    
+    padding-top: 12pt;
+    padding-left: 12pt;
+  }
+  @media (max-width: 502.5pt) {
     width: 105pt;
     height: 153.75pt;
     padding-top: 12pt;
