@@ -567,8 +567,8 @@ const Btn = styled(Button)`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
-
   cursor: pointer;
+
   @media (max-width: 899.25pt) {
     padding: 9pt 30pt;
     font-size: 9pt;
@@ -576,6 +576,13 @@ const Btn = styled(Button)`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+
+  &:hover{
+    background: ${colors.main}!important;
+  }
+  .MuiTouchRipple-root{
+    display: none!important;
   }
 `;
 

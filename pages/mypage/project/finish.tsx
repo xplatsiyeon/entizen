@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import WhyEntizenHorizontal from 'components/Main/WhyEntizenHorizontal';
 import MypageHeader from 'components/mypage/request/header';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -17,6 +16,7 @@ import { changeDataFn } from 'utils/calculatePackage';
 import CheckImg from '/public/images/CheckCircle.svg';
 import { isTokenGetApi } from 'api';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import WhyEntizenHorizontal2 from 'components/Main/WhyEntizenHorizontal2';
 
 const FinPage = () => {
   const router = useRouter();
@@ -108,7 +108,7 @@ const FinPage = () => {
 
   switch (projectData?.project?.isApprovedByAdmin) {
     case false:
-      title = '엔티즌에서 프로젝트 확인 후 최종 완료됩니다';
+      title = '엔티즌에서 프로젝트 확인 후\n 최종 완료됩니다';
       date = '완료 동의일';
       text = '';
       btnP = '엔티즌과 소통하기';
@@ -152,11 +152,11 @@ const FinPage = () => {
                   {changeDataFn(projectData?.project?.subscribeStartDate!)}
                 </h3>
               )}
-              <p className="notice">{text}</p>
+              {projectData?.project?.isApprovedByAdmin && <p className="notice">{text}</p>}
             </TextBox>
             <Btn onClick={HandleOnClick}>{btnP}</Btn>
           </Wrap>
-          <WhyEntizenHorizontal />
+          <WhyEntizenHorizontal2 />
         </Inner>
         <WebFooter />
       </Body>
@@ -222,10 +222,13 @@ const ContainerBox = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   white-space: pre-wrap;
   font-weight: 700;
-  font-size: 18pt;
-  line-height: 24pt;
+  font-size: 25.5pt;
+  line-height: 37.5pt;
+  letter-spacing: -0.02em;
+  color: #222222;
   margin-top: 30pt;
   text-align: center;
   @media (min-width: 900pt) {
@@ -256,14 +259,14 @@ const TextBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  gap: 3pt;
-  padding: 15pt 0;
+  padding: 19.5pt 0;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
   margin: 90pt 15pt 24pt;
+  font-family: 'Spoqa Han Sans Neo';
   & > h3 {
     font-weight: 700;
-    font-size: 15pt;
+    font-size: 18pt;
     line-height: 15pt;
     text-align: center;
     letter-spacing: -0.02em;
@@ -272,8 +275,9 @@ const TextBox = styled.div`
   & > p {
     white-space: pre-wrap;
     font-weight: 400;
-    font-size: 10.5pt;
-    line-height: 18pt;
+    font-size: 12pt;
+    line-height: 12pt;
+    margin-bottom: 12pt;
     text-align: center;
     letter-spacing: -0.02em;
     color: #222222;

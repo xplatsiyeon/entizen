@@ -3,18 +3,21 @@ import React from 'react';
 import styled from '@emotion/styled';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 // AS 요청
 const AsRequest = (props: Props) => {
+  const router = useRouter()
+  const query = router.query.afterSalesServiceIdx;
   return (
     <React.Fragment>
       <Body className="target">
         <WebHeader />
         <Inner>
           <Wrapper>
-            <AsRequestWrite />
+            <AsRequestWrite rewrite={Boolean(query)}/>
           </Wrapper>
         </Inner>
         <WebFooter />

@@ -74,7 +74,7 @@ const Nav = styled.div`
   padding-top: 15pt;
 
   @media (min-width: 900pt) {
-    margin-bottom: 22.5pt;
+    display: none;
   }
 `;
 const IconWrap = styled.div`
