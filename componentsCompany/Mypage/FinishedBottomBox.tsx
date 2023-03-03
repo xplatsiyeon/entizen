@@ -166,7 +166,10 @@ const ImageBox = styled.div`
   position: relative;
 `;
 const ReviewBox = styled.div`
-  padding-bottom: 87pt;
+  padding-bottom: 63pt;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 48pt;
+  }
 `;
 const BiggerText = styled.div`
   margin-top: 37.5pt;
@@ -176,6 +179,7 @@ const BiggerText = styled.div`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
+  color: #222222;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
@@ -285,6 +289,8 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #0057ff;
+    border-bottom: 0.75pt solid #0057ff;
     @media (max-width: 899.25pt) {
       display: none;
     }
@@ -314,7 +320,8 @@ const FileName = styled.div`
   font-size: 10.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${colors.dark2};
+  /* color: ${colors.dark2}; */
+  color: #747780;
   text-overflow: ellipsis;
   overflow: hidden;
 `;

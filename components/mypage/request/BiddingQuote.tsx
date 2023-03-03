@@ -433,7 +433,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           </>
         )}
         <Line style={{ marginTop: '30pt' }} />
-        <Section className='borderOn'>
+        <Section className="borderOn">
           <Subtitle>특장점</Subtitle>
           <FlexWrap>
             <Label>구독 상품</Label>
@@ -599,10 +599,10 @@ const Section = styled.section<{
     `};
 
   @media (max-width: 899.25pt) {
-    margin:0 15pt;
+    margin: 0 15pt;
 
-    &.borderOn{
-      border-top : 0.75pt solid #E9EAEE;;
+    &.borderOn {
+      border-top: 0.75pt solid #e9eaee;
     }
   }
 
@@ -875,8 +875,10 @@ const FeaturesList = styled.ol`
   list-style-position: inside;
   flex: 2;
   list-style: none;
+
   & li {
     @media (min-width: 900pt) {
+      word-break: break-all;
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
@@ -889,6 +891,7 @@ const FeaturesList = styled.ol`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    word-break: break-all;
     :not(:nth-of-type(1)) {
       padding-top: 2pt;
     }

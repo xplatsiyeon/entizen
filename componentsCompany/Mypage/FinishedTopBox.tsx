@@ -248,13 +248,17 @@ const FinishedTopBox = ({ data }: Props) => {
 const Wrapper = styled.div`
   display: block;
   border-top: none;
-  box-shadow:0px 0px 10px rgba(137, 163, 201, 0.2);
-  padding-left: 15pt;
-  padding-right: 15pt;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  padding-left: 26.25pt;
+  padding-right: 20.25pt;
   border-radius: 12pt;
+
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    border-radius: 0;
   }
 `;
 const ItemButton = styled(ListItemButton)`
@@ -262,8 +266,8 @@ const ItemButton = styled(ListItemButton)`
   justify-content: center;
   align-items: center;
   padding: 0;
-  &:hover{
-    background: transparent!important;
+  &:hover {
+    background: transparent !important;
   }
   .MuiTouchRipple-root {
     display: none;
@@ -290,12 +294,18 @@ const StoreName = styled(ListItemText)`
     justify-content: center;
     font-family: ' Spoqa Han Sans Neo';
     font-size: 9pt;
-    width: 70pt;
+    width: 80.25pt;
     font-weight: 500;
     line-height: 9pt;
     letter-spacing: -0.02em;
     text-align: center;
     border-radius: 12pt;
+    @media (min-width: 900pt) {
+      width: 88.5pt;
+      padding: 6pt 9pt;
+      font-size: 10.5pt;
+      line-height: 9pt;
+    }
   }
   & div > h1 {
     font-weight: 700;

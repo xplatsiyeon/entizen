@@ -222,6 +222,11 @@ const Wrapper = styled.div`
     border-radius: 0;
     box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
   }
+
+  @media (min-width: 900pt) {
+    padding-left: 26.25pt;
+    padding-right: 26.25pt;
+  }
 `;
 
 const ItemButton = styled(ListItemButton)`
