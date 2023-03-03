@@ -150,12 +150,15 @@ const Contents = styled.div`
   display: flex;
   margin-bottom: 9pt;
   justify-content: space-between;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
     /* padding: 29.3pt 13.5pt; */
     padding: 19.3pt 13.5pt 29.3pt 13.5pt;
+    width: 178.5pt;
+    height: 114pt;
+    border-radius: 12pt;
   }
 `;
 
@@ -172,12 +175,12 @@ const DdayNAddress = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
   }
 `;
 
 const AddressBox = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 12pt;
   font-weight: 700;
@@ -186,8 +189,17 @@ const AddressBox = styled.div`
   text-align: left;
   margin-top: 12pt;
   color: ${colors.main2};
+  white-space: nowrap;
   @media (min-width: 900pt) {
     padding-top: 10pt;
+    font-size: 13.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    width: 155pt;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 
