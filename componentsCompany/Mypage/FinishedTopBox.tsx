@@ -248,7 +248,7 @@ const FinishedTopBox = ({ data }: Props) => {
 const Wrapper = styled.div`
   display: block;
   border-top: none;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 26.25pt;
   padding-right: 20.25pt;
   border-radius: 12pt;
@@ -346,7 +346,7 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  /* border-bottom: 0.75pt solid #e9eaee; */
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -438,7 +438,7 @@ const MultiSection = styled.div`
   }
 `;
 const BorderTop = styled.div`
-  border-top: 1px solid #e9eaee;
+  border-top: 0.75pt solid #e9eaee;
   padding: 0 15pt;
   padding-bottom: 15pt;
 `;

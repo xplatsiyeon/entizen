@@ -74,7 +74,7 @@ const TopBox = ({
         {/* Open */}
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <Contents>
+            <Contents top={true}>
               <div className="text-box">
                 <span className="name">프로젝트 번호</span>
                 <span className="text">{data?.project?.projectNumber}</span>
@@ -190,7 +190,7 @@ const TopBox = ({
             </Contents>
             {type === 'COMPANY' ? (
               <Contents>
-                <Partner>파트너 정보</Partner>
+                <Partner>고객 정보</Partner>
                 <div className="text-box">
                   <span className="name">이름</span>
                   <span className="text">
@@ -249,10 +249,10 @@ const TopBox = ({
 };
 
 const CustomerRequestContent = styled.div`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 20px;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 15pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   color: ${colors.main};
@@ -262,14 +262,16 @@ const CustomerRequestContent = styled.div`
 const Wrapper = styled.div`
   display: block;
   border-top: none;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  padding-left: 15pt;
-  padding-right: 15pt;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  padding-left: 26.25pt;
+  padding-right: 26.25pt;
   margin-top: 6pt;
   border-radius: 12pt;
   /* border-top: 1px solid #e2e5ed; */
 
   @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
     display: flex;
     flex-direction: column;
     border-radius: 0;
@@ -284,8 +286,8 @@ const ItemButton = styled(ListItemButton)`
   &div {
     margin: 0;
   }
-  &:hover{
-    background: transparent!important;
+  &:hover {
+    background: transparent !important;
   }
   .MuiTouchRipple-root {
     display: none;
@@ -310,7 +312,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    font-family: 'Spoqa Han Sans Neo'!important;
+    font-family: 'Spoqa Han Sans Neo' !important;
   }
   & div > img {
     display: flex;
@@ -335,10 +337,14 @@ const ArrowImg = styled.div`
   height: 18pt;
 `;
 
-const Contents = styled.div`
+const Contents = styled.div<{ top?: boolean }>`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
+  @media (min-width: 900pt) {
+    padding-bottom: 30pt;
+    padding-top: ${({ top }) => (top === true ? '7.5pt' : '30pt')};
+  }
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -428,6 +434,8 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: right;
+    border-bottom: 0.75pt solid #0057ff;
+    color: #0057ff;
     @media (max-width: 899.25pt) {
       display: none;
     }
@@ -488,7 +496,7 @@ const ElseText = styled.div<{ dataLength: number }>`
       font-weight: 400;
       line-height: 12pt;
       letter-spacing: -0.02em;
-     //text-align: left;
+      //text-align: left;
     }
   }
 `;
@@ -501,6 +509,15 @@ const Partner = styled.div`
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 9pt;
+  color: #222222;
+
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 export default TopBox;
