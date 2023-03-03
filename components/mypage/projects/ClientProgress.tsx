@@ -82,6 +82,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     };
   }, [nowWidth]);
 
+  initToggle = [true, true, true, true, true];
+
   switch (badge) {
     case '계약대기':
       textArr =
@@ -98,7 +100,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '충전기 검수를 진행해주세요.',
               '프로젝트를 완료해주세요.',
             ];
-      initToggle = [false, false, false, false, false];
+      //initToggle = [false, false, false, false, false];
       break;
 
     case '준비 중':
@@ -117,7 +119,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      initToggle = [false, true, false, false, false];
+      //initToggle = [false, true, false, false, false];
       break;
 
     case '설치 중':
@@ -136,7 +138,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      initToggle = [false, false, true, false, false];
+      //initToggle = [false, false, true, false, false];
       break;
 
     case '검수 중':
@@ -155,7 +157,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      initToggle = [false, false, false, true, false];
+      //initToggle = [false, false, false, true, false];
       break;
 
     case '완료 중':
@@ -174,7 +176,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      initToggle = [false, false, false, false, true];
+      //initToggle = [false, false, false, false, true];
 
       break;
 
@@ -194,7 +196,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트 완료 진행중입니다.',
             ];
 
-      initToggle = [false, false, false, false, true];
+      //initToggle = [false, false, false, false, true];
 
       break;
 
@@ -214,7 +216,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      initToggle = [false, false, false, false, false];
+      //initToggle = [false, false, false, false, false];
   }
 
   type ModalType = 'finish' | 'change';
@@ -968,16 +970,16 @@ const ContractBtnBox = styled.div`
   padding-left: 27pt;
   & div {
     display: flex;
-    justify-content: center;
-    padding-top: 15pt;
-    padding-bottom: 15pt;
+    justify-content: flex-start;
+    padding-top: 20pt;
+    padding-bottom: 20pt;
+    padding-left: 27pt;
     width: 100%;
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 10.5pt;
+    font-size: 12pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
-    text-align: center;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
     color: #a6a9b0;
@@ -985,6 +987,7 @@ const ContractBtnBox = styled.div`
 `;
 
 const ClientP = styled.div<{ presentProgress: boolean }>`
+  
   box-shadow: ${({ presentProgress }) =>
     !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
   border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};

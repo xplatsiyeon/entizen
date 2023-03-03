@@ -109,7 +109,7 @@ const FinPage = () => {
   switch (projectData?.project?.isApprovedByAdmin) {
     case false:
       title = '엔티즌에서 프로젝트 확인 후\n 최종 완료됩니다';
-      date = '완료 동의일';
+      date = '완료 요청일';
       text = '';
       btnP = '엔티즌과 소통하기';
       break;
@@ -259,7 +259,7 @@ const TextBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 19.5pt 0;
+  padding: 21pt 0;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
   margin: 90pt 15pt 24pt;
