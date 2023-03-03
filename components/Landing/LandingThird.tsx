@@ -120,7 +120,7 @@ const MobileTextWrapper = styled.div`
 `;
 
 const MainText = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 37.5pt;
   font-weight: 700;
   line-height: 52.5pt;
@@ -139,7 +139,7 @@ const MainText = styled.span`
 
 const SubText = styled.span`
   padding-top: 30pt;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 15pt;
   font-weight: 500;
   line-height: 25.5pt;

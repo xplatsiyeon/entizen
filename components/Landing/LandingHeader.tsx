@@ -77,7 +77,7 @@ const Button = styled.div`
     gap: 0;
   }
   .text {
-    font-family: 'Apple SD Gothic Neo';
+    font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
     font-size: 10.5pt;
     font-weight: 800;
     line-height: 13.5pt;
@@ -118,7 +118,7 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   left: 30%;
   z-index: 100;
   padding: 16pt 49.5pt;
-  font-family: 'Spoqa Han Sans Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-weight: 500;
   font-size: 12pt;
   line-height: 15pt;

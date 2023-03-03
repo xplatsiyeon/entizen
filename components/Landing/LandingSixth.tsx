@@ -167,7 +167,7 @@ const ImgTag = styled.img`
 `;
 
 const MainText = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 37.5pt;
   font-weight: 700;
   line-height: 52.5pt;
@@ -193,7 +193,7 @@ const TextBox = styled.div`
 `;
 
 const Step = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 15pt;
   font-weight: 500;
   line-height: 15pt;
@@ -210,7 +210,7 @@ const Step = styled.span`
 `;
 
 const SubText = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 15pt;
   font-weight: 800;
   line-height: 22.5pt;

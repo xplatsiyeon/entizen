@@ -102,7 +102,7 @@ const Box = styled.div`
 
 const MainText = styled.span`
   padding-bottom: 60pt;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 37.5pt;
   font-weight: 700;
   line-height: 52.5pt;
@@ -121,7 +121,7 @@ const MainText = styled.span`
 `;
 
 const Title = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 19.5pt;
   font-weight: 800;
   line-height: 31.5pt;
@@ -140,7 +140,7 @@ const Title = styled.span`
 `;
 
 const SubTitle = styled.span`
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 15pt;
   font-weight: 500;
   line-height: 25.5pt;

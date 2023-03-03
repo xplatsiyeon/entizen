@@ -115,7 +115,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                 ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
-                <span className='text'>{`${Math.floor(
+                <span className="text">{`${Math.floor(
                   Number(
                     data?.sendQuotationRequest?.quotationRequest?.investRate!,
                   ) * 100,
@@ -227,9 +227,9 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
 
 const CustomerRequestContent = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 20px;
+  font-size: 15pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
   color: ${colors.main};
@@ -238,16 +238,16 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 4px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;
-  border-top: 1px solid #e2e5ed;
+  border-top: 0.75pt solid #e2e5ed;
   display: flex;
   flex-direction: column;
   @media (min-width: 900pt) {
     border-radius: 12pt;
-    margin-top: 0;
+    padding-top: 6pt;
     border-top: 0;
     padding-left: 26.25pt;
     padding-right: 26.25pt;
@@ -315,7 +315,7 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   .text-box {
     display: flex;
     justify-content: space-between;
@@ -448,6 +448,5 @@ const ElseText = styled.div`
     margin-bottom: 12pt;
   }
 `;
-
 
 export default TopBox;
