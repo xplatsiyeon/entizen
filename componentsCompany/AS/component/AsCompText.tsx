@@ -729,11 +729,13 @@ const Items = styled.li`
     margin-top: 12pt;
   }
   .name {
-    width: 20%;
+    font-family: 'Spoqa Han Sans Neo';
+    /* width: 20%; */
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    flex: 1;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
@@ -744,7 +746,8 @@ const Items = styled.li`
     }
   }
   .value2 {
-    width: 80%;
+    font-family: 'Spoqa Han Sans Neo';
+    /* width: 80%; */
     font-size: 10.5pt;
     font-weight: 500;
     font-size: 10.5pt;
@@ -752,11 +755,12 @@ const Items = styled.li`
     text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    display: flex;
+    flex: 3;
+    /* display: flex;
     gap: 6pt;
     flex-direction: column;
     justify-content: start;
-    position: relative;
+    position: relative; */
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
@@ -767,7 +771,7 @@ const Items = styled.li`
     }
   }
   .value {
-    width: 80%;
+    /* width: 80%; */
     font-size: 10.5pt;
     font-weight: 500;
     font-size: 10.5pt;
@@ -775,11 +779,12 @@ const Items = styled.li`
     text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    display: flex;
+    /* display: flex;
     gap: 6pt;
     flex-direction: column;
     justify-content: start;
-    position: relative;
+    position: relative; */
+    flex: 3;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;

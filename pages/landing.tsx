@@ -14,40 +14,51 @@ import LandingNinth from 'components/Landing/LandingNinth';
 import Image from 'next/image';
 import UpArrow from 'public/Landing/LandingFooterUpArrow.svg';
 import UpArrowMobile from 'public/Landing/LandingNinthArrowMobile.svg';
+import { Fragment } from 'react';
+import Head from 'next/head';
 
 const Landing = () => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  // font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   return (
-    <WebBody>
-      <LandingHeader />
-      <Inner>
-        <LandingFirstSlider />
-        <LandingSecondPart />
-        <LandingThird />
-        <LandingFourth />
-        <LandingFifth />
-        <LandingSixth />
-        <LandingSeventh />
-        <LandingEighth />
-        <LandingNinth />
-      </Inner>
-      <Footer>
-        <CopyText>
-          Copyright ⓒ 2023 LS ELECTRIC Co., Ltd. All Rights Reserved.
-        </CopyText>
-        <Button
-          onClick={() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          <Image src={mobile ? UpArrowMobile : UpArrow} />
+    <Fragment>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="//cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css"
+        />
+      </Head>
+      <WebBody>
+        <LandingHeader />
+        <Inner>
+          <LandingFirstSlider />
+          <LandingSecondPart />
+          <LandingThird />
+          <LandingFourth />
+          <LandingFifth />
+          <LandingSixth />
+          <LandingSeventh />
+          <LandingEighth />
+          <LandingNinth />
+        </Inner>
+        <Footer>
+          <CopyText>
+            Copyright ⓒ 2023 LS ELECTRIC Co., Ltd. All Rights Reserved.
+          </CopyText>
+          <Button
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            <Image src={mobile ? UpArrowMobile : UpArrow} />
 
-          <BtnText>TOP</BtnText>
-        </Button>
-      </Footer>
-    </WebBody>
+            <BtnText>TOP</BtnText>
+          </Button>
+        </Footer>
+      </WebBody>
+    </Fragment>
   );
 };
 
@@ -140,7 +151,9 @@ const Footer = styled.div`
 `;
 
 const CopyText = styled.span`
-  font-family: 'Haan YHead L';
+  /* font-family: 'Haan YHead L'; */
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 19.5pt;
@@ -172,7 +185,9 @@ const Button = styled.div`
   }
 `;
 const BtnText = styled.span`
-  font-family: 'Haan YHead M';
+  /* font-family: 'Haan YHead M'; */
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-size: 7.5pt;
   font-weight: 400;
   line-height: 7.5pt;

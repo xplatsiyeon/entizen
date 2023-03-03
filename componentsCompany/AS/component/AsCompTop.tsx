@@ -252,14 +252,18 @@ export default AsCompTop;
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
-  padding-left: 15pt;
-  padding-right: 15pt;
+  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  padding-left: 26.25pt;
+  padding-right: 26.25pt;
   border-radius: 12pt;
+  padding-top: 6pt;
   @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
     display: flex;
     flex-direction: column;
     border-radius: 0;
+    padding-top: 0;
   }
 `;
 const ItemButton = styled(ListItemButton)`
@@ -294,7 +298,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    font-family: 'Spoqa Han Sans Neo'!important;
+    font-family: 'Spoqa Han Sans Neo' !important;
   }
   & div > img {
     display: flex;
@@ -339,6 +343,7 @@ const Contents = styled.div`
   }
 
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -354,6 +359,7 @@ const Contents = styled.div`
     }
   }
   .text {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -383,7 +389,7 @@ const Contents = styled.div`
   }
 `;
 const BorderTop = styled.div`
-  border-top: 1px solid #e9eaee;
+  border-top: 0.75pt solid #e9eaee;
   padding: 0 15pt;
   padding-bottom: 15pt;
 `;
@@ -410,6 +416,7 @@ const Item = styled.li`
     padding-top: 12pt;
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -418,6 +425,7 @@ const Item = styled.li`
     flex: 1;
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -440,6 +448,7 @@ const Item = styled.li`
 `;
 
 const Subtitle = styled.h2`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;

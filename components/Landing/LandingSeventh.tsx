@@ -119,7 +119,7 @@ const SlideWrap = styled.div`
 const P = styled.p`
   margin-left: 15.5%;
   white-space: pre;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 37.5pt;
@@ -209,7 +209,7 @@ const ImgTag = styled(SwiperSlide)`
 const ImgText = styled.span`
   position: absolute;
   z-index: 10;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   font-size: 19.5pt;
   font-weight: 800;
   line-height: 31.5pt;

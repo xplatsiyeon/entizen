@@ -306,6 +306,7 @@ const ImageBox = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
@@ -380,6 +381,7 @@ const Item = styled.li`
   }
 
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -395,6 +397,7 @@ const Item = styled.li`
     }
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -424,6 +427,7 @@ const Item = styled.li`
   }
 `;
 const Subtitle = styled.h2`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -456,6 +460,7 @@ const FlexWrap = styled.div`
   }
 `;
 const Label = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -483,6 +488,7 @@ const Label = styled.h3`
   }
 `;
 const FeaturesList = styled.ol`
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
@@ -498,6 +504,7 @@ const FeaturesList = styled.ol`
       letter-spacing: -0.02em;
       text-align: left;
     }
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 18pt;

@@ -260,6 +260,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
                   <br />
                 </li>
               ))} */}
+
             {
               data?.sendQuotationRequest?.preQuotation?.finalQuotation
                 ?.subscribeProductFeature
@@ -387,6 +388,7 @@ const ImageBox = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
@@ -521,6 +523,7 @@ const Item = styled.li`
   }
 `;
 const Subtitle = styled.h2`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -553,6 +556,7 @@ const FlexWrap = styled.div`
   }
 `;
 const Label = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -587,6 +591,7 @@ const FeaturesList = styled.ol`
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+  color: #222222;
   & li {
     list-style: none;
     @media (min-width: 900pt) {

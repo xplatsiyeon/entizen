@@ -174,3 +174,10 @@ input::placeholder {
 .Mui-focused fieldset {
   border-color: #5221cb;
 }
+@font-face {
+  font-family: 'AppleGothicNeo';
+  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AnyConv.com__AppleSDGothicNeoB.woff')
+    format('woff');
+  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AppleSDGothicNeoB.ttf')
+    format('truetype');
+}

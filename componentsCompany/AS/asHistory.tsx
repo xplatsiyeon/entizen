@@ -242,6 +242,7 @@ const ListBox = styled.div`
   margin-bottom: 9pt;
   @media (min-width: 900pt) {
     padding: 21.75pt 26.25pt;
+    border-radius: 12pt;
   }
 `;
 const StoreName = styled.p`
