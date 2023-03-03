@@ -143,7 +143,7 @@ const WebBody = styled.div`
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
     margin: 0 auto;
-    padding: 54pt 0;
+    padding-top: 54pt;
     width: 900pt;
     display: flex;
     justify-content: space-between;
@@ -200,6 +200,6 @@ const CommunicationWrapper = styled.div`
 
   @media (max-width: 900pt) {
     padding-top: 3pt;
-    padding-bottom: 159pt;
+    padding-bottom: 113.25pt;
   }
 `;

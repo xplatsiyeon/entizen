@@ -287,13 +287,15 @@ const Body = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  padding-left: 15pt;
-  padding-right: 15pt;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  padding-left: 26.25pt;
+  padding-right: 26.25pt;
   border-radius: 12pt;
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 
@@ -337,7 +339,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    font-family: 'Spoqa Han Sans Neo'!important;
+    font-family: 'Spoqa Han Sans Neo' !important;
   }
   & div > img {
     display: flex;

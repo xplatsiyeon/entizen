@@ -11,6 +11,7 @@ import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   pb?: number;
@@ -18,6 +19,9 @@ interface Props {
 }
 const TAG = 'components/mypage/as/AsRequestPartner.tsx';
 const AsRequestPartner = ({ pb, data }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [modalOpen, setModalOpen] = useState<boolean>();
@@ -94,7 +98,13 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Item>
         </List>
         {/* ---------------------접수 내용-------------------- */}
-        <ReceiptTitle>접수내용</ReceiptTitle>
+        <ReceiptTitle
+          style={{
+            paddingTop: mobile ? '' : '12pt',
+          }}
+        >
+          접수내용
+        </ReceiptTitle>
         <SecondList>
           <Items>
             <span className="name">제목</span>
@@ -109,8 +119,8 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             </span>
           </Items>
           <Items>
-            <span className="name">접수일자</span>
-            <span className="value">
+            <p className="name">접수일자</p>
+            <span className="contentsValue">
               {dateFomat(
                 data?.data?.afterSalesService?.afterSalesService?.createdAt!,
               )}
@@ -137,6 +147,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               )}
             </div>
           </Items>
+          <Line />
         </SecondList>
         {/* ---------------------접수 확인-------------------- */}
         {data?.data?.afterSalesService?.afterSalesService?.acceptanceDate! && (
@@ -152,7 +163,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             >
               <Items>
                 <span className="name">내용</span>
-                <span className="value">
+                <span className="contentsValue">
                   {
                     data?.data?.afterSalesService?.afterSalesService
                       ?.acceptanceContent
@@ -161,13 +172,14 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               </Items>
               <Items>
                 <span className="name">접수일자</span>
-                <span className="value">
+                <span className="contentsValue">
                   {dateFomat(
                     data?.data?.afterSalesService?.afterSalesService
                       ?.acceptanceDate!,
                   )}
                 </span>
               </Items>
+              <Line />
             </SecondList>
           </>
         )}
@@ -180,7 +192,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             <SecondList className="listChildren">
               <Items>
                 <span className="name">내용</span>
-                <span className="value">
+                <span className="contentsValue">
                   {
                     data?.data?.afterSalesService?.afterSalesService
                       .afterSalesServiceResultContent!
@@ -189,7 +201,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               </Items>
               <Items>
                 <span className="name">A/S일자</span>
-                <span className="value">
+                <span className="contentsValue">
                   {dateFomat(
                     data?.data?.afterSalesService?.afterSalesService
                       .afterSalesServiceResultDate!,
@@ -256,6 +268,7 @@ const Title = styled.h1`
   }
 `;
 const ReceiptTitle = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
@@ -267,6 +280,7 @@ const ReceiptTitle = styled.h1`
 const List = styled.ul`
   margin-top: 24pt;
   padding-bottom: 30pt;
+
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   @media (max-width: 899.25pt) {
@@ -277,7 +291,8 @@ const List = styled.ul`
 const SecondList = styled.ul`
   gap: 12pt;
   margin-top: 24pt;
-  padding-bottom: 30pt;
+  /* padding-bottom: 30pt; */
+  padding-bottom: 12pt;
   /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   &.listChildren {
     border-bottom: none;
@@ -285,7 +300,8 @@ const SecondList = styled.ul`
 
   @media (max-width: 899.25pt) {
     margin-top: 15pt;
-    padding-bottom: 18pt;
+    /* padding-bottom: 18pt; */
+    padding-bottom: 0;
   }
 `;
 const Item = styled.li`
@@ -345,6 +361,7 @@ const Item = styled.li`
     text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
@@ -461,6 +478,8 @@ const Items = styled.li`
     justify-content: start;
     word-break: break-all;
     width: 100%;
+
+    /* padding-right: 21px; */
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
@@ -543,4 +562,10 @@ const FileName = styled.div`
   overflow: hidden;
 `;
 
-const DisplayBox = styled.div``;
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  padding-top: 18pt;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+  }
+`;

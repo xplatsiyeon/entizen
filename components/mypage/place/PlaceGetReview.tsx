@@ -128,7 +128,7 @@ const ReviewTitle = styled.div`
 `;
 
 const RBarBox = styled.div`
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 8px;
   padding: 12pt;
   /* height: 10.5pt; */
@@ -164,6 +164,7 @@ const Title = styled.p`
   text-align: center;
   margin-right: 9pt;
   width: 40pt;
+  color: #222222;
 `;
 const DownArrowBox = styled.div`
   display: flex;
@@ -187,9 +188,14 @@ const TextArea = styled.textarea`
   box-sizing: border-box;
   padding-top: 0pt;
   padding-left: 12pt;
-  border: 1px solid #e2e5ed;
+  padding-top: 12pt;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   resize: none;
+  ::placeholder {
+    color: #222222;
+    font-weight: 400;
+  }
 `;
 
 const Btn2 = styled.button`

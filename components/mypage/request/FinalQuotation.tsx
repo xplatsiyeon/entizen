@@ -257,10 +257,10 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
             {finalQuotation?.subscribeProductFeature
               ?.split('\n')
               .map((line, idx) => (
-                <li key={idx}>
+                <p key={idx} className="productText">
                   {line}
                   <br />
-                </li>
+                </p>
               ))}
           </FeaturesList3>
           {/* 특장점 충전기 부분 */}
@@ -444,6 +444,7 @@ const Item = styled.li`
     }
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -460,6 +461,7 @@ const Item = styled.li`
     }
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -481,7 +483,7 @@ const Item = styled.li`
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
-    text-align: left;
+    text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
@@ -521,6 +523,7 @@ const ImageBox = styled.div`
   }
 `;
 const Subtitle = styled.h2`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -534,6 +537,7 @@ const Subtitle = styled.h2`
   }
 `;
 const Subtitle2 = styled.h2`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -572,6 +576,7 @@ const FlexWrap2 = styled.div`
   }
 `;
 const Label = styled.h3`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;
@@ -609,7 +614,13 @@ const FeaturesList = styled.ol`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    width: max-content;
+    max-width: 280pt;
+    word-break: break-all;
     @media (min-width: 900pt) {
+      width: max-content;
+      max-width: 380pt;
+      word-break: break-all;
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
@@ -625,20 +636,24 @@ const FeaturesList = styled.ol`
     flex: none;
   }
 `;
-const FeaturesList3 = styled.ol`
+const FeaturesList3 = styled.div`
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
   list-style: none;
-  & li {
+  .productText {
     list-style: none;
     font-weight: 500;
     font-size: 10.5pt;
-    line-height: 18pt;
+    /* line-height: 18pt; */
+    line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    word-break: break-all;
+    padding-right: 15pt;
     @media (min-width: 900pt) {
+      word-break: break-all;
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
@@ -719,6 +734,7 @@ const Line2 = styled.div`
   /* margin-top: 18pt; */
 `;
 const Label2 = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
@@ -735,7 +751,8 @@ const Label2 = styled.div`
     padding-top: 3pt;
   }
 `;
-const FeaturesList2 = styled.div`
+const FeaturesList2 = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
@@ -744,8 +761,14 @@ const FeaturesList2 = styled.div`
   line-height: 18pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
   @media (max-width: 899.25pt) {
+    /* width: max-content;
+    max-width: 250pt;
+    /* word-break: break-all; */
+    word-break: break-all;
     flex: none;
+    padding-right: 15pt;
   }
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
@@ -800,6 +823,7 @@ const Contents = styled.div`
     }
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -815,6 +839,7 @@ const Contents = styled.div`
     }
   }
   .text {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
