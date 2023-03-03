@@ -84,7 +84,7 @@ const AsCompGetReview = ({ review, isProject }: Props) => {
               />
             ) : (
               <TextArea
-                rows={4}
+                rows={2}
                 value={review?.opinion}
                 required
                 readOnly={true}
@@ -194,7 +194,7 @@ const TextArea = styled.textarea`
   line-height: 20pt;
   letter-spacing: -0.02em;
   color: #222222;
-  padding-left: 12pt;
+  padding: 10.5pt 13.5pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   resize: none;
