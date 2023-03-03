@@ -1,11 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MouseArrowIcon from 'public/Landing/MouseArrowIcon.svg';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Image from 'next/image';
-import SecondMainImg from 'public/Landing/SecondLanding.png';
+// import SecondMainImg from 'public/Landing/SecondLanding.png';
+import SecondMainImg from 'public/Landing/SecondLandingImgNoText.png';
+import { light } from '@mui/material/styles/createPalette';
 
 const LandingSecondPart = () => {
+  // const completedTitle = 'Charge your life.';
+  const completedTitle = 'Charge your ';
+  const completedTitle2 = 'life';
+  const [landingTitle, setLandingTitle] = useState('');
+  const [landingTitle2, setLandingTitle2] = useState('');
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
+
+  console.log('count', count);
+  console.log('landingTitle', landingTitle);
+
+  useEffect(() => {
+    const typingInterval = setInterval(
+      () => {
+        setLandingTitle(landingTitle + completedTitle[count]);
+        setCount(count + 1);
+
+        // setLandingTitle((prevTitleValue) => {
+        //   let result = prevTitleValue
+        //     ? prevTitleValue + completedTitle[count]
+        //     : completedTitle[0];
+        //   setCount(count + 1);
+
+        //   if (count >= completedTitle.length) {
+        //     setCount(0);
+        //     setLandingTitle('');
+        //   }
+
+        //   return result;
+        // });
+      },
+      count === 11 ? 1200 : 300,
+    );
+    if (count > completedTitle.length) {
+      clearInterval(typingInterval);
+      setCount(0);
+      setLandingTitle('');
+    }
+    return () => {
+      clearInterval(typingInterval);
+    };
+  }, [count]);
+
+  useEffect(() => {
+    if (count > 11) {
+      const typingInterval2 = setInterval(() => {
+        setLandingTitle2(landingTitle2 + completedTitle2[count2]);
+        setCount2(count2 + 1);
+      }, 300);
+      if (count2 > completedTitle2.length) {
+        clearInterval(typingInterval2);
+        setCount2(0);
+        setLandingTitle2('');
+      }
+      return () => {
+        clearInterval(typingInterval2);
+      };
+    }
+  }, [count2]);
+
   return (
     <Wrapper>
       <ImgBox>
@@ -15,6 +77,10 @@ const LandingSecondPart = () => {
       <White />
       <Black>
         <MainImgBox>
+          <TextTyping>
+            <TextTypingFirst>{landingTitle}</TextTypingFirst>
+            <TextTypingSecond>{count === 11 && landingTitle2}</TextTypingSecond>
+          </TextTyping>
           <Image src={SecondMainImg} />
           {/* <img src="Landing/SecondLanding.png" /> */}
         </MainImgBox>
@@ -81,12 +147,45 @@ const ImgBox = styled.div`
 // 1669;
 // 869;
 const MainImgBox = styled.div`
+  position: relative;
   left: 0;
   z-index: 50;
   padding: 0 94.5pt;
   transform: translate(0, -55%);
   @media (max-width: 600pt) {
     padding: 0 24.75pt;
+  }
+`;
+
+const TextTyping = styled.div`
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  position: absolute;
+  border: 1px solid red;
+  top: 20%;
+  left: 30%;
+`;
+
+const TextTypingFirst = styled.span`
+  color: white;
+  font-family: 'Spoqa Han Sans Neo';
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-weight: 400;
+  font-size: 80px;
+  line-height: 120px;
+  @media (max-width: 899.25pt) {
+  }
+`;
+
+const TextTypingSecond = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  color: #5221cb;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-weight: 400;
+  font-size: 80px;
+  line-height: 120px;
+  @media (max-width: 899.25pt) {
   }
 `;
 
@@ -105,7 +204,8 @@ const TextBox = styled.div`
 
 const MainText = styled.span<{ color: string }>`
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  font-family: 'AppleGothicNeo';
+  /* font-family: 'AppleGothicNeo'; */
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 27pt;
   font-weight: 700;
   line-height: 45pt;
