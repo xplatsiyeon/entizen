@@ -95,7 +95,7 @@ const Wrapper = styled.div`
 
 const Nav = styled.div`
   display: none;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 15pt;
   padding-top: 15pt;
 
@@ -209,7 +209,7 @@ const WebBtn = styled.button`
   text-align: center;
   color: ${colors.lightWhite};
   /* margin-bottom: 60pt; */
-  margin-bottom: 60pt;
+  margin-bottom: 90pt;
   font-family: 'Spoqa Han Sans Neo';
   border: none;
   padding: 15pt 112.5pt;
@@ -271,5 +271,5 @@ const IconWrap = styled.div`
 
 const BuyerContainer = styled.div<{ user: string }>`
   display: ${({ user }) => user !== 'buyer' && 'none'};
-  margin-bottom: 90pt;
+
 `;

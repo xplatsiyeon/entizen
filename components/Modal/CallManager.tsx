@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   flex-direction: column;
   gap: 6.75pt;

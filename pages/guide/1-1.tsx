@@ -229,10 +229,11 @@ const Item = styled.div<{ idx: string; num: string }>`
 `;
 
 const BannerTextBox = styled.div`
+ font-family: 'Spoqa Han Sans Neo';
   ${align}
   .title {
     padding-top: 69.75pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 30pt;
     font-weight: 700;
     line-height: 45pt;
@@ -244,7 +245,7 @@ const BannerTextBox = styled.div`
 
   .smallText {
     padding-top: 21pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 22.5pt;
@@ -256,7 +257,7 @@ const BannerTextBox = styled.div`
 
   .annotationText {
     padding-top: 45pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 400;
     line-height: 12pt;
@@ -270,7 +271,7 @@ const MobileBannerText = styled.div`
   ${align}
   .title {
     padding-top: 28.5pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 13.5pt;
     font-weight: 700;
     line-height: 21pt;
@@ -282,7 +283,7 @@ const MobileBannerText = styled.div`
 
   .smallText {
     padding-top: 9pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 400;
     line-height: 16.5pt;
@@ -294,7 +295,7 @@ const MobileBannerText = styled.div`
 
   .annotationText {
     padding-top: 30pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 400;
     line-height: 12pt;

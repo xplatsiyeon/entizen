@@ -412,6 +412,10 @@ const Wrap = styled.div<{ component?: number }>`
    padding: ${({ component }) =>
     component === 0 ? '0 0 0 47.25pt  ' : '0 24pt'}; 
   position: relative;
+
+  @media (max-width: 899.25pt) {
+    padding: 0;
+  }
 `;
 
 const MBtn = styled.button`

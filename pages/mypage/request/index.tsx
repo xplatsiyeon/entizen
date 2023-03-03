@@ -356,7 +356,7 @@ const Mypage1_3 = ({}: any) => {
                 />
                 {/*--------------------- 상단 박스 ---------------------------------*/}
                 <EstimateContainer data={data!} />
-                <CancelButton handleOnClick={handleOnClick} />
+                {data?.badge !== '견적취소' && <CancelButton handleOnClick={handleOnClick} />}
                 <DownArrowBox>
                   <Image src={DoubleArrow} alt="double-arrow" />
                 </DownArrowBox>

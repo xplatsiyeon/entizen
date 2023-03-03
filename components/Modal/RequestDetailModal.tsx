@@ -97,7 +97,7 @@ const Modal = styled.div<{ border?: boolean }>`
 `;
 const H1 = styled.h1`
   white-space: pre-wrap;
-  font-family: ' Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 21pt;

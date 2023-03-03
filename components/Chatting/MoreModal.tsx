@@ -108,7 +108,7 @@ const Box = styled.div`
   border-radius: 9pt;
 
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   flex-direction: column;
   gap: 6.75pt;

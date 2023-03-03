@@ -27,7 +27,7 @@ const Container = styled.div`
 const Message = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   padding-top: 15pt;
   & p {

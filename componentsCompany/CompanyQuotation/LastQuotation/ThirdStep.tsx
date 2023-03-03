@@ -442,7 +442,7 @@ const Wrapper = styled.div`
 const TopStep = styled.div`
   .title {
     color: #5221cb;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 18pt;
     font-weight: 500;
     line-height: 24pt;

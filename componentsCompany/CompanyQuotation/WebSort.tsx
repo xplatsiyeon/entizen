@@ -168,6 +168,8 @@ const SelectBox = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   background-color: white;
+  border-radius: 6pt;
+  overflow: hidden;
 `;
 
 const SelectContainer = styled.ul<{ hide: boolean }>`

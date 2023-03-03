@@ -274,7 +274,7 @@ const ListBox = styled.div`
 `;
 const XBtnWrapper = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 44.25pt;
 `;
 

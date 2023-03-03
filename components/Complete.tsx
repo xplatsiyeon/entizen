@@ -88,7 +88,7 @@ const Wrapper = styled.div`
 
 const Nav = styled.div`
   display: none;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 15pt;
   padding-top: 15pt;
 

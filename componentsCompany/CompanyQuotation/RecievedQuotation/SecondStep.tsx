@@ -997,7 +997,7 @@ const TopStep = styled.div`
     }
   }
   .sub {
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 500;
     line-height: 10.5pt;
@@ -1009,7 +1009,7 @@ const TopStep = styled.div`
     }
   }
   .redColor {
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 500;
     line-height: 10.5pt;
