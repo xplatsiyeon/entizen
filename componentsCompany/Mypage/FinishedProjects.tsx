@@ -198,8 +198,8 @@ const FilterBox = styled.div`
 
 const Divider = styled.div`
   height: 7.5pt;
-  width: 0.5pt;
-  border: 0.25pt solid #caccd1;
+  width: 0pt;
+  border-right: 0.75pt solid #caccd1;
 `;
 
 const FilterText = styled.div`
