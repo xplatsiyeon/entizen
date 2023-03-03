@@ -152,7 +152,8 @@ const Footer = styled.div`
 
 const CopyText = styled.span`
   /* font-family: 'Haan YHead L'; */
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 19.5pt;
@@ -185,7 +186,8 @@ const Button = styled.div`
 `;
 const BtnText = styled.span`
   /* font-family: 'Haan YHead M'; */
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-size: 7.5pt;
   font-weight: 400;
   line-height: 7.5pt;

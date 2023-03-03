@@ -104,7 +104,8 @@ const TextBox = styled.div`
 `;
 
 const MainText = styled.span<{ color: string }>`
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-size: 27pt;
   font-weight: 700;
   line-height: 45pt;

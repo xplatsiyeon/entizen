@@ -77,7 +77,8 @@ const Button = styled.div`
     gap: 0;
   }
   .text {
-    font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+    /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+    font-family: 'AppleGothicNeo';
     font-size: 10.5pt;
     font-weight: 800;
     line-height: 13.5pt;
@@ -118,7 +119,8 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   left: 30%;
   z-index: 100;
   padding: 16pt 49.5pt;
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'AppleGothicNeo';
   font-weight: 500;
   font-size: 12pt;
   line-height: 15pt;
