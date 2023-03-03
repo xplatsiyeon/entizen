@@ -665,7 +665,7 @@ const TopStep = styled.div`
   @media (min-width: 900pt) {
     padding-top: 50pt;
     .step {
-      font-family: ' Spoqa Han Sans Neo';
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 18pt;
       font-weight: 500;
       line-height: 24pt;
@@ -700,7 +700,7 @@ const TopStep = styled.div`
     text-align: left;
     color: #f75015;
     @media (min-width: 900pt) {
-      font-family: ' Spoqa Han Sans Neo';
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
       font-weight: 500;
       line-height: 10.5pt;

@@ -409,7 +409,7 @@ const Partner = styled.div`
   padding-bottom: 10.5pt;
   color: #222222;
   @media (min-width: 900pt) {
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 700;
     line-height: 15pt;

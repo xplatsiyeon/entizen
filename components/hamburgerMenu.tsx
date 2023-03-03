@@ -183,8 +183,9 @@ const ListBox = styled.div`
   background-color: ${colors.main};
 `;
 const XBtnWrapper = styled.div`
-  display: flex;
-  justify-content: end;
+  /* display: flex;
+  justify-content: end; */
+  border: 1px solid white;
   margin-top: 44.25pt;
 `;
 

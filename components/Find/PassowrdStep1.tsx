@@ -255,7 +255,7 @@ const HeaderText = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   padding: 0 15pt;
   & > label {
     font-weight: 500;

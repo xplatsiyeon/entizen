@@ -394,7 +394,7 @@ const ImgTag = styled.img`
 `;
 
 const NoTitle = styled.span`
-  font-family: ' Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   color: #a6a9b0;
   font-size: 12pt;
   font-weight: 500;
@@ -413,7 +413,7 @@ const NoTitle = styled.span`
 `;
 
 const NoContents = styled.span`
-  font-family: ' Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   color: #a6a9b0;
   font-size: 9pt;
   font-weight: 500;

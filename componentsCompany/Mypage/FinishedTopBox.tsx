@@ -292,7 +292,7 @@ const StoreName = styled(ListItemText)`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     width: 80.25pt;
     font-weight: 500;

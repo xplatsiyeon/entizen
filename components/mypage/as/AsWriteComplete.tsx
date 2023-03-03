@@ -69,7 +69,7 @@ export default AsComplete;
 const Wrapper = styled.div``;
 const Nav = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 15pt;
   padding-top: 15pt;
 

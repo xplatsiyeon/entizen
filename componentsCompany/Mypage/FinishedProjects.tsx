@@ -184,7 +184,7 @@ const FilterBox = styled.div`
   display: flex;
   gap: 6pt;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 500;

@@ -201,7 +201,7 @@ const P = styled.p`
   @media (min-width: 900pt) {
     /* width: 150pt; */
     width: 160pt;
-    font-family: ' Spoqa Han Sans Neo';
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 13.5pt;
     font-weight: 700;
     line-height: 15pt;

@@ -91,7 +91,7 @@ const P = styled.div`
 const BtnBox = styled.div`
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 8px;
   padding: 10px 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

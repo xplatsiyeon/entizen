@@ -416,7 +416,7 @@ const WrapInput = styled.div`
 const FilterBtnBox = styled.div`
   display: none;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   position: relative;
   margin-top: 0pt;
   border: 1px solid #e2e5ed;

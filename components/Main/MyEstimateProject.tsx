@@ -29,6 +29,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
               sx={{
                 marginRight: '3pt',
                 padding: '0',
+                color:'#222222'
               }}
             >
               내 견적서
@@ -68,6 +69,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
               sx={{
                 marginRight: '3pt',
                 padding: '0',
+                color:'#222222'
               }}
             >
               내 프로젝트
@@ -123,7 +125,7 @@ const BoxWrapper = styled.div<{ borders: number }>`
   padding: 44px 28.5pt 35px 38px;
   & div:nth-of-type(2) {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
   @media (max-width: 899.25pt) {
     padding-top: 15pt;

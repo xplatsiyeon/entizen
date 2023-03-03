@@ -1,5 +1,7 @@
 
+import styled from '@emotion/styled';
 import CompleteMessage from 'components/CompleteMessage';
+import WhyEntizenHorizontal2 from 'components/Main/WhyEntizenHorizontal2';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
@@ -25,9 +27,17 @@ const Complete = () => {
         }
         user={'buyer'}
       />
+      <Wrapper>
+        <WhyEntizenHorizontal2/>
+      </Wrapper>
+
       <WebFooter />
     </>
   );
 };
 
 export default Complete;
+
+const Wrapper = styled.div`
+  margin-bottom: 120pt;
+`
