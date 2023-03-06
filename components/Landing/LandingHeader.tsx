@@ -67,7 +67,8 @@ const Button = styled.div`
   align-items: center;
   justify-content: center;
   gap: 6pt;
-  padding: 9pt 15pt;
+  padding: 7pt 15pt 9pt;
+  /* padding: 9pt 15pt; */
   background-color: #222222;
   border-radius: 21.75pt;
   cursor: pointer;
@@ -81,7 +82,9 @@ const Button = styled.div`
     font-family: 'AppleGothicNeo';
     font-size: 10.5pt;
     font-weight: 800;
-    line-height: 13.5pt;
+    /* line-height: 13.5pt; */
+    padding-top: 2pt;
+    line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
     color: white;
@@ -92,6 +95,7 @@ const Button = styled.div`
       line-height: 9pt;
       letter-spacing: -0.02em;
       text-align: left;
+      padding-top: 1pt;
     }
   }
 `;
