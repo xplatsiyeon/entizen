@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 // import RightArrow from 'public/images/CaretRightArrow.png';
@@ -19,7 +19,7 @@ const CompanyRightMenu = () => {
   return (
     <MenuRapper open={open}>
       <MenuContainer>
-        <LeftArrow>
+        <LeftArrow open={open}>
           <ImageIcon open={open}>
             <Image
               src={RightArrow}
@@ -32,42 +32,44 @@ const CompanyRightMenu = () => {
         </LeftArrow>
         {open && (
           <>
-            <MenuBox
-              onClick={() => {
-                router.push('/company/chatting');
-              }}
-            >
-              <ImageBoxS>
-                <Image src={Chats} alt="Chats" />
-              </ImageBoxS>
-              <MenuTitle>소통하기</MenuTitle>
-              <Divide />
-            </MenuBox>
-            <MenuBox
-              onClick={() => {
-                router.push({
-                  pathname: '/company/quotation',
-                });
-              }}
-            >
-              <ImageBoxL>
-                <Image src={ReceivedQuotation} alt="Chats" />
-              </ImageBoxL>
-              <MenuTitle>받은 요청</MenuTitle>
-              <Divide />
-            </MenuBox>
-            <MenuBox
-              onClick={() => {
-                router.push({
-                  pathname: '/company/myProductList',
-                });
-              }}
-            >
-              <ImageBoxL>
-                <Image src={MyProductList} alt="Chats" />
-              </ImageBoxL>
-              <MenuTitle>내 제품 리스트</MenuTitle>
-            </MenuBox>
+            <MenuOpenWrapper>
+              <MenuBox
+                onClick={() => {
+                  router.push('/company/chatting');
+                }}
+              >
+                <ImageBoxS>
+                  <Image src={Chats} alt="Chats" />
+                </ImageBoxS>
+                <MenuTitle>소통하기</MenuTitle>
+                <Divide />
+              </MenuBox>
+              <MenuBox
+                onClick={() => {
+                  router.push({
+                    pathname: '/company/quotation',
+                  });
+                }}
+              >
+                <ImageBoxL>
+                  <Image src={ReceivedQuotation} alt="Chats" />
+                </ImageBoxL>
+                <MenuTitle>받은 요청</MenuTitle>
+                <Divide />
+              </MenuBox>
+              <MenuBox
+                onClick={() => {
+                  router.push({
+                    pathname: '/company/myProductList',
+                  });
+                }}
+              >
+                <ImageBoxL>
+                  <Image src={MyProductList} alt="Chats" />
+                </ImageBoxL>
+                <MenuTitle>내 제품 리스트</MenuTitle>
+              </MenuBox>
+            </MenuOpenWrapper>
           </>
         )}
       </MenuContainer>
@@ -80,11 +82,12 @@ const MenuRapper = styled.div<{ open: boolean }>`
   right: 20pt;
   top: 165pt;
   border-radius: 12pt;
+
   ${({ open }) =>
     open === true &&
     css`
       background-color: #ffffff;
-      box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+      box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
     `}
   padding: 28pt 14pt 24pt;
 
@@ -104,6 +107,24 @@ const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+`;
+
+const Poligon = styled.div`
+  clip-path: polygon(
+    100% 0%,
+    100% 100%,
+    32% 100%,
+    35% 21%,
+    21% 20%,
+    8% 15%,
+    18% 11%,
+    34% 8%,
+    34% 0
+  );
+  border: 1px solid red;
+  position: absolute;
+  background-color: red;
 `;
 
 const MenuBox = styled.div`
@@ -154,14 +175,15 @@ const Divide = styled.div`
   }
 `;
 
-const LeftArrow = styled.div`
+const LeftArrow = styled.div<{ open: boolean }>`
   position: fixed;
   z-index: 10;
   top: 187.5pt;
   right: 90pt;
   background-color: #ffffff;
   border-radius: 100%;
-  /* box-shadow: 0px 0px 7.5pt 0px #89a3c933; */
+  box-shadow: ${({ open }) =>
+    open ? '-1.5pt 0pt 3pt 0pt #89a3c933' : '0pt 0pt 7.5pt 0pt #89a3c933'};
 
   @media (max-width: 1125pt) {
     right: 63pt;
@@ -184,6 +206,19 @@ const ImageIcon = styled.div<{ open: boolean }>`
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }
+`;
+
+const Circle = styled.div`
+  width: 36px;
+  height: 36px;
+  background-color: white;
+  border-radius: 50%;
+  transform: translate(-43px, -306px);
+  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
+`;
+
+const MenuOpenWrapper = styled.div`
+  z-index: 100;
 `;
 
 export default CompanyRightMenu;

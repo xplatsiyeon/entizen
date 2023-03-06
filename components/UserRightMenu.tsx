@@ -19,7 +19,7 @@ const UserRightMenu = () => {
   return (
     <MenuRapper open={open}>
       <MenuContainer>
-        <LeftArrow>
+        <LeftArrow open={open}>
           <ImageIcon open={open}>
             <Image
               src={RightArrow}
@@ -74,7 +74,7 @@ const MenuRapper = styled.div<{ open: boolean }>`
     open === true &&
     css`
       background-color: #ffffff;
-      box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+      box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
     `}
   padding: 28pt 14pt 24pt;
 
@@ -162,14 +162,15 @@ const Divide = styled.div`
   }
 `;
 
-const LeftArrow = styled.div`
+const LeftArrow = styled.div<{ open: boolean }>`
   position: fixed;
   z-index: 10;
   top: 145pt;
   right: 90pt;
   background-color: #ffffff;
   border-radius: 100%;
-  /* box-shadow: 0px 0px 7.5pt 0px #89a3c933; */
+  box-shadow: ${({ open }) =>
+    open ? '-1.5pt 0pt 3pt 0pt #89a3c933' : '0pt 0pt 7.5pt 0pt #89a3c933'};
 
   @media (max-width: 1125pt) {
     top: 155pt;
