@@ -127,10 +127,15 @@ export default FaqInfomation;
 
 const ItemButton = styled(ListItemButton)`
   border-bottom: 0.75pt solid ${colors.gray};
-  padding: 0px 16px;
+  padding: 0pt 12pt;
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
+
+  .MuiTouchRipple-root {
+    display: none;
+  }
+
   &:hover {
     background-color: transparent;
   }
