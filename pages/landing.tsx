@@ -59,7 +59,6 @@ const Landing = () => {
             }}
           >
             <Image src={mobile ? UpArrowMobile : UpArrow} />
-
             <BtnText>TOP</BtnText>
           </Button>
         </Footer>

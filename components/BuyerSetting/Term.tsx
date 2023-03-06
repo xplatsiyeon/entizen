@@ -33,13 +33,14 @@ const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
       const {
         query: { userType },
       } = router;
-      router.push({
-        pathname: 'signUp/Terms',
-        query: {
-          setting: 'true',
-          userType: userType,
-        },
-      });
+      // router.push({
+      //   pathname: 'signUp/Terms',
+      //   query: {
+      //     setting: 'true',
+      //     userType: userType,
+      //   },
+      // });
+      router.back();
     } else {
       setTabNumber(0);
     }
@@ -50,7 +51,13 @@ const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
     <WebRapper>
       {nowWidth < 1200 && (
         <Header>
-          <div className="img-item" onClick={onClickBack}>
+          <div
+            className="img-item"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            {/* <div className="img-item" onClick={onClickBack}> */}
             <Image
               style={{
                 cursor: 'pointer',

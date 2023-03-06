@@ -10,19 +10,12 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import {
-  getApi,
   isTokenAdminDeleteApi,
   isTokenAdminGetApi,
   isTokenAdminPostApi,
   isTokenAdminPutApi,
 } from 'api';
-import {
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
-} from 'api';
+
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
@@ -67,7 +60,9 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
 
   // FAQ 리스트 불러오는 api
   const { data: adminFaqList, refetch: adminFaqListRefetch } =
-    useQuery<AdminFAQListResponse>('adminFaqList', () => getApi(`/admin/faqs`));
+    useQuery<AdminFAQListResponse>('adminFaqList', () =>
+      isTokenAdminGetApi(`/admin/faqs`),
+    );
 
   // 수정된 value가 있는지 없는지
   const [checkAll, setCheckAll] = useState<boolean>(false);
@@ -222,7 +217,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     }
   }, [bodyText, title]);
 
-  // console.log('🐳 userTypeEn[userNum] 🐳', userTypeEn[userNum]);
+  console.log('🐳 userTypeEn[userNum] 🐳', userTypeEn[userNum]);
 
   return (
     <Background>
