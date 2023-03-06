@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/defaultImg.png';
 import entizenCK from 'public/images/entizenCK.png';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -42,6 +42,22 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
+
+  const mobRef = useRef<HTMLDivElement>(null);
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      if(mobRef.current){
+        const list = mobRef.current.querySelectorAll('.chattingRoom') as NodeListOf<HTMLDivElement>;
+        list.forEach((ele)=> {
+          if(!ele.style.visibility){
+            ele.style.visibility = 'unset'
+          }})
+        list.forEach((ele)=>console.log(ele.style.visibility))
+      }}
+    ,200)
+  },[])
+
 
   // 채팅방 알림 에러
   const {
@@ -94,10 +110,9 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
 
   const settings = {
     infinite: false,
-    speed: 500,
     slidesToScroll: 1,
-    centerMode:true,
     initialSlide:1,
+    speed:200,
     responsive: [
       {
         breakpoint: 1199,
@@ -341,7 +356,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         </Body>
       </Web>
 
-      <Mob>
+      <Mob ref={mobRef}>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
             /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
@@ -593,6 +608,7 @@ const Body = styled.div`
 const Chatting = styled.div`
   display: flex;
   width: 100%;
+  visibility: hidden;
   @media (min-width: 900pt) {
     width: 160%;
   }
@@ -604,7 +620,7 @@ const Chatting = styled.div`
     .slick-track {
       width: calc(100% + 240px) !important;
       margin-left: 0% !important;
-      //transition: 0.2s !important;
+      transition : 0.2s!important;
       .slick-slide {
         &:nth-of-type(1) {
           width: 160px !important;
