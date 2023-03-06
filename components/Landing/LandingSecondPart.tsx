@@ -184,7 +184,12 @@ const TextTypingFirst = styled.span`
   font-weight: 400;
   font-size: 60pt;
   line-height: 90pt;
-  @media (max-width: 899.25pt) {
+  @media (max-width: 600pt) {
+    font-size: 15pt;
+    font-weight: 400;
+    line-height: 21.75pt;
+    letter-spacing: 0em;
+    text-align: left;
   }
 `;
 
@@ -198,9 +203,16 @@ const TextTypingSecond = styled.span<{ count: number }>`
   font-size: 60pt;
   line-height: 90pt;
   padding-left: 15pt;
-
   border-bottom: ${({ count }) => (count === 11 ? '3.75pt solid white' : '')};
-  @media (max-width: 899.25pt) {
+  @media (max-width: 600pt) {
+    font-size: 15pt;
+    font-weight: 400;
+    line-height: 21.75pt;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 15pt;
+    padding-left: 5pt;
+    border-bottom: ${({ count }) => (count === 11 ? '2pt solid white' : '')};
   }
 `;
 
@@ -210,6 +222,12 @@ const Dot = styled.div`
   background-color: white;
   margin-left: 15pt;
   margin-top: 60pt;
+  @media (max-width: 600pt) {
+    margin-left: 7pt;
+    margin-top: 15pt;
+    width: 4pt;
+    height: 4pt;
+  }
 `;
 
 const TextBox = styled.div`
