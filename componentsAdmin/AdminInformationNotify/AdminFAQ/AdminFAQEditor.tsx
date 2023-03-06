@@ -45,6 +45,7 @@ export interface FaqsUpdate {
       question: string;
       answer: string;
       isVisible: boolean;
+      visibleTarget: string;
     };
   };
 }
@@ -77,7 +78,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
 
   const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
-  const [userNum, setUserNum] = useState(0);
+  const [userNum, setUserNum] = useState(-1);
 
   const [checkValue, setCheckValue] = useState('일반회원');
 
@@ -206,6 +207,11 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   useEffect(() => {
     setBodyText(firstContent);
     setTitle(firstTitle);
+    if (data?.data?.faq?.visibleTarget === 'COMPANY') {
+      setUserNum(1);
+    } else {
+      setUserNum(0);
+    }
   }, [data]);
 
   // 데이터 보내는 버튼 활성화 여부
@@ -214,10 +220,14 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
       setCheckAll(true);
     } else if (title !== firstTitle) {
       setCheckAll(true);
+    } else if (data?.data?.faq?.visibleTarget !== userTypeEn[userNum]) {
+      setCheckAll(true);
+    } else if (
+      data?.data?.faq?.faqKind !== convertEn(ServiceKr, ServiceEn, selectValue)
+    ) {
+      setCheckAll(true);
     }
-  }, [bodyText, title]);
-
-  console.log('🐳 selectValue 🐳', selectValue);
+  }, [bodyText, title, userNum, selectValue]);
 
   return (
     <Background>
