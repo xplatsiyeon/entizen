@@ -83,7 +83,7 @@ const LandingSeventh = () => {
             <ImgText>
               회사, 사업장에
               <br />
-              설치햐서 직원들에게
+              설치해서 직원들에게
               <br />
               복지를 제공해 보세요.
             </ImgText>
