@@ -115,8 +115,8 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   width: 345pt;
   height: 48pt;
   /* top: 140pt; */
-  top: 50pt;
-  left: 30%;
+  top: 40%;
+  left: 34%;
   z-index: 100;
   padding: 16pt 49.5pt;
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
@@ -130,8 +130,9 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   color: #ffffff;
   border-radius: 8pt;
   @media (max-width: 600pt) {
-    top: 80pt;
-    width: 300pt;
-    left: 3%;
+    padding: 16pt 30pt;
+    top: 30%;
+    width: 250pt;
+    left: 6%;
   }
 `;
