@@ -93,6 +93,7 @@ type Props = {
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
+  console.log(userChatting)
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -454,8 +455,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       // console.log(sortArr)
 
       /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
-            순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
-        */
+        순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
+      */
       const temp: ChattingRoom[] = [];
       sortArr.forEach((a, idx) => {
         const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
@@ -624,10 +625,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                   {d.date.split('.')[2]}일
                 </Date>
                 <List>
-                  {d.logs.map((item, idx) => {
+                  {d.logs.map((item, index) => {
                     if (item.messageType === 'SYSTEM') {
                       return;
                     } else {
+                      console.log(d.logs.length)
                       return (
                         <Wrap>
                           <ChatBox
@@ -652,6 +654,12 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                 <Image src={defaultImg} layout="fill" />
                               )}
                             </ImageWrap>
+
+                            <StyledWrap className={`${
+                              item.fromMemberType === 'USER'
+                                ? 'user'
+                                : 'company'
+                            }`} userChatting={userChatting}>
                             {item.content && (
                               <Chat
                                 userChatting={userChatting}
@@ -716,14 +724,19 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                 </FileDownload>
                               </>
                             )}
-                            <WrapDate>
+                            </StyledWrap>
+                            <WrapDate   className={`${
+                              item.fromMemberType === 'USER'
+                                ? 'user'
+                                : 'company'
+                            }`} >
                               <P
                                 className={`${
                                   item.fromMemberType === 'USER'
                                     ? 'user-p'
                                     : 'company-p'
                                 } ${
-                                  idx === d.logs.length - 1 ? 'p-target' : ''
+                                 (idx === data.length-1 && index === d.logs.length - 1) && `p-target`
                                 } ???`}
                                 userChatting={userChatting}
                               >
@@ -1095,7 +1108,6 @@ const DateChatting = styled.div`
 `;
 const Date = styled.span`
   display: inline-block;
-  padding: 9pt;
   background: white;
   font-style: normal;
   font-weight: 400;
@@ -1105,12 +1117,9 @@ const Date = styled.span`
   color: #a6a9b0;
   position: relative;
   margin: 8pt auto 18pt;
-
-  @media (min-width: 900pt) {
-    border: 1px solid #e2e5ed;
-    border-radius: 12pt;
-    padding: 6pt 9pt;
-  }
+  border-radius: 12pt;
+  border: 1px solid #e2e5ed;
+  padding: 6pt 9pt;
 `;
 
 const List = styled.div`
@@ -1125,7 +1134,8 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
-  align-items: end;
+  align-items: flex-end;
+  position: relative;
 
   &.user {
     flex-direction: ${({ userChatting }) =>
@@ -1136,13 +1146,35 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
       userChatting ? 'row' : 'row-reverse'};
   }
 `;
+const StyledWrap = styled.div<{ userChatting: boolean }>`
+  &.user {
+    margin-left: ${({ userChatting }) => userChatting ? '0pt' : '36pt'};
+    @media (max-width: 899.25pt) {
+      margin-left: ${({ userChatting }) => userChatting ? '0pt' : '33pt'};
+  }
+  }
+  &.company {
+    margin-left: ${({ userChatting }) => userChatting ? '36pt' : '0'};
+    @media (max-width: 899.25pt) {
+      margin-left: ${({ userChatting }) => userChatting ? '33pt' : '0'};
+  }
+  }
+
+`
 const ImageWrap = styled.div<{ userChatting: boolean }>`
-  width: 36pt;
-  height: 36pt;
-  position: relative;
+  width: 27pt;
+  height: 27pt;
+  position: absolute;
+  top: 0;
   border-radius: 50%;
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
+
+  @media (max-width: 899.25pt) {
+    width: 24pt;
+    height: 24pt;
+  }
+
   > img {
     width: 100%;
     height: 100%;
@@ -1165,6 +1197,7 @@ const Chat = styled.div<{ userChatting: boolean }>`
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   max-width: 300pt;
+  word-break: break-all;
   &.user {
     color: ${({ userChatting }) => (userChatting ? 'white' : '#222222')};
     background: ${({ userChatting }) => (userChatting ? '#5221cb' : '#f3f4f7')};
@@ -1192,6 +1225,7 @@ const File = styled.button`
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
   border-radius: 8px;
+  
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -1222,6 +1256,12 @@ const FocusBox = styled.div`
 const WrapDate = styled.div`
   display: flex;
   flex-direction: column;
+  &.user {
+    margin-left:6pt;
+  }
+  &.company {
+    margin-right:6pt;
+  }
 `;
 const P = styled.p<{ userChatting: boolean }>`
   font-style: normal;
@@ -1234,11 +1274,13 @@ const P = styled.p<{ userChatting: boolean }>`
 
   &.user-p {
     &.p-target {
+      text-align: right;
       display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
     }
   }
   &.company-p {
     &.p-target {
+      text-align: right;
       display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
     }
   }

@@ -96,7 +96,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
     infinite: false,
     speed: 500,
     slidesToScroll: 1,
-    initialSlide: 1,
+    centerMode:true,
+    initialSlide:1,
     responsive: [
       {
         breakpoint: 1199,
@@ -603,7 +604,7 @@ const Chatting = styled.div`
     .slick-track {
       width: calc(100% + 240px) !important;
       margin-left: 0% !important;
-      transition: 0.2s !important;
+      //transition: 0.2s !important;
       .slick-slide {
         &:nth-of-type(1) {
           width: 160px !important;
@@ -698,9 +699,11 @@ const Previw = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   position: absolute;
-  width: 120%;
+  width: 100%;
   height: 18pt;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Created = styled.div`

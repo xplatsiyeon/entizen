@@ -114,8 +114,6 @@ const LearnAbout = ({ borders }: Props) => {
                     src={el.leftImg}
                     alt="icon"
                     layout="intrinsic"
-                    width={el.width}
-                    height={el.height}
                   />
                 </LeftImgBox>
                 {/* <RightImgBox>
@@ -240,6 +238,8 @@ const LeftImgBox = styled.div`
     height: auto;
     bottom: 11.25pt;
     left: 12pt;
+    width: 30pt;
+    height: 30pt;
     &:nth-of-type(1) {
       display: none;
     }

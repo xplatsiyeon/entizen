@@ -573,10 +573,9 @@ const ChattingRoomLogsEntizen = ({
     }
   }, []);
 
-  const handleFocus = (e: MouseEvent) => {
+  const handleFocus = () => {
     mobInputRef.current?.focus();
     mobInputRef.current?.classList.add('on');
-    const target = e.currentTarget as HTMLButtonElement;
   };
 
   return (
@@ -768,6 +767,8 @@ const ChattingRoomLogsEntizen = ({
               value={text}
               onChange={onChangeText}
               ref={mobInputRef}
+              onFocus={()=>{if(mobBox.current){mobBox.current.style.padding = '3px 0'}}}
+              onBlur={()=>{if(mobBox.current){mobBox.current.style.padding = '3px 0 36px'}}}
             />
             <IconWrap2
               onClick={handleFocus}
@@ -950,12 +951,12 @@ const FlexBox = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 15pt 0 40pt;
+  padding: 0 12pt 0 38.25pt;
 `;
 const AddBtn = styled.div`
   position: absolute;
   top: 6pt;
-  left: 10.5pt;
+  left: 14.25pt;
   width: 20pt;
   height: 20pt;
   border-radius: 50%;
@@ -971,11 +972,10 @@ const TextInput = styled.input`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
-  /* font-size: 12pt; */
   line-height: 9pt;
   letter-spacing: -0.02em;
-  width: 50px;
   padding: 6pt 7.8pt;
+  margin: 0 9pt;
   ::placeholder {
     color: #d3d3d3;
   }
@@ -1102,7 +1102,6 @@ const DateChatting = styled.div`
 `;
 const Date = styled.span`
   display: inline-block;
-  padding: 9pt;
   background: white;
   font-style: normal;
   font-weight: 400;
@@ -1112,12 +1111,10 @@ const Date = styled.span`
   color: #a6a9b0;
   position: relative;
   margin: 8pt auto 18pt;
-
-  @media (min-width: 900pt) {
-    border: 1px solid #e2e5ed;
-    border-radius: 12pt;
-    padding: 6pt 9pt;
-  }
+  border: 1px solid #e2e5ed;
+  border-radius: 12pt;
+  padding: 6pt 9pt;
+  
 `;
 
 const List = styled.div`
@@ -1132,7 +1129,8 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
-  align-items: end;
+  align-items: flex-end;
+  position: relative;
 
   &.user {
     flex-direction: ${({ userChatting }) =>
@@ -1144,12 +1142,19 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   }
 `;
 const ImageWrap = styled.div<{ userChatting: boolean }>`
-  width: 36pt;
-  height: 36pt;
-  position: relative;
+  width: 27pt;
+  height: 27pt;
+  position: absolute;
+  top: 0;
   border-radius: 50%;
   overflow: hidden;
   border: 0.75pt solid #d3d3d3;
+  box-sizing: content-box;
+
+  @media (max-width: 899.25pt) {
+    width: 24pt;
+    height: 24pt;
+  }
 
   > img {
     width: 100%;
@@ -1181,10 +1186,15 @@ const Chat = styled.div<{ userChatting: boolean }>`
   &.company {
     color: ${({ userChatting }) => (userChatting ? '#222222' : 'white')};
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
+    margin-left: 36pt;
   }
 
   @media (max-width: 899.25pt) {
     max-width: 150pt;
+
+    &.company {
+      margin-left: 33pt;
+    }
   }
 `;
 const FileDownload = styled.a`
@@ -1218,6 +1228,8 @@ const MessageDate = styled.p`
 
 const IconWrap3 = styled(IconWrap2)`
   background: transparent;
+  width: 20.625pt;
+  height: 20.625pt;
 `;
 const FocusBox = styled.div`
   width: 100%;
