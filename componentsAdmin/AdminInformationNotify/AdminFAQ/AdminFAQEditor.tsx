@@ -217,7 +217,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     }
   }, [bodyText, title]);
 
-  console.log('🐳 userTypeEn[userNum] 🐳', userTypeEn[userNum]);
+  console.log('🐳 selectValue 🐳', selectValue);
 
   return (
     <Background>

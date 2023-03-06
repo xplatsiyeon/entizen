@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
-export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
+export const ServiceEn: string[] = ['SERVICE', 'MEMBER', 'REPORT'];
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;

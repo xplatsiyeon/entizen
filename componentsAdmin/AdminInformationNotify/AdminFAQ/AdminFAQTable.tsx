@@ -62,7 +62,7 @@ const AdminFAQTable = ({
       <TableContatiner>
         <List className="title">
           <span className="num">번호</span>
-          <span className="banner">배너명</span>
+          <span className="banner">FAQ</span>
           <span className="toggle">노출여부</span>
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
