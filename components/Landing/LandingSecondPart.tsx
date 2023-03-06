@@ -17,12 +17,6 @@ const LandingSecondPart = () => {
   const [count2, setCount2] = useState(0);
   const [countNow, setCountNow] = useState(false);
 
-  // console.log('count', count);
-  // console.log('landingTitle', landingTitle);
-  console.log('countNow', countNow);
-  console.log('count2', count2);
-  console.log('landingTitle2', landingTitle2);
-
   useEffect(() => {
     const typingInterval = setInterval(
       () => {
@@ -86,9 +80,11 @@ const LandingSecondPart = () => {
       <Black>
         <MainImgBox>
           <TextTyping>
-            <TextTypingFirst>{landingTitle}</TextTypingFirst>
+            <TextTypingFirst>
+              {landingTitle !== undefined && landingTitle}
+            </TextTypingFirst>
             <TextTypingSecond count={count}>
-              {count === 11 && landingTitle2}
+              {count === 11 && landingTitle2 !== undefined && landingTitle2}
             </TextTypingSecond>
             {count2 === 4 && <Dot />}
           </TextTyping>
