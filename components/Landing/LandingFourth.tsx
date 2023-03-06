@@ -48,8 +48,9 @@ const TextBox = styled.div`
     position: static;
     padding-top: 60pt;
     justify-content: flex-start;
-    align-items: flex-start;
-    padding-left: 42.75pt;
+    /* align-items: flex-start; */
+    align-items: center;
+    /* padding-left: 42.75pt; */
   }
 `;
 
