@@ -350,7 +350,7 @@ const Header = styled(Box)`
   .back-img {
     position: absolute;
     left: 7pt;
-    padding: 5px;
+    padding: 3.75pt;
   }
   .text {
     font-weight: 700;
@@ -363,7 +363,7 @@ const Header = styled(Box)`
   .setting-img {
     position: absolute;
     right: 7pt;
-    padding: 5px;
+    padding: 3.75pt;
   }
 
   @media (max-width: 899.25pt) {
@@ -372,7 +372,7 @@ const Header = styled(Box)`
 `;
 const Tab = styled(Box)`
   display: flex;
-  border-bottom: 1px solid #f3f4f7;
+  border-bottom: 0.75pt solid #f3f4f7;
   cursor: pointer;
   @media (min-width: 899.25pt) {
     justify-content: center;
@@ -405,7 +405,7 @@ const Line = styled.div`
   border-radius: 3.75pt;
 `;
 const Body = styled.div`
-  padding-top: 176px;
+  padding-top: 132pt;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -427,7 +427,8 @@ const Main = styled.div`
 const ContensBox = styled(Box)<{ cursor: boolean }>`
   position: relative;
   padding-left: 15pt;
-  margin-top: 16px;
+  margin-top: 12pt;
+
   ${({ cursor }) =>
     cursor &&
     css`
@@ -455,7 +456,7 @@ const ContensBox = styled(Box)<{ cursor: boolean }>`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: #caccd1;
-    padding-bottom: 16px;
+    padding-bottom: 12pt;
     padding-top: 6pt;
   }
   .line {
@@ -464,7 +465,7 @@ const ContensBox = styled(Box)<{ cursor: boolean }>`
     right: 0;
     bottom: 0;
 
-    border-bottom: 1px solid ${colors.gray};
+    border-bottom: 0.75pt solid ${colors.gray};
   }
 `;
 
@@ -477,8 +478,10 @@ const DisplayBox = styled.div`
 
 const DisplaySubBox = styled.div`
   display: flex;
+  gap: 42pt;
   @media (max-width: 900pt) {
     flex-direction: column;
+    gap: 0;
   }
 `;
 
@@ -494,6 +497,9 @@ const HistoryBodyText = styled.span`
     padding-bottom: 3pt;
   }
   @media (min-width: 900pt) {
-    padding-right: 42pt;
+    /* padding-right: 42pt; */
+    /* padding-right: 20pt; */
+    width: 225pt;
+    /* margin-right: 42pt; */
   }
 `;

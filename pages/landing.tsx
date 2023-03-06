@@ -25,6 +25,12 @@ const Landing = () => {
   return (
     <Fragment>
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap"
+          rel="stylesheet"
+        />
         <link
           rel="stylesheet"
           href="//cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0/all.min.css"
@@ -53,7 +59,6 @@ const Landing = () => {
             }}
           >
             <Image src={mobile ? UpArrowMobile : UpArrow} />
-
             <BtnText>TOP</BtnText>
           </Button>
         </Footer>

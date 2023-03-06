@@ -67,7 +67,8 @@ const Button = styled.div`
   align-items: center;
   justify-content: center;
   gap: 6pt;
-  padding: 9pt 15pt;
+  padding: 7pt 15pt 9pt;
+  /* padding: 9pt 15pt; */
   background-color: #222222;
   border-radius: 21.75pt;
   cursor: pointer;
@@ -81,7 +82,9 @@ const Button = styled.div`
     font-family: 'AppleGothicNeo';
     font-size: 10.5pt;
     font-weight: 800;
-    line-height: 13.5pt;
+    /* line-height: 13.5pt; */
+    padding-top: 2pt;
+    line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
     color: white;
@@ -92,6 +95,7 @@ const Button = styled.div`
       line-height: 9pt;
       letter-spacing: -0.02em;
       text-align: left;
+      padding-top: 1pt;
     }
   }
 `;
@@ -115,8 +119,8 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   width: 345pt;
   height: 48pt;
   /* top: 140pt; */
-  top: 50pt;
-  left: 30%;
+  top: 40%;
+  left: 34%;
   z-index: 100;
   padding: 16pt 49.5pt;
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
@@ -130,8 +134,9 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   color: #ffffff;
   border-radius: 8pt;
   @media (max-width: 600pt) {
-    top: 80pt;
-    width: 300pt;
-    left: 3%;
+    padding: 16pt 30pt;
+    top: 30%;
+    width: 250pt;
+    left: 6%;
   }
 `;

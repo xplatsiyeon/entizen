@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import Image from 'next/image';
 import MainImg from 'public/Landing/LandingNinth.png';
 import Arrow from 'public/Landing/NinthArrow.svg';
+import MobileArrow from 'public/Landing/akar-icons_arrow-down.svg';
 import { useMediaQuery } from 'react-responsive';
 
 const LandingNinth = () => {
@@ -37,7 +38,7 @@ const LandingNinth = () => {
               handleCopyEmail('entizen@entizen.kr');
             }}
           >
-            <Image src={Arrow} />
+            <Image src={MobileArrow} />
             <UnderRightText>제휴 문의</UnderRightText>
           </RightBox>
           {mailOn && (
@@ -114,7 +115,7 @@ const Title = styled.span`
     position: absolute;
     font-size: 10.5pt;
     line-height: 10.5pt;
-    top: 30pt;
+    top: 20%;
     left: 24pt;
   }
 `;
@@ -140,8 +141,9 @@ const UnderLeftText = styled.span`
     line-height: 24pt;
     letter-spacing: -0.02em;
     text-align: left;
-    top: 147pt;
-    left: 24pt;
+    /* top: 147pt; */
+    bottom: 45pt;
+    left: 4%;
   }
 `;
 
@@ -156,8 +158,10 @@ const RightBox = styled.div`
   cursor: pointer;
   @media (max-width: 600pt) {
     position: absolute;
-    top: 204pt;
-    left: 24pt;
+    /* top: 204pt; */
+    bottom: 27pt;
+    left: 4%;
+    gap: 6pt;
   }
 `;
 
@@ -183,8 +187,8 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   width: 345pt;
   height: 48pt;
   /* top: 140pt; */
-  top: 120pt;
-  left: 30%;
+  top: 30%;
+  left: 34%;
   z-index: 100;
   padding: 16pt 49.5pt;
   font-family: 'Spoqa Han Sans Neo';
@@ -197,9 +201,10 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   color: #ffffff;
   border-radius: 8pt;
   @media (max-width: 600pt) {
+    padding: 16pt 30pt;
     top: 80pt;
-    width: 300pt;
-    left: 3%;
+    width: 250pt;
+    left: 6%;
   }
 `;
 
@@ -212,7 +217,8 @@ const WebUnderContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  top: 200pt;
+  /* top: 200pt; */
+  bottom: 45pt;
 `;
 
 const WebTopContainer = styled.div`

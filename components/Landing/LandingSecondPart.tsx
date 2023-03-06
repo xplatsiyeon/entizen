@@ -9,15 +9,13 @@ import { light } from '@mui/material/styles/createPalette';
 
 const LandingSecondPart = () => {
   // const completedTitle = 'Charge your life.';
-  const completedTitle = 'Charge your ';
+  const completedTitle = 'Charge your';
   const completedTitle2 = 'life';
   const [landingTitle, setLandingTitle] = useState('');
   const [landingTitle2, setLandingTitle2] = useState('');
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
-
-  console.log('count', count);
-  console.log('landingTitle', landingTitle);
+  const [countNow, setCountNow] = useState(false);
 
   useEffect(() => {
     const typingInterval = setInterval(
@@ -39,8 +37,14 @@ const LandingSecondPart = () => {
         //   return result;
         // });
       },
-      count === 11 ? 1200 : 300,
+      count === 11 ? 1300 : 300,
     );
+
+    if (count === 11) {
+      setCountNow(true);
+    } else {
+      setCountNow(false);
+    }
     if (count > completedTitle.length) {
       clearInterval(typingInterval);
       setCount(0);
@@ -52,21 +56,19 @@ const LandingSecondPart = () => {
   }, [count]);
 
   useEffect(() => {
-    if (count > 11) {
-      const typingInterval2 = setInterval(() => {
-        setLandingTitle2(landingTitle2 + completedTitle2[count2]);
-        setCount2(count2 + 1);
-      }, 300);
-      if (count2 > completedTitle2.length) {
-        clearInterval(typingInterval2);
-        setCount2(0);
-        setLandingTitle2('');
-      }
-      return () => {
-        clearInterval(typingInterval2);
-      };
+    const typingInterval2 = setInterval(() => {
+      setLandingTitle2(landingTitle2 + completedTitle2[count2]);
+      setCount2(count2 + 1);
+    }, 300);
+    if (count2 > completedTitle2.length || countNow === false) {
+      clearInterval(typingInterval2);
+      setCount2(0);
+      setLandingTitle2('');
     }
-  }, [count2]);
+    return () => {
+      clearInterval(typingInterval2);
+    };
+  }, [countNow, count2]);
 
   return (
     <Wrapper>
@@ -78,8 +80,13 @@ const LandingSecondPart = () => {
       <Black>
         <MainImgBox>
           <TextTyping>
-            <TextTypingFirst>{landingTitle}</TextTypingFirst>
-            <TextTypingSecond>{count === 11 && landingTitle2}</TextTypingSecond>
+            <TextTypingFirst>
+              {landingTitle !== undefined && landingTitle}
+            </TextTypingFirst>
+            <TextTypingSecond count={count}>
+              {count === 11 && landingTitle2 !== undefined && landingTitle2}
+            </TextTypingSecond>
+            {count2 === 4 && <Dot />}
           </TextTyping>
           <Image src={SecondMainImg} />
           {/* <img src="Landing/SecondLanding.png" /> */}
@@ -162,8 +169,7 @@ const TextTyping = styled.div`
   align-items: center;
   z-index: 100;
   position: absolute;
-  border: 1px solid red;
-  top: 20%;
+  top: 40%;
   left: 30%;
 `;
 
@@ -172,20 +178,51 @@ const TextTypingFirst = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 400;
-  font-size: 80px;
-  line-height: 120px;
-  @media (max-width: 899.25pt) {
+  font-size: 60pt;
+  line-height: 90pt;
+  @media (max-width: 600pt) {
+    font-size: 15pt;
+    font-weight: 400;
+    line-height: 21.75pt;
+    letter-spacing: 0em;
+    text-align: left;
   }
 `;
 
-const TextTypingSecond = styled.span`
-  font-family: 'Spoqa Han Sans Neo';
+const TextTypingSecond = styled.span<{ count: number }>`
+  /* font-family: 'Spoqa Han Sans Neo'; */
+  font-family: 'Finger Paint', cursive;
   color: #5221cb;
+  height: 67.5pt;
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 400;
-  font-size: 80px;
-  line-height: 120px;
-  @media (max-width: 899.25pt) {
+  font-size: 60pt;
+  line-height: 90pt;
+  padding-left: 15pt;
+  border-bottom: ${({ count }) => (count === 11 ? '3.75pt solid white' : '')};
+  @media (max-width: 600pt) {
+    font-size: 15pt;
+    font-weight: 400;
+    line-height: 21.75pt;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 15pt;
+    padding-left: 5pt;
+    border-bottom: ${({ count }) => (count === 11 ? '2pt solid white' : '')};
+  }
+`;
+
+const Dot = styled.div`
+  width: 7.5pt;
+  height: 7.5pt;
+  background-color: white;
+  margin-left: 15pt;
+  margin-top: 60pt;
+  @media (max-width: 600pt) {
+    margin-left: 7pt;
+    margin-top: 15pt;
+    width: 4pt;
+    height: 4pt;
   }
 `;
 

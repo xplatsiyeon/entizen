@@ -65,7 +65,7 @@ const Wrapper = styled.div`
   @media (max-width: 600pt) {
     align-items: flex-start;
     padding: 60pt 0;
-    padding-left: 24pt;
+    /* padding-left: 24pt; */
     width: 100vw;
   }
 `;
@@ -78,6 +78,7 @@ const Container = styled.div`
     display: block;
     overflow-x: scroll;
     width: 100vw;
+    padding-left: 24pt;
   }
 `;
 
@@ -117,6 +118,7 @@ const MainText = styled.span`
     letter-spacing: -0.02em;
     text-align: left;
     padding-bottom: 27pt;
+    padding-left: 24pt;
   }
 `;
 

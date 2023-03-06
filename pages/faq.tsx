@@ -156,6 +156,8 @@ const Faq = () => {
     2: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
   };
 
+  console.log('🐣 faqList 🐣', faqList);
+
   const handleTab = (index: number) => {
     setTabNumber(index);
   };

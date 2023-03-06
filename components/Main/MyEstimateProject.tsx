@@ -29,7 +29,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
               sx={{
                 marginRight: '3pt',
                 padding: '0',
-                color:'#222222'
+                color: '#222222',
               }}
             >
               내 견적서
@@ -69,7 +69,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
               sx={{
                 marginRight: '3pt',
                 padding: '0',
-                color:'#222222'
+                color: '#222222',
               }}
             >
               내 프로젝트
@@ -122,7 +122,8 @@ const BoxWrapper = styled.div<{ borders: number }>`
   min-width: 210pt;
   min-height: 168pt;
   /* padding: 33pt 28.5pt 26.25pt; */
-  padding: 44px 28.5pt 35px 38px;
+  padding: 33pt 28.5pt 26.25pt 28.5pt;
+  cursor: pointer;
   & div:nth-of-type(2) {
     display: flex;
     justify-content: flex-end;
