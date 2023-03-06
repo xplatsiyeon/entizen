@@ -182,8 +182,8 @@ const TextTypingFirst = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 400;
-  font-size: 80px;
-  line-height: 120px;
+  font-size: 60pt;
+  line-height: 90pt;
   @media (max-width: 899.25pt) {
   }
 `;
@@ -192,24 +192,24 @@ const TextTypingSecond = styled.span<{ count: number }>`
   /* font-family: 'Spoqa Han Sans Neo'; */
   font-family: 'Finger Paint', cursive;
   color: #5221cb;
-  height: 90px;
+  height: 67.5pt;
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 400;
-  font-size: 80px;
-  line-height: 120px;
-  padding-left: 20px;
+  font-size: 60pt;
+  line-height: 90pt;
+  padding-left: 15pt;
 
-  border-bottom: ${({ count }) => (count === 11 ? '5px solid white' : '')};
+  border-bottom: ${({ count }) => (count === 11 ? '3.75pt solid white' : '')};
   @media (max-width: 899.25pt) {
   }
 `;
 
 const Dot = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 7.5pt;
+  height: 7.5pt;
   background-color: white;
-  margin-left: 20px;
-  margin-top: 80px;
+  margin-left: 15pt;
+  margin-top: 60pt;
 `;
 
 const TextBox = styled.div`
