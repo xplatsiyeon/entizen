@@ -199,7 +199,7 @@ const Guide1 = () => {
             </div>
           </Header>
           <Wrap>
-            <Platform onClick={() => pageHandler('/guide/1-1')}>
+            <Platform onClick={() => pageHandler('/guide')}>
               <p>플랫폼 가이드</p>
               <h3>
                 충전의 정석
@@ -470,16 +470,16 @@ const SubsidyBox = styled(Box)`
       line-height: 12pt;
     }
   }
-  .mobIcon{
+  .mobIcon {
     @media (max-width: 899.25pt) {
-    width: 15pt;
-    height: 15pt;
+      width: 15pt;
+      height: 15pt;
     }
   }
-  .webIcon{
+  .webIcon {
     @media (max-width: 899.25pt) {
-    width: 15pt;
-    height: 15pt;
+      width: 15pt;
+      height: 15pt;
     }
   }
 `;
@@ -514,7 +514,7 @@ const Subsidy = styled.button`
     align-items: center;
     padding: 0pt 15pt 0pt 10.125pt;
     margin-right: 14.6pt;
-    
+
     .text {
       width: auto;
       padding: 0 0 0 0;
@@ -636,18 +636,18 @@ const GuideBox = styled.button`
     width: 102pt;
     height: 102pt;
   }
-    @media (max-width: 899.25pt) {
-      margin-top: 15pt;
-      padding: 14.25pt 15pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 15pt;
+    padding: 14.25pt 15pt;
 
-    .text{
-      padding-top:7.5pt;
+    .text {
+      padding-top: 7.5pt;
       font-style: normal;
       font-weight: 400;
       font-size: 12pt;
       line-height: 16.5pt;
     }
-    .name{
+    .name {
       font-style: normal;
       font-weight: 700;
       font-size: 15pt;
@@ -681,7 +681,7 @@ const Btn = styled.button`
   display: flex;
   justify-content: center;
   cursor: pointer;
-  color: #5221CB;
+  color: #5221cb;
   align-items: center;
   .img {
     position: relative;
@@ -694,7 +694,6 @@ const Btn = styled.button`
     margin-top: 30pt;
     padding: 6pt 9pt;
   }
-
 `;
 
 const HamburgerOn = styled.div``;
