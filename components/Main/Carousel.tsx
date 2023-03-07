@@ -46,7 +46,7 @@ interface SelectData {
 
 const Carousel = () => {
   const mobileSize = useMediaQuery({
-    query: '(max-width:323.25pt)',
+    query: '(max-width:324pt)',
   });
 
   const pcSize = useMediaQuery({
