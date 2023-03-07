@@ -82,19 +82,24 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
     // }
 
     const x = e.changedTouches[0].clientX;
-    console.log(startPoint.current ,x)
+    //console.log(startPoint.current ,x)
     if(target.classList.contains('slide0')){
-
+      console.log('?')
+      if(startPoint.current > x){
+        const moving = ((x - startPoint.current) * 0.3); //양수.
+        console.log(moving)
+        target.style.transform = `translate3d(${moving}px, 0px ,0px)`
+      }
     }else if(target.classList.contains('slide1')){
       if(startPoint.current < x){
-          const moving = -160 + ((x - startPoint.current) * 0.5);
+          const moving = -160 + ((x - startPoint.current) * 0.3);
           if(moving >= 0){
             target.style.transform = `translate3d(0px, 0px ,0px)`
           }else{
             target.style.transform = `translate3d(${moving}px, 0px ,0px)`
           }
       }else if(startPoint.current > x){
-        const moving = -160 + ((x - startPoint.current) * 0.5);
+        const moving = -160 + ((x - startPoint.current) * 0.3);
         if(moving <= -240){
           target.style.transform = `translate3d(-240px, 0px ,0px)`
         }else{
@@ -102,16 +107,27 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         }
       }
     }else if(target.classList.contains('slide2')){
-
+      if(startPoint.current < x){
+        const moving = -240 +((x - startPoint.current) * 0.3); //음수.
+        console.log(moving)
+        target.style.transform = `translate3d(${moving}px, 0px ,0px)`
+      }
     }  
   }
 
   const handleMoveEnd = (e:TouchEvent)=>{
     const target = e.currentTarget as HTMLDivElement;
     const endPoint = e.changedTouches[0].clientX;
-    target.style.transition = '0.5s';
+    target.style.transition = '0.3s';
 
     if(target.classList.contains('slide0')){
+      if( (startPoint.current - endPoint) >= 50 ){
+        target.style.transform = `translate3d(-160px, 0px ,0px)`;
+        target.classList.remove('slide0');
+        target.classList.add('slide1')
+      }else{
+        target.style.transform = `translate3d(0px, 0px ,0px)`;
+      }
     }else if(target.classList.contains('slide1')){
       if( (startPoint.current - endPoint) <= -50 ){
         console.log('slide1, ' , startPoint.current - endPoint)
@@ -127,11 +143,17 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         target.style.transform = `translate3d(-160px, 0px ,0px)`;
       }
     }else if(target.classList.contains('slide2')){
-
+      if( (startPoint.current - endPoint) <= -50 ){
+        target.style.transform = `translate3d(-160px, 0px ,0px)`;
+        target.classList.remove('slide2');
+        target.classList.add('slide1')
+      }else{
+        target.style.transform = `translate3d(-240px, 0px ,0px)`;
+      }
     }
     setTimeout(()=>{
       target.style.transition = '0s';
-    }, 600)
+    }, 400)
   }
 
   
@@ -660,7 +682,7 @@ const Web = styled.div`
 `;
 const Mob = styled.div`
   position: fixed;
-  
+
   .chattingRoom{
     visibility: hidden;
   }
