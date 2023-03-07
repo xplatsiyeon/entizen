@@ -42,45 +42,13 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   const mobRef = useRef<HTMLDivElement>(null);
   const startPoint = useRef<number>(0);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(mobRef.current){
-        const list = mobRef.current.querySelectorAll('.chattingRoom') as NodeListOf<HTMLDivElement>;
-        list.forEach((ele)=> {
-          if(!ele.style.visibility){
-            ele.style.visibility = 'unset'
-          }})
-        list.forEach((ele)=>console.log(ele.style.visibility))
-      }}
-    ,200)
-  },[])
-
-
-
-  const test = (e:TouchEvent)=>{
-    console.log('?')
-    e.stopPropagation()
-  }
   const handleMoveStart=(e:TouchEvent)=>{
     const start = e.changedTouches[0].clientX;
     startPoint.current = start;
   }
 
-  const handleMove=(e:TouchEvent)=>{
-     const target =  e.currentTarget as HTMLDivElement;
-     //console.log(target)
-    // const target = nowOn.querySelector('.slick-track') as HTMLDivElement;
-    // //console.log(target.style.transform);
-    // if(target.style.transform.includes('translate3d')){
-    //   const moving = target.style.transform.slice(12,-1);
-    //   const movingX = moving.split(',')[0].slice(0,-2);
-    //   if(Number(movingX) > 0){
-    //     test(e)
-    //   }
-    // }else{
-    //   e.preventDefault();
-    // }
-
+  const handleMove=(e:TouchEvent, entizen?:boolean)=>{
+    const target =  e.currentTarget as HTMLDivElement;
     const x = e.changedTouches[0].clientX;
     //console.log(startPoint.current ,x)
     if(target.classList.contains('slide0')){
@@ -100,8 +68,10 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           }
       }else if(startPoint.current > x){
         const moving = -160 + ((x - startPoint.current) * 0.3);
-        if(moving <= -240){
+        if(moving <= -240 && !Boolean(entizen)){
           target.style.transform = `translate3d(-240px, 0px ,0px)`
+        }else if(entizen){
+          target.style.transform = `translate3d(-160px, 0px ,0px)`
         }else{
           target.style.transform = `translate3d(${moving}px, 0px ,0px)`
         }
@@ -115,7 +85,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
     }  
   }
 
-  const handleMoveEnd = (e:TouchEvent)=>{
+  const handleMoveEnd = (e:TouchEvent, entizen?:boolean)=>{
     const target = e.currentTarget as HTMLDivElement;
     const endPoint = e.changedTouches[0].clientX;
     target.style.transition = '0.3s';
@@ -134,7 +104,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         target.style.transform = `translate3d(0px, 0px ,0px)`;
         target.classList.remove('slide1');
         target.classList.add('slide0')
-      }else if((startPoint.current - endPoint) >= 50 ){
+      }else if((startPoint.current - endPoint) >= 50 && !Boolean(entizen)){
         console.log('slide1, ' , startPoint.current - endPoint)
         target.style.transform = `translate3d(-240px, 0px ,0px)`;
         target.classList.remove('slide1');
@@ -444,8 +414,11 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
             /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
-            <Chatting className="chattingRoom slide1" onTouchStart={(e)=>handleMove(e)} >
-          
+            <Chatting className="chattingRoom slide1"
+              onTouchStart={(e)=>handleMoveStart(e)}
+              onTouchMove={(e)=>handleMove(e)}
+              onTouchEnd={(e)=>handleMoveEnd(e)} 
+            >
                 <HiddenBox1>
                   {/* 버튼에 즐겨찾기 설정 api함수 */}
                   <FavoriteBtn
@@ -557,10 +530,10 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
             (chatting, idx) => {
               return (
                 <Chatting className="chattingRoom slide1" key={idx} 
-                onTouchStart={(e)=>handleMoveStart(e)}
-                onTouchMove={(e)=>handleMove(e)}
-                onTouchEnd={(e)=>handleMoveEnd(e)}
-                >
+                    onTouchStart={(e)=>handleMoveStart(e)}
+                    onTouchMove={(e)=>handleMove(e)}
+                    onTouchEnd={(e)=>handleMoveEnd(e)}
+                  >
             
                     <HiddenBox1>
                       {/* 버튼에 즐겨찾기 설정 api함수 */}
@@ -683,9 +656,6 @@ const Web = styled.div`
 const Mob = styled.div`
   position: fixed;
 
-  .chattingRoom{
-    visibility: hidden;
-  }
   @media (min-width: 900pt) {
     display: none;
   }
@@ -703,6 +673,7 @@ const Chatting = styled.div`
   //visibility: hidden;
   @media (min-width: 900pt) {
     width: 160%;
+    transform: translate3d(0px,0px,0px);
   }
   //일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
   //transition: 0.4s;
