@@ -245,6 +245,9 @@ const Body = styled.div<{ chattingRoom: boolean }>`
     border-radius: ${({ chattingRoom }) => (chattingRoom ? `0` : `12pt`)};
     overflow: hidden;
   }
+    @media (max-width: 899.25pt) {
+     position: fixed;
+  }
 `;
 
 const Header = styled.header`
