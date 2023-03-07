@@ -23,6 +23,10 @@ import {
 import { isTokenPatchApi } from 'api';
 import { handleTime } from 'utils/messageTime';
 
+import Slider from 'react-slick';
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 type Props = {
   data: ChattingListResponse;
@@ -40,7 +44,6 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   const [deleteId, setDeleteId] = useState<number>();
 
   const mobRef = useRef<HTMLDivElement>(null);
-  const startPoint = useRef<number>(0);
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -56,19 +59,30 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   },[])
 
 
+  const settings = {
+    infinite: false,
+    slidesToScroll: 1,
+    initialSlide:1,
+    speed:200,
+    responsive: [
+      {
+        breakpoint: 1199,
+        settings: {
+          variableWidth: true,
+          centerMode: false,
+        },
+      },
+    ],
+  };
 
   const test = (e:TouchEvent)=>{
     console.log('?')
     e.stopPropagation()
   }
-  const handleMoveStart=(e:TouchEvent)=>{
-    const start = e.changedTouches[0].clientX;
-    startPoint.current = start;
-  }
 
   const handleMove=(e:TouchEvent)=>{
-     const target =  e.currentTarget as HTMLDivElement;
-     //console.log(target)
+    // const nowOn =  e.currentTarget as HTMLDivElement;
+    // //console.log(target)
     // const target = nowOn.querySelector('.slick-track') as HTMLDivElement;
     // //console.log(target.style.transform);
     // if(target.style.transform.includes('translate3d')){
@@ -82,56 +96,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
     // }
 
     const x = e.changedTouches[0].clientX;
-    console.log(startPoint.current ,x)
-    if(target.classList.contains('slide0')){
-
-    }else if(target.classList.contains('slide1')){
-      if(startPoint.current < x){
-          const moving = -160 + ((x - startPoint.current) * 0.5);
-          if(moving >= 0){
-            target.style.transform = `translate3d(0px, 0px ,0px)`
-          }else{
-            target.style.transform = `translate3d(${moving}px, 0px ,0px)`
-          }
-      }else if(startPoint.current > x){
-        const moving = -160 + ((x - startPoint.current) * 0.5);
-        if(moving <= -240){
-          target.style.transform = `translate3d(-240px, 0px ,0px)`
-        }else{
-          target.style.transform = `translate3d(${moving}px, 0px ,0px)`
-        }
-      }
-    }else if(target.classList.contains('slide2')){
-
-    }  
-  }
-
-  const handleMoveEnd = (e:TouchEvent)=>{
-    const target = e.currentTarget as HTMLDivElement;
-    const endPoint = e.changedTouches[0].clientX;
-    target.style.transition = '0.5s';
-
-    if(target.classList.contains('slide0')){
-    }else if(target.classList.contains('slide1')){
-      if( (startPoint.current - endPoint) <= -50 ){
-        console.log('slide1, ' , startPoint.current - endPoint)
-        target.style.transform = `translate3d(0px, 0px ,0px)`;
-        target.classList.remove('slide1');
-        target.classList.add('slide0')
-      }else if((startPoint.current - endPoint) >= 50 ){
-        console.log('slide1, ' , startPoint.current - endPoint)
-        target.style.transform = `translate3d(-240px, 0px ,0px)`;
-        target.classList.remove('slide1');
-        target.classList.add('slide2')
-      }else{
-        target.style.transform = `translate3d(-160px, 0px ,0px)`;
-      }
-    }else if(target.classList.contains('slide2')){
-
-    }
-    setTimeout(()=>{
-      target.style.transition = '0s';
-    }, 600)
+    console.log(x)
+    e.preventDefault();
   }
 
   
@@ -422,8 +388,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
             /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
-            <Chatting className="chattingRoom slide1" onTouchStart={(e)=>handleMove(e)} >
-          
+            <Chatting className="chattingRoom" onTouchStart={(e)=>handleMove(e)} >
+              <Slider {...settings} className="target">
                 <HiddenBox1>
                   {/* 버튼에 즐겨찾기 설정 api함수 */}
                   <FavoriteBtn
@@ -527,6 +493,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     </Box>
                   </ChattingRoomInfo>
                 </ChattingRoom>
+              </Slider>
             </Chatting>
           )}
 
@@ -534,12 +501,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           {data?.data?.chattingRooms?.userChattingRooms?.map(
             (chatting, idx) => {
               return (
-                <Chatting className="chattingRoom slide1" key={idx} 
-                onTouchStart={(e)=>handleMoveStart(e)}
-                onTouchMove={(e)=>handleMove(e)}
-                onTouchEnd={(e)=>handleMoveEnd(e)}
-                >
-            
+                <Chatting className="chattingRoom" key={idx} onTouchMove={(e)=>handleMove(e)}>
+                  <Slider {...settings} className="target">
                     <HiddenBox1>
                       {/* 버튼에 즐겨찾기 설정 api함수 */}
                       <FavoriteBtn
@@ -638,6 +601,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                         <span> 나가기 </span>
                       </QuitBtn>
                     </HiddenBox2>
+                  </Slider>
                 </Chatting>
               );
             },
@@ -674,15 +638,45 @@ const Body = styled.div`
 
 const Chatting = styled.div`
   display: flex;
-  width: calc(100vw + 240px);
-  transform: translate3d(-160px,0px,0px);
+  width: 100%;
   //visibility: hidden;
   @media (min-width: 900pt) {
     width: 160%;
   }
   //일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
   //transition: 0.4s;
- 
+  .target {
+    width: 100% !important;
+    height: 61pt !important;
+    .slick-track {
+      width: calc(100% + 240px) !important;
+      margin-left: 0% !important;
+      transition : 0.2s!important;
+      .slick-slide {
+        &:nth-of-type(1) {
+          width: 160px !important;
+          > div {
+            width: 100%;
+            position: relative;
+          }
+        }
+        &:nth-of-type(2) {
+          width: 80px !important;
+          > div {
+            width: 100%;
+            position: relative;
+          }
+        }
+        &:nth-of-type(3) {
+          width: calc(100% - 240px) !important;
+          > div {
+            width: 100%;
+            position: relative;
+          }
+        }
+      }
+    }
+  }
 `;
 const ChattingRoom = styled.div`
   display: flex !important;
@@ -810,7 +804,6 @@ const HiddenBox1 = styled.div`
   @media (max-width: 899.25pt) {
     display: flex !important;
     height: 60.75pt;
-    width: 160px;
   }
 `;
 const HiddenBox2 = styled.div`
@@ -820,9 +813,9 @@ const HiddenBox2 = styled.div`
   right: -2pt;
 
   @media (max-width: 899pt) {
-    //width: 60pt !important;
+    width: 60pt !important;
+    position: absolute;
     height: 60.75pt;
-    width: 80px;
   }
 `;
 
