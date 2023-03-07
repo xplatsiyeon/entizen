@@ -659,6 +659,8 @@ const Web = styled.div`
   }
 `;
 const Mob = styled.div`
+  position: fixed;
+  
   .chattingRoom{
     visibility: hidden;
   }

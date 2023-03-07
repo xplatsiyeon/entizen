@@ -147,6 +147,8 @@ const WebBody = styled.div`
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
+    position: fixed;
+    -webkit-overflow-scrolling: touch;
   }
 `;
 const Wrapper = styled.div`
