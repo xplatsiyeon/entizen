@@ -66,19 +66,19 @@ const Carousel = () => {
     () => getApi(`/banners?targetMemberType=USER`),
     {
       enabled: accessToken === null || accessToken === 'USER' ? true : false,
-      onSettled(data, error) {
-        data?.data?.banners?.map((item) =>
-          item?.bannerImages.filter((el) => {
-            if (pcSize) {
-              return el.imageSizeType === 'PC';
-            } else if (mobileSize) {
-              return el.imageSizeType === 'MOBILE';
-            } else {
-              el.imageSizeType === 'TABLET';
-            }
-          }),
-        );
-      },
+      // onSettled(data, error) {
+      //   data?.data?.banners?.map((item) =>
+      //     item?.bannerImages.filter((el) => {
+      //       if (pcSize) {
+      //         return el.imageSizeType === 'PC';
+      //       } else if (mobileSize) {
+      //         return el.imageSizeType === 'MOBILE';
+      //       } else {
+      //         el.imageSizeType === 'TABLET';
+      //       }
+      //     }),
+      //   );
+      // },
     },
   );
 
@@ -126,14 +126,24 @@ const Carousel = () => {
               .map((el, idx) => (
                 <Slider key={idx}>
                   <a href={el?.url}>
-                    {el?.bannerImages?.map((img) => (
-                      <SliderImg
-                        key={img?.bannerImageIdx}
-                        src={img?.url}
-                        alt={img?.originalName}
-                        style={{ cursor: 'pointer' }}
-                      />
-                    ))}
+                    {el?.bannerImages
+                      ?.filter((item) => {
+                        if (pcSize) {
+                          return item.imageSizeType === 'PC';
+                        } else if (mobileSize) {
+                          return item.imageSizeType === 'MOBILE';
+                        } else {
+                          return item.imageSizeType === 'TABLET';
+                        }
+                      })
+                      .map((img) => (
+                        <SliderImg
+                          key={img?.bannerImageIdx}
+                          src={img?.url}
+                          alt={img?.originalName}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      ))}
                   </a>
                 </Slider>
               ))
@@ -142,14 +152,32 @@ const Carousel = () => {
               .map((el, idx) => (
                 <Slider key={idx}>
                   <a href={el?.url}>
-                    {el?.bannerImages?.map((img) => (
+                    {el?.bannerImages
+                      ?.filter((item) => {
+                        if (pcSize) {
+                          return item.imageSizeType === 'PC';
+                        } else if (mobileSize) {
+                          return item.imageSizeType === 'MOBILE';
+                        } else {
+                          return item.imageSizeType === 'TABLET';
+                        }
+                      })
+                      .map((img) => (
+                        <SliderImg
+                          key={img?.bannerImageIdx}
+                          src={img?.url}
+                          alt={img?.originalName}
+                          style={{ cursor: 'pointer' }}
+                        />
+                      ))}
+                    {/* {el?.bannerImages?.map((img) => (
                       <SliderImg
                         key={img?.bannerImageIdx}
                         src={img?.url}
                         alt={img?.originalName}
                         style={{ cursor: 'pointer' }}
                       />
-                    ))}
+                    ))} */}
                   </a>
                 </Slider>
               ))}

@@ -86,8 +86,6 @@ const AdminBannerEditor = ({
 
   const [checkValue, setCheckValue] = useState('일반회원');
 
-  console.log('data', data);
-
   // 리스트 불러오는 api
   // const { data: bannerList, refetch: bannerListRefetch } =
   //   useQuery<AdminBannerListResponse>('bannerList', () =>
@@ -435,6 +433,9 @@ const AdminBannerEditor = ({
       });
     }
   };
+  console.log('pcImgName ⚽️', pcImgName);
+  console.log('tabletImgName 🪀', tabletImgName);
+  console.log('mobileImgName 🛼', mobileImgName);
 
   // 배너리스트 삭제 api
 
