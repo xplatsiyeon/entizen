@@ -76,13 +76,17 @@ const AdminBannerEditor = ({
     useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
       isTokenAdminGetApi(`/admin/banners/${detatilId}`),
     );
-  const outsideImgRef = useRef<any>(null);
-  const insideImgRef = useRef<any>(null);
+  const outsidePcImgRef = useRef<any>(null);
+  const outsideTabletImgRef = useRef<any>(null);
+  const outsideMobileImgRef = useRef<any>(null);
+
   const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
   const [userNum, setUserNum] = useState(0);
 
   const [checkValue, setCheckValue] = useState('일반회원');
+
+  console.log('data', data);
 
   // 리스트 불러오는 api
   // const { data: bannerList, refetch: bannerListRefetch } =
@@ -108,25 +112,29 @@ const AdminBannerEditor = ({
   // url
   const [url, setUrl] = useState<string | undefined>('');
 
-  const [insideImgArr, setInsideImgArr] = useState<IMG[]>([]);
-  const [outsideImgArr, setOutsideImgArr] = useState<IMG[]>([]);
-  const [outsideImgUrl, setOutsideImgUrl] = useState<string | undefined>('');
-  const [outsideImgName, setOutsideImgName] = useState<string | undefined>('');
-  const [outsideImgSize, setOutsideImgSize] = useState<number | undefined>();
+  const [pcImgArr, setPcImgArr] = useState<IMG[]>([]);
+  const [pcImgUrl, setPcImgUrl] = useState<string | undefined>('');
+  const [pcImgName, setPcImgName] = useState<string | undefined>('');
+  const [pcImgSize, setPcImgSize] = useState<number | undefined>();
+
+  const [tabletImgArr, setTabletImgArr] = useState<IMG[]>([]);
+  const [tabletImgUrl, setTabletImgUrl] = useState<string | undefined>('');
+  const [tabletImgName, setTabletImgName] = useState<string | undefined>('');
+  const [tabletImgSize, setTabletImgSize] = useState<number | undefined>();
+
+  const [mobileImgArr, setMobileImgArr] = useState<IMG[]>([]);
+  const [mobileImgUrl, setMobileImgUrl] = useState<string | undefined>('');
+  const [mobileImgName, setMobileImgName] = useState<string | undefined>('');
+  const [mobileImgSize, setMobileImgSize] = useState<number | undefined>();
 
   const firstTitle = data?.data?.banner?.title;
   const firstUrl = data?.data?.banner?.url;
   const targetMemberType = data?.data?.banner?.targetMemberType;
-  const firstOutsideImgArr = data?.data?.banner?.mainImage;
-  const firstInsideImgArr = data?.data?.banner?.innerImages?.map((e) => {
-    const { createdAt, bannerImageIdx, ...rest } = e;
-    return { ...rest };
-  });
 
   // 메인이미지에 추가해도 preview에 내부 이미지로 들어가는거 수정...
 
   // file s3 multer 저장 API (with useMutation)
-  const { mutate: outImage, isLoading: multerOutImageLoading } = useMutation<
+  const { mutate: pcImage, isLoading: multerPcImageLoading } = useMutation<
     MulterResponse,
     AxiosError,
     FormData
@@ -134,7 +142,7 @@ const AdminBannerEditor = ({
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
       // console.log(res);
-      const newFile = outsideImgArr;
+      const newFile = pcImgArr;
       // const newFile = preFile.map((e) => {
       //   const { createdAt, bannerImageIdx, ...rest } = e;
       //   return { ...rest };
@@ -145,11 +153,11 @@ const AdminBannerEditor = ({
           size: img.size,
           originalName: decodeURIComponent(img.originalName),
         });
-        setOutsideImgName(decodeURIComponent(img.originalName));
-        setOutsideImgUrl(img.url);
-        setOutsideImgSize(img.size);
+        setPcImgName(decodeURIComponent(img.originalName));
+        setPcImgUrl(img.url);
+        setPcImgSize(img.size);
       });
-      setOutsideImgArr(newFile);
+      setPcImgArr(newFile);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -165,50 +173,80 @@ const AdminBannerEditor = ({
     },
   });
 
-  const { mutate: inImage, isLoading: multerInImageLoading } = useMutation<
-    MulterResponse,
-    AxiosError,
-    FormData
-  >(multerAdminApi, {
-    onSuccess: (res) => {
-      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
-
-      let newFile: NEWIMG[] = [];
-      if (insideImgArr !== undefined) {
-        newFile = insideImgArr?.map((e) => {
-          const { createdAt, bannerImageIdx, ...rest } = e;
-          // console.log('rest', { ...rest });
-          return { ...rest };
+  const { mutate: tabletImage, isLoading: multerTabletImageLoading } =
+    useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
+      onSuccess: (res) => {
+        // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
+        // console.log(res);
+        const newFile = tabletImgArr;
+        // const newFile = preFile.map((e) => {
+        //   const { createdAt, bannerImageIdx, ...rest } = e;
+        //   return { ...rest };
+        // });
+        res?.uploadedFiles.forEach((img) => {
+          newFile.push({
+            url: img.url,
+            size: img.size,
+            originalName: decodeURIComponent(img.originalName),
+          });
+          setTabletImgName(decodeURIComponent(img.originalName));
+          setTabletImgUrl(img.url);
+          setTabletImgSize(img.size);
         });
-      } else {
-        newFile = [];
-      }
+        setTabletImgArr(newFile);
+      },
+      onError: (error: any) => {
+        if (error.response.data.message) {
+          setMessage(`첫번째 에러:${error.response.data.message}`);
+          setMessageModal(true);
+        } else if (error.response.status === 413) {
+          setMessage('용량이 너무 큽니다.');
+          setMessageModal(true);
+        } else {
+          setMessage('다시 시도해주세요');
+          setMessageModal(true);
+        }
+      },
+    });
 
-      res?.uploadedFiles.forEach((img) => {
-        newFile.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
+  const { mutate: mobileImage, isLoading: multerMobileImageLoading } =
+    useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
+      onSuccess: (res) => {
+        // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
+        // console.log(res);
+        const newFile = mobileImgArr;
+        // const newFile = preFile.map((e) => {
+        //   const { createdAt, bannerImageIdx, ...rest } = e;
+        //   return { ...rest };
+        // });
+        res?.uploadedFiles.forEach((img) => {
+          newFile.push({
+            url: img.url,
+            size: img.size,
+            originalName: decodeURIComponent(img.originalName),
+          });
+          setMobileImgName(decodeURIComponent(img.originalName));
+          setMobileImgUrl(img.url);
+          setMobileImgSize(img.size);
         });
-      });
-      setInsideImgArr(newFile);
-    },
-    onError: (error: any) => {
-      if (error.response.data.message) {
-        setMessage(error.response.data.message);
-        setMessageModal(true);
-      } else if (error.response.status === 413) {
-        setMessage('용량이 너무 큽니다.');
-        setMessageModal(true);
-      } else {
-        setMessage('다시 시도해주세요');
-        setMessageModal(true);
-      }
-    },
-  });
+        setMobileImgArr(newFile);
+      },
+      onError: (error: any) => {
+        if (error.response.data.message) {
+          setMessage(`첫번째 에러:${error.response.data.message}`);
+          setMessageModal(true);
+        } else if (error.response.status === 413) {
+          setMessage('용량이 너무 큽니다.');
+          setMessageModal(true);
+        } else {
+          setMessage('다시 시도해주세요');
+          setMessageModal(true);
+        }
+      },
+    });
 
   // 이미지 첨부 api
-  const saveFileOutsideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const saveFilePcImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 1;
     const formData = new FormData();
@@ -218,13 +256,13 @@ const AdminBannerEditor = ({
       }
       formData.append('banner', files![i], encodeURIComponent(files![i].name));
     }
-    outImage(formData);
+    pcImage(formData);
     e.target.value = '';
   };
 
-  const saveFileInsideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const saveFileTabletImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    const maxLength = 3;
+    const maxLength = 1;
     const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
@@ -232,43 +270,78 @@ const AdminBannerEditor = ({
       }
       formData.append('banner', files![i], encodeURIComponent(files![i].name));
     }
-    inImage(formData);
+    tabletImage(formData);
+    e.target.value = '';
+  };
+
+  const saveFileMobileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 1;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('banner', files![i], encodeURIComponent(files![i].name));
+    }
+    mobileImage(formData);
     e.target.value = '';
   };
 
   // 사진 삭제
-  const handleOutPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    setOutsideImgName('');
-    setOutsideImgUrl('');
-    setOutsideImgSize(0);
+  const handlePcPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPcImgName('');
+    setPcImgUrl('');
+    setPcImgSize(0);
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...outsideImgArr];
+    const copyArr = [...pcImgArr];
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setOutsideImgArr(copyArr);
+        return setPcImgArr(copyArr);
       }
     }
   };
 
-  const handleInPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleTabletPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setMobileImgName('');
+    setMobileImgUrl('');
+    setMobileImgSize(0);
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...insideImgArr];
+    const copyArr = [...tabletImgArr];
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setInsideImgArr(copyArr);
+        return setMobileImgArr(copyArr);
+      }
+    }
+  };
+
+  const handleMobilePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setMobileImgName('');
+    setMobileImgUrl('');
+    setMobileImgSize(0);
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...mobileImgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setMobileImgArr(copyArr);
       }
     }
   };
 
   // 사진 온클릭
-  const imgOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    outsideImgRef?.current?.click();
+  const pcImgOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    outsidePcImgRef?.current?.click();
   };
 
-  const imgInHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    insideImgRef?.current?.click();
+  const tabletImgOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    outsideTabletImgRef?.current?.click();
+  };
+
+  const mobileImgOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    outsideMobileImgRef?.current?.click();
   };
 
   // -------------------------배너리스트 조회 (수정하기) -------------------
@@ -296,10 +369,20 @@ const AdminBannerEditor = ({
         targetMemberType: userTypeEn[userNum],
         title: title,
         url: url,
-        mainImage: {
-          originalName: outsideImgName,
-          url: outsideImgUrl,
-          size: outsideImgSize,
+        pcImage: {
+          url: pcImgUrl,
+          size: pcImgSize,
+          originalName: pcImgName,
+        },
+        tabletImage: {
+          url: tabletImgUrl,
+          size: tabletImgSize,
+          originalName: tabletImgName,
+        },
+        mobileImage: {
+          url: mobileImgUrl,
+          size: mobileImgSize,
+          originalName: mobileImgName,
         },
         // innerImages: insideImgArr,
       },
@@ -332,10 +415,20 @@ const AdminBannerEditor = ({
           targetMemberType: userTypeEn[userNum],
           title: title,
           url: url,
-          mainImage: {
-            originalName: outsideImgName,
-            url: outsideImgUrl,
-            size: outsideImgSize,
+          pcImage: {
+            url: pcImgUrl,
+            size: pcImgSize,
+            originalName: pcImgName,
+          },
+          tabletImage: {
+            url: tabletImgUrl,
+            size: tabletImgSize,
+            originalName: tabletImgName,
+          },
+          mobileImage: {
+            url: mobileImgUrl,
+            size: mobileImgSize,
+            originalName: mobileImgName,
           },
           // innerImages: insideImgArr,
         },
@@ -384,11 +477,30 @@ const AdminBannerEditor = ({
     if (data !== undefined) {
       setTitle(firstTitle);
       setUrl(firstUrl);
-      setOutsideImgArr([firstOutsideImgArr!]);
-      setOutsideImgUrl(firstOutsideImgArr?.url);
-      setOutsideImgName(firstOutsideImgArr?.originalName);
-      setOutsideImgSize(firstOutsideImgArr?.size);
-      setInsideImgArr(firstInsideImgArr!);
+      data?.data?.banner?.bannerImages
+        ?.filter((item) => item.imageSizeType === 'PC')
+        .map((el) => {
+          // setPcImgArr([firstOutsideImgArr!]);
+          setPcImgUrl(el?.url);
+          setPcImgName(el?.originalName);
+          setPcImgSize(el?.size);
+        });
+      data?.data?.banner?.bannerImages
+        ?.filter((item) => item.imageSizeType === 'MOBILE')
+        .map((el) => {
+          // setPcImgArr([firstOutsideImgArr!]);
+          setMobileImgUrl(el?.url);
+          setMobileImgName(el?.originalName);
+          setMobileImgSize(el?.size);
+        });
+      data?.data?.banner?.bannerImages
+        ?.filter((item) => item.imageSizeType === 'TABLET')
+        .map((el) => {
+          // setPcImgArr([firstOutsideImgArr!]);
+          setTabletImgUrl(el?.url);
+          setTabletImgName(el?.originalName);
+          setTabletImgSize(el?.size);
+        });
     }
     if (targetMemberType !== undefined && detatilId !== '') {
       setUserNum(userTypeEn.indexOf(targetMemberType));
@@ -483,58 +595,35 @@ const AdminBannerEditor = ({
         </TitleBox>
         <ImgWrapper>
           <AddImg>
-            <AddImgText>메인 이미지 추가</AddImgText>
+            <AddImgText>
+              메인 이미지 추가 <br />
+              (PC 이미지)
+            </AddImgText>
             <SizeText>1920px X 480px</SizeText>
-            <AdminBtn onClick={imgOutHandler} style={{ marginTop: '13px' }}>
+            <AdminBtn onClick={pcImgOutHandler} style={{ marginTop: '13px' }}>
               사진첨부
             </AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
-            ref={outsideImgRef}
+            ref={outsidePcImgRef}
             type="file"
             accept="image/*"
-            onChange={saveFileOutsideImage}
+            onChange={saveFilePcImage}
             multiple
           />
-          {/* <Preview> */}
-          {/* <ImgSpanBox>
-            {outsideImgArr?.map((img, index) => (
-              <ImgSpan>
-                <Image
-                  layout="fill"
-                  alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={img?.url}
-                  priority={true}
-                  unoptimized={true}
-                  objectFit="cover"
-                />
-                <Xbox onClick={handleOutPhotoDelete} data-name={index}>
-                  <Image
-                    src={CloseImg}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
-                  />
-                </Xbox>
-              </ImgSpan>
-            ))}
-          </ImgSpanBox> */}
           <ImgSpanBox>
-            {outsideImgUrl !== undefined && outsideImgUrl !== '' && (
+            {pcImgUrl !== undefined && pcImgUrl !== '' && (
               <ImgSpan>
                 <Image
                   layout="fill"
                   alt="preview"
-                  src={outsideImgUrl !== undefined ? outsideImgUrl : ''}
+                  src={pcImgUrl !== undefined ? pcImgUrl : ''}
                   priority={true}
                   unoptimized={true}
                   objectFit="cover"
                 />
-                <Xbox onClick={handleOutPhotoDelete}>
+                <Xbox onClick={handlePcPhotoDelete}>
                   <Image
                     src={CloseImg}
                     layout="intrinsic"
@@ -547,34 +636,40 @@ const AdminBannerEditor = ({
             )}
           </ImgSpanBox>
         </ImgWrapper>
-        {/* <ImgWrapper>
+        <ImgWrapper>
           <AddImg>
-            <AddImgText>내부 이미지 추가</AddImgText>
-            <AdminBtn onClick={imgInHandler}>사진첨부</AdminBtn>
+            <AddImgText>
+              메인 이미지 추가 <br />
+              (태블릿 이미지)
+            </AddImgText>
+            <SizeText>1920px X 480px</SizeText>
+            <AdminBtn
+              onClick={tabletImgOutHandler}
+              style={{ marginTop: '13px' }}
+            >
+              사진첨부
+            </AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
-            ref={insideImgRef}
+            ref={outsideTabletImgRef}
             type="file"
             accept="image/*"
-            onChange={saveFileInsideImage}
+            onChange={saveFileTabletImage}
             multiple
           />
-          // <Preview>
           <ImgSpanBox>
-            {insideImgArr?.map((img, index) => (
+            {tabletImgUrl !== undefined && tabletImgUrl !== '' && (
               <ImgSpan>
                 <Image
                   layout="fill"
                   alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={img?.url}
+                  src={tabletImgUrl !== undefined ? tabletImgUrl : ''}
                   priority={true}
                   unoptimized={true}
                   objectFit="cover"
                 />
-                <Xbox onClick={handleInPhotoDelete} data-name={index}>
+                <Xbox onClick={handleTabletPhotoDelete}>
                   <Image
                     src={CloseImg}
                     layout="intrinsic"
@@ -584,9 +679,55 @@ const AdminBannerEditor = ({
                   />
                 </Xbox>
               </ImgSpan>
-            ))}
+            )}
           </ImgSpanBox>
-        </ImgWrapper> */}
+        </ImgWrapper>
+        <ImgWrapper>
+          <AddImg>
+            <AddImgText>
+              메인 이미지 추가 <br />
+              (모바일 이미지)
+            </AddImgText>
+            <SizeText>1920px X 480px</SizeText>
+            <AdminBtn
+              onClick={mobileImgOutHandler}
+              style={{ marginTop: '13px' }}
+            >
+              사진첨부
+            </AdminBtn>
+          </AddImg>
+          <input
+            style={{ display: 'none' }}
+            ref={outsideMobileImgRef}
+            type="file"
+            accept="image/*"
+            onChange={saveFileMobileImage}
+            multiple
+          />
+          <ImgSpanBox>
+            {mobileImgUrl !== undefined && mobileImgUrl !== '' && (
+              <ImgSpan>
+                <Image
+                  layout="fill"
+                  alt="preview"
+                  src={mobileImgUrl !== undefined ? mobileImgUrl : ''}
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="cover"
+                />
+                <Xbox onClick={handleMobilePhotoDelete}>
+                  <Image
+                    src={CloseImg}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </ImgSpan>
+            )}
+          </ImgSpanBox>
+        </ImgWrapper>
         <BtnBox>
           {detatilId !== '' ? (
             <>
@@ -719,6 +860,8 @@ const ImgWrapper = styled.div`
 const AddImgText = styled.div`
   ${smallText}
   margin-bottom: 1px;
+  white-space: pre;
+  text-align: left;
 `;
 
 const AddImg = styled.div`

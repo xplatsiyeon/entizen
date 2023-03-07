@@ -268,16 +268,11 @@ export interface AdminBannerDetailResponse {
       targetMemberType: string;
       title: string;
       url: string;
-      mainImage: {
+      isVisible: boolean;
+      bannerImages: {
         createdAt: string;
         bannerImageIdx: number;
-        originalName: string;
-        url: string;
-        size: number;
-      };
-      innerImages: {
-        createdAt: string;
-        bannerImageIdx: number;
+        imageSizeType: string;
         originalName: string;
         url: string;
         size: number;

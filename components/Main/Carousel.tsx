@@ -10,6 +10,8 @@ import LeftNext from 'public/images/LeftNextEllipse.svg';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
 import { getApi } from 'api';
+import { useMediaQuery } from 'react-responsive';
+import { AxiosError } from 'axios';
 
 export type BannerList = {
   isSuccess: boolean;
@@ -23,7 +25,8 @@ export type BannerList = {
       createdAt: string;
       bannerImages: {
         bannerImageIdx: number;
-        isMainImage: boolean;
+        imageSizeType: string;
+        // isMainImage: boolean;
         originalName: string;
         url: string;
         size: number;
@@ -32,7 +35,24 @@ export type BannerList = {
   };
 };
 
+interface SelectData {
+  bannerImageIdx: number;
+  imageSizeType: string;
+  // isMainImage: boolean;
+  originalName: string;
+  url: string;
+  size: number;
+}
+
 const Carousel = () => {
+  const mobileSize = useMediaQuery({
+    query: '(max-width:323.25pt)',
+  });
+
+  const pcSize = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+
   // 멤버타입 조회
   const accessToken = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   // 배너 조회
@@ -41,13 +61,28 @@ const Carousel = () => {
     isLoading: bannerListLoading,
     isError: bannerListError,
     refetch: bannerListRefetch,
-  } = useQuery<BannerList>(
+  } = useQuery<SelectData, AxiosError, BannerList>(
     'banner-list',
     () => getApi(`/banners?targetMemberType=USER`),
     {
       enabled: accessToken === null || accessToken === 'USER' ? true : false,
+      onSettled(data, error) {
+        data?.data?.banners?.map((item) =>
+          item?.bannerImages.filter((el) => {
+            if (pcSize) {
+              return el.imageSizeType === 'PC';
+            } else if (mobileSize) {
+              return el.imageSizeType === 'MOBILE';
+            } else {
+              el.imageSizeType === 'TABLET';
+            }
+          }),
+        );
+      },
     },
   );
+
+  console.log('bannerList', bannerList);
 
   const {
     data: companyBannerList,
