@@ -98,7 +98,7 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
 
   // 백엔드에 보내주는 쿼리
   const reverseAuctionString = changeEn
-    .map((e) => `&quotationRequestStatus[]=${e}`)
+    .map((e) => `&inProgressStatuses[]=${e}`)
     .join('');
 
   // 달력 날짜 변경 함수
