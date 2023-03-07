@@ -7,7 +7,7 @@ import Pencil from 'public/images/InstaSvg.svg';
 // import apple from 'public/images/appleLogo.png';
 // import google from 'public/images/googlePlayIcon.png';
 import apple from 'public/images/appleFooterSvg.svg';
-import google from 'public/images/googleWebFooterSvg.svg';
+import google from 'public/images/newGoogleIcon.svg';
 
 const WebFooter = () => {
   const userID = localStorage.getItem('USER_ID');
@@ -16,9 +16,6 @@ const WebFooter = () => {
       <Inner>
         <Box1>
           <List>
-            <Link href="/">
-              <li>사업자 정보 확인</li>
-            </Link>
             <Link href="/setting?id=3">
               <li>이용약관</li>
             </Link>
@@ -54,19 +51,20 @@ const WebFooter = () => {
               </IconBox>
             </li>
           </List>
+
           <Address>
-            (주)엔티즌 대표: 윤민호,오성흠 사업자등록번호 116-81-19273
+            <CompanyName>엘에스일렉트릭(주)</CompanyName>
+            대표자: 구자균 ⎥ 사업자등록번호 116-81-19273
             <br />
-            호스칭 사업자 : 블라블라 총신판매업: 2021-서울강남-2345
+            주소: 경기도 안양시 동안구 엘에스로 127(호계동)
             <br />
-            이메일: 블라블라@entizen.com 고객센터: 0000-0000
+            이메일: entizen@entizen.kr
             <br />
-            운영시간: 평일 10:00 ~ 17:00 &#40;점심시간 12:00 / 주일 및 공휴일
-            제외&#41;
+            고객센터: 010-9818-8856 ⎥ 운영시간: 평일 09:00 ~ 17:00 (점심시간
+            12:00 ~ 13:00 / 주말 및 공휴일 제외)
             <br />
-            주소: 서울 강남구 테헤란로 393 LS 빌딩
-            <br />
-            <br /> Copyright &copy; 2022 Entizen Inc. All rights reserve.
+            <br /> Copyright &copy; 2023 LS ELECTRIC Co., Ltd. All Rights
+            Reserved
           </Address>
         </Box1>
 
@@ -76,7 +74,7 @@ const WebFooter = () => {
             <p>9818-8856</p>
           </CallNumber>
           <Time>
-            <p> 평일 10:00~17:00</p>
+            <p> 평일 9:00~17:00</p>
             <p>&#40;점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외&#41;</p>
           </Time>
           <ButtonBox>
@@ -139,6 +137,8 @@ const List = styled.ul`
 `;
 
 const Address = styled.address`
+  display: flex;
+  flex-direction: column;
   font-weight: 400;
   font-size: 12pt;
   line-height: 19.5pt;
@@ -196,7 +196,8 @@ const ButtonBox = styled.div`
 `;
 
 const Button = styled.button`
-  background: ${colors.main};
+  /* background: ${colors.main}; */
+  background: #222222;
   padding: 9pt 12pt;
   border-radius: 21.75pt;
   font-weight: bold;
@@ -221,4 +222,15 @@ const IconBox = styled.div`
   align-items: center;
   width: 27pt;
   height: 27pt;
+`;
+
+const CompanyName = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 13.5pt;
+  font-weight: 700;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #a6a9b0;
+  padding-bottom: 12pt;
 `;
