@@ -21,7 +21,26 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 // new: 신규, awaitingBid: 낙찰대기, closed: 견적마감, cancel: 견적취소
-const projectStateType = ['신규', '낙찰대기', '견적마감', '견적취소'];
+const projectStateType = [
+  '진행 중',
+  '견적 마감',
+  '견적 취소',
+  '현장실사 조율 중',
+  '현장실사 예약 완료',
+  '최종견적 대기 중',
+  '낙찰대기 중',
+  '낙찰완료',
+];
+const projectStateTypeEn = [
+  'IN_PROGRESS',
+  'CLOSED',
+  'CANCEL',
+  'DUE_DILIGENCE_COORDINATION',
+  'DUE_DILIGENCE_COMPLETED_RESERVATION',
+  'AWAITING_FINAL_QUOTATION',
+  'AWAITING_BID',
+  'COMPLETED_BID',
+];
 
 const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
@@ -58,14 +77,22 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
 
   // 백엔드에 체크박스 선택값 배열에 영문으로 보내줌
   const changeEn = projectState.map((data) => {
-    if (data === '신규') {
-      return 'new';
-    } else if (data === '낙찰대기') {
-      return 'awaitingBid';
-    } else if (data === '견적마감') {
-      return 'closed';
-    } else if (data === '견적취소') {
-      return 'cancel';
+    if (data === '진행 중') {
+      return 'IN_PROGRESS';
+    } else if (data === '견적 막감') {
+      return 'CLOSED';
+    } else if (data === '견적 취소') {
+      return 'CANCEL';
+    } else if (data === '현장실사 조율 중') {
+      return 'DUE_DILIGENCE_COORDINATION';
+    } else if (data === '현장실사 예약 완료') {
+      return 'DUE_DILIGENCE_COMPLETED_RESERVATION';
+    } else if (data === '최종견적 대기 중') {
+      return 'AWAITING_FINAL_QUOTATION';
+    } else if (data === '낙찰대기 중') {
+      return 'AWAITING_BID';
+    } else if (data === '낙찰완료') {
+      return 'COMPLETED_BID';
     }
   });
 
@@ -188,7 +215,6 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 30pt;
     padding: 4pt 0 4pt 12pt;
-    width: 100%;
   }
   .searchInput {
     border: 1px solid ${colors.lightWhite3};
@@ -197,7 +223,7 @@ const Manager = styled.ul`
     padding-left: 10px;
   }
   .row {
-    width: 946px;
+    width: 100%;
   }
   .label {
     min-width: 94px;
