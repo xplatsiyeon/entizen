@@ -650,9 +650,11 @@ const Previw = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   position: absolute;
-  width: 120%;
+  width: 100%;
   height: 18pt;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Created = styled.div`
