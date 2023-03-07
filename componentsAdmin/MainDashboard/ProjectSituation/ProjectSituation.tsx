@@ -21,11 +21,6 @@ type Props = {
 };
 // awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
 const projectStateType = ['계약대기', '완료동의', '완료'];
-const projectStateTypeEn = [
-  'awaitingContract',
-  'completionAgreement',
-  'completion',
-];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
