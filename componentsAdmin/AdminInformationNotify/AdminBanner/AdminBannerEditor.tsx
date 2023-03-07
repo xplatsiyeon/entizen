@@ -643,7 +643,7 @@ const AdminBannerEditor = ({
               메인 이미지 추가 <br />
               (태블릿 이미지)
             </AddImgText>
-            <SizeText>1920px X 480px</SizeText>
+            <SizeText>1024px X 132px</SizeText>
             <AdminBtn
               onClick={tabletImgOutHandler}
               style={{ marginTop: '13px' }}
@@ -689,7 +689,7 @@ const AdminBannerEditor = ({
               메인 이미지 추가 <br />
               (모바일 이미지)
             </AddImgText>
-            <SizeText>1920px X 480px</SizeText>
+            <SizeText>430px X 132px</SizeText>
             <AdminBtn
               onClick={mobileImgOutHandler}
               style={{ marginTop: '13px' }}
