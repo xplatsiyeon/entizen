@@ -49,6 +49,12 @@ const AlertModal = ({
               setIsDetail
             ) {
               setIsModal(false);
+            } else if (
+              message === '프로젝트 삭제가 완료됐습니다.' &&
+              setIsDetail
+            ) {
+              setIsModal(false);
+              setIsDetail(false);
             }
           }}
         >
