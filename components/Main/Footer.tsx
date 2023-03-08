@@ -45,7 +45,13 @@ const Footer = (props: Props) => {
         <MenuBox>
           <Menus
             onClick={() => {
-              router.push('/setting?id=3?direct=true');
+              router.push({
+                pathname: '/setting',
+                query: {
+                  id: 3,
+                  direct: true,
+                },
+              });
             }}
           >
             이용약관

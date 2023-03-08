@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type SelectedType = 'USER' | 'COMPANY';
+type SelectedType = '' | 'USER' | 'COMPANY';
 export interface LoginType {
   selectedType: SelectedType;
   signUpLevel: number;
 }
 
 const initialState: LoginType = {
-  selectedType: 'USER',
+  selectedType: '',
   signUpLevel: 0,
 };
 

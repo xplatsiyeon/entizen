@@ -6,6 +6,7 @@ import colors from 'styles/colors';
 import Home from 'public/images/home.svg';
 import { css } from '@emotion/react';
 import ExitImg from 'public/images/X.svg';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   title?: string;
@@ -33,9 +34,12 @@ const SignUpHeader = ({
   web,
 }: Props) => {
   const route = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   return (
-    <Header web={web}>
+    <Header web={web} mobile={mobile}>
       {/* 뒤로가기 버튼 */}
       {back && (
         <div className="back-img" onClick={handleBackClick}>
@@ -54,7 +58,7 @@ const SignUpHeader = ({
           <Image src={ExitImg} alt="home-icon" />
         </div>
       )}
-      {homeBtn && (
+      {mobile && homeBtn && (
         <div className="home" onClick={handleHomeClick}>
           <Image src={Home} alt="home-icon" />
         </div>
@@ -65,9 +69,9 @@ const SignUpHeader = ({
 
 export default SignUpHeader;
 
-const Header = styled.div<{ web?: boolean }>`
+const Header = styled.div<{ web?: boolean; mobile: boolean }>`
   display: flex;
-  justify-content: center;
+  justify-content: ${({ mobile }) => (mobile ? 'space-between' : 'center')};
   align-items: center;
   position: relative;
   background-color: ${colors.lightWhite};

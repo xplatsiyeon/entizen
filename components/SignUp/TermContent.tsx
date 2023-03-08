@@ -29,6 +29,8 @@ type Props = {
   setRequiredTerms: Dispatch<SetStateAction<boolean>>;
   selectTerms: boolean[];
   setSelectTerms: Dispatch<SetStateAction<boolean[]>>;
+  requiredCheck: boolean[];
+  setRequiredCheck: Dispatch<SetStateAction<boolean[]>>;
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
@@ -48,6 +50,8 @@ const TermContent = ({
   setNextBtn,
   userType,
   setBirthday,
+  requiredCheck,
+  setRequiredCheck,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -58,7 +62,7 @@ const TermContent = ({
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
 
-  const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
+  // const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
 
   const dispatch = useDispatch();
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
