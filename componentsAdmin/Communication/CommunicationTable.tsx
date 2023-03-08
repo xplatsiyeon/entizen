@@ -37,6 +37,7 @@ type Props = {
   hide?: boolean;
   commuCheck?: string;
   userCheck?: string;
+  isRefetch?: boolean
 };
 
 const CommunicationTable = ({
@@ -53,6 +54,7 @@ const CommunicationTable = ({
   hide,
   commuCheck,
   userCheck,
+  isRefetch
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -78,7 +80,6 @@ const CommunicationTable = ({
   
   
   */
-
   // 🎀 소통하기 리스트 조회
   // /admin/chatting/members?page=1&limit=10&startDate=2022-12-19&endDate=2022-12-19
   const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
@@ -158,7 +159,6 @@ const CommunicationTable = ({
 
   // 🎀 소통하기  1:1 문의
   // /admin/chatting/consultations?page=1&limit=10&searchId=test&memberType=company
-
   const { data: userChattingOneOnOne, refetch: userChattingOneOnOneRefetch } =
     useQuery<OneOnOneChatResponse>(
       'userChattingOneOnOne',
@@ -169,6 +169,7 @@ const CommunicationTable = ({
       {
         enabled: false,
         onSuccess: (userChattingOneOnOne) => {
+          console.log('이거봐바, ',userChattingOneOnOne)
           if (tableType === 'userChattingOneOnOne') {
             const temp: any = [];
             userChattingOneOnOne?.data?.consultations?.forEach((ele, idx) => {
@@ -178,7 +179,7 @@ const CommunicationTable = ({
                 }`,
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
-                ele.consultStatus,
+                ele.consultStatus, //+ (userChattingOneOnOne.data.consultations && ele.wasRead ?'': '(읽지않음)'),
                 [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
@@ -246,6 +247,14 @@ const CommunicationTable = ({
         break;
     }
   }, [page, pickedDate, userSearch, userCheck, commuCheck]);
+
+  useEffect(()=>{
+    console.log('??????? refetch???????')
+    if(isRefetch){
+      userChattingOneOnOneRefetch();
+    }
+  },[isRefetch])
+
 
   return (
     <StyledBody className="user-table">

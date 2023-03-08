@@ -22,8 +22,8 @@ type CheckBox = {
   title: string;
 };
 
-export const communicationState = ['상담종료', '상담진행중'];
-export const communicationStateEn = ['done', 'inProgress'];
+export const communicationState = ['상담종료', '상담진행중', '읽지않은 채팅'];
+export const communicationStateEn = ['done', 'inProgress','isUnread'];
 
 export const userCheckBox = ['일반회원', '기업회원'];
 export const userCheckBoxEn = ['USER', 'COMPANY'];
@@ -32,6 +32,8 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [userType, setUserType] = useState<string>('');
+
+  const [isRefetch, setIsRefetch] = useState<boolean>(false);
 
   // 윈도우 팝업에서 필요한 id 값
   const [memberIdx, setMemberIdx] = useState('');
@@ -72,6 +74,12 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
   }, []);
+
+  useEffect(()=>{
+    if(isRefetch){
+      setIsRefetch(false)
+    }
+  },[isRefetch])
 
   return (
     <Wrapper>
@@ -159,6 +167,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
         )}
         setUserType={setUserType}
         setMemberIdx={setMemberIdx}
+        isRefetch={isRefetch}
       />
 
       {isDetail && (
@@ -168,6 +177,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           setIsDetail={setIsDetail}
           userType={userType}
           memberIdx={memberIdx}
+          setIsRefetch={setIsRefetch}
         />
       )}
     </Wrapper>
