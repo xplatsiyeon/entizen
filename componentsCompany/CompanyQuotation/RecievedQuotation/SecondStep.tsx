@@ -12,7 +12,7 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
-import { BusinessRegistrationType } from 'components/SignUp';
+// import { BusinessRegistrationType } from 'components/SignUp';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { useSelector } from 'react-redux';
@@ -44,6 +44,7 @@ import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import Loader from 'components/Loader';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import { BusinessRegistrationType } from '../LastQuotation/ThirdStep';
 
 type Props = {
   tabNumber: number;

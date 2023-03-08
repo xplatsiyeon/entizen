@@ -9,7 +9,7 @@ import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddCompon
 import { AxiosError } from 'axios';
 import { isTokenPatchApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
-import { BusinessRegistrationType } from 'components/SignUp';
+// import { BusinessRegistrationType } from 'components/SignUp';
 import { useEffect, useRef, useState } from 'react';
 import { getByteSize } from 'utils/calculatePackage';
 import Modal from 'components/Modal/Modal';
@@ -20,6 +20,7 @@ import Loader from 'components/Loader';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import { BusinessRegistrationType } from 'componentsCompany/CompanyQuotation/LastQuotation/ThirdStep';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;

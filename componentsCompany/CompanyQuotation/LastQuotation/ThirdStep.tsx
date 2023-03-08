@@ -18,7 +18,6 @@ import { isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
-import { BusinessRegistrationType } from 'components/SignUp';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
 import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
@@ -26,6 +25,12 @@ import Loader from 'components/Loader';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+
+export interface BusinessRegistrationType {
+  url: string;
+  size: number;
+  originalName: string;
+}
 
 type Props = {
   tabNumber: number;

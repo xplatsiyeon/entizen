@@ -12,12 +12,12 @@ import React, {
   useState,
 } from 'react';
 import colors from 'styles/colors';
-import { BusinessRegistrationType } from 'components/SignUp';
+// import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
 import { isTokenPatchApi, isTokenPostApi, multerApi } from 'api';
 import { AxiosError } from 'axios';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { Data } from 'pages/company/mypage/runningProgress';
+// import { Data } from 'pages/company/mypage/runningProgress';
 import {
   InProgressProjectsDetailResponse,
   InProgressProjectsDetail,
@@ -34,6 +34,7 @@ import Back from 'public/images/backImg.png';
 import { useMediaQuery } from 'react-responsive';
 import { css } from '@emotion/react';
 import Loader from 'components/Loader';
+import { BusinessRegistrationType } from 'componentsCompany/CompanyQuotation/LastQuotation/ThirdStep';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';

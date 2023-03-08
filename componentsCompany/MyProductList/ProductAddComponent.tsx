@@ -14,7 +14,7 @@ import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
 import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
-import { BusinessRegistrationType } from 'components/SignUp';
+// import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation, useQuery } from 'react-query';
 import {
   isTokenGetApi,
@@ -36,6 +36,7 @@ import ReactLoading from 'react-loading';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { BusinessRegistrationType } from 'componentsCompany/CompanyQuotation/LastQuotation/ThirdStep';
 export interface ImgFile {
   originalName: string;
   size: number;
