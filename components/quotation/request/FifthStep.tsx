@@ -110,6 +110,7 @@ const FifthStep = ({ tabNumber }: Props) => {
   // 버튼 활성화
   useEffect(() => {
     if (fisrtData.length > 1 && secondData.length > 1) {
+      console.log('발동');
       setButtonActivate(true);
     }
   }, [fisrtData, secondData]);
@@ -236,8 +237,8 @@ const NextBtn = styled.div<{
   }
   @media (min-width: 900pt) {
     border: 0.75pt solid #e2e5ed;
-    background-color: white;
-    color: #a6a9b0;
+    /* background-color: white;
+    color: #a6a9b0; */
   }
 `;
 const PrevBtn = styled.div`
