@@ -163,7 +163,7 @@ const ProfileEditing = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log('component', component);
+  // console.log('component', component);
 
   return (
     <Scroll>
@@ -317,7 +317,6 @@ const Wrapper = styled.div<{ component?: number }>`
   padding-bottom: 132.75pt;
   /* padding-bottom: 174.75pt; */
   padding-right: ${({ component }) => (component === 0 ? '47.25pt' : '24pt')};
-
 `;
 
 const Body = styled.div<{ component: number }>`
@@ -325,7 +324,7 @@ const Body = styled.div<{ component: number }>`
   /* padding: 0 15pt; */
   padding-top: 21.5pt;
   @media (min-width: 900pt) {
-    padding-left:${({ component }) => (component === 0 ? '47.5pt' : '24pt')};
+    padding-left: ${({ component }) => (component === 0 ? '47.5pt' : '24pt')};
     padding-top: ${({ component }) => (component === 1 ? '10.75pt' : '21.5pt')};
   }
 `;
@@ -404,13 +403,12 @@ const Line = styled.div`
     width: 345pt;
     /* margin-left: -47.5pt; */
   }
- 
 `;
 
 const Wrap = styled.div<{ component?: number }>`
   /* padding: 0 15pt; */
-   padding: ${({ component }) =>
-    component === 0 ? '0 0 0 47.25pt  ' : '0 24pt'}; 
+  padding: ${({ component }) =>
+    component === 0 ? '0 0 0 47.25pt  ' : '0 24pt'};
   position: relative;
 
   @media (max-width: 899.25pt) {

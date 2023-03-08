@@ -18,6 +18,8 @@ import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
 import { appLogout } from 'bridge/appToWeb';
 import { googleLogout } from '@react-oauth/google';
+import useProfile from 'hooks/useProfile';
+
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -335,7 +337,7 @@ const WebRapper = styled.div<{ leftTabNumber: number; userID: string | null }>`
         padding: 24pt 81.75pt 452pt 38.25pt;
       `}
     border-radius: 12pt;
-    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
     background-color: #ffffff;
   }
 `;
@@ -373,6 +375,7 @@ const VersionInfoText = styled(Typography)`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
+  color: #222222;
   @media (min-width: 900pt) {
     font-size: 13.5pt;
     font-weight: 500;
@@ -383,15 +386,15 @@ const VersionInfoText = styled(Typography)`
   }
 `;
 const VersionNumber = styled(Typography)`
-  font-family: 'Noto Sans KR';
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 500;
-  line-height: 12pt;
+  line-height: 15pt;
   letter-spacing: 0em;
   text-align: left;
   @media (min-width: 900pt) {
-    font-size: 13.5pt;
-    font-weight: 400;
+    font-size: 12pt;
+    font-weight: 500;
     line-height: 15pt;
     letter-spacing: -0.02em;
     text-align: left;
@@ -402,9 +405,18 @@ const SettingList = styled.div`
   position: relative;
   padding-top: 10.5pt;
   padding-bottom: 10.5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+
   cursor: pointer;
+  color: #222222;
   &:nth-of-type(7) {
     color: #f75015;
+    font-weight: 500;
   }
   @media (min-width: 900pt) {
     padding-top: 24pt;
