@@ -62,6 +62,7 @@ export const convertKo = (
   arr: string[],
   arrEn: string[],
   value: string | undefined,
+  low?: boolean
 ) => {
   if (value) {
     const index = arrEn.indexOf(value);

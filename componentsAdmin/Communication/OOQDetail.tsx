@@ -69,6 +69,7 @@ export interface ChattingResponse {
 type Props = {
   detatilId: string;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRefetch: React.Dispatch<React.SetStateAction<boolean>>;
   setNowHeight:
     | React.Dispatch<React.SetStateAction<number | undefined>>
     | undefined;
@@ -80,6 +81,7 @@ const OOQDetail = ({
   detatilId,
   setNowHeight,
   setIsDetail,
+  setIsRefetch,
   userType,
   memberIdx,
 }: Props) => {
@@ -351,6 +353,7 @@ const OOQDetail = ({
 
   const handleBackBtn = () => {
     setIsDetail(false);
+    setIsRefetch(true);
   };
 
   // const handleImg = () => {
