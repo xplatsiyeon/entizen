@@ -78,7 +78,7 @@ const ProjectList = ({ setNowHeight }: Props) => {
       return 'exam';
     } else if (data === '준비') {
       return 'ready';
-    } else if (data === '검수') {
+    } else if (data === '설치') {
       return 'installation';
     } else if (data === '승인 대기') {
       return 'awaitingApproval';
