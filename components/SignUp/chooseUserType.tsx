@@ -11,21 +11,26 @@ import Btn from './button';
 import { useDispatch } from 'react-redux';
 import { selectAction } from 'store/loginTypeSlice';
 import { useMediaQuery } from 'react-responsive';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   userType: number;
   setUserType: Dispatch<SetStateAction<number>>;
-  level: number;
-  setLevel: Dispatch<SetStateAction<number>>;
+  // level: number;
+  // setLevel: Dispatch<SetStateAction<number>>;
 };
 
-const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
+const ChooseUserType = ({ userType, setUserType }: Props) => {
   const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+
+  const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLevel(level + 1);
+    dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
     // console.log(userType);
     if (userType === 1) dispatch(selectAction.select('USER'));
     if (userType === 0) dispatch(selectAction.select('COMPANY'));

@@ -595,6 +595,9 @@ const Signin = () => {
 
   // 유저타입 확인하는 useEffect
   useEffect(() => {
+    console.log(
+      '==================== 유저 타입 확인 ==========================',
+    );
     if (selectedLoginType === 0) {
       dispatch(selectAction.select('USER'));
     } else if (selectedLoginType === 1) {
@@ -605,12 +608,8 @@ const Signin = () => {
 
   useEffect(() => {
     localStorage.removeItem('key');
+    dispatch(selectAction.reset());
   }, []);
-
-  if (loginLoading) {
-    // console.log('loading..');
-    // return <Loader />;
-  }
 
   return (
     <React.Fragment>

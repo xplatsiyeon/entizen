@@ -45,7 +45,7 @@ const Footer = (props: Props) => {
         <MenuBox>
           <Menus
             onClick={() => {
-              router.push('/setting?id=3');
+              router.push('/setting?id=3?direct=true');
             }}
           >
             이용약관

@@ -34,7 +34,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
+  const { selectedType } = useSelector((state: RootState) => state.LoginType);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const [data, setData] = useState<any>();

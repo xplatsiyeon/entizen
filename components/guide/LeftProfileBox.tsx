@@ -16,7 +16,6 @@ import useProfile from 'hooks/useProfile';
 
 const LeftProfileBox = () => {
   const router = useRouter();
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<string>('');

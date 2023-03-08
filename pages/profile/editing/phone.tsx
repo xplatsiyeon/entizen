@@ -27,7 +27,7 @@ interface UserInfo {
 
 const phone = () => {
   const router = useRouter();
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
+  const { selectedType } = useSelector((state: RootState) => state.LoginType);
   const [data, setData] = useState<any>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();

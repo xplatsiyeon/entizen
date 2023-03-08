@@ -1,21 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+type SelectedType = 'USER' | 'COMPANY';
 export interface LoginType {
-  selectedType: 'USER' | 'COMPANY';
+  selectedType: SelectedType;
+  signUpLevel: number;
 }
 
 const initialState: LoginType = {
   selectedType: 'USER',
+  signUpLevel: 0,
 };
 
 const slice = createSlice({
-  name: 'selectedType',
+  name: 'LoginType',
   initialState,
   reducers: {
-    select(state, action) {
-      // console.log(state.selectedType);
+    select(state, action: PayloadAction<SelectedType>) {
+      state.selectedType = action.payload;
     },
-    reset(state, action) {
+    setSignUpLevel(state, action: PayloadAction<number>) {
+      state.signUpLevel = action.payload;
+    },
+    reset(state) {
       Object.assign(state, initialState);
     },
   },
