@@ -70,8 +70,8 @@ const Guide1_2_4 = () => {
     dispatch(subsidyAction.reset());
   }, []);
 
-  // console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
-  // console.log(subsidyGuideData);
+  console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
+  console.log(subsidyGuideData);
 
   return (
     <Body>
@@ -204,14 +204,18 @@ const Guide1_2_4 = () => {
               </div>
             </button>
             <div className="Announcement">
-              <p className="text">찾으신 제품의 2021년 보조금은</p>
+              <p className="text">
+                찾으신 제품의
+                {Number(subsidyGuideData.thisYearSubsidy.date.slice(0, 4)) - 1}
+                년 보조금은
+              </p>
               <p className="text">
                 최대{' '}
                 <span className="highlight">
                   {`${subsidyGuideData.lastMaximumSubsidy.toLocaleString(
                     'ko-KR',
                   )}원`}
-                </span>{' '}
+                </span>
                 이었습니다.
               </p>
             </div>
