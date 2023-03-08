@@ -631,7 +631,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                     } else {
                       console.log(d.logs.length)
                       return (
-                        <Wrap>
+                        <Wrap key={index}>
                           <ChatBox
                             userChatting={userChatting}
                             className={`${

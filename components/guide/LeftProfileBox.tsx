@@ -30,7 +30,6 @@ const LeftProfileBox = () => {
     if (memberType === 'USER') {
       setAvatar(profile?.profileImageUrl!);
     } else {
-      console.log('🍋 기업이면 이거 나오나용?');
       setAvatar(profile?.companyMemberAdditionalInfo?.companyLogoImageUrl!);
     }
   }, [profile, memberType]);

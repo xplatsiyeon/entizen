@@ -12,6 +12,7 @@ import entizenLibrarySample from 'public/images/entizenLibrarySample.png';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { openExternalBrowser } from 'bridge/appToWeb';
+import { url } from 'inspector';
 
 type Props = {
   fontSize?: number;
@@ -50,7 +51,9 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               <div key={idx}>
                 <LibraryList
                   onClick={() => {
-                    openExternalBrowser(userAgent, `${item?.link}`);
+                    // openExternalBrowser(userAgent, `${item?.link}`);
+                    // location.href = `${item?.link}`;
+                    router.push(item?.link);
                   }}
                   index={number}
                 >
@@ -160,7 +163,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
           </LibraryList>
         </BoardBox> */}
         {/* 심사후에 주석 해제 */}
-        {/* <ShowAllBtnBox>
+        <ShowAllBtnBox>
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
@@ -173,7 +176,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               />
             </ImageWrap>
           </ShowAllBtn>
-        </ShowAllBtnBox> */}
+        </ShowAllBtnBox>
       </Wrapper>
     </>
   );
@@ -225,6 +228,7 @@ const LibraryList = styled.div<{ index: number }>`
   display: flex;
   width: 433pt;
   height: 120pt;
+  cursor: pointer;
   margin: ${({ index }) =>
     index === 0 ? '5pt 0 22.5pt 0' : '5pt 22.5pt 22.5pt 5pt'};
   /* margin-bottom: 22.5pt; */

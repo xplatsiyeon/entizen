@@ -63,6 +63,7 @@ const ProjectListTable = ({
   // &steps[]=
   // 🎀 프로젝트 리스트 데이터
   // 진행중 프로젝트 리스트
+
   const { data: projectListData, refetch: projectListRefetch } =
     useQuery<ProjectList>(
       'projectList',
@@ -147,6 +148,8 @@ const ProjectListTable = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
+
+  console.log('projectListData🍎🍏', projectListData);
 
   // 완료는 프로젝트 생성일이 아니라 구독시작일 & 구독종료일
   // 진행단계에 구독종료 D-n으로 보여주기
