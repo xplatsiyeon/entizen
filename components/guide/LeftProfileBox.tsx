@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import AvatarIcon from 'public/images/AvatarIconSVG.svg';
+import AvatarIcon from 'public/images/AvatarIconSvg.svg';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
@@ -26,9 +26,6 @@ const LeftProfileBox = () => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
-
-  console.log('profile 🍎', profile);
-  console.log('avatar 🍑', avatar);
 
   useEffect(() => {
     if (memberType === 'USER') {
