@@ -249,7 +249,7 @@ const TermContent = ({
         <Image alt="check" src={fullTerms ? CheckOnImg : CheckImg} />
         <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
       </Terms>
-      <Form isterms={requiredTerms}>
+      <Form isterms={requiredTerms.toString()}>
         <Box className="box" id="full" onClick={onClickRequiredCheckBox}>
           <span>
             <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
@@ -384,9 +384,9 @@ const Terms = styled(Box)`
     margin-left: 12pt;
   }
 `;
-const Form = styled(Box)<{ isterms: boolean }>`
+const Form = styled(Box)<{ isterms: string }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms ? colors.main : colors.lightGray)};
+    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;

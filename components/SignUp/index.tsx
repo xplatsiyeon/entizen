@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import SignUpHeader from './header';
@@ -18,6 +18,7 @@ export interface BusinessRegistrationType {
   url: any;
   size: number;
   originalName: string;
+  typeName: string;
 }
 
 type Props = {};
@@ -31,6 +32,7 @@ const SignUpContainer = (props: Props) => {
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
   // const [level, setLevel] = useState<number>(0);
   const dispatch = useDispatch();
+
   const { signUpLevel, selectedType } = useSelector(
     (state: RootState) => state.LoginType,
   );

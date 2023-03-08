@@ -21,7 +21,6 @@ import { useMutation } from 'react-query';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import { multerApi } from 'api';
-import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import Loader from 'components/Loader';
@@ -34,8 +33,6 @@ import { selectAction } from 'store/loginTypeSlice';
 type Props = {
   businessRegistration: BusinessRegistrationType[];
   setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
-  // level: number;
-  // setLevel: Dispatch<SetStateAction<number>>;
   companyName: string;
   setCompanyName: Dispatch<SetStateAction<string>>;
   postNumber: string;
@@ -60,18 +57,17 @@ const CompanyDetailInfo = ({
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const router = useRouter();
+
+  console.log('⭐️ businessRegistration : ', businessRegistration);
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const typeRef = useRef<string>('');
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [addressOn, setAddressOn] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
-  const [imgPreview, setImgPreview] = useState<boolean>(false);
-  const [filePreview, setFilePreview] = useState<boolean>(false);
-  // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -93,9 +89,12 @@ const CompanyDetailInfo = ({
           url: img.url,
           size: img.size,
           originalName: decodeURIComponent(img.originalName),
+          typeName: typeRef.current,
         });
       });
       setBusinessRegistration(newArr);
+      typeRef.current = '';
+      // imgRef.current?.remove.
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -141,23 +140,39 @@ const CompanyDetailInfo = ({
       requestPermissionCheck(userAgent, 'photo');
     }
   };
+  // 이미지 or 파일 클릭
+  const handleOnClick = () => {
+    const isImage =
+      businessRegistration.filter((e) => e.typeName === 'image').length > 0;
+    const isFile =
+      businessRegistration.filter((e) => e.typeName === 'file').length > 0;
+    setFileModal(true);
+    if (!isImage && !isFile) setFileModal(true);
+    if (isImage) onClickPhoto();
+    if (isFile) onClickFile();
+  };
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    const maxLength = 3;
-    // max길이 보다 짧으면 멈춤
-    const formData = new FormData();
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files![i] === undefined) {
-        break;
+    const { files, name } = e.target;
+    console.log('⭐️ files : ', files);
+
+    if (files !== undefined && files?.length! > 0) {
+      const maxLength = 3;
+      // max길이 보다 짧으면 멈춤
+      const formData = new FormData();
+      for (let i = 0; i < maxLength; i += 1) {
+        if (files![i] === undefined) {
+          break;
+        }
+        formData.append(
+          'businessRegistration',
+          files![i],
+          encodeURIComponent(files![i].name),
+        );
       }
-      formData.append(
-        'businessRegistration',
-        files![i],
-        encodeURIComponent(files![i].name),
-      );
+      typeRef.current = name;
+      multerImage(formData);
     }
-    multerImage(formData);
   };
   // 사진 || 파일 삭제
   const deleteFileImage = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -170,12 +185,7 @@ const CompanyDetailInfo = ({
       }
     }
   };
-  // 이미지 or 파일 클릭
-  const handleOnClick = () => {
-    if (!imgPreview && !filePreview) setFileModal(true);
-    if (imgPreview) onClickPhoto();
-    if (filePreview) onClickFile();
-  };
+
   const closeButton = () => setFileModal(false);
 
   // 버튼 유효성 검사
@@ -198,26 +208,6 @@ const CompanyDetailInfo = ({
     companyDetailAddress,
     businessRegistration,
   ]);
-
-  // 이미지 or 파일 1개도 없을 땐 리셋
-  useEffect(() => {
-    // console.log();
-
-    if (
-      businessRegistration.length! > 0 &&
-      imgRef.current?.files?.length! > 0
-    ) {
-      setImgPreview(true);
-    } else if (
-      businessRegistration.length! > 0 &&
-      fileRef.current?.files?.length! > 0
-    ) {
-      setFilePreview(true);
-    } else {
-      setImgPreview(false);
-      setFilePreview(false);
-    }
-  }, [businessRegistration]);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
@@ -346,6 +336,7 @@ const CompanyDetailInfo = ({
             ref={imgRef}
             className="imageClick"
             type="file"
+            name="image"
             accept="image/*"
             onChange={saveFileImage}
             multiple
@@ -357,6 +348,7 @@ const CompanyDetailInfo = ({
             ref={fileRef}
             className="imageClick"
             type="file"
+            name="file"
             accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
             onChange={saveFileImage}
             multiple
@@ -367,8 +359,10 @@ const CompanyDetailInfo = ({
           ) : (
             <>
               <div className="img-preview">
-                {imgPreview &&
-                  businessRegistration?.map((item, index) => (
+                {/* {imgPreview */}
+                {businessRegistration
+                  ?.filter((e) => e.typeName === 'image')
+                  ?.map((item, index) => (
                     <ImgSpan key={index} data-name={index}>
                       <Image
                         layout="fill"
@@ -392,9 +386,11 @@ const CompanyDetailInfo = ({
                     </ImgSpan>
                   ))}
               </div>
+              {/* {filePreview */}
               <div className="file-preview">
-                {filePreview &&
-                  businessRegistration?.map((item, index) => (
+                {businessRegistration
+                  ?.filter((e) => e.typeName === 'file')
+                  ?.map((item, index) => (
                     <FileBox key={index} data-name={index}>
                       <div className="file">
                         <div className="file-img">
