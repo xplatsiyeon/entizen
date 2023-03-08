@@ -42,6 +42,18 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   const mobRef = useRef<HTMLDivElement>(null);
   const startPoint = useRef<number>(0);
 
+  const clear = ()=>{
+    const list = mobRef.current?.querySelectorAll('.chattingRoom') as NodeListOf<HTMLElement>;
+    list.forEach((ele)=>{
+      if(!ele.classList.contains('slide1')){
+        ele.style.transform = `translate3d(-160px, 0px ,0px)`;
+        ele.classList.remove('slide0');
+        ele.classList.remove('slide2');
+        ele.classList.add('slide1')
+      }
+    })
+  }
+
   const handleMoveStart=(e:TouchEvent)=>{
     const start = e.changedTouches[0].clientX;
     startPoint.current = start;
@@ -50,6 +62,9 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
   const handleMove=(e:TouchEvent, entizen?:boolean)=>{
     const target =  e.currentTarget as HTMLDivElement;
     const x = e.changedTouches[0].clientX;
+    
+    clear()
+
     //console.log(startPoint.current ,x)
     if(target.classList.contains('slide0')){
       console.log('?')
@@ -416,8 +431,8 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
             /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
             <Chatting className="chattingRoom slide1"
               onTouchStart={(e)=>handleMoveStart(e)}
-              onTouchMove={(e)=>handleMove(e)}
-              onTouchEnd={(e)=>handleMoveEnd(e)} 
+              onTouchMove={(e)=>handleMove(e, true)}
+              onTouchEnd={(e)=>handleMoveEnd(e, true)} 
             >
                 <HiddenBox1>
                   {/* 버튼에 즐겨찾기 설정 api함수 */}

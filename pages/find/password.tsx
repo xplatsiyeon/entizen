@@ -19,7 +19,7 @@ const FindPassword = () => {
   const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
-  const [pwShow, setPwShow] = useState<boolean>(false);
+  // const [pwShow, setPwShow] = useState<boolean>(false);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -82,17 +82,103 @@ const FindPassword = () => {
     }
   };
 
+  // const iconAdorment = {
+  //   endAdornment: (
+  //     <InputAdornment position="start">
+  //       <Typography
+  //         onClick={() => setPwInput('')}
+  //         onMouseDown={handleMouseDownPassword}
+  //         sx={{
+  //           cursor: 'pointer',
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //           alignItems: 'center',
+  //         }}
+  //       >
+  //         <CancelRoundedIcon
+  //           sx={{
+  //             color: '#E2E5ED',
+  //             width: '10.5pt',
+  //             marginRight: '9pt',
+  //             cursor: 'pointer',
+  //           }}
+  //         />
+  //       </Typography>
+  //       <Typography
+  //         sx={{
+  //           fontSize: '14px',
+  //           fontWeight: '400',
+  //           lineHeight: '16px',
+  //           letterSpacing: '-0.02em',
+  //           textAlign: 'left',
+  //           color: `${colors.main}`,
+  //           cursor: 'pointer',
+  //         }}
+  //         variant="subtitle1"
+  //         onClick={() => setPwShow(!pwShow)}
+  //         onMouseDown={handleMouseDownPassword}
+  //       >
+  //         {pwShow ? '미표시' : '표시'}
+  //       </Typography>
+  //     </InputAdornment>
+  //     // <InputAdornment position="start">
+  //     //   <CancelRoundedIcon
+  //     //     sx={{
+  //     //       color: '#E2E5ED',
+  //     //       width: '10.5pt',
+  //     //       marginRight: '9pt',
+  //     //       cursor: 'pointer',
+  //     //     }}
+  //     //   />
+  //     //   <Typography
+  //     //     sx={{
+  //     //       fontSize: '14px',
+  //     //       fontWeight: '400',
+  //     //       lineHeight: '16px',
+  //     //       letterSpacing: '-0.02em',
+  //     //       textAlign: 'left',
+  //     //       color: `${colors.main}`,
+  //     //       cursor: 'pointer',
+  //     //     }}
+  //     //     variant="subtitle1"
+  //     //     onClick={() => setPwShow(!pwShow)}
+  //     //     onMouseDown={handleMouseDownPassword}
+  //     //   >
+  //     //     {pwShow ? '미표시' : '표시'}
+  //     //   </Typography>
+  //     // </InputAdornment>
+  //   ),
+  // };
+  // 패스워드 보여주기 true false
+  const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
+  const handleShowBtn = (id: number) => {
+    let temp = [...pwShow];
+    temp[id] = !temp[id];
+    setPwShow(temp);
+  };
+
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
-        <CancelRoundedIcon
+        <Typography
+          onClick={() => setPwInput('')}
+          onMouseDown={handleMouseDownPassword}
           sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
             cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
         <Typography
           sx={{
             fontSize: '14px',
@@ -104,15 +190,55 @@ const FindPassword = () => {
             cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(0)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[0] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
   };
-
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <Typography
+          onClick={() => setCheckPw('')}
+          onMouseDown={handleMouseDownPassword}
+          sx={{
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: '10.5pt',
+            fontWeight: '400',
+            lineHeight: '12pt',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+            cursor: 'pointer',
+          }}
+          variant="subtitle1"
+          onClick={() => handleShowBtn(1)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[1] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
   const handleModalYes = () => {
     setOpenModal(false);
     if (modalText.includes('완료') || modalText.includes('회원가입')) {
@@ -123,7 +249,7 @@ const FindPassword = () => {
   };
 
   const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
   useEffect(() => {
     if (pwInput.length > 7 && checkPw === pwInput) {
@@ -162,7 +288,8 @@ const FindPassword = () => {
         <Inner>
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
-            {step === 0 ? (
+            {/* {step === 0 ? ( */}
+            {step === 1 ? (
               <PassowrdStep1 setStep={setStep} />
             ) : (
               <>
@@ -179,7 +306,7 @@ const FindPassword = () => {
                   <Input
                     placeholder="비밀번호 입력"
                     onChange={handleIdChange}
-                    type={pwShow ? 'text' : 'password'}
+                    type={pwShow[0] ? 'text' : 'password'}
                     value={pwInput}
                     name="pw"
                     hiddenLabel
@@ -204,7 +331,7 @@ const FindPassword = () => {
                   <Input
                     placeholder="비밀번호 재입력"
                     onChange={handleIdChange}
-                    type={pwShow ? 'text' : 'password'}
+                    type={pwShow[1] ? 'text' : 'password'}
                     value={checkPw}
                     name="checkPw"
                     InputProps={secondIconAdornment}
