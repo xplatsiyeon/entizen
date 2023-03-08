@@ -23,8 +23,8 @@ type Props = {
   setFullTerms: Dispatch<SetStateAction<boolean>>;
   requiredTerms: boolean;
   setRequiredTerms: Dispatch<SetStateAction<boolean>>;
-  selectTerms: boolean;
-  setSelectTerms: Dispatch<SetStateAction<boolean>>;
+  selectTerms: boolean[];
+  setSelectTerms: Dispatch<SetStateAction<boolean[]>>;
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
@@ -55,6 +55,8 @@ const TermContent = ({
   const [data, setData] = useState<any>();
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
+
+  const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
 
   // ========================== 본인인증 창 띄우기
   // 브릿지용 테스트 클릭
@@ -123,16 +125,16 @@ const TermContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ================================= Term 로직 ========
+  // ==================== Term 로직 ======================
   const fullTermsHandler = () => {
     if (fullTerms) {
       setFullTerms(false);
-      setRequiredTerms(false);
-      setSelectTerms(false);
+      setRequiredCheck([false, false, false]);
+      setSelectTerms([false, false]);
     } else {
       setFullTerms(true);
-      setRequiredTerms(true);
-      setSelectTerms(true);
+      setRequiredCheck([true, true, true]);
+      setSelectTerms([true, true]);
     }
   };
   // 보기 이벤트
@@ -147,6 +149,62 @@ const TermContent = ({
       },
     });
   };
+
+  // 전체 약관 동의 체크 함수
+  const onClickRequiredCheckBox = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    const temp = [...requiredCheck];
+    switch (id) {
+      case 'full':
+        !requiredTerms
+          ? setRequiredCheck([true, true, true])
+          : setRequiredCheck([false, false, false]);
+        break;
+      case 'first':
+        temp[0] = !temp[0];
+        setRequiredCheck(temp);
+        break;
+      case 'second':
+        temp[1] = !temp[1];
+        setRequiredCheck(temp);
+        break;
+      case 'third':
+        temp[2] = !temp[2];
+        setRequiredCheck(temp);
+        break;
+    }
+  };
+
+  const onClickSelectTerms = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    const temp = [...selectTerms];
+
+    switch (id) {
+      case 'first':
+        temp[0] = !temp[0];
+        setSelectTerms(temp);
+        break;
+      case 'second':
+        temp[1] = !temp[1];
+        setSelectTerms(temp);
+        break;
+    }
+  };
+
+  // 전체 약관 동의
+  useEffect(() => {
+    const everyCheck = requiredCheck.every((e) => e === true);
+    everyCheck ? setRequiredTerms(true) : setRequiredTerms(false);
+  }, [requiredCheck]);
+
   useEffect(() => {
     // console.log();
     if (router.asPath.includes('Canceled')) {
@@ -177,30 +235,23 @@ const TermContent = ({
           동의해주세요
         </Notice>
       )}
-      <Terms>
-        <Image
-          onClick={fullTermsHandler}
-          alt="check"
-          src={fullTerms ? CheckOnImg : CheckImg}
-        />
+      <Terms onClick={fullTermsHandler}>
+        <Image alt="check" src={fullTerms ? CheckOnImg : CheckImg} />
         <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
       </Terms>
-      <Form
-        isterms={requiredTerms.toString()}
-        onClick={() => setRequiredTerms((prev) => !prev)}
-      >
-        <Box className="box">
+      <Form isterms={requiredTerms}>
+        <Box className="box" id="full" onClick={onClickRequiredCheckBox}>
           <span>
             <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
           </span>
           <p>필수 약관에 동의합니다.</p>
         </Box>
         <Check>
-          <Item>
+          <Item id="first" onClick={onClickRequiredCheckBox}>
             <div>
               <Image
                 alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                src={requiredCheck[0] ? SmallCheckOnImg : SmallCheckImg}
               />
               <p>[필수]사용자 이용약관</p>
             </div>
@@ -208,11 +259,11 @@ const TermContent = ({
           </Item>
         </Check>
         <Check>
-          <Item>
+          <Item id="second" onClick={onClickRequiredCheckBox}>
             <div>
               <Image
                 alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                src={requiredCheck[1] ? SmallCheckOnImg : SmallCheckImg}
               />
               <p>[필수] 만 14세 이상</p>
             </div>
@@ -221,11 +272,11 @@ const TermContent = ({
           </Item>
         </Check>
         <Check>
-          <Item>
+          <Item id="third" onClick={onClickRequiredCheckBox}>
             <div>
               <Image
                 alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                src={requiredCheck[2] ? SmallCheckOnImg : SmallCheckImg}
               />
               <p>[필수]개인정보 처리방침</p>
             </div>
@@ -233,18 +284,25 @@ const TermContent = ({
           </Item>
         </Check>
       </Form>
-      <BottomForm isterms={selectTerms.toString()}>
+      <BottomForm isterms={selectTerms}>
         <Box>
-          <Item onClick={() => setSelectTerms((prev) => !prev)}>
+          <Item id="first" onClick={onClickSelectTerms}>
             <div>
               <Image
                 alt="smallCheck"
-                src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
               />
               <p>[선택]위치정보 서비스 약관</p>
             </div>
-            {/* <span onClick={TermsofServiceHandler}>보기</span> */}
-            <span></span>
+          </Item>
+          <Item id="second" className="selected" onClick={onClickSelectTerms}>
+            <div>
+              <Image
+                alt="smallCheck"
+                src={selectTerms[1] ? SmallCheckOnImg : SmallCheckImg}
+              />
+              <p>[선택]이벤트 및 혜택 알림 수신</p>
+            </div>
           </Item>
         </Box>
       </BottomForm>
@@ -311,19 +369,21 @@ const Terms = styled(Box)`
   display: flex;
   align-items: center;
   margin-top: 49.5pt;
+  cursor: pointer;
   & > p {
     margin-left: 12pt;
   }
 `;
-const Form = styled(Box)<{ isterms: string }>`
+const Form = styled(Box)<{ isterms: boolean }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) => (isterms ? colors.main : colors.lightGray)};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;
   .box {
     display: flex;
     align-items: center;
+    cursor: pointer;
     & > p {
       margin-left: 12pt;
     }
@@ -337,6 +397,7 @@ const Check = styled(Box)`
 const Item = styled(Box)`
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
   & > div {
     display: flex;
     align-items: center;
@@ -359,10 +420,15 @@ const Item = styled(Box)`
     color: #a6a9b0;
     cursor: pointer;
   }
+
+  &.selected {
+    margin-top: 15px;
+  }
 `;
-const BottomForm = styled(Box)<{ isterms: string }>`
+const BottomForm = styled(Box)<{ isterms: boolean[] }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) =>
+      isterms.every((e) => e === true) ? colors.main : colors.lightGray};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;
