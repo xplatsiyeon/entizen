@@ -17,7 +17,7 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-export const projectState = ['계약', '검수', '승인 대기'];
+export const projectState = ['계약', '검수', '준비', '설치', '승인 대기'];
 
 export const searchType = ['프로젝트 번호', '작성자 아이디', '기업회원 아이디'];
 export const searchTypeEn = ['projectNumber', 'userId', 'companyId'];
@@ -76,6 +76,10 @@ const ProjectList = ({ setNowHeight }: Props) => {
       return 'contract';
     } else if (data === '검수') {
       return 'exam';
+    } else if (data === '준비') {
+      return 'ready';
+    } else if (data === '검수') {
+      return 'installation';
     } else if (data === '승인 대기') {
       return 'awaitingApproval';
     }

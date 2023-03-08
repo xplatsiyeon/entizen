@@ -192,6 +192,8 @@ const SettingTitle = styled.div`
   text-align: left;
   padding-bottom: 33pt;
   cursor: pointer;
+  color: #222222;
+
   @media (max-width: 899.25pt) {
     display: none;
   }

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import AvatarIcon from 'public/images/avatar.png';
+import AvatarIcon from 'public/images/AvatarIconSvg.svg';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
@@ -25,6 +25,16 @@ const LeftProfileBox = () => {
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
+  useEffect(() => {
+    if (memberType === 'USER') {
+      setAvatar(profile?.profileImageUrl!);
+    } else {
+      console.log('🍋 기업이면 이거 나오나용?');
+      setAvatar(profile?.companyMemberAdditionalInfo?.companyLogoImageUrl!);
+    }
+  }, [profile, memberType]);
 
   return (
     <React.Fragment>
@@ -37,12 +47,24 @@ const LeftProfileBox = () => {
                 <div className="img-bg">
                   {/* 아바타 */}
                   <div className="avatar-bg">
-                    <Image
-                      src={avatar.length > 1 ? avatar : AvatarIcon}
-                      alt="avatar"
-                      layout="fill"
-                      className="test"
-                    />
+                    {avatar !== '' ? (
+                      <Image
+                        src={!isLoading && avatar ? avatar : AvatarIcon}
+                        alt="avatar"
+                        layout="fill"
+                        priority={true}
+                        unoptimized={true}
+                        objectFit="cover"
+                        className="test"
+                      />
+                    ) : (
+                      <Image
+                        src={AvatarIcon}
+                        alt="avatar"
+                        layout="fill"
+                        className="test"
+                      />
+                    )}
                   </div>
                 </div>
               </Avatar>
@@ -151,6 +173,7 @@ const Body = styled.div`
 const Avatar = styled.div`
   display: flex;
   justify-content: center;
+
   .img-bg {
     position: relative;
   }

@@ -1,11 +1,11 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="50" cy="50" r="49.5" fill="#E2E5ED" stroke="#D3D3D3"/>
-<mask id="mask0_8823_72190" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="15" y="21" width="71" height="78">
-<path d="M50.4178 52.9167C58.7023 52.9167 65.4182 46.2009 65.4182 37.9164C65.4182 29.6319 58.7023 22.916 50.4178 22.916C42.1334 22.916 35.4175 29.6319 35.4175 37.9164C35.4175 46.2009 42.1334 52.9167 50.4178 52.9167Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M84.1686 97.9149C84.1686 79.2749 69.0578 64.1641 50.4178 64.1641C31.7778 64.1641 16.667 79.2749 16.667 97.9149" fill="white"/>
-<path d="M84.1686 97.9149C84.1686 79.2749 69.0578 64.1641 50.4178 64.1641C31.7778 64.1641 16.667 79.2749 16.667 97.9149H84.1686Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="60" r="59.5" fill="#E2E5ED" stroke="#D3D3D3"/>
+<mask id="mask0_3232_76891" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="19" y="26" width="84" height="93">
+<path d="M60.5014 63.497C70.4428 63.497 78.5019 55.4379 78.5019 45.4965C78.5019 35.5552 70.4428 27.4961 60.5014 27.4961C50.56 27.4961 42.501 35.5552 42.501 45.4965C42.501 55.4379 50.56 63.497 60.5014 63.497Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M101.002 117.497C101.002 95.1291 82.869 76.9961 60.501 76.9961C38.133 76.9961 20 95.1291 20 117.497" fill="white"/>
+<path d="M101.002 117.497C101.002 95.1291 82.869 76.9961 60.501 76.9961C38.133 76.9961 20 95.1291 20 117.497H101.002Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </mask>
-<g mask="url(#mask0_8823_72190)">
-<circle cx="50" cy="50" r="49.5" fill="white" stroke="#D3D3D3"/>
+<g mask="url(#mask0_3232_76891)">
+<circle cx="60" cy="60" r="59.5" fill="white" stroke="#D3D3D3"/>
 </g>
 </svg>

@@ -457,7 +457,7 @@ const TitleArea = styled.input`
 const MainTextArea = styled.textarea`
   width: 964px;
   height: 416px;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   outline: none;
   resize: none;
   background: none;
