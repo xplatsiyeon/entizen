@@ -179,7 +179,7 @@ const CommunicationTable = ({
                 }`,
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
-                ele.consultStatus, //+ (userChattingOneOnOne.data.consultations && ele.wasRead ?'': '(읽지않음)'),
+                ele.consultStatus +(ele.isUnread ? '(읽지않음)' : ''),
                 [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
