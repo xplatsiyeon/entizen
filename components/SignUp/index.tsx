@@ -10,6 +10,10 @@ import IdPwInput from './IdPwInput';
 import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
 import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { selectAction } from 'store/loginTypeSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 export interface BusinessRegistrationType {
   url: any;
   size: number;
@@ -25,7 +29,14 @@ const SignUpContainer = (props: Props) => {
   });
 
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
-  const [level, setLevel] = useState<number>(0);
+  // const [level, setLevel] = useState<number>(0);
+  const dispatch = useDispatch();
+  const { signUpLevel, selectedType } = useSelector(
+    (state: RootState) => state.LoginType,
+  );
+
+  console.log('⭐️ signUpLevel  : ', signUpLevel);
+  console.log('⭐️ selectedType : ', selectedType);
 
   // Type 1 일때 일반, 0 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
@@ -38,6 +49,7 @@ const SignUpContainer = (props: Props) => {
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState([false, false]);
+  const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
   const [nextBtn, setNextBtn] = useState(false);
   // id pw pw확인 상태
   const [idInput, setIdInput] = useState<string>('');
@@ -73,19 +85,21 @@ const SignUpContainer = (props: Props) => {
   };
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => router.push('/signin');
-  const handleBackClick = () => setModalOpen(true);
+  const handleBackClick = (pageNumber: number) => {
+    if (pageNumber === -1) {
+      router.replace('/signin');
+    } else {
+      dispatch(selectAction.setSignUpLevel(pageNumber));
+    }
+  };
 
   useEffect(() => {
-    if (
-      router.isReady &&
-      router.query.setting &&
-      router.query.setting === 'true'
-    ) {
-      const {
-        query: { userType },
-      } = router;
-      setLevel(1);
-      setUserType(Number(userType));
+    if (selectedType === 'USER') {
+      setUserType(1);
+    } else if (selectedType === 'COMPANY') {
+      setUserType(2);
+    } else {
+      setUserType(-1);
     }
   }, [router]);
 
@@ -107,42 +121,37 @@ const SignUpContainer = (props: Props) => {
         />
       )}
       {/* 일반/기업 선택란 */}
-      {level === 0 && (
+      {signUpLevel === 0 && (
         <>
           <SignUpHeader
             title={mobile ? '' : '어떤 용무로 오셨나요?'}
             back={true}
-            homeBtn={false}
-            handleBackClick={handleBackClick}
+            // homeBtn={false}
+            handleBackClick={() => handleBackClick(-1)}
             web={true}
           />
           <Wrapper>
             <ChooseUserType
               userType={userType}
               setUserType={setUserType}
-              level={level}
-              setLevel={setLevel}
+              // level={level}
+              // setLevel={setLevel}
             />
           </Wrapper>
         </>
       )}
       {/* ------------일반---------- */}
       {/* 약관 동의 */}
-      {level === 1 && userType === 1 && (
+      {signUpLevel === 1 && userType === 1 && (
         <>
           <SignUpHeader
             back={true}
-            // homeBtn={false}
-            exitBtn={true}
-            handleBackClick={handleBackClick}
-            handleHomeClick={handleHomeClick}
+            handleBackClick={() => handleBackClick(0)}
             title={mobile ? '' : '회원가입'}
             web={true}
           />
           <Wrapper>
             <TermContent
-              setLevel={setLevel}
-              level={level}
               setName={setName}
               setPhoneNumber={setPhoneNumber}
               fullTerms={fullTerms}
@@ -151,6 +160,8 @@ const SignUpContainer = (props: Props) => {
               setRequiredTerms={setRequiredTerms}
               selectTerms={selectTerms}
               setSelectTerms={setSelectTerms}
+              requiredCheck={requiredCheck}
+              setRequiredCheck={setRequiredCheck}
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
               userType={userType}
@@ -160,13 +171,13 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디 / 비밀번호 입력*/}
-      {level === 2 && userType === 1 && (
+      {signUpLevel === 2 && userType === 1 && (
         <>
           <SignUpHeader
             back={true}
-            exitBtn={true}
+            homeBtn={true}
+            handleBackClick={() => handleBackClick(1)}
             handleHomeClick={handleHomeClick}
-            handleBackClick={handleBackClick}
             title={mobile ? '' : '회원가입'}
             web={true}
           />
@@ -198,29 +209,28 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* ------------기업---------- */}
+      {/* ===================================기업 ======================================= */}
       {/* 약관 동의*/}
-      {level === 1 && userType === 0 && (
+      {signUpLevel === 1 && userType === 0 && (
         <>
           <SignUpHeader
             back={true}
-            // homeBtn={true}
-            exitBtn={true}
-            handleBackClick={handleBackClick}
+            homeBtn={true}
+            handleBackClick={() => handleBackClick(0)}
             handleHomeClick={handleHomeClick}
             title={mobile ? '' : '회원가입'}
             web={true}
           />
           <Wrapper>
             <TermContent
-              setLevel={setLevel}
-              level={level}
               setName={setName}
               setPhoneNumber={setPhoneNumber}
               fullTerms={fullTerms}
               setFullTerms={setFullTerms}
               requiredTerms={requiredTerms}
               setRequiredTerms={setRequiredTerms}
+              requiredCheck={requiredCheck}
+              setRequiredCheck={setRequiredCheck}
               selectTerms={selectTerms}
               setSelectTerms={setSelectTerms}
               nextBtn={nextBtn}
@@ -232,23 +242,20 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 상세 내용*/}
-      {level === 2 && userType === 0 && (
+      {signUpLevel === 2 && userType === 0 && (
         <>
           <SignUpHeader
-            back={true}
-            // homeBtn={true}
-            exitBtn={true}
-            handleHomeClick={() => router.push('/signin')}
-            handleBackClick={handleBackClick}
-            title={mobile ? '' : '회원가입'}
             web={true}
+            back={true}
+            homeBtn={true}
+            title={mobile ? '' : '회원가입'}
+            handleHomeClick={handleHomeClick}
+            handleBackClick={() => handleBackClick(1)}
           />
           <Wrapper>
             <CompanyDetailInfo
               businessRegistration={businessRegistration}
               setBusinessRegistration={setBusinessRegistration}
-              setLevel={setLevel}
-              level={level}
               companyName={companyName}
               setCompanyName={setCompanyName}
               postNumber={postNumber}
@@ -262,21 +269,18 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 담당자 정보 */}
-      {level === 3 && userType === 0 && (
+      {signUpLevel === 3 && userType === 0 && (
         <>
           <SignUpHeader
-            back={true}
-            // homeBtn={true}
-            title={mobile ? '' : '회원가입'}
             web={true}
-            exitBtn={true}
-            handleHomeClick={() => router.push('/signin')}
-            handleBackClick={handleBackClick}
+            back={true}
+            homeBtn={true}
+            handleBackClick={() => handleBackClick(2)}
+            handleHomeClick={handleHomeClick}
+            title={mobile ? '' : '회원가입'}
           />
           <Wrapper>
             <ManagerInfo
-              level={level}
-              setLevel={setLevel}
               setName={setName}
               setPhoneNumber={setPhoneNumber}
               email={email}
@@ -288,16 +292,15 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디/비밀번호 입력 */}
-      {level === 4 && userType === 0 && (
+      {signUpLevel === 4 && userType === 0 && (
         <>
           <SignUpHeader
-            back={true}
-            // homeBtn={true}
-            title={mobile ? '' : '회원가입'}
             web={true}
-            exitBtn={true}
+            back={true}
+            homeBtn={true}
+            title={mobile ? '' : '회원가입'}
+            handleBackClick={() => handleBackClick(3)}
             handleHomeClick={handleHomeClick}
-            handleBackClick={handleBackClick}
           />
           <Wrapper>
             <IdPwInput

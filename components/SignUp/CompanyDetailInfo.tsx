@@ -24,16 +24,18 @@ import { multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import Loader from 'components/Loader';
 import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { selectAction } from 'store/loginTypeSlice';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
   setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
-  level: number;
-  setLevel: Dispatch<SetStateAction<number>>;
+  // level: number;
+  // setLevel: Dispatch<SetStateAction<number>>;
   companyName: string;
   setCompanyName: Dispatch<SetStateAction<string>>;
   postNumber: string;
@@ -43,12 +45,9 @@ type Props = {
   companyDetailAddress: string;
   setCompanyDetailAddress: Dispatch<SetStateAction<string>>;
 };
-const TAG = 'CompanyDetailInfo.tsx';
 const CompanyDetailInfo = ({
   businessRegistration,
   setBusinessRegistration,
-  level,
-  setLevel,
   companyName,
   setCompanyName,
   postNumber,
@@ -75,6 +74,9 @@ const CompanyDetailInfo = ({
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const dispatch = useDispatch();
+  const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -117,7 +119,8 @@ const CompanyDetailInfo = ({
     setCompanyName(e.target.value);
   };
   const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setLevel(level + 1);
+    // setLevel(level + 1);
+    dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
   };
 
   // 파일 클릭

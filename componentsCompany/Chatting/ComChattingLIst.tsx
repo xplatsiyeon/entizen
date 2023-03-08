@@ -21,8 +21,7 @@ import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
 import newChatEntizen from 'public/images/newChatEntizen.png';
 import { handleTime } from 'utils/messageTime';
-import { clear } from 'console';
-import { emitKeypressEvents } from 'readline';
+
 
 type Props = {
   // type: number
@@ -40,15 +39,19 @@ const ComChattingList = ({ data, refetch }: Props) => {
   const mobRef = useRef<HTMLDivElement>(null);
   const startPoint = useRef<number>(0);
 
-  const clear = ()=>{
+ 
+  const clearMove = ()=>{
     const list = mobRef.current?.querySelectorAll('.chattingRoom') as NodeListOf<HTMLElement>;
     list.forEach((ele)=>{
-      if(!ele.classList.contains('slide1')){
+      if(!ele.classList.contains('slide1') && !ele.classList.contains('on')){
+        ele.style.transition = '0.3s';
         ele.style.transform = `translate3d(-160px, 0px ,0px)`;
         ele.classList.remove('slide0');
         ele.classList.remove('slide2');
         ele.classList.add('slide1')
       }
+      ele.classList.remove('on');
+      setTimeout(()=>ele.style.transition = '0s', 400)
     })
   }
 
@@ -61,7 +64,9 @@ const ComChattingList = ({ data, refetch }: Props) => {
   const handleMove=(e:TouchEvent, entizen?:boolean)=>{
     const target =  e.currentTarget as HTMLDivElement;
     const x = e.changedTouches[0].clientX;
-    clear()
+    
+    target.classList.add('on');
+    clearMove()
 
     //console.log(startPoint.current ,x)
     if(target.classList.contains('slide0')){

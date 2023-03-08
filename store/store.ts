@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   userList: userSlice.reducer,
   originUserData: originUserInfoSlice.reducer,
   findUserInfo: findUserInfoSlice.reducer,
-  selectType: selectSlice.reducer,
+  LoginType: selectSlice.reducer,
   companymyEstimateData: myEstimateSlice.reducer,
   companyRequestFilterNumberData: companyRequestFilterNumberSlice.reducer,
   companyFinalQuotationData: finalQuotationSlice.reducer,

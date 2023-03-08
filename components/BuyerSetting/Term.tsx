@@ -12,35 +12,30 @@ import term1 from 'public/images/term1.png';
 import { useRouter } from 'next/router';
 
 type Props = {
-  tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   nowWidth: number;
 };
 
-const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
+const Term = ({ setTabNumber, nowWidth }: Props) => {
   const router = useRouter();
-  // const { data, isLoading, isError, refetch } = useQuery<any>(
-  //   'entizenTerms',
-  //   () => isTokenGetApi(`/terms/location`),
-  // );
 
   const onClickBack = () => {
-    if (
-      router.isReady &&
-      router.query.setting &&
-      router.query.setting === 'true'
-    ) {
+    // 로그인 약관에서 라우팅
+    if (router.query.setting && router.query.setting === 'true') {
       const {
         query: { userType },
       } = router;
-      // router.push({
-      //   pathname: 'signUp/Terms',
-      //   query: {
-      //     setting: 'true',
-      //     userType: userType,
-      //   },
-      // });
+      router.push({
+        pathname: 'signUp/Terms',
+        query: {
+          setting: 'true',
+          userType: userType,
+        },
+      });
+      // 다이렉트로 페이지 이동은 router.back()
+    } else if (router.query.direct && router.query.direct === 'true') {
       router.back();
+      // 설정페이지에서 이동
     } else {
       setTabNumber(0);
     }
@@ -51,13 +46,7 @@ const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
     <WebRapper>
       {nowWidth < 1200 && (
         <Header>
-          <div
-            className="img-item"
-            onClick={() => {
-              router.back();
-            }}
-          >
-            {/* <div className="img-item" onClick={onClickBack}> */}
+          <div className="img-item" onClick={onClickBack}>
             <Image
               style={{
                 cursor: 'pointer',

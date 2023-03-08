@@ -72,13 +72,7 @@ const Setting = () => {
       />
     ),
     2: <QuestionInPerson setTabNumber={setTabNumber} tabNumber={tabNumber} />,
-    3: (
-      <Term
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        nowWidth={nowWidth}
-      />
-    ),
+    3: <Term setTabNumber={setTabNumber} nowWidth={nowWidth} />,
   };
 
   const leftComponents: Components = {

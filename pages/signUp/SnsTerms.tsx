@@ -22,7 +22,7 @@ import Modal from 'components/Modal/Modal';
 
 const SignUpTerms = () => {
   const router = useRouter();
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
+  const { selectedType } = useSelector((state: RootState) => state.LoginType);
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);

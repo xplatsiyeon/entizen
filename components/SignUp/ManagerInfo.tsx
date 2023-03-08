@@ -8,15 +8,19 @@ import Btn from './button';
 import Modal from 'components/Modal/Modal';
 // import { NAME, PHONE } from 'assets/selectList';
 import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { selectAction } from 'store/loginTypeSlice';
 
 type Props = {
+  // level: number;
+  // setLevel: Dispatch<SetStateAction<number>>;
   email: string;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
   setEmail: Dispatch<SetStateAction<string>>;
-  level: number;
   userType: number;
-  setLevel: Dispatch<SetStateAction<number>>;
   setBirthday: Dispatch<SetStateAction<string>>;
 };
 
@@ -25,8 +29,6 @@ const ManagerInfo = ({
   setName,
   setEmail,
   setPhoneNumber,
-  level,
-  setLevel,
   setBirthday,
   userType,
 }: Props) => {
@@ -44,6 +46,8 @@ const ManagerInfo = ({
   const [isModal, setIsModal] = useState(false);
   const loginTypeEnList: string[] = ['COMPANY', 'USER'];
 
+  const dispatch = useDispatch();
+  const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -84,7 +88,8 @@ const ManagerInfo = ({
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
       } else if (data.isMember === false) {
-        setLevel(level + 1);
+        // setLevel(level + 1);
+        dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
       }
     }
   };

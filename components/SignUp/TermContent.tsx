@@ -12,11 +12,15 @@ import Btn from './button';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import { useMediaQuery } from 'react-responsive';
+import { selectAction } from 'store/loginTypeSlice';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 // import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
-  level: number;
-  setLevel: Dispatch<SetStateAction<number>>;
+  // level: number;
+  // setLevel: Dispatch<SetStateAction<number>>;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
   fullTerms: boolean;
@@ -25,6 +29,8 @@ type Props = {
   setRequiredTerms: Dispatch<SetStateAction<boolean>>;
   selectTerms: boolean[];
   setSelectTerms: Dispatch<SetStateAction<boolean[]>>;
+  requiredCheck: boolean[];
+  setRequiredCheck: Dispatch<SetStateAction<boolean[]>>;
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
@@ -32,8 +38,6 @@ type Props = {
 };
 
 const TermContent = ({
-  level,
-  setLevel,
   setName,
   setPhoneNumber,
   fullTerms,
@@ -46,6 +50,8 @@ const TermContent = ({
   setNextBtn,
   userType,
   setBirthday,
+  requiredCheck,
+  setRequiredCheck,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -56,8 +62,10 @@ const TermContent = ({
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
 
-  const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
+  // const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
 
+  const dispatch = useDispatch();
+  const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
   // ========================== 본인인증 창 띄우기
   // 브릿지용 테스트 클릭
   // const testClick = () => {
@@ -95,7 +103,8 @@ const TermContent = ({
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
       } else if (data.isMember === false) {
-        setLevel(level + 1);
+        // setLevel(level + 1);
+        dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
       }
     }
   };
@@ -106,7 +115,8 @@ const TermContent = ({
   };
 
   const justNextPage = () => {
-    setLevel(level + 1);
+    // setLevel(level + 1);
+    dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
   };
 
   useEffect(() => {
