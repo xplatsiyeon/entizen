@@ -231,8 +231,9 @@ const ChattingRoomLogsEntizen = ({
   const mobBox = useRef<HTMLDivElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
     const target = e.currentTarget;
-    const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
-
+    console.log(target)
+    const hiddenBox = target.querySelector('.hidden') as HTMLElement;
+    console.log(hiddenBox)
     if (target.classList.contains('on') && hiddenBox) {
       target.classList.remove('on');
       hiddenBox.style.height = '0';
@@ -632,7 +633,7 @@ const ChattingRoomLogsEntizen = ({
                       return;
                     } else {
                       return (
-                        <Wrap>
+                        <Wrap key={idx}>
                           <ChatBox
                             userChatting={userChatting}
                             className={`${
@@ -781,6 +782,11 @@ const ChattingRoomLogsEntizen = ({
               )}
             </IconWrap2>
           </FlexBox>
+   
+        </BottomBox>
+        <AddBtn onClick={handleButton}>
+          {/* <Image src={addBtn} layout="intrinsic" /> */}
+          <ImgTag src={'/images/addBtnSvg.svg'} className="add"/>
           <div className="hidden">
             <IconWrap3 onClick={imgHandler}>
               <Image src={chatPhotoAdd} layout="fill" />
@@ -792,10 +798,6 @@ const ChattingRoomLogsEntizen = ({
               <Image src={chatFileAdd} layout="fill" />
             </IconWrap3>
           </div>
-        </BottomBox>
-        <AddBtn onClick={handleButton}>
-          {/* <Image src={addBtn} layout="intrinsic" /> */}
-          <ImgTag src={'/images/addBtnSvg.svg'} />
         </AddBtn>
       </MobBottomWrap>
 
@@ -926,26 +928,13 @@ const BottomBox = styled.div`
   background: #e9eaee;
   padding: 3pt 0pt 36pt;
   width: 100%;
+  position: relative;
   /* border: 1px solid red; */
   @media (min-width: 900pt) {
     position: absolute;
     display: none;
   }
-  .hidden {
-    width: 30pt;
-    height: 0;
-    position: absolute;
-    bottom: 72pt;
-    left: 11.5pt;
-    transition: 0.3s;
-    background-color: white;
-    //border: 0.75pt solid #D3D3D3;
-    border-radius: 16.5pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-  }
+
 `;
 const FlexBox = styled.form`
   display: flex;
@@ -963,7 +952,26 @@ const AddBtn = styled.div`
   background: #a6a9b0;
   transition: 0.3s;
   &.on {
-    transform: rotate(45deg);
+    //transform: rotate(45deg);
+    .add{
+      transition: 0.3s;
+      transform: rotate(45deg);
+    }
+  }
+  .hidden {
+    width: 30pt;
+    height: 0;
+    position: absolute;
+    bottom: 36pt;
+    left: -3.5pt;
+    transition: 0.3s;
+    background-color: white;
+    //border: 0.75pt solid #D3D3D3;
+    border-radius: 16.5pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
   }
 `;
 const TextInput = styled.input`
@@ -1024,7 +1032,7 @@ const IconWrap = styled.div`
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
-  height: 100vh;
+  height: 90vh;
   overflow-y: scroll;
   padding-bottom: 60pt;
   .wrap {
@@ -1063,7 +1071,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-  &::before {
+  /* &::before {
     display: block;
     content: '';
     clear: both;
@@ -1086,11 +1094,12 @@ const DateChatting = styled.div`
     top: 15pt;
     right: 0;
     z-index: -1;
-  }
+  } */
   &.target-p {
     .user-p {
       &.p-target {
         display: block;
+        text-align: right;
       }
     }
     .company-p {

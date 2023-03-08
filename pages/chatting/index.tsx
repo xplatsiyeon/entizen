@@ -163,7 +163,7 @@ const Wrapper = styled.div`
   flex-direction: row;
 
   @media (max-width: 899.25pt) {
-    padding-bottom: 60pt;
+   // padding-bottom: 60pt;
     flex-direction: column;
     width: 100%;
     gap: 0;
