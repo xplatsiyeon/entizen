@@ -82,8 +82,6 @@ const Carousel = () => {
     },
   );
 
-  console.log('bannerList', bannerList);
-
   const {
     data: companyBannerList,
     isLoading: companyBannerLoading,
@@ -98,6 +96,8 @@ const Carousel = () => {
   );
 
   SwipeCore.use([Navigation]);
+
+  console.log('bannerList', companyBannerList);
 
   return (
     <>
@@ -137,11 +137,15 @@ const Carousel = () => {
                         }
                       })
                       .map((img) => (
-                        <SliderImg
+                        <Image
                           key={img?.bannerImageIdx}
                           src={img?.url}
                           alt={img?.originalName}
                           style={{ cursor: 'pointer' }}
+                          layout="fill"
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
                         />
                       ))}
                   </a>
@@ -163,12 +167,22 @@ const Carousel = () => {
                         }
                       })
                       .map((img) => (
-                        <SliderImg
+                        <Image
                           key={img?.bannerImageIdx}
                           src={img?.url}
                           alt={img?.originalName}
                           style={{ cursor: 'pointer' }}
+                          layout="fill"
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
                         />
+                        // <SliderImg
+                        //   key={img?.bannerImageIdx}
+                        //   src={img?.url}
+                        //   alt={img?.originalName}
+                        //   style={{ cursor: 'pointer' }}
+                        // />
                       ))}
                     {/* {el?.bannerImages?.map((img) => (
                       <SliderImg
