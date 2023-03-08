@@ -211,6 +211,14 @@ const IdPwInput = ({
   // 기업 회원가입 온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
+      const newBusinessRegistration = businessRegistration?.map((e) => {
+        return {
+          url: e.url,
+          size: e.size,
+          originalName: e.originalName,
+        };
+      });
+
       companyMutate({
         method: 'POST',
         endpoint: '/members/join',
@@ -235,7 +243,7 @@ const IdPwInput = ({
           managerEmail: email,
 
           // 사업자등록증 파일 목록
-          businessRegistrationFiles: businessRegistration,
+          businessRegistrationFiles: newBusinessRegistration,
         },
       });
     }

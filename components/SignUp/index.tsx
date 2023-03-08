@@ -15,7 +15,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 export interface BusinessRegistrationType {
-  url: any;
+  url: string;
   size: number;
   originalName: string;
   typeName: string;
