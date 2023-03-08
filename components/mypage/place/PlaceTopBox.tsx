@@ -291,7 +291,7 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 1px solid #e9eaee;
+  border-bottom: 0.75pt solid #e9eaee;
   .text-box {
     display: flex;
     justify-content: space-between;

@@ -144,6 +144,7 @@ interface ProjectDetailResponse {
         id: string;
         name: string;
         phone: string;
+        deletedAt: string;
       };
       projectReview: {
         projectReviewIdx: number;
@@ -454,6 +455,30 @@ const ProjectCompleteDetail = ({
     });
   };
 
+  // 프로젝트 삭제
+  const {
+    mutate: patchCancelMutate,
+    isLoading: patchIsCancelLoading,
+    isError: patchIsCancelError,
+  } = useMutation(isTokenAdminPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectList');
+      setMessageModal(true);
+      setMessage('프로젝트 삭제가 완료됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('프로젝트 삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const projectCancel = () => {
+    patchCancelMutate({
+      url: `/admin/projects/${projectIdx}/cancel`,
+    });
+  };
+
   // 프로젝트 리뷰 수정하는 함수
   const {
     mutate: putMutate,
@@ -607,6 +632,7 @@ const ProjectCompleteDetail = ({
             setIsModal={setMessageModal}
             message={message}
             size={'lg'}
+            setIsDetail={setIsDetail}
           />
         )}
         {reviewModal && (
@@ -702,18 +728,22 @@ const ProjectCompleteDetail = ({
               </Contents>
             </List>
           </CompanyInfoContainer>
-          {/* <ButtonFlex>
-            <Name className="projectInfo">프로젝트 정보</Name>
-            <ProjectBtn
-              onClick={() => {
-                setProjectModal(true);
-              }}
-              margin={true}
-              cursor={true}
-            >
-              최종승인 완료
-            </ProjectBtn>
-          </ButtonFlex> */}
+          {/* {data?.data?.project?.userMember?.deletedAt === null ? (
+            <Name className="notFirst">완료 프로젝트 정보</Name>
+          ) : (
+            <ButtonFlex>
+              <Name className="projectInfo">프로젝트 정보</Name>
+              <ProjectBtn
+                onClick={() => {
+                  projectCancel();
+                }}
+                margin={true}
+                cursor={true}
+              >
+                프로젝트 삭제
+              </ProjectBtn>
+            </ButtonFlex>
+          )} */}
           <Name className="notFirst">완료 프로젝트 정보</Name>
           <ProjectInfoContainer>
             <List>

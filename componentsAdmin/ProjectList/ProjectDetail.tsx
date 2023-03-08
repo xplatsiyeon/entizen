@@ -60,6 +60,7 @@ import {
   ModuSignResponse,
 } from 'QueryComponents/ModuSignQuery';
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
+import ProjectCancelModal from './ProjectCancelModal';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -145,6 +146,7 @@ interface ProjectDetailResponse {
         id: string;
         name: string;
         phone: string;
+        deletedAt: string;
       };
       projectReview: {
         projectReviewIdx: number;
@@ -232,6 +234,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   // 최종 승인 완료 모달 열리고 닫히고
   const [projectModal, setProjectModal] = useState<boolean>(false);
   const [finalApprove, setFinalApprove] = useState<boolean>(false);
+
+  // 탈퇴회원 프로젝트 완료 모달 열리고 닫히고
+  const [cancelProject, setCancelProject] = useState<boolean>(false);
 
   // 삭제 하고 충전기 카탈로그 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
@@ -423,7 +428,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
     onError: () => {
       setMessageModal(true);
-      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+      setMessage('최종승인 요청을 실패했습니다.\n다시 시도해주세요.');
     },
     onSettled: () => {},
   });
@@ -432,6 +437,30 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   const finalApproved = () => {
     patchMutate({
       url: `/admin/projects/${projectIdx}/approval`,
+    });
+  };
+
+  // 프로젝트 삭제
+  const {
+    mutate: patchCancelMutate,
+    isLoading: patchIsCancelLoading,
+    isError: patchIsCancelError,
+  } = useMutation(isTokenAdminPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectList');
+      setMessageModal(true);
+      setMessage('프로젝트 삭제가 완료됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('프로젝트 삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const projectCancel = () => {
+    patchCancelMutate({
+      url: `/admin/projects/${projectIdx}/cancel`,
     });
   };
 
@@ -577,6 +606,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             setIsModal={setMessageModal}
             message={message}
             size={'lg'}
+            setIsDetail={setIsDetail}
           />
         )}
         {reviewModal && (
@@ -595,6 +625,10 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             finalApprove={finalApprove}
           />
         )}
+        {cancelProject && (
+          <ProjectCancelModal setCancelProject={setCancelProject} />
+        )}
+
         <AdminHeader
           title="프로젝트"
           type="detail"
@@ -674,15 +708,39 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
           </CompanyInfoContainer>
           <ButtonFlex>
             <Name className="projectInfo">진행 프로젝트 정보</Name>
-            <ProjectBtn
-              onClick={() => {
-                setProjectModal(true);
-              }}
-              margin={true}
-              cursor={true}
-            >
-              최종승인 완료
-            </ProjectBtn>
+            {data?.data?.project?.userMember?.deletedAt === null ? (
+              <ProjectBtn
+                onClick={() => {
+                  setProjectModal(true);
+                }}
+                margin={true}
+                cursor={true}
+              >
+                최종승인 완료
+              </ProjectBtn>
+            ) : (
+              <TwoButton>
+                <ProjectBtn
+                  onClick={() => {
+                    setProjectModal(true);
+                  }}
+                  margin={true}
+                  cursor={true}
+                >
+                  최종승인 완료
+                </ProjectBtn>
+                <ProjectBtn
+                  onClick={() => {
+                    // setCancelProject(true);
+                    projectCancel();
+                  }}
+                  margin={true}
+                  cursor={true}
+                >
+                  프로젝트 삭제
+                </ProjectBtn>
+              </TwoButton>
+            )}
           </ButtonFlex>
           <ProjectInfoContainer>
             <List>
@@ -1330,4 +1388,10 @@ const ImgList = styled.div<{ dataLength?: number }>`
 const DisplayBox = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const TwoButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;

@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -15,6 +16,11 @@ import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
 import { SubscribePrice } from 'store/quotationSlice';
+import UpArrow from 'public/guide/up_arrow.svg';
+import DownArrow from 'public/guide/down_arrow.svg';
+import { stat } from 'fs';
+import { useMediaQuery } from 'react-responsive';
+import DoubleArrow from 'public/images/CaretDoubleDown.svg';
 
 type Props = {};
 
@@ -34,12 +40,17 @@ interface PredictedProfitTime {
 const TAG = '1-7.tsx';
 const Request1_7 = (props: Props) => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+  const [open, setOpen] = useState<boolean>(false);
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
   const [sliderDisable, setSliderDisable] = useState(false);
+  const [subscribeText, setSubscribeText] = useState('');
   const [calculatedValue, setCalculatedValue] = useState<CalculateValue>({
     maxSubscribePricePerMonth: 0,
     maxTotalSubscribePrice: 0,
@@ -71,6 +82,10 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state,
   );
   const { requestData } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
+
+  const { chargersKo, subscribePeriod } = useSelector(
     (state: RootState) => state.quotationData,
   );
 
@@ -125,8 +140,10 @@ const Request1_7 = (props: Props) => {
     } = requestData!;
     if (subscribeProduct === 'ENTIRETY') {
       setSubScribe(entiretyMinAndMaxSubscribePrice);
+      setSubscribeText('전체 구독');
     } else if (subscribeProduct === 'PART') {
       setSubScribe(partMinAndMaxSubscribePrice);
+      setSubscribeText('부분 구독');
     }
 
     setDate({
@@ -176,15 +193,110 @@ const Request1_7 = (props: Props) => {
             <Header
               title="간편견적"
               exitBtn={true}
+              back={true}
               handleOnClick={() => router.push('/')}
+              handleBackClick={() => router.back()}
             />
+            {mobile && (
+              <>
+                <TopMobileWrapper
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                >
+                  <AddressMobileBox open={open}>
+                    <div className="mapPin-icon">
+                      <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                    </div>
+                    <AddressName>
+                      {locationList.locationList.jibunAddr}
+                    </AddressName>
+                    {open ? (
+                      <ArrowImg>
+                        <Image src={DownArrow} alt="down_arrow" layout="fill" />
+                      </ArrowImg>
+                    ) : (
+                      <ArrowImg>
+                        <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                      </ArrowImg>
+                    )}
+                  </AddressMobileBox>
+                  {open && (
+                    <TopInfoMobileBox>
+                      {chargersKo?.map((item, index) => (
+                        <TextBox>
+                          {index === 0 ? (
+                            <Name>충전기 종류 및 수량</Name>
+                          ) : (
+                            <Name />
+                          )}
+                          <Value>
+                            {item?.kind}
+                            <br />
+                            {item?.standType
+                              ? `${item.standType}, ${item.channel}, ${item.count}`
+                              : `${item.channel}, ${item.count}`}
+                          </Value>
+                        </TextBox>
+                      ))}
+
+                      <TextBox>
+                        <Name>구독상품</Name>
+                        <Text>{subscribeText}</Text>
+                      </TextBox>
+                      <TextBox>
+                        <Name>구독기간</Name>
+                        <Text>{subscribePeriod} 개월</Text>
+                      </TextBox>
+                    </TopInfoMobileBox>
+                  )}
+                </TopMobileWrapper>
+                <DownArrowBox>
+                  <Image src={DoubleArrow} alt="down_arrow" />
+                </DownArrowBox>
+              </>
+            )}
             <Body>
-              <AddressBox>
-                <div className="mapPin-icon">
-                  <Image src={mapPin} alt="mapPin-icon" layout="fill" />
-                </div>
-                <AddressName>{locationList.locationList.jibunAddr}</AddressName>
-              </AddressBox>
+              {!mobile && (
+                <AddressBox>
+                  <div className="mapPin-icon">
+                    <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                  </div>
+                  <AddressName>
+                    {locationList.locationList.jibunAddr}
+                  </AddressName>
+                </AddressBox>
+              )}
+              {!mobile && (
+                <TopInfoBox>
+                  {chargersKo?.map((item, index) => (
+                    <TextBox>
+                      {index === 0 ? (
+                        <Name>충전기 종류 및 수량</Name>
+                      ) : (
+                        <Name />
+                      )}
+                      <Value>
+                        {item?.kind}
+                        <br />
+                        {item?.standType
+                          ? `${item.standType}, ${item.channel}, ${item.count}`
+                          : `${item.channel}, ${item.count}`}
+                      </Value>
+                    </TextBox>
+                  ))}
+
+                  <TextBox>
+                    <Name>구독상품</Name>
+                    <Text>{subscribeText}</Text>
+                  </TextBox>
+                  <TextBox>
+                    <Name>구독기간</Name>
+                    <Text>{subscribePeriod} 개월</Text>
+                  </TextBox>
+                </TopInfoBox>
+              )}
+
               <SubTitle>수익지분</SubTitle>
               <NameBox>
                 <span className="name">내 수익/투자</span>
@@ -351,13 +463,28 @@ const AddressBox = styled.div`
   align-items: flex-end;
   gap: 6pt;
   padding-bottom: 15pt;
-  border-bottom: 0.75pt solid ${colors.gray};
+  border-bottom: 0.75pt dotted ${colors.gray};
   .mapPin-icon {
     position: relative;
     width: 15pt;
     height: 15pt;
   }
 `;
+
+const AddressMobileBox = styled.div<{ open: boolean }>`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 6pt;
+  padding-bottom: ${({ open }) => (open ? '48pt' : '')};
+
+  .mapPin-icon {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+  }
+`;
+
 const AddressName = styled.h1`
   font-weight: 700;
   font-size: 12pt;
@@ -544,4 +671,106 @@ const Notice = styled.span`
     font-size: 7.5pt;
     justify-content: flex-end;
   }
+`;
+
+const TopInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30pt 0;
+  border-bottom: 0.75pt dotted #e2e5ed;
+  background-color: white;
+`;
+
+const TopMobileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 37.5pt 18.5625pt 21pt 18.5625pt;
+  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  background-color: white;
+`;
+
+const TopInfoMobileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ArrowImg = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 6.5pt;
+  width: 18pt;
+  height: 18pt;
+`;
+
+const TextBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
+  }
+`;
+
+const Name = styled.span`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.gray2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+`;
+
+const Text = styled.span`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: right;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    // text-align: left;
+  }
+`;
+
+const Value = styled.span`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: right;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  flex: 2;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+  }
+`;
+
+const DownArrowBox = styled.div`
+  padding-top: 21pt;
+  margin: 0 auto;
+
+  width: 24pt;
+  height: 24pt;
 `;
