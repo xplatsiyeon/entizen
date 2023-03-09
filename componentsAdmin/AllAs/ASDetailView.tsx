@@ -205,6 +205,11 @@ const ASDetailView = ({
     );
   }, [data]);
 
+  console.log(
+    '🍏🍎 첨부파일 나오나?',
+    data?.data?.afterSalesService?.afterSalesServiceRequestFiles,
+  );
+
   return (
     <Background>
       {reviewModal && (
@@ -221,7 +226,7 @@ const ASDetailView = ({
       )}
       <Wrapper>
         <AdminHeader
-          title="프로젝트"
+          title="A/S"
           type="detail"
           backBtn={handleBackBtn}
           exelHide={true}
@@ -369,7 +374,12 @@ const ASDetailView = ({
                         unoptimized={true}
                         objectFit="cover"
                       />
-                      <Xbox onClick={() => {}} data-name={index}>
+                      <Xbox
+                        onClick={() => {
+                          setFileIdx(img?.afterSalesServiceRequestFileIdx);
+                        }}
+                        data-name={index}
+                      >
                         <Image
                           src={CloseImg}
                           data-name={index}
@@ -377,9 +387,6 @@ const ASDetailView = ({
                           alt="closeBtn"
                           width={24}
                           height={24}
-                          onClick={() => {
-                            setFileIdx(img?.afterSalesServiceRequestFileIdx);
-                          }}
                         />
                       </Xbox>
                     </ImgSpan>
