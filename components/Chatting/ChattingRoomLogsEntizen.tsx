@@ -675,6 +675,11 @@ const ChattingRoomLogsEntizen = ({
                                 <Image src={defaultImg} layout="fill" />
                               )}
                             </ImageWrap>
+                            <StyledWrap className={`${
+                              item.fromMemberType === 'ADMIN'
+                                ? 'company'
+                                : 'user'
+                            }`}>
                             {item.content && (
                               <Chat
                                 userChatting={userChatting}
@@ -739,6 +744,7 @@ const ChattingRoomLogsEntizen = ({
                                 </FileDownload>
                               </>
                             )}
+                            </StyledWrap>
                             <WrapDate>
                               <P
                                 className={`${
@@ -931,7 +937,7 @@ const InputWrap = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  border: 1px solid #d3d3d3;
+  border: 0.75pt solid #d3d3d3;
   border-radius: 37.5pt;
 `;
 const FileIconWrap = styled.div`
@@ -1046,7 +1052,7 @@ const TopBox = styled.div`
   z-index: 5;
   @media (min-width: 900pt) {
     position: absolute;
-    border-bottom: 1px solid #e2e5ed;
+    border-bottom: 0.75pt solid #e2e5ed;
     width: -webkit-fill-available;
     padding: 22.5pt 5pt;
   }
@@ -1108,7 +1114,9 @@ const LoadingWrap = styled.div`
     transform: translate(-50%, -50%);
   }
 `;
-const Wrap = styled.div``;
+const Wrap = styled.div`
+  min-height: 39pt;
+`;
 
 const DateChatting = styled.div`
   width: 100%;
@@ -1141,7 +1149,7 @@ const Date = styled.span`
   color: #a6a9b0;
   position: relative;
   margin: 8pt auto 18pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 12pt;
   padding: 6pt 9pt;
   
@@ -1199,6 +1207,14 @@ const ImageWrap = styled.div<{ userChatting: boolean }>`
   }
 `;
 
+const StyledWrap = styled.div`
+&.company {
+  margin-left: 36pt;
+  @media (max-width: 899.25pt) {
+    margin-left: 33pt;
+  }
+}
+`
 const Chat = styled.div<{ userChatting: boolean }>`
   border-radius: 6pt;
   padding: 7.5pt 6pt;
@@ -1216,15 +1232,10 @@ const Chat = styled.div<{ userChatting: boolean }>`
   &.company {
     color: ${({ userChatting }) => (userChatting ? '#222222' : 'white')};
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
-    margin-left: 36pt;
   }
 
   @media (max-width: 899.25pt) {
     max-width: 200pt;
-
-    &.company {
-      margin-left: 33pt;
-    }
   }
 `;
 const FileDownload = styled.a`
@@ -1239,7 +1250,7 @@ const File = styled.button`
   margin-right: 6pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
-  border-radius: 8px;
+  border-radius: 6pt;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;

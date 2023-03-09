@@ -912,7 +912,9 @@ const WebBottomBox = styled.div`
   }
 `;
 
-const Wrap = styled.div``;
+const Wrap = styled.div`
+  padding-bottom: 70pt;
+`;
 
 const DateChatting = styled.div`
   width: 100%;
@@ -985,7 +987,7 @@ const List = styled.div`
 const ChatBox = styled.div<{ userChatting: string }>`
   display: flex;
   align-items: center;
-  margin-bottom: 50pt;
+  margin-bottom: 12pt;
   gap: 6pt;
   align-items: flex-end;
 
