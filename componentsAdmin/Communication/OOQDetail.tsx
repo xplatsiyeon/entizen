@@ -987,7 +987,7 @@ const ChatBox = styled.div<{ userChatting: string }>`
   align-items: center;
   margin-bottom: 50pt;
   gap: 6pt;
-  align-items: end;
+  align-items: flex-end;
 
   &.admin {
     flex-direction: ${({ userChatting }) =>
@@ -1007,6 +1007,8 @@ const ImageWrap = styled.div<{ userChatting: string }>`
   border: 0.75pt solid #d3d3d3;
   > img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   &.admin {
     display: ${({ userChatting }) =>
@@ -1049,7 +1051,7 @@ const FileDownload = styled.a`
   cursor: pointer;
 `;
 const File = styled.button`
-  margin-bottom: 6pt;
+  //margin-bottom: 6pt;
   margin-right: 6pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
@@ -1067,6 +1069,7 @@ const MessageDate = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #caccd1;
+  margin-top: 0!important;
 `;
 
 const IconWrap2 = styled.button`
