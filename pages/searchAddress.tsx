@@ -176,6 +176,7 @@ const FindAddress = styled(TextField)`
   margin-left: 6pt;
   display: flex;
   justify-content: center;
+
   .MuiInputBase-root {
     padding-top: 12pt;
     padding-bottom: 12pt;
