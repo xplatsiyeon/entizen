@@ -33,6 +33,8 @@ import ReportModal from './ReportModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
+import test from 'pages/test';
+import { elements } from 'chart.js';
 
 type ChattingLogs = {
   createdAt: string;
@@ -228,12 +230,11 @@ const ChattingRoomLogsEntizen = ({
   };
 
   /* 파일버튼 누르면 나타나는 애니메이션 */
-  const mobBox = useRef<HTMLDivElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
     const target = e.currentTarget;
-    console.log(target)
+    //console.log(target)
     const hiddenBox = target.querySelector('.hidden') as HTMLElement;
-    console.log(hiddenBox)
+    //console.log(hiddenBox)
     if (target.classList.contains('on') && hiddenBox) {
       target.classList.remove('on');
       hiddenBox.style.height = '0';
@@ -579,6 +580,21 @@ const ChattingRoomLogsEntizen = ({
     mobInputRef.current?.classList.add('on');
   };
 
+  const inputStyle =(e:React.FocusEvent, type:boolean)=>{
+    const target = e.currentTarget as HTMLFormElement;
+    if(type){
+      target.classList.replace('off','on');
+    }else{
+      setTimeout(()=>{
+        const input = target.querySelector('.textInput:focus');
+        console.log(input)
+        if(!input){
+          target.classList.replace('on','off');
+        }
+      },300)   
+    }
+  }
+
   return (
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
@@ -761,15 +777,20 @@ const ChattingRoomLogsEntizen = ({
       </Inner>
 
       <MobBottomWrap>
-        <BottomBox ref={mobBox} onClick={handleFocus}>
-          <FlexBox onSubmit={onSubmitText}>
-            <TextInput
-              placeholder="메세지를 입력하세요"
+        <BottomBox onClick={handleFocus}>
+          <FlexBox onSubmit={onSubmitText} className="off" 
+            onFocus={(e)=>{
+              inputStyle(e, true);
+            }}
+            onBlur={(e)=>{
+              inputStyle(e, false);
+            }}
+            >
+            <TextInput className='textInput'
+              placeholder="메세지를 입력하세요" 
               value={text}
               onChange={onChangeText}
               ref={mobInputRef}
-              onFocus={()=>{if(mobBox.current){mobBox.current.style.padding = '3px 0'}}}
-              onBlur={()=>{if(mobBox.current){mobBox.current.style.padding = '3px 0 36px'}}}
             />
             <IconWrap2
               onClick={handleFocus}
@@ -926,14 +947,29 @@ const MobBottomWrap = styled.div`
 `;
 const BottomBox = styled.div`
   background: #e9eaee;
-  padding: 3pt 0pt 36pt;
+  padding: 3pt 0pt 3pt;
   width: 100%;
   position: relative;
+  &::after{
+    width: 100%;
+    height: 20pt;
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -20pt;
+    background-color: #e9eaee;
+  }
   /* border: 1px solid red; */
   @media (min-width: 900pt) {
     position: absolute;
     display: none;
+
+    &::after{
+      display: none;
+    }
   }
+
+
 
 `;
 const FlexBox = styled.form`
@@ -941,6 +977,14 @@ const FlexBox = styled.form`
   align-items: center;
   justify-content: space-between;
   padding: 0 12pt 0 38.25pt;
+
+  &.off{
+    margin-bottom: 20pt;
+  }
+  &.on{
+    transition: 0s 0.5s;
+    margin-bottom: 0;
+  }
 `;
 const AddBtn = styled.div`
   position: absolute;
@@ -1014,7 +1058,7 @@ const IconBox = styled.div`
   transform: translateY(-50%);
   display: flex;
   align-items: center;
-  gap: 6.4pt;
+  //gap: 6.4pt;
   @media (min-width: 900pt) {
     right: 21pt;
   }
@@ -1071,30 +1115,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-  /* &::before {
-    display: block;
-    content: '';
-    clear: both;
-    width: 50%;
-    height: 1px;
-    background: #e2e5ed;
-    position: absolute;
-    top: 15pt;
-    left: 0;
-    z-index: -1;
-  }
-  &::after {
-    display: block;
-    content: '';
-    clear: both;
-    width: 50%;
-    height: 1px;
-    background: #e2e5ed;
-    position: absolute;
-    top: 15pt;
-    right: 0;
-    z-index: -1;
-  } */
+  
   &.target-p {
     .user-p {
       &.p-target {
@@ -1199,7 +1220,7 @@ const Chat = styled.div<{ userChatting: boolean }>`
   }
 
   @media (max-width: 899.25pt) {
-    max-width: 150pt;
+    max-width: 200pt;
 
     &.company {
       margin-left: 33pt;

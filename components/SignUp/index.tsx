@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import SignUpHeader from './header';
@@ -104,6 +104,16 @@ const SignUpContainer = (props: Props) => {
       setUserType(-1);
     }
   }, [router]);
+
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      // alert(userAgent);
+      window.onClickBackButton = () => router.replace('/signin');
+    }
+  }, []);
 
   return (
     <>

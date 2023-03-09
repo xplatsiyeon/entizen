@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
@@ -157,6 +157,16 @@ const SignUpTerms = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      // alert(userAgent);
+      window.onClickBackButton = () => router.replace('/signin');
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {errorModal && (
@@ -167,7 +177,7 @@ const SignUpTerms = () => {
         <Inner>
           <Wrapper>
             <InnerHeader>
-              <div className="img-box" onClick={() => router.back()}>
+              <div className="img-box" onClick={() => router.push('/signin')}>
                 <Image src={btnImg} alt="back-img" />
               </div>
               <h1 className="title">회원가입</h1>
