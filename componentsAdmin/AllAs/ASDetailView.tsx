@@ -76,12 +76,14 @@ export interface ASDetailViewResponse {
         opinion: string;
       };
       currentStep: string;
-      afterSalesServiceRequestFiles: [
-        {
-          afterSalesServiceRequestFileIdx: number;
-          url: string;
-        },
-      ];
+      afterSalesServiceRequestFiles: {
+        afterSalesServiceRequestFileIdx: number;
+        url: string;
+      }[];
+      afterSalesServiceCompletionFiles: {
+        afterSalesServiceCompletionFileIdx: number;
+        url: string;
+      }[];
     };
   };
 }
@@ -204,11 +206,6 @@ const ASDetailView = ({
       data?.data?.afterSalesService?.afterSalesServiceReview?.opinion!,
     );
   }, [data]);
-
-  console.log(
-    '🍏🍎 첨부파일 나오나?',
-    data?.data?.afterSalesService?.afterSalesServiceRequestFiles,
-  );
 
   return (
     <Background>
@@ -360,39 +357,75 @@ const ASDetailView = ({
             </List>
             <List>
               <Label>사진</Label>
-              <ImgSpanBox>
-                {data?.data?.afterSalesService?.afterSalesServiceRequestFiles.map(
-                  (img, index) => (
-                    <ImgSpan key={index}>
-                      <Image
-                        layout="fill"
-                        alt="preview"
-                        data-name={index}
-                        key={index}
-                        src={img.url}
-                        priority={true}
-                        unoptimized={true}
-                        objectFit="cover"
-                      />
-                      <Xbox
-                        onClick={() => {
-                          setFileIdx(img?.afterSalesServiceRequestFileIdx);
-                        }}
-                        data-name={index}
-                      >
+              {data?.data?.afterSalesService?.currentStep === '완료' ? (
+                <ImgSpanBox>
+                  {data?.data?.afterSalesService?.afterSalesServiceCompletionFiles.map(
+                    (img, index) => (
+                      <ImgSpan key={index}>
                         <Image
-                          src={CloseImg}
+                          layout="fill"
+                          alt="preview"
                           data-name={index}
-                          layout="intrinsic"
-                          alt="closeBtn"
-                          width={24}
-                          height={24}
+                          key={index}
+                          src={img.url}
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
                         />
-                      </Xbox>
-                    </ImgSpan>
-                  ),
-                )}
-              </ImgSpanBox>
+                        <Xbox
+                          onClick={() => {
+                            setFileIdx(img?.afterSalesServiceCompletionFileIdx);
+                          }}
+                          data-name={index}
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            layout="intrinsic"
+                            alt="closeBtn"
+                            width={24}
+                            height={24}
+                          />
+                        </Xbox>
+                      </ImgSpan>
+                    ),
+                  )}
+                </ImgSpanBox>
+              ) : (
+                <ImgSpanBox>
+                  {data?.data?.afterSalesService?.afterSalesServiceRequestFiles.map(
+                    (img, index) => (
+                      <ImgSpan key={index}>
+                        <Image
+                          layout="fill"
+                          alt="preview"
+                          data-name={index}
+                          key={index}
+                          src={img.url}
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
+                        />
+                        <Xbox
+                          onClick={() => {
+                            setFileIdx(img?.afterSalesServiceRequestFileIdx);
+                          }}
+                          data-name={index}
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            layout="intrinsic"
+                            alt="closeBtn"
+                            width={24}
+                            height={24}
+                          />
+                        </Xbox>
+                      </ImgSpan>
+                    ),
+                  )}
+                </ImgSpanBox>
+              )}
             </List>
           </ProjectInfoContainer>
         </Main>

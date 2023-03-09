@@ -109,7 +109,7 @@ const CompanyAddress = ({
           style={{ cursor: 'pointer' }}
         />
         <FindAddress
-          placeholder="상호명 또는 주소 검색"
+          placeholder="도로명/지번 주소를 입력해 주세요"
           onChange={handleChange}
           value={searchWord}
         />
