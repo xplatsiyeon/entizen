@@ -118,7 +118,7 @@ const FinishedTopBox = ({ data }: Props) => {
                       data?.finalQuotation?.finalQuotationChargers[0]
                         ?.chargePrice,
                     ),
-                  )} 월/kW`}
+                  )} 원/kW`}
                 </span>
               )}
             </div>
@@ -204,7 +204,7 @@ const FinishedTopBox = ({ data }: Props) => {
                                 data?.finalQuotation?.finalQuotationChargers[0]
                                   ?.chargePrice,
                               ),
-                            )} 월/kW`}
+                            )} 원/kW`}
                           </span>
                         </Item>
                       </MultiBox>

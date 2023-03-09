@@ -438,7 +438,6 @@ const P2DateBox = styled(PBox2)`
       line-height: 24pt;
       letter-spacing: -0.02em;
       text-align: center;
-      border: 1px solid red;
     }
   }
   .afterDay {
