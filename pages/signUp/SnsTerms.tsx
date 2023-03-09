@@ -478,7 +478,6 @@ const Notice = styled(Typography)`
   }
 `;
 const StyledTerms = styled(Box)`
-  border: 1px solid red;
   display: flex;
   align-items: center;
   margin-top: 45pt;
