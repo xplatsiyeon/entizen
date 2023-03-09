@@ -956,15 +956,7 @@ const BottomBox = styled.div`
   padding: 3pt 0pt 3pt;
   width: 100%;
   position: relative;
-  &::after{
-    width: 100%;
-    height: 20pt;
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: -20pt;
-    background-color: #e9eaee;
-  }
+
   /* border: 1px solid red; */
   @media (min-width: 900pt) {
     position: absolute;
@@ -985,11 +977,11 @@ const FlexBox = styled.form`
   padding: 0 12pt 0 38.25pt;
 
   &.off{
-    transition: 0.3s;
+    //transition: 0;
     margin-bottom: 20pt;
   }
   &.on{
-    transition: 0.3s 0.5s;
+    //transition: 0.3s 0.5s;
     margin-bottom: 0;
   }
 `;
