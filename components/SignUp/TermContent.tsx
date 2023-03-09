@@ -55,25 +55,16 @@ const TermContent = ({
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
   const [data, setData] = useState<any>();
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
-
-  // const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
-
-  const dispatch = useDispatch();
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
-  // ========================== 본인인증 창 띄우기
-  // 브릿지용 테스트 클릭
-  // const testClick = () => {
-  //   setName(NAME[Math.floor(Math.random() * NAME.length)]);
-  //   setPhoneNumber(PHONE[Math.floor(Math.random() * PHONE.length)]);
-  //   setLevel(level + 1);
-  // };
 
+  // ========================== 본인인증 창 띄우기
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -83,11 +74,10 @@ const TermContent = ({
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
       let cloneDocument = document;
-      cloneDocument.form_chk.action =
-        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      // cloneDocument.form_chk.action =
+      ('https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb');
       cloneDocument.form_chk.target = 'popupChk';
       // console.log(cloneDocument.form_chk);
-
       cloneDocument.form_chk.submit();
     }
   };
@@ -119,22 +109,6 @@ const TermContent = ({
     dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
   };
 
-  useEffect(() => {
-    const memberType = 'USER';
-    axios({
-      method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // ==================== Term 로직 ======================
   const fullTermsHandler = () => {
     if (fullTerms) {
@@ -148,12 +122,15 @@ const TermContent = ({
     }
   };
   // 보기 이벤트
-  const TermsofServiceHandler = (event: any) => {
+  const TermsofServiceHandler = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    id: number,
+  ) => {
     event.stopPropagation();
     router.push({
       pathname: '/setting',
       query: {
-        id: 3,
+        id,
         setting: 'true',
         userType: userType,
       },
@@ -234,6 +211,22 @@ const TermContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
 
+  useEffect(() => {
+    const memberType = 'USER';
+    axios({
+      method: 'post',
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {isModal && <Modal text={modalMessage} click={onClickModal} />}
@@ -265,7 +258,7 @@ const TermContent = ({
               />
               <p>[필수]사용자 이용약관</p>
             </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
+            <span onClick={(e) => TermsofServiceHandler(e, 3)}>보기</span>
           </Item>
         </Check>
         <Check>
@@ -277,7 +270,6 @@ const TermContent = ({
               />
               <p>[필수] 만 14세 이상</p>
             </div>
-            {/* <span onClick={TermsofServiceHandler}>보기</span> */}
             <span></span>
           </Item>
         </Check>
@@ -290,7 +282,12 @@ const TermContent = ({
               />
               <p>[필수]개인정보 처리방침</p>
             </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
+            <span
+              id="privacyPolicy"
+              onClick={(e) => TermsofServiceHandler(e, 4)}
+            >
+              보기
+            </span>
           </Item>
         </Check>
       </Form>

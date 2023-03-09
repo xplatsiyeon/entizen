@@ -105,16 +105,6 @@ const SignUpContainer = (props: Props) => {
     }
   }, [router]);
 
-  // 앱 -> 웹
-  useLayoutEffect(() => {
-    // 안드로이드 호출
-    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-    if (userAgent === 'Android_App') {
-      // alert(userAgent);
-      window.onClickBackButton = () => router.replace('/signin');
-    }
-  }, []);
-
   return (
     <>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
