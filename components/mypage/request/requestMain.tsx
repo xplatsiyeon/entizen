@@ -38,9 +38,9 @@ const RequestMain = (props: props) => {
   const myPageIndex = useRef<HTMLDivElement>(null);
   const components: Components = {
     0: <Estimate listUp={true} />,
-     1: <MyProjects listUp={true} />,
-     2: <AsIndex listUp={true} />,
-     3: <Charging listUp={true} />,
+    //  1: <MyProjects listUp={true} />,
+    //  2: <AsIndex listUp={true} />,
+    //  3: <Charging listUp={true} />,
   };
 
   // 유저 정보 API
@@ -121,14 +121,11 @@ const RequestMain = (props: props) => {
                   </TabItem>
                   <Dot tab={tabNumber?.toString()} index={index.toString()} />
                 </Wrap>
-                {/* {tabNumber === 0 ? (
+                 {tabNumber === 0 ? (
                   <List className={`list ${tabNumber === index && 'on'}`}>
                     {components[tabNumber]}
                   </List>
-                ) : null} */}
-                     <List className={`list ${tabNumber === index && 'on'}`}>
-                    {components[tabNumber]}
-                  </List>
+                ) : null} 
               </Tab>
             </React.Fragment>
           ))}
