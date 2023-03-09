@@ -315,7 +315,7 @@ const SignUpTerms = () => {
                   </Item>
                 </Check>
               </Form>
-              <BottomForm isterms={selectTerms.toString()}>
+              <BottomForm isterms={selectTerms}>
                 <Box>
                   <Item id="first" onClick={onClickSelectTerms}>
                     <div>
@@ -537,9 +537,10 @@ const Item = styled(Box)`
     margin-top: 15px;
   }
 `;
-const BottomForm = styled(Box)<{ isterms: string }>`
+const BottomForm = styled(Box)<{ isterms: boolean[] }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) =>
+      isterms.every((e) => e === true) ? colors.main : colors.lightGray};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;
