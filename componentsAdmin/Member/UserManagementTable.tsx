@@ -156,6 +156,9 @@ const UserManagementTable = ({
             // console.log('comuserData');
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
+              const approve =
+                ele?.isAdminJoinApproved === true ? '승인' : '미승인';
+
               const arrEle = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
@@ -165,7 +168,7 @@ const UserManagementTable = ({
                 ele.name,
                 ele?.companyMemberAdditionalInfo?.managerEmail,
                 hyphenFn(ele.phone),
-                isAdminJoinApprovedString(ele?.isAdminJoinApproved),
+                approve,
                 dateFomat(ele.createdAt),
                 `${ele.deletedAt ? dateFomat(ele.deletedAt) : '-'}`,
                 ele.memberIdx,
@@ -181,7 +184,20 @@ const UserManagementTable = ({
               '담당자',
               '이메일',
               '전화번호',
-              '승인',
+              {
+                name: '승인',
+                id: 'projectListData',
+                formatter: (cell: string) =>
+                  _(
+                    <span
+                      className={`${
+                        cell === '승인' ? 'approve' : 'approveNot'
+                      }`}
+                    >
+                      {cell}
+                    </span>,
+                  ),
+              },
               // {
               //   name: '승인',
               //   formatter: (cell: string) =>
@@ -226,6 +242,8 @@ const UserManagementTable = ({
         },
       },
     );
+
+  console.log('comUserData', comUserData);
 
   useEffect(() => {
     switch (tableType) {
@@ -347,6 +365,24 @@ const StyledBody = styled.div`
       border: 1px solid #747780;
       padding: 3px 19px;
       border-radius: 4px;
+    }
+
+    .approve {
+      text-align: center;
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-size: 16px;
+      line-height: 150%;
+      color: #000000;
+    }
+    .approveNot {
+      text-align: center;
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-size: 16px;
+      line-height: 150%;
+      color: #f75015;
+      font-weight: 500;
     }
   }
 `;

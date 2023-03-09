@@ -63,7 +63,7 @@ const AdminNoticeEditor = ({
 
   const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
     useQuery<AdminNoticeListResponse>('adminNoticeList', () =>
-      getApi(`/admin/notices`),
+      isTokenAdminGetApi(`/admin/notices`),
     );
 
   const { data, isLoading, isError, refetch } = useQuery<NoticeDetail>(

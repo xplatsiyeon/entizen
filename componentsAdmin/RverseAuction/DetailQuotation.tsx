@@ -72,7 +72,7 @@ const DetailQuotation = ({
           <Qutation showSubMenu={showSubMenu} setNowHeight={setNowHeight} />
         )}
         {/* 유저 가견적 */}
-        <UserPreQuotation detatilId={detatilId} />
+        <UserPreQuotation detatilId={detatilId} setIsDetail={setIsDetail} />
         {/* 기업 리스트 */}
         <CompanyPreQuotation
           detatilId={detatilId}

@@ -55,6 +55,12 @@ const AlertModal = ({
             ) {
               setIsModal(false);
               setIsDetail(false);
+            } else if (
+              message === '간편견적 삭제가 완료됐습니다.' &&
+              setIsDetail
+            ) {
+              setIsModal(false);
+              setIsDetail(false);
             }
           }}
         >
