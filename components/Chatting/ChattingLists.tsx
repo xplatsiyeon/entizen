@@ -240,19 +240,27 @@ const Body = styled.div<{ chattingRoom: boolean }>`
   @media (min-width: 900pt) {
     display: flex;
     border: ${({ chattingRoom }) =>
-      chattingRoom ? `none` : `1px solid #e2e5ed`};
-    border-right: 1px solid #e2e5ed;
+      chattingRoom ? `none` : `0.75pt solid #e2e5ed`};
+    border-right: 0.75pt solid #e2e5ed;
     border-radius: ${({ chattingRoom }) => (chattingRoom ? `0` : `12pt`)};
     overflow: hidden;
   }
-    @media (max-width: 899.25pt) {
-     position: fixed;
+  @media (max-width: 899.25pt) {
+    position: fixed;
   }
 `;
 
 const Header = styled.header`
+  width: 100%;
   position: relative;
-  margin: 0 15pt;
+  /* margin: 0 15pt; */
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
+  left: 0;
+  top: 0;
+  margin-top: 12pt;
+  padding: 0 15pt;
 
   @media (min-width: 900pt) {
     display: none;
@@ -287,7 +295,7 @@ const H2 = styled.h2`
   line-height: 21pt;
   letter-spacing: -0.02em;
   color: #222222;
-  margin: 12pt 0 15pt;
+  margin: 0 0 15pt;
 `;
 
 const Input = styled(TextField)`
@@ -341,6 +349,7 @@ const FlexBox = styled.div<{ chattingRoom: boolean }>`
     height: auto;
     overflow-y: auto;
     background: white;
+    padding-top: 37.5pt;
   }
 `;
 const WebBox = styled.div`
