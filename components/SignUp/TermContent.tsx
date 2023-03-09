@@ -74,8 +74,8 @@ const TermContent = ({
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
       let cloneDocument = document;
-      // cloneDocument.form_chk.action =
-      ('https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb');
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
       // console.log(cloneDocument.form_chk);
       cloneDocument.form_chk.submit();
@@ -111,6 +111,7 @@ const TermContent = ({
 
   // ==================== Term 로직 ======================
   const fullTermsHandler = () => {
+    console.log('⭐️ fullTerms : ', fullTerms);
     if (fullTerms) {
       setFullTerms(false);
       setRequiredCheck([false, false, false]);
@@ -206,8 +207,13 @@ const TermContent = ({
   }, [requiredTerms]);
   // 전체 약관 동의 활성화
   useEffect(() => {
-    if (!requiredTerms || !selectTerms) setFullTerms(false);
-    if (requiredTerms && selectTerms) setFullTerms(true);
+    const everyRequiredCheck = requiredCheck.every((e) => e === true);
+    const everySelectedCheck = selectTerms.every((e) => e === true);
+    console.log('⭐️ everyRequiredCheck : ', everyRequiredCheck);
+    console.log('⭐️ everySelectedCheck : ', everySelectedCheck);
+
+    if (!everyRequiredCheck || !everySelectedCheck) setFullTerms(false);
+    if (everyRequiredCheck && everySelectedCheck) setFullTerms(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
 
@@ -240,7 +246,7 @@ const TermContent = ({
       )}
       <Terms onClick={fullTermsHandler}>
         <Image alt="check" src={fullTerms ? CheckOnImg : CheckImg} />
-        <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
+        <p>전체 약관에 동의합니다.</p>
       </Terms>
       <Form isterms={requiredTerms.toString()}>
         <Box className="box" id="full" onClick={onClickRequiredCheckBox}>
