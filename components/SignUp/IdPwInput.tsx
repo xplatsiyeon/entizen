@@ -200,7 +200,7 @@ const IdPwInput = ({
           password: checkPw,
           optionalTermsConsentStatus: [
             {
-              optionalTermsType: 'LOCATION',
+              optionalTermsType: 'EVENT',
               consentStatus: fullTerms,
             },
           ],

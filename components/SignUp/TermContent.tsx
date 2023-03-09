@@ -299,7 +299,7 @@ const TermContent = ({
       </Form>
       <BottomForm isterms={selectTerms}>
         <Box>
-          <Item id="first" onClick={onClickSelectTerms}>
+          {/* <Item id="first" onClick={onClickSelectTerms}>
             <div>
               <Image
                 alt="smallCheck"
@@ -307,12 +307,12 @@ const TermContent = ({
               />
               <p>[선택]위치정보 서비스 약관</p>
             </div>
-          </Item>
-          <Item id="second" className="selected" onClick={onClickSelectTerms}>
+          </Item> */}
+          <Item id="first" onClick={onClickSelectTerms}>
             <div>
               <Image
                 alt="smallCheck"
-                src={selectTerms[1] ? SmallCheckOnImg : SmallCheckImg}
+                src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
               />
               <p>[선택]이벤트 및 혜택 알림 수신</p>
             </div>

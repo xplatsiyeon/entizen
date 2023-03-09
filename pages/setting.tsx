@@ -96,6 +96,8 @@ const Setting = () => {
       setTabNumber(2);
     } else if (router.query.id === '3') {
       setTabNumber(3);
+    } else if (router.query.id === '4') {
+      setTabNumber(4);
     }
   }, [router.query.id]);
 
