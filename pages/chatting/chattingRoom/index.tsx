@@ -114,6 +114,11 @@ const WebBody = styled.div`
   margin: 0 auto;
   background: #ffffff;
 
+  @media (max-width: 899.25pt) {
+    position: fixed;
+    -webkit-overflow-scrolling: touch;
+  }
+
   @media (max-height: 809pt) {
     display: block;
     height: 100%;

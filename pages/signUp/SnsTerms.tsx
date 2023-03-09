@@ -22,10 +22,12 @@ import Modal from 'components/Modal/Modal';
 
 const SignUpTerms = () => {
   const router = useRouter();
-  const { selectedType } = useSelector((state: RootState) => state.LoginType);
+  // const { selectedType } = useSelector((state: RootState) => state.LoginType);
+  const selectedType = 'USER';
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
-  const [selectTerms, setSelectTerms] = useState(false);
+  const [selectTerms, setSelectTerms] = useState([false]);
+  const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
   const [nextBtn, setNextBtn] = useState(false);
   const [data, setData] = useState<any>();
   const [errorModal, setErrorModal] = useState(false);
@@ -42,7 +44,7 @@ const SignUpTerms = () => {
         'popupChk',
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
-      let cloneDocument = document as any;
+      let cloneDocument = document;
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
@@ -50,15 +52,80 @@ const SignUpTerms = () => {
     }
   };
 
+  // ==================== Term 로직 ======================
   const fullTermsHandler = () => {
     if (fullTerms) {
       setFullTerms(false);
-      setRequiredTerms(false);
-      setSelectTerms(false);
+      setRequiredCheck([false, false, false]);
+      setSelectTerms([false, false]);
     } else {
       setFullTerms(true);
-      setRequiredTerms(true);
-      setSelectTerms(true);
+      setRequiredCheck([true, true, true]);
+      setSelectTerms([true, true]);
+    }
+  };
+  // 보기 이벤트
+  // setting?id=4
+  const TermsofServiceHandler = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    id: number,
+  ) => {
+    event.stopPropagation();
+    router.push({
+      pathname: '/setting',
+      query: {
+        id,
+        setting: 'true',
+        userType: 'SNS',
+      },
+    });
+  };
+  // 전체 약관 동의 체크 함수
+  const onClickRequiredCheckBox = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    const temp = [...requiredCheck];
+    switch (id) {
+      case 'full':
+        !requiredTerms
+          ? setRequiredCheck([true, true, true])
+          : setRequiredCheck([false, false, false]);
+        break;
+      case 'first':
+        temp[0] = !temp[0];
+        setRequiredCheck(temp);
+        break;
+      case 'second':
+        temp[1] = !temp[1];
+        setRequiredCheck(temp);
+        break;
+      case 'third':
+        temp[2] = !temp[2];
+        setRequiredCheck(temp);
+        break;
+    }
+  };
+
+  const onClickSelectTerms = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    const temp = [...selectTerms];
+
+    switch (id) {
+      case 'first':
+        temp[0] = !temp[0];
+        setSelectTerms(temp);
+        break;
+      case 'second':
+        temp[1] = !temp[1];
+        setSelectTerms(temp);
+        break;
     }
   };
 
@@ -113,11 +180,13 @@ const SignUpTerms = () => {
     setErrorModal((prev) => !prev);
     router.push('/');
   };
-  // 보기 이벤트
-  const TermsofServiceHandler = (event: any) => {
-    event.stopPropagation();
-    // router("/") 어디로?
-  };
+
+  // 전체 약관 동의
+  useEffect(() => {
+    const everyCheck = requiredCheck.every((e) => e === true);
+    everyCheck ? setRequiredTerms(true) : setRequiredTerms(false);
+  }, [requiredCheck]);
+
   useEffect(() => {
     if (router.asPath.includes('Canceled')) {
       router.push('/signin');
@@ -130,8 +199,14 @@ const SignUpTerms = () => {
   }, [requiredTerms]);
   // 전체 약관 동의 활성화
   useEffect(() => {
-    if (!requiredTerms || !selectTerms) setFullTerms(false);
-    if (requiredTerms && selectTerms) setFullTerms(true);
+    const everyRequiredCheck = requiredCheck.every((e) => e === true);
+    const everySelectedCheck = selectTerms.every((e) => e === true);
+    console.log('⭐️ everyRequiredCheck : ', everyRequiredCheck);
+    console.log('⭐️ everySelectedCheck : ', everySelectedCheck);
+
+    if (!everyRequiredCheck || !everySelectedCheck) setFullTerms(false);
+    if (everyRequiredCheck && everySelectedCheck) setFullTerms(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
 
   useEffect(() => {
@@ -147,13 +222,6 @@ const SignUpTerms = () => {
       .catch((error) => {
         console.error(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (router.asPath.includes('Canceled')) {
-      router.push('/signin');
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -192,11 +260,12 @@ const SignUpTerms = () => {
                 />
                 <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
               </StyledTerms>
-              <Form
-                isterms={requiredTerms.toString()}
-                onClick={() => setRequiredTerms((prev) => !prev)}
-              >
-                <Box className="box">
+              <Form isterms={requiredTerms.toString()}>
+                <Box
+                  className="box"
+                  id="full"
+                  onClick={onClickRequiredCheckBox}
+                >
                   <span>
                     <Image
                       alt="check"
@@ -206,23 +275,25 @@ const SignUpTerms = () => {
                   <p>필수 약관에 동의합니다.</p>
                 </Box>
                 <Check>
-                  <Item>
+                  <Item id="first" onClick={onClickRequiredCheckBox}>
                     <div>
                       <Image
                         alt="smallCheck"
-                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                        src={requiredCheck[0] ? SmallCheckOnImg : SmallCheckImg}
                       />
                       <p>[필수]사용자 이용약관</p>
                     </div>
-                    <span onClick={TermsofServiceHandler}>보기</span>
+                    <span onClick={(e) => TermsofServiceHandler(e, 3)}>
+                      보기
+                    </span>
                   </Item>
                 </Check>
                 <Check>
-                  <Item>
+                  <Item id="second" onClick={onClickRequiredCheckBox}>
                     <div>
                       <Image
                         alt="smallCheck"
-                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                        src={requiredCheck[1] ? SmallCheckOnImg : SmallCheckImg}
                       />
                       <p>[필수] 만 14세 이상</p>
                     </div>
@@ -230,29 +301,42 @@ const SignUpTerms = () => {
                   </Item>
                 </Check>
                 <Check>
-                  <Item>
+                  <Item id="third" onClick={onClickRequiredCheckBox}>
                     <div>
                       <Image
                         alt="smallCheck"
-                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                        src={requiredCheck[2] ? SmallCheckOnImg : SmallCheckImg}
                       />
                       <p>[필수]개인정보 처리방침 동의</p>
                     </div>
-                    <span onClick={TermsofServiceHandler}>보기</span>
+                    <span onClick={(e) => TermsofServiceHandler(e, 4)}>
+                      보기
+                    </span>
                   </Item>
                 </Check>
               </Form>
-              <BottomForm isterms={selectTerms.toString()}>
+              <BottomForm isterms={selectTerms}>
                 <Box>
-                  <Item onClick={() => setSelectTerms((prev) => !prev)}>
+                  {/* <Item id="first" onClick={onClickSelectTerms}>
                     <div>
                       <Image
                         alt="smallCheck"
-                        src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                        src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
                       />
                       <p>[선택]위치정보 서비스 약관</p>
                     </div>
-                    <span onClick={TermsofServiceHandler}>보기</span>
+                    <span onClick={(e) => TermsofServiceHandler(e, 3)}>
+                      보기
+                    </span>
+                  </Item> */}
+                  <Item id="first" onClick={onClickSelectTerms}>
+                    <div>
+                      <Image
+                        alt="smallCheck"
+                        src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
+                      />
+                      <p>[선택]이벤트 및 혜택 알림 수신</p>
+                    </div>
                   </Item>
                 </Box>
               </BottomForm>
@@ -393,6 +477,7 @@ const StyledTerms = styled(Box)`
   display: flex;
   align-items: center;
   margin-top: 45pt;
+  cursor: pointer;
   & > p {
     margin-left: 12pt;
   }
@@ -406,6 +491,7 @@ const Form = styled(Box)<{ isterms: string }>`
   .box {
     display: flex;
     align-items: center;
+    cursor: pointer;
     & > p {
       margin-left: 12pt;
     }
@@ -418,6 +504,7 @@ const Check = styled(Box)`
 `;
 const Item = styled(Box)`
   display: flex;
+  cursor: pointer;
   justify-content: space-between;
   & > div {
     display: flex;
@@ -441,10 +528,15 @@ const Item = styled(Box)`
     color: #a6a9b0;
     cursor: pointer;
   }
+
+  &.selected {
+    margin-top: 15px;
+  }
 `;
-const BottomForm = styled(Box)<{ isterms: string }>`
+const BottomForm = styled(Box)<{ isterms: boolean[] }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) =>
+      isterms.every((e) => e === true) ? colors.main : colors.lightGray};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;

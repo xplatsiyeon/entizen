@@ -933,7 +933,7 @@ const InputWrap = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  border: 1px solid #d3d3d3;
+  border: 0.75pt solid #d3d3d3;
   border-radius: 37.5pt;
 `;
 const FileIconWrap = styled.div`
@@ -1053,7 +1053,7 @@ const TopBox = styled.div`
   z-index: 5;
   @media (min-width: 900pt) {
     position: absolute;
-    border-bottom: 1px solid #e2e5ed;
+    border-bottom: 0.75pt solid #e2e5ed;
     width: -webkit-fill-available;
     padding: 22.5pt 5pt;
   }
@@ -1119,7 +1119,9 @@ const LoadingWrap = styled.div`
     transform: translate(-50%, -50%);
   }
 `;
-const Wrap = styled.div``;
+const Wrap = styled.div`
+  min-height :39pt
+`;
 
 const DateChatting = styled.div`
   width: 100%;
@@ -1139,7 +1141,7 @@ const Date = styled.span`
   position: relative;
   margin: 8pt auto 18pt;
   border-radius: 12pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   padding: 6pt 9pt;
 `;
 
@@ -1245,7 +1247,7 @@ const File = styled.button`
   margin-right: 6pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
-  border-radius: 8px;
+  border-radius: 6pt;
   
   @media (min-width: 900pt) {
     display: flex;
