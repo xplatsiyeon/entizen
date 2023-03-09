@@ -230,7 +230,6 @@ const ChattingRoomLogsEntizen = ({
   };
 
   /* 파일버튼 누르면 나타나는 애니메이션 */
-  const mobBox = useRef<HTMLFormElement>(null);
   const handleButton = (e: MouseEvent<HTMLElement>) => {
     const target = e.currentTarget;
     //console.log(target)
@@ -581,14 +580,19 @@ const ChattingRoomLogsEntizen = ({
     mobInputRef.current?.classList.add('on');
   };
 
-  const test =(target:HTMLFormElement)=>{
-    setTimeout(()=>{
-      const input = target.querySelector('.textInput:focus');
-      console.log(input)
-      if(!input){
-        target.classList.replace('on','off');
-      }
-    },300)   
+  const inputStyle =(e:React.FocusEvent, type:boolean)=>{
+    const target = e.currentTarget as HTMLFormElement;
+    if(type){
+      target.classList.replace('off','on');
+    }else{
+      setTimeout(()=>{
+        const input = target.querySelector('.textInput:focus');
+        console.log(input)
+        if(!input){
+          target.classList.replace('on','off');
+        }
+      },300)   
+    }
   }
 
   return (
@@ -774,29 +778,16 @@ const ChattingRoomLogsEntizen = ({
 
       <MobBottomWrap>
         <BottomBox onClick={handleFocus}>
-          <FlexBox onSubmit={onSubmitText} ref={mobBox} className="off" 
+          <FlexBox onSubmit={onSubmitText} className="off" 
             onFocus={(e)=>{
-              const target = e.currentTarget as HTMLFormElement;
-              const parent = target.parentElement as HTMLElement;
-              console.log('test???')
-              target.classList.replace('off','on');
-              // parent.style.marginBottom = '0pt'
-              
+              inputStyle(e, true);
             }}
             onBlur={(e)=>{
-               const target = e.currentTarget as HTMLFormElement;
-                const parent = target.parentElement as HTMLElement;
-              // parent.style.marginBottom = '20pt'
-              console.log('blur')
-              test(target);
-              //parent.classList.replace('on','off')
-              // setTimeout(()=>{
-              //   test()
-              // },300)
+              inputStyle(e, false);
             }}
             >
             <TextInput className='textInput'
-              placeholder="메세지를 입력하세요"
+              placeholder="메세지를 입력하세요" 
               value={text}
               onChange={onChangeText}
               ref={mobInputRef}
@@ -1066,7 +1057,7 @@ const IconBox = styled.div`
   transform: translateY(-50%);
   display: flex;
   align-items: center;
-  gap: 6.4pt;
+  //gap: 6.4pt;
   @media (min-width: 900pt) {
     right: 21pt;
   }
@@ -1123,30 +1114,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-  /* &::before {
-    display: block;
-    content: '';
-    clear: both;
-    width: 50%;
-    height: 1px;
-    background: #e2e5ed;
-    position: absolute;
-    top: 15pt;
-    left: 0;
-    z-index: -1;
-  }
-  &::after {
-    display: block;
-    content: '';
-    clear: both;
-    width: 50%;
-    height: 1px;
-    background: #e2e5ed;
-    position: absolute;
-    top: 15pt;
-    right: 0;
-    z-index: -1;
-  } */
+  
   &.target-p {
     .user-p {
       &.p-target {
@@ -1251,7 +1219,7 @@ const Chat = styled.div<{ userChatting: boolean }>`
   }
 
   @media (max-width: 899.25pt) {
-    max-width: 150pt;
+    max-width: 200pt;
 
     &.company {
       margin-left: 33pt;
