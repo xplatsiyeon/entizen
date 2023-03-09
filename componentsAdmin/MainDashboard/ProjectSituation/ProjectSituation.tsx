@@ -20,7 +20,15 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 // awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
-const projectStateType = ['계약대기', '완료동의', '완료'];
+const projectStateType = [
+  '준비 중',
+  '설치 중',
+  '검수 중',
+  '완료 중',
+  '계약대기',
+  '완료',
+  '완료대기',
+];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
@@ -59,12 +67,20 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
 
   // 백엔드에 체크박스 선택값 배열에 영문으로 보내줌
   const changeEn = projectState.map((data) => {
-    if (data === '계약대기') {
+    if (data === '준비 중') {
+      return 'ready';
+    } else if (data === '설치 중') {
+      return 'installation';
+    } else if (data === '검수 중') {
+      return 'exam';
+    } else if (data === '완료 중') {
+      return 'completing';
+    } else if (data === '계약대기') {
       return 'awaitingContract';
-    } else if (data === '완료동의') {
-      return 'completionAgreement';
     } else if (data === '완료') {
       return 'completion';
+    } else if (data === '완료대기') {
+      return 'awaitingCompletion';
     }
   });
 

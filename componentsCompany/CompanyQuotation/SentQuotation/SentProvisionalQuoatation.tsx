@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { ListItemButton, ListItemText } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import CenterBox from './CenterBox';
 import TopBox from './TopBox';
@@ -278,6 +278,7 @@ const SentQuoatationFirst = () => {
       },
     },
   );
+
   // 모달 클릭
   const onClickModal = () => {
     if (networkError) {

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
@@ -23,6 +23,7 @@ import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMediaQuery } from 'react-responsive';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 type Props = {
   pb?: number;
@@ -34,6 +35,37 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
+
+  // 이미지 확대 보기에 전달 할 배열
+  const fileArray =
+    data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
+      (item) => item?.chargerImageFiles.reverse(),
+    );
+
+  const fileArray2 = { ...fileArray };
+
+  // for (
+  //   let i =
+  //     data?.sendQuotationRequest?.preQuotation?.finalQuotation
+  //       ?.finalQuotationChargers?.length - 1;
+  //   i >= 0;
+  //   i--
+  // ) {
+  //   fileArray.push(
+  //     data?.sendQuotationRequest?.preQuotation?.finalQuotation
+  //       ?.finalQuotationChargers[i],
+  //   );
+  // }
+
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const finalQuotation =
@@ -291,7 +323,13 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             (item, index) => (
               <React.Fragment key={item?.finalQuotationChargerIdx! + index}>
                 {item?.chargerImageFiles?.map((img, index) => (
-                  <GridItem key={img?.finalQuotationChargerIdx + index}>
+                  <GridItem
+                    key={img?.finalQuotationChargerIdx + index}
+                    onClick={() => {
+                      setOpenImgModal(!openImgModal);
+                      initialSlideOnChange(index);
+                    }}
+                  >
                     <Image
                       src={img.url}
                       alt="img-icon"
@@ -307,6 +345,14 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           )}
         </GridImg>
       </Section>
+      {/* 이미지 자세히 보기 기능 */}
+      {openImgModal && (
+        <ImgDetailCarousel
+          file={fileArray2[0]!}
+          setOpenImgModal={setOpenImgModal}
+          idxRef={idxRef}
+        />
+      )}
       <Section className="underLine" pb={pb}>
         {/* 여기에 충전기 카탈로그 + 사업자 등록증 같이 나와야함 */}
         <Subtitle style={{ paddingBottom: mobile ? '15pt' : '15pt' }}>
@@ -653,6 +699,7 @@ const GridItem = styled.span`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+  cursor: pointer;
   & > span {
     border-radius: 6pt;
   }

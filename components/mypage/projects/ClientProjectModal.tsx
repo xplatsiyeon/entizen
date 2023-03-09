@@ -44,6 +44,18 @@ const ClientProjectModal = ({
     }
   };
 
+  let newDayData = changeData?.dateAfterChange!.split('-');
+  if (newDayData !== undefined) {
+    if (newDayData[1].length === 1) {
+      newDayData[1] = 0 + newDayData[1];
+    }
+    if (newDayData[2].length === 1) {
+      newDayData[2] = 0 + newDayData[2];
+    }
+  }
+
+  console.log('newDayData', newDayData);
+
   return (
     <Wrap onClick={onClickBack} id="background" ref={backRef}>
       <Body>
@@ -102,7 +114,7 @@ const ClientProjectModal = ({
                   {changeData?.dateAfterChange?.replaceAll('-', '.')}
                 </p>
                 <p className="afterDay">
-                  {getDayOfWeek(changeData?.dateAfterChange!)}요일
+                  {getDayOfWeek(newDayData?.join().replaceAll(',', '-')!)}요일
                 </p>
               </div>
             </P2DateBox>

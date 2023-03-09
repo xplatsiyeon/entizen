@@ -75,6 +75,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
+  console.log('data', data?.project);
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -126,13 +128,13 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       textArr =
         memberType === 'USER'
           ? [
-              '공사 준비가 진행됩니다.',
+              '공사 준비가 완료되었습니다.',
               '충전기를 설치, 시운전이 진행됩니다.',
               '충전기 검수가 진행됩니다.',
               '곧 프로젝트가 완료됩니다!',
             ]
           : [
-              '공사 준비를 진행해주세요.',
+              '공사 준비가 완료되었습니다.',
               '충전기를 설치, 시운전을 진행해주세요.',
               '충전기 검수를 진행해주세요.',
               '프로젝트를 완료해주세요.',
@@ -145,14 +147,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       textArr =
         memberType === 'USER'
           ? [
-              '공사 준비가 진행됩니다.',
-              '충전기를 설치, 시운전이 진행됩니다.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
               '충전기 검수가 진행됩니다.',
               '곧 프로젝트가 완료됩니다!',
             ]
           : [
-              '공사 준비를 진행해주세요.',
-              '충전기를 설치, 시운전을 진행해주세요.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
               '충전기 검수를 진행해주세요.',
               '프로젝트를 완료해주세요.',
             ];
@@ -164,15 +166,15 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       textArr =
         memberType === 'USER'
           ? [
-              '공사 준비가 진행됩니다.',
-              '충전기를 설치, 시운전이 진행됩니다.',
-              '충전기 검수가 진행됩니다.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
+              '충전기 검수가 완료되었습니다.',
               '곧 프로젝트가 완료됩니다!',
             ]
           : [
-              '공사 준비를 진행해주세요.',
-              '충전기를 설치, 시운전을 진행해주세요.',
-              '충전기 검수를 진행해주세요.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
+              '충전기 검수가 완료되었습니다.',
               '프로젝트를 완료해주세요.',
             ];
 
@@ -184,15 +186,15 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       textArr =
         memberType === 'USER'
           ? [
-              '공사 준비가 진행됩니다.',
-              '충전기를 설치, 시운전이 진행됩니다.',
-              '충전기 검수가 진행됩니다.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
+              '충전기 검수가 완료되었습니다.',
               '곧 프로젝트가 완료됩니다!',
             ]
           : [
-              '공사 준비를 진행해주세요.',
-              '충전기를 설치, 시운전을 진행해주세요.',
-              '충전기 검수를 진행해주세요.',
+              '공사 준비가 완료되었습니다.',
+              '충전기를 설치, 시운전이 완료되었습니다.',
+              '충전기 검수가 완료되었습니다.',
               '프로젝트 완료 진행중입니다.',
             ];
 
@@ -216,7 +218,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               '프로젝트를 완료해주세요.',
             ];
 
-      //initToggle = [false, false, false, false, false];
+    //initToggle = [false, false, false, false, false];
   }
 
   type ModalType = 'finish' | 'change';
@@ -987,7 +989,6 @@ const ContractBtnBox = styled.div`
 `;
 
 const ClientP = styled.div<{ presentProgress: boolean }>`
-  
   box-shadow: ${({ presentProgress }) =>
     !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
   border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};

@@ -44,6 +44,8 @@ const ChargerMap = (props: Props) => {
   const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
   const [type, setType] = useState<boolean>(false);
 
+  console.log('chargeInfoOpen', chargeInfoOpen);
+
   useEffect(() => {
     let calcHeight;
     let findHeight;
@@ -206,7 +208,10 @@ const ChargerMap = (props: Props) => {
               />
             </WrapAddress>
           ) : (
-            <ChargerInfo checkHeight={checkHeight} />
+            <ChargerInfo
+              checkHeight={checkHeight}
+              setChargeInfoOpen={setChargeInfoOpen}
+            />
           )}
         </WholeMap>
       </Wrapper>
@@ -294,7 +299,7 @@ const Input = styled(TextField)`
   margin: 18pt 15pt 0pt;
   border-radius: 6pt;
   background-color: #ffffff;
-  border: 1px solid #e9eaee;
+  border: 0.75pt solid #e9eaee;
   justify-content: center;
   box-sizing: border-box;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);

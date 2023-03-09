@@ -11,16 +11,27 @@ import { useEffect, useRef, useState } from 'react';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
 import { set } from 'immer/dist/internal';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 interface Props {
   file?: ProjectCompletionFiles[];
+  ImgDetail?: true;
 }
-const Carousel = ({ file }: Props) => {
+const Carousel = ({ file, ImgDetail }: Props) => {
   const [swiper, setSwiper] = useState(null);
   const [fileArr, setFileArr] = useState<ProjectCompletionFiles[]>([]);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
   useEffect(() => {
     // console.log('캐러쉘', file);
     if (file) {
@@ -48,7 +59,7 @@ const Carousel = ({ file }: Props) => {
       modules={[Pagination]}
       className="mySwiper"
     >
-      {fileArr?.map((el) => {
+      {fileArr?.map((el, idx) => {
         return (
           <Slider key={el?.projectCompletionFileIdx}>
             <div className="imgBox">
@@ -59,7 +70,14 @@ const Carousel = ({ file }: Props) => {
               priority={true}
               unoptimized={true}
             /> */}
-              <SliderImg src={el?.url} alt={el?.originalName} />
+              <SliderImg
+                src={el?.url}
+                alt={el?.originalName}
+                onClick={() => {
+                  initialSlideOnChange(idx);
+                  setOpenImgModal(!openImgModal);
+                }}
+              />
             </div>
           </Slider>
         );
@@ -70,6 +88,13 @@ const Carousel = ({ file }: Props) => {
       <div className="swiper-button-next">
         <Image src={RightNext} alt={RightNext} layout="fill" />
       </div>
+      {ImgDetail && openImgModal && (
+        <ImgDetailCarousel
+          file={file}
+          setOpenImgModal={setOpenImgModal}
+          idxRef={idxRef}
+        />
+      )}
     </Wrapper>
   );
 };
@@ -90,7 +115,6 @@ const Wrapper = styled(Swiper)`
     line-height: 9pt;
     letter-spacing: -0.02em;
     color: #ffffff;
-
     padding: 1.5pt 4.5pt;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 7.5pt;

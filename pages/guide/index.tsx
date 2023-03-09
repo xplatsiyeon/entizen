@@ -198,103 +198,107 @@ const Guide1 = () => {
               )}
             </div>
           </Header>
-          <Wrap>
-            <Platform onClick={() => pageHandler('/guide')}>
-              <p>플랫폼 가이드</p>
-              <h3>
-                충전의 정석
-                <br />
-                엔티즌
-                <br /> 사용설명서
-              </h3>
-              <div className="banner">
-                <Image
-                  src={BingGuideBanner}
-                  alt="platform"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
-            </Platform>
+          <Container>
+            <Wrap>
+              <Platform onClick={() => pageHandler('/guide')}>
+                <p>플랫폼 가이드</p>
+                <h3>
+                  충전의 정석
+                  <br />
+                  엔티즌
+                  <br /> 사용설명서
+                </h3>
+                <div className="banner">
+                  <Image
+                    src={BingGuideBanner}
+                    alt="platform"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+              </Platform>
 
-            <SubsidyBox>
-              <Subsidy
-                onClick={() => {
-                  isLogin ? pageHandler('/guide/1-2') : pageHandler('/signin');
-                }}
-              >
-                <span className="mobIcon">
-                  <Image src={subsidy_icon} alt="subsidy_icon" />
+              <SubsidyBox>
+                <Subsidy
+                  onClick={() => {
+                    isLogin
+                      ? pageHandler('/guide/1-2')
+                      : pageHandler('/signin');
+                  }}
+                >
+                  <span className="mobIcon">
+                    <Image src={subsidy_icon} alt="subsidy_icon" />
+                  </span>
+                  <span className="webIcon">
+                    <Image src={guideIndex1} alt="subsidy_icon" />
+                  </span>
+                  <FlexWrap>
+                    <span className="text">보조금 가이드</span>
+                    <IconWrap>
+                      <Image src={arrowR} alt="보조금" />
+                    </IconWrap>
+                  </FlexWrap>
+                </Subsidy>
+                <Fee onClick={() => pageHandler('/guide/1-3')}>
+                  <span className="mobIcon">
+                    <Image src={fee_icon} alt="fee_icon" />
+                  </span>
+                  <span className="webIcon">
+                    <Image src={guideIndex2} alt="subsidy_icon" />
+                  </span>
+                  <FlexWrap>
+                    <span className="text">요금 정보</span>
+                    <IconWrap>
+                      <Image src={arrowR} alt="요금정보" />
+                    </IconWrap>
+                  </FlexWrap>
+                </Fee>
+              </SubsidyBox>
+            </Wrap>
+            <Wrap>
+              <GuideBox onClick={() => pageHandler('/guide/1-4')}>
+                <span>
+                  <div className="name_box">
+                    <h2 className="name">구독 가이드</h2>
+                    <Image src={arrow} alt="img" />
+                  </div>
+                  <p className="text">
+                    구독에 대한
+                    <br />
+                    모든 것을 한 눈에!
+                  </p>
                 </span>
-                <span className="webIcon">
-                  <Image src={guideIndex1} alt="subsidy_icon" />
-                </span>
-                <FlexWrap>
-                  <span className="text">보조금 가이드</span>
-                  <IconWrap>
-                    <Image src={arrowR} alt="보조금" />
-                  </IconWrap>
-                </FlexWrap>
-              </Subsidy>
-              <Fee onClick={() => pageHandler('/guide/1-3')}>
-                <span className="mobIcon">
-                  <Image src={fee_icon} alt="fee_icon" />
-                </span>
-                <span className="webIcon">
-                  <Image src={guideIndex2} alt="subsidy_icon" />
-                </span>
-                <FlexWrap>
-                  <span className="text">요금 정보</span>
-                  <IconWrap>
-                    <Image src={arrowR} alt="요금정보" />
-                  </IconWrap>
-                </FlexWrap>
-              </Fee>
-            </SubsidyBox>
-          </Wrap>
-          <Wrap>
-            <GuideBox onClick={() => pageHandler('/guide/1-4')}>
-              <span>
-                <div className="name_box">
-                  <h2 className="name">구독 가이드</h2>
-                  <Image src={arrow} alt="img" />
+                <div className="img-box">
+                  <Image src={charger_icon} alt="charger_icon" />
                 </div>
-                <p className="text">
-                  구독에 대한
-                  <br />
-                  모든 것을 한 눈에!
-                </p>
-              </span>
-              <div className="img-box">
-                <Image src={charger_icon} alt="charger_icon" />
-              </div>
-            </GuideBox>
-            <GuideBox onClick={() => pageHandler('/guide/1-5')}>
-              <span>
-                <div className="name_box">
-                  <h2 className="name">충전기 가이드</h2>
-                  <Image src={arrow} alt="img" />
+              </GuideBox>
+              <GuideBox onClick={() => pageHandler('/guide/1-5')}>
+                <span>
+                  <div className="name_box">
+                    <h2 className="name">충전기 가이드</h2>
+                    <Image src={arrow} alt="img" />
+                  </div>
+                  <p className="text">
+                    나에게 딱 맞는
+                    <br />
+                    충전기는?
+                  </p>
+                </span>
+                <div className="img-box">
+                  <Image src={subscribe_icon} alt="subscribe_icon" />
                 </div>
-                <p className="text">
-                  나에게 딱 맞는
-                  <br />
-                  충전기는?
-                </p>
-              </span>
-              <div className="img-box">
-                <Image src={subscribe_icon} alt="subscribe_icon" />
-              </div>
-            </GuideBox>
-          </Wrap>
-          <EntizenLibrary>
-            <Btn onClick={() => router.push('/library')}>
-              엔티즌 도서관 보러가기
-              <div className="img">
-                <Image src={arrow_small} alt="arrow_small" layout="fill" />
-              </div>
-            </Btn>
-          </EntizenLibrary>
-          <BottomNavigation />
+              </GuideBox>
+            </Wrap>
+            <EntizenLibrary>
+              <Btn onClick={() => router.push('/library')}>
+                엔티즌 도서관 보러가기
+                <div className="img">
+                  <Image src={arrow_small} alt="arrow_small" layout="fill" />
+                </div>
+              </Btn>
+            </EntizenLibrary>
+            <BottomNavigation />
+          </Container>
         </Wrapper>
       </Inner>
       <WebFooter />
@@ -341,8 +345,15 @@ const Wrapper = styled.div`
   }
 `;
 const Header = styled(Box)`
+  width: 100%;
   display: none;
   justify-content: space-between;
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
+  left: 0;
+  top: 0;
+  padding: 0 15pt;
   .left {
     font-weight: 700;
     font-size: 21pt;
@@ -702,4 +713,10 @@ const IconBox = styled.div`
   cursor: pointer;
   margin-top: 12pt;
   margin-bottom: 14.25pt;
+`;
+
+const Container = styled.div`
+  @media (max-width: 899.25pt) {
+    padding-top: 60pt;
+  }
 `;

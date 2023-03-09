@@ -22,6 +22,7 @@ type Props = {
   commonBtn?: string;
   hide?: boolean;
   excelUrl: string;
+  userSearch: string | number;
 };
 
 const ASListTable = ({
@@ -32,6 +33,7 @@ const ASListTable = ({
   setAfterSalesServiceIdx,
   commonBtn,
   hide,
+  userSearch,
   excelUrl,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
@@ -71,7 +73,7 @@ const ASListTable = ({
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${
           pickedDate ? pickedDate[1] : adminDateFomat(String(today))
-        }`,
+        }&searchKeyword=${userSearch}`,
       ),
     {
       enabled: false,
