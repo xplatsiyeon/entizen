@@ -17,9 +17,15 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { useQuery } from 'react-query';
-import { isTokenAdminGetApi } from 'api';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
+import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import { dateFomat, hyphenFn, convertKo } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 export interface QuotationRequest {
   quotationRequestIdx: number;
@@ -58,13 +64,19 @@ export interface UserPreQuotationResponse {
 
 type Props = {
   detatilId: string;
+  setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const UserPreQuotation = ({ detatilId }: Props) => {
+const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
   // --------------------- AS detail API ------------------------------
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const routerId = 330;
+  const queryClinet = useQueryClient();
   // const routerId = 329;
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
 
   const { data, isLoading, isError, error } = useQuery<
     UserPreQuotationResponse,
@@ -88,10 +100,44 @@ const UserPreQuotation = ({ detatilId }: Props) => {
 
   const expiredAt = dateFomat(data?.expiredAt!).substring(0, 12);
 
+  // 간편견적 삭제
+  const {
+    mutate: patchCancelMutate,
+    isLoading: patchIsCancelLoading,
+    isError: patchIsCancelError,
+  } = useMutation(isTokenAdminPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectList');
+      setMessageModal(true);
+      setMessage('간편견적 삭제가 완료됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('간편견적 삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  console.log('data', detatilId);
+
+  const prequotationCancel = () => {
+    patchCancelMutate({
+      url: `/admin/quotations/quotation-requests/${detatilId}/cancel`,
+    });
+  };
+
   // console.log('data=>', data);
 
   return (
     <Background>
+      {messageModal && (
+        <AlertModal
+          setIsModal={setMessageModal}
+          message={message}
+          size={'lg'}
+          setIsDetail={setIsDetail}
+        />
+      )}
       <TitleBox>
         <QuotationTitle>일반회원 간편견적서</QuotationTitle>
         <TwoBtn>
@@ -104,7 +150,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
           </Btn>
           <Btn
             onClick={() => {
-              alert('개발중입니다.');
+              prequotationCancel();
             }}
           >
             삭제

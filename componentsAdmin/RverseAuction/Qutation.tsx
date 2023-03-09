@@ -71,13 +71,13 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
             >
               수정
             </Btn>
-            <Btn
+            {/* <Btn
               onClick={() => {
                 alert('개발중입니다.');
               }}
             >
               삭제
-            </Btn>
+            </Btn> */}
           </TwoBtn>
         </Menu>
         {/* 가견적 */}

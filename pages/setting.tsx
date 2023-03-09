@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import AlarmSetting from 'components/BuyerSetting/AlarmSetting';
 import AlarmWebSetting from 'components/BuyerSetting/AlarmWebSetting';
+import PersonalDataPolicy from 'components/BuyerSetting/PersonalDataPolicy';
 import QuestionInPerson from 'components/BuyerSetting/QuestionInPerson';
 import QuestionInPersonWeb from 'components/BuyerSetting/QuestionInPersonWeb';
 import SettingMain from 'components/BuyerSetting/SettingMain';
@@ -73,6 +74,7 @@ const Setting = () => {
     ),
     2: <QuestionInPerson setTabNumber={setTabNumber} tabNumber={tabNumber} />,
     3: <Term setTabNumber={setTabNumber} nowWidth={nowWidth} />,
+    4: <PersonalDataPolicy setTabNumber={setTabNumber} nowWidth={nowWidth} />,
   };
 
   const leftComponents: Components = {

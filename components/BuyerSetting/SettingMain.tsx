@@ -301,6 +301,18 @@ const SettingMain = ({
           >
             이용약관
           </SettingList>
+          <SettingList
+            onClick={() => {
+              setTabNumber(4);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 4 },
+              });
+            }}
+          >
+            개인정보처리방침
+          </SettingList>
 
           {userID && (
             <SettingListRed onClick={() => setLogoutModal(true)}>

@@ -130,14 +130,14 @@ const ReverseAuctionTable = ({
                 formatter: (cell: QuotationObject) =>
                   _(
                     <div>
-                      <button
+                      {/* <button
                         className="button"
                         onClick={() => {
                           alert('개발중입니다.');
                         }}
                       >
                         삭제
-                      </button>
+                      </button> */}
                       <button
                         className="button"
                         onClick={() => {

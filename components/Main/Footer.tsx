@@ -58,9 +58,14 @@ const Footer = (props: Props) => {
           </Menus>
           <Divider />
           <Menus
-            style={{ fontWeight: '700' }}
             onClick={() => {
-              router.push('/setting?id=3');
+              router.push({
+                pathname: '/setting',
+                query: {
+                  id: 4,
+                  direct: true,
+                },
+              });
             }}
           >
             개인정보 처리방침
