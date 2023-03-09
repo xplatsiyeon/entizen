@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   convertKo,
   hyphenFn,
@@ -27,6 +27,7 @@ import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { fileDownload } from 'bridge/appToWeb';
 import { useRouter } from 'next/router';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 interface Props {
   pb?: number;
@@ -36,7 +37,21 @@ interface Props {
 }
 const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+
+  const chargerFile = data?.finalQuotation?.finalQuotationChargers?.map(
+    (item) => item?.chargerImageFiles.reverse(),
+  );
+
+  const chargerFile2 = { ...chargerFile };
 
   const callPhone = hyphenFn(data?.member?.phone!);
   const finalQuotation = data?.finalQuotation;
@@ -290,7 +305,12 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           {finalQuotation?.finalQuotationChargers?.map((item, index) => (
             <React.Fragment key={item.finalQuotationChargerIdx}>
               {item.chargerImageFiles.map((img, index) => (
-                <GridItem key={img.finalQuotationChargerFileIdx}>
+                <GridItem
+                  key={img.finalQuotationChargerFileIdx}
+                  onClick={() => {
+                    initialSlideOnChange(index);
+                  }}
+                >
                   <Image
                     src={img.url}
                     alt="img-icon"
@@ -298,6 +318,9 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
                     priority={true}
                     unoptimized={true}
                     objectFit="cover"
+                    onClick={() => {
+                      setOpenImgModal(!openImgModal);
+                    }}
                   />
                 </GridItem>
               ))}
@@ -305,6 +328,14 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           ))}
         </GridImg>
       </Section>
+      {/* 이미지 자세히 보기 기능 */}
+      {openImgModal && (
+        <ImgDetailCarousel
+          file={chargerFile2[0]!}
+          setOpenImgModal={setOpenImgModal}
+          idxRef={idxRef}
+        />
+      )}
       <Line />
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
@@ -423,6 +454,10 @@ const MultiSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12pt;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+  }
+
   :nth-of-type(1) {
     margin-top: 18pt;
     border-top: 0.75pt solid ${colors.lightGray};
@@ -731,6 +766,10 @@ const Line = styled.div`
 `;
 const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
+  padding-top: 30pt;
+  @media (max-width: 899.25pt) {
+    padding-top: 18pt;
+  }
   /* margin-top: 18pt; */
 `;
 const Label2 = styled.div`

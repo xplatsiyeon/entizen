@@ -14,7 +14,7 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 // awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
-const projectStateType = ['접수요청', '완료대기', '완료'];
+const projectStateType = ['접수요청', '접수확인', '완료대기', '완료'];
 const projectStateTypeEn = ['request', 'awaitingCompletion', 'completion'];
 
 const ASSituation = ({ setNowHeight }: Props) => {
@@ -36,7 +36,7 @@ const ASSituation = ({ setNowHeight }: Props) => {
     dateState[0].startDate!,
   )}&endDate=${adminDateFomat(
     dateState[0].endDate!,
-  )}&afterSalesServiceStatus[]=request&afterSalesServiceStatus[]=completion`;
+  )}&afterSalesServiceStatus[]=request&afterSalesServiceStatus[]=`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -55,6 +55,8 @@ const ASSituation = ({ setNowHeight }: Props) => {
   const changeEn = projectState.map((data) => {
     if (data === '접수요청') {
       return 'request';
+    } else if (data === '접수확인') {
+      return 'acceptance';
     } else if (data === '완료대기') {
       return 'awaitingCompletion';
     } else if (data === '완료') {

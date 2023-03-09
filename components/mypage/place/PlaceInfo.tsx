@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import CommunicationBox from 'components/CommunicationBox';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
@@ -25,6 +25,8 @@ import {
   useQuery as reactQuery,
   useQueryClient,
 } from 'react-query';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   data: ChargingStations;
@@ -51,8 +53,27 @@ export const modusignPDF = async (url: string) => {
 
 const TAG = 'components/mypage/place/PlaceInfo.tsx';
 const PlaceInfo = ({ data }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const [idx, setIdx] = useState<number>(1);
   const [webIdx, setWebIdx] = useState<number>(0);
+  const [imageData, setImageData] = useState<any>([]);
+
+  const fileArray: any = [];
+  for (let i = data?.projectCompletionFiles?.length - 1; i >= 0; i--) {
+    fileArray.push(data?.projectCompletionFiles[i]);
+  }
+
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(0);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
 
   const webHandleNum = (idx: number) => {
     setWebIdx(idx);
@@ -101,6 +122,9 @@ const PlaceInfo = ({ data }: Props) => {
     },
   );
 
+  useEffect(() => {
+    setImageData(data);
+  }, [data]);
   // download('modusgin');
   // download('data:text/html,Hello Developer!', 'HelloDeveloper.txt');
 
@@ -211,7 +235,7 @@ const PlaceInfo = ({ data }: Props) => {
 
         {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
-          <Carousel file={data?.projectCompletionFiles} />
+          <Carousel file={data?.projectCompletionFiles} ImgDetail={true} />
           {/*<Index onClick={handleNum}>{idx}/2</Index>*/}
         </FinishedPhotoBox>
 
@@ -223,6 +247,7 @@ const PlaceInfo = ({ data }: Props) => {
                 key={el?.projectCompletionFileIdx}
                 onClick={() => {
                   webHandleNum(idx);
+                  initialSlideOnChange(idx);
                 }}
                 webIdx={webIdx}
                 idx={idx}
@@ -240,7 +265,12 @@ const PlaceInfo = ({ data }: Props) => {
               </WebLeftPhotos>
             ))}
           </WebLeftPhotoBox>
-          <WebRightPhotoBox key={DataFilter?.projectCompletionFileIdx}>
+          <WebRightPhotoBox
+            key={DataFilter?.projectCompletionFileIdx}
+            onClick={() => {
+              setOpenImgModal(!openImgModal);
+            }}
+          >
             <div className="imgBox">
               <Image
                 src={DataFilter?.url}
@@ -253,6 +283,14 @@ const PlaceInfo = ({ data }: Props) => {
             </div>
           </WebRightPhotoBox>
         </WebFinishedPhotoWrapper>
+        {/* 이미지 자세히 보기 기능 */}
+        {!mobile && openImgModal && (
+          <ImgDetailCarousel
+            file={fileArray}
+            setOpenImgModal={setOpenImgModal}
+            idxRef={idxRef}
+          />
+        )}
         <Wrap>
           <CommunicationBox
             text="파트너와 소통하기"
@@ -435,6 +473,7 @@ const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
 
 const WebRightPhotoBox = styled.div`
   @media (min-width: 900pt) {
+    cursor: pointer;
     width: 508.5pt;
     height: 330pt;
     border-radius: 12pt;
