@@ -985,10 +985,11 @@ const FlexBox = styled.form`
   padding: 0 12pt 0 38.25pt;
 
   &.off{
+    transition: 0.3s;
     margin-bottom: 20pt;
   }
   &.on{
-    transition: 0s 0.5s;
+    transition: 0.3s 0.5s;
     margin-bottom: 0;
   }
 `;
