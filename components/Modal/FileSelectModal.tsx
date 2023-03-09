@@ -47,7 +47,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 6.75pt;
-  z-index: 100;
+  z-index: 999999;
 `;
 const Box = styled.div`
   position: relative;

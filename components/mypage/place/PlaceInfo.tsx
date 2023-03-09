@@ -29,26 +29,6 @@ import {
 interface Props {
   data: ChargingStations;
 }
-
-export const modusignPDF = async (url: string) => {
-  // console.log('url===>>', url);
-  return;
-  // 이정민
-  // const url =
-  //   'https://api.modusign.co.kr/documents/319c4100-79ec-11ed-96b5-c59df0be5207/file?signedUrlToken=documents%2F56c0ad20-2507-11ed-8a8e-fb9da558cacc%2F3160bea1-79ec-11ed-bd2a-6bbe23a257ff.pdf%3FX-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3DAKIA3EQMQCJYW3XJ6IGM%252F20221225%252Fap-northeast-2%252Fs3%252Faws4_request%26X-Amz-Date%3D20221225T075845Z%26X-Amz-Expires%3D600%26X-Amz-Signature%3D8cbb6632a64a322bf213bed8c9e428ce5b245177f4df2485b13d74de1cd39e49%26X-Amz-SignedHeaders%3Dhost';
-
-  fetch(url).then((res) => {
-    return res.blob().then((b) => {
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(b);
-      // a.target = '_self';
-      a.setAttribute('download', '모두싸인 게약서');
-      // a.setAttribute('download', filename);
-      a.click();
-    });
-  });
-};
-
 const TAG = 'components/mypage/place/PlaceInfo.tsx';
 const PlaceInfo = ({ data }: Props) => {
   const [idx, setIdx] = useState<number>(1);
@@ -76,11 +56,6 @@ const PlaceInfo = ({ data }: Props) => {
 
   const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
-  // console.log(
-  //   'data?.finalQuotation?.finalQuotationChargers?',
-  //   data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
-  // );
-
   //a링크에 넘길거
   const callPhone = hyphenFn(data?.companyMember?.phone);
 
@@ -100,12 +75,6 @@ const PlaceInfo = ({ data }: Props) => {
           : false,
     },
   );
-
-  // download('modusgin');
-  // download('data:text/html,Hello Developer!', 'HelloDeveloper.txt');
-
-  // console.log(`🔥 프로젝트 상세 데이터 ~30 --> ${TAG}`);
-  // console.log(data);
 
   return (
     <Wrapper>

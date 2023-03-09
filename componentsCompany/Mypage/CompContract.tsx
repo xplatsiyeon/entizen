@@ -28,7 +28,7 @@ import {
 } from 'QueryComponents/ModuSignQuery';
 
 type Props = {};
-type ImageType = 'IMAGE' | 'FILE';
+export type ImageType = 'IMAGE' | 'FILE';
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({}: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
