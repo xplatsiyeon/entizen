@@ -788,7 +788,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             onBlur={(e)=>{
               inputStyle(e, false);
             }}>
-            <TextInput
+            <TextInput className='textInput'
               placeholder="메세지를 입력하세요"
               value={text}
               onChange={onChangeText}
@@ -981,6 +981,7 @@ const FlexBox = styled.form`
     margin-bottom: 20pt;
   }
   &.on{
+    transition: 0s 0.5s;
     margin-bottom: 0;
   }
 `;

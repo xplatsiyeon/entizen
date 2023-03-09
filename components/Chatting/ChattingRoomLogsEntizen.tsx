@@ -982,6 +982,7 @@ const FlexBox = styled.form`
     margin-bottom: 20pt;
   }
   &.on{
+    transition: 0s 0.5s;
     margin-bottom: 0;
   }
 `;
