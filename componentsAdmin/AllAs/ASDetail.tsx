@@ -156,6 +156,7 @@ const ASDetail = ({ setNowHeight }: Props) => {
         setAfterSalesServiceIdx={setAfterSalesServiceIdx}
         commonBtn={'엑셀 다운로드'}
         excelUrl={excelUrl}
+        userSearch={userSearch}
       />
     </Wrapper>
   );
