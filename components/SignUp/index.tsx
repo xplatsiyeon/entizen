@@ -47,7 +47,7 @@ const SignUpContainer = (props: Props) => {
   const [birthday, setBirthday] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
-  const [selectTerms, setSelectTerms] = useState([false, false]);
+  const [selectTerms, setSelectTerms] = useState([false]);
   const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
   const [nextBtn, setNextBtn] = useState(false);
   // id pw pw확인 상태

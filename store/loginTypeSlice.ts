@@ -18,7 +18,7 @@ const initialState: LoginType = {
   signUpLevel: 0,
   fullTerms: false,
   requiredTerms: false,
-  selectTerms: [false, false],
+  selectTerms: [false],
   requiredCheck: [false, false, false],
 };
 
