@@ -213,10 +213,9 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
         // value={bodyText !== undefined ? bodyText : firstContent}
         value={bodyText}
         placeholder={'약관을 입력해주세요'}
-        // onChange={setBodyText}
-        // onChange={value => handleChangeInput(index, 'reactQuill', value)}
-        // onChange={(event) => setBodyText(event)}
-        onChange={onChange}
+        onChange={(content, delta, source, editor) => {
+          setBodyText(editor.getHTML());
+        }}
         style={{ height: '416px' }}
       />
     </>

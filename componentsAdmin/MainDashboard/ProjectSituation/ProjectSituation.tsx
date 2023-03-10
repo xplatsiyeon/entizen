@@ -21,13 +21,13 @@ type Props = {
 };
 // awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
 const projectStateType = [
+  '계약대기',
   '준비 중',
   '설치 중',
   '검수 중',
   '완료 중',
-  '계약대기',
-  '완료',
   '완료대기',
+  '완료',
 ];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {

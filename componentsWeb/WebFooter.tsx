@@ -8,20 +8,43 @@ import Pencil from 'public/images/InstaSvg.svg';
 // import google from 'public/images/googlePlayIcon.png';
 import apple from 'public/images/appleFooterSvg.svg';
 import google from 'public/images/newGoogleIcon.svg';
+import { useRouter } from 'next/router';
+import { Fragment } from 'react';
 
 const WebFooter = () => {
+  const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
   return (
     <Wrapper>
       <Inner>
         <Box1>
           <List>
-            <Link href="/setting?id=3">
-              <li>이용약관</li>
-            </Link>
-            <Link href="/setting?id=4">
-              <li>개인정보 처리방침</li>
-            </Link>
+            <li
+              onClick={() => {
+                router.push({
+                  pathname: '/setting',
+                  query: {
+                    id: 3,
+                    direct: true,
+                  },
+                });
+              }}
+            >
+              이용약관
+            </li>
+            <li
+              onClick={() => {
+                router.push({
+                  pathname: '/setting',
+                  query: {
+                    id: 4,
+                    direct: true,
+                  },
+                });
+              }}
+            >
+              개인정보 처리방침
+            </li>
             <Link href={userID ? '/setting?id=2' : '/signin'}>
               <li>1:1 문의</li>
             </Link>

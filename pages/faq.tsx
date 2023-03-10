@@ -150,8 +150,6 @@ const Faq = () => {
     getApi(`/faqs?faqKind=${TabTypeEn[tabNumber]}`),
   );
 
-  console.log('🐣 faqList 🐣', faqList);
-
   const handleTab = (index: number) => {
     setTabNumber(index);
   };
