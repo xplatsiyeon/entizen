@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminTermsQuill from './AdminTermsQuill';
@@ -16,6 +22,10 @@ import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import { AdminTermsListResponse } from 'types/tableDataType';
+import AdminTermDraft from './AdminTermDraft';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import dynamic from 'next/dynamic';
+import htmlToDraft from 'html-to-draftjs';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -78,6 +88,18 @@ const AdminTermsEditor = ({
   const [selctValueEn, setSelctValueEn] = useState<number>(0);
   const [selctValueKr, setSelctValueKr] = useState<number>(0);
 
+  // Draft 값 state
+  // useState로 상태관리하기 초기값은 EditorState.createEmpty()
+  // EditorState의 비어있는 ContentState 기본 구성으로 새 개체를 반환 => 이렇게 안하면 상태 값을 나중에 변경할 수 없음.
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const onEditorStateChange = (editorState: EditorState) => {
+    // editorState에 값 설정
+    setEditorState(editorState);
+  };
+
+  const rendered = useRef(false);
+
   const WriteModalHandle = () => {
     setIsModal(true);
   };
@@ -116,7 +138,8 @@ const AdminTermsEditor = ({
         url: `/admin/terms`,
         data: {
           type: dropDownValueEn[selctValueEn],
-          content: bodyText,
+          // content: bodyText,
+          content: editorState,
         },
       });
     }
@@ -145,7 +168,8 @@ const AdminTermsEditor = ({
       url: `/admin/terms/${detatilId}`,
       data: {
         type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
-        content: bodyText,
+        // content: bodyText,
+        content: editorState,
       },
     });
   };
@@ -174,6 +198,13 @@ const AdminTermsEditor = ({
     });
   };
 
+  // const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
+  //   ssr: false,
+  // });
+  const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+    ssr: false,
+  });
+
   useEffect(() => {
     setBodyText(data?.data?.content!);
   }, [data]);
@@ -187,6 +218,22 @@ const AdminTermsEditor = ({
     }
   }, [selctValueEn, selctValueKr, selectValue, data]);
 
+  // useEffect(() => {
+  //   if (rendered.current) return;
+  //   rendered.current = true;
+  //   const blocksFromHtml =
+  //     firstContent !== undefined && htmlToDraft(firstContent);
+  //   if (blocksFromHtml) {
+  //     const { contentBlocks, entityMap } = blocksFromHtml;
+  //     const contentState = ContentState.createFromBlockArray(
+  //       contentBlocks,
+  //       entityMap,
+  //     );
+  //     const editorState = EditorState.createWithContent(contentState);
+  //     setEditorState(editorState);
+  //   }
+  // }, [firstContent]);
+
   // 데이터 보내는 버튼 활성화 여부
   // useEffect(() => {
   //   if (bodyText !== firstContent) {
@@ -196,102 +243,121 @@ const AdminTermsEditor = ({
   // }, [bodyText]);
 
   return (
-    <Background>
-      <Wrapper>
-        {messageModal && (
-          <AlertModal
-            setIsModal={setIsModal}
-            message={message}
-            setIsDetail={setIsDetail}
-            setChangeNumber={setChangeNumber}
-          />
-        )}
-        {isModal && (
-          <WriteModal
-            message={'작성 내용이 등록되지 않았습니다.'}
-            subMessage={'페이지를 나가시겠습니까?'}
-            leftBtn={'예'}
-            rightBtn={'아니오'}
-            leftBtnHandle={leftBtnHandle}
-            rightBtnHandle={rightBtnHandle}
-            setWriteModal={setIsModal}
-          />
-        )}
-        <AdminHeader
-          title=""
-          type="text"
-          exelHide={false}
-          WriteModalHandle={WriteModalHandle}
-        />
-        <TitleWrapper>
-          <MainText>정보 수정</MainText>
-          <SubText>약관</SubText>
-        </TitleWrapper>
-        <SubText>약관 등록</SubText>
-        <TitleContainer>
-          <DropDownBtn
-            dropDownValue={dropDownValue}
-            setSelectValue={setSelectValue}
-            selectValue={selectValue}
-            currentStep={dropDownValue[selctValueKr]}
-            width={'230px'}
-            background={'#E2E5ED'}
-            border={'#747780'}
-          />
-          <TitleBox>
-            <TitleText>제목</TitleText>
-            <TitleArea
-              type="text"
-              value={title}
-              placeholder="제목을 입력해주세요"
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
+    <>
+      <Background>
+        <Wrapper>
+          {messageModal && (
+            <AlertModal
+              setIsModal={setIsModal}
+              message={message}
+              setIsDetail={setIsDetail}
+              setChangeNumber={setChangeNumber}
             />
-          </TitleBox>
-        </TitleContainer>
-        <MainTextArea
+          )}
+          {isModal && (
+            <WriteModal
+              message={'작성 내용이 등록되지 않았습니다.'}
+              subMessage={'페이지를 나가시겠습니까?'}
+              leftBtn={'예'}
+              rightBtn={'아니오'}
+              leftBtnHandle={leftBtnHandle}
+              rightBtnHandle={rightBtnHandle}
+              setWriteModal={setIsModal}
+            />
+          )}
+          <AdminHeader
+            title=""
+            type="text"
+            exelHide={false}
+            WriteModalHandle={WriteModalHandle}
+          />
+          <TitleWrapper>
+            <MainText>정보 수정</MainText>
+            <SubText>약관</SubText>
+          </TitleWrapper>
+          <SubText>약관 등록</SubText>
+          <TitleContainer>
+            <DropDownBtn
+              dropDownValue={dropDownValue}
+              setSelectValue={setSelectValue}
+              selectValue={selectValue}
+              currentStep={dropDownValue[selctValueKr]}
+              width={'230px'}
+              background={'#E2E5ED'}
+              border={'#747780'}
+            />
+            <TitleBox>
+              <TitleText>제목</TitleText>
+              <TitleArea
+                type="text"
+                value={title}
+                placeholder="제목을 입력해주세요"
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </TitleBox>
+          </TitleContainer>
+          {/* <MainTextArea
           placeholder="내용을 입력해주세요"
           value={bodyText}
           onChange={(e) => {
             setBodyText(e.target.value);
           }}
-        />
-        {/* <AdminTermsQuill
-          setBodyText={setBodyText}
-          bodyText={bodyText}
-          firstContent={firstContent!}
         /> */}
-        <BtnBox>
-          {detatilId !== '' ? (
-            <>
+          {/* <AdminTermsQuill
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          /> */}
+
+          <DynamicComponent
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          />
+
+          {/* <DynamicComponent
+            setEditorState={setEditorState}
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+          /> */}
+          {/* <AdminTermDraft
+            setEditorState={setEditorState}
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+          /> */}
+          <BtnBox>
+            {detatilId !== '' ? (
+              <>
+                <AdminBtn
+                  onClick={() => {
+                    modalDeleteBtnControll();
+                  }}
+                >
+                  삭제
+                </AdminBtn>
+                <AdminBtn
+                  onClick={() => {
+                    onClickModifiedBtn();
+                  }}
+                >
+                  수정
+                </AdminBtn>
+              </>
+            ) : (
               <AdminBtn
                 onClick={() => {
-                  modalDeleteBtnControll();
+                  modalPostBtnControll();
                 }}
               >
-                삭제
+                등록
               </AdminBtn>
-              <AdminBtn
-                onClick={() => {
-                  onClickModifiedBtn();
-                }}
-              >
-                수정
-              </AdminBtn>
-            </>
-          ) : (
-            <AdminBtn
-              onClick={() => {
-                modalPostBtnControll();
-              }}
-            >
-              등록
-            </AdminBtn>
-          )}
-        </BtnBox>
-      </Wrapper>
-    </Background>
+            )}
+          </BtnBox>
+        </Wrapper>
+      </Background>
+    </>
   );
 };
 
