@@ -129,7 +129,7 @@ const TermContent = ({
     id: number,
   ) => {
     event.stopPropagation();
-
+    // 데이터 저장
     dispatch(
       selectAction.setTerm({
         fullTerms,
@@ -198,6 +198,7 @@ const TermContent = ({
     }
   };
 
+  // 데이터 GET
   useEffect(() => {
     setFullTerms(LoginType.fullTerms);
     setRequiredTerms(LoginType.requiredTerms);

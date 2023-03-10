@@ -247,7 +247,7 @@ const SignUpTerms = () => {
     // 안드로이드 호출
     const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
     if (userAgent === 'Android_App') {
-      // alert(userAgent);
+      alert(userAgent);
       window.onClickBackButton = () => router.replace('/signin');
     }
   }, []);
