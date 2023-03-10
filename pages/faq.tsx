@@ -156,7 +156,12 @@ const Faq = () => {
     setTabNumber(index);
   };
   const leftOnClick = () => {
-    router.back();
+    if (router.query.direct && router.query.direct === 'true') {
+      router.back();
+      // 설정페이지에서 이동
+    } else {
+      router.push('/setting');
+    }
   };
   const rightOnClick = () => {
     router.push('/');

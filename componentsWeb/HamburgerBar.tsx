@@ -330,10 +330,18 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/setting?id=1') : router.push('/signin')
+              userID
+                ? router.push({
+                    pathname: '/setting',
+                    query: {
+                      id: 1,
+                      direct: 'true',
+                    },
+                  })
+                : router.push('/signin')
             }
           >
-            <span>알림 설정</span>
+            <span>알림 설정11</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>

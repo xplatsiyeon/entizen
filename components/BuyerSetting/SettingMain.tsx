@@ -240,7 +240,7 @@ const SettingMain = ({
       <MypageHeader
         back={true}
         title={'설정'}
-        handleOnClick={() => router.back()}
+        handleOnClick={() => router.replace('/')}
       />
       <Version>
         <VersionInfoText>버전 정보</VersionInfoText>

@@ -198,12 +198,12 @@ const AdminTermsEditor = ({
     });
   };
 
-  // const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
-  //   ssr: false,
-  // });
-  const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+  const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
     ssr: false,
   });
+  // const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+  //   ssr: false,
+  // });
 
   useEffect(() => {
     setBodyText(data?.data?.content!);
@@ -311,17 +311,17 @@ const AdminTermsEditor = ({
             firstContent={firstContent!}
           /> */}
 
-          <DynamicComponent
+          {/* <DynamicComponent
             setBodyText={setBodyText}
             bodyText={bodyText}
             firstContent={firstContent!}
-          />
+          /> */}
 
-          {/* <DynamicComponent
+          <DynamicComponent
             setEditorState={setEditorState}
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
-          /> */}
+          />
           {/* <AdminTermDraft
             setEditorState={setEditorState}
             editorState={editorState}

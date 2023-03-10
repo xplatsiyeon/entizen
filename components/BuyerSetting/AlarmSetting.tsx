@@ -161,6 +161,15 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
+  const onClickBack = () => {
+    if (router.query.direct && router.query.direct === 'true') {
+      router.back();
+      // 설정페이지에서 이동
+    } else {
+      setTabNumber(0);
+    }
+  };
+
   useEffect(() => {
     setAlertSettingIdx(alertsList?.data?.alertSetting?.alertSettingIdx!);
   }, [alertsList]);
@@ -203,12 +212,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
         <Wrapper>
           <Header>
             {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}
-            <div
-              className="img-item"
-              onClick={() => {
-                router.back();
-              }}
-            >
+            <div className="img-item" onClick={onClickBack}>
               <Image
                 style={{
                   cursor: 'pointer',

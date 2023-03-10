@@ -16,6 +16,7 @@ export const GET_ModuSignResponse = gql`
         companyMemberAdditionalInfo {
           companyAddress
           companyDetailAddress
+          companyName
         }
       }
       userMember {
@@ -41,6 +42,7 @@ export const GET_ModuSignResponse = gql`
         }
         quotationRequest {
           etcRequest
+          subscribePeriod
         }
       }
       contract {
@@ -65,6 +67,7 @@ export interface ModuSignResponse {
       companyMemberAdditionalInfo: {
         companyAddress: string;
         companyDetailAddress: string;
+        companyName: string;
       };
     };
     userMember: {
@@ -90,6 +93,7 @@ export interface ModuSignResponse {
       }[];
       quotationRequest: {
         etcRequest: string;
+        subscribePeriod: string;
       };
     };
     contract: {
