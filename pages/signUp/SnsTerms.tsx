@@ -163,7 +163,7 @@ const SignUpTerms = () => {
           birthDate: data.birthDate,
           optionalTermsConsentStatus: [
             {
-              optionalTermsType: 'LOCATION',
+              optionalTermsType: 'EVENT',
               consentStatus: fullTerms,
             },
           ],
