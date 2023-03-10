@@ -83,7 +83,8 @@ const SearchAddress = (props: Props) => {
     callInfo('SLOW', location);
     callInfo('FAST', location);
 
-    router.push('/chargerMap');
+    //router.push('/chargerMap');
+    router.push('/chargerMapTest');
   };
 
   useEffect(() => {
