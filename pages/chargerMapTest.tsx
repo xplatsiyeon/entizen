@@ -126,8 +126,15 @@ const ChargerMap = (props: Props) => {
     if(width < 1200){
       const map = e.currentTarget as HTMLElement;
       map.classList.add('bigger');
+      map.parentElement?.classList.add('bigger');
     }
   }
+  const cancleBigger = (e:MouseEvent)=>{
+    const target = e.currentTarget as HTMLElement;
+    if(target.previousElementSibling?.classList.contains('bigger')){
+      target.previousElementSibling.classList.remove('bigger')
+    }
+  } 
 
   return (
     <>
@@ -182,11 +189,13 @@ const ChargerMap = (props: Props) => {
               />
             </WrapAddress>
           </WebWrap>
-          <WholeMap id="map" onClick={(e)=>bigger(e)} >
-          <Header onClick={handleBack} className="adressHeader">
-            <Image src={btnImg} alt="backBtn" />
-          </Header>
-          </WholeMap>
+          <MapWrap>
+            <WholeMap id="map" onClick={(e)=>bigger(e)} >
+            </WholeMap>
+            <Header onClick={cancleBigger} className="addressHeader">
+              <Image src={btnImg} alt="backBtn" />
+            </Header>
+          </MapWrap>
         </FlexBox>  
         <MobWrap> 
           <WebChargerInfo
@@ -255,6 +264,17 @@ const FlexBox = styled.div`
     box-shadow: none;
   }
 `
+const MapWrap = styled.div`
+    &.bigger{
+      .addressHeader{
+        display: block;
+        z-index: 11;
+        background-color: white;
+        position: fixed;
+        top: 0;
+      }
+    }
+`
 const WholeMap = styled.div`
   position: fixed;
   height: 495pt;
@@ -267,6 +287,19 @@ const WholeMap = styled.div`
     margin: 0 15pt;
     position: relative;
     overflow: hidden;
+
+    &.bigger{
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      z-index: 11;
+      transform: translateY(-91.5pt);
+      .addressHeader{
+        display: block;
+        z-index: 11;
+        background-color: white;
+      }
+    }
   }
 `;
 
@@ -276,10 +309,14 @@ const Header = styled.div`
     display: block;
     position: relative;
     width: 100%;
-    z-index: 1000;
+    z-index: 10;
     padding-top: 9pt;
     padding-left: 15pt;
     padding-bottom: 10.5pt;
+
+    &.addressHeader {
+      display: none;
+    }
   }
 `;
 
@@ -290,7 +327,7 @@ const SearchMapArea = styled.div`
     height: 50pt;
     width: 100%;
     position: relative;
-    z-index: 1000;
+    z-index: 10;
     padding-left: 15pt;
     padding-right: 15pt;
   }
