@@ -975,12 +975,8 @@ const Signin = () => {
                     margin: '18pt 18pt 0 18pt',
                   }}
                 >
-                  <IdRegist>
-                    <IdRegistBtnSpan
-                      onClick={() => router.push('/signUp/Terms')}
-                    >
-                      아이디로 가입하기
-                    </IdRegistBtnSpan>
+                  <IdRegist onClick={() => router.push('/signUp/Terms')}>
+                    <span>아이디로 가입하기</span>
                   </IdRegist>
                 </Box>
               </ContainerBox>
@@ -1098,6 +1094,7 @@ const LoginBtn = styled.button`
 `;
 const BtnSpan = styled.span``;
 const IdRegist = styled.button`
+  cursor: pointer;
   box-shadow: 0px 0px 7.5pt 0px rgba(137, 163, 201, 0.2);
   background-color: #ffffff;
   border-radius: 6pt;
@@ -1112,9 +1109,6 @@ const IdRegist = styled.button`
   @media (max-width: 899.25pt) {
     margin-bottom: 87pt;
   }
-`;
-const IdRegistBtnSpan = styled.span`
-  cursor: pointer;
 `;
 
 const BackBox = styled(Box)`

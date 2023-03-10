@@ -37,9 +37,6 @@ const SignUpContainer = (props: Props) => {
     (state: RootState) => state.LoginType,
   );
 
-  console.log('⭐️ signUpLevel  : ', signUpLevel);
-  console.log('⭐️ selectedType : ', selectedType);
-
   // Type 1 일때 일반, 0 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
 
@@ -96,11 +93,17 @@ const SignUpContainer = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log('⭐️ selectedType : ', selectedType);
+    console.log('⭐️ signUpLevel : ', signUpLevel);
+
     if (selectedType === 'USER') {
+      console.log('⭐️ 유저 ');
       setUserType(1);
     } else if (selectedType === 'COMPANY') {
-      setUserType(2);
+      console.log('⭐️ 기업 ');
+      setUserType(0);
     } else {
+      console.log('⭐️예외 ');
       setUserType(-1);
     }
   }, [router]);
