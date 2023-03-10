@@ -190,13 +190,15 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
         //     QuillRef.current = element;
         //   }
         // }}
-        // ref={QuillRef}
+        ref={QuillRef}
         theme="snow"
         modules={modules}
         formats={formats}
         value={bodyText !== undefined ? bodyText : firstContent}
         placeholder={'약관을 입력해주세요'}
-        onChange={(event) => setBodyText(event)}
+        onChange={(content, delta, source, editor) => {
+          setBodyText(editor.getHTML());
+        }}
         style={{ height: '416px' }}
       />
     </>
@@ -204,5 +206,3 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
 };
 
 export default AdminTermsQuill;
-
-const ReactQuillEditor = styled(ReactQuill)``;

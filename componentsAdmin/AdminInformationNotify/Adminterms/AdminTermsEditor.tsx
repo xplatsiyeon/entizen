@@ -305,17 +305,17 @@ const AdminTermsEditor = ({
             setBodyText(e.target.value);
           }}
         /> */}
-          {/* <AdminTermsQuill
-            setBodyText={setBodyText}
-            bodyText={bodyText}
-            firstContent={firstContent!}
-          /> */}
-
-          <DynamicComponent
+          <AdminTermsQuill
             setBodyText={setBodyText}
             bodyText={bodyText}
             firstContent={firstContent!}
           />
+
+          {/* <DynamicComponent
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          /> */}
 
           {/* <DynamicComponent
             setEditorState={setEditorState}
