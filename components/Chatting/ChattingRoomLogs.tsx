@@ -575,11 +575,15 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     mobInputRef.current?.classList.add('on');
   };
 
+  //텍스트 인풋에 포커스 될 때, 블러 될 때 form박스 스타일 변경.
   const inputStyle =(e:React.FocusEvent, type:boolean)=>{
     const target = e.currentTarget as HTMLFormElement;
     if(type){
       target.classList.replace('off','on');
     }else{
+      //파일 버튼, 메세지 전송 버튼을 누르면 포커스가 블러되는데 handleFoucs함수로 인해
+      //메세지 전송 버튼을 눌러도 텍스트인풋에 다시 포커스된다.
+      // settimeout으로 0.3초 후 text input에 포커스가 있으면 스타일변경x. 
       setTimeout(()=>{
         const input = target.querySelector('.textInput:focus');
         console.log(input)
