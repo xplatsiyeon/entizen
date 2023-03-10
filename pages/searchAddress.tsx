@@ -89,7 +89,9 @@ const SearchAddress = (props: Props) => {
       location
     ))
     //router.push('/chargerMap');
-    router.push('/chargerMapTest');
+    setTimeout(()=>{
+      router.push('/chargerMapTest');
+    },300)
   };
 
   useEffect(() => {
