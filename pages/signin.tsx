@@ -242,7 +242,8 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    // const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
     await axios({
       method: 'post',
       url: NAVER_POST,
@@ -263,8 +264,8 @@ const Signin = () => {
       const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
-      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      // console.log(c);
+      console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+      console.log(c);
       dispatch(
         userAction.add({
           ...user,
@@ -468,9 +469,12 @@ const Signin = () => {
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
+        console.log('⭐️ token : ', token);
         naverLogin.getLoginStatus((status: any) => {
           if (status) {
+            console.log('⭐️ status : ', status);
             NaverApi(naverLogin);
+            console.log('⭐️ naverLogin : ', naverLogin);
             dispatch(
               userAction.add({
                 ...user,
