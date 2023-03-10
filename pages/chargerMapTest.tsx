@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
 import btnImg from 'public/images/back-btn.svg';
 import search from 'public/images/search.png';
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
+import WebChargerInfo from 'componentsWeb/WebChargerInfo';
 
 type Props = {};
 export interface SlowFast {
@@ -120,84 +121,57 @@ const ChargerMap = (props: Props) => {
     setType(!type);
   };
 
+  const bigger = (e:MouseEvent)=>{
+    const width = window.innerWidth;
+    if(width < 1200){
+      const map = e.currentTarget as HTMLElement;
+      map.classList.add('bigger');
+    }
+  }
+
   return (
     <>
       <WebHeader />
       <Wrapper>
-        <WholeMap id="map">
+        <FlexBox>
           <Header onClick={handleBack}>
             <Image src={btnImg} alt="backBtn" />
-          </Header>
+          </Header> 
           <SearchMapArea>
-            {web && (
-              <Input
-                value={locationList.roadAddrPart}
-                type="submit"
-                className="searchInput"
-                onClick={handleOnClick}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={search}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={mapPin}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-            {!web && (
-              <Input
-                value={
-                  locationList.roadAddrPart ? locationList.roadAddrPart : ''
-                }
-                type="submit"
-                className="searchInput"
-                onClick={() => router.push('/searchAddress')}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={search}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={mapPin}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
-          </SearchMapArea>
-
-          {web ? (
+            <Input
+                    value={
+                      locationList.roadAddrPart ? locationList.roadAddrPart : ''
+                    }
+                    type="submit"
+                    className="searchInput"
+                    onClick={() => router.push('/searchAddress')}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <div style={{ width: '15pt', height: '15pt' }}>
+                            <Image
+                              src={search}
+                              alt="searchIcon"
+                              layout="intrinsic"
+                            />
+                          </div>
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <div style={{ width: '15pt', height: '15pt' }}>
+                            <Image
+                              src={mapPin}
+                              alt="searchIcon"
+                              layout="intrinsic"
+                            />
+                          </div>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+          </SearchMapArea>   
+          <WebWrap>
             <WrapAddress>
               <WebSearchAddress
                 setType={setType}
@@ -207,19 +181,38 @@ const ChargerMap = (props: Props) => {
                 setSelectedCharger={setSelectedCharger}
               />
             </WrapAddress>
-          ) : (
-            <ChargerInfo
-              checkHeight={checkHeight}
-              setChargeInfoOpen={setChargeInfoOpen}
-            />
-          )}
-        </WholeMap>
+          </WebWrap>
+          <WholeMap id="map" onClick={(e)=>bigger(e)} >
+          <Header onClick={handleBack} className="adressHeader">
+            <Image src={btnImg} alt="backBtn" />
+          </Header>
+          </WholeMap>
+        </FlexBox>  
+        <MobWrap> 
+          <WebChargerInfo
+             selectedCharger={selectedCharger}
+             setSelectedCharger={setSelectedCharger}
+          />
+        </MobWrap>
       </Wrapper>
       <WebFooter />
     </>
   );
 };
 
+
+const WebWrap = styled.div`
+
+@media (max-width: 899.25pt) {
+ display: none;
+}
+`
+const MobWrap = styled.div`
+
+@media (min-width: 900pt) {
+ display: none;
+}
+`
 const Wrapper = styled.div`
   width: 900pt;
   margin: 0 auto;
@@ -234,12 +227,10 @@ const WrapAddress = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000;
+  z-index: 10;
   width: 281.25pt;
-  height: 100%;
+  height: 495pt;
   background-color: #ffffff;
-  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-  z-index: 1002;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -249,17 +240,31 @@ const WrapAddress = styled.div`
   }
 `;
 
-const WholeMap = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 495pt;
+const FlexBox = styled.div`
   display: flex;
+  border: 0.75pt solid #E2E5ED;
+  border-radius: 6pt;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  overflow: hidden;
+  position: relative;
   margin-top: 54pt;
   @media (max-width: 899.25pt) {
     display: block;
-    width: 100vw;
-    height: 100vh;
     margin-top: 0;
+    border: none;
+    box-shadow: none;
+  }
+`
+const WholeMap = styled.div`
+  position: fixed;
+  height: 495pt;
+  display: flex;
+  flex: 1;
+  @media (max-width: 899.25pt) {
+    display: block;
+    width: calc(100vw - 30pt);
+    height: 50vw;
+    margin: 0 15pt;
     position: relative;
     overflow: hidden;
   }
@@ -279,12 +284,9 @@ const Header = styled.div`
 `;
 
 const SearchMapArea = styled.div`
-  position: absolute;
-  width: 281.25pt;
-  top: 0;
-  z-index: 1001;
+  display: none;
   @media (max-width: 899.25pt) {
-    position: relative;
+    display: block;
     height: 50pt;
     width: 100%;
     position: relative;
