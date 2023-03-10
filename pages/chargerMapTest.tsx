@@ -47,6 +47,8 @@ const ChargerMap = (props: Props) => {
 
   console.log('chargeInfoOpen', chargeInfoOpen);
 
+  console.log(locationList)
+
   useEffect(() => {
     let calcHeight;
     let findHeight;
@@ -284,7 +286,7 @@ const WholeMap = styled.div`
   @media (max-width: 899.25pt) {
     display: block;
     width: calc(100vw - 30pt);
-    height: 50vw;
+    height: 42.5vw;
     margin: 0 15pt;
     position: relative;
     overflow: hidden;
