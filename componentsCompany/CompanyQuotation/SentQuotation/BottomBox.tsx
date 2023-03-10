@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
@@ -14,6 +14,7 @@ import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 type Props = {
   pb?: number;
@@ -37,6 +38,24 @@ const BottomBox = ({ pb, data }: Props) => {
     data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers?.filter(
       (el) => el.kind === '7-HOME',
     );
+
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
+
+  // 이미지 확대 보기에 전달 할 배열
+  const fileArray =
+    data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map((item) =>
+      item?.chargerImageFiles.reverse(),
+    );
+
+  const fileArray2 = { ...fileArray };
 
   return (
     <Wrapper>
@@ -232,7 +251,13 @@ const BottomBox = ({ pb, data }: Props) => {
             (item, index) => (
               <React.Fragment key={item.preQuotationChargerIdx}>
                 {item.chargerImageFiles.map((img, index) => (
-                  <GridItem key={img.chargerProductFileIdx}>
+                  <GridItem
+                    key={img.chargerProductFileIdx}
+                    onClick={() => {
+                      setOpenImgModal(!openImgModal);
+                      initialSlideOnChange(index);
+                    }}
+                  >
                     <Image
                       src={img.url}
                       alt="img-icon"
@@ -248,6 +273,14 @@ const BottomBox = ({ pb, data }: Props) => {
           )}
         </GridImg>
       </Section>
+      {/* 이미지 자세히 보기 기능 */}
+      {openImgModal && (
+        <ImgDetailCarousel
+          file={fileArray2[0]!}
+          setOpenImgModal={setOpenImgModal}
+          idxRef={idxRef}
+        />
+      )}
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
         {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
@@ -535,6 +568,7 @@ const GridImg = styled.div`
   }
 `;
 const GridItem = styled.span`
+  cursor: pointer;
   position: relative;
   border-radius: 6pt;
   width: 120pt;

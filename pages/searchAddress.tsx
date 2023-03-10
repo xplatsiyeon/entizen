@@ -129,7 +129,7 @@ const SearchAddress = (props: Props) => {
       <HeaderBox>
         <Image onClick={() => router.push('/')} src={btnImg} alt="backBtn" />
         <FindAddress
-          placeholder="상호명 또는 주소 검색"
+          placeholder="도로명/지번 주소를 입력해 주세요"
           onChange={handleChange}
           value={searchWord}
         />
@@ -176,6 +176,7 @@ const FindAddress = styled(TextField)`
   margin-left: 6pt;
   display: flex;
   justify-content: center;
+
   .MuiInputBase-root {
     padding-top: 12pt;
     padding-bottom: 12pt;

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   PreQuotationChargers,
   PreQuotationResponse,
@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fileDownload } from 'bridge/appToWeb';
 import { useMediaQuery } from 'react-responsive';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 interface Props {
   pb?: number;
@@ -32,6 +33,16 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
+
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
 
   const webHandleNum = (idx: number) => {
     setWebIdx(idx);
@@ -56,6 +67,12 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
 
   // 오른쪽 큰 사진
   const DataFilter = newChargerImageFiles ? newChargerImageFiles![webIdx] : '';
+
+  // 이건 캐러셀에 내려줄 이미지 파일 합친 데이터
+  const newChargerImageFiles2 = data?.preQuotation?.preQuotationChargers
+    ?.map((item) => item.chargerImageFiles.map((el) => el))
+    .flat()
+    .reverse();
 
   return (
     <Wrapper>
@@ -480,7 +497,12 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
             {data?.preQuotation.preQuotationChargers.map((item, index) => (
               <React.Fragment key={index}>
                 {item.chargerImageFiles.map((img, index) => (
-                  <GridItem key={index}>
+                  <GridItem
+                    key={index}
+                    onClick={() => {
+                      initialSlideOnChange(index);
+                    }}
+                  >
                     <Image
                       src={img.url}
                       alt="img-icon"
@@ -489,6 +511,9 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                       unoptimized={true}
                       objectFit="cover"
                       style={{ borderRadius: '6pt' }}
+                      onClick={() => {
+                        setOpenImgModal(!openImgModal);
+                      }}
                     />
                   </GridItem>
                 ))}
@@ -496,6 +521,14 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
             ))}
           </GridImg>
         </Section>
+        {/* 이미지 자세히 보기 기능 */}
+        {openImgModal && (
+          <ImgDetailCarousel
+            file={newChargerImageFiles2!}
+            setOpenImgModal={setOpenImgModal}
+            idxRef={idxRef}
+          />
+        )}
         <Line />
         {/* 파일 부분 */}
         <ChargeSection pb={pb}>

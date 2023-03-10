@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
@@ -11,9 +11,10 @@ import { RootState } from 'store/store';
 
 type Props = {
   checkHeight: number;
+  setChargeInfoOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ChargerInfo = ({ checkHeight }: Props) => {
+const ChargerInfo = ({ checkHeight, setChargeInfoOpen }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
@@ -181,8 +182,7 @@ const Wrap = styled.div`
   width: 100%;
   position: absolute;
   bottom: 0;
-
-  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 4px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 36px 36px 0px 0px;
   background-color: white;
 `;
@@ -254,6 +254,7 @@ const SelectChargerBox = styled.div`
   margin-top: 60pt;
   padding-left: 24pt;
   padding-right: 24pt;
+
   @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
@@ -266,6 +267,7 @@ const ChargerList = styled.div`
   margin-top: 30pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
+
   @media (max-width: 899.25pt) {
     padding: 3pt;
     margin-top: 12pt;
@@ -477,5 +479,6 @@ const DecoLine = styled.div`
   width: 60px;
   margin: 12px auto 0;
   border-radius: 12px;
+
   border: 4px solid #caccd1;
 `;

@@ -26,7 +26,7 @@ const SignUpTerms = () => {
   const selectedType = 'USER';
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
-  const [selectTerms, setSelectTerms] = useState([false, false]);
+  const [selectTerms, setSelectTerms] = useState([false]);
   const [requiredCheck, setRequiredCheck] = useState([false, false, false]);
   const [nextBtn, setNextBtn] = useState(false);
   const [data, setData] = useState<any>();
@@ -44,7 +44,7 @@ const SignUpTerms = () => {
         'popupChk',
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
-      let cloneDocument = document as any;
+      let cloneDocument = document;
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
@@ -199,8 +199,14 @@ const SignUpTerms = () => {
   }, [requiredTerms]);
   // 전체 약관 동의 활성화
   useEffect(() => {
-    if (!requiredTerms || !selectTerms) setFullTerms(false);
-    if (requiredTerms && selectTerms) setFullTerms(true);
+    const everyRequiredCheck = requiredCheck.every((e) => e === true);
+    const everySelectedCheck = selectTerms.every((e) => e === true);
+    console.log('⭐️ everyRequiredCheck : ', everyRequiredCheck);
+    console.log('⭐️ everySelectedCheck : ', everySelectedCheck);
+
+    if (!everyRequiredCheck || !everySelectedCheck) setFullTerms(false);
+    if (everyRequiredCheck && everySelectedCheck) setFullTerms(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
 
   useEffect(() => {
@@ -309,9 +315,9 @@ const SignUpTerms = () => {
                   </Item>
                 </Check>
               </Form>
-              <BottomForm isterms={selectTerms.toString()}>
+              <BottomForm isterms={selectTerms}>
                 <Box>
-                  <Item id="first" onClick={onClickSelectTerms}>
+                  {/* <Item id="first" onClick={onClickSelectTerms}>
                     <div>
                       <Image
                         alt="smallCheck"
@@ -322,16 +328,12 @@ const SignUpTerms = () => {
                     <span onClick={(e) => TermsofServiceHandler(e, 3)}>
                       보기
                     </span>
-                  </Item>
-                  <Item
-                    id="second"
-                    className="selected"
-                    onClick={onClickSelectTerms}
-                  >
+                  </Item> */}
+                  <Item id="first" onClick={onClickSelectTerms}>
                     <div>
                       <Image
                         alt="smallCheck"
-                        src={selectTerms[1] ? SmallCheckOnImg : SmallCheckImg}
+                        src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
                       />
                       <p>[선택]이벤트 및 혜택 알림 수신</p>
                     </div>
@@ -531,9 +533,10 @@ const Item = styled(Box)`
     margin-top: 15px;
   }
 `;
-const BottomForm = styled(Box)<{ isterms: string }>`
+const BottomForm = styled(Box)<{ isterms: boolean[] }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) =>
+      isterms.every((e) => e === true) ? colors.main : colors.lightGray};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;

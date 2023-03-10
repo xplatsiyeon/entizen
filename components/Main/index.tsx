@@ -265,7 +265,9 @@ const MainPage = (props: Props) => {
           >
             FileDownload
           </FileDownload> */}
-        <Carousel />
+        <CarouselWrapper>
+          <Carousel />
+        </CarouselWrapper>
         <SalesProjection />
         <MyEstimateProject
           quotationData={quotationData!}
@@ -302,6 +304,12 @@ const HeadWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
+  left: 0;
+  top: 0;
+  padding: 0 15pt;
 `;
 const LogoBox = styled.div`
   margin-top: 12pt;
@@ -337,6 +345,10 @@ const Test = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15pt;
+`;
+
+const CarouselWrapper = styled.div`
+  padding-top: 52.5pt;
 `;
 export default MainPage;

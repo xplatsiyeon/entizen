@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import CommunicationBox from 'components/CommunicationBox';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
@@ -25,34 +25,35 @@ import {
   useQuery as reactQuery,
   useQueryClient,
 } from 'react-query';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   data: ChargingStations;
 }
-
-export const modusignPDF = async (url: string) => {
-  // console.log('url===>>', url);
-  return;
-  // 이정민
-  // const url =
-  //   'https://api.modusign.co.kr/documents/319c4100-79ec-11ed-96b5-c59df0be5207/file?signedUrlToken=documents%2F56c0ad20-2507-11ed-8a8e-fb9da558cacc%2F3160bea1-79ec-11ed-bd2a-6bbe23a257ff.pdf%3FX-Amz-Algorithm%3DAWS4-HMAC-SHA256%26X-Amz-Credential%3DAKIA3EQMQCJYW3XJ6IGM%252F20221225%252Fap-northeast-2%252Fs3%252Faws4_request%26X-Amz-Date%3D20221225T075845Z%26X-Amz-Expires%3D600%26X-Amz-Signature%3D8cbb6632a64a322bf213bed8c9e428ce5b245177f4df2485b13d74de1cd39e49%26X-Amz-SignedHeaders%3Dhost';
-
-  fetch(url).then((res) => {
-    return res.blob().then((b) => {
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(b);
-      // a.target = '_self';
-      a.setAttribute('download', '모두싸인 게약서');
-      // a.setAttribute('download', filename);
-      a.click();
-    });
-  });
-};
-
 const TAG = 'components/mypage/place/PlaceInfo.tsx';
 const PlaceInfo = ({ data }: Props) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const [idx, setIdx] = useState<number>(1);
   const [webIdx, setWebIdx] = useState<number>(0);
+  const [imageData, setImageData] = useState<any>([]);
+
+  const fileArray: any = [];
+  for (let i = data?.projectCompletionFiles?.length - 1; i >= 0; i--) {
+    fileArray.push(data?.projectCompletionFiles[i]);
+  }
+
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(0);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
 
   const webHandleNum = (idx: number) => {
     setWebIdx(idx);
@@ -76,11 +77,6 @@ const PlaceInfo = ({ data }: Props) => {
 
   const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
-  // console.log(
-  //   'data?.finalQuotation?.finalQuotationChargers?',
-  //   data?.finalQuotation?.finalQuotationChargers[0]?.finalQuotationChargerFiles,
-  // );
-
   //a링크에 넘길거
   const callPhone = hyphenFn(data?.companyMember?.phone);
 
@@ -101,6 +97,9 @@ const PlaceInfo = ({ data }: Props) => {
     },
   );
 
+  useEffect(() => {
+    setImageData(data);
+  }, [data]);
   // download('modusgin');
   // download('data:text/html,Hello Developer!', 'HelloDeveloper.txt');
 
@@ -211,7 +210,7 @@ const PlaceInfo = ({ data }: Props) => {
 
         {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
-          <Carousel file={data?.projectCompletionFiles} />
+          <Carousel file={data?.projectCompletionFiles} ImgDetail={true} />
           {/*<Index onClick={handleNum}>{idx}/2</Index>*/}
         </FinishedPhotoBox>
 
@@ -223,6 +222,7 @@ const PlaceInfo = ({ data }: Props) => {
                 key={el?.projectCompletionFileIdx}
                 onClick={() => {
                   webHandleNum(idx);
+                  initialSlideOnChange(idx);
                 }}
                 webIdx={webIdx}
                 idx={idx}
@@ -240,7 +240,12 @@ const PlaceInfo = ({ data }: Props) => {
               </WebLeftPhotos>
             ))}
           </WebLeftPhotoBox>
-          <WebRightPhotoBox key={DataFilter?.projectCompletionFileIdx}>
+          <WebRightPhotoBox
+            key={DataFilter?.projectCompletionFileIdx}
+            onClick={() => {
+              setOpenImgModal(!openImgModal);
+            }}
+          >
             <div className="imgBox">
               <Image
                 src={DataFilter?.url}
@@ -253,6 +258,14 @@ const PlaceInfo = ({ data }: Props) => {
             </div>
           </WebRightPhotoBox>
         </WebFinishedPhotoWrapper>
+        {/* 이미지 자세히 보기 기능 */}
+        {!mobile && openImgModal && (
+          <ImgDetailCarousel
+            file={fileArray}
+            setOpenImgModal={setOpenImgModal}
+            idxRef={idxRef}
+          />
+        )}
         <Wrap>
           <CommunicationBox
             text="파트너와 소통하기"
@@ -435,6 +448,7 @@ const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
 
 const WebRightPhotoBox = styled.div`
   @media (min-width: 900pt) {
+    cursor: pointer;
     width: 508.5pt;
     height: 330pt;
     border-radius: 12pt;

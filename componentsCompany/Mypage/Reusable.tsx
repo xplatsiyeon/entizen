@@ -389,7 +389,10 @@ Props) => {
               </FinishedTextBox>
               <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
               <FinishedPhotoBox>
-                <Carousel file={data?.project?.projectCompletionFiles!} />
+                <Carousel
+                  file={data?.project?.projectCompletionFiles!}
+                  ImgDetail={true}
+                />
               </FinishedPhotoBox>
             </FinishedBox>
           </Wrapper>
@@ -564,14 +567,14 @@ const Wrapper = styled.div`
 
   @media (min-width: 900pt) {
     border-radius: 6pt;
-    box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+    box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
     padding-bottom: 30pt;
   }
 `;
 const Box = styled.div`
   width: 100%;
   border-radius: 6pt;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
 
@@ -591,7 +594,7 @@ const FinishedBox = styled.div`
   align-items: center;
   justify-content: center;
   @media (max-width: 899.25pt) {
-    box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+    box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
   }
 `;
 const Top = styled.div`
@@ -619,7 +622,7 @@ const Top = styled.div`
   }
   .changeDate {
     padding: 4.5pt 7.5pt;
-    border: 1px solid #e2e5ed;
+    border: 0.75pt solid #e2e5ed;
     border-radius: 6pt;
     color: #a6a9b0;
     font-family: 'Spoqa Han Sans Neo';
@@ -734,9 +737,10 @@ const FinishedPhotoText = styled.div`
   }
 `;
 const FinishedPhotoBox = styled.div`
+  cursor: pointer;
   width: 100%;
   /* height: 91.5pt; */
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   margin-top: 12pt;
   border-radius: 6pt;
   position: relative;
@@ -837,7 +841,7 @@ const AddPhotos = styled.button`
   display: inline-block;
   width: 65.0625pt;
   height: 56.0625pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
 
@@ -904,7 +908,7 @@ const ImgTag = styled.img<{ option?: boolean }>`
     option === true &&
     css`
       padding-top: 13.6875pt;
-      border: 1px solid red;
+      border: 0.75pt solid red;
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
@@ -944,7 +948,7 @@ const Top2 = styled.div`
   }
   .changeDate {
     padding: 4.5pt 7.5pt;
-    border: 1px solid #e2e5ed;
+    border: 0.75pt solid #e2e5ed;
     border-radius: 6pt;
     color: #a6a9b0;
     font-family: 'Spoqa Han Sans Neo';

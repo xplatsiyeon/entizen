@@ -20,6 +20,9 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { selectAction } from 'store/loginTypeSlice';
 
 type Props = {
   num?: number;
@@ -76,6 +79,10 @@ const WebHeader = ({ num, now, sub }: Props) => {
     } else {
       router.push('/signin');
     }
+  };
+  const routeSignUp = () => {
+    dispatch(selectAction.reset());
+    router.push('/signUp/Terms');
   };
 
   useEffect(() => {
@@ -222,9 +229,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     </Link>
                   </DivBox2>
                   <DivBox2>
-                    <Link href="/signUp/Terms">
+                    <span onClick={routeSignUp}>
                       <a>회원가입</a>
-                    </Link>
+                    </span>
                   </DivBox2>
                 </>
               )}
@@ -359,6 +366,9 @@ const DivBox2 = styled.div`
   margin-right: 18pt;
   display: flex;
   align-items: center;
+  span {
+    cursor: pointer;
+  }
 
   a {
     font-weight: normal;

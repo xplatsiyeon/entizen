@@ -176,8 +176,8 @@ const Menus = styled.div`
   line-height: 15pt;
   /* margin-left: 6pt; */
   /* margin-right: 6pt; */
-  margin-left: 12pt;
-  margin-right: 12pt;
+  margin-left: 11.5pt;
+  margin-right: 11.5pt;
   &:first-of-type {
     margin-left: 0;
   }
