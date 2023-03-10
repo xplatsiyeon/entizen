@@ -257,10 +257,10 @@ const Signin = () => {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('[axios] 리스폰스 => ');
-      console.log(res);
-      console.log(res.data);
-      const match = res.config.data.match(/\((.*)\)/);
+      // console.log('[axios] 리스폰스 => ');
+      // console.log(res);
+      // console.log(res.data);
+      // const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
       // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
@@ -309,6 +309,7 @@ const Signin = () => {
   };
   // 네이버 온클릭
   const handleNaver = async () => {
+    console.log(naverRef.current.children[0]);
     if (naverRef) {
       naverRef.current.children[0].click();
     }
@@ -345,13 +346,6 @@ const Signin = () => {
     e.preventDefault();
     setFind(true);
     setFindText(type);
-
-    // router.push({
-    //   pathname: '/find/password',
-    //   query: {
-    //     loginType: loginTypeEnList[selectedLoginType],
-    //   },
-    // });
   };
   const onClickPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -380,21 +374,7 @@ const Signin = () => {
       localStorage.removeItem('key');
     }
   };
-  // // 비밀번호 찾기
-  // const HandleFindPassword = async () => {
-  //   let key = localStorage.getItem('key');
-  //   let data: FindKey = JSON.parse(key!);
-  //   if (data.isMember) {
-  //     // console.log('멤버 확인 -> ' + data.isMember);
-  //     localStorage.getItem('key');
-  //     router.push('/find/password');
-  //   } else {
-  //     setErrorMessage(
-  //       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-  //     );
-  //     setErrorModal((prev) => !prev);
-  //   }
-  // };
+
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') originLogin();
@@ -468,9 +448,12 @@ const Signin = () => {
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
+        // console.log('⭐️ token : ', token);
         naverLogin.getLoginStatus((status: any) => {
           if (status) {
+            // console.log('⭐️ status : ', status);
             NaverApi(naverLogin);
+            // console.log('⭐️ naverLogin : ', naverLogin);
             dispatch(
               userAction.add({
                 ...user,

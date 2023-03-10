@@ -13,7 +13,7 @@ export const login = (
   naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
     // 테스트 리다이렉트 주소
-    callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/signin`,
+    callbackUrl: `https://api.entizen.kr/signin`,
     isPopup: false, // 팝업 형태로 인증 여부
     callbackHandle: true,
     loginButton: {
