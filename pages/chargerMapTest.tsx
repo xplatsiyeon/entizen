@@ -47,6 +47,8 @@ const ChargerMap = (props: Props) => {
 
   console.log('chargeInfoOpen', chargeInfoOpen);
 
+  console.log(locationList)
+
   useEffect(() => {
     let calcHeight;
     let findHeight;
@@ -110,7 +112,7 @@ const ChargerMap = (props: Props) => {
       // console.log('컴포넌트 디드마운트');
 
       dispatch(coordinateAction.reset());
-      dispatch(locationAction.reset());
+      //dispatch(locationAction.reset());
     };
   }, []);
 
@@ -265,6 +267,7 @@ const FlexBox = styled.div`
   }
 `
 const MapWrap = styled.div`
+  flex: 1;
     &.bigger{
       .addressHeader{
         display: block;
@@ -283,7 +286,7 @@ const WholeMap = styled.div`
   @media (max-width: 899.25pt) {
     display: block;
     width: calc(100vw - 30pt);
-    height: 50vw;
+    height: 42.5vw;
     margin: 0 15pt;
     position: relative;
     overflow: hidden;
