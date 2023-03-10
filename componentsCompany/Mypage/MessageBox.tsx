@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -30,6 +31,15 @@ const MessageBox = ({
   file,
 }: Props) => {
   const [idx, setIdx] = useState<number>(1);
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(-1);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
@@ -43,7 +53,7 @@ const MessageBox = ({
         {complete ? (
           //여기 코드 reUsable 컴포넌트로
           <ImageBox>
-            <Carousel file={file} />
+            <Carousel file={file} ImgDetail={true} />
           </ImageBox>
         ) : null}
       </LeftSideBox>

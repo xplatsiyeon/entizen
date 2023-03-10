@@ -35,6 +35,7 @@ import { useMediaQuery } from 'react-responsive';
 import { css } from '@emotion/react';
 import Loader from 'components/Loader';
 import { BusinessRegistrationType } from 'componentsCompany/CompanyQuotation/LastQuotation/ThirdStep';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';

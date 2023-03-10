@@ -157,7 +157,7 @@ const Wrapper = styled(Swiper)`
     letter-spacing: -0.02em;
     text-align: center;
     color: #000000;
-
+    border: transparent;
     @media (max-width: 899.25pt) {
       font-size: 12pt;
       font-weight: 700;

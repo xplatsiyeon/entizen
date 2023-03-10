@@ -49,6 +49,7 @@ const Carousel = ({ file, ImgDetail }: Props) => {
 
   return (
     <Wrapper
+      openImgModal={openImgModal}
       pagination={{
         type: 'fraction',
       }}
@@ -101,7 +102,7 @@ const Carousel = ({ file, ImgDetail }: Props) => {
 
 export default Carousel;
 
-const Wrapper = styled(Swiper)`
+const Wrapper = styled(Swiper)<{ openImgModal?: boolean }>`
   /* height: 100%; */
 
   .swiper-pagination {
@@ -116,7 +117,8 @@ const Wrapper = styled(Swiper)`
     letter-spacing: -0.02em;
     color: #ffffff;
     padding: 1.5pt 4.5pt;
-    background: rgba(0, 0, 0, 0.3);
+    background: ${({ openImgModal }) =>
+      openImgModal === true ? '' : 'rgba(0, 0, 0, 0.3)'};
     border-radius: 7.5pt;
   }
 
