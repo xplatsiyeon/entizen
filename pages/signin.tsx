@@ -252,16 +252,15 @@ const Signin = () => {
         snsResponse: JSON.stringify(data),
         email: data.user.email,
       },
-
       headers: {
         ContentType: 'application/json',
       },
       withCredentials: true,
     }).then((res) => {
-      // console.log('[axios] 리스폰스 => ');
-      // console.log(res);
-      // console.log(res.data);
-      // const match = res.config.data.match(/\((.*)\)/);
+      console.log('[axios] 리스폰스 => ');
+      console.log(res);
+      console.log(res.data);
+      const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
       // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
@@ -543,14 +542,8 @@ const Signin = () => {
       },
       withCredentials: true,
     }).then((res) => {
-      // console.log('[axios] 리스폰스 => ');
-      // console.log(res);
-      // console.log(res.data);
-      // const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
-      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      // console.log(c);
       dispatch(
         userAction.add({
           ...user,
@@ -689,15 +682,6 @@ const Signin = () => {
                 web={true}
               />
             )}
-            {/* <Container
-              disableGutters
-              sx={{
-                width: '100%',
-                height: '580.5pt',
-                overflow: 'scroll !important',
-              }}
-              style={{ border: '1px solid red' }}
-            > */}
             <AllContainer>
               <BackBox onClick={() => router.push('/')}>
                 <BackBtn src="/images/back-btn.svg" />
@@ -706,8 +690,6 @@ const Signin = () => {
                 disableGutters
                 sx={{
                   width: '100%',
-                  // paddingLeft: '9pt',
-                  // paddingRight: '9pt',
                 }}
               >
                 <Box
@@ -759,16 +741,7 @@ const Signin = () => {
                   ))}
                 </Box>
               </Container>
-              {/* <Container
-                disableGutters
-                sx={{
-                  width: '100%',
-                  marginTop: '42pt',
-                  padding: '0 25pt',
-                }}
-              > */}
               <ContainerBox>
-                {/* <Box sx={{ textAlign: 'center' }}> */}
                 <TextFields
                   value={userId}
                   id="outlined-basic"
@@ -807,7 +780,6 @@ const Signin = () => {
                   <Box
                     sx={{
                       textAlign: 'center',
-                      // textDecorationLine: 'underline',
                       marginTop: '22.5pt',
                       color: '#747780',
                     }}
@@ -857,14 +829,6 @@ const Signin = () => {
                         숨겨진 아이디 버튼
                       </Buttons>
                     )}
-                    {/* {isPassword && (
-                      <Buttons
-                        className="firstNextPage"
-                        onClick={HandleFindPassword}
-                      >
-                        숨겨진 비밀번호 버튼
-                      </Buttons>
-                    )} */}
                   </Box>
                 </Box>
                 <TestWrap>
@@ -888,7 +852,6 @@ const Signin = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        // margin: '102pt auto 0',
                         margin: '48pt auto 0',
                       }}
                     >
@@ -937,13 +900,6 @@ const Signin = () => {
                         margin: '18pt 24.75pt 0 24.75pt',
                       }}
                     >
-                      {/* <Divider
-                        sx={{
-                          background: '#CACCD1',
-                          width: '35%',
-                          height: '0.375pt',
-                        }}
-                      ></Divider> */}
                       <Line />
                       <Typography
                         variant="h5"
@@ -960,13 +916,6 @@ const Signin = () => {
                         또는
                       </Typography>
                       <Line />
-                      {/* <Divider
-                        sx={{
-                          background: '#CACCD1',
-                          width: '35%',
-                          height: '0.375pt',
-                        }}
-                      ></Divider> */}
                     </Box>
                   </>
                 )}
@@ -980,9 +929,7 @@ const Signin = () => {
                   </IdRegist>
                 </Box>
               </ContainerBox>
-              {/* </Container> */}
             </AllContainer>
-            {/* </Container> */}
           </WebWrapper>
         </Inner>
         <WebFooter />
@@ -1055,7 +1002,6 @@ const Inner = styled.div`
     padding: 0;
     box-shadow: none;
     background: none;
-    /* padding: 0 15pt; */
     padding: 0 15pt 87pt;
   }
   @media (min-width: 900pt) {
@@ -1064,8 +1010,6 @@ const Inner = styled.div`
 `;
 const WebWrapper = styled.div`
   position: relative;
-  /* margin: 0 31.875pt; */
-
   @media (max-width: 899.25pt) {
     margin: 0;
   }
@@ -1078,9 +1022,7 @@ const NaverBox = styled(Box)`
     display: none;
   }
 `;
-const BackBtn = styled.img`
-  /* margin-left: 15pt; */
-`;
+const BackBtn = styled.img``;
 const LoginBtn = styled.button`
   background: #5a2dc9;
   width: 100%;
@@ -1149,19 +1091,13 @@ const AllContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /* width: 100%;
-  margin-top: 42pt; */
-  /* padding: 0 25pt; */
-
   width: 100%;
-  /* height: 580.5pt; */
   overflow: scroll !important;
 `;
 
 const ContainerBox = styled.div`
   width: 100%;
   margin-top: 42pt;
-  /* padding: 0 25pt; */
 `;
 
 const IDPWInput = styled.textarea`
