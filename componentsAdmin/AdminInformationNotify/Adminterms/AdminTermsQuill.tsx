@@ -10,6 +10,7 @@ import {
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { multerAdminApi } from 'api';
+import Quill from 'quill';
 
 type Props = {
   setBodyText: React.Dispatch<React.SetStateAction<string>>;
@@ -32,16 +33,30 @@ type NEWIMG = {
 };
 
 const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
-  const ReactQuill = dynamic(() => import('react-quill'), {
-    ssr: false,
-    // loading: () => <p>Loading ...</p>,
-  });
+  // const ReactQuill = dynamic(() => import('react-quill'), {
+  //   ssr: false,
+  // });
+  // const ReactQuill = useMemo(
+  //   () => dynamic(() => import('react-quill'), { ssr: false }),
+  //   [],
+  // );
+
+  // const ReactQuill = dynamic(
+  //   async () => {
+  //     const { default: RQ } = await import('react-quill');
+  //     return function comp({ forwardedRef, ...props }) {
+  //       return <RQ ref={forwardedRef} {...props} />;
+  //     };
+  //   },
+  //   { ssr: false },
+  // );
+
   const [insideImgArr, setInsideImgArr] = useState<IMG[]>([]);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
-  const QuillRef = useRef<ReactQuill>();
+  const QuillRef = React.useRef<ReactQuill>(null);
 
   const { mutate: inImage, isLoading: multerInImageLoading } = useMutation<
     MulterResponse,
@@ -85,6 +100,8 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
     },
   });
 
+  const range = QuillRef.current?.getEditor().getSelection()?.index;
+
   const saveFileInsideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
@@ -120,26 +137,9 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
     QuillRef.current?.getEditor();
   };
 
-  //   const modules = {
-  //     toolbar: [
-  //       [{ header: '1' }, { header: '2' }, { font: [] }],
-  //       [{ size: ['small', 'normal', 'large', 'huge'] }, { color: [] }],
-  //       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-  //       [
-  //         { list: 'ordered' },
-  //         { list: 'bullet' },
-  //         { indent: '-1' },
-  //         { indent: '+1' },
-  //         { align: [] },
-  //       ],
-  //       ['image'],
-  //       ['clean'],
-  //     ],
-  //     clipboard: {
-  //       // toggle to add extra line breaks when pasting HTML:
-  //       matchVisual: false,
-  //     },
-  //   };
+  const Font = Quill.import('formats/font');
+  Font.whitelist = ['Spoqa Han Sans Neo'];
+  Quill.register(Font, true);
 
   const modules = useMemo(
     () => ({
@@ -148,6 +148,7 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
           [{ header: '1' }, { header: '2' }],
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
           [{ size: ['small', false, 'large', 'huge'] }],
+          [{ font: [] }],
           [
             { list: 'ordered' },
             { list: 'bullet' },
@@ -155,7 +156,7 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
             { indent: '+1' },
             { align: [] },
           ],
-          ['image'],
+          ['link', 'image'],
         ],
         handlers: {
           image: imgInHandler,
@@ -168,7 +169,7 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
   const formats = [
     'header',
     'size',
-
+    'font',
     'bold',
     'italic',
     'underline',
@@ -182,21 +183,26 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
   ];
 
   return (
-    <ReactQuill
-      //   ref={(element) => {
-      //     if (element !== null) {
-      //       QuillRef.current = element;
-      //     }
-      //   }}
-      theme="snow"
-      modules={modules}
-      formats={formats}
-      value={bodyText !== undefined ? bodyText : firstContent}
-      placeholder={'약관을 입력해주세요'}
-      onChange={(event) => setBodyText(event)}
-      style={{ height: '416px' }}
-    />
+    <>
+      <ReactQuill
+        // ref={(element: any) => {
+        //   if (element !== null) {
+        //     QuillRef.current = element;
+        //   }
+        // }}
+        // ref={QuillRef}
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={bodyText !== undefined ? bodyText : firstContent}
+        placeholder={'약관을 입력해주세요'}
+        onChange={(event) => setBodyText(event)}
+        style={{ height: '416px' }}
+      />
+    </>
   );
 };
 
 export default AdminTermsQuill;
+
+const ReactQuillEditor = styled(ReactQuill)``;
