@@ -112,13 +112,9 @@ const ChargerMap = (props: Props) => {
       // console.log('컴포넌트 디드마운트');
 
       dispatch(coordinateAction.reset());
-      dispatch(locationAction.reset());
+      //dispatch(locationAction.reset());
     };
   }, []);
-
-  useEffect(()=>{
-    console.log(locationList.roadAddrPart)
-  },[locationList.roadAddrPart])
 
   const handleBack = () => {
     router.back();
