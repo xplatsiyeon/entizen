@@ -162,6 +162,8 @@ const Alam = () => {
   //   });
   // }, [noticeIdx]);
 
+  console.log('tab🍎', tab);
+
   return (
     <WebBody>
       {memberType === 'COMPANY' ? (
@@ -207,26 +209,27 @@ const Alam = () => {
           </Header>
           <Tab>
             {tabList.map((text, index) => (
-              <Text
-                tab={tab.toString()}
-                idx={index.toString()}
-                className="tab-item"
-                key={index}
-                onClick={() => {
-                  tabHandler(index);
-                  // router.push({
-                  //   pathname: '/alarm',
-                  //   query: {
-                  //     id: index,
-                  //   },
-                  // });
+              <TextDiv>
+                <Text
+                  tab={tab}
+                  idx={index}
+                  key={index}
+                  onClick={() => {
+                    tabHandler(index);
+                    // router.push({
+                    //   pathname: '/alarm',
+                    //   query: {
+                    //     id: index,
+                    //   },
+                    // });
 
-                  dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
-                }}
-              >
-                {text}
-                {tab === index && <Line />}
-              </Text>
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
+                  }}
+                >
+                  {text}
+                  {tab === index && <Line />}
+                </Text>
+              </TextDiv>
             ))}
           </Tab>
           {/* {list.length === 0 && (
@@ -378,16 +381,28 @@ const Tab = styled(Box)`
     justify-content: center;
   }
 `;
-const Text = styled.div<{ tab: string; idx: string }>`
+
+// const Tab = styled.div`
+//   display: flex;
+//   border-bottom: 0.75pt solid #f3f4f7;
+//   cursor: pointer;
+//   @media (min-width: 899.25pt) {
+//     justify-content: center;
+//   }
+// `;
+const TextDiv = styled.div`
+  width: 100%;
+`;
+const Text = styled.div<{ tab: number; idx: number }>`
   font-family: 'Spoqa Han Sans Neo';
-  width: 50%;
-  text-align: center;
+  /* width: 30vw; */
   font-weight: 700;
   font-size: 12pt;
   line-height: 15pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: ${({ tab, idx }) => (tab === idx ? colors.main : '#caccd1')};
+  color: ${({ tab, idx }) => (tab === idx ? colors.main : '#CACCD1')};
+
   padding: 12pt 0;
   position: relative;
 
