@@ -265,6 +265,7 @@ const FlexBox = styled.div`
   }
 `
 const MapWrap = styled.div`
+  flex: 1;
     &.bigger{
       .addressHeader{
         display: block;
