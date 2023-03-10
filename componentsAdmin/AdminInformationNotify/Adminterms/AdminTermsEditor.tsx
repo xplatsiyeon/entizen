@@ -298,18 +298,18 @@ const AdminTermsEditor = ({
               />
             </TitleBox>
           </TitleContainer>
-          {/* <MainTextArea
-          placeholder="내용을 입력해주세요"
-          value={bodyText}
-          onChange={(e) => {
-            setBodyText(e.target.value);
-          }}
-        /> */}
-          <AdminTermsQuill
+          <MainTextArea
+            placeholder="내용을 입력해주세요"
+            value={bodyText}
+            onChange={(e) => {
+              setBodyText(e.target.value);
+            }}
+          />
+          {/* <AdminTermsQuill
             setBodyText={setBodyText}
             bodyText={bodyText}
             firstContent={firstContent!}
-          />
+          /> */}
 
           {/* <DynamicComponent
             setBodyText={setBodyText}
