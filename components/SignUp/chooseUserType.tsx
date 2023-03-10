@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import companyImg from 'public/images/company.svg';
 import companyOnImg from 'public/images/company_on.svg';
 import userImg from 'public/images/user.svg';
@@ -26,7 +26,7 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-
+  const UserTypeList: string[] = ['기업회원', '일반회원'];
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,7 +35,18 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
     if (userType === 1) dispatch(selectAction.select('USER'));
     if (userType === 0) dispatch(selectAction.select('COMPANY'));
   };
-  const UserTypeList: string[] = ['기업회원', '일반회원'];
+
+  useEffect(() => {
+    dispatch(
+      selectAction.setTerm({
+        fullTerms: false,
+        requiredTerms: false,
+        selectTerms: [false, false],
+        requiredCheck: [false, false, false],
+      }),
+    );
+  }, []);
+
   return (
     <>
       {mobile && <Notice variant="h3">어떤 용무로 오셨나요?</Notice>}

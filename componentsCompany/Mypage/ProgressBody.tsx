@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -17,14 +17,27 @@ import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
-import { useQuery } from '@apollo/client';
-import { useQuery as reactQuery } from 'react-query';
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useQuery,
+} from '@apollo/client';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
 import { getDocument } from 'api/getDocument';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import { fileDownload, openExternalBrowser } from 'bridge/appToWeb';
-import JSZip from 'jszip';
-import contract from 'pages/contract';
+import {
+  fileDownload,
+  openExternalBrowser,
+  requestPermissionCheck,
+} from 'bridge/appToWeb';
+import { isTokenPutApi, multerApi } from 'api';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import Modal from 'components/Modal/Modal';
+import FileSelectModal from 'components/Modal/FileSelectModal';
 
 export interface fileDownLoad {
   originalName: string;
@@ -44,27 +57,38 @@ type Props = {
   progressNum?: number;
   data: InProgressProjectsDetailResponse;
   badge: string;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 };
 
+export type ImageType = 'IMAGE' | 'FILE';
+
 const ProgressBody = ({
+  inProgressRefetch,
   dateArr,
   setDateArr,
   toggleOpen,
   setToggleOpen,
-  presentProgress,
   setProgressNum,
-  progressNum,
-  // state,
-  planed,
   data,
   badge,
 }: Props) => {
   const router = useRouter();
-  const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  // -----진행중인 프로젝트 상세 리스트 api-----
+  const routerId = router.query.projectIdx!;
+
+  const imgRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  // 자체 계약서 파일 모달
+  const [openSelfContract, setOpenSelfContract] = useState(false);
+  const [tpye, setType] = useState<ImageType>();
+
   const {
     loading: contractLoading,
     error: contractError,
@@ -80,7 +104,111 @@ const ProgressBody = ({
       },
     },
   });
+  // 자체 계약서 업데이트
+  const { mutate: selfMutate, isLoading: isLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        setOpenSelfContract(false);
+        setIsModal(true);
+        setModalMessage('자체 계약서를 전송하였습니다.');
+      },
+      onError: () => {
+        setOpenSelfContract(false);
+        setIsModal(true);
+        setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
+      },
+    },
+  );
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: async (res) => {
+      const newArr: any = [];
+      await res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          type: tpye,
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      selfMutate({
+        url: `/contracts/self/${routerId}`,
+        data: {
+          selfContracts: newArr,
+          projectIdx: routerId,
+        },
+      });
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setModalMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setModalMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
 
+  const onClickModal = () => {
+    if (modalMessage === '자체 계약서를 전송하였습니다.') {
+      inProgressRefetch();
+      setIsModal(false);
+    } else {
+      setIsModal(false);
+      // router.push('/company/mypage?id=0');
+    }
+  };
+
+  // 사진 || 파일 저장
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append(
+        'chatting',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
+    }
+    // setType(() => type);
+    multerImage(formData);
+
+    /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
+    e.target.value = '';
+  };
+
+  // 사진 온클릭
+  const imgHandler = () => {
+    setType('IMAGE');
+    if (!userAgent) {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
+  };
+  //파일 온클릭
+  const handleFileClick = () => {
+    setType('FILE');
+    if (!userAgent) {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
+  };
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -137,20 +265,7 @@ const ProgressBody = ({
   );
 
   // 자체계약서 다운로드
-  // 2022.02.09 ljm 다운로드 추가 작업 필요.
-  // issue => 다중 다운로드 안됨.
   const onClickBtn = (data: fileDownLoad) => {
-    // contractContent.map(async (contract: fileDownLoad, index: number) => {
-    //   const a = document.createElement('a');
-    //   a.download = contract.originalName;
-    //   a.href = contract.url;
-    //   a.onclick = () =>
-    //     fileDownload(userAgent, contract.originalName, contract.url);
-    //   a.click();
-    //   a.remove();
-    //   URL.revokeObjectURL(a.href);
-    // });
-
     const a = document.createElement('a');
     a.download = data?.originalName;
     a.href = data?.url;
@@ -160,22 +275,16 @@ const ProgressBody = ({
     URL.revokeObjectURL(a.href);
   };
 
+  // 계약서 보기
+  const selfContractView = () => {
+    const contractUrl = JSON.parse(
+      contractData?.project?.contract?.contractContent!,
+    )[0];
+    onClickBtn(contractUrl);
+  };
+
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    // 새탭으로 열기
-    // window.open(contractDocumentData?.embeddedUrl);
-
-    // 임베디드 방식
-    // if (contractData) {
-    //   router.replace({
-    //     pathname: '/company/contract',
-    //     query: {
-    //       id: router?.query?.projectIdx,
-    //       documentId: contractData?.project?.contract?.documentId,
-    //     },
-    //   });
-    // }
-
     // 브릿지
     openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
   };
@@ -251,11 +360,41 @@ const ProgressBody = ({
 
   return (
     <>
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
+      {openSelfContract && (
+        <FileSelectModal
+          fileText="앨범에서 가져오기"
+          photoText="파일에서 가져오기"
+          cencleBtn={() => setOpenSelfContract(false)}
+          onClickFile={handleFileClick}
+          onClickPhoto={imgHandler}
+        />
+      )}
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
-
       <Wrapper>
+        {/* 이미지 input */}
+        <input
+          style={{ display: 'none' }}
+          ref={imgRef}
+          className="imageClick"
+          type="file"
+          accept="image/*"
+          onChange={saveFileImage}
+          multiple
+          capture={userAgent === 'Android_App' && true}
+        />
+        {/* 파일 input */}
+        <input
+          style={{ display: 'none' }}
+          ref={fileRef}
+          className="imageClick"
+          type="file"
+          accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
+          onChange={saveFileImage}
+          multiple
+        />
         {/* 계약 */}
         <FlexBox margin={toggleOpen[0]}>
           <div>
@@ -300,17 +439,14 @@ const ProgressBody = ({
                 <>
                   {/* 자체 계약서 */}
                   <SeftContract
-                    onClick={() => {
-                      const contractUrl = JSON.parse(
-                        contractData?.project?.contract?.contractContent!,
-                      )[0];
-                      onClickBtn(contractUrl);
-                    }}
                     presentProgress={
                       data?.project?.badge === '계약대기' ? true : false
                     }
                   >
-                    <div>계약서 보기</div>
+                    <span onClick={selfContractView}>계약서 보기</span>
+                    <span onClick={() => setOpenSelfContract((prev) => !prev)}>
+                      계약서 수정
+                    </span>
                   </SeftContract>
                 </>
               )}
@@ -601,18 +737,6 @@ const ProgressBody = ({
   );
 };
 
-const Iframe = styled.iframe<{ openView: boolean }>`
-  /* background-color: red; */
-
-  display: ${({ openView }) => openView === false && 'none'};
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  left: 0;
-  bottom: 0%;
-  z-index: 999;
-`;
-
 const Wrapper = styled.div`
   position: relative;
   padding-left: 15pt;
@@ -706,7 +830,6 @@ const PickedDate = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => {
-    // console.log(props);
     return props.color;
   }};
   border: 0.75pt solid ${(props) => props.color};
@@ -747,7 +870,7 @@ const SeftContract = styled.div<{ presentProgress: boolean }>`
   gap: 11.625pt;
   padding-top: 12pt;
   padding-left: 27pt;
-  & div {
+  & span {
     display: flex;
     justify-content: center;
     padding-top: 15pt;

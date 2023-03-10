@@ -20,24 +20,27 @@ const PersonalDataPolicy = ({ setTabNumber, nowWidth }: Props) => {
   const router = useRouter();
 
   const onClickBack = () => {
-    // 로그인 약관에서 라우팅
-    if (router.query.setting && router.query.setting === 'true') {
-      const {
-        query: { userType },
-      } = router;
-      router.push({
-        pathname: 'signUp/Terms',
-        query: {
-          setting: 'true',
-          userType: userType,
-        },
-      });
-      // 다이렉트로 페이지 이동은 router.back()
-    } else if (router.query.direct && router.query.direct === 'true') {
-      router.back();
-      // 설정페이지에서 이동
+    const {
+      query: { userType },
+    } = router;
+    if (userType === 'SNS') {
+      router.replace('signUp/SnsTerms');
     } else {
-      setTabNumber(0);
+      if (router.query.setting && router.query.setting === 'true') {
+        router.replace({
+          pathname: 'signUp/Terms',
+          query: {
+            setting: 'true',
+            userType: userType,
+          },
+        });
+        // 다이렉트로 페이지 이동은 router.back()
+      } else if (router.query.direct && router.query.direct === 'true') {
+        router.back();
+        // 설정페이지에서 이동
+      } else {
+        setTabNumber(0);
+      }
     }
   };
 

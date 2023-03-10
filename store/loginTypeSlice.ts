@@ -1,7 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SelectedType = '' | 'USER' | 'COMPANY';
-export interface LoginType {
+
+interface Terms {
+  fullTerms: boolean;
+  requiredTerms: boolean;
+  selectTerms: boolean[];
+  requiredCheck: boolean[];
+}
+export interface LoginType extends Terms {
   selectedType: SelectedType;
   signUpLevel: number;
 }
@@ -9,6 +16,10 @@ export interface LoginType {
 const initialState: LoginType = {
   selectedType: '',
   signUpLevel: 0,
+  fullTerms: false,
+  requiredTerms: false,
+  selectTerms: [false, false],
+  requiredCheck: [false, false, false],
 };
 
 const slice = createSlice({
@@ -20,6 +31,13 @@ const slice = createSlice({
     },
     setSignUpLevel(state, action: PayloadAction<number>) {
       state.signUpLevel = action.payload;
+    },
+    setTerm(state, action: PayloadAction<Terms>) {
+      const {
+        payload: { requiredCheck, selectTerms },
+      } = action;
+      state.selectTerms = selectTerms;
+      state.requiredCheck = requiredCheck;
     },
     reset(state) {
       Object.assign(state, initialState);

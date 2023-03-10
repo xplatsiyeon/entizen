@@ -19,6 +19,7 @@ import { RootState } from 'store/store';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import Modal from 'components/Modal/Modal';
+import { selectAction } from 'store/loginTypeSlice';
 
 const SignUpTerms = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const SignUpTerms = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.userList);
-
+  const LoginType = useSelector((state: RootState) => state.LoginType);
   // ========================== 본인인증 창 띄우기 =====================
   const fnPopup = () => {
     if (typeof window !== 'object') return;
@@ -71,6 +72,15 @@ const SignUpTerms = () => {
     id: number,
   ) => {
     event.stopPropagation();
+    // 데이터 저장
+    dispatch(
+      selectAction.setTerm({
+        fullTerms,
+        requiredTerms,
+        selectTerms,
+        requiredCheck,
+      }),
+    );
     router.push({
       pathname: '/setting',
       query: {
@@ -181,6 +191,13 @@ const SignUpTerms = () => {
     router.push('/');
   };
 
+  // 데이터 GET
+  useEffect(() => {
+    setFullTerms(LoginType.fullTerms);
+    setRequiredTerms(LoginType.requiredTerms);
+    setSelectTerms(LoginType.selectTerms);
+    setRequiredCheck(LoginType.requiredCheck);
+  }, []);
   // 전체 약관 동의
   useEffect(() => {
     const everyCheck = requiredCheck.every((e) => e === true);
@@ -226,7 +243,7 @@ const SignUpTerms = () => {
   }, []);
 
   // 앱 -> 웹
-  useLayoutEffect(() => {
+  useEffect(() => {
     // 안드로이드 호출
     const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
     if (userAgent === 'Android_App') {
@@ -439,6 +456,7 @@ const InnerHeader = styled.div`
   align-items: center;
   .img-box {
     position: absolute;
+    cursor: pointer;
     left: 0;
   }
   .title {

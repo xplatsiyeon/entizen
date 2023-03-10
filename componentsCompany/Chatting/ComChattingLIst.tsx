@@ -39,7 +39,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
   const mobRef = useRef<HTMLDivElement>(null);
   const startPoint = useRef<number>(0);
 
- 
+ // 채팅리스트를 모두 돌면서, 현재 선택한 채팅방(class = 'on')을 제외한 모든 채팅방의 슬라이드 인덱스 초기화.
   const clearMove = ()=>{
     const list = mobRef.current?.querySelectorAll('.chattingRoom') as NodeListOf<HTMLElement>;
     list.forEach((ele)=>{
@@ -50,27 +50,40 @@ const ComChattingList = ({ data, refetch }: Props) => {
         ele.classList.remove('slide2');
         ele.classList.add('slide1')
       }
+
+      //현재 채팅방 선택 해제. 
       ele.classList.remove('on');
       setTimeout(()=>ele.style.transition = '0s', 400)
     })
   }
 
+  //채팅창 드래그 시작점 set.
   const handleMoveStart=(e:TouchEvent)=>{
     const start = e.changedTouches[0].clientX;
     startPoint.current = start;
    
   }
 
+  //드래그 함수. 드래그한 만큼 슬라이드 이동.
+  //엔티즌 채팅방은 오른쪽방향 드래그 금지시켜야 함. 
   const handleMove=(e:TouchEvent, entizen?:boolean)=>{
     const target =  e.currentTarget as HTMLDivElement;
+
+    // 드래그할 때 마다 x의 값 갱신.
     const x = e.changedTouches[0].clientX;
-    
+
+    //현재 이동시키는 채팅방을 클래스네임을 주어서 따로 표시.
     target.classList.add('on');
+
+    //현재 이동시키는 채팅방을 제외한 모든 채팅방의 슬라이드 인덱스를 1로 초기화.
     clearMove()
 
-    //console.log(startPoint.current ,x)
+    //슬라이드 인덱스 별로 움직여야하는 px수가 정해져있다.(x축만) 
+    // slide0: 0px까지. slide1: -160px까지. slide2: -240px까지. 
     if(target.classList.contains('slide0')){
-      console.log('?')
+      //드래그 방향 결정하는 조건. 
+      //드래그의 시작점이 현재 드래그 지점보다 크면 오른쪽으로 이동. 
+      //드래그의 시작점이 현재 드래그 지점보다 작으면 왼쪽으로 이동.
       if(startPoint.current > x){
         const moving = ((x - startPoint.current) * 0.3); //양수.
         console.log(moving)
@@ -103,9 +116,15 @@ const ComChattingList = ({ data, refetch }: Props) => {
     }  
   }
 
+  //슬라이드 인덱스를 결정해주는 함수. 슬라이드가 어느 정도 움직여야 슬라이드의 인덱스가 바뀐다.
+  //슬라이드 인덱스 별로 움직일 수 있는 방향이 정해져있다. 
+  //slide0: 오른쪽으로만 이동 가능. slide1: 양방향으로 이동 가능. slide2: 왼쪽으로만 이동 가능. 
+  //엔티즌 채팅방은 오른쪽방향 드래그 금지시켜야 함. 
   const handleMoveEnd = (e:TouchEvent, entizen?:boolean)=>{
     const target = e.currentTarget as HTMLDivElement;
     const endPoint = e.changedTouches[0].clientX;
+    //드래그(슬라이딩)가 되는 도중은 transition속성이 있으면 오히려 더 버벅이는 모션이 되지만, 
+    //슬라이드 인덱스가 바뀔때는 transition속성이 있어야 더 부드러운 모션이 되므로 이 때에만 transition속성을 준다.
     target.style.transition = '0.3s';
 
     if(target.classList.contains('slide0')){
@@ -140,6 +159,8 @@ const ComChattingList = ({ data, refetch }: Props) => {
       }
     }
 
+    //transition 속성 제거. transition은 위에 적어둔 시간만큼 지속되어야 하므로
+    //setTimeout으로 위에 적은 시간만큼 기다린 후에 transition을 0s로 바꾼다.
     setTimeout(()=>{
       target.style.transition = '0s';
     }, 400)

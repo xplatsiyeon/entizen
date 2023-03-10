@@ -16,7 +16,6 @@ import { selectAction } from 'store/loginTypeSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-// import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
   // level: number;
@@ -45,13 +44,13 @@ const TermContent = ({
   requiredTerms,
   setRequiredTerms,
   selectTerms,
+  requiredCheck,
+  setRequiredCheck,
   setSelectTerms,
   nextBtn,
   setNextBtn,
   userType,
   setBirthday,
-  requiredCheck,
-  setRequiredCheck,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -62,7 +61,11 @@ const TermContent = ({
   const [data, setData] = useState<any>();
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
-  const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
+
+  const LoginType = useSelector((state: RootState) => state.LoginType);
+  const signUpLevel = useSelector(
+    (state: RootState) => state.LoginType.signUpLevel,
+  );
 
   // ========================== 본인인증 창 띄우기
   const fnPopup = () => {
@@ -93,7 +96,6 @@ const TermContent = ({
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
       } else if (data.isMember === false) {
-        // setLevel(level + 1);
         dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
       }
     }
@@ -105,7 +107,6 @@ const TermContent = ({
   };
 
   const justNextPage = () => {
-    // setLevel(level + 1);
     dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
   };
 
@@ -128,6 +129,16 @@ const TermContent = ({
     id: number,
   ) => {
     event.stopPropagation();
+    // 데이터 저장
+    dispatch(
+      selectAction.setTerm({
+        fullTerms,
+        requiredTerms,
+        selectTerms,
+        requiredCheck,
+      }),
+    );
+
     router.push({
       pathname: '/setting',
       query: {
@@ -186,6 +197,14 @@ const TermContent = ({
         break;
     }
   };
+
+  // 데이터 GET
+  useEffect(() => {
+    setFullTerms(LoginType.fullTerms);
+    setRequiredTerms(LoginType.requiredTerms);
+    setSelectTerms(LoginType.selectTerms);
+    setRequiredCheck(LoginType.requiredCheck);
+  }, []);
 
   // 전체 약관 동의
   useEffect(() => {
