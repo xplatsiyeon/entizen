@@ -116,6 +116,10 @@ const ChargerMap = (props: Props) => {
     };
   }, []);
 
+  useEffect(()=>{
+    console.log(locationList.roadAddrPart)
+  },[locationList.roadAddrPart])
+
   const handleBack = () => {
     router.back();
   };
