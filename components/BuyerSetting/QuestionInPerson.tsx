@@ -59,6 +59,15 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
     },
   );
 
+  const onClickBack = () => {
+    if (router.query.direct && router.query.direct === 'true') {
+      router.back();
+      // 설정페이지에서 이동
+    } else {
+      setTabNumber(0);
+    }
+  };
+
   const chattingRoomIdx =
     data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
@@ -66,8 +75,8 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
     <WebBody>
       <Inner>
         <Header>
-          {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}
-          <div className="img-item" onClick={() => router.back()}>
+          <div className="img-item" onClick={onClickBack}>
+            {/* <div className="img-item" onClick={() => router.back()}> */}
             <Image
               style={{
                 cursor: 'pointer',

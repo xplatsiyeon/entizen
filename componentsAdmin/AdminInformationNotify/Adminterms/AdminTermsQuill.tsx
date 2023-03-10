@@ -182,6 +182,22 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
     'image',
   ];
 
+  // function handleChangeInput(index:any, targetName:any, targetValue:any) {
+  //   const values = [...formFields];
+  //   values[index][targetName] = targetValue
+  //   setFormFields(values); }
+
+  const onChange = (content: string) => {
+    setBodyText(content);
+
+    // if (props.onChange) {
+    //   props.onChange({
+    //     html: content,
+    //     markdown: htmlToMarkdown(content)
+    //   });
+    // }
+  };
+
   return (
     <>
       <ReactQuill
@@ -194,7 +210,8 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
         theme="snow"
         modules={modules}
         formats={formats}
-        value={bodyText !== undefined ? bodyText : firstContent}
+        // value={bodyText !== undefined ? bodyText : firstContent}
+        value={bodyText}
         placeholder={'약관을 입력해주세요'}
         onChange={(content, delta, source, editor) => {
           setBodyText(editor.getHTML());

@@ -77,11 +77,9 @@ export const modusign = (data: ModuSignResponse) => {
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
-            // name: '문수정',
             name: projectInProgress?.userMember?.name,
             signingMethod: {
               type: 'KAKAO',
-              // value: '01049988965',
               value: projectInProgress?.userMember?.phone,
             },
           },
@@ -91,23 +89,22 @@ export const modusign = (data: ModuSignResponse) => {
             signingDuration: 20160,
             locale: 'ko',
             role: '기업',
-            name: projectInProgress?.companyMember?.name,
-            // name: '윤경연',
+            name: projectInProgress?.companyMember?.companyMemberAdditionalInfo
+              ?.companyName,
             signingMethod: {
               type: 'KAKAO',
               value: projectInProgress?.companyMember?.phone,
-              // value: '01033920580',
             },
           },
           // 엔티즌
-          {
-            excluded: false,
-            signingMethod: { type: 'EMAIL', value: 'entizen@entizen.kr' },
-            signingDuration: 20160,
-            locale: 'ko',
-            role: '관리자',
-            name: '엔티즌',
-          },
+          // {
+          //   excluded: false,
+          //   signingMethod: { type: 'EMAIL', value: 'entizen@entizen.kr' },
+          //   signingDuration: 20160,
+          //   locale: 'ko',
+          //   role: '관리자',
+          //   name: '엔티즌',
+          // },
         ],
         requesterInputMappings: [
           {
@@ -265,7 +262,8 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'period',
             value: String(
-              projectInProgress?.finalQuotation?.constructionPeriod,
+              projectInProgress?.finalQuotation?.quotationRequest
+                ?.subscribePeriod,
             ),
           },
           // { dataLabel: 'constructionPeriod', value: '1,000,000,000' },
