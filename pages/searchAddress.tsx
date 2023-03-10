@@ -64,14 +64,14 @@ const SearchAddress = (props: Props) => {
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
     dispatch(coordinateAction.setMark(true));
-    dispatch(
-      locationAction.load({
-        jibunAddr: jibun,
-        roadAddrPart: roadad,
-        sggNm: sggnm,
-        siNm: sinm,
-      }),
-    );
+    // dispatch(
+    //   locationAction.load({
+    //     jibunAddr: jibun,
+    //     roadAddrPart: roadad,
+    //     sggNm: sggnm,
+    //     siNm: sinm,
+    //   }),
+    // );
     // 예상 매출 금액
     const location = {
       jibunAddr: jibun,
@@ -79,10 +79,15 @@ const SearchAddress = (props: Props) => {
       sggNm: sggnm,
       siNm: sinm,
     };
-
+    
     callInfo('SLOW', location);
     callInfo('FAST', location);
 
+    console.log(location)
+
+    dispatch(locationAction.load(
+      location
+    ))
     //router.push('/chargerMap');
     router.push('/chargerMapTest');
   };
