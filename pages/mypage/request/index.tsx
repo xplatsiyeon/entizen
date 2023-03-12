@@ -162,6 +162,11 @@ const Mypage1_3 = ({}: any) => {
       // enabled: false,
     },
   );
+
+  // 견적취소 버튼 체크
+  const cencleBtnCheck =
+    data?.badge === '견적취소' || data?.badge === '낙찰성공' ? false : true;
+
   // ----------- 다른 파트너 선정 patch api -----------
   const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
     useMutation(isTokenPatchApi, {
@@ -346,17 +351,17 @@ const Mypage1_3 = ({}: any) => {
               <Wrap2>
                 <MypageHeader
                   title="내 견적서"
-                  cancel={data?.badge !== '견적취소' ? '견적 취소' : undefined}
+                  cancel={cencleBtnCheck ? '견적 취소' : undefined}
                   back={true}
                   handle={true}
-                  handleOnClick={
-                    data?.badge !== '견적취소' ? handleOnClick : undefined
-                  }
+                  handleOnClick={cencleBtnCheck ? handleOnClick : undefined}
                   handleBackClick={handleBackOnClick}
                 />
                 {/*--------------------- 상단 박스 ---------------------------------*/}
                 <EstimateContainer data={data!} />
-                {data?.badge !== '견적취소' && <CancelButton handleOnClick={handleOnClick} />}
+                {cencleBtnCheck && (
+                  <CancelButton handleOnClick={handleOnClick} />
+                )}
                 <DownArrowBox>
                   <Image src={DoubleArrow} alt="double-arrow" />
                 </DownArrowBox>
@@ -369,7 +374,7 @@ const Mypage1_3 = ({}: any) => {
                       data={data?.preQuotations!}
                       setIsFinalItmeIndex={setIsFinalItmeIndex}
                     />
-                    { /*<TextBox>
+                    {/*<TextBox>
                       <ChoiceText>선택하기 어려우신가요?</ChoiceText>
                       <CommunicationBox text="엔티즌과 소통하기" />
                 </TextBox>*/}

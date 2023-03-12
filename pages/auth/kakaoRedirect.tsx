@@ -95,10 +95,10 @@ const Profile = () => {
               JSON.stringify(userInfo),
             );
           }
-          router.push('/');
+          router.replace('/');
         } else {
           // 회원가입
-          router.push('/signUp/SnsTerms');
+          router.replace('/signUp/SnsTerms');
         }
       })
       .catch((error) => {
