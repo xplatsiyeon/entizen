@@ -61,7 +61,7 @@ const CompleteCompany = (props: Props) => {
         </WelcomeText>
         {mobile && (
           <BtnBox>
-            <ConfirmBtn onClick={() => SetUserCompleteModal(false)}>
+            <ConfirmBtn onClick={() => SetUserCompleteModal(true)}>
               확인
             </ConfirmBtn>
           </BtnBox>

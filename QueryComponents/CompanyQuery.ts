@@ -112,6 +112,7 @@ export interface InProgressProjectsDetail {
   projectCompletionFiles: ProjectCompletionFiles[];
   subscribeStartDate: string;
   contract: {
+    contractIdx: string;
     documentId: string;
     contractContent: string;
     // {
@@ -213,7 +214,9 @@ export const GET_InProgressProjectsDetail = gql`
         size
         projectIdx
       }
+      # 계약서
       contract {
+        contractIdx
         documentId
         contractContent
       }

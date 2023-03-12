@@ -194,10 +194,13 @@ const AsCompText = ({ data }: Props) => {
 
   // 유효성 검사
   useEffect(() => {
-    acceptanceContent.length > 3
+    // 접수 확인
+    acceptanceContent.length > 0
       ? setIsValidAcceptance(true)
       : setIsValidAcceptance(false);
-    afterSalesServiceResultContent.length > 3
+
+    // 접수 완료
+    afterSalesServiceResultContent.length > 0
       ? setIsValidCompletion(true)
       : setIsValidCompletion(false);
   }, [acceptanceContent, afterSalesServiceResultContent]);

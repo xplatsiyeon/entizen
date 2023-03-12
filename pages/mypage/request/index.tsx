@@ -263,6 +263,7 @@ const Mypage1_3 = ({}: any) => {
   useEffect(() => {
     if (routerId && router.isReady) {
       // console.log('refetch');
+      console.log('⭐️ refrech check');
       refetch();
     }
   }, [router]);
@@ -278,15 +279,21 @@ const Mypage1_3 = ({}: any) => {
       data?.quotationRequest?.currentInProgressPreQuotationIdx!;
 
     if (currentInProgressPreQuotationIdx !== null) {
+      console.log('첫번째 조건문', currentInProgressPreQuotationIdx);
       data?.preQuotations?.forEach((preQuotation, index) => {
         const preQuotationIdx = preQuotation?.finalQuotation?.preQuotationIdx!;
 
+        console.log('forEach 문', preQuotationIdx);
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
+          console.log('인덱스 변경');
           setIsFinalItmeIndex(index);
         } else {
+          console.log('-1 진입');
           setIsFinalItmeIndex(-1);
         }
       });
+    } else {
+      setIsFinalItmeIndex(-1);
     }
   }, [data]);
 
@@ -297,6 +304,13 @@ const Mypage1_3 = ({}: any) => {
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
+  // console.log('⭐️ isFinalItmeIndex : ', isFinalItmeIndex);
+  // console.log(
+  //   '⭐️ date check  : ',
+  //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx,
+  // );
+
+  console.log('⭐️ data : ', data);
   if (isError || spotIsError) {
     return (
       <Modal
@@ -374,10 +388,6 @@ const Mypage1_3 = ({}: any) => {
                       data={data?.preQuotations!}
                       setIsFinalItmeIndex={setIsFinalItmeIndex}
                     />
-                    {/*<TextBox>
-                      <ChoiceText>선택하기 어려우신가요?</ChoiceText>
-                      <CommunicationBox text="엔티즌과 소통하기" />
-                </TextBox>*/}
                   </React.Fragment>
                 ) : (
                   <>

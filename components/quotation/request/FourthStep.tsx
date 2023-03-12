@@ -75,9 +75,6 @@ const FourthStep = ({
   // useMap 업데이트
   useEffect(() => {
     dispatch(coordinateAction.setMark(true));
-    // console.log(TAG + '🔥 ~line 68 ~location length check');
-    // console.log(locationList.jibunAddr);
-    // console.log(locationList.roadAddrPart);
     if (locationList.jibunAddr) {
       naver.maps.Service.geocode(
         {
