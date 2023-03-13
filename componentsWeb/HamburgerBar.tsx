@@ -341,7 +341,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
                 : router.push('/signin')
             }
           >
-            <span>알림 설정11</span>
+            <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
