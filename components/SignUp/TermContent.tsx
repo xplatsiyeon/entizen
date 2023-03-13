@@ -116,11 +116,11 @@ const TermContent = ({
     if (fullTerms) {
       setFullTerms(false);
       setRequiredCheck([false, false, false]);
-      setSelectTerms([false, false]);
+      setSelectTerms([false]);
     } else {
       setFullTerms(true);
       setRequiredCheck([true, true, true]);
-      setSelectTerms([true, true]);
+      setSelectTerms([true]);
     }
   };
   // 보기 이벤트
@@ -229,7 +229,7 @@ const TermContent = ({
     const everyRequiredCheck = requiredCheck.every((e) => e === true);
     const everySelectedCheck = selectTerms.every((e) => e === true);
     console.log('⭐️ everyRequiredCheck : ', everyRequiredCheck);
-    console.log('⭐️ everySelectedCheck : ', everySelectedCheck);
+    console.log('⭐️ selectTerms : ', selectTerms);
 
     if (!everyRequiredCheck || !everySelectedCheck) setFullTerms(false);
     if (everyRequiredCheck && everySelectedCheck) setFullTerms(true);

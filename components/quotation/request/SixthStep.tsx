@@ -94,7 +94,7 @@ const SixthStep = ({ tabNumber }: Props) => {
       onSuccess: (resposnse) => {
         dispatch(quotationAction.setRequestData(resposnse.data));
         // dispatch(quotationAction.init());
-        router.push('/quotation/request/1-7');
+        router.push('/quotation/request/confirm');
       },
       onError: (error: any) => {
         const text = error.response.data.message;

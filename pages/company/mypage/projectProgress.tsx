@@ -21,6 +21,7 @@ type Props = {
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 
 const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
+  console.log('⭐️ data : ', data);
   const preStepDate = [
     data?.project?.readyStepGoalDate!,
     data?.project?.installationStepGoalDate!,

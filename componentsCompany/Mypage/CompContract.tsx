@@ -146,11 +146,12 @@ const ComContranct = ({}: Props) => {
     isTokenPostApi,
     {
       onSuccess: (res) => {
-        // console.log(res);
+        setOpenSelfContract(false);
         setIsModal(true);
         setModalMessage('자체 계약서를 전송하였습니다.');
       },
       onError: (error) => {
+        setOpenSelfContract(false);
         setIsModal(true);
         setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
       },

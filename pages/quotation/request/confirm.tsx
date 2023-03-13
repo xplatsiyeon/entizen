@@ -21,6 +21,7 @@ import DownArrow from 'public/guide/down_arrow.svg';
 import { stat } from 'fs';
 import { useMediaQuery } from 'react-responsive';
 import DoubleArrow from 'public/images/CaretDoubleDown.svg';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 type Props = {};
 
@@ -38,7 +39,7 @@ interface PredictedProfitTime {
   month?: number;
 }
 const TAG = '1-7.tsx';
-const Request1_7 = (props: Props) => {
+const Confirm = (props: Props) => {
   const router = useRouter();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -47,6 +48,7 @@ const Request1_7 = (props: Props) => {
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
+  const [isConfrimModal, setIsConfrimModal] = useState(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
   const [sliderDisable, setSliderDisable] = useState(false);
@@ -173,6 +175,17 @@ const Request1_7 = (props: Props) => {
     });
   };
 
+  const HandleModal = () => setIsConfrimModal((prev) => !prev);
+
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      window.onClickBackButton = () => HandleModal();
+    }
+  }, []);
+
   if (isError) {
     // console.log(error);
   }
@@ -190,11 +203,25 @@ const Request1_7 = (props: Props) => {
                 setIsModal={setIsModal}
               />
             )}
+            {isConfrimModal && (
+              <TwoBtnModal
+                exit={HandleModal}
+                text={
+                  '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
+                }
+                leftBtnColor={colors.lightGray2}
+                leftBtnText={'그만하기'}
+                rightBtnColor={colors.main}
+                rightBtnText={'계속 작성하기'}
+                leftBtnControl={() => router.replace('/')}
+                rightBtnControl={HandleModal}
+              />
+            )}
             <Header
               title="간편견적"
               exitBtn={true}
               back={true}
-              handleOnClick={() => router.push('/')}
+              handleOnClick={() => setIsConfrimModal(true)}
               handleBackClick={() => router.back()}
             />
             {mobile && (
@@ -409,7 +436,7 @@ const Request1_7 = (props: Props) => {
   );
 };
 
-export default Request1_7;
+export default Confirm;
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;

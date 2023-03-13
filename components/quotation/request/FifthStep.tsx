@@ -96,7 +96,9 @@ const FifthStep = ({ tabNumber }: Props) => {
       const index1 = M11_LIST_EN.indexOf(installationPoints[0]);
       const index2 = M11_LIST_EN.indexOf(installationPoints[1]);
       setFisrtData(M11_LIST[index1]);
+      setFisrtDataEn(M11_LIST_EN[index1]);
       setSendData(M11_LIST[index2]);
+      setSendDataEn(M11_LIST_EN[index2]);
 
       const copy1 = [...M11_LIST];
       const copy2 = [...M11_LIST];

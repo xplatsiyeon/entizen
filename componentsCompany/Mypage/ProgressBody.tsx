@@ -57,6 +57,7 @@ type Props = {
   progressNum?: number;
   data: InProgressProjectsDetailResponse;
   badge: string;
+
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
@@ -136,8 +137,9 @@ const ProgressBody = ({
           originalName: decodeURIComponent(img.originalName),
         });
       });
+
       selfMutate({
-        url: `/contracts/self/${routerId}`,
+        url: `/contracts/self/${data?.project?.contract?.contractIdx}`,
         data: {
           selfContracts: newArr,
           projectIdx: routerId,

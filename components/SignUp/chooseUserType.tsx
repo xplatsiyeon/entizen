@@ -41,7 +41,7 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
       selectAction.setTerm({
         fullTerms: false,
         requiredTerms: false,
-        selectTerms: [false, false],
+        selectTerms: [false],
         requiredCheck: [false, false, false],
       }),
     );

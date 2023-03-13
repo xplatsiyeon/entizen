@@ -126,7 +126,9 @@ const ReceivedAS = (props: Props) => {
             )}
             <MypageHeader back={true} title={'신규 A/S'} />
             <WebBox className="content">
+              {/* 상단 상세 내용 */}
               <AsCompTop data={data!} />
+              {/* 내부 컨텐츠 */}
               {isLoading ? (
                 <Loader />
               ) : (
