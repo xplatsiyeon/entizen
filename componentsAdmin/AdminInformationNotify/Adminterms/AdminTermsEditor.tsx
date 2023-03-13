@@ -26,6 +26,7 @@ import AdminTermDraft from './AdminTermDraft';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import dynamic from 'next/dynamic';
 import htmlToDraft from 'html-to-draftjs';
+import AdminTermsJodit from './AdminTermsJodit';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -197,6 +198,9 @@ const AdminTermsEditor = ({
       url: `/admin/terms/${detatilId}`,
     });
   };
+  // const DynamicComponent = dynamic(() => import('./AdminTermsJodit'), {
+  //   ssr: false,
+  // });
 
   const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
     ssr: false,
@@ -298,13 +302,13 @@ const AdminTermsEditor = ({
               />
             </TitleBox>
           </TitleContainer>
-          <MainTextArea
+          {/* <MainTextArea
             placeholder="내용을 입력해주세요"
             value={bodyText}
             onChange={(e) => {
               setBodyText(e.target.value);
             }}
-          />
+          /> */}
           {/* <AdminTermsQuill
             setBodyText={setBodyText}
             bodyText={bodyText}
@@ -317,10 +321,15 @@ const AdminTermsEditor = ({
             firstContent={firstContent!}
           /> */}
 
-          <DynamicComponent
+          {/* <DynamicComponent
             setEditorState={setEditorState}
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
+          /> */}
+          <AdminTermsJodit
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
           />
           {/* <AdminTermDraft
             setEditorState={setEditorState}

@@ -11,6 +11,7 @@ import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { multerAdminApi } from 'api';
 import Quill from 'quill';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   setBodyText: React.Dispatch<React.SetStateAction<string>>;
@@ -183,12 +184,17 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
   ];
 
   // function handleChangeInput(index:any, targetName:any, targetValue:any) {
-  //   const values = [...formFields];
+  //   const values = [...bodyText];
   //   values[index][targetName] = targetValue
-  //   setFormFields(values); }
+  //   setBodyText(values); }
 
-  const onChange = (content: string) => {
-    setBodyText(content);
+  const { register, handleSubmit, setValue, trigger } = useForm({
+    mode: 'onChange', // onChange가 일어나면 알려줘
+  });
+
+  const onChange = (value: string) => {
+    setBodyText(value);
+    // setValue('contents', value === '<p><br></p>' ? '' : value);
 
     // if (props.onChange) {
     //   props.onChange({
@@ -196,11 +202,14 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
     //     markdown: htmlToMarkdown(content)
     //   });
     // }
+    // trigger('contents'); // onChange 되었다고 react-hook-form에 강제로 알려주는 기능
   };
+
+  console.log('bodyText', bodyText);
 
   return (
     <>
-      <ReactQuill
+      <CustomReactQuill
         // ref={(element: any) => {
         //   if (element !== null) {
         //     QuillRef.current = element;
@@ -211,15 +220,19 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
         modules={modules}
         formats={formats}
         // value={bodyText !== undefined ? bodyText : firstContent}
-        value={bodyText}
+        defaultValue={bodyText}
         placeholder={'약관을 입력해주세요'}
-        onChange={(content, delta, source, editor) => {
-          setBodyText(editor.getHTML());
-        }}
-        style={{ height: '416px' }}
+        onChange={onChange}
+        // onChange={(content, delta, source, editor) => {
+        //   setBodyText(content);
+        // }}
       />
     </>
   );
 };
 
 export default AdminTermsQuill;
+
+const CustomReactQuill = styled(ReactQuill)`
+  height: 416px;
+`;
