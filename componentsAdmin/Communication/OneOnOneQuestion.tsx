@@ -22,11 +22,17 @@ type CheckBox = {
   title: string;
 };
 
-export const communicationState = ['상담종료', '상담진행중', '읽지않은 채팅'];
-export const communicationStateEn = ['done', 'inProgress','isUnread'];
+// export const communicationState = ['상담종료', '상담진행중', '읽지않은 채팅'];
+// export const communicationStateEn = ['done', 'inProgress','isUnread'];
+ export const communicationState = ['상담종료', '상담진행중'];
+ export const communicationStateEn = ['done', 'inProgress'];
 
 export const userCheckBox = ['일반회원', '기업회원'];
 export const userCheckBoxEn = ['USER', 'COMPANY'];
+
+export const unreadCheckBox = ['읽지않은 채팅']
+
+
 
 const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
@@ -64,6 +70,21 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
     }
   };
 
+
+
+  // 읽지 않은 상담
+  const [unRead, setUnread] = useState<Array<string>>([]);
+  const checkUnreadHandle = (checked: boolean, commu: string) => {
+    if (checked) {
+      setUnread((prev) => [...prev, commu]);
+    } else {
+      setUnread(commuCheck.filter((el) => el !== commu));
+    }
+  };
+
+  console.log('unRead',unRead);
+  
+
   const handleCommon = () => {
     // alert('개발중입니다.');
     setIsDetail(true);
@@ -99,6 +120,24 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
                   value={data}
                   onChange={(e) => {
                     checkCommuHandle(e.currentTarget.checked, e.target.id);
+                  }}
+                />
+                <CheckBoxText>{data}</CheckBoxText>
+              </CheckBoxLabel>
+            ))}
+          </CheckBoxWrapper>
+        </li>
+        <li className="search">
+          <label>읽지않은 채팅</label>
+          <CheckBoxWrapper>
+            {unreadCheckBox.map((data, idx) => (
+              <CheckBoxLabel key={data}>
+                <CheckBox
+                  type="checkbox"
+                  id={data}
+                  value={data}
+                  onChange={(e) => {
+                    checkUnreadHandle(e.currentTarget.checked, e.target.id);
                   }}
                 />
                 <CheckBoxText>{data}</CheckBoxText>
@@ -165,6 +204,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           communicationStateEn,
           commuCheck.toString(),
         )}
+        unRead={unRead}
         setUserType={setUserType}
         setMemberIdx={setMemberIdx}
         isRefetch={isRefetch}
