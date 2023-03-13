@@ -79,19 +79,17 @@ const SearchAddress = (props: Props) => {
       sggNm: sggnm,
       siNm: sinm,
     };
-    
+
     callInfo('SLOW', location);
     callInfo('FAST', location);
 
-    console.log(location)
+    console.log(location);
 
-    dispatch(locationAction.load(
-      location
-    ))
-    //router.push('/chargerMap');
-    setTimeout(()=>{
-      router.push('/chargerMap');
-    },300)
+    await dispatch(locationAction.load(location));
+    router.push('/chargerMap');
+    // setTimeout(() => {
+    //   router.push('/chargerMap');
+    // }, 300);
   };
 
   useEffect(() => {

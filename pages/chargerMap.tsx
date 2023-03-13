@@ -47,7 +47,8 @@ const ChargerMap = (props: Props) => {
 
   console.log('chargeInfoOpen', chargeInfoOpen);
 
-  console.log(locationList)
+  // console.log(locationList)
+  console.log('⭐️ locationList : ', locationList);
 
   useEffect(() => {
     let calcHeight;
@@ -110,8 +111,7 @@ const ChargerMap = (props: Props) => {
   useEffect(() => {
     return () => {
       // console.log('컴포넌트 디드마운트');
-
-      dispatch(coordinateAction.reset());
+      // dispatch(coordinateAction.reset());
       //dispatch(locationAction.reset());
     };
   }, []);
@@ -123,20 +123,20 @@ const ChargerMap = (props: Props) => {
     setType(!type);
   };
 
-  const bigger = (e:MouseEvent)=>{
+  const bigger = (e: MouseEvent) => {
     const width = window.innerWidth;
-    if(width < 1200){
+    if (width < 1200) {
       const map = e.currentTarget as HTMLElement;
       map.classList.add('bigger');
       map.parentElement?.classList.add('bigger');
     }
-  }
-  const cancleBigger = (e:MouseEvent)=>{
+  };
+  const cancleBigger = (e: MouseEvent) => {
     const target = e.currentTarget as HTMLElement;
-    if(target.previousElementSibling?.classList.contains('bigger')){
-      target.previousElementSibling.classList.remove('bigger')
+    if (target.previousElementSibling?.classList.contains('bigger')) {
+      target.previousElementSibling.classList.remove('bigger');
     }
-  } 
+  };
 
   return (
     <>
@@ -145,41 +145,31 @@ const ChargerMap = (props: Props) => {
         <FlexBox>
           <Header onClick={handleBack}>
             <Image src={btnImg} alt="backBtn" />
-          </Header> 
+          </Header>
           <SearchMapArea>
             <Input
-                    value={
-                      locationList.roadAddrPart ? locationList.roadAddrPart : ''
-                    }
-                    type="submit"
-                    className="searchInput"
-                    onClick={() => router.push('/searchAddress')}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <div style={{ width: '15pt', height: '15pt' }}>
-                            <Image
-                              src={search}
-                              alt="searchIcon"
-                              layout="intrinsic"
-                            />
-                          </div>
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <div style={{ width: '15pt', height: '15pt' }}>
-                            <Image
-                              src={mapPin}
-                              alt="searchIcon"
-                              layout="intrinsic"
-                            />
-                          </div>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-          </SearchMapArea>   
+              value={locationList.roadAddrPart ? locationList.roadAddrPart : ''}
+              type="submit"
+              className="searchInput"
+              onClick={() => router.push('/searchAddress')}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </SearchMapArea>
           <WebWrap>
             <WrapAddress>
               <WebSearchAddress
@@ -192,17 +182,16 @@ const ChargerMap = (props: Props) => {
             </WrapAddress>
           </WebWrap>
           <MapWrap>
-            <WholeMap id="map" onClick={(e)=>bigger(e)} >
-            </WholeMap>
+            <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap>
             <Header onClick={cancleBigger} className="addressHeader">
               <Image src={btnImg} alt="backBtn" />
             </Header>
           </MapWrap>
-        </FlexBox>  
-        <MobWrap> 
+        </FlexBox>
+        <MobWrap>
           <WebChargerInfo
-             selectedCharger={selectedCharger}
-             setSelectedCharger={setSelectedCharger}
+            selectedCharger={selectedCharger}
+            setSelectedCharger={setSelectedCharger}
           />
         </MobWrap>
       </Wrapper>
@@ -211,19 +200,16 @@ const ChargerMap = (props: Props) => {
   );
 };
 
-
 const WebWrap = styled.div`
-
-@media (max-width: 899.25pt) {
- display: none;
-}
-`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 const MobWrap = styled.div`
-
-@media (min-width: 900pt) {
- display: none;
-}
-`
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
 const Wrapper = styled.div`
   width: 900pt;
   margin: 0 auto;
@@ -253,7 +239,7 @@ const WrapAddress = styled.div`
 
 const FlexBox = styled.div`
   display: flex;
-  border: 0.75pt solid #E2E5ED;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
   overflow: hidden;
@@ -265,19 +251,19 @@ const FlexBox = styled.div`
     border: none;
     box-shadow: none;
   }
-`
+`;
 const MapWrap = styled.div`
   flex: 1;
-    &.bigger{
-      .addressHeader{
-        display: block;
-        z-index: 11;
-        background-color: white;
-        position: fixed;
-        top: 0;
-      }
+  &.bigger {
+    .addressHeader {
+      display: block;
+      z-index: 11;
+      background-color: white;
+      position: fixed;
+      top: 0;
     }
-`
+  }
+`;
 const WholeMap = styled.div`
   position: fixed;
   height: 495pt;
@@ -291,13 +277,13 @@ const WholeMap = styled.div`
     position: relative;
     overflow: hidden;
 
-    &.bigger{
+    &.bigger {
       width: 100vw;
       height: 100vh;
       margin: 0;
       z-index: 11;
       transform: translateY(-91.5pt);
-      .addressHeader{
+      .addressHeader {
         display: block;
         z-index: 11;
         background-color: white;

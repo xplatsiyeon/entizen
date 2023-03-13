@@ -10,7 +10,15 @@ import Xbtn from 'public/images/XCircle28.png';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
-import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M5_TYPE_SET,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+} from 'assets/selectList';
 import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
@@ -68,12 +76,12 @@ const ProductAddComponent = (props: Props) => {
   const [modelName, setModelName] = useState<string>('');
   // 충전기 종류
   const [chargerType, setChargerType] = useState<string>('');
+  // 충전 타입
+  const [chargerStandType, setChargerStandType] = useState<string>('');
   // 충전 채널
   const [chargingChannel, setChargingChannel] = useState<string>('');
   // 충전 방식
   const [chargingMethod, setChargingMethod] = useState<string[]>(['']);
-  // 충전기 뭐 눌렀는지
-  const [chargingMethodNum, setChargingMethodNum] = useState<number>();
   // 제조사
   const [manufacturer, setManufacturer] = useState<string>('');
   // 특장점
@@ -237,6 +245,10 @@ const ProductAddComponent = (props: Props) => {
           pasteArray[index] = value;
         }
         setChargingMethod(pasteArray);
+        break;
+      case 'standType':
+        setChargerStandType(value);
+        break;
     }
   };
   // 인풋박스 추가 버튼
@@ -340,7 +352,6 @@ const ProductAddComponent = (props: Props) => {
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    //// console.log('files', files, files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -402,6 +413,7 @@ const ProductAddComponent = (props: Props) => {
       });
       setModelName(preProduct?.modelName);
       setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
+      // setChargerStandType(convertKo(M6_LIST, M6_LIST_EN, preProduct?.standKind));
       setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
       setChargingMethod(preProduct?.method);
       setManufacturer(preProduct?.manufacturer);
@@ -415,24 +427,19 @@ const ProductAddComponent = (props: Props) => {
     validFn([
       modelName,
       chargerType,
+      chargerStandType,
       chargingChannel,
       chargingMethod[0],
       manufacturer,
     ]);
-  }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
-
-  // useEffect(() => {
-  //   // console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
-  //   // console.log(detailData);
-  //   // console.log(modelName);
-  //   // console.log(chargerType);
-  //   // console.log(chargingChannel);
-  //   // console.log(chargingMethod);
-  //   // console.log(manufacturer);
-  //   // console.log(advantages);
-  //   // console.log(imgArr);
-  //   // console.log(fileArr);
-  // }, [imgArr]);
+  }, [
+    modelName,
+    chargerType,
+    chargerStandType,
+    chargingChannel,
+    chargingMethod,
+    manufacturer,
+  ]);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
@@ -498,6 +505,17 @@ const ProductAddComponent = (props: Props) => {
               option={M5_LIST}
               placeholder={'충전기 종류'}
               value={chargerType}
+              onClickCharger={onChangeSelectBox}
+            />
+            {/* 충전 타입 */}
+            <LabelBox>
+              <RequiredLabel>충전 타입</RequiredLabel>
+            </LabelBox>
+            <SelectComponents
+              name="standType"
+              option={M5_TYPE_SET[M5_LIST.indexOf(chargerType)]}
+              placeholder={'충전 타입'}
+              value={chargerStandType}
               onClickCharger={onChangeSelectBox}
             />
             {/* 충전 채널 */}
