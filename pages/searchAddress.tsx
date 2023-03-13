@@ -90,7 +90,7 @@ const SearchAddress = (props: Props) => {
     ))
     //router.push('/chargerMap');
     setTimeout(()=>{
-      router.push('/chargerMapTest');
+      router.push('/chargerMap');
     },300)
   };
 
