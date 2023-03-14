@@ -310,7 +310,8 @@ export interface OneOnOneChatResponse {
       consultStatus: string;
       chattingRoomIdx: number;
       wasRead:number,
-      isUnread:boolean
+      isUnread:boolean,
+      unreadCount: number
     }[];
   };
 }

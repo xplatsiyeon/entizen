@@ -38,6 +38,7 @@ type Props = {
   commuCheck?: string;
   userCheck?: string;
   isRefetch?: boolean
+  unRead?:string[]
 };
 
 const CommunicationTable = ({
@@ -54,7 +55,7 @@ const CommunicationTable = ({
   hide,
   commuCheck,
   userCheck,
-  isRefetch
+  isRefetch,unRead
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -159,12 +160,15 @@ const CommunicationTable = ({
 
   // 🎀 소통하기  1:1 문의
   // /admin/chatting/consultations?page=1&limit=10&searchId=test&memberType=company
+
+
   const { data: userChattingOneOnOne, refetch: userChattingOneOnOneRefetch } =
     useQuery<OneOnOneChatResponse>(
       'userChattingOneOnOne',
       () =>
         isTokenAdminGetApi(
-          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
+          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${unRead?.length === 0 ? 'unreadStatus=all':'unreadStatus=unread'}`
+          //`/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
         ),
       {
         enabled: false,
@@ -246,7 +250,7 @@ const CommunicationTable = ({
         userChattingOneOnOneRefetch();
         break;
     }
-  }, [page, pickedDate, userSearch, userCheck, commuCheck]);
+  }, [page, pickedDate, userSearch, userCheck, commuCheck, unRead]);
 
   useEffect(()=>{
     console.log('??????? refetch???????')
