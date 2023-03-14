@@ -38,7 +38,7 @@ type Props = {
   commuCheck?: string;
   userCheck?: string;
   isRefetch?: boolean
-  unRead:string[]
+  unRead?:string[]
 };
 
 const CommunicationTable = ({
@@ -167,7 +167,7 @@ const CommunicationTable = ({
       'userChattingOneOnOne',
       () =>
         isTokenAdminGetApi(
-          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${unRead.length === 0 ? 'unreadStatus=all':'unreadStatus=unread'}`
+          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${unRead?.length === 0 ? 'unreadStatus=all':'unreadStatus=unread'}`
           //`/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
         ),
       {
