@@ -117,6 +117,26 @@ function TipTapMenu({ editor, setEditorImg, editorImg, addImage }: Props) {
         >
           H2
         </button>
+        <button
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 3 }) ? 'is-active' : ''
+          }
+        >
+          H3
+        </button>
+        <button
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 4 }).run()
+          }
+          className={
+            editor.isActive('heading', { level: 4 }) ? 'is-active' : ''
+          }
+        >
+          H4
+        </button>
         <OnFontDrop
           onClick={() => {
             setOnFontDropDown(!onFontDropDown);
@@ -405,6 +425,9 @@ const Wrapper = styled.div`
   .imgIcon {
     cursor: pointer;
     background-color: #efefef;
+  }
+  .is-active {
+    border: 1px solid red;
   }
 `;
 

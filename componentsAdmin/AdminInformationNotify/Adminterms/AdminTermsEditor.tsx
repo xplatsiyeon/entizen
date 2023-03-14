@@ -88,6 +88,8 @@ const AdminTermsEditor = ({
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
 
+  // 페이지 전체 렌더링
+  const [open, setOpen] = useState(false);
   const { data, isLoading, isError, refetch } = useQuery<TermsUpdate>(
     'adminTermsDetail',
     () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
@@ -410,6 +412,7 @@ const AdminTermsEditor = ({
             bodyText={bodyText}
             firstContent={firstContent!}
           /> */}
+
           <AdminTibtapEditor
             setBodyText={setBodyText}
             bodyText={bodyText}
@@ -417,7 +420,6 @@ const AdminTermsEditor = ({
             setEditorImg={setEditorImg}
             editorImg={editorImg}
             detatilId={detatilId}
-            refetch={refetch}
           />
 
           {/* <DynamicComponent

@@ -41,9 +41,6 @@ type Props = {
   setEditorImg: React.Dispatch<any>;
   editorImg: any;
   detatilId?: string;
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<TermsUpdate, unknown>>;
 };
 
 const AdminTibtapEditor = ({
@@ -53,7 +50,6 @@ const AdminTibtapEditor = ({
   setEditorImg,
   editorImg,
   detatilId,
-  refetch,
 }: Props) => {
   const [start, setStart] = useState(false);
   const { mutate: termsImage, isLoading: multerMobileImageLoading } =
@@ -150,34 +146,35 @@ const AdminTibtapEditor = ({
       Color,
     ],
     onUpdate: ({ editor }) => {
-      if (bodyText !== '') {
-        setBodyText(editor?.getHTML());
-        addImage;
-      }
+      setBodyText(editor?.getHTML());
+      addImage;
     },
+
     content: bodyText,
   });
 
-  console.log('bodyText', bodyText);
-
   useEffect(() => {
     setTimeout(() => {
-      refetch();
+      setStart(true);
     }, 1000);
-  }, []);
+  }, [detatilId]);
+
+  useEffect(() => {
+    if (bodyText) {
+      editor?.commands.insertContent(bodyText);
+    }
+  }, [start]);
 
   return (
-    <>
-      <Wrapper>
-        <TipTapMenu
-          editor={editor}
-          setEditorImg={setEditorImg}
-          editorImg={editorImg}
-          addImage={addImage}
-        />
-        <EditorContent editor={editor} value={bodyText} content={bodyText} />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <TipTapMenu
+        editor={editor}
+        setEditorImg={setEditorImg}
+        editorImg={editorImg}
+        addImage={addImage}
+      />
+      <EditorContent editor={editor} />
+    </Wrapper>
   );
 };
 
