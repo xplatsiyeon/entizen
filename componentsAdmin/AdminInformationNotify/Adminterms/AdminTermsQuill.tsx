@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
@@ -129,14 +129,39 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
   };
 
   const imgInHandler = () => {
-    const input = document.createElement('input');
+    const input: HTMLInputElement = document.createElement('input');
     const formData = new FormData();
     let url = '';
+
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
     QuillRef.current?.getEditor();
+    input.addEventListener('change', async () => {
+      console.log('온체인지');
+
+      const file: any = input?.files![0];
+      console.log('file 🍅', file);
+      const formData = new FormData();
+      for (let i = 0; i < file?.length; i += 1) {
+        if (file![i] === undefined) {
+          break;
+        }
+        formData.append('banner', file![i], encodeURIComponent(file![i].name));
+      }
+      inImage(formData);
+      try {
+      } catch (error) {
+        console.log('실패');
+      }
+      // multer에 맞는 형식으로 데이터 만들어준다.
+
+      // formData.append('banner', file); // formData는 키-밸류 구조
+      // 백엔드 multer라우터에 이미지를 보낸다.
+    });
   };
+
+  console.log('insideImgArr', insideImgArr);
 
   const Font = Quill.import('formats/font');
   Font.whitelist = ['Spoqa Han Sans Neo'];
@@ -188,13 +213,12 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
   //   values[index][targetName] = targetValue
   //   setBodyText(values); }
 
-  const { register, handleSubmit, setValue, trigger } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     mode: 'onChange', // onChange가 일어나면 알려줘
   });
 
   const onChange = (value: string) => {
-    setBodyText(value);
-    // setValue('contents', value === '<p><br></p>' ? '' : value);
+    setValue('contents', value === '<p><br></p>' ? '' : value);
 
     // if (props.onChange) {
     //   props.onChange({
@@ -202,10 +226,16 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
     //     markdown: htmlToMarkdown(content)
     //   });
     // }
-    // trigger('contents'); // onChange 되었다고 react-hook-form에 강제로 알려주는 기능
+    // onChange 되었다고 react-hook-form에 강제로 알려주는 기능
+    watch('contents');
   };
 
-  console.log('bodyText', bodyText);
+  console.log('watch🍑', watch('contents'));
+
+  // const { contents } = watch();
+  // useEffect(() => {
+  //   setBodyText(contents);
+  // }, [contents]);
 
   return (
     <>
@@ -220,7 +250,7 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
         modules={modules}
         formats={formats}
         // value={bodyText !== undefined ? bodyText : firstContent}
-        defaultValue={bodyText}
+        // defaultValue={bodyText}
         placeholder={'약관을 입력해주세요'}
         onChange={onChange}
         // onChange={(content, delta, source, editor) => {

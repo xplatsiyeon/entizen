@@ -27,6 +27,8 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import dynamic from 'next/dynamic';
 import htmlToDraft from 'html-to-draftjs';
 import AdminTermsJodit from './AdminTermsJodit';
+import AdminTipTap from './AdminTipTap';
+import AdminTibtapEditor from './AdminTibtapEditor';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -202,12 +204,15 @@ const AdminTermsEditor = ({
   //   ssr: false,
   // });
 
-  const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
-    ssr: false,
-  });
-  // const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+  // const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
   //   ssr: false,
   // });
+  // const DynamicComponent = dynamic(() => import('./AdminTipTap'), {
+  //   ssr: false,
+  // });
+  const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+    ssr: false,
+  });
 
   useEffect(() => {
     setBodyText(data?.data?.content!);
@@ -320,17 +325,27 @@ const AdminTermsEditor = ({
             bodyText={bodyText}
             firstContent={firstContent!}
           /> */}
+          <AdminTibtapEditor
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          />
 
           {/* <DynamicComponent
             setEditorState={setEditorState}
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
           /> */}
-          <AdminTermsJodit
+          {/* <AdminTermsJodit
             setBodyText={setBodyText}
             bodyText={bodyText}
             firstContent={firstContent!}
-          />
+          /> */}
+          {/* <DynamicComponent
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          /> */}
           {/* <AdminTermDraft
             setEditorState={setEditorState}
             editorState={editorState}
