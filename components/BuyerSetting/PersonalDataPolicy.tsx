@@ -5,7 +5,7 @@ import React from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { getApi, isTokenGetApi } from 'api';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import term1 from 'public/images/term1.png';
@@ -44,6 +44,13 @@ const PersonalDataPolicy = ({ setTabNumber, nowWidth }: Props) => {
     }
   };
 
+  const {
+    data: term,
+    isLoading: termLoading,
+    isError: termError,
+    refetch: termRefetch,
+  } = useQuery<any>('faq-list', () => getApi(`/terms/personal-info`));
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
@@ -64,8 +71,8 @@ const PersonalDataPolicy = ({ setTabNumber, nowWidth }: Props) => {
         </Header>
       )}
 
-      <Wrapper>
-        {/* ---------------------------------------------------------------------- */}
+      {/* <Wrapper>
+ 
         <Title>
           <span>엔티즌 플랫폼 개인정보처리방침</span>
         </Title>
@@ -302,9 +309,10 @@ const PersonalDataPolicy = ({ setTabNumber, nowWidth }: Props) => {
           <br />
           <br />• 시행 일자:
         </Content>
-        {/* <Contents wrap="hard" readOnly value={data} /> */}
-        {/* {data} */}
-        {/* <div dangerouslySetInnerHTML={{ __html: data }} /> */}
+
+      </Wrapper> */}
+      <Wrapper>
+        <div dangerouslySetInnerHTML={{ __html: term }} />
       </Wrapper>
     </WebRapper>
   );

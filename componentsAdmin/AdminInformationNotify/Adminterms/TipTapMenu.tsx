@@ -426,9 +426,9 @@ const Wrapper = styled.div`
     cursor: pointer;
     background-color: #efefef;
   }
-  .is-active {
+  /* .is-active {
     border: 1px solid red;
-  }
+  } */
 `;
 
 const ColorDropDown = styled.div`
