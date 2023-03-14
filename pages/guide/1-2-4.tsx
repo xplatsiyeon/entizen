@@ -47,7 +47,8 @@ const Guide1_2_4 = () => {
         return num
           .toString()
           .slice(0, -3)
-          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          //.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
       }
     } else {
       return '0';
