@@ -20,14 +20,6 @@ import FormatItalicOutlinedIcon from '@mui/icons-material/FormatItalicOutlined';
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 
-import { multerAdminApi } from 'api';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
-import { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-
 type Props = {
   setEditorImg: React.Dispatch<any>;
   editorImg: any;
