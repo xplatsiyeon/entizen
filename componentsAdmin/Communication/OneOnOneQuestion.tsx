@@ -121,7 +121,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           </CheckBoxWrapper>
         </li>
         <li className="search">
-          <label>읽지않은 채팅</label>
+          <label className='unRead'>읽지않은 채팅</label>
           <CheckBoxWrapper>
             {unreadCheckBox.map((data, idx) => (
               <CheckBoxLabel key={data}>
@@ -246,6 +246,11 @@ const Manager = styled.ul`
 
   label {
     padding-right: 39.75pt;
+
+    &.unRead{
+      padding-right: 0;
+      width: 78pt;
+    }
   }
   li {
     gap: 7.5pt;
