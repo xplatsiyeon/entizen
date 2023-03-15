@@ -72,6 +72,8 @@ export const NaverAuthHook =()=>{
   
     console.log('naverLogin',naverLogin);
     naverLogin.init();
+    console.log(naverLogin.oauthCallback)
+    console.log(naverLogin.init)
     //checkHash(naverLogin);
     //callBack(naverLogin);
     // }

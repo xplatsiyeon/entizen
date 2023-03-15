@@ -33,7 +33,6 @@ import MobileFindModal from 'components/Modal/MobileFindModal';
 import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
-import { NaverAuthHook } from 'api/NaverAuthhook';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -105,9 +104,6 @@ const Signin = () => {
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
   const appleRef = useRef<HTMLDivElement>(null);
-
-  const {loginNaver} = NaverAuthHook();
-
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -246,7 +242,6 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    console.log('???')
     const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await axios({
       method: 'post',
@@ -316,8 +311,7 @@ const Signin = () => {
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
     if (naverRef) {
-      //naverRef.current.children[0].click();
-      loginNaver(naverLogin);
+      naverRef.current.children[0].click();
     }
   };
   // 나이스 인증 온클릭 함수
@@ -447,39 +441,40 @@ const Signin = () => {
     }
   }, []);
   // 네이버 로그인
-  // useEffect(() => {
-  //   login(naverLogin, (naverLogin) => {
-  //     const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-  //      console.log('⭐️hash -> ' + hash);
+  useEffect(() => {
+    login(naverLogin, (naverLogin) => {
+      const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
+      console.log('⭐️hash -> ' + hash);
 
-  //     if (hash) {
-  //       const token = hash.split('=')[1].split('&')[0]; // token값 확인
-  //       // console.log('⭐️ token : ', token);
-  //       naverLogin.getLoginStatus((status: any) => {
-  //         if (status) {
-  //           // console.log('⭐️ status : ', status);
-  //           NaverApi(naverLogin);
-  //           // console.log('⭐️ naverLogin : ', naverLogin);
-  //           dispatch(
-  //             userAction.add({
-  //               ...user,
-  //               email: naverLogin.user.email,
-  //               snsType: naverLogin.user.snsType,
-  //             }),
-  //           );
-  //           // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
-  //           router.push({
-  //             pathname: '/signUp/Terms',
-  //             query: {
-  //               token: token,
-  //             },
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+      if (hash) {
+        const token = hash.split('=')[1].split('&')[0]; // token값 확인
+        // console.log('⭐️ token : ', token);
+        naverLogin.getLoginStatus((status: any) => {
+          if (status) {
+            // console.log('⭐️ status : ', status);
+            NaverApi(naverLogin);
+            // console.log('⭐️ naverLogin : ', naverLogin);
+            dispatch(
+              userAction.add({
+                ...user,
+                email: naverLogin.user.email,
+                snsType: naverLogin.user.snsType,
+              }),
+            );
+            // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
+            router.push({
+              pathname: '/signUp/Terms',
+              query: {
+                token: token,
+              },
+            });
+          }
+        });
+      }
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //애플 로그인 체크
   useEffect(() => {
