@@ -12,7 +12,14 @@ import { useRouter } from 'next/router';
 import { isTokenDeleteApi, isTokenGetApi } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from 'components/Loader';
-import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+} from 'assets/selectList';
 import { convertKo } from 'utils/calculatePackage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -35,6 +42,7 @@ export interface ChargerProduct {
   chargerProductIdx: number;
   modelName: string;
   kind: string;
+  standType: string;
   channel: string;
   method: string[];
   manufacturer: string;
@@ -156,6 +164,16 @@ const MyProduct = (props: Props) => {
               <span className="name">충전기 종류</span>
               <span className="value">
                 {convertKo(M5_LIST, M5_LIST_EN, data?.chargerProduct?.kind)}
+              </span>
+            </Item>
+            <Item>
+              <span className="name">충전 타입</span>
+              <span className="value">
+                {convertKo(
+                  M6_LIST,
+                  M6_LIST_EN,
+                  data?.chargerProduct?.standType,
+                )}
               </span>
             </Item>
             <Item>

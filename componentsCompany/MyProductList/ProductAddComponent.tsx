@@ -271,6 +271,7 @@ const ProductAddComponent = (props: Props) => {
         data: {
           modelName: modelName,
           chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerStandType: convertEn(M6_LIST, M6_LIST_EN, chargerStandType), // 변환
           chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
           chargerMethods: chargingMethod,
           manufacturer: manufacturer,
@@ -289,6 +290,7 @@ const ProductAddComponent = (props: Props) => {
         data: {
           modelName: modelName,
           chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerStandType: convertEn(M6_LIST, M6_LIST_EN, chargerStandType), // 변환
           chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
           chargerMethods: chargingMethod,
           manufacturer: manufacturer,
@@ -413,7 +415,9 @@ const ProductAddComponent = (props: Props) => {
       });
       setModelName(preProduct?.modelName);
       setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
-      // setChargerStandType(convertKo(M6_LIST, M6_LIST_EN, preProduct?.standKind));
+      setChargerStandType(
+        convertKo(M6_LIST, M6_LIST_EN, preProduct?.standType),
+      );
       setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
       setChargingMethod(preProduct?.method);
       setManufacturer(preProduct?.manufacturer);
@@ -459,6 +463,10 @@ const ProductAddComponent = (props: Props) => {
       };
     }
   }, []);
+
+  // useEffect(() => {
+  //   console.log('⭐️ chargerStandType : ', chargerStandType);
+  // }, [chargerStandType]);
   if (detailLoaidng) {
     return <Loader />;
   }
