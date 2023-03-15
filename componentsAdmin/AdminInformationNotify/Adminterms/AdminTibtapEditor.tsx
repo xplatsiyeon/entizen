@@ -204,6 +204,9 @@ const Wrapper = styled.div`
     em {
       font-style: italic;
     }
+    img {
+      width: 100%;
+    }
   }
 
   .ProseMirror .ProseMirror-focused {
