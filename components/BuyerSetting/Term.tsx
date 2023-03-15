@@ -728,6 +728,27 @@ const WebRapper = styled.div`
 `;
 
 const Wrapper = styled.div`
+  white-space: pre;
+  div {
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
   padding-left: 15pt;
   padding-right: 15pt;
   @media (min-width: 900pt) {
