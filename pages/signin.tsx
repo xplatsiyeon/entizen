@@ -311,6 +311,7 @@ const Signin = () => {
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
     if (naverRef) {
+      console.log(naverRef.current.children[0])
       naverRef.current.children[0].click();
     }
   };

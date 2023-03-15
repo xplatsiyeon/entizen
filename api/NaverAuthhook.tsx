@@ -69,13 +69,15 @@ export const NaverAuthHook =()=>{
         height: '60', // 버튼 높이
       }, // 로그인 버튼 설정
     });
+    
+    const clientId = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID; // ClientID
+    // 테스트 리다이렉트 주소
+    const callbackUrl = `https://api.entizen.kr/signin`;
   
-    console.log('naverLogin',naverLogin);
+   // console.log('naverLogin',naverLogin);
     naverLogin.init();
-    console.log(naverLogin.oauthCallback)
-    console.log(naverLogin.init)
-    //checkHash(naverLogin);
-    //callBack(naverLogin);
+    router.push(`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=${callbackUrl}`)
+    //https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=un493qdxNV0yNF9DxDxH&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=https%3A%2F%2Fapi.entizen.kr%2Fsignin&version=js-2.0.0&svctype=1
     // }
   };
 
