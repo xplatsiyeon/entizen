@@ -69,9 +69,9 @@ export const NaverAuthHook =()=>{
       }, // 로그인 버튼 설정
     });
   
-    // console.log('naverLogin');
-    naverLogin?.init();
-    checkHash();
+    console.log(naverLogin);
+    naverLogin.init();
+    //checkHash();
     //callBack(naverLogin);
     // }
   };
