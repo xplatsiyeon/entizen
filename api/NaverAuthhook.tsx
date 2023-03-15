@@ -69,12 +69,16 @@ export const NaverAuthHook =()=>{
       }, // 로그인 버튼 설정
     });
   
-    console.log(naverLogin);
+    console.log('naverLogin',naverLogin);
     naverLogin.init();
     //checkHash();
     //callBack(naverLogin);
     // }
   };
+
+  useEffect(()=>{
+    loginNaver();
+  },[])
 
   const NaverApi = async (data: any) => {
     const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;

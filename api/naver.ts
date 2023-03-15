@@ -8,6 +8,7 @@ export const login = (
   naverLogin: any,
   callBack: (_naverLogin: any) => void,
 ) => {
+  console.log('naverLogin',naverLogin)
   const naver = (window as any).naver;
   // if (naverLogin) {
   naverLogin = new naver.LoginWithNaverId({
