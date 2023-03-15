@@ -4,12 +4,12 @@ import Image from 'next/image';
 import React from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { getApi, isTokenGetApi } from 'api';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import term1 from 'public/images/term1.png';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -44,6 +44,13 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
     }
   };
 
+  const {
+    data: term,
+    isLoading: termLoading,
+    isError: termError,
+    refetch: termRefetch,
+  } = useQuery<any>('faq-list', () => getApi(`/terms/service`));
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
@@ -64,7 +71,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
         </Header>
       )}
 
-      <Wrapper>
+      {/* <Wrapper>
         <Title>
           <span>엔티즌 플랫폼 서비스 이용약관</span>
         </Title>
@@ -699,9 +706,12 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
           엔티즌 서비스와 관련하여 궁금하신 사항이 있으시면 고객센터(대표번호:
           0000-0000/ 평일 09:00~18:00)로 문의 주시기 바랍니다
         </Content>
-        {/* <Contents wrap="hard" readOnly value={data} /> */}
-        {/* {data} */}
-        {/* <div dangerouslySetInnerHTML={{ __html: data }} /> */}
+
+      </Wrapper> */}
+      <Wrapper>
+        {/* <Contents wrap="hard" readOnly value={data} />
+        {data} */}
+        <div dangerouslySetInnerHTML={{ __html: term }} />
       </Wrapper>
     </WebRapper>
   );

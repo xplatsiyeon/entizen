@@ -27,6 +27,21 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import dynamic from 'next/dynamic';
 import htmlToDraft from 'html-to-draftjs';
 import AdminTermsJodit from './AdminTermsJodit';
+import AdminTibtapEditor from './AdminTibtapEditor';
+import { multerAdminApi } from 'api';
+import {
+  ImgFile,
+  MulterResponse,
+} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+
+type IMG = {
+  originalName: string;
+  size: number;
+  url: string;
+  createdAt?: string | undefined;
+  bannerImageIdx?: number | undefined;
+};
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -73,10 +88,22 @@ const AdminTermsEditor = ({
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
 
+  // 페이지 전체 렌더링
+  const [open, setOpen] = useState(false);
   const { data, isLoading, isError, refetch } = useQuery<TermsUpdate>(
     'adminTermsDetail',
     () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
+    {
+      onSuccess: (res) => {
+        setBodyText(res?.data?.content!);
+      },
+    },
   );
+
+  const editorImgRef = useRef<any>(null);
+
+  // 이미지 set
+  const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
   const firstContent = data?.data?.content;
@@ -139,8 +166,8 @@ const AdminTermsEditor = ({
         url: `/admin/terms`,
         data: {
           type: dropDownValueEn[selctValueEn],
-          // content: bodyText,
-          content: editorState,
+          content: bodyText,
+          // content: editorState,
         },
       });
     }
@@ -170,7 +197,7 @@ const AdminTermsEditor = ({
       data: {
         type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
         // content: bodyText,
-        content: editorState,
+        content: bodyText,
       },
     });
   };
@@ -198,19 +225,84 @@ const AdminTermsEditor = ({
       url: `/admin/terms/${detatilId}`,
     });
   };
+
+  const { mutate: termsImage, isLoading: multerMobileImageLoading } =
+    useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
+      onSuccess: (res) => {
+        // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
+        // console.log(res);
+        const newFile = editorImg;
+        // const newFile = preFile.map((e) => {
+        //   const { createdAt, bannerImageIdx, ...rest } = e;
+        //   return { ...rest };
+        // });
+        res?.uploadedFiles.forEach((img) => {
+          newFile.push({
+            url: img.url,
+            size: img.size,
+            originalName: decodeURIComponent(img.originalName),
+          });
+        });
+        setEditorImg(newFile);
+      },
+      onError: (error: any) => {
+        if (error.response.data.message) {
+          console.log(`첫번째 에러:${error.response.data.message}`);
+
+          //   setMessage(`첫번째 에러:${error.response.data.message}`);
+          //   setMessageModal(true);
+        } else if (error.response.status === 413) {
+          console.log('용량이 너무 큽니다.');
+
+          //   setMessage('용량이 너무 큽니다.');
+          //   setMessageModal(true);
+        } else {
+          console.log('다시 시도해주세요');
+
+          //   setMessage('다시 시도해주세요');
+          //   setMessageModal(true);
+        }
+      },
+    });
+
+  const saveFileTermsImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 1;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('term', files![i], encodeURIComponent(files![i].name));
+    }
+    termsImage(formData);
+    e.target.value = '';
+  };
+
+  const editorImgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    editorImgRef?.current?.click();
+  };
   // const DynamicComponent = dynamic(() => import('./AdminTermsJodit'), {
   //   ssr: false,
   // });
 
-  const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
-    ssr: false,
-  });
-  // const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+  // const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
   //   ssr: false,
   // });
+  // const DynamicComponent = dynamic(() => import('./AdminTipTap'), {
+  //   ssr: false,
+  // });
+  const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
+    ssr: false,
+  });
 
   useEffect(() => {
-    setBodyText(data?.data?.content!);
+    // setBodyText(data?.data?.content!);
+    // const res = document.querySelector('.ProseMirror') as HTMLElement;
+    // if (res) {
+    //   console.log('res', res);
+    //   res.innerHTML = bodyText;
+    // }
   }, [data]);
 
   useEffect(() => {
@@ -321,16 +413,30 @@ const AdminTermsEditor = ({
             firstContent={firstContent!}
           /> */}
 
+          <AdminTibtapEditor
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+            setEditorImg={setEditorImg}
+            editorImg={editorImg}
+            detatilId={detatilId}
+          />
+
           {/* <DynamicComponent
             setEditorState={setEditorState}
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
           /> */}
-          <AdminTermsJodit
+          {/* <AdminTermsJodit
             setBodyText={setBodyText}
             bodyText={bodyText}
             firstContent={firstContent!}
-          />
+          /> */}
+          {/* <DynamicComponent
+            setBodyText={setBodyText}
+            bodyText={bodyText}
+            firstContent={firstContent!}
+          /> */}
           {/* <AdminTermDraft
             setEditorState={setEditorState}
             editorState={editorState}
@@ -346,22 +452,36 @@ const AdminTermsEditor = ({
                 >
                   삭제
                 </AdminBtn>
-                <AdminBtn
-                  onClick={() => {
-                    onClickModifiedBtn();
-                  }}
-                >
-                  수정
-                </AdminBtn>
+                <>
+                  <input
+                    style={{ display: 'none' }}
+                    ref={editorImgRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={saveFileTermsImage}
+                    multiple
+                  />
+                  <AdminBtn
+                    onClick={() => {
+                      onClickModifiedBtn();
+                      // editorImgHandler;
+                    }}
+                    // onClick={editorImgHandler}
+                  >
+                    수정
+                  </AdminBtn>
+                </>
               </>
             ) : (
-              <AdminBtn
-                onClick={() => {
-                  modalPostBtnControll();
-                }}
-              >
-                등록
-              </AdminBtn>
+              <>
+                <AdminBtn
+                  onClick={() => {
+                    modalPostBtnControll();
+                  }}
+                >
+                  등록
+                </AdminBtn>
+              </>
             )}
           </BtnBox>
         </Wrapper>
