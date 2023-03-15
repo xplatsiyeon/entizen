@@ -276,40 +276,40 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   };
 
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const {
-    loading: contractLoading,
-    error: contractError,
-    data: contractData,
-  } = useQuery<Contract>(GET_contract, {
-    variables: {
-      projectIdx: projectIdx,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
+  // const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const {
+  //   loading: contractLoading,
+  //   error: contractError,
+  //   data: contractData,
+  // } = useQuery<Contract>(GET_contract, {
+  //   variables: {
+  //     projectIdx: projectIdx,
+  //   },
+  //   context: {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       ContentType: 'application/json',
+  //     },
+  //   },
+  // });
 
   /// graphQl
-  const {
-    loading: inModuSignLoading,
-    error: inModuSignErroe,
-    data: inModuSignData,
-    refetch: inModuSignRefetch,
-  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
-    variables: {
-      projectIdx: projectIdx,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
+  // const {
+  //   loading: inModuSignLoading,
+  //   error: inModuSignErroe,
+  //   data: inModuSignData,
+  //   refetch: inModuSignRefetch,
+  // } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+  //   variables: {
+  //     projectIdx: projectIdx,
+  //   },
+  //   context: {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       ContentType: 'application/json',
+  //     },
+  //   },
+  // });
 
   const {
     data: modusignPdfDownData,
@@ -508,26 +508,25 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       setModuSignContract(0);
     } else if (
       data?.data?.project?.contract?.documentId === undefined &&
-      inModuSignData?.project?.contract?.contractContent === undefined
+      data?.data?.project?.contract?.contractContent === undefined
     ) {
       setModuSignContract(0);
     } else if (
       data?.data?.project?.contract?.documentId?.substring(0, 7) ===
         'project' &&
-      inModuSignData?.project?.contract?.contractContent !== undefined
+      data?.data?.project?.contract?.contractContent !== undefined
     ) {
       setModuSignContract(1);
-      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
+      if (data?.data?.project?.contract?.contractContent !== undefined) {
         setGetUrl(
-          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0]
-            ?.url,
+          JSON.parse(data?.data?.project?.contract?.contractContent)[0]?.url,
         );
       }
     } else {
       setModuSignContract(2);
       setGetUrl(modusignPdfDownData?.file?.downloadUrl!);
     }
-  }, [inModuSignData]);
+  }, [data]);
 
   useEffect(() => {
     // 사업자 등록증 삭제
@@ -597,6 +596,8 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   useEffect(() => {
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
+
+  console.log('data 🍓', data?.data?.project?.contract?.contractContent!);
 
   return (
     <Background>
@@ -925,7 +926,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                 <ButtonBox
                   onClick={() => {
                     const contractUrl = JSON.parse(
-                      inModuSignData?.project?.contract?.contractContent!,
+                      data?.data?.project?.contract?.contractContent!,
                     )[0];
                     onClickBtn(contractUrl);
                     onClickContract();
@@ -1101,6 +1102,46 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                 )}
               </FileContainer>
             </List>
+            <ImgList>
+              {data?.data?.project?.projectCompletionFiles.length === 0 ? (
+                <List>
+                  <Label>완료현장 사진</Label>
+                  <Contents>완료현장 사진이 없습니다.</Contents>
+                </List>
+              ) : (
+                <>
+                  <Label style={{ marginRight: '60px' }}>완료현장 사진</Label>
+                  <div className="container">
+                    {data?.data?.project?.projectCompletionFiles.map(
+                      (item, index) => (
+                        <div className="imgBox">
+                          <Image
+                            src={item?.url}
+                            alt="charge-img"
+                            priority={true}
+                            unoptimized={true}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                          <div className="imgExit">
+                            <Image
+                              src={ExitBtn}
+                              alt="exit"
+                              layout="fill"
+                              onClick={() => {
+                                setProjectCompletionFileIdx(
+                                  item?.projectCompletionFileIdx,
+                                );
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </>
+              )}
+            </ImgList>
             <List>
               <Label>프로젝트 생성일</Label>
               <Contents>

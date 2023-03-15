@@ -284,39 +284,39 @@ const ProjectCompleteDetail = ({
 
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const {
-    loading: contractLoading,
-    error: contractError,
-    data: contractData,
-  } = useQuery<Contract>(GET_contract, {
-    variables: {
-      projectIdx: projectIdx,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
+  // const {
+  //   loading: contractLoading,
+  //   error: contractError,
+  //   data: contractData,
+  // } = useQuery<Contract>(GET_contract, {
+  //   variables: {
+  //     projectIdx: projectIdx,
+  //   },
+  //   context: {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       ContentType: 'application/json',
+  //     },
+  //   },
+  // });
 
   /// graphQl
-  const {
-    loading: inModuSignLoading,
-    error: inModuSignErroe,
-    data: inModuSignData,
-    refetch: inModuSignRefetch,
-  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
-    variables: {
-      projectIdx: projectIdx,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
+  // const {
+  //   loading: inModuSignLoading,
+  //   error: inModuSignErroe,
+  //   data: inModuSignData,
+  //   refetch: inModuSignRefetch,
+  // } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+  //   variables: {
+  //     projectIdx: projectIdx,
+  //   },
+  //   context: {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       ContentType: 'application/json',
+  //     },
+  //   },
+  // });
 
   const {
     data: modusignPdfDownData,
@@ -556,25 +556,25 @@ const ProjectCompleteDetail = ({
       setModuSignContract(0);
     } else if (
       data?.data?.project?.contract?.documentId === undefined &&
-      inModuSignData?.project?.contract?.contractContent === undefined
+      data?.data?.project?.contract?.contractContent === undefined
     ) {
       setModuSignContract(0);
     } else if (
       data?.data?.project?.contract?.documentId?.substring(0, 7) ===
         'project' &&
-      inModuSignData?.project?.contract?.contractContent !== undefined
+      data?.data?.project?.contract?.contractContent !== undefined
     ) {
       setModuSignContract(1);
-      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
+      if (data?.data?.project?.contract?.contractContent !== undefined) {
         setGetUrl(
-          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0],
+          JSON.parse(data?.data?.project?.contract?.contractContent)[0],
         );
       }
     } else {
       setModuSignContract(2);
       setGetUrl(modusignPdfDownData?.file?.downloadUrl!);
     }
-  }, [inModuSignData]);
+  }, [data]);
 
   // 최종 승인 가능한지 여부
   useEffect(() => {
@@ -609,20 +609,6 @@ const ProjectCompleteDetail = ({
   useEffect(() => {
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
-
-  // console.log(
-  //   '🍎 사업자 등록증, 상세 견적서',
-  //   data?.data?.project?.finalQuotation?.finalQuotationDetailFiles,
-  // );
-
-  // console.log(
-  //   '🍓 카탈로그',
-  //   data?.data?.project?.finalQuotation?.finalQuotationChargers?.map((item) => {
-  //     item?.finalQuotationChargerFiles?.filter((el) => {
-  //       el?.productFileType === 'CATALOG';
-  //     });
-  //   }),
-  // );
 
   return (
     <Background>
@@ -917,7 +903,7 @@ const ProjectCompleteDetail = ({
                 <ButtonBox
                   onClick={() => {
                     const contractUrl = JSON.parse(
-                      inModuSignData?.project?.contract?.contractContent!,
+                      data?.data?.project?.contract?.contractContent!,
                     )[0];
                     onClickBtn(contractUrl);
                     onClickContract();

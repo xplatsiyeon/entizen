@@ -149,8 +149,6 @@ const ProjectListTable = ({
       },
     );
 
-  console.log('projectListData🍎🍏', projectListData);
-
   // 완료는 프로젝트 생성일이 아니라 구독시작일 & 구독종료일
   // 진행단계에 구독종료 D-n으로 보여주기
   // 완료 프로젝트 리스트
