@@ -185,6 +185,7 @@ const CommunicationTable = ({
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
                 ele.consultStatus + (ele.isUnread ? '(읽지않음)' : ''),
+                (ele.unreadCount === 0? ' - ': ele.unreadCount),
                 [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
@@ -195,6 +196,7 @@ const CommunicationTable = ({
               '구분',
               '아이디',
               '상담 상태',
+              '읽지않은 채팅',
               {
                 name: '',
                 id: 'userChatting',
@@ -400,6 +402,7 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   height: 490px;
+
 `;
 
 const BtnGap = styled.div`
