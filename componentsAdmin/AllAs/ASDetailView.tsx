@@ -10,7 +10,12 @@ import { css } from '@emotion/react';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import CloseImg from 'public/images/XCircle.svg';
-import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  convertKo,
+  hyphenFn,
+  dateFomat,
+} from 'utils/calculatePackage';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import RatingForm from './RatingForm';
@@ -40,10 +45,12 @@ export interface ASDetailViewResponse {
       afterSalesServiceIdx: number;
       requestTitle: string;
       requestContent: string;
+      acceptanceContent: string;
       createdAt: string;
       afterSalesServiceCompletionConsentStatus: true;
       afterSalesServiceResultDate: string;
       acceptanceDate: string;
+      afterSalesServiceResultContent: string;
       project: {
         projectIdx: number;
         projectNumber: string;
@@ -117,6 +124,7 @@ const ASDetailView = ({
     () =>
       isTokenAdminGetApi(`/admin/after-sales-services/${afterSalesServiceIdx}`),
   );
+
   const handleBackBtn = () => {
     setIsDetail!(false);
   };
@@ -206,6 +214,8 @@ const ASDetailView = ({
       data?.data?.afterSalesService?.afterSalesServiceReview?.opinion!,
     );
   }, [data]);
+
+  console.log('data', data);
 
   return (
     <Background>
@@ -315,14 +325,13 @@ const ASDetailView = ({
           <ProjectInfoContainer>
             <List>
               <Label>진행단계</Label>
-              {/* <DropDownBtn
-                dropDownValue={dropDownValue}
-                currentStep={currentStep!}
-                setSelectValue={setSelectValue}
-                selectValue={selectValue}
-                width={'110px'}
-              /> */}
               <Contents>{data?.data?.afterSalesService?.currentStep}</Contents>
+            </List>
+            <List>
+              <Label>접수일자</Label>
+              <Contents>
+                {dateFomat(data?.data?.afterSalesService?.createdAt!)}
+              </Contents>
             </List>
             <List>
               <Label>프로젝트 번호</Label>
@@ -356,77 +365,119 @@ const ASDetailView = ({
               </RequestContents>
             </List>
             <List>
-              <Label>사진</Label>
-              {data?.data?.afterSalesService?.currentStep === '완료' ? (
-                <ImgSpanBox>
-                  {data?.data?.afterSalesService?.afterSalesServiceCompletionFiles.map(
-                    (img, index) => (
-                      <ImgSpan key={index}>
+              <Label>접수내용 이미지</Label>
+              <ImgSpanBox>
+                {data?.data?.afterSalesService?.afterSalesServiceRequestFiles.map(
+                  (img, index) => (
+                    <ImgSpan key={index}>
+                      <Image
+                        layout="fill"
+                        alt="preview"
+                        data-name={index}
+                        key={index}
+                        src={img.url}
+                        priority={true}
+                        unoptimized={true}
+                        objectFit="cover"
+                      />
+                      <Xbox
+                        onClick={() => {
+                          setFileIdx(img?.afterSalesServiceRequestFileIdx);
+                        }}
+                        data-name={index}
+                      >
                         <Image
-                          layout="fill"
-                          alt="preview"
+                          src={CloseImg}
                           data-name={index}
-                          key={index}
-                          src={img.url}
-                          priority={true}
-                          unoptimized={true}
-                          objectFit="cover"
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
                         />
-                        <Xbox
-                          onClick={() => {
-                            setFileIdx(img?.afterSalesServiceCompletionFileIdx);
-                          }}
-                          data-name={index}
-                        >
-                          <Image
-                            src={CloseImg}
-                            data-name={index}
-                            layout="intrinsic"
-                            alt="closeBtn"
-                            width={24}
-                            height={24}
-                          />
-                        </Xbox>
-                      </ImgSpan>
-                    ),
-                  )}
-                </ImgSpanBox>
-              ) : (
-                <ImgSpanBox>
-                  {data?.data?.afterSalesService?.afterSalesServiceRequestFiles.map(
-                    (img, index) => (
-                      <ImgSpan key={index}>
-                        <Image
-                          layout="fill"
-                          alt="preview"
-                          data-name={index}
-                          key={index}
-                          src={img.url}
-                          priority={true}
-                          unoptimized={true}
-                          objectFit="cover"
-                        />
-                        <Xbox
-                          onClick={() => {
-                            setFileIdx(img?.afterSalesServiceRequestFileIdx);
-                          }}
-                          data-name={index}
-                        >
-                          <Image
-                            src={CloseImg}
-                            data-name={index}
-                            layout="intrinsic"
-                            alt="closeBtn"
-                            width={24}
-                            height={24}
-                          />
-                        </Xbox>
-                      </ImgSpan>
-                    ),
-                  )}
-                </ImgSpanBox>
-              )}
+                      </Xbox>
+                    </ImgSpan>
+                  ),
+                )}
+              </ImgSpanBox>
             </List>
+            {data?.data?.afterSalesService?.currentStep !== '접수요청' && (
+              <>
+                <Line />
+                <List>
+                  <Label>접수확인일자</Label>
+                  <Contents>
+                    {dateFomat(data?.data?.afterSalesService?.acceptanceDate!)}
+                  </Contents>
+                </List>
+                <List>
+                  <Label>접수확인내용</Label>
+                  <RequestContents height={true}>
+                    {data?.data?.afterSalesService?.acceptanceContent}
+                  </RequestContents>
+                </List>
+              </>
+            )}
+            {data?.data?.afterSalesService?.currentStep === '완료' && (
+              <>
+                <Line />
+                <List>
+                  <Label>A/S 결과일자</Label>
+                  <Contents>
+                    {dateFomat(
+                      data?.data?.afterSalesService
+                        ?.afterSalesServiceResultDate!,
+                    )}
+                  </Contents>
+                </List>
+                <List>
+                  <Label>A/S 결과내용</Label>
+                  <RequestContents height={true}>
+                    {
+                      data?.data?.afterSalesService
+                        ?.afterSalesServiceResultContent
+                    }
+                  </RequestContents>
+                </List>
+                <List>
+                  <Label>A/S 결과 이미지</Label>
+                  <ImgSpanBox>
+                    {data?.data?.afterSalesService?.afterSalesServiceCompletionFiles.map(
+                      (img, index) => (
+                        <ImgSpan key={index}>
+                          <Image
+                            layout="fill"
+                            alt="preview"
+                            data-name={index}
+                            key={index}
+                            src={img.url}
+                            priority={true}
+                            unoptimized={true}
+                            objectFit="cover"
+                          />
+                          <Xbox
+                            onClick={() => {
+                              setFileIdx(
+                                img?.afterSalesServiceCompletionFileIdx,
+                              );
+                            }}
+                            data-name={index}
+                          >
+                            <Image
+                              src={CloseImg}
+                              data-name={index}
+                              layout="intrinsic"
+                              alt="closeBtn"
+                              width={24}
+                              height={24}
+                            />
+                          </Xbox>
+                        </ImgSpan>
+                      ),
+                    )}
+                  </ImgSpanBox>
+                </List>
+              </>
+            )}
           </ProjectInfoContainer>
         </Main>
       </Wrapper>
@@ -558,4 +609,9 @@ const BtnText = styled.div`
   ${Text};
   color: #747780;
   padding: 2px 10px;
+`;
+
+const Line = styled.div`
+  border-bottom: 2px solid #e2e5ed;
+  margin: 40px 0;
 `;

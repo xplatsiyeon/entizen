@@ -24,15 +24,13 @@ type CheckBox = {
 
 // export const communicationState = ['상담종료', '상담진행중', '읽지않은 채팅'];
 // export const communicationStateEn = ['done', 'inProgress','isUnread'];
- export const communicationState = ['상담종료', '상담진행중'];
- export const communicationStateEn = ['done', 'inProgress'];
+export const communicationState = ['상담종료', '상담진행중'];
+export const communicationStateEn = ['done', 'inProgress'];
 
 export const userCheckBox = ['일반회원', '기업회원'];
 export const userCheckBoxEn = ['USER', 'COMPANY'];
 
-export const unreadCheckBox = ['읽지않은 채팅']
-
-
+export const unreadCheckBox = ['읽지않은 채팅'];
 
 const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
@@ -70,20 +68,15 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
     }
   };
 
-
-
   // 읽지 않은 상담
   const [unRead, setUnread] = useState<Array<string>>([]);
   const checkUnreadHandle = (checked: boolean, commu: string) => {
     if (checked) {
       setUnread((prev) => [...prev, commu]);
     } else {
-      setUnread(commuCheck.filter((el) => el !== commu));
+      setUnread(unRead.filter((el) => el !== commu));
     }
   };
-
-  console.log('unRead',unRead);
-  
 
   const handleCommon = () => {
     // alert('개발중입니다.');
@@ -96,11 +89,11 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
     }
   }, []);
 
-  useEffect(()=>{
-    if(isRefetch){
-      setIsRefetch(false)
+  useEffect(() => {
+    if (isRefetch) {
+      setIsRefetch(false);
     }
-  },[isRefetch])
+  }, [isRefetch]);
 
   return (
     <Wrapper>
