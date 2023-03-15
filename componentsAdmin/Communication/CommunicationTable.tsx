@@ -175,12 +175,6 @@ const CommunicationTable = ({
       {
         enabled: false,
         onSuccess: (userChattingOneOnOne) => {
-          console.log(
-            '1:1url 주소 🍉',
-            `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${
-              unRead?.length === 0 ? 'unreadStatus=all' : 'unreadStatus=unread'
-            }`,
-          );
           if (tableType === 'userChattingOneOnOne') {
             const temp: any = [];
             userChattingOneOnOne?.data?.consultations?.forEach((ele, idx) => {
@@ -264,10 +258,6 @@ const CommunicationTable = ({
       userChattingOneOnOneRefetch();
     }
   }, [isRefetch]);
-
-  useEffect(() => {
-    console.log('unRead 값 바뀜~~~');
-  }, [unRead]);
 
   return (
     <StyledBody className="user-table">

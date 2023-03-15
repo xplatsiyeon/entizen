@@ -246,7 +246,9 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/quotation/request');
+                user_ID
+                  ? router.push('/quotation/request')
+                  : router.push('/signin');
               }}
             >
               <Image src={estimate} alt="estimate" width={32} height={32} />
