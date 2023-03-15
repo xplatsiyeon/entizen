@@ -17,10 +17,10 @@ export const NaverAuthHook =()=>{
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.userList);
 
-  let naverLogin: any;
+ //let naverLogin: any;
 
 
- const checkHash = () => {
+ const checkHash = (naverLogin:any) => {
   const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
    console.log('⭐️hash -> ' + hash);
 
@@ -53,6 +53,7 @@ export const NaverAuthHook =()=>{
 }
 
   const loginNaver = (
+    naverLogin : any
   ) => {
     const naver = (window as any).naver;
     // if (naverLogin) {
@@ -71,14 +72,10 @@ export const NaverAuthHook =()=>{
   
     console.log('naverLogin',naverLogin);
     naverLogin.init();
-    //checkHash();
+    //checkHash(naverLogin);
     //callBack(naverLogin);
     // }
   };
-
-  useEffect(()=>{
-    loginNaver();
-  },[])
 
   const NaverApi = async (data: any) => {
     const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;

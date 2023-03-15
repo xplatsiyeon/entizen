@@ -317,7 +317,7 @@ const Signin = () => {
     console.log(naverRef.current.children[0]);
     if (naverRef) {
       //naverRef.current.children[0].click();
-      loginNaver();
+      loginNaver(naverLogin);
     }
   };
   // 나이스 인증 온클릭 함수
