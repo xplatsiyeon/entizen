@@ -37,8 +37,8 @@ type Props = {
   hide?: boolean;
   commuCheck?: string;
   userCheck?: string;
-  isRefetch?: boolean
-  unRead?:string[]
+  isRefetch?: boolean;
+  unRead?: string[];
 };
 
 const CommunicationTable = ({
@@ -55,7 +55,8 @@ const CommunicationTable = ({
   hide,
   commuCheck,
   userCheck,
-  isRefetch,unRead
+  isRefetch,
+  unRead,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -161,19 +162,25 @@ const CommunicationTable = ({
   // 🎀 소통하기  1:1 문의
   // /admin/chatting/consultations?page=1&limit=10&searchId=test&memberType=company
 
-
   const { data: userChattingOneOnOne, refetch: userChattingOneOnOneRefetch } =
     useQuery<OneOnOneChatResponse>(
       'userChattingOneOnOne',
       () =>
         isTokenAdminGetApi(
-          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${unRead?.length === 0 ? 'unreadStatus=all':'unreadStatus=unread'}`
+          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${
+            unRead?.length === 0 ? 'unreadStatus=all' : 'unreadStatus=unread'
+          }`,
           //`/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
         ),
       {
         enabled: false,
         onSuccess: (userChattingOneOnOne) => {
-          console.log('이거봐바, ',userChattingOneOnOne)
+          console.log(
+            '1:1url 주소 🍉',
+            `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}&${
+              unRead?.length === 0 ? 'unreadStatus=all' : 'unreadStatus=unread'
+            }`,
+          );
           if (tableType === 'userChattingOneOnOne') {
             const temp: any = [];
             userChattingOneOnOne?.data?.consultations?.forEach((ele, idx) => {
@@ -183,7 +190,7 @@ const CommunicationTable = ({
                 }`,
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
-                ele.consultStatus +(ele.isUnread ? '(읽지않음)' : ''),
+                ele.consultStatus + (ele.isUnread ? '(읽지않음)' : ''),
                 [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
@@ -252,13 +259,15 @@ const CommunicationTable = ({
     }
   }, [page, pickedDate, userSearch, userCheck, commuCheck, unRead]);
 
-  useEffect(()=>{
-    console.log('??????? refetch???????')
-    if(isRefetch){
+  useEffect(() => {
+    if (isRefetch) {
       userChattingOneOnOneRefetch();
     }
-  },[isRefetch])
+  }, [isRefetch]);
 
+  useEffect(() => {
+    console.log('unRead 값 바뀜~~~');
+  }, [unRead]);
 
   return (
     <StyledBody className="user-table">
