@@ -345,7 +345,12 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/setting?id=2') : router.push('/signin')
+              userID
+                ? router.push({
+                    pathname: '/setting',
+                    query: { id: 2, direct: true },
+                  })
+                : router.push('/signin')
             }
           >
             <span>1:1 문의</span>
@@ -353,8 +358,14 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           <WhiteAreaMenus
             onClick={() =>
               memberType === 'COMPANY'
-                ? router.push('/company/faq')
-                : router.push('/faq')
+                ? router.push({
+                    pathname: '/company/faq',
+                    query: { direct: true },
+                  })
+                : router.push({
+                    pathname: '/faq',
+                    query: { direct: true },
+                  })
             }
           >
             <span>자주 묻는 질문</span>

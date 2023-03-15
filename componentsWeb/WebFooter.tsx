@@ -14,6 +14,7 @@ import { Fragment } from 'react';
 const WebFooter = () => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
+  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
   return (
     <Wrapper>
       <Inner>
@@ -45,12 +46,44 @@ const WebFooter = () => {
             >
               개인정보 처리방침
             </li>
-            <Link href={userID ? '/setting?id=2' : '/signin'}>
-              <li>1:1 문의</li>
-            </Link>
-            <Link href="/faq">
-              <li>FAQ</li>
-            </Link>
+            <li
+              onClick={() => {
+                // router.push(userID ? '/setting?id=2' : '/signin');
+                userID
+                  ? router.push({
+                      pathname: '/setting',
+                      query: {
+                        id: 2,
+                        direct: true,
+                      },
+                    })
+                  : router.push('/signin');
+              }}
+            >
+              1:1 문의
+            </li>
+            <li
+              onClick={() => {
+                if (memberType === 'USER') {
+                  router.push({
+                    pathname: '/faq',
+                    query: { direct: true },
+                  });
+                } else if (memberType === 'COMPANY') {
+                  router.push({
+                    pathname: '/company/faq',
+                    query: { direct: true },
+                  });
+                } else if (userID !== undefined) {
+                  router.push({
+                    pathname: '/faq',
+                    query: { direct: true },
+                  });
+                }
+              }}
+            >
+              FAQ
+            </li>
             <li>
               <IconBox
                 onClick={() => window.open('https://instagram.com/entizen.ev/')}

@@ -194,7 +194,16 @@ const Alam = () => {
             <span className="text">알림함</span>
             <div
               className="setting-img"
-              onClick={() => router.push('/setting?id=1')}
+              // onClick={() => router.push('/setting?id=1')}
+              onClick={() =>
+                router.push({
+                  pathname: '/setting',
+                  query: {
+                    id: 1,
+                    direct: true,
+                  },
+                })
+              }
             >
               <Image
                 style={{

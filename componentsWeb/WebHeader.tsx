@@ -147,7 +147,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       <Image
                         src={Chat}
                         alt="question"
-                        onClick={() => router.push('/faq')}
+                        onClick={() =>
+                          router.push({
+                            pathname: '/faq',
+                            query: { direct: true },
+                          })
+                        }
                       />
                     </IconBox>
                     <IconBox>
@@ -212,7 +217,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       <Image
                         src={Chat}
                         alt="question"
-                        onClick={() => router.push('/faq')}
+                        onClick={() =>
+                          router.push({
+                            pathname: '/faq',
+                            query: { direct: true },
+                          })
+                        }
                       />
                     </IconBox>
                     <IconBox>

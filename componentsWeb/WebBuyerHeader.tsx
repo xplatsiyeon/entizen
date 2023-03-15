@@ -283,7 +283,12 @@ const WebBuyerHeader = ({
                       <Image
                         src={Chat}
                         alt="question"
-                        onClick={() => router.push('/faq')}
+                        onClick={() =>
+                          router.push({
+                            pathname: '/faq',
+                            query: { direct: true },
+                          })
+                        }
                       />
                     </IconBox>
                     <IconBox>

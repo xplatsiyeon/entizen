@@ -87,9 +87,15 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
 
   const handle = () => {
     if (userChatting) {
-      router.push('/faq');
+      router.push({
+        pathname: '/faq',
+        query: { direct: true },
+      });
     } else {
-      router.push('/company/faq');
+      router.push({
+        pathname: '/company/faq',
+        query: { direct: true },
+      });
     }
   };
 

@@ -904,7 +904,7 @@ const Signin = () => {
                 )}
                 <Box
                   sx={{
-                    margin: '18pt 18pt 0 18pt',
+                    margin: '18pt 18pt 5pt 18pt',
                   }}
                 >
                   <IdRegist onClick={() => router.push('/signUp/Terms')}>
@@ -931,7 +931,6 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;

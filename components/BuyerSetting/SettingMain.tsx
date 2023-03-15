@@ -279,11 +279,20 @@ const SettingMain = ({
           <SettingList
             onClick={() => {
               if (memberType === 'USER') {
-                router.push('/faq');
+                router.push({
+                  pathname: '/faq',
+                  query: { direct: true },
+                });
               } else if (memberType === 'COMPANY') {
-                router.push('/company/faq');
+                router.push({
+                  pathname: '/company/faq',
+                  query: { direct: true },
+                });
               } else if (userID !== undefined) {
-                router.push('/faq');
+                router.push({
+                  pathname: '/faq',
+                  query: { direct: true },
+                });
               }
             }}
           >

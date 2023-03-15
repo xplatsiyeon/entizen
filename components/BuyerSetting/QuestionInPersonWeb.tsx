@@ -118,6 +118,7 @@ const MainTitle = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   padding-bottom: 45pt;
+  color: #222222;
 `;
 
 const SubTitle = styled.div`
@@ -126,6 +127,7 @@ const SubTitle = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: #222222;
 `;
 
 const CallNumber = styled.div`

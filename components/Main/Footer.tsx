@@ -7,6 +7,7 @@ type Props = {};
 const Footer = (props: Props) => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
+  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
   return (
     <Container>
       <FooterBox>
@@ -73,7 +74,16 @@ const Footer = (props: Props) => {
           <Divider />
           <Menus
             onClick={() => {
-              router.push(userID ? '/setting?id=2' : '/signin');
+              // router.push(userID ? '/setting?id=2' : '/signin');
+              userID
+                ? router.push({
+                    pathname: '/setting',
+                    query: {
+                      id: 2,
+                      direct: true,
+                    },
+                  })
+                : router.push('/signin');
             }}
           >
             1:1 문의
@@ -81,7 +91,22 @@ const Footer = (props: Props) => {
           <Divider />
           <Menus
             onClick={() => {
-              router.push('/faq');
+              if (memberType === 'USER') {
+                router.push({
+                  pathname: '/faq',
+                  query: { direct: true },
+                });
+              } else if (memberType === 'COMPANY') {
+                router.push({
+                  pathname: '/company/faq',
+                  query: { direct: true },
+                });
+              } else if (userID !== undefined) {
+                router.push({
+                  pathname: '/faq',
+                  query: { direct: true },
+                });
+              }
             }}
           >
             FAQ

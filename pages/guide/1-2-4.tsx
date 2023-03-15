@@ -47,8 +47,8 @@ const Guide1_2_4 = () => {
         return num
           .toString()
           .slice(0, -3)
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          //.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        //.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
       }
     } else {
       return '0';
@@ -56,9 +56,13 @@ const Guide1_2_4 = () => {
   };
 
   const onClickAlarmBtn = () => {
+    // router.push({
+    //   pathname: '/setting',
+    //   query: { id: 1 },
+    // });
     router.push({
       pathname: '/setting',
-      query: { id: 1 },
+      query: { id: 1, direct: true },
     });
   };
 
