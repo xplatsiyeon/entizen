@@ -26,7 +26,7 @@ export const login = (
   // console.log('naverLogin');
   //naverLogin?.init();
 
-  //callBack(naverLogin);
+  callBack(naverLogin);
   // }
 };
 
