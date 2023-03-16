@@ -84,7 +84,7 @@ export const NaverAuthHook =()=>{
     naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
       // 테스트 리다이렉트 주소
-      callbackUrl: `https://test-api.entizen.kr/signin`,
+      callbackUrl: `https://api.entizen.kr/signin`,
       isPopup: false, // 팝업 형태로 인증 여부
       callbackHandle: true,
       loginButton: {
@@ -162,10 +162,11 @@ export const NaverAuthHook =()=>{
     console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');
     const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
     console.log('⭐️hash -> ' + hash);
- 
+   
    if (hash) {
      const token = hash.split('=')[1].split('&')[0]; // token값 확인
      // console.log('⭐️ token : ', token);
+     console.log(naverLogin.getLoginStatus)
      naverLogin.getLoginStatus((status: any) => {
        if (status) {
          // console.log('⭐️ status : ', status);
