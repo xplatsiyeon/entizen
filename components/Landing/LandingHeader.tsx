@@ -78,8 +78,8 @@ const Button = styled.div`
     gap: 0;
   }
   .text {
-    /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-    font-family: 'AppleGothicNeo';
+    font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+    /* font-family: 'AppleGothicNeo'; */
     font-size: 10.5pt;
     font-weight: 800;
     /* line-height: 13.5pt; */
