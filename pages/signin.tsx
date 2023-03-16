@@ -33,7 +33,6 @@ import MobileFindModal from 'components/Modal/MobileFindModal';
 import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
-import { NaverAuthHook } from 'api/NaverAuthhook';
 export interface JwtTokenType {
   exp: number;
   iat: number;
