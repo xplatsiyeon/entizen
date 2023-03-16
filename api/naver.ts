@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 export const login = (
   naverLogin: any,
-  callBack: (_naverLogin: any) => void,
+ // callBack: (_naverLogin: any) => void,
 ) => {
   console.log('naverLogin',naverLogin)
   const naver = (window as any).naver;
@@ -27,7 +27,7 @@ export const login = (
   // console.log('naverLogin');
   naverLogin?.init();
 
-  callBack(naverLogin);
+  //callBack(naverLogin);
   // }
 };
 
