@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
 import btnImg from 'public/images/back-btn.svg';
 import search from 'public/images/search.png';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,8 @@ import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
 import WebChargerInfo from 'componentsWeb/WebChargerInfo';
+import MapBiggerIcon from 'public/images/MapBiggerIcon.svg';
+import { css } from '@emotion/react';
 
 type Props = {};
 export interface SlowFast {
@@ -44,11 +46,17 @@ const ChargerMap = (props: Props) => {
   const [scrollHeight, setScrollHeight] = useState<number>(0);
   const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
   const [type, setType] = useState<boolean>(false);
-
+  const biggerRef = useRef(null);
+  const [biggerClick, setBiggerClick] = useState(false);
   console.log('chargeInfoOpen', chargeInfoOpen);
+  console.log('biggerRef 🧡', biggerRef);
 
   // console.log(locationList)
   console.log('⭐️ chargerMap 컴포넌트에서 locationList : ', locationList);
+
+  // useEffect(() => {
+  //   useMap();
+  // }, [biggerClick]);
 
   useEffect(() => {
     let calcHeight;
@@ -133,17 +141,22 @@ const ChargerMap = (props: Props) => {
   };
   const cancleBigger = (e: MouseEvent) => {
     const target = e.currentTarget as HTMLElement;
+    setBiggerClick(false);
     if (target.previousElementSibling?.classList.contains('bigger')) {
       target.previousElementSibling.classList.remove('bigger');
     }
   };
+
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'));
+  }, [biggerClick]);
 
   return (
     <>
       <WebHeader />
       <Wrapper>
         <FlexBox>
-          <Header onClick={handleBack}>
+          <Header onClick={handleBack} biggerClick={biggerClick}>
             <ArrowIMGBox>
               <Image src={btnImg} alt="backBtn" />
             </ArrowIMGBox>
@@ -186,12 +199,37 @@ const ChargerMap = (props: Props) => {
               />
             </WrapAddress>
           </WebWrap>
-          <MapWrap>
+          <MapWrap biggerClick={biggerClick}>
             {/* 실제 지도 나오는 컴포넌트 */}
-            <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap>
-            <Header onClick={cancleBigger} className="addressHeader">
-              <span>여기에 주소 넣어 주세용</span>
-              <Image src={btnImg} alt="backBtn" />
+
+            {/* <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap> */}
+            <WholeMap id="map" biggerClick={biggerClick}></WholeMap>
+            <MapBiggerIconBox
+              onClick={() => {
+                // setBiggerClick(!biggerClick);
+                setBiggerClick(true);
+              }}
+              biggerClick={biggerClick}
+            >
+              <Image src={MapBiggerIcon} />
+            </MapBiggerIconBox>
+            <Header
+              // onClick={cancleBigger}
+              className="addressHeader"
+              biggerClick={biggerClick}
+            >
+              <BigMapAddressBack>
+                <Image
+                  src={btnImg}
+                  alt="backBtn"
+                  onClick={() => {
+                    setBiggerClick(false);
+                  }}
+                />
+              </BigMapAddressBack>
+              <BigMapAddress>
+                {locationList.roadAddrPart ? locationList.roadAddrPart : ''}
+              </BigMapAddress>
             </Header>
           </MapWrap>
         </FlexBox>
@@ -260,8 +298,24 @@ const FlexBox = styled.div`
     box-shadow: none;
   }
 `;
-const MapWrap = styled.div`
+const MapWrap = styled.div<{ biggerClick?: boolean }>`
   flex: 1;
+  position: relative;
+  .addressHeader {
+    ${({ biggerClick }) =>
+      biggerClick &&
+      css`
+        display: block;
+        z-index: 11;
+        background-color: white;
+        position: fixed;
+        top: 0;
+        display: flex;
+        padding-top: 17.25pt;
+        padding-bottom: 21pt;
+        border-bottom: 0.75pt solid #e9eaee;
+      `}
+  }
   &.bigger {
     .addressHeader {
       display: block;
@@ -272,7 +326,19 @@ const MapWrap = styled.div`
     }
   }
 `;
-const WholeMap = styled.div`
+const MapBiggerIconBox = styled.div<{ biggerClick?: boolean }>`
+  position: absolute;
+  z-index: 300;
+  top: 0;
+  right: 2.3%;
+  cursor: pointer;
+  display: ${({ biggerClick }) => (biggerClick ? 'none' : '')};
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const WholeMap = styled.div<{ biggerClick?: boolean }>`
   position: fixed;
   height: 495pt;
   display: flex;
@@ -284,6 +350,20 @@ const WholeMap = styled.div`
     margin: 0 15pt;
     position: relative;
     overflow: hidden;
+    ${({ biggerClick }) =>
+      biggerClick &&
+      css`
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        z-index: 11;
+        transform: translateY(-91.5pt);
+        .addressHeader {
+          display: block;
+          z-index: 11;
+          background-color: white;
+        }
+      `};
 
     &.bigger {
       width: 100vw;
@@ -300,7 +380,7 @@ const WholeMap = styled.div`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.div<{ biggerClick?: boolean }>`
   display: none;
   @media (max-width: 899.25pt) {
     /* display: block; */
@@ -314,7 +394,7 @@ const Header = styled.div`
     padding-bottom: 10.5pt;
 
     &.addressHeader {
-      display: none;
+      display: ${({ biggerClick }) => (biggerClick ? 'block' : 'none')};
     }
   }
 `;
@@ -386,6 +466,21 @@ const Input = styled(TextField)`
   @media (max-width: 899.25pt) {
     margin: 0;
   }
+`;
+
+const BigMapAddress = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  padding-left: 15.75pt;
+`;
+
+const BigMapAddressBack = styled.div`
+  padding-left: 20.25pt;
 `;
 
 export default ChargerMap;

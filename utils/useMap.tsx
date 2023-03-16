@@ -23,7 +23,7 @@ function useMap() {
   // 마커
   const contentString = [
     '<div>',
-    '   <img src="/images/blueMapPin.png" />',
+    '   <img src="/images/MapMarkerSvg.svg" />',
     '</div>',
   ].join('');
 
