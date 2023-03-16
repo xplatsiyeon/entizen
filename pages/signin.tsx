@@ -311,6 +311,7 @@ const Signin = () => {
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
     if (naverRef) {
+      console.log(naverRef.current.children[0])
       naverRef.current.children[0].click();
     }
   };
@@ -444,7 +445,7 @@ const Signin = () => {
   useEffect(() => {
     login(naverLogin, (naverLogin) => {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-      // console.log('hash -> ' + hash);
+      console.log('⭐️hash -> ' + hash);
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
@@ -472,6 +473,7 @@ const Signin = () => {
         });
       }
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -904,7 +906,7 @@ const Signin = () => {
                 )}
                 <Box
                   sx={{
-                    margin: '18pt 18pt 5pt 18pt',
+                    margin: '18pt 18pt 0 18pt',
                   }}
                 >
                   <IdRegist onClick={() => router.push('/signUp/Terms')}>
@@ -931,6 +933,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
