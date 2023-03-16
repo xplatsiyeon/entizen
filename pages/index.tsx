@@ -19,7 +19,8 @@ const Home: NextPage<Props> = ({}: Props) => {
   console.log('=================window.location.href==================');
   console.log(window.location.href);
 
-  const landingPage = window.location.href === 'https://entizen.kr/';
+  // const landingPage = window.location.href === 'https://entizen.kr/';
+  const landingPage = window.location.href === 'https://test.entizen.kr/';
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
