@@ -138,6 +138,9 @@ const SearchMapWrapper = styled.div`
 const TextArea = styled(Typography)`
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
+  /* font-family: 'AppleGothicNeo'; */
+  /* font-family: 'abc'; */
+  /* font-family: 'Apple SD Gothic Neo'; */
   font-size: 25.5pt;
   font-weight: 700;
   line-height: 37.5pt;
@@ -146,6 +149,7 @@ const TextArea = styled(Typography)`
   margin: 0 auto 58.5pt;
   color: #222222;
   & span {
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main};
     font-weight: 700;
     letter-spacing: -2%;

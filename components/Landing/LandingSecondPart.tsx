@@ -175,7 +175,7 @@ const TextTyping = styled.div`
 
 const TextTypingFirst = styled.span`
   color: white;
-  font-family: 'Spoqa Han Sans Neo';
+  font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 400;
   font-size: 60pt;

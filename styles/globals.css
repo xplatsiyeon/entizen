@@ -175,12 +175,12 @@ input::placeholder {
   border-color: #5221cb;
 }
 @font-face {
-  font-family: AppleGothicNeo;
-  font-style: normal;
-  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AnyConv.com__AppleSDGothicNeoB.woff')
-    format('woff');
-  /* src: url('Fonts/AnyConv.com__AppleSDGothicNeoB.woff') format('woff'); */
-  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AppleSDGothicNeoB.ttf')
-    format('truetype');
-  /* src: url('Fonts/AppleSDGothicNeoB.ttf') format('truetype'); */
+  /* font-family: 'AppleGothicNeo'; */
+  font-family: 'AppleGothicNeo';
+  src: local('Spoqa Han Sans Neo'),
+    url('/styles/Fonts/AnyConv.com__AppleSDGothicNeoB.woff'), format('woff'),
+    url('/styles/Fonts/AppleSDGothicNeoB.ttf') format('truetype');
+}
+.test123 {
+  font-family: 'AppleGothicNeo';
 }
