@@ -107,9 +107,8 @@ const ChargerMap = (props: Props) => {
   useEffect(() => {
     return () => {
       // console.log('컴포넌트 디드마운트');
-
-      dispatch(coordinateAction.reset());
-      dispatch(locationAction.reset());
+      // dispatch(coordinateAction.reset());
+      // dispatch(locationAction.reset());
     };
   }, []);
 

@@ -144,7 +144,10 @@ const ChargerMap = (props: Props) => {
       <Wrapper>
         <FlexBox>
           <Header onClick={handleBack}>
-            <Image src={btnImg} alt="backBtn" />
+            <ArrowIMGBox>
+              <Image src={btnImg} alt="backBtn" />
+            </ArrowIMGBox>
+            <HeaderText>예상매출</HeaderText>
           </Header>
           <SearchMapArea>
             {/* 모바일에서 주소 검색하는 input 창 주소 검색 누르면 /searchAddress로 넘어감*/}
@@ -187,6 +190,7 @@ const ChargerMap = (props: Props) => {
             {/* 실제 지도 나오는 컴포넌트 */}
             <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap>
             <Header onClick={cancleBigger} className="addressHeader">
+              <span>여기에 주소 넣어 주세용</span>
               <Image src={btnImg} alt="backBtn" />
             </Header>
           </MapWrap>
@@ -299,18 +303,39 @@ const WholeMap = styled.div`
 const Header = styled.div`
   display: none;
   @media (max-width: 899.25pt) {
-    display: block;
+    /* display: block; */
+    display: flex;
+    align-items: center;
     position: relative;
     width: 100%;
     z-index: 10;
     padding-top: 9pt;
-    padding-left: 15pt;
+    /* padding-left: 15pt; */
     padding-bottom: 10.5pt;
 
     &.addressHeader {
       display: none;
     }
   }
+`;
+
+const HeaderText = styled.span`
+  display: flex;
+  justify-content: center;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  margin: 0 auto;
+`;
+
+const ArrowIMGBox = styled.div`
+  position: absolute;
+  left: 15pt;
+  top: 9pt;
 `;
 
 const SearchMapArea = styled.div`
