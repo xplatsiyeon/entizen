@@ -73,6 +73,8 @@ const WebSearchAddress = ({
   const { searchKeyword, locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
+
+  console.log('💓 WebSearchAddress 컴포넌트에서 searchKeyword ', searchKeyword);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFakeWord('');
     setSearchWord(() => e.target.value);

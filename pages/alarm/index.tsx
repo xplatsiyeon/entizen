@@ -19,6 +19,7 @@ import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { useMediaQuery } from 'react-responsive';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -54,6 +55,9 @@ const Alam = () => {
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
   const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   // const [list, setList] = useState(arr.slice(0, 1));
   // const [isLoading, setIsLoading] = useState(false);
@@ -216,31 +220,31 @@ const Alam = () => {
               />
             </div>
           </Header>
+
           <Tab>
             {tabList.map((text, index) => (
-              <TextDiv>
-                <Text
-                  tab={tab}
-                  idx={index}
-                  key={index}
-                  onClick={() => {
-                    tabHandler(index);
-                    // router.push({
-                    //   pathname: '/alarm',
-                    //   query: {
-                    //     id: index,
-                    //   },
-                    // });
+              <Text
+                tab={tab}
+                idx={index}
+                key={index}
+                onClick={() => {
+                  tabHandler(index);
+                  // router.push({
+                  //   pathname: '/alarm',
+                  //   query: {
+                  //     id: index,
+                  //   },
+                  // });
 
-                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
-                  }}
-                >
-                  {text}
-                  {tab === index && <Line />}
-                </Text>
-              </TextDiv>
+                  dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
+                }}
+              >
+                {text}
+                {tab === index && <Line />}
+              </Text>
             ))}
           </Tab>
+
           {/* {list.length === 0 && (
             <Body>
               <Image src={Bell} alt="bell" />
@@ -386,6 +390,7 @@ const Tab = styled(Box)`
   display: flex;
   border-bottom: 0.75pt solid #f3f4f7;
   cursor: pointer;
+  width: 100%;
   @media (min-width: 899.25pt) {
     justify-content: center;
   }
@@ -401,6 +406,8 @@ const Tab = styled(Box)`
 // `;
 const TextDiv = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 const Text = styled.div<{ tab: number; idx: number }>`
   font-family: 'Spoqa Han Sans Neo';
@@ -411,11 +418,14 @@ const Text = styled.div<{ tab: number; idx: number }>`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${({ tab, idx }) => (tab === idx ? colors.main : '#CACCD1')};
-
   padding: 12pt 0;
   position: relative;
-
-  @media (min-width: 899.25pt) {
+  display: flex;
+  justify-content: center;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+  }
+  @media (min-width: 900pt) {
     /* width: 17.334%; */
     width: 24.19%;
   }

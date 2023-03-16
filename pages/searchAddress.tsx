@@ -49,6 +49,8 @@ export interface addressType {
 }
 
 const SearchAddress = (props: Props) => {
+  // 주소 검색하면 여기로 넘어옴!
+
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
@@ -61,17 +63,20 @@ const SearchAddress = (props: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
+
+  console.log('🍎 /searchAddress 주소에서 searchKeyword ', searchKeyword);
+
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
     dispatch(coordinateAction.setMark(true));
-    // dispatch(
-    //   locationAction.load({
-    //     jibunAddr: jibun,
-    //     roadAddrPart: roadad,
-    //     sggNm: sggnm,
-    //     siNm: sinm,
-    //   }),
-    // );
+    dispatch(
+      locationAction.load({
+        jibunAddr: jibun,
+        roadAddrPart: roadad,
+        sggNm: sggnm,
+        siNm: sinm,
+      }),
+    );
     // 예상 매출 금액
     const location = {
       jibunAddr: jibun,
@@ -83,10 +88,11 @@ const SearchAddress = (props: Props) => {
     callInfo('SLOW', location);
     callInfo('FAST', location);
 
-    console.log(location);
+    console.log('/searchAddress 주소에서 location ', location);
 
     await dispatch(locationAction.load(location));
     router.push('/chargerMap');
+    // history.push('/chargerMap');
     // setTimeout(() => {
     //   router.push('/chargerMap');
     // }, 300);
@@ -123,6 +129,12 @@ const SearchAddress = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
+
+  console.log(
+    '❤️‍🔥 /searchAddress 에서 checkSearchedWord(keyWord)',
+    checkSearchedWord(keyWord),
+  );
+  console.log('🍎 /searchAddress 주소에서 searchWord ', searchWord);
 
   useEffect(() => {
     if (searchKeyword.length >= 1) {

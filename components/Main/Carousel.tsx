@@ -97,8 +97,6 @@ const Carousel = () => {
 
   SwipeCore.use([Navigation]);
 
-  console.log('bannerList', companyBannerList);
-
   return (
     <>
       <SwiperMain

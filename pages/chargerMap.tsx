@@ -48,7 +48,7 @@ const ChargerMap = (props: Props) => {
   console.log('chargeInfoOpen', chargeInfoOpen);
 
   // console.log(locationList)
-  console.log('⭐️ locationList : ', locationList);
+  console.log('⭐️ chargerMap 컴포넌트에서 locationList : ', locationList);
 
   useEffect(() => {
     let calcHeight;
@@ -147,6 +147,7 @@ const ChargerMap = (props: Props) => {
             <Image src={btnImg} alt="backBtn" />
           </Header>
           <SearchMapArea>
+            {/* 모바일에서 주소 검색하는 input 창 주소 검색 누르면 /searchAddress로 넘어감*/}
             <Input
               value={locationList.roadAddrPart ? locationList.roadAddrPart : ''}
               type="submit"
@@ -171,6 +172,7 @@ const ChargerMap = (props: Props) => {
             />
           </SearchMapArea>
           <WebWrap>
+            {/* 웹에서 주소 + 예상 견적 보여주는 컴포넌트 */}
             <WrapAddress>
               <WebSearchAddress
                 setType={setType}
@@ -182,6 +184,7 @@ const ChargerMap = (props: Props) => {
             </WrapAddress>
           </WebWrap>
           <MapWrap>
+            {/* 실제 지도 나오는 컴포넌트 */}
             <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap>
             <Header onClick={cancleBigger} className="addressHeader">
               <Image src={btnImg} alt="backBtn" />
@@ -189,6 +192,7 @@ const ChargerMap = (props: Props) => {
           </MapWrap>
         </FlexBox>
         <MobWrap>
+          {/* 모바일에서 예상 견적 보여주는 컴포넌트 */}
           <WebChargerInfo
             selectedCharger={selectedCharger}
             setSelectedCharger={setSelectedCharger}
