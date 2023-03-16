@@ -84,7 +84,7 @@ export const NaverAuthHook =()=>{
     naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
       // 테스트 리다이렉트 주소
-      callbackUrl: `https://api.entizen.kr/signin`,
+      callbackUrl: `https://test-api.entizen.kr/signin`,
       isPopup: false, // 팝업 형태로 인증 여부
       callbackHandle: true,
       loginButton: {
@@ -96,7 +96,7 @@ export const NaverAuthHook =()=>{
 
     // console.log('naverLogin');
     naverLogin?.init();
-
+    checkHash(naverLogin)
     //callBack(naverLogin);
     // }
   };
@@ -162,34 +162,8 @@ export const NaverAuthHook =()=>{
     console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');
     const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
     console.log('⭐️hash -> ' + hash);
-   
-   if (hash) {
-     const token = hash.split('=')[1].split('&')[0]; // token값 확인
-     // console.log('⭐️ token : ', token);
-     console.log(naverLogin)
-     naverLogin.getLoginStatus((status: any) => {
-       if (status) {
-         // console.log('⭐️ status : ', status);
-         NaverApi(naverLogin);
-         // console.log('⭐️ naverLogin : ', naverLogin);
-         dispatch(
-           userAction.add({
-             ...user,
-             email: naverLogin.user.email,
-             snsType: naverLogin.user.snsType,
-           }),
-         );
-         // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
-         router.push({
-           pathname: '/signUp/Terms',
-           query: {
-             token: token,
-           },
-         });
-       }
-     });
-   }
-  },[router.asPath])
+ 
+  },[])
 
    return {login}
 }
