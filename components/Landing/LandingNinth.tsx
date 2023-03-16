@@ -100,7 +100,8 @@ const Wrapper = styled.div`
 const Title = styled.span`
   z-index: 10;
   /* font-family: 'Haan YHead B'; */
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   font-size: 19.5pt;
   /* font-weight: 400; */
   font-weight: 700;
@@ -126,7 +127,8 @@ const UnderLeftText = styled.span`
   /* top: 202.5pt; */
   bottom: 45pt;
   left: 195pt;
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   font-size: 19.5pt;
   font-weight: 800;
   line-height: 30pt;
@@ -166,7 +168,8 @@ const RightBox = styled.div`
 `;
 
 const UnderRightText = styled.span`
-  font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
+  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
+  font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 600;
   line-height: 12pt;
