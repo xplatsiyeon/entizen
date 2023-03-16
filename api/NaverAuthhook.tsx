@@ -17,7 +17,7 @@ export const NaverAuthHook =()=>{
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.userList);
 
- //let naverLogin: any;
+ let naverLogin: any;
 
 
  const checkHash = (naverLogin:any) => {
@@ -52,9 +52,33 @@ export const NaverAuthHook =()=>{
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }
 
-  const loginNaver = (
-    naverLogin : any
+  const login = (
   ) => {
+  //   const naver = (window as any).naver;
+  //   // if (naverLogin) {
+  //   naverLogin = new naver.LoginWithNaverId({
+  //     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
+  //     // 테스트 리다이렉트 주소
+  //     callbackUrl: `https://api.entizen.kr/signin`,
+  //     isPopup: false, // 팝업 형태로 인증 여부
+  //     callbackHandle: true,
+  //     loginButton: {
+  //       color: 'green', // 색상
+  //       type: 3, // 버튼 크기
+  //       height: '60', // 버튼 높이
+  //     }, // 로그인 버튼 설정
+  //   });
+    
+  //   const clientId = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID; // ClientID
+  //   // 테스트 리다이렉트 주소
+  //   const callbackUrl = `https://api.entizen.kr/signin`;
+  
+  //  // console.log('naverLogin',naverLogin);
+  //   naverLogin.init();
+  //   router.push(`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=${callbackUrl}`)
+  //   //https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=un493qdxNV0yNF9DxDxH&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=https%3A%2F%2Fapi.entizen.kr%2Fsignin&version=js-2.0.0&svctype=1
+  //   // }
+  
     const naver = (window as any).naver;
     // if (naverLogin) {
     naverLogin = new naver.LoginWithNaverId({
@@ -69,15 +93,11 @@ export const NaverAuthHook =()=>{
         height: '60', // 버튼 높이
       }, // 로그인 버튼 설정
     });
-    
-    const clientId = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID; // ClientID
-    // 테스트 리다이렉트 주소
-    const callbackUrl = `https://api.entizen.kr/signin`;
-  
-   // console.log('naverLogin',naverLogin);
-    naverLogin.init();
-    router.push(`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=${callbackUrl}`)
-    //https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=un493qdxNV0yNF9DxDxH&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=https%3A%2F%2Fapi.entizen.kr%2Fsignin&version=js-2.0.0&svctype=1
+
+    // console.log('naverLogin');
+    naverLogin?.init();
+
+    //callBack(naverLogin);
     // }
   };
 
@@ -138,5 +158,37 @@ export const NaverAuthHook =()=>{
 //     }
 //   };
 
-   return {loginNaver}
+  useEffect(()=>{
+    console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');
+    const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
+    console.log('⭐️hash -> ' + hash);
+ 
+   if (hash) {
+     const token = hash.split('=')[1].split('&')[0]; // token값 확인
+     // console.log('⭐️ token : ', token);
+     naverLogin.getLoginStatus((status: any) => {
+       if (status) {
+         // console.log('⭐️ status : ', status);
+         NaverApi(naverLogin);
+         // console.log('⭐️ naverLogin : ', naverLogin);
+         dispatch(
+           userAction.add({
+             ...user,
+             email: naverLogin.user.email,
+             snsType: naverLogin.user.snsType,
+           }),
+         );
+         // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
+         router.push({
+           pathname: '/signUp/Terms',
+           query: {
+             token: token,
+           },
+         });
+       }
+     });
+   }
+  },[router.asPath])
+
+   return {login}
 }

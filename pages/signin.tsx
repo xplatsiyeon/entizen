@@ -9,7 +9,7 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-import { login } from 'api/naver';
+//import { login } from 'api/naver';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -33,6 +33,7 @@ import MobileFindModal from 'components/Modal/MobileFindModal';
 import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
+import { NaverAuthHook } from 'api/NaverAuthhook';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -104,6 +105,10 @@ const Signin = () => {
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
   const appleRef = useRef<HTMLDivElement>(null);
+
+  const {login} = NaverAuthHook();
+
+
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -443,7 +448,7 @@ const Signin = () => {
   }, []);
   // 네이버 로그인
   useEffect(() => {
-     login(naverLogin //, (naverLogin) => {
+     login( //, (naverLogin) => {
     //   const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
     //   console.log('⭐️hash -> ' + hash);
 
