@@ -54,21 +54,6 @@ export const NaverAuthHook =()=>{
 
   const login = (
   ) => {
-  //   const naver = (window as any).naver;
-  //   // if (naverLogin) {
-  //   naverLogin = new naver.LoginWithNaverId({
-  //     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
-  //     // 테스트 리다이렉트 주소
-  //     callbackUrl: `https://api.entizen.kr/signin`,
-  //     isPopup: false, // 팝업 형태로 인증 여부
-  //     callbackHandle: true,
-  //     loginButton: {
-  //       color: 'green', // 색상
-  //       type: 3, // 버튼 크기
-  //       height: '60', // 버튼 높이
-  //     }, // 로그인 버튼 설정
-  //   });
-    
   //   const clientId = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID; // ClientID
   //   // 테스트 리다이렉트 주소
   //   const callbackUrl = `https://api.entizen.kr/signin`;
@@ -84,7 +69,7 @@ export const NaverAuthHook =()=>{
     naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
       // 테스트 리다이렉트 주소
-      callbackUrl: `https://test-api.entizen.kr/signin`,
+      callbackUrl: `https://api.entizen.kr/signin`,
       isPopup: false, // 팝업 형태로 인증 여부
       callbackHandle: true,
       loginButton: {
