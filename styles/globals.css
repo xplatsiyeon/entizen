@@ -177,10 +177,10 @@ input::placeholder {
 @font-face {
   font-family: AppleGothicNeo;
   font-style: normal;
-  /* src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AnyConv.com__AppleSDGothicNeoB.woff')
-    format('woff'); */
-  src: url('public/Fonts/AnyConv.com__AppleSDGothicNeoB.woff') format('woff');
-  /* src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AppleSDGothicNeoB.ttf')
-    format('truetype'); */
-  src: url('public/Fonts/AppleSDGothicNeoB.ttf') format('truetype');
+  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AnyConv.com__AppleSDGothicNeoB.woff')
+    format('woff');
+  /* src: url('Fonts/AnyConv.com__AppleSDGothicNeoB.woff') format('woff'); */
+  src: url('/Users/stevelabs/Desktop/entizen-frontend-next/public/Fonts/AppleSDGothicNeoB.ttf')
+    format('truetype');
+  /* src: url('Fonts/AppleSDGothicNeoB.ttf') format('truetype'); */
 }
