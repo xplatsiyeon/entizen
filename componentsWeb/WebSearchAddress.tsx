@@ -93,6 +93,8 @@ const WebSearchAddress = ({
 
     setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
+
+    // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
       dispatch(
         locationAction.load({
@@ -121,6 +123,7 @@ const WebSearchAddress = ({
   // 처음 검색 시 배열 0번째 주소로 이동
   useEffect(() => {
     dispatch(coordinateAction.setMark(false));
+    // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
       dispatch(
         locationAction.load({
