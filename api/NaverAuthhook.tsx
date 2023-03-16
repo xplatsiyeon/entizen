@@ -166,7 +166,7 @@ export const NaverAuthHook =()=>{
    if (hash) {
      const token = hash.split('=')[1].split('&')[0]; // token값 확인
      // console.log('⭐️ token : ', token);
-     console.log(naverLogin.getLoginStatus)
+     console.log(naverLogin)
      naverLogin.getLoginStatus((status: any) => {
        if (status) {
          // console.log('⭐️ status : ', status);
