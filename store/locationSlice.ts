@@ -27,6 +27,7 @@ const slice = createSlice({
   reducers: {
     load(state, action) {
       state.locationList = action.payload;
+      // state.filter((ele)=> ele.locationList === action.payload)
     },
     addKeyword(state, action: PayloadAction<string>) {
       state.searchKeyword = action.payload;

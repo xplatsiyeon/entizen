@@ -64,7 +64,11 @@ const SearchAddress = (props: Props) => {
     setSearchWord(() => e.target.value);
   };
 
-  console.log('🍎 /searchAddress 주소에서 searchKeyword ', searchKeyword);
+  const { locationList } = useSelector(
+    (state: RootState) => state.locationList,
+  );
+
+  console.log('🍎 /searchAddress 주소에서 locationList ', locationList);
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
@@ -92,7 +96,7 @@ const SearchAddress = (props: Props) => {
 
     await dispatch(locationAction.load(location));
     router.push('/chargerMap');
-    // history.push('/chargerMap');
+
     // setTimeout(() => {
     //   router.push('/chargerMap');
     // }, 300);

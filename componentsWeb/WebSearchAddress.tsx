@@ -19,6 +19,7 @@ import Loader from 'components/Loader';
 import { coordinateAction } from 'store/lnglatSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
 import useCharger from 'hooks/useCharger';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,6 +70,10 @@ const WebSearchAddress = ({
   const dispatch = useDispatch();
   const { callInfo } = useCharger();
 
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
   let keyWord = useDebounce(searchWord, 300);
   const { searchKeyword, locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -88,14 +93,17 @@ const WebSearchAddress = ({
 
     setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
-    dispatch(
-      locationAction.load({
-        jibunAddr: jibun,
-        roadAddrPart: roadad,
-        sggNm: sggnm,
-        siNm: sinm,
-      }),
-    );
+    if (!mobile) {
+      dispatch(
+        locationAction.load({
+          jibunAddr: jibun,
+          roadAddrPart: roadad,
+          sggNm: sggnm,
+          siNm: sinm,
+        }),
+      );
+    }
+
     // 예상 매출 금액
     const location = {
       jibunAddr: jibun,
@@ -113,14 +121,16 @@ const WebSearchAddress = ({
   // 처음 검색 시 배열 0번째 주소로 이동
   useEffect(() => {
     dispatch(coordinateAction.setMark(false));
-    dispatch(
-      locationAction.load({
-        jibunAddr: results[0]?.jibunAddr,
-        roadAddrPart: results[0]?.roadAddr,
-        sggNm: results[0]?.sggNm,
-        siNm: results[0]?.siNm,
-      }),
-    );
+    if (!mobile) {
+      dispatch(
+        locationAction.load({
+          jibunAddr: results[0]?.jibunAddr,
+          roadAddrPart: results[0]?.roadAddr,
+          sggNm: results[0]?.sggNm,
+          siNm: results[0]?.siNm,
+        }),
+      );
+    }
     // setFakeWord(locationList.jibunAddr);
   }, [results]);
 
