@@ -68,8 +68,6 @@ const SearchAddress = (props: Props) => {
     (state: RootState) => state.locationList,
   );
 
-  console.log('🍎 /searchAddress 주소에서 locationList ', locationList);
-
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
     dispatch(coordinateAction.setMark(true));
@@ -133,12 +131,6 @@ const SearchAddress = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
-
-  console.log(
-    '❤️‍🔥 /searchAddress 에서 checkSearchedWord(keyWord)',
-    checkSearchedWord(keyWord),
-  );
-  console.log('🍎 /searchAddress 주소에서 searchWord ', searchWord);
 
   useEffect(() => {
     if (searchKeyword.length >= 1) {
