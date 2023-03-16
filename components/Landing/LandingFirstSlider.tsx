@@ -103,7 +103,7 @@ const Box = styled.div`
 
 const MainTitle = styled.span`
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  font-family: 'AppleGothicNeo';
+  font-family: AppleGothicNeo;
   font-size: 60pt;
   font-weight: 800;
   line-height: 82.5pt;
