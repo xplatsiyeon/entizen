@@ -51,6 +51,8 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
     refetch: termRefetch,
   } = useQuery<any>('faq-list', () => getApi(`/terms/service`));
 
+  console.log('term', term);
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
@@ -722,14 +724,18 @@ const WebRapper = styled.div`
     padding-top: 42pt;
     padding-bottom: 132pt;
     width: 580.5pt;
-    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
   }
 `;
 
 const Wrapper = styled.div`
   white-space: pre;
+  width: 100%;
+  position: relative;
+
   div {
+    width: 100%;
     white-space: pre;
   }
   img {
@@ -749,11 +755,26 @@ const Wrapper = styled.div`
   em {
     font-style: italic;
   }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+  }
   padding-left: 15pt;
   padding-right: 15pt;
   @media (min-width: 900pt) {
     padding: 0 38.25pt;
-    max-height: 625px;
+    max-height: 468.75pt;
     overflow-y: scroll;
   }
 `;

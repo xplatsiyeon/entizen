@@ -933,14 +933,19 @@ const ProjectCompleteDetail = ({
                         (innerCharger, innerIndex) =>
                           innerCharger.productFileType === 'IMAGE' && (
                             <div className="imgBox" key={innerIndex}>
-                              <Image
-                                src={innerCharger.url}
-                                alt="charge-img"
-                                priority={true}
-                                unoptimized={true}
-                                layout="fill"
-                                objectFit="cover"
-                              />
+                              <a
+                                href={innerCharger.url!}
+                                download={innerCharger.originalName!}
+                              >
+                                <Image
+                                  src={innerCharger.url}
+                                  alt="charge-img"
+                                  priority={true}
+                                  unoptimized={true}
+                                  layout="fill"
+                                  objectFit="cover"
+                                />
+                              </a>
                               <div className="imgExit">
                                 <Image
                                   src={ExitBtn}
@@ -1092,14 +1097,16 @@ const ProjectCompleteDetail = ({
                     {data?.data?.project?.projectCompletionFiles.map(
                       (item, index) => (
                         <div className="imgBox">
-                          <Image
-                            src={item?.url}
-                            alt="charge-img"
-                            priority={true}
-                            unoptimized={true}
-                            layout="fill"
-                            objectFit="cover"
-                          />
+                          <a href={item?.url} download={item?.originalName}>
+                            <Image
+                              src={item?.url}
+                              alt="charge-img"
+                              priority={true}
+                              unoptimized={true}
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          </a>
                           <div className="imgExit">
                             <Image
                               src={ExitBtn}

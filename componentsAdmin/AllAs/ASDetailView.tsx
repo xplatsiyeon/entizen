@@ -370,16 +370,18 @@ const ASDetailView = ({
                 {data?.data?.afterSalesService?.afterSalesServiceRequestFiles.map(
                   (img, index) => (
                     <ImgSpan key={index}>
-                      <Image
-                        layout="fill"
-                        alt="preview"
-                        data-name={index}
-                        key={index}
-                        src={img.url}
-                        priority={true}
-                        unoptimized={true}
-                        objectFit="cover"
-                      />
+                      <a href={img.url!} download>
+                        <Image
+                          layout="fill"
+                          alt="preview"
+                          data-name={index}
+                          key={index}
+                          src={img.url}
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
+                        />
+                      </a>
                       <Xbox
                         onClick={() => {
                           setFileIdx(img?.afterSalesServiceRequestFileIdx);
@@ -444,16 +446,18 @@ const ASDetailView = ({
                     {data?.data?.afterSalesService?.afterSalesServiceCompletionFiles.map(
                       (img, index) => (
                         <ImgSpan key={index}>
-                          <Image
-                            layout="fill"
-                            alt="preview"
-                            data-name={index}
-                            key={index}
-                            src={img.url}
-                            priority={true}
-                            unoptimized={true}
-                            objectFit="cover"
-                          />
+                          <a href={img.url}>
+                            <Image
+                              layout="fill"
+                              alt="preview"
+                              data-name={index}
+                              key={index}
+                              src={img.url}
+                              priority={true}
+                              unoptimized={true}
+                              objectFit="cover"
+                            />
+                          </a>
                           <Xbox
                             onClick={() => {
                               setFileIdx(

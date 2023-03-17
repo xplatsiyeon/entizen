@@ -33,7 +33,7 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
                   selectedCharger === index ? '#ffffff' : '#F3F4F7',
                 boxShadow:
                   selectedCharger === index
-                    ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
+                    ? '0pt 0pt 6pt rgba(137, 163, 201, 0.2)'
                     : 'none',
               }}
             >

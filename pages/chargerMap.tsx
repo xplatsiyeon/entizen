@@ -31,12 +31,12 @@ export interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const { locationList } = useSelector(
+  const { locationList, searchKeyword } = useSelector(
     (state: RootState) => state.locationList,
   );
   const dispatch = useDispatch();
   const web = useMediaQuery({
-    query: '(min-width:899.25pt)',
+    query: '(min-width:900pt)',
   });
 
   useMap();
@@ -48,8 +48,8 @@ const ChargerMap = (props: Props) => {
   const [type, setType] = useState<boolean>(false);
   const biggerRef = useRef(null);
   const [biggerClick, setBiggerClick] = useState(false);
+  const [searchWord, setSearchWord] = useState<string>('');
   console.log('chargeInfoOpen', chargeInfoOpen);
-  console.log('biggerRef 🧡', biggerRef);
 
   // console.log(locationList)
   console.log('⭐️ chargerMap 컴포넌트에서 locationList : ', locationList);
@@ -151,6 +151,35 @@ const ChargerMap = (props: Props) => {
     window.dispatchEvent(new Event('resize'));
   }, [biggerClick]);
 
+  // setChargerInfo 조건
+  // 웹 -> 모바일일때는 문제 없음
+  // 모바일에서 주소 검색하고 견적나오고, 견족 나온상태에서 웹으로 비율 키우면 chargerInfo가 true로 변경되야함(+ 주소도 키워드가 아니라 내가 견적낸 주소의 전체 주소가 나와야함)
+  // 그리고 웹에서 새로운 주소 검색할때는 다시 chargerInfo가 fasle로 되어야함
+
+  // useEffect(() => {
+  //   if (web) {
+  //     if (searchKeyword !== searchWord) {
+  //       setChargeInfoOpen(false);
+  //     } else if (searchKeyword === '') {
+  //       setChargeInfoOpen(false);
+  //     } else if (searchWord === '') {
+  //       setChargeInfoOpen(false);
+  //     }
+  //     if (
+  //       locationList.jibunAddr !== '' ||
+  //       locationList.jibunAddr !== undefined
+  //     ) {
+  //       console.log(
+  //         `locationList.jibunAddr !== '' || locationList.jibunAddr !== undefined`,
+  //       );
+
+  //       setChargeInfoOpen(true);
+  //     } else {
+  //       setChargeInfoOpen(false);
+  //     }
+  //   }
+  // }, [locationList, web, searchKeyword, searchWord]);
+
   return (
     <>
       <WebHeader />
@@ -191,6 +220,8 @@ const ChargerMap = (props: Props) => {
             {/* 웹에서 주소 + 예상 견적 보여주는 컴포넌트 */}
             <WrapAddress>
               <WebSearchAddress
+                searchWord={searchWord}
+                setSearchWord={setSearchWord}
                 setType={setType}
                 chargeInfoOpen={chargeInfoOpen}
                 setChargeInfoOpen={setChargeInfoOpen}

@@ -198,13 +198,13 @@ const ChargerMap = (props: Props) => {
 
           {web ? (
             <WrapAddress>
-              <WebSearchAddress
+              {/* <WebSearchAddress
                 setType={setType}
                 chargeInfoOpen={chargeInfoOpen}
                 setChargeInfoOpen={setChargeInfoOpen}
                 selectedCharger={selectedCharger}
                 setSelectedCharger={setSelectedCharger}
-              />
+              /> */}
             </WrapAddress>
           ) : (
             <ChargerInfo
