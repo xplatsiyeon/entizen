@@ -338,6 +338,8 @@ const AdminTermsEditor = ({
 
   // }, [bodyText]);
 
+  console.log('bodyText🖤💔💖💝', bodyText);
+
   return (
     <>
       <Background>
