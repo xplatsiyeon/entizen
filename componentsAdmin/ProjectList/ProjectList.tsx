@@ -23,6 +23,7 @@ export const projectState = [
   '준비',
   '설치',
   '완료 중',
+  '완료 대기',
   '승인 대기',
 ];
 
@@ -89,6 +90,8 @@ const ProjectList = ({ setNowHeight }: Props) => {
       return 'installation';
     } else if (data === '완료 중') {
       return 'completing';
+    } else if (data === '완료 대기') {
+      return 'awaitingCompletion';
     } else if (data === '승인 대기') {
       return 'awaitingApproval';
     }
