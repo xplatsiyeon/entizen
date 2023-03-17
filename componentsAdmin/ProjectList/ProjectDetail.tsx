@@ -985,14 +985,19 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                         (innerCharger, innerIndex) =>
                           innerCharger.productFileType === 'IMAGE' && (
                             <div className="imgBox" key={innerIndex}>
-                              <Image
-                                src={innerCharger.url}
-                                alt="charge-img"
-                                priority={true}
-                                unoptimized={true}
-                                layout="fill"
-                                objectFit="cover"
-                              />
+                              <a
+                                href={innerCharger.url!}
+                                download={innerCharger.originalName!}
+                              >
+                                <Image
+                                  src={innerCharger.url}
+                                  alt="charge-img"
+                                  priority={true}
+                                  unoptimized={true}
+                                  layout="fill"
+                                  objectFit="cover"
+                                />
+                              </a>
                               <div className="imgExit">
                                 <Image
                                   src={ExitBtn}
@@ -1115,14 +1120,16 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                     {data?.data?.project?.projectCompletionFiles.map(
                       (item, index) => (
                         <div className="imgBox">
-                          <Image
-                            src={item?.url}
-                            alt="charge-img"
-                            priority={true}
-                            unoptimized={true}
-                            layout="fill"
-                            objectFit="cover"
-                          />
+                          <a href={item?.url} download={item?.originalName}>
+                            <Image
+                              src={item?.url}
+                              alt="charge-img"
+                              priority={true}
+                              unoptimized={true}
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          </a>
                           <div className="imgExit">
                             <Image
                               src={ExitBtn}
@@ -1404,7 +1411,7 @@ const ImgList = styled.div<{ dataLength?: number }>`
   .container {
     display: flex;
     gap: 10px;
-    overflow-x: auto;
+    overflow-x: scroll;
     width: 920px;
 
     ::-webkit-scrollbar {

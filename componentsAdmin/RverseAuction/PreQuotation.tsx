@@ -300,13 +300,19 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                       (innerCharger, innerIndex) =>
                         innerCharger.productFileType === 'IMAGE' && (
                           <div className="imgBox" key={innerIndex}>
-                            <Image
-                              src={innerCharger.url!}
-                              alt="charge-img"
-                              priority={true}
-                              unoptimized={true}
-                              layout="fill"
-                            />
+                            <a
+                              href={innerCharger.url!}
+                              download={innerCharger.originalName!}
+                            >
+                              <Image
+                                src={innerCharger.url!}
+                                alt="charge-img"
+                                priority={true}
+                                unoptimized={true}
+                                layout="fill"
+                                objectFit="cover"
+                              />
+                            </a>
                             <div className="imgExit">
                               <Image
                                 src={ExitBtn}
