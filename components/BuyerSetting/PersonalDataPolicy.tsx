@@ -51,6 +51,8 @@ const PersonalDataPolicy = ({ setTabNumber, nowWidth }: Props) => {
     refetch: termRefetch,
   } = useQuery<any>('faq-list', () => getApi(`/terms/personal-info`));
 
+  console.log('term', term);
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
@@ -323,17 +325,54 @@ const WebRapper = styled.div`
     padding-top: 42pt;
     padding-bottom: 132pt;
     width: 580.5pt;
-    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
   }
 `;
 
 const Wrapper = styled.div`
+  white-space: pre;
+  div {
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+  }
   padding-left: 15pt;
   padding-right: 15pt;
   @media (min-width: 900pt) {
     padding: 0 38.25pt;
-    max-height: 625px;
+    max-height: 468.75pt;
     overflow-y: scroll;
   }
 `;
@@ -363,7 +402,7 @@ const Header = styled(Box)`
 const Title = styled.div`
   margin-top: 21pt;
   & span {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 18pt;
     font-weight: 700;
     line-height: 18pt;
@@ -374,7 +413,7 @@ const Title = styled.div`
 const Subtitle = styled.div`
   margin-top: 34pt;
   & span {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 700;
     line-height: 18pt;
@@ -385,7 +424,7 @@ const Subtitle = styled.div`
 const SubSubtitle = styled.div`
   margin-top: 24pt;
   & span {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 15pt;

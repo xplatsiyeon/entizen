@@ -27,6 +27,8 @@ type Props = {
   setChargeInfoOpen: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
+  setSearchWord: React.Dispatch<React.SetStateAction<string>>;
+  searchWord: string;
 };
 
 export interface addressType {
@@ -61,8 +63,10 @@ const WebSearchAddress = ({
   setChargeInfoOpen,
   selectedCharger,
   setSelectedCharger,
+  setSearchWord,
+  searchWord,
 }: Props) => {
-  const [searchWord, setSearchWord] = useState<string>('');
+  // const [searchWord, setSearchWord] = useState<string>('');
   const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,11 +83,11 @@ const WebSearchAddress = ({
     (state: RootState) => state.locationList,
   );
 
-  console.log('💓 WebSearchAddress 컴포넌트에서 searchKeyword ', searchKeyword);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFakeWord('');
     setSearchWord(() => e.target.value);
   };
+
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
     // console.log('jibun==>', jibun);
@@ -96,6 +100,8 @@ const WebSearchAddress = ({
 
     // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
+      // 검색 키워드
+      dispatch(locationAction.addKeyword(searchWord));
       dispatch(
         locationAction.load({
           jibunAddr: jibun,
@@ -125,6 +131,8 @@ const WebSearchAddress = ({
     dispatch(coordinateAction.setMark(false));
     // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
+      // 검색 키워드
+      dispatch(locationAction.addKeyword(searchWord));
       dispatch(
         locationAction.load({
           jibunAddr: results[0]?.jibunAddr,

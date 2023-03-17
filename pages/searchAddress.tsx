@@ -70,6 +70,8 @@ const SearchAddress = (props: Props) => {
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    // 검색 키워드
+    dispatch(locationAction.addKeyword(searchWord));
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
