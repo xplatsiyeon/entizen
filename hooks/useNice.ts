@@ -80,6 +80,7 @@ const useNice = () => {
     }
   };
 
+    // 인증된 정보의 회원 유효성검사
     // cloneDocument.form_chk.submit(); 다음 실행될 함수
     const onSubmitBtn = ()=>{
         let key = localStorage.getItem('key');
@@ -87,7 +88,7 @@ const useNice = () => {
         let data: FindKey = JSON.parse(key!);
         // console.log('data==>', data);
   
-
+        //동작 예시 코드.
         // if (data.name === name && data.id === id) {
         //   setStep(1);
         // } else {
