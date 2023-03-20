@@ -34,6 +34,10 @@ import AdminDataExcel from 'componentsAdmin/AdminDataDownload/AdminDataExcel/Adm
 import AdimAccountListTable from 'componentsAdmin/AdminAccount/AdimAccountListTable';
 import AdminAllAlarm from 'componentsAdmin/AdminAllAlarm/AdminAllAlarm';
 import OutstandingWork from 'componentsAdmin/MainDashboard/OutstandingWork/OutstandingWork';
+import ChargerGuideList from 'componentsAdmin/AdminGuideNotify/ChargerGuide/ChargerGuideList';
+import PlatformGuideList from 'componentsAdmin/AdminGuideNotify/PlatformGuide/PlatformGuideList';
+import PriceInformationList from 'componentsAdmin/AdminGuideNotify/PriceInformation/PriceInformationList';
+import SubscribeGuideList from 'componentsAdmin/AdminGuideNotify/SubscribeGuide/SubscribeGuideList';
 
 type Props = {};
 
@@ -124,6 +128,21 @@ const index = (props: Props) => {
       {number === 29 && <AdminDataExcel setNowHeight={setNowHeight} />}
       {number === 30 && <OutstandingWork />}
       {number === 20 && <AdminAllAlarm setNowHeight={setNowHeight} />}
+      {number === 31 && (
+        <PlatformGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 32 && (
+        <SubscribeGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 33 && (
+        <ChargerGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 34 && (
+        <PriceInformationList
+          setNowHeight={setNowHeight}
+          setNumber={setNumber}
+        />
+      )}
     </Background>
   );
 };

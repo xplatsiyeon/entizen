@@ -208,6 +208,22 @@ export type PartnerProductData = {
   };
 };
 
+// 가이드 리스트
+export interface AdminGuideListResponse {
+  isSuccess: true;
+  data: {
+    guides: {
+      createdAt: string;
+      updatedAt: string;
+      deletedAt: string;
+      guideIdx: number;
+      guideKind: string;
+      title: string;
+      content: string;
+    }[];
+  };
+}
+
 export type PartnerProducts = {
   chargerProductIdx: number;
   manufacturer: string;

@@ -12,7 +12,7 @@ type Props = {
 const AdminDataExcel = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
     alert('개발중입니다.');

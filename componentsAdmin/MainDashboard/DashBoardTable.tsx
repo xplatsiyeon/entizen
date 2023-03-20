@@ -46,7 +46,7 @@ const DashBoardTable = ({
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // 오늘 날짜.
   const today = new Date();
   // console.log(adminDateFomat(String(today)));

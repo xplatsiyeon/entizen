@@ -37,7 +37,7 @@ const AdminHeader = ({
   excelData,
   etcModify,
 }: Props) => {
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
 
   const token: AdminJwtTokenType | undefined = accessToken
     ? jwt_decode(accessToken!)

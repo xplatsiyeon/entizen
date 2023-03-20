@@ -84,7 +84,7 @@ const CommunicationTable = ({
   */
   // 🎀 소통하기 리스트 조회
   // /admin/chatting/members?page=1&limit=10&startDate=2022-12-19&endDate=2022-12-19
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const { data: userChatting, refetch: userChattingRefetch } =
     useQuery<UserChattingListResponse>(
       'userChatting',
@@ -185,7 +185,7 @@ const CommunicationTable = ({
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
                 ele.consultStatus + (ele.isUnread ? '(읽지않음)' : ''),
-                (ele.unreadCount === 0? ' - ': ele.unreadCount),
+                ele.unreadCount === 0 ? ' - ' : ele.unreadCount,
                 [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
@@ -402,7 +402,6 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   height: 490px;
-
 `;
 
 const BtnGap = styled.div`

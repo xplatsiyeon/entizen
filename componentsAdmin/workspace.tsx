@@ -38,6 +38,7 @@ const openList = [
   '엔티즌 도서관',
   '파트너 등록 제품',
   '정보수정',
+  '가이드 수정',
   '알림',
   'DATA 다운로드',
   'DATA 업데이트',
@@ -46,7 +47,7 @@ const openList = [
 
 const Workspace = ({ setNumber, nowHeight }: Props) => {
   // 이름 가져오기
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const token: AdminJwtTokenType | undefined = accessToken
     ? jwt_decode(accessToken!)
     : undefined;
@@ -72,6 +73,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
     ['리스트 조회'],
     ['회사별 리스트'],
     ['약관', '공지사항', '배너', 'FAQ'],
+    ['플랫폼 가이드', '구독 가이드', '충전기 가이드', '요금 정보'],
     // ['약관', '공지사항', '배너', '가이드', 'FAQ'],
     ['알림'],
     ['DATA 다운로드'],
@@ -259,6 +261,22 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
         dispatch(adminPageNumberAction.setIsAdminPage(30));
         break;
 
+      case '플랫폼 가이드':
+        dispatch(adminPageNumberAction.setIsAdminPage(31));
+        break;
+
+      case '구독 가이드':
+        dispatch(adminPageNumberAction.setIsAdminPage(32));
+        break;
+
+      case '충전기 가이드':
+        dispatch(adminPageNumberAction.setIsAdminPage(33));
+        break;
+
+      case '요금 정보':
+        dispatch(adminPageNumberAction.setIsAdminPage(34));
+        break;
+
       default:
         // setNumber(0);
         dispatch(adminPageNumberAction.setIsAdminPage(0));
@@ -283,6 +301,8 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   // }, [nowHeight]);
 
   // console.log('nowHeight', nowHeight);
+
+  console.log('accessToken 💞', accessToken);
 
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>

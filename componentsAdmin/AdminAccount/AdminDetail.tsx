@@ -45,7 +45,7 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
   const [isChecked, setIsChecked] = useState(false);
 
   // 추후에 jwt에 관리자 등급있으면 슈퍼 관리자만 관리자 등록 및 관리자 등급 수정과 아이디 삭제가능
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   const token: AdminJwtTokenType = jwt_decode(accessToken);
   // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
   // console.log('token', token);

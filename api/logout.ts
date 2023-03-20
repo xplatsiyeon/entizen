@@ -72,7 +72,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
-  const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   await axios({
     method: 'post',
     url: ADMIN_LOG_OUT_API,
