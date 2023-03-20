@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { api, getApi, isTokenAdminPatchApi } from 'api';
@@ -21,7 +20,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import { AdminTermsListResponse } from 'types/tableDataType';
+import {
+  AdminGuideListResponse,
+  AdminTermsListResponse,
+} from 'types/tableDataType';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import dynamic from 'next/dynamic';
 import htmlToDraft from 'html-to-draftjs';
@@ -60,7 +62,7 @@ export const dropDownValue = [
 export interface GuideUpdate {
   isSuccess: true;
   data: {
-    guide: {
+    guides: {
       createdAt: string;
       updatedAt: string;
       deletedAt: string;
@@ -81,9 +83,17 @@ const PlatformGuideEditor = ({
   // 공지사항 등록, 수정시 refetch
   // 리스트 페이지 데이터 불러오는 api 임
   const { data: guideList, refetch: guideListRefetch } =
-    useQuery<AdminTermsListResponse>('guideList', () =>
+    useQuery<AdminGuideListResponse>('guideList', () =>
       isTokenAdminGetApi(`/admin/guides`),
     );
+
+  const secondArray = guideList?.data?.guides
+    ?.filter((item) => item.guideKind === 'PLATFORM')
+    .map((el) => el.title);
+
+  const newDropDown = (firstArray: string[], secondArray: string[]) => {
+    return firstArray.filter((item) => !secondArray.includes(item));
+  };
 
   // 제목
   const [title, setTitle] = useState<string>('');
@@ -106,10 +116,10 @@ const PlatformGuideEditor = ({
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: (res) => {
-        setBodyText(res?.data?.guide?.content!);
+        setBodyText(res?.data?.guides?.content!);
       },
       onSettled: (res) => {
-        res?.data?.guide?.guideKind === 'PLATFORM';
+        res?.data?.guides?.guideKind === 'PLATFORM';
       },
     },
   );
@@ -120,7 +130,7 @@ const PlatformGuideEditor = ({
   const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
-  const firstContent = data?.data?.guide?.content!;
+  const firstContent = data?.data?.guides?.content!;
 
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
@@ -129,6 +139,7 @@ const PlatformGuideEditor = ({
   const [selectValue, setSelectValue] = useState<string>('');
   const [selctValueEn, setSelctValueEn] = useState<number>(0);
   const [selctValueKr, setSelctValueKr] = useState<number>(0);
+  const [dropDownClick, setDropDownClick] = useState(true);
 
   // Draft 값 state
   // useState로 상태관리하기 초기값은 EditorState.createEmpty()
@@ -180,7 +191,8 @@ const PlatformGuideEditor = ({
         url: `/admin/guides`,
         data: {
           guideKind: 'PLATFORM',
-          title: dropDownValue[selctValueKr],
+          // title: dropDownValue[selctValueKr],
+          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
           content: bodyText,
         },
       });
@@ -308,6 +320,9 @@ const PlatformGuideEditor = ({
     //   console.log('res', res);
     //   res.innerHTML = bodyText;
     // }
+    if (data?.data !== undefined) {
+      setDropDownClick(false);
+    }
   }, [data]);
 
   //   useEffect(() => {
@@ -320,10 +335,16 @@ const PlatformGuideEditor = ({
   //   }, [selctValueEn, selctValueKr, selectValue, data]);
 
   useEffect(() => {
-    setSelctValueKr(dropDownValue.indexOf(selectValue));
+    setSelctValueKr(
+      newDropDown(dropDownValue, secondArray!).indexOf(selectValue),
+    );
     // if (data?.data?.guideKind === 'PLATFORM') {
-    if (data?.data !== undefined) {
-      setSelctValueKr(dropDownValue.indexOf(data?.data?.guide?.title));
+    if (data?.data?.guides?.title !== undefined) {
+      setSelctValueKr(
+        newDropDown(dropDownValue, secondArray!).indexOf(
+          data?.data?.guides?.title,
+        ),
+      );
     } else {
       setSelctValueKr(0);
     }
@@ -364,15 +385,22 @@ const PlatformGuideEditor = ({
           </TitleWrapper>
           <SubText>플랫폼 가이드 등록</SubText>
           <TitleContainer>
-            <DropDownBtn
-              dropDownValue={dropDownValue}
-              setSelectValue={setSelectValue}
-              selectValue={selectValue}
-              currentStep={dropDownValue[selctValueKr]}
-              width={'230px'}
-              background={'#E2E5ED'}
-              border={'#747780'}
-            />
+            {data?.data?.guides?.title === undefined ? (
+              <DropDownBtn
+                dropDownValue={newDropDown(dropDownValue, secondArray!)}
+                setSelectValue={setSelectValue}
+                selectValue={selectValue}
+                currentStep={
+                  newDropDown(dropDownValue, secondArray!)[selctValueKr]
+                }
+                width={'230px'}
+                background={'#E2E5ED'}
+                border={'#747780'}
+              />
+            ) : (
+              <SecondText>{data?.data?.guides?.title}</SecondText>
+            )}
+
             {/* <TitleBox>
                 <TitleText>제목</TitleText>
                 <TitleArea
@@ -535,4 +563,15 @@ const BtnBox = styled.div`
   gap: 8px;
   justify-content: flex-end;
   margin-top: 60px;
+`;
+
+const SecondText = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  /* color: ${colors.main2}; */
+  color: #5221cb;
+  text-align: left;
+  cursor: pointer;
 `;

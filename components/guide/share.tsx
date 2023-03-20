@@ -2,10 +2,16 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import BannerIcon from 'public/guide/guide-1-4-banner-icon.png';
-const Share = () => {
+import { GuideData } from './infomation';
+
+type Props = {
+  data: GuideData[];
+};
+
+const Share = ({ data }: Props) => {
   return (
     <Wrapper>
-      <BannerBox>
+      {/* <BannerBox>
         <Banner>
           <div className="text-box">
             <h1 className="title">수익지분이란?</h1>
@@ -66,7 +72,8 @@ const Share = () => {
       </ContentsBox>
       <Notice>
         * 홈 충전기는 수익지분과 무관한 상품입니다. <br />
-      </Notice>
+      </Notice> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Wrapper>
   );
 };
@@ -76,6 +83,43 @@ export default Share;
 const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
+  }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
   }
 `;
 const Wrap = styled.div`

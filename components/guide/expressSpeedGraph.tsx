@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { GuideData } from './infomation';
 
-const ExpressSpeedGraph = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const ExpressSpeedGraph = ({ data }: Props) => {
   return (
     <Wrapper>
-      <Table>
+      {/* <Table>
         <thead>
           <tr>
             <th className="left">충전기 용량</th>
@@ -62,7 +67,8 @@ const ExpressSpeedGraph = () => {
           주 2) 전기차 스펙으로 인해 초급속 충전을 이용하더라도 평균 175 kW의
           전력으로 충전됩니다.
         </p>
-      </Contents>
+      </Contents> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Wrapper>
   );
 };
@@ -74,6 +80,43 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
   }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+  }
 `;
 
 const Table = styled.table`
@@ -81,7 +124,7 @@ const Table = styled.table`
   border-collapse: collapse;
 
   tr {
-    border-bottom: 0.75pt solid #E2E5ED;
+    border-bottom: 0.75pt solid #e2e5ed;
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;

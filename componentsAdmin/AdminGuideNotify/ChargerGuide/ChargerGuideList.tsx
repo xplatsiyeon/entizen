@@ -71,6 +71,7 @@ const ChargerGuideList = ({ setNowHeight, setNumber }: Props) => {
         commonBtn={'등록'}
         handleCommon={handleCommon}
         guideKind={'charger'}
+        dataLength={3}
       />
     </Wrapper>
   );

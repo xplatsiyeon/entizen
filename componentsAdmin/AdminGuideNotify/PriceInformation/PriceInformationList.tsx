@@ -73,6 +73,7 @@ const PriceInformationList = ({ setNowHeight, setNumber }: Props) => {
         commonBtn={'등록'}
         handleCommon={handleCommon}
         guideKind={'price'}
+        dataLength={2}
       />
     </Wrapper>
   );

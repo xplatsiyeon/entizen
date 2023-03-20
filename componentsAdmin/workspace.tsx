@@ -302,8 +302,6 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
 
   // console.log('nowHeight', nowHeight);
 
-  console.log('accessToken 💞', accessToken);
-
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
       {accessToken !== null && <Name> {`${isToken(accessToken)} 님`}</Name>}

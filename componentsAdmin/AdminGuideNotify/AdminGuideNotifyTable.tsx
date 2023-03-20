@@ -21,6 +21,7 @@ type Props = {
   userType?: string;
   onClickToggle?: (id: number) => void;
   guideKind: string;
+  dataLength: number;
 };
 
 const AdminGuideNotifyTable = ({
@@ -34,6 +35,7 @@ const AdminGuideNotifyTable = ({
   userType,
   onClickToggle,
   guideKind,
+  dataLength,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -235,15 +237,17 @@ const AdminGuideNotifyTable = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P>{' '}
-        <Button
-          onClick={() => {
-            handleCommon();
-          }}
-          hide={hide}
-        >
-          {commonBtn}
-        </Button>
+        <P>결과 {length}</P>
+        {guideList?.data?.guides?.length! < dataLength && (
+          <Button
+            onClick={() => {
+              handleCommon();
+            }}
+            hide={hide}
+          >
+            {commonBtn}
+          </Button>
+        )}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { GuideData } from './infomation';
 
-const SubcribeGraph = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const SubcribeGraph = ({ data }: Props) => {
   return (
     <Wrapper>
-      <Table>
+      {/* <Table>
         <thead>
           <tr>
             <th className="left">상품</th>
@@ -84,7 +89,8 @@ const SubcribeGraph = () => {
           수익지분에 따라 CaaS 사업자와 협의 가능하며, 추후 최대의 매출을 위한
           최적의 충전요금 진단 서비스가 런칭될 예정입니다.
         </Contents>
-      </InfoBox>
+      </InfoBox> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Wrapper>
   );
 };
@@ -94,6 +100,43 @@ export default SubcribeGraph;
 const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
+  }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
   }
 `;
 

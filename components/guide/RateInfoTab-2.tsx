@@ -1,11 +1,16 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { GuideData } from './infomation';
 
-const Tab2 = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const Tab2 = ({ data }: Props) => {
   return (
     <Wrapper>
       {/* 1번째 테이블 */}
-      <Table shadow={true}>
+      {/* <Table shadow={true}>
         <Caption shadow={true}>선택요금제도</Caption>
         <colgroup>
           <col className="fisrt-col" />
@@ -41,9 +46,9 @@ const Tab2 = () => {
             </td>
           </tr>
         </TableBody>
-      </Table>
+      </Table> */}
       {/* 2번째 테이블 */}
-      <Table>
+      {/* <Table>
         <Caption>전압구분</Caption>
         <TableHeader>
           <tr>
@@ -79,9 +84,9 @@ const Tab2 = () => {
             </td>
           </tr>
         </TableBody>
-      </Table>
+      </Table> */}
       {/* 3번째 테이블 */}
-      <Table layout={'inherit'}>
+      {/* <Table layout={'inherit'}>
         <Caption>계절별 시간대별 구분</Caption>
         <TableHeader>
           <tr>
@@ -158,7 +163,8 @@ const Tab2 = () => {
             </td>
           </tr>
         </TableBody>
-      </Table>
+      </Table> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Wrapper>
   );
 };
@@ -167,11 +173,48 @@ export default Tab2;
 
 const Wrapper = styled.div`
   padding-bottom: 138.75pt;
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+  }
 `;
 const Table = styled.table<{ layout?: string; shadow?: boolean }>`
   width: 100%;
   margin-top: 12pt;
-  border-collapse: unset!important;
+  border-collapse: unset !important;
   table-layout: ${({ layout }) => (layout ? layout : 'fixed')};
   .fisrt-col {
     border-right: 1.5pt solid ${colors.lightGray};
@@ -189,7 +232,8 @@ const Caption = styled.caption<{ shadow?: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-bottom: 12pt;
-  //filter: ${({ shadow }) => shadow && 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))'};
+  /* filter: ${({ shadow }) =>
+    shadow && `drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))`}; */
 `;
 const TableHeader = styled.thead`
   background: #f9f7ff;
@@ -215,7 +259,7 @@ const TableHeader = styled.thead`
   }
 `;
 const TableBody = styled.tbody<{ shadow?: boolean }>`
- // box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
+  // box-shadow: ${({ shadow }) => shadow && '0px 3px 5px rgba(0, 0, 0, 0.25)'};
   & th,
   td {
     text-align: center;
@@ -225,7 +269,7 @@ const TableBody = styled.tbody<{ shadow?: boolean }>`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    border-bottom: 0.75pt solid #E2E5ED;
+    border-bottom: 0.75pt solid #e2e5ed;
   }
   .contents {
     padding: 9pt 3pt 9pt 9pt;

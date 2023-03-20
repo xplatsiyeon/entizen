@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { GuideData } from './infomation';
 
-const Common = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const Common = ({ data }: Props) => {
   return (
     <Wrapper>
-      <Container>
+      {/* <Container>
         <Title>1. 충전기</Title>
         <Body>
           <UnderText>1.1) 출력</UnderText>
@@ -107,7 +112,8 @@ const Common = () => {
           <br />
           <UnderText>• 테슬라는 자체 충전방식</UnderText>
         </Body>
-      </Container>
+      </Container> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Wrapper>
   );
 };

@@ -11,20 +11,55 @@ import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
+import { GuideList } from './1-1';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Guide1_5 = () => {
+  // 플랫폼 가이드 리스트 조회
+  const {
+    data: guideList,
+    isLoading: guideIsLoading,
+    isError: guideIsError,
+    refetch: guideRefetch,
+  } = useQuery<GuideList>('faq-list', () =>
+    isTokenGetApi(`/guide?guideKind=CHARGER`),
+  );
+
   const router = useRouter();
   const dispatch = useDispatch();
   const [tabNum, setTabNum] = useState(0);
   const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
   const components: Components = {
-    0: <MediumSpeedGraph />,
-    1: <ExpressSpeedGraph />,
-    2: <Common />,
+    0: (
+      <MediumSpeedGraph
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '완속/중속')!
+        }
+      />
+    ),
+    1: (
+      <ExpressSpeedGraph
+        data={
+          guideList?.data?.guides?.filter(
+            (item) => item.title === '급속/초급속',
+          )!
+        }
+      />
+    ),
+    2: (
+      <Common
+        data={
+          guideList?.data?.guides?.filter(
+            (item) => item.title === '급속/초급속',
+          )!
+        }
+      />
+    ),
   };
   const handleTab = (index: number) => setTabNum(index);
 

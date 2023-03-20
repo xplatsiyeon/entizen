@@ -21,20 +21,73 @@ import GuideApp from 'public/guide/guide_banner_app.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
+export type GuideList = {
+  isSuccess: true;
+  data: {
+    guides: {
+      createdAt: string;
+      updatedAt: string;
+      deletedAt: string;
+      guideIdx: number;
+      guideKind: string;
+      title: string;
+      content: string;
+    }[];
+  };
+};
+
 const Guide1_1 = () => {
+  // 플랫폼 가이드 리스트 조회
+  const {
+    data: guideList,
+    isLoading: guideIsLoading,
+    isError: guideIsError,
+    refetch: guideRefetch,
+  } = useQuery<GuideList>('faq-list', () =>
+    isTokenGetApi(`/guide?guideKind=PLATFORM`),
+  );
+
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
   const components: Components = {
-    0: <Infom />,
-    1: <Compare />,
-    2: <Monitoring />,
-    3: <ManageMent />,
+    0: (
+      <Infom
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '정보확인')!
+        }
+      />
+    ),
+    1: (
+      <Compare
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '비교/선택')!
+        }
+      />
+    ),
+    2: (
+      <Monitoring
+        data={
+          guideList?.data?.guides?.filter(
+            (item) => item.title === '설치 모니터링',
+          )!
+        }
+      />
+    ),
+    3: (
+      <ManageMent
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '운영/관리')!
+        }
+      />
+    ),
   };
 
   const tabHandler = (index: number) => setTabNumber(index);
@@ -206,6 +259,7 @@ const Item = styled.div<{ idx: string; num: string }>`
   padding: 0 30pt;
   color: ${({ idx, num }) => (idx === num ? colors.main : '#caccd1')};
   position: relative;
+  cursor: pointer;
 
   .line {
     position: absolute;
@@ -229,7 +283,7 @@ const Item = styled.div<{ idx: string; num: string }>`
 `;
 
 const BannerTextBox = styled.div`
- font-family: 'Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   ${align}
   .title {
     padding-top: 69.75pt;

@@ -4,11 +4,16 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import Monitoring from 'public/guide/monitoring.png';
 import Monitoring2 from 'public/guide/guide1-3.png';
+import { GuideData } from './infomation';
 
-const monitoring = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const monitoring = ({ data }: Props) => {
   return (
     <Main>
-      <ImageWrap>
+      {/* <ImageWrap>
         <Image src={Monitoring} alt="info" />
       </ImageWrap>
       <ImageWrap>
@@ -37,7 +42,8 @@ const monitoring = () => {
         <li className="text-item">
           엔티즌에서 최종 확인 후, 프로젝트가 완료 됩니다.
         </li>
-      </TextBox>
+      </TextBox> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Main>
   );
 };
@@ -49,10 +55,48 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 45pt 15pt 0 15pt;
+  /* padding: 45pt 15pt 0 15pt; */
+  padding: 45pt 200pt 0 200pt;
 
   @media (max-width: 899.25pt) {
     padding: 27pt 15pt 0 15pt;
+  }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
   }
 `;
 const ImageWrap = styled.div`

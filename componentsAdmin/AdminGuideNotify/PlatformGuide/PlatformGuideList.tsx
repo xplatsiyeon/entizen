@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import AdminGuideNotifyTable from '../AdminGuideNotifyTable';
 import PlatformGuideEditor, { GuideUpdate } from './PlatformGuideEditor';
+import { AdminGuideListResponse } from 'types/tableDataType';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -20,6 +21,7 @@ type Props = {
 const PlatformGuideList = ({ setNowHeight, setNumber }: Props) => {
   const queryClinet = useQueryClient();
   const dispatch = useDispatch();
+
   const { data, isLoading, isError, refetch, remove } = useQuery<GuideUpdate>(
     'adminGuideDetail',
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
@@ -71,6 +73,7 @@ const PlatformGuideList = ({ setNowHeight, setNumber }: Props) => {
         commonBtn={'등록'}
         handleCommon={handleCommon}
         guideKind={'platform'}
+        dataLength={4}
       />
     </Wrapper>
   );

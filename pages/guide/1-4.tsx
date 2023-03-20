@@ -12,6 +12,9 @@ import UserRightMenu from 'components/UserRightMenu';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import Loader from 'components/Loader';
+import { GuideList } from './1-1';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -23,9 +26,31 @@ const Guide1_4 = () => {
   const TabType: string[] = ['구독상품', '수익지분', '계약'];
   const dispatch = useDispatch();
 
+  // 플랫폼 가이드 리스트 조회
+  const {
+    data: guideList,
+    isLoading: guideIsLoading,
+    isError: guideIsError,
+    refetch: guideRefetch,
+  } = useQuery<GuideList>('faq-list', () =>
+    isTokenGetApi(`/guide?guideKind=SUBSCRIPTION`),
+  );
+
   const components: Components = {
-    0: <SubcribeGraph />,
-    1: <Share />,
+    0: (
+      <SubcribeGraph
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '구독상품')!
+        }
+      />
+    ),
+    1: (
+      <Share
+        data={
+          guideList?.data?.guides?.filter((item) => item.title === '수익지분')!
+        }
+      />
+    ),
     2: <Contract />,
   };
 
@@ -123,7 +148,7 @@ const TabContainer = styled.div`
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-  border-bottom: 0.75pt solid #E2E5ED;
+  border-bottom: 0.75pt solid #e2e5ed;
 `;
 const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;

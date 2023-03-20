@@ -21,12 +21,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import { AdminTermsListResponse } from 'types/tableDataType';
-
+import {
+  AdminGuideListResponse,
+  AdminTermsListResponse,
+} from 'types/tableDataType';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import dynamic from 'next/dynamic';
 import htmlToDraft from 'html-to-draftjs';
-
 import { multerAdminApi } from 'api';
 import {
   ImgFile,
@@ -57,7 +58,7 @@ export const dropDownValue = ['충전전력요금', '일반사항'];
 export interface GuideUpdate {
   isSuccess: true;
   data: {
-    guide: {
+    guides: {
       createdAt: string;
       updatedAt: string;
       deletedAt: string;
@@ -78,9 +79,17 @@ const PriceInformationEditor = ({
   // 공지사항 등록, 수정시 refetch
   // 리스트 페이지 데이터 불러오는 api 임
   const { data: guideList, refetch: guideListRefetch } =
-    useQuery<AdminTermsListResponse>('guideList', () =>
+    useQuery<AdminGuideListResponse>('guideList', () =>
       isTokenAdminGetApi(`/admin/guides`),
     );
+
+  const secondArray = guideList?.data?.guides
+    ?.filter((item) => item.guideKind === 'FEE')
+    .map((el) => el.title);
+
+  const newDropDown = (firstArray: string[], secondArray: string[]) => {
+    return firstArray.filter((item) => !secondArray.includes(item));
+  };
 
   // 제목
   const [title, setTitle] = useState<string>('');
@@ -103,10 +112,10 @@ const PriceInformationEditor = ({
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: (res) => {
-        setBodyText(res?.data?.guide?.content!);
+        setBodyText(res?.data?.guides?.content!);
       },
       onSettled: (res) => {
-        res?.data?.guide?.guideKind === 'FEE';
+        res?.data?.guides?.guideKind === 'FEE';
       },
     },
   );
@@ -117,7 +126,7 @@ const PriceInformationEditor = ({
   const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
-  const firstContent = data?.data?.guide?.content!;
+  const firstContent = data?.data?.guides?.content!;
 
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
@@ -177,7 +186,7 @@ const PriceInformationEditor = ({
         url: `/admin/guides`,
         data: {
           guideKind: 'FEE',
-          title: dropDownValue[selctValueKr],
+          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
           content: bodyText,
           // content: editorState,
         },
@@ -207,12 +216,12 @@ const PriceInformationEditor = ({
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        title: selectValue
-          ? dropDownValue[selctValueKr]
-          : data?.data?.guide?.title,
+        // title: selectValue
+        //   ? dropDownValue[selctValueKr]
+        //   : data?.data?.guides?.title,
         // content: bodyText,
 
-        guideKind: 'CHARGER',
+        // guideKind: 'CHARGER',
         // title: dropDownValue[selctValueKr],
         content: bodyText,
       },
@@ -320,8 +329,8 @@ const PriceInformationEditor = ({
 
   useEffect(() => {
     setSelctValueKr(dropDownValue.indexOf(selectValue));
-    if (data?.data !== undefined) {
-      setSelctValueKr(dropDownValue.indexOf(data?.data?.guide?.title));
+    if (data?.data?.guides?.title !== undefined) {
+      setSelctValueKr(dropDownValue.indexOf(data?.data?.guides?.title));
     } else {
       setSelctValueKr(0);
     }
@@ -362,15 +371,21 @@ const PriceInformationEditor = ({
           </TitleWrapper>
           <SubText>요금 정보 등록</SubText>
           <TitleContainer>
-            <DropDownBtn
-              dropDownValue={dropDownValue}
-              setSelectValue={setSelectValue}
-              selectValue={selectValue}
-              currentStep={dropDownValue[selctValueKr]}
-              width={'230px'}
-              background={'#E2E5ED'}
-              border={'#747780'}
-            />
+            {data?.data?.guides?.title === undefined ? (
+              <DropDownBtn
+                dropDownValue={newDropDown(dropDownValue, secondArray!)}
+                setSelectValue={setSelectValue}
+                selectValue={selectValue}
+                currentStep={
+                  newDropDown(dropDownValue, secondArray!)[selctValueKr]
+                }
+                width={'230px'}
+                background={'#E2E5ED'}
+                border={'#747780'}
+              />
+            ) : (
+              <SecondText>{data?.data?.guides?.title}</SecondText>
+            )}
             {/* <TitleBox>
                 <TitleText>제목</TitleText>
                 <TitleArea
@@ -533,4 +548,15 @@ const BtnBox = styled.div`
   gap: 8px;
   justify-content: flex-end;
   margin-top: 60px;
+`;
+
+const SecondText = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  /* color: ${colors.main2}; */
+  color: #5221cb;
+  text-align: left;
+  cursor: pointer;
 `;

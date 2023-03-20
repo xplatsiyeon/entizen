@@ -4,11 +4,16 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import CompareImg from 'public/guide/Compare.png';
 import CompareImg2 from 'public/guide/guide1-2.png';
+import { GuideData } from './infomation';
 
-const Contract = () => {
+type Props = {
+  data: GuideData[];
+};
+
+const Contract = ({ data }: Props) => {
   return (
     <Main>
-      <ImageWrap>
+      {/* <ImageWrap>
         <Image src={CompareImg} alt="info" />
       </ImageWrap>
       <ImageWrap>
@@ -28,7 +33,8 @@ const Contract = () => {
         <li className="text-item">
           상품이 만족스러우시면 함께 할 파트너를 확정해주세요.
         </li>
-      </TextBox>
+      </TextBox> */}
+      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
     </Main>
   );
 };
@@ -40,10 +46,48 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 45pt 15pt 0 15pt;
+  /* padding: 45pt 15pt 0 15pt; */
+  padding: 45pt 200pt 0 200pt;
 
   @media (max-width: 899.25pt) {
     padding: 27pt 15pt 0 15pt;
+  }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
   }
 `;
 const ImageWrap = styled.div`
@@ -69,7 +113,7 @@ const TextBox = styled(Box)`
   list-style-type: disc;
 
   .text-item {
-   // padding-bottom: 15pt;
+    // padding-bottom: 15pt;
     font-weight: 500;
     font-size: 12pt;
     line-height: 30pt;
