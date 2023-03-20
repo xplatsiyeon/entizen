@@ -60,7 +60,7 @@ const useNice = () => {
   const [data, setData] = useState<any>();
   // 나이스 인승
   const fnPopup = () => {
-    //console.log('훅훅훅')
+    console.log('훅훅훅')
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -101,7 +101,7 @@ const useNice = () => {
 
   // 나이스 인증
   useEffect(() => {
-    //console.log('훅훅훅2222')
+    console.log('훅훅훅2222')
     const memberType = 'USER';
     axios({
       method: 'post',
