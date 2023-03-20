@@ -70,7 +70,7 @@ const ChargerGuideList = ({ setNowHeight, setNumber }: Props) => {
         tableType={'guideList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
-        guideKind={'charger'}
+        guideKind={'CHARGER'}
         dataLength={3}
       />
     </Wrapper>

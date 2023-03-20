@@ -80,7 +80,7 @@ const AdminGuideNotifyTable = ({
       enabled: false,
       onSuccess: (guideList) => {
         if (tableType === 'guideList') {
-          if (guideKind === 'charger') {
+          if (guideKind === 'CHARGER') {
             const temp: any = [];
             guideList?.data?.guides
               ?.filter?.((item) => item.guideKind === 'CHARGER')
@@ -98,7 +98,7 @@ const AdminGuideNotifyTable = ({
                 temp.push(eleArr);
               });
             setDataArr(temp);
-          } else if (guideKind === 'platform') {
+          } else if (guideKind === 'PLATFORM') {
             const temp: any = [];
             guideList?.data?.guides
               ?.filter?.((item) => item.guideKind === 'PLATFORM')
@@ -117,7 +117,7 @@ const AdminGuideNotifyTable = ({
                 temp.push(eleArr);
               });
             setDataArr(temp);
-          } else if (guideKind === 'subscribe') {
+          } else if (guideKind === 'SUBSCRIPTION') {
             const temp: any = [];
             guideList?.data?.guides
               ?.filter?.((item) => item.guideKind === 'SUBSCRIPTION')
@@ -136,7 +136,7 @@ const AdminGuideNotifyTable = ({
                 temp.push(eleArr);
               });
             setDataArr(temp);
-          } else if (guideKind === 'price') {
+          } else if (guideKind === 'FEE') {
             const temp: any = [];
             guideList?.data?.guides
               ?.filter?.((item) => item.guideKind === 'FEE')
@@ -180,7 +180,7 @@ const AdminGuideNotifyTable = ({
                 ),
             },
           ]);
-          if (guideKind === 'charger') {
+          if (guideKind === 'CHARGER') {
             setLength(
               guideList?.data
                 ? guideList?.data?.guides?.filter(
@@ -188,7 +188,7 @@ const AdminGuideNotifyTable = ({
                   )?.length
                 : 0,
             );
-          } else if (guideKind === 'platform') {
+          } else if (guideKind === 'PLATFORM') {
             setLength(
               guideList?.data
                 ? guideList?.data?.guides?.filter(
@@ -196,7 +196,7 @@ const AdminGuideNotifyTable = ({
                   )?.length
                 : 0,
             );
-          } else if (guideKind === 'price') {
+          } else if (guideKind === 'FEE') {
             setLength(
               guideList?.data
                 ? guideList?.data?.guides?.filter(
@@ -204,7 +204,7 @@ const AdminGuideNotifyTable = ({
                   )?.length
                 : 0,
             );
-          } else if (guideKind === 'subscribe') {
+          } else if (guideKind === 'SUBSCRIPTION') {
             setLength(
               guideList?.data
                 ? guideList?.data?.guides?.filter(
@@ -234,11 +234,14 @@ const AdminGuideNotifyTable = ({
     return <div>로딩중..</div>;
   }
 
+  console.log('guideList', guideList?.data?.guides);
+
   return (
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>
-        {guideList?.data?.guides?.length! < dataLength && (
+        {guideList?.data?.guides?.filter((item) => item.guideKind === guideKind)
+          ?.length! < dataLength && (
           <Button
             onClick={() => {
               handleCommon();

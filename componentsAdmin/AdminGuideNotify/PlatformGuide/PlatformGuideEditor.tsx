@@ -62,7 +62,7 @@ export const dropDownValue = [
 export interface GuideUpdate {
   isSuccess: true;
   data: {
-    guides: {
+    guide: {
       createdAt: string;
       updatedAt: string;
       deletedAt: string;
@@ -116,10 +116,10 @@ const PlatformGuideEditor = ({
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: (res) => {
-        setBodyText(res?.data?.guides?.content!);
+        setBodyText(res?.data?.guide?.content!);
       },
       onSettled: (res) => {
-        res?.data?.guides?.guideKind === 'PLATFORM';
+        res?.data?.guide?.guideKind === 'PLATFORM';
       },
     },
   );
@@ -130,7 +130,7 @@ const PlatformGuideEditor = ({
   const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
-  const firstContent = data?.data?.guides?.content!;
+  const firstContent = data?.data?.guide?.content!;
 
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
@@ -339,10 +339,10 @@ const PlatformGuideEditor = ({
       newDropDown(dropDownValue, secondArray!).indexOf(selectValue),
     );
     // if (data?.data?.guideKind === 'PLATFORM') {
-    if (data?.data?.guides?.title !== undefined) {
+    if (data?.data?.guide?.title !== undefined) {
       setSelctValueKr(
         newDropDown(dropDownValue, secondArray!).indexOf(
-          data?.data?.guides?.title,
+          data?.data?.guide?.title,
         ),
       );
     } else {
@@ -385,7 +385,7 @@ const PlatformGuideEditor = ({
           </TitleWrapper>
           <SubText>플랫폼 가이드 등록</SubText>
           <TitleContainer>
-            {data?.data?.guides?.title === undefined ? (
+            {data?.data?.guide?.title === undefined ? (
               <DropDownBtn
                 dropDownValue={newDropDown(dropDownValue, secondArray!)}
                 setSelectValue={setSelectValue}
@@ -398,7 +398,7 @@ const PlatformGuideEditor = ({
                 border={'#747780'}
               />
             ) : (
-              <SecondText>{data?.data?.guides?.title}</SecondText>
+              <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
 
             {/* <TitleBox>

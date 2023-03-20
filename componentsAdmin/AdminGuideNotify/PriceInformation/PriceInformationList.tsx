@@ -72,7 +72,7 @@ const PriceInformationList = ({ setNowHeight, setNumber }: Props) => {
         tableType={'guideList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
-        guideKind={'price'}
+        guideKind={'FEE'}
         dataLength={2}
       />
     </Wrapper>

@@ -70,7 +70,7 @@ const SubscribeGuideList = ({ setNowHeight, setNumber }: Props) => {
         tableType={'guideList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
-        guideKind={'subscribe'}
+        guideKind={'SUBSCRIPTION'}
         // dataLength={3}
         dataLength={2}
       />

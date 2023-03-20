@@ -72,7 +72,7 @@ const PlatformGuideList = ({ setNowHeight, setNumber }: Props) => {
         tableType={'guideList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
-        guideKind={'platform'}
+        guideKind={'PLATFORM'}
         dataLength={4}
       />
     </Wrapper>
