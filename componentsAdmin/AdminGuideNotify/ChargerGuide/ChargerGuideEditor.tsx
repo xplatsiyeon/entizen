@@ -57,7 +57,7 @@ export const dropDownValue = ['완속/중속', '급속/초급속', '공통사항
 export interface GuideUpdate {
   isSuccess: true;
   data: {
-    guides: {
+    guide: {
       createdAt: string;
       updatedAt: string;
       deletedAt: string;
@@ -111,10 +111,10 @@ const ChargerGuideEditor = ({
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: (res) => {
-        setBodyText(res?.data?.guides?.content!);
+        setBodyText(res?.data?.guide?.content!);
       },
       onSettled: (res) => {
-        res?.data?.guides?.guideKind === 'CHARGER';
+        res?.data?.guide?.guideKind === 'CHARGER';
       },
     },
   );
@@ -125,7 +125,7 @@ const ChargerGuideEditor = ({
   const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
-  const firstContent = data?.data?.guides?.content!;
+  const firstContent = data?.data?.guide?.content!;
 
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
@@ -329,7 +329,7 @@ const ChargerGuideEditor = ({
   useEffect(() => {
     setSelctValueKr(dropDownValue.indexOf(selectValue));
     if (data?.data !== undefined) {
-      setSelctValueKr(dropDownValue.indexOf(data?.data?.guides?.title));
+      setSelctValueKr(dropDownValue.indexOf(data?.data?.guide?.title));
     } else {
       setSelctValueKr(0);
     }
@@ -370,7 +370,7 @@ const ChargerGuideEditor = ({
           </TitleWrapper>
           <SubText>충전기 가이드 등록</SubText>
           <TitleContainer>
-            {data?.data?.guides?.title === undefined ? (
+            {data?.data?.guide?.title === undefined ? (
               <DropDownBtn
                 dropDownValue={newDropDown(dropDownValue, secondArray!)}
                 setSelectValue={setSelectValue}
@@ -383,7 +383,7 @@ const ChargerGuideEditor = ({
                 border={'#747780'}
               />
             ) : (
-              <SecondText>{data?.data?.guides?.title}</SecondText>
+              <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
             {/* <TitleBox>
                 <TitleText>제목</TitleText>

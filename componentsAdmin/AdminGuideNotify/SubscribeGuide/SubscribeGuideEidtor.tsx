@@ -60,7 +60,7 @@ export const dropDownValue = ['구독상품', '수익지분'];
 export interface GuideUpdate {
   isSuccess: true;
   data: {
-    guides: {
+    guide: {
       createdAt: string;
       updatedAt: string;
       deletedAt: string;
@@ -114,10 +114,10 @@ const SubscribeGuideEidtor = ({
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: (res) => {
-        setBodyText(res?.data?.guides?.content!);
+        setBodyText(res?.data?.guide?.content!);
       },
       onSettled: (res) => {
-        res?.data?.guides?.guideKind === 'SUBSCRIPTION';
+        res?.data?.guide?.guideKind === 'SUBSCRIPTION';
       },
     },
   );
@@ -128,7 +128,7 @@ const SubscribeGuideEidtor = ({
   const [editorImg, setEditorImg] = useState<any>();
 
   // 본문 초기값
-  const firstContent = data?.data?.guides?.content!;
+  const firstContent = data?.data?.guide?.content!;
 
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
@@ -331,8 +331,8 @@ const SubscribeGuideEidtor = ({
 
   useEffect(() => {
     setSelctValueKr(dropDownValue.indexOf(selectValue));
-    if (data?.data?.guides?.title !== undefined) {
-      setSelctValueKr(dropDownValue.indexOf(data?.data?.guides?.title));
+    if (data?.data?.guide?.title !== undefined) {
+      setSelctValueKr(dropDownValue.indexOf(data?.data?.guide?.title));
     } else {
       setSelctValueKr(0);
     }
@@ -373,7 +373,7 @@ const SubscribeGuideEidtor = ({
           </TitleWrapper>
           <SubText>구독 가이드 등록</SubText>
           <TitleContainer>
-            {data?.data?.guides?.title === undefined ? (
+            {data?.data?.guide?.title === undefined ? (
               <DropDownBtn
                 dropDownValue={newDropDown(dropDownValue, secondArray!)}
                 setSelectValue={setSelectValue}
@@ -386,7 +386,7 @@ const SubscribeGuideEidtor = ({
                 border={'#747780'}
               />
             ) : (
-              <SecondText>{data?.data?.guides?.title}</SecondText>
+              <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
             {/* <TitleBox>
                 <TitleText>제목</TitleText>
