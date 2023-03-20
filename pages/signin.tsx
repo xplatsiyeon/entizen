@@ -478,7 +478,7 @@ const Signin = () => {
     //   }
     // }
     // );
-    //login()
+    login()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -871,7 +871,7 @@ const Signin = () => {
                         <Image src={apple} alt="apple" />
                       </Box>
                       <NaverBox>
-                        <Box ref={naverRef} /*id="naverIdLogin"*/ />
+                        <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
                       {/* 구글 로그인 */}
