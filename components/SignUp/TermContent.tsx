@@ -16,6 +16,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import useNice from 'hooks/useNice';
 
 type Props = {
   // level: number;
@@ -67,23 +68,24 @@ const TermContent = ({
     (state: RootState) => state.LoginType.signUpLevel,
   );
 
+  const {fnPopup} = useNice();
   // ========================== 본인인증 창 띄우기
-  const fnPopup = () => {
-    if (typeof window !== 'object') return;
-    else {
-      window.open(
-        '',
-        'popupChk',
-        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-      );
-      let cloneDocument = document;
-      cloneDocument.form_chk.action =
-        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      cloneDocument.form_chk.target = 'popupChk';
-      // console.log(cloneDocument.form_chk);
-      cloneDocument.form_chk.submit();
-    }
-  };
+  // const fnPopup = () => {
+  //   if (typeof window !== 'object') return;
+  //   else {
+  //     window.open(
+  //       '',
+  //       'popupChk',
+  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+  //     );
+  //     let cloneDocument = document;
+  //     cloneDocument.form_chk.action =
+  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+  //     cloneDocument.form_chk.target = 'popupChk';
+  //     // console.log(cloneDocument.form_chk);
+  //     cloneDocument.form_chk.submit();
+  //   }
+  // };
   const handleForceClick = () => {
     let key = localStorage.getItem('key');
     if (key !== null) {
