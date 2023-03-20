@@ -99,27 +99,6 @@ const useNice = () => {
         // }
       }
 
-  // 나이스 인증
-  useEffect(() => {
-    console.log('훅훅훅2222')
-    const memberType = 'USER';
-    axios({
-      method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-      })
-      .catch((error) => {
-        console.error('나이스 인증 에러 발생');
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
-
   return {fnPopup, onSubmitBtn};
 };
 
