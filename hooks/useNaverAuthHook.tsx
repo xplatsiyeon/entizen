@@ -19,7 +19,7 @@ export const useNaverAuthHook =()=>{
 
  let naverLogin: any;
 
-
+ //주소에 해쉬값이 있어야 네이버 로그인 처리됨.
  const checkHash = (naverLogin:any) => {
   const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
    console.log('⭐️hash -> ' + hash);
