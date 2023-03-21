@@ -128,6 +128,43 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
   }
+
+  div {
+    width: 100%;
+    white-space: pre;
+  }
+  img {
+    width: 100%;
+  }
+  ul {
+    list-style: circle !important;
+    padding: 10px;
+  }
+  ol {
+    list-style-type: decimal !important;
+    padding: 10px;
+  }
+  /* :focus {
+      border: none;
+    } */
+  em {
+    font-style: italic;
+  }
+  p {
+    width: 100%;
+    position: relative;
+
+    span {
+      width: 100%;
+      display: inline-block;
+      word-break: break-all;
+      white-space: pre-line;
+    }
+  }
+  span {
+    width: 100%;
+    display: inline-block;
+  }
 `;
 const Container = styled.div``;
 

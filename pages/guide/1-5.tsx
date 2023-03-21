@@ -56,9 +56,7 @@ const Guide1_5 = () => {
     2: (
       <Common
         data={
-          guideList?.data?.guides?.filter(
-            (item) => item?.title === '급속/초급속',
-          )!
+          guideList?.data?.guides?.filter((item) => item?.title === '공통사항')!
         }
       />
     ),
