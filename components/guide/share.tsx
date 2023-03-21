@@ -73,7 +73,11 @@ const Share = ({ data }: Props) => {
       <Notice>
         * 홈 충전기는 수익지분과 무관한 상품입니다. <br />
       </Notice> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

@@ -68,7 +68,11 @@ const ExpressSpeedGraph = ({ data }: Props) => {
           전력으로 충전됩니다.
         </p>
       </Contents> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

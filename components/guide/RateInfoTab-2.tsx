@@ -164,7 +164,11 @@ const Tab2 = ({ data }: Props) => {
           </tr>
         </TableBody>
       </Table> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

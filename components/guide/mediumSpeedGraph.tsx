@@ -65,7 +65,11 @@ const MediumSpeedGraph = ({ data }: Props) => {
           활용바랍니다.
         </p>
       </Contents> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

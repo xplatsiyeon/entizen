@@ -43,7 +43,11 @@ const monitoring = ({ data }: Props) => {
           엔티즌에서 최종 확인 후, 프로젝트가 완료 됩니다.
         </li>
       </TextBox> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Main>
   );
 };

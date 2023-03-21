@@ -50,7 +50,11 @@ const infomation = ({ data }: Props) => {
           예상견적을 확인하고, 연결된 파트너들에게 맞춤 상품을 요청하세요.
         </li>
       </TextBox> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Main>
   );
 };

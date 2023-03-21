@@ -40,7 +40,11 @@ const management = ({ data }: Props) => {
           운영해보세요.
         </li>
       </TextBox> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Main>
   );
 };

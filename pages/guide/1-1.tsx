@@ -6,7 +6,7 @@ import colors from 'styles/colors';
 // import Platform from 'public/guide/platform_guide.png';
 // import Platform from 'public/guide/GuideBannerMobilePng.png';
 import Platform from 'public/guide/GuideBannerMobileSvg.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Infom from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
@@ -21,7 +21,7 @@ import GuideApp from 'public/guide/guide_banner_app.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
-import { isTokenGetApi } from 'api';
+import { getApi, isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
 interface Components {
@@ -50,8 +50,8 @@ const Guide1_1 = () => {
     isLoading: guideIsLoading,
     isError: guideIsError,
     refetch: guideRefetch,
-  } = useQuery<GuideList>('faq-list', () =>
-    isTokenGetApi(`/guide?guideKind=PLATFORM`),
+  } = useQuery<GuideList>('guide-list', () =>
+    isTokenGetApi('/guide?guideKind=PLATFORM'),
   );
 
   const router = useRouter();
@@ -95,6 +95,10 @@ const Guide1_1 = () => {
   };
 
   const tabHandler = (index: number) => setTabNumber(index);
+
+  useEffect(() => {
+    guideRefetch();
+  }, []);
 
   return (
     <>

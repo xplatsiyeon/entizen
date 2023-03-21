@@ -90,7 +90,11 @@ const SubcribeGraph = ({ data }: Props) => {
           최적의 충전요금 진단 서비스가 런칭될 예정입니다.
         </Contents>
       </InfoBox> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

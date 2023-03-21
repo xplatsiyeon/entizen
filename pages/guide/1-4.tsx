@@ -32,7 +32,7 @@ const Guide1_4 = () => {
     isLoading: guideIsLoading,
     isError: guideIsError,
     refetch: guideRefetch,
-  } = useQuery<GuideList>('faq-list', () =>
+  } = useQuery<GuideList>('guide-list', () =>
     isTokenGetApi(`/guide?guideKind=SUBSCRIPTION`),
   );
 

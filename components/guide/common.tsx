@@ -113,7 +113,11 @@ const Common = ({ data }: Props) => {
           <UnderText>• 테슬라는 자체 충전방식</UnderText>
         </Body>
       </Container> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

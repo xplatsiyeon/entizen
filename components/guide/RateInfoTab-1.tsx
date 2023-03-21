@@ -17,7 +17,11 @@ const Tab1 = ({ data }: Props) => {
         <p>표를 확대하시면 더 자세히 볼 수 있습니다.</p>
         <Image src={Icon} alt="icon" />
       </Message> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

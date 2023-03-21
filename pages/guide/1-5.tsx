@@ -26,7 +26,7 @@ const Guide1_5 = () => {
     isLoading: guideIsLoading,
     isError: guideIsError,
     refetch: guideRefetch,
-  } = useQuery<GuideList>('faq-list', () =>
+  } = useQuery<GuideList>('guide-list', () =>
     isTokenGetApi(`/guide?guideKind=CHARGER`),
   );
 

@@ -22,7 +22,7 @@ const Guide1_3 = () => {
     isLoading: guideIsLoading,
     isError: guideIsError,
     refetch: guideRefetch,
-  } = useQuery<GuideList>('faq-list', () =>
+  } = useQuery<GuideList>('guide-list', () =>
     isTokenGetApi(`/guide?guideKind=FEE`),
   );
   const router = useRouter();
@@ -131,6 +131,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   position: relative;
+  cursor: pointer;
   color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
 `;
 const Line = styled.div<{ tab: string; index: string }>`

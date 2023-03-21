@@ -34,7 +34,11 @@ const Contract = ({ data }: Props) => {
           상품이 만족스러우시면 함께 할 파트너를 확정해주세요.
         </li>
       </TextBox> */}
-      <div dangerouslySetInnerHTML={{ __html: data[0]?.content! }} />
+      {data !== undefined ? (
+        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+      ) : (
+        <></>
+      )}
     </Main>
   );
 };
