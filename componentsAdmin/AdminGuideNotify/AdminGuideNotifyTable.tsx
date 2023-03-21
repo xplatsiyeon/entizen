@@ -89,9 +89,7 @@ const AdminGuideNotifyTable = ({
                   `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                     idx + 1 === 10 ? page * 10 : idx + 1
                   }`,
-                  dropDownPlatformValue[
-                    dropDownValueEnPlatformValue.indexOf(ele.guideKind)
-                  ],
+                  ele?.title,
                   dateFomat(ele.createdAt),
                   ele.guideIdx,
                 ];
