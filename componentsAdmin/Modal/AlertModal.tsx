@@ -61,6 +61,18 @@ const AlertModal = ({
             ) {
               setIsModal(false);
               setIsDetail(false);
+            } else if (
+              message === '추가 요청을 실패했습니다.\n다시 시도해주세요.' &&
+              setIsDetail
+            ) {
+              setIsModal(false);
+              setIsDetail(false);
+            } else if (
+              message === '삭제 요청을 실패했습니다.\n다시 시도해주세요.' &&
+              setIsDetail
+            ) {
+              setIsDetail(false);
+              setIsModal(false);
             }
           }}
         >

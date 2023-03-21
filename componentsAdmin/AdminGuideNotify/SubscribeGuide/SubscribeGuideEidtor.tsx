@@ -330,9 +330,16 @@ const SubscribeGuideEidtor = ({
   //   }, [selctValueEn, selctValueKr, selectValue, data]);
 
   useEffect(() => {
-    setSelctValueKr(dropDownValue.indexOf(selectValue));
+    setSelctValueKr(
+      newDropDown(dropDownValue, secondArray!).indexOf(selectValue),
+    );
+    // if (data?.data?.guideKind === 'PLATFORM') {
     if (data?.data?.guide?.title !== undefined) {
-      setSelctValueKr(dropDownValue.indexOf(data?.data?.guide?.title));
+      setSelctValueKr(
+        newDropDown(dropDownValue, secondArray!).indexOf(
+          data?.data?.guide?.title,
+        ),
+      );
     } else {
       setSelctValueKr(0);
     }
