@@ -44,10 +44,13 @@ const Guide1_2_4 = () => {
       if (num === 0) {
         return '0';
       } else {
-        return num
-          .toString()
-          .slice(0, -3)
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return (
+          num
+            .toString()
+            // .slice(0, -3)
+            .slice(0, -4)
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        );
         //.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
       }
     } else {
@@ -77,6 +80,14 @@ const Guide1_2_4 = () => {
 
   console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
   console.log(subsidyGuideData);
+  console.log(
+    '최대 신청 보조금',
+    subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+  );
+  console.log(
+    '최대 신청 보조금',
+    changeMoneyUnit(subsidyGuideData?.thisYearSubsidy?.maxApplyPrice),
+  );
 
   return (
     <Body>
@@ -227,12 +238,12 @@ const Guide1_2_4 = () => {
             <Notice pt={45}>
               {mobile ? (
                 <>
-                  보조금은 &apos;전기자동차충전사업자&apos;로 등록된{' '}
+                  보조금은 &apos;전기자동차충전사업자&apos;로 등록된
                   <br className="br" />
                   사업자만 신청 가능합니다.
                   <br />
                   <br />
-                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,{' '}
+                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,
                   <br className="br" />
                   파트너와 보조금에 대해 상의해보세요!
                 </>
