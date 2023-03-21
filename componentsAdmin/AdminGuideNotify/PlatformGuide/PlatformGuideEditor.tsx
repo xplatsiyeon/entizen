@@ -313,17 +313,17 @@ const PlatformGuideEditor = ({
     editorImgRef?.current?.click();
   };
 
-  useEffect(() => {
-    // setBodyText(data?.data?.content!);
-    // const res = document.querySelector('.ProseMirror') as HTMLElement;
-    // if (res) {
-    //   console.log('res', res);
-    //   res.innerHTML = bodyText;
-    // }
-    if (data?.data !== undefined) {
-      setDropDownClick(false);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   setBodyText(data?.data?.content!);
+  //   const res = document.querySelector('.ProseMirror') as HTMLElement;
+  //   if (res) {
+  //     console.log('res', res);
+  //     res.innerHTML = bodyText;
+  //   }
+  //   if (data?.data !== undefined) {
+  //     setDropDownClick(false);
+  //   }
+  // }, [data]);
 
   //   useEffect(() => {
   //     setSelctValueEn(dropDownValue.indexOf(selectValue));

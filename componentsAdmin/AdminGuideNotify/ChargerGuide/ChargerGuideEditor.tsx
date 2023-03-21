@@ -83,7 +83,7 @@ const ChargerGuideEditor = ({
     );
 
   const secondArray = guideList?.data?.guides
-    ?.filter((item) => item.guideKind === 'SUBSCRIPTION')
+    ?.filter((item) => item.guideKind === 'CHARGER')
     .map((el) => el.title);
 
   const newDropDown = (firstArray: string[], secondArray: string[]) => {
@@ -308,14 +308,15 @@ const ChargerGuideEditor = ({
     editorImgRef?.current?.click();
   };
 
-  useEffect(() => {
-    // setBodyText(data?.data?.content!);
-    // const res = document.querySelector('.ProseMirror') as HTMLElement;
-    // if (res) {
-    //   console.log('res', res);
-    //   res.innerHTML = bodyText;
-    // }
-  }, [data]);
+  // useEffect(() => {
+  //   setBodyText(data?.data?.content!);
+  //   const res = document.querySelector('.ProseMirror') as HTMLElement;
+  //   if (res) {
+  //     console.log('res', res);
+  //     res.innerHTML = bodyText;
+  //   }
+
+  // }, [data]);
 
   //   useEffect(() => {
   //     setSelctValueEn(dropDownValue.indexOf(selectValue));
