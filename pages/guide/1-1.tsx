@@ -61,14 +61,16 @@ const Guide1_1 = () => {
     0: (
       <Infom
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '정보확인')!
+          guideList?.data?.guides?.filter((item) => item?.title === '정보확인')!
         }
       />
     ),
     1: (
       <Compare
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '비교/선택')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '비교/선택',
+          )!
         }
       />
     ),
@@ -76,7 +78,7 @@ const Guide1_1 = () => {
       <Monitoring
         data={
           guideList?.data?.guides?.filter(
-            (item) => item.title === '설치 모니터링',
+            (item) => item?.title === '설치 모니터링',
           )!
         }
       />
@@ -84,7 +86,9 @@ const Guide1_1 = () => {
     3: (
       <ManageMent
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '운영/관리')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '운영/관리',
+          )!
         }
       />
     ),

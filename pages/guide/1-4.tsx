@@ -40,14 +40,14 @@ const Guide1_4 = () => {
     0: (
       <SubcribeGraph
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '구독상품')!
+          guideList?.data?.guides?.filter((item) => item?.title === '구독상품')!
         }
       />
     ),
     1: (
       <Share
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '수익지분')!
+          guideList?.data?.guides?.filter((item) => item?.title === '수익지분')!
         }
       />
     ),

@@ -38,7 +38,9 @@ const Guide1_5 = () => {
     0: (
       <MediumSpeedGraph
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '완속/중속')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '완속/중속',
+          )!
         }
       />
     ),
@@ -46,7 +48,7 @@ const Guide1_5 = () => {
       <ExpressSpeedGraph
         data={
           guideList?.data?.guides?.filter(
-            (item) => item.title === '급속/초급속',
+            (item) => item?.title === '급속/초급속',
           )!
         }
       />
@@ -55,7 +57,7 @@ const Guide1_5 = () => {
       <Common
         data={
           guideList?.data?.guides?.filter(
-            (item) => item.title === '급속/초급속',
+            (item) => item?.title === '급속/초급속',
           )!
         }
       />

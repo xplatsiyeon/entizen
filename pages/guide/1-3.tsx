@@ -33,7 +33,7 @@ const Guide1_3 = () => {
       <RateInfoTab1
         data={
           guideList?.data?.guides?.filter(
-            (item) => item.title === '충전전력요금',
+            (item) => item?.title === '충전전력요금',
           )!
         }
       />
@@ -41,7 +41,7 @@ const Guide1_3 = () => {
     1: (
       <RateInfoTab2
         data={
-          guideList?.data?.guides?.filter((item) => item.title === '일반사항')!
+          guideList?.data?.guides?.filter((item) => item?.title === '일반사항')!
         }
       />
     ),
