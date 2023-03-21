@@ -125,6 +125,7 @@ const Common = ({ data }: Props) => {
 export default Common;
 
 const Wrapper = styled.div`
+  padding-top: 30pt;
   @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
   }
