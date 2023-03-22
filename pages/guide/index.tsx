@@ -200,7 +200,7 @@ const Guide1 = () => {
           </Header>
           <Container>
             <Wrap>
-              <Platform onClick={() => pageHandler('/guide')}>
+              <Platform onClick={() => pageHandler('/guide/1-1')}>
                 <p>플랫폼 가이드</p>
                 <h3>
                   충전의 정석
