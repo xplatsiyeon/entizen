@@ -338,10 +338,13 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
-              <TableTD siGunGuBoolean={false}>
+              <TableTD
+                siGunGuBoolean={false}
+                style={{ border: '1px solid red' }}
+              >
                 {item?.price_7_home_stand_single === null
                   ? '-'
-                  : item?.price_7_home_wall_single
+                  : item?.price_7_home_stand_single
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
