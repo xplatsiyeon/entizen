@@ -41,6 +41,8 @@ const ProfileEditing = () => {
     1: <PasswordModify setTabNumber={setTabNumber} />,
   };
 
+  console.log('🔥 web : ', web);
+
   return (
     <React.Fragment>
       <UserRightMenu />
