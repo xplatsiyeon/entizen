@@ -104,7 +104,7 @@ const Setting = () => {
   return (
     <>
       <WebBody>
-        {memberType !== 'COMPANY' ? (
+        {/* {memberType !== 'COMPANY' ? (
           <WebHeader />
         ) : (
           <WebBuyerHeader
@@ -114,7 +114,7 @@ const Setting = () => {
             openSubLink={openSubLink}
             setOpenSubLink={setOpenSubLink}
           />
-        )}
+        )} */}
         {memberType !== 'COMPANY' ? <UserRightMenu /> : <CompanyRightMenu />}
         <Inner>
           <SettingTitle
