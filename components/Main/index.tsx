@@ -147,15 +147,6 @@ const MainPage = (props: Props) => {
         <HeadWrapper>
           <LogoBox>
             <Image
-              onClick={() => {
-                router.push({
-                  pathname: '/setting',
-                  query: {
-                    id: 3,
-                    direct: true,
-                  },
-                });
-              }}
               style={{
                 display: 'flex',
                 justifyContent: 'center',

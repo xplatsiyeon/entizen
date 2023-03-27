@@ -46,6 +46,7 @@ const Footer = (props: Props) => {
         <MenuBox>
           <Menus
             onClick={() => {
+              window.scrollTo(0, 0);
               router.push({
                 pathname: '/setting',
                 query: {
