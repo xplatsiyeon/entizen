@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import { getApi, isTokenGetApi } from 'api';
@@ -55,6 +55,10 @@ const Term = ({ setTabNumber }: Props) => {
   } = useQuery<any>('faq-list', () => getApi(`/terms/service`));
 
   console.log('term', term);
+
+  useLayoutEffect(() => {
+    window.scrollBy(0, -window.innerHeight);
+  }, []);
 
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
