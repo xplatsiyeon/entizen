@@ -54,12 +54,15 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
   console.log('term', term);
 
   useEffect(() => {
+    alert(scrollY);
     window.scrollTo(0, 0);
+    window.screenTop;
   }, []);
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
-      {/* {nowWidth < 1200 && (
+      {nowWidth < 1200 && (
         <Header>
           <div className="img-item" onClick={onClickBack}>
             <Image
@@ -74,7 +77,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
           </div>
           <span className="text">이용 약관</span>
         </Header>
-      )} */}
+      )}
 
       {/* <Wrapper>
         <Title>
