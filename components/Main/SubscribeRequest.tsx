@@ -13,20 +13,12 @@ type Props = {
 const SubscribeRequest = ({ borders }: Props) => {
   const router = useRouter();
   const handleLink = () => {
-    // const user = localStorage.getItem('USER_ID');
-    // if (user) {
-    //   router.push('/quotation/request');
-    // } else {
-    //   router.push('/signin');
-    // }
-
-    router.push({
-      pathname: '/setting',
-      query: {
-        id: 3,
-        direct: true,
-      },
-    });
+    const user = localStorage.getItem('USER_ID');
+    if (user) {
+      router.push('/quotation/request');
+    } else {
+      router.push('/signin');
+    }
   };
 
   return (
