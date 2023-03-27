@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import { getApi, isTokenGetApi } from 'api';
@@ -53,6 +53,9 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
 
   console.log('term', term);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>

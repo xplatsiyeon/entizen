@@ -54,10 +54,6 @@ const Setting = () => {
     }
   }, [tabNumber]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // 컴포넌트 변동
   const components: Components = {
     0: (
