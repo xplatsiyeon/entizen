@@ -56,7 +56,6 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
   useEffect(() => {
     alert(scrollY);
     window.scrollTo(0, 0);
-    window.screenTop;
   }, []);
 
   // ①②③④⑤⑥⑦⑧⑨⑩
@@ -719,7 +718,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
       <Wrapper>
         {/* <Contents wrap="hard" readOnly value={data} />
         {data} */}
-        <div dangerouslySetInnerHTML={{ __html: term }} />
+        {/* <div dangerouslySetInnerHTML={{ __html: term }} /> */}
       </Wrapper>
     </WebRapper>
   );
