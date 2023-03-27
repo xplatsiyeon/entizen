@@ -59,7 +59,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
-      {nowWidth < 1200 && (
+      {/* {nowWidth < 1200 && (
         <Header>
           <div className="img-item" onClick={onClickBack}>
             <Image
@@ -74,7 +74,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
           </div>
           <span className="text">이용 약관</span>
         </Header>
-      )}
+      )} */}
 
       {/* <Wrapper>
         <Title>
