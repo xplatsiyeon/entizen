@@ -45,15 +45,19 @@ const Footer = (props: Props) => {
         </InfoWrapper>
         <MenuBox>
           <Menus
-            onClick={() => {
-              window.scrollTo(0, 0);
-              router.push({
-                pathname: '/setting',
-                query: {
-                  id: 3,
-                  direct: true,
-                },
-              });
+            onClick={async () => {
+              console.log('🔥 window.scrollTop : ', window.scrollY);
+              await window.scrollTo(0, 0);
+              console.log('🔥 window.scrollTop : ', window.scrollY);
+              if (window.scrollY === 0) {
+                router.push({
+                  pathname: '/setting',
+                  query: {
+                    id: 3,
+                    direct: true,
+                  },
+                });
+              }
             }}
           >
             이용약관
