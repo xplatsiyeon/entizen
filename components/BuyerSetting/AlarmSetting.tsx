@@ -9,16 +9,19 @@ import { isTokenGetApi, isTokenPutApi } from 'api';
 import { AlertsResponse, NewAlert } from './AlarmWebSetting';
 import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   leftTabNumber: number;
-  nowWidth: number;
 };
 
 const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   // 알람 조회
   const {
     data: alertsList,
@@ -174,12 +177,12 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     setAlertSettingIdx(alertsList?.data?.alertSetting?.alertSettingIdx!);
   }, [alertsList]);
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [nowWidth]);
 
   // 전체 알림 수정
   useEffect(() => {
@@ -208,7 +211,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
   return (
     <>
-      {nowWidth < 1200 && (
+      {mobile && (
         <Wrapper>
           <Header>
             {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}

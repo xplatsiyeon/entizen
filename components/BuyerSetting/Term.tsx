@@ -10,14 +10,17 @@ import 'react-quill/dist/quill.snow.css';
 import term1 from 'public/images/term1.png';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
-  nowWidth: number;
 };
 
-const Term = ({ setTabNumber, nowWidth }: Props) => {
+const Term = ({ setTabNumber }: Props) => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const onClickBack = () => {
     const {
@@ -53,15 +56,10 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
 
   console.log('term', term);
 
-  useEffect(() => {
-    alert(scrollY);
-    window.scrollTo(0, 0);
-  }, []);
-
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
-      {nowWidth < 1200 && (
+      {mobile && (
         <Header>
           <div className="img-item" onClick={onClickBack}>
             <Image
@@ -718,7 +716,7 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
       <Wrapper>
         {/* <Contents wrap="hard" readOnly value={data} />
         {data} */}
-        {/* <div dangerouslySetInnerHTML={{ __html: term }} /> */}
+        <div dangerouslySetInnerHTML={{ __html: term }} />
       </Wrapper>
     </WebRapper>
   );
