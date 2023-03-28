@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import { getApi, isTokenGetApi } from 'api';
@@ -10,14 +10,17 @@ import 'react-quill/dist/quill.snow.css';
 import term1 from 'public/images/term1.png';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
-  nowWidth: number;
 };
 
-const Term = ({ setTabNumber, nowWidth }: Props) => {
+const Term = ({ setTabNumber }: Props) => {
   const router = useRouter();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const onClickBack = () => {
     const {
@@ -53,10 +56,14 @@ const Term = ({ setTabNumber, nowWidth }: Props) => {
 
   console.log('term', term);
 
+  useLayoutEffect(() => {
+    window.scrollBy(0, -window.innerHeight);
+  }, []);
+
   // ①②③④⑤⑥⑦⑧⑨⑩
   return (
     <WebRapper>
-      {nowWidth < 1200 && (
+      {mobile && (
         <Header>
           <div className="img-item" onClick={onClickBack}>
             <Image

@@ -304,7 +304,7 @@ const Wrapper = styled.div<{ tabNumber?: number }>`
   padding: 32.25pt 0;
   @media (max-width: 899.25pt) {
     height: 100%;
-    width: 100%;
+    width: 100vw;
     margin: 0;
   }
 `;

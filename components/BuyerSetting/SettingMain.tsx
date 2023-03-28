@@ -239,8 +239,10 @@ const SettingMain = ({
       )}
       <MypageHeader
         back={true}
+        handle={true}
         title={'설정'}
         handleOnClick={() => router.replace('/')}
+        handleBackClick={() => router.replace('/')}
       />
       <Version>
         <VersionInfoText>버전 정보</VersionInfoText>
@@ -281,17 +283,17 @@ const SettingMain = ({
               if (memberType === 'USER') {
                 router.push({
                   pathname: '/faq',
-                  query: { direct: true },
+                  // query: { direct: true },
                 });
               } else if (memberType === 'COMPANY') {
                 router.push({
                   pathname: '/company/faq',
-                  query: { direct: true },
+                  // query: { direct: true },
                 });
               } else if (userID !== undefined) {
                 router.push({
                   pathname: '/faq',
-                  query: { direct: true },
+                  // query: { direct: true },
                 });
               }
             }}

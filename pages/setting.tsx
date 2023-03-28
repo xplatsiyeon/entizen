@@ -14,6 +14,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -21,22 +22,26 @@ interface Components {
 
 const Setting = () => {
   const router = useRouter();
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  // const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 유저인지 회사인지
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
-  // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
+  // 실시간으로 width 받아오는 함수
+  // const handleResize = () => {
+  //   setNowWidth(window.innerWidth);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [nowWidth]);
 
   // 오른쪽 컴포넌트 변동해주는거
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -45,14 +50,6 @@ const Setting = () => {
   const [leftTabNumber, setLeftTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (tabNumber === 0) {
-      setLeftTabNumber(0);
-    } else {
-      setLeftTabNumber(1);
-    }
-  }, [tabNumber]);
 
   // 컴포넌트 변동
   const components: Components = {
@@ -66,15 +63,14 @@ const Setting = () => {
     ),
     1: (
       <AlarmSetting
-        nowWidth={nowWidth}
         setTabNumber={setTabNumber}
         tabNumber={tabNumber}
         leftTabNumber={leftTabNumber}
       />
     ),
     2: <QuestionInPerson setTabNumber={setTabNumber} tabNumber={tabNumber} />,
-    3: <Term setTabNumber={setTabNumber} nowWidth={nowWidth} />,
-    4: <PersonalDataPolicy setTabNumber={setTabNumber} nowWidth={nowWidth} />,
+    3: <Term setTabNumber={setTabNumber} />,
+    4: <PersonalDataPolicy setTabNumber={setTabNumber} />,
   };
 
   const leftComponents: Components = {
@@ -90,6 +86,14 @@ const Setting = () => {
   };
 
   useEffect(() => {
+    if (tabNumber === 0) {
+      setLeftTabNumber(0);
+    } else {
+      setLeftTabNumber(1);
+    }
+  }, [tabNumber]);
+
+  useEffect(() => {
     if (router.query.id === '1') {
       setTabNumber(1);
     } else if (router.query.id === '2') {
@@ -100,6 +104,10 @@ const Setting = () => {
       setTabNumber(4);
     }
   }, [router.query.id]);
+
+  useEffect(() => {
+    console.log('🔥 mobile : ', mobile);
+  }, [mobile]);
 
   return (
     <>
@@ -119,7 +127,7 @@ const Setting = () => {
         <Inner>
           <SettingTitle
             onClick={() => {
-              if (nowWidth >= 1200) {
+              if (!mobile) {
                 setTabNumber(0);
                 setLeftTabNumber(0);
               }
@@ -130,7 +138,7 @@ const Setting = () => {
           <BoxAlign>
             <WebBox>{leftComponents[leftTabNumber]}</WebBox>
             <div>{components[tabNumber]}</div>
-            {nowWidth >= 1200 && tabNumber === 1 && (
+            {!mobile && tabNumber === 1 && (
               <div>
                 <AlarmWebSetting
                   setTabNumber={setTabNumber}
@@ -139,7 +147,7 @@ const Setting = () => {
                 />
               </div>
             )}
-            {nowWidth >= 1200 && tabNumber === 2 && (
+            {!mobile && tabNumber === 2 && (
               <div>
                 <QuestionInPersonWeb />
               </div>

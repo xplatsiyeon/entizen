@@ -45,7 +45,7 @@ const Footer = (props: Props) => {
         </InfoWrapper>
         <MenuBox>
           <Menus
-            onClick={() => {
+            onClick={async () => {
               router.push({
                 pathname: '/setting',
                 query: {
