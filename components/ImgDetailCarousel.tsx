@@ -144,9 +144,6 @@ const Wrapper = styled(Swiper)`
     height: 100%;
     border-radius: 0;
     touch-action: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 
   .swiper-pagination {
@@ -276,8 +273,9 @@ const Exit = styled.div`
 `;
 
 const TopWrapper = styled.div`
-  /* @media (max-width: 899.25pt) {
-    width: 100vw;
-    height: 100vh;
-  } */
+  @media (max-width: 899.25pt) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
