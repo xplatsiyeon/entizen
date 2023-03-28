@@ -25,11 +25,11 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
     position: relative;
     background-color: ${({ backgroundColor }) => backgroundColor};
     /* padding: 4.5pt 7.5pt; */
-    padding: 6pt 9pt;
-    border-radius: 12pt;
-    font-size: 9pt;
-    font-weight: 500;
-    line-height: 9pt;
+    padding: 6pt 9pt !important;
+    border-radius: 12pt !important;
+    font-size: 9pt !important;
+    font-weight: 500 !important;
+    line-height: 9pt !important;
     letter-spacing: -0.02em;
     top: 1pt;
     color: #ffffff !important;

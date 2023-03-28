@@ -86,6 +86,9 @@ const RightBtn = styled(Button)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  &:hover {
+    background-color: ${colors.main}!important;
+  }
   @media (min-width: 900pt) {
     width: 100%;
   }

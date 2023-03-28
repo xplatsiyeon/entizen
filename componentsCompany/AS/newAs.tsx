@@ -76,7 +76,7 @@ const NewAs = ({
     return <div></div>;
   } else {
     return (
-      <Body> 
+      <Body>
         {modal && (
           <FilterModal
             setModal={setModal}
@@ -273,12 +273,12 @@ const Badge = styled.div<{ bgColor: string }>`
   background: ${({ bgColor }) => (bgColor ? bgColor : '#F75015')};
   font-style: normal;
   font-weight: 500;
-  font-size: 9pt;
-  line-height: 9pt;
+  font-size: 9pt !important;
+  line-height: 9pt !important;
   letter-spacing: -0.02em;
   color: #ffffff;
-  padding: 4.5pt 7.5pt;
-  border-radius: 12pt;
+  padding: 4.5pt 7.5pt !important;
+  border-radius: 12pt !important;
 `;
 const Date = styled.p`
   font-style: normal;

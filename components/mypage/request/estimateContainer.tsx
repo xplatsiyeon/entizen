@@ -167,11 +167,12 @@ const Wrapper = styled.div`
 const Badge = styled.span<{ color: string }>`
   background: ${({ color }) => color};
   color: ${colors.lightWhite};
-  border-radius: 12pt;
-  padding: 4.5pt 7.5pt;
+  padding: 4.5pt 9pt !important;
+  border-radius: 12pt !important;
+  font-size: 9pt !important;
   font-weight: 500;
-  font-size: 9pt;
-  line-height: 9pt;
+  line-height: 9pt !important;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const ItemButton = styled(ListItemButton)`
   display: flex;
@@ -196,7 +197,7 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-  font-family: 'Spoqa Han Sans Neo'!important;
+    font-family: 'Spoqa Han Sans Neo' !important;
   }
   & p {
     font-weight: 400;

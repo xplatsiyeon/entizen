@@ -206,11 +206,11 @@ const CarouselItem = styled.div`
 `;
 const Badge = styled.span<{ color: string }>`
   font-weight: 500;
-  font-size: 9pt;
-  line-height: 9pt;
+  font-size: 9pt !important;
+  line-height: 9pt !important;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background: ${({ color }) => color};
-  border-radius: 12pt;
-  padding: 4.5pt 7.5pt;
+  border-radius: 12pt !important;
+  padding: 4.5pt 7.5pt !important;
 `;

@@ -21,8 +21,8 @@ interface Props {
   [key: string]: any;
   buttonWeb?: string;
   user?: string;
-  cssDetail?:boolean;
-  textChange?:boolean;
+  cssDetail?: boolean;
+  textChange?: boolean;
 }
 
 const CompleteMessage = ({
@@ -35,7 +35,7 @@ const CompleteMessage = ({
   yesExit,
   user,
   cssDetail,
-  textChange
+  textChange,
 }: Props) => {
   const router = useRouter();
   return (
@@ -67,13 +67,18 @@ const CompleteMessage = ({
         </Footer>
         <WebTextArea user={user!}>
           <WebTextTitle>소중한 견적 감사드립니다.</WebTextTitle>
-          {textChange?<WebText>
-            고객님과 좋은 인연이 있기를 기대합니다. <br /> <br />
-            고객님과의 대화나, 엔티즌에 문의사항이 있으시면  <br />소통하기 기능을 활용해주세요!
-          </WebText>:<WebText>
-            고객님과 좋은 인연이 있기를 기대합니다. <br />
-            견적마감은 영업일 최대 5일 입니다.
-          </WebText>}
+          {textChange ? (
+            <WebText>
+              고객님과 좋은 인연이 있기를 기대합니다. <br /> <br />
+              고객님과의 대화나, 엔티즌에 문의사항이 있으시면 <br />
+              소통하기 기능을 활용해주세요!
+            </WebText>
+          ) : (
+            <WebText>
+              고객님과 좋은 인연이 있기를 기대합니다. <br />
+              견적마감은 영업일 최대 5일 입니다.
+            </WebText>
+          )}
         </WebTextArea>
         <BuyerContainer user={user!}>
           {/* 임시로 막음 */}
@@ -114,12 +119,12 @@ const ContainerBox = styled(Container)`
     padding-top: 86.25pt;
   }
 `;
-const Title = styled.h1<{cssDetail:boolean}>`
+const Title = styled.h1<{ cssDetail: boolean }>`
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
-  margin-top: ${({cssDetail}) => cssDetail?'15pt':'22.5pt'};
-  margin-bottom:  ${({cssDetail}) => cssDetail?'0pt':'45pt'};
+  margin-top: ${({ cssDetail }) => (cssDetail ? '15pt' : '22.5pt')};
+  margin-bottom: ${({ cssDetail }) => (cssDetail ? '0pt' : '45pt')};
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
   color: #222222;
@@ -145,13 +150,13 @@ const Footer = styled.div`
     padding: 0 15pt;
   }
 `;
-const TextBox = styled.div<{cssDetail:boolean}>`
+const TextBox = styled.div<{ cssDetail: boolean }>`
   display: flex;
   justify-content: center;
   white-space: pre-wrap;
   text-align: center;
   padding: 12pt 0;
-  margin-bottom: ${({cssDetail}) => cssDetail?'45pt':'33pt'};
+  margin-bottom: ${({ cssDetail }) => (cssDetail ? '45pt' : '33pt')};
   width: 100%;
   font-weight: 500;
   font-size: 10.5pt;
@@ -171,7 +176,7 @@ const TextBox = styled.div<{cssDetail:boolean}>`
     font-size: 15pt;
   }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   font-family: 'Spoqa Han Sans Neo';
   background: ${colors.main};
   border-radius: 21.75pt;
@@ -271,5 +276,4 @@ const IconWrap = styled.div`
 
 const BuyerContainer = styled.div<{ user: string }>`
   display: ${({ user }) => user !== 'buyer' && 'none'};
-
 `;

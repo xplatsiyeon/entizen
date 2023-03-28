@@ -309,8 +309,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   margin-right: 24pt;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
+  color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
 
   @media (max-width: 899.25pt) {
     margin-right: 0;
