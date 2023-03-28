@@ -43,7 +43,9 @@ instance.interceptors.response.use(
   async (err) => {
     // 요청 실패, 토큰이 만료 로직 처리.
     // console.log('=============== response error ================= ');
-    // console.log(err);
+    // alert('interseptor 에러 발생 콘솔 창 확인 필요');
+    // console.log('🔥 err : ', err);
+
     const {
       config,
       response: {

@@ -633,7 +633,7 @@ const ButtonBox = styled.div`
 `;
 const Button = styled.button<{ isWhite: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
-  padding: 15pt 19.5pt;
+  padding: 15pt 18.5pt;
   width: 100%;
   border: 0.75pt solid ${colors.main1};
   border-radius: 6pt;
