@@ -424,6 +424,7 @@ const Section = styled.section<{
   pb?: number;
   width?: boolean;
 }>`
+  font-family: 'Spoqa Han Sans Neo' !important;
   padding: 30pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
@@ -657,8 +658,8 @@ const FeaturesList = styled.div`
   line-height: 18pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  width: max-content;
-  max-width: 280pt;
+  /* width: max-content;
+  max-width: 280pt; */
   word-break: break-all;
   padding-right: 15pt;
   :not(:nth-of-type(1)) {
@@ -793,6 +794,7 @@ const Label2 = styled.div`
     flex: none;
     font-size: 10.5pt;
     line-height: 12pt;
+    margin-bottom: 15pt;
   }
   @media (min-width: 900pt) {
     padding-left: 0;

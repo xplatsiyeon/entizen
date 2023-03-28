@@ -149,6 +149,10 @@ body {
   background-color: #ffffff;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 input,
 textarea:focus {
   outline: none;
