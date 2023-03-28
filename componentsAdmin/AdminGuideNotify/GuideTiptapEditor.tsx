@@ -64,7 +64,11 @@ const GuideTiptapEditor = ({
         // });
         res?.uploadedFiles.forEach((img) => {
           if (editor) {
-            editor.chain().focus().setImage({ src: img.url }).run();
+            editor
+              .chain()
+              .focus()
+              .setImage({ src: img.url, alt: img.originalName })
+              .run();
           }
           newFile.push({
             url: img.url,
@@ -106,7 +110,7 @@ const GuideTiptapEditor = ({
           const data = e.target?.result;
           if (typeof data == 'string' && editor) {
             console.log(typeof data);
-            editor.chain().focus().setImage({ src: data }).run();
+            editor.chain().focus().setImage({ src: data, alt: '111' }).run();
           }
         };
         reader.readAsDataURL(file);

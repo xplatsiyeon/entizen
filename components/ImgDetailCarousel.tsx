@@ -143,6 +143,7 @@ const Wrapper = styled(Swiper)`
     width: 100%;
     height: 100%;
     border-radius: 0;
+    touch-action: none;
   }
 
   .swiper-pagination {
@@ -271,9 +272,4 @@ const Exit = styled.div`
   }
 `;
 
-const TopWrapper = styled.div`
-  /* @media (max-width: 899.25pt) {
-    width: 100vw;
-    height: 100vh;
-  } */
-`;
+const TopWrapper = styled.div``;
