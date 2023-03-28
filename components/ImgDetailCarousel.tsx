@@ -144,6 +144,9 @@ const Wrapper = styled(Swiper)`
     height: 100%;
     border-radius: 0;
     touch-action: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .swiper-pagination {
