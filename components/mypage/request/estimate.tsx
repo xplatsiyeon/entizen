@@ -308,18 +308,18 @@ const Badge = styled.span<{ color: string }>`
   // position: absolute;
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 9pt;
+  font-size: 10.5pt !important;
+  line-height: 9pt !important;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background: ${({ color }) => color};
-  border-radius: 12pt;
-  padding: 4.5pt 7.5pt;
+  border-radius: 12pt !important;
+  padding: 4.5pt 7.5pt !important;
   @media (max-width: 899.25pt) {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 9pt;
+    font-size: 9pt !important;
     font-weight: 500;
-    line-height: 9pt;
+    line-height: 9pt !important;
     letter-spacing: -0.02em;
     text-align: left;
   }

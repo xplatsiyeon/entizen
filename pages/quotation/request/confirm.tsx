@@ -712,7 +712,7 @@ const TopMobileWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 37.5pt 18.5625pt 21pt 18.5625pt;
-  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4);
   background-color: white;
 `;
 

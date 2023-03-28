@@ -220,7 +220,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     margin-top: 6pt;
     border-radius: 0;
-    box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
+    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4);
   }
 
   @media (min-width: 900pt) {

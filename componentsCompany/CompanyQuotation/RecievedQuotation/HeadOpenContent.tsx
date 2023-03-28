@@ -7,7 +7,6 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import SignUpHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
@@ -39,6 +38,7 @@ import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
+import RequestHeader from './RequestHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -440,14 +440,14 @@ const HeadOpenContent = () => {
         )}
         <Container>
           {tabNumber === -1 && nowWidth < 1200 && (
-            <SignUpHeader
+            <RequestHeader
               back={true}
               title={'받은 요청'}
               handleBackClick={handleBackClick}
             />
           )}
           {tabNumber >= 0 && nowWidth < 1200 && (
-            <SignUpHeader
+            <RequestHeader
               // back={true}
               title={'가견적 작성'}
               handleExitClick={handleExitClick}
@@ -537,7 +537,7 @@ const HeadOpenContent = () => {
                         homeSelect?.length! ? (
                           <span className="text">-</span>
                         ) : (
-                          <span className='text'>{`${Math.floor(
+                          <span className="text">{`${Math.floor(
                             Number(investRate!) * 100,
                           )} %`}</span>
                         )}

@@ -252,7 +252,7 @@ export default AsCompTop;
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 26.25pt;
   padding-right: 26.25pt;
   border-radius: 12pt;
