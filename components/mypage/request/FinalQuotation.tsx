@@ -269,14 +269,15 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
           <FeaturesList3>
-            {finalQuotation?.subscribeProductFeature
+            {/* {finalQuotation?.subscribeProductFeature
               ?.split('\n')
               .map((line, idx) => (
                 <p key={idx} className="productText">
                   {line}
                   <br />
                 </p>
-              ))}
+              ))} */}
+            {finalQuotation?.subscribeProductFeature}
           </FeaturesList3>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
@@ -285,22 +286,23 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
             <FlexWrap key={item.finalQuotationChargerIdx}>
               <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
-                {item.productFeature
+                {/* {item.productFeature
                   ? item.productFeature.split('\n').map((line, idx) => (
                       <li key={idx}>
                         {line}
                         <br />
                       </li>
                     ))
-                  : ''}
+                  : ''} */}
+                {item.productFeature}
               </FeaturesList>
             </FlexWrap>
           );
         })}
       </Section>
       <Line />
-      <Section grid={true} width={true}>
-        <Subtitle>충전기 이미지</Subtitle>
+      <Section grid={true} width={true} className="noMargin">
+        <Subtitle className="ml-15">충전기 이미지</Subtitle>
         <GridImg>
           {finalQuotation?.finalQuotationChargers?.map((item, index) => (
             <React.Fragment key={item.finalQuotationChargerIdx}>
@@ -422,6 +424,7 @@ const Section = styled.section<{
   pb?: number;
   width?: boolean;
 }>`
+  font-family: 'Spoqa Han Sans Neo' !important;
   padding: 30pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
@@ -432,6 +435,9 @@ const Section = styled.section<{
   @media (max-width: 899.25pt) {
     margin-left: 15pt;
     padding: 18pt 0;
+    &.noMargin {
+      margin-left: 0pt;
+    }
   }
   @media (min-width: 900pt) {
     ${({ width }) =>
@@ -565,6 +571,9 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-bottom: 15pt;
+  &.ml-15 {
+    margin-left: 15pt;
+  }
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
@@ -637,35 +646,35 @@ const Label = styled.h3`
     text-align: left;
   }
 `;
-const FeaturesList = styled.ol`
+const FeaturesList = styled.div`
+  white-space: pre-wrap;
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
   list-style: none;
-  & li {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 18pt;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  /* width: max-content;
+  max-width: 280pt; */
+  word-break: break-all;
+  padding-right: 15pt;
+  :not(:nth-of-type(1)) {
+    padding-top: 2pt;
+  }
+  @media (min-width: 900pt) {
     width: max-content;
-    max-width: 280pt;
+    max-width: 380pt;
     word-break: break-all;
-    @media (min-width: 900pt) {
-      width: max-content;
-      max-width: 380pt;
-      word-break: break-all;
-      font-family: 'Spoqa Han Sans Neo';
-      font-size: 12pt;
-      font-weight: 500;
-      line-height: 21pt;
-      letter-spacing: -0.02em;
-      text-align: left;
-    }
-    :not(:nth-of-type(1)) {
-      padding-top: 2pt;
-    }
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
   @media (max-width: 899.25pt) {
     flex: none;
@@ -677,29 +686,28 @@ const FeaturesList3 = styled.div`
   list-style-position: inside;
   flex: 2;
   list-style: none;
-  .productText {
-    list-style: none;
-    font-weight: 500;
-    font-size: 10.5pt;
-    /* line-height: 18pt; */
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
+  /* .productText { */
+  list-style: none;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  word-break: break-all;
+  padding-right: 15pt;
+  @media (min-width: 900pt) {
     word-break: break-all;
-    padding-right: 15pt;
-    @media (min-width: 900pt) {
-      word-break: break-all;
-      font-family: 'Spoqa Han Sans Neo';
-      font-size: 12pt;
-      font-weight: 500;
-      line-height: 21pt;
-      letter-spacing: -0.02em;
-      text-align: left;
-    }
-    :not(:nth-of-type(1)) {
-      padding-top: 2pt;
-    }
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
+  :not(:nth-of-type(1)) {
+    padding-top: 2pt;
+  }
+  /* } */
   @media (max-width: 899.25pt) {
     flex: none;
   }
@@ -709,6 +717,7 @@ const GridImg = styled.div`
   overflow-x: scroll;
   grid-template-columns: repeat(4, 1fr);
   /* padding-top: 15pt; */
+  padding-left: 15pt;
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
@@ -735,6 +744,7 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+
   & > span {
     border-radius: 6pt;
   }
@@ -784,6 +794,7 @@ const Label2 = styled.div`
     flex: none;
     font-size: 10.5pt;
     line-height: 12pt;
+    margin-bottom: 15pt;
   }
   @media (min-width: 900pt) {
     padding-left: 0;

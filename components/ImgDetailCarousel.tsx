@@ -272,10 +272,4 @@ const Exit = styled.div`
   }
 `;
 
-const TopWrapper = styled.div`
-  @media (max-width: 899.25pt) {
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-`;
+const TopWrapper = styled.div``;

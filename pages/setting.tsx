@@ -42,6 +42,7 @@ const Setting = () => {
   //     window.removeEventListener('resize', handleResize);
   //   };
   // }, [nowWidth]);
+  // test
 
   // 오른쪽 컴포넌트 변동해주는거
   const [tabNumber, setTabNumber] = useState<number>(0);

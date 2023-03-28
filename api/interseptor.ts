@@ -43,7 +43,9 @@ instance.interceptors.response.use(
   async (err) => {
     // 요청 실패, 토큰이 만료 로직 처리.
     // console.log('=============== response error ================= ');
-    // console.log(err);
+    // alert('interseptor 에러 발생 콘솔 창 확인 필요');
+    // console.log('🔥 err : ', err);
+
     const {
       config,
       response: {
@@ -52,6 +54,7 @@ instance.interceptors.response.use(
       },
     } = err;
     //  로컬 스토리지에 토큰 자체가 없는데 요청을 보낸 경우
+    // 로그인이 필요합니다
     if (
       !isSuccess &&
       (message === 'jwt malformed' ||

@@ -28,6 +28,9 @@ import UserRightMenu from 'components/UserRightMenu';
 import CancelButton from 'components/mypage/request/CancelButton';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import CommunicationIcon from 'public/images/communication-icon.svg';
+import RightArrow from 'public/images/black-right-arrow.svg';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -105,6 +108,7 @@ const Mypage1_3 = ({}: any) => {
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const routerId = router?.query?.quotationRequestIdx;
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const queryclient = useQueryClient();
   const [partnerModal, setPartnerModal] = useState(false);
@@ -160,6 +164,16 @@ const Mypage1_3 = ({}: any) => {
       enabled:
         data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
       // enabled: false,
+    },
+  );
+
+  // 제휴문의 채팅방 보내기
+
+  const { data: chattingData } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
     },
   );
 
@@ -256,6 +270,20 @@ const Mypage1_3 = ({}: any) => {
     });
   };
 
+  const onClickEntizenChatting = () => {
+    const chattingRoomIdx =
+      chattingData?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
+    userID
+      ? router.push({
+          pathname: `/chatting/chattingRoom`,
+          query: {
+            chattingRoomIdx: chattingRoomIdx,
+            entizen: true,
+          },
+        })
+      : router.push('/signin');
+  };
+
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
@@ -305,12 +333,9 @@ const Mypage1_3 = ({}: any) => {
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   // console.log('⭐️ isFinalItmeIndex : ', isFinalItmeIndex);
-  // console.log(
-  //   '⭐️ date check  : ',
-  //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx,
-  // );
+  console.log('⭐️ date check  : ', data);
 
-  console.log('⭐️ data : ', data);
+  // console.log('⭐️ data : ', data);
   if (isError || spotIsError) {
     return (
       <Modal
@@ -371,7 +396,7 @@ const Mypage1_3 = ({}: any) => {
                   handleOnClick={cencleBtnCheck ? handleOnClick : undefined}
                   handleBackClick={handleBackOnClick}
                 />
-                {/*--------------------- 상단 박스 ---------------------------------*/}
+                {/*================================== 상단 박스 ==================================*/}
                 <EstimateContainer data={data!} />
                 {cencleBtnCheck && (
                   <CancelButton handleOnClick={handleOnClick} />
@@ -379,15 +404,26 @@ const Mypage1_3 = ({}: any) => {
                 <DownArrowBox>
                   <Image src={DoubleArrow} alt="double-arrow" />
                 </DownArrowBox>
+
                 {/* 현장실사 해당 기업 상세 페이지 */}
                 {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx &&
                 isFinalItmeIndex === -1 ? (
-                  // ---------------------- 구독 상품 리스트 (가견적 작성 회사) ------------------------
+                  // ================================== 구독 상품 리스트 (가견적 작성 회사) ==================================
                   <React.Fragment>
+                    {/* 구독 상품 리스트 */}
                     <SubscriptionProduct
                       data={data?.preQuotations!}
                       setIsFinalItmeIndex={setIsFinalItmeIndex}
                     />
+                    {/* 엔티즌 소통하기 */}
+                    <AdminBtnWrap>
+                      <p>선택하기 어려우신가요?</p>
+                      <button onClick={onClickEntizenChatting}>
+                        <Image src={CommunicationIcon} alt="right-arrow" />
+                        엔티즌과 소통하기
+                        <Image src={RightArrow} alt="right-arrow" />
+                      </button>
+                    </AdminBtnWrap>
                   </React.Fragment>
                 ) : (
                   <>
@@ -633,7 +669,7 @@ const ButtonBox = styled.div`
 `;
 const Button = styled.button<{ isWhite: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
-  padding: 15pt 19.5pt;
+  padding: 15pt 18.5pt;
   width: 100%;
   border: 0.75pt solid ${colors.main1};
   border-radius: 6pt;
@@ -647,12 +683,40 @@ const Button = styled.button<{ isWhite: boolean }>`
   letter-spacing: -0.02em;
   cursor: pointer;
 `;
-
-const ImgBox = styled.div`
-  width: 48px;
-  height: 48px;
+const AdminBtnWrap = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  margin: 0 auto;
+  align-items: center;
+  gap: 15pt;
+  margin-top: 45pt;
+  p {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12pt;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10.5pt 12pt;
+    border-radius: 21.75pt;
+    font-weight: 500;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    background: #f3f4f7;
+    color: ${colors.main2};
+    width: 146.25pt;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+
+  @media (min-width: 899.25pt) {
+    display: none;
+  }
 `;

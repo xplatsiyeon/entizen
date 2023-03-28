@@ -109,7 +109,7 @@ const FinPage = () => {
   switch (projectData?.project?.isApprovedByAdmin) {
     case false:
       title = '엔티즌에서 프로젝트 확인 후\n 최종 완료됩니다';
-      date = '완료 요청일';
+      date = '완료 동의일';
       text = '';
       btnP = '엔티즌과 소통하기';
       break;
@@ -152,7 +152,9 @@ const FinPage = () => {
                   {changeDataFn(projectData?.project?.subscribeStartDate!)}
                 </h3>
               )}
-              {projectData?.project?.isApprovedByAdmin && <p className="notice">{text}</p>}
+              {projectData?.project?.isApprovedByAdmin && (
+                <p className="notice">{text}</p>
+              )}
             </TextBox>
             <Btn onClick={HandleOnClick}>{btnP}</Btn>
           </Wrap>
@@ -225,8 +227,8 @@ const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
   white-space: pre-wrap;
   font-weight: 700;
-  font-size: 25.5pt;
-  line-height: 37.5pt;
+  font-size: 18pt;
+  line-height: 24pt;
   letter-spacing: -0.02em;
   color: #222222;
   margin-top: 30pt;
@@ -259,14 +261,14 @@ const TextBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 21pt 0;
+  padding: 12pt 0;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
-  margin: 90pt 15pt 24pt;
+  margin: 101.25pt 0pt 24pt;
   font-family: 'Spoqa Han Sans Neo';
   & > h3 {
     font-weight: 700;
-    font-size: 18pt;
+    font-size: 15pt;
     line-height: 15pt;
     text-align: center;
     letter-spacing: -0.02em;
@@ -275,14 +277,15 @@ const TextBox = styled.div`
   & > p {
     white-space: pre-wrap;
     font-weight: 400;
-    font-size: 12pt;
-    line-height: 12pt;
-    margin-bottom: 12pt;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    margin-bottom: 3pt;
     text-align: center;
     letter-spacing: -0.02em;
     color: #222222;
   }
   .notice {
+    margin: 15pt 0 0;
     white-space: pre-wrap;
     font-weight: 500;
     font-size: 10.5pt;

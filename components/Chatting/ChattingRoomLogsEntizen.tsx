@@ -539,14 +539,13 @@ const ChattingRoomLogsEntizen = ({
 
       // console.log('처음에만');
       //focusRef.current?.focus();
-        if (inner)
-          inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto',
-          });
-        focusRef.current?.focus({ preventScroll: true });
-
+      if (inner)
+        inner.scroll({
+          top: inner.scrollHeight,
+          left: 0,
+          behavior: 'auto',
+        });
+      focusRef.current?.focus({ preventScroll: true });
     }, 600);
 
     setTimeout(() => {
@@ -575,32 +574,31 @@ const ChattingRoomLogsEntizen = ({
     }
   }, []);
 
-
-  //텍스트 input이 아닌 부분을 눌러도 텍스트 input에 포커스 유지. 
+  //텍스트 input이 아닌 부분을 눌러도 텍스트 input에 포커스 유지.
   const handleFocus = () => {
     mobInputRef.current?.focus();
     //mobInputRef.current?.classList.add('on');
   };
 
   //텍스트 인풋에 포커스 될 때, 블러 될 때 form박스 스타일 변경.
-  const inputStyle =(e:React.FocusEvent, type:boolean)=>{
-    console.log('style', type)
+  const inputStyle = (e: React.FocusEvent, type: boolean) => {
+    console.log('style', type);
     const target = e.currentTarget as HTMLFormElement;
-    if(type){
-      target.classList.replace('off','on');
-    }else{
+    if (type) {
+      target.classList.replace('off', 'on');
+    } else {
       //파일 버튼, 메세지 전송 버튼을 누르면 포커스가 블러되는데 handleFoucs함수로 인해
       //메세지 전송 버튼을 눌러도 텍스트인풋에 다시 포커스된다.
-      // settimeout으로 0.3초 후 text input에 포커스가 있으면 스타일변경x. 
-      setTimeout(()=>{
+      // settimeout으로 0.3초 후 text input에 포커스가 있으면 스타일변경x.
+      setTimeout(() => {
         const input = target.querySelector('.textInput:focus');
-        console.log(input)
-        if(!input){
-          target.classList.replace('on','off');
+        console.log(input);
+        if (!input) {
+          target.classList.replace('on', 'off');
         }
-      },300)   
+      }, 300);
     }
-  }
+  };
 
   return (
     <Body ref={logs}>
@@ -682,75 +680,77 @@ const ChattingRoomLogsEntizen = ({
                                 <Image src={defaultImg} layout="fill" />
                               )}
                             </ImageWrap>
-                            <StyledWrap className={`${
-                              item.fromMemberType === 'ADMIN'
-                                ? 'company'
-                                : 'user'
-                            }`}>
-                            {item.content && (
-                              <Chat
-                                userChatting={userChatting}
-                                className={`${
-                                  item.fromMemberType === 'ADMIN'
-                                    ? 'company'
-                                    : 'user'
-                                }`}
-                                //tabIndex={1}
-                              >
-                                {item.content}
-                              </Chat>
-                            )}
-                            {item.messageType === 'FILE' && (
-                              <File>
-                                <FileDownload
-                                  // onClick={DownloadFile}
-                                  // href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  onClick={() => {
-                                    fileDownload(
-                                      userAgent,
-                                      item?.fileOriginalName!,
-                                      item?.fileUrl!,
-                                    );
-                                  }}
-                                  type={'blob'}
+                            <StyledWrap
+                              className={`${
+                                item.fromMemberType === 'ADMIN'
+                                  ? 'company'
+                                  : 'user'
+                              }`}
+                            >
+                              {item.content && (
+                                <Chat
+                                  userChatting={userChatting}
+                                  className={`${
+                                    item.fromMemberType === 'ADMIN'
+                                      ? 'company'
+                                      : 'user'
+                                  }`}
+                                  //tabIndex={1}
                                 >
-                                  <Image
-                                    src={fileImg}
-                                    alt="file-icon"
-                                    layout="intrinsic"
-                                  />
-                                  {item?.fileOriginalName}
-                                </FileDownload>
-                              </File>
-                            )}
-
-                            {item.messageType === 'IMAGE' && (
-                              <>
-                                <FileDownload
-                                  // href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  type={'blob'}
-                                  onClick={() => {
-                                    fileDownload(
-                                      userAgent,
-                                      item?.fileOriginalName!,
-                                      item?.fileUrl!,
-                                    );
-                                  }}
-                                >
-                                  <img
-                                    src={item?.fileUrl!}
-                                    style={{
-                                      maxWidth: '112.5pt',
-                                      maxHeight: '150pt',
-                                      objectFit: 'cover',
-                                      background: '#0000001c',
+                                  {item.content}
+                                </Chat>
+                              )}
+                              {item.messageType === 'FILE' && (
+                                <File>
+                                  <FileDownload
+                                    // onClick={DownloadFile}
+                                    // href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    onClick={() => {
+                                      fileDownload(
+                                        userAgent,
+                                        item?.fileOriginalName!,
+                                        item?.fileUrl!,
+                                      );
                                     }}
-                                  />
-                                </FileDownload>
-                              </>
-                            )}
+                                    type={'blob'}
+                                  >
+                                    <Image
+                                      src={fileImg}
+                                      alt="file-icon"
+                                      layout="intrinsic"
+                                    />
+                                    {item?.fileOriginalName}
+                                  </FileDownload>
+                                </File>
+                              )}
+
+                              {item.messageType === 'IMAGE' && (
+                                <>
+                                  <FileDownload
+                                    // href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    type={'blob'}
+                                    onClick={() => {
+                                      fileDownload(
+                                        userAgent,
+                                        item?.fileOriginalName!,
+                                        item?.fileUrl!,
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      src={item?.fileUrl!}
+                                      style={{
+                                        maxWidth: '112.5pt',
+                                        maxHeight: '150pt',
+                                        objectFit: 'cover',
+                                        background: '#0000001c',
+                                      }}
+                                    />
+                                  </FileDownload>
+                                </>
+                              )}
                             </StyledWrap>
                             <WrapDate>
                               <P
@@ -791,16 +791,19 @@ const ChattingRoomLogsEntizen = ({
 
       <MobBottomWrap>
         <BottomBox onClick={handleFocus}>
-          <FlexBox onSubmit={onSubmitText} className="off" 
-            onFocus={(e)=>{
+          <FlexBox
+            onSubmit={onSubmitText}
+            className="off"
+            onFocus={(e) => {
               inputStyle(e, true);
             }}
-            onBlur={(e)=>{
+            onBlur={(e) => {
               inputStyle(e, false);
             }}
-            >
-            <TextInput className='textInput'
-              placeholder="메세지를 입력하세요" 
+          >
+            <TextInput
+              className="textInput"
+              placeholder="메세지를 입력하세요"
               value={text}
               onChange={onChangeText}
               ref={mobInputRef}
@@ -816,11 +819,10 @@ const ChattingRoomLogsEntizen = ({
               )}
             </IconWrap2>
           </FlexBox>
-   
         </BottomBox>
         <AddBtn onClick={handleButton}>
           {/* <Image src={addBtn} layout="intrinsic" /> */}
-          <ImgTag src={'/images/addBtnSvg.svg'} className="add"/>
+          <ImgTag src={'/images/addBtnSvg.svg'} className="add" />
           <div className="hidden">
             <IconWrap3 onClick={imgHandler}>
               <Image src={chatPhotoAdd} layout="fill" />
@@ -969,25 +971,22 @@ const BottomBox = styled.div`
     position: absolute;
     display: none;
 
-    &::after{
+    &::after {
       display: none;
     }
   }
-
-
-
 `;
 const FlexBox = styled.form`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 12pt 0 38.25pt;
+  width: 100%;
 
-  &.off{
+  &.off {
     //transition: 0;
     margin-bottom: 20pt;
   }
-  &.on{
+  &.on {
     transition: 0s 0.5s;
     margin-bottom: 0;
   }
@@ -1003,7 +1002,7 @@ const AddBtn = styled.div`
   transition: 0.3s;
   &.on {
     //transform: rotate(45deg);
-    .add{
+    .add {
       transition: 0.3s;
       transform: rotate(45deg);
     }
@@ -1025,7 +1024,7 @@ const AddBtn = styled.div`
   }
 `;
 const TextInput = styled.input`
-  flex: 2;
+  width: 100%;
   border-radius: 37.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
@@ -1123,7 +1122,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-  
+
   &.target-p {
     .user-p {
       &.p-target {
@@ -1152,7 +1151,6 @@ const Date = styled.span`
   border: 0.75pt solid #e2e5ed;
   border-radius: 12pt;
   padding: 6pt 9pt;
-  
 `;
 
 const List = styled.div`
@@ -1208,13 +1206,13 @@ const ImageWrap = styled.div<{ userChatting: boolean }>`
 `;
 
 const StyledWrap = styled.div`
-&.company {
-  margin-left: 36pt;
-  @media (max-width: 899.25pt) {
-    margin-left: 33pt;
+  &.company {
+    margin-left: 36pt;
+    @media (max-width: 899.25pt) {
+      margin-left: 33pt;
+    }
   }
-}
-`
+`;
 const Chat = styled.div<{ userChatting: boolean }>`
   border-radius: 6pt;
   padding: 7.5pt 6pt;
@@ -1279,8 +1277,6 @@ const FocusBox = styled.div`
   &:focus {
     outline: none;
   }
-
-
 `;
 const WrapDate = styled.div`
   display: flex;
