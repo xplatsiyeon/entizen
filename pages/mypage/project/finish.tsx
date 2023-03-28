@@ -109,7 +109,7 @@ const FinPage = () => {
   switch (projectData?.project?.isApprovedByAdmin) {
     case false:
       title = '엔티즌에서 프로젝트 확인 후\n 최종 완료됩니다';
-      date = '완료 요청일';
+      date = '완료 동의일';
       text = '';
       btnP = '엔티즌과 소통하기';
       break;
