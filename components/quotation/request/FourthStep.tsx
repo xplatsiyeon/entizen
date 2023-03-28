@@ -103,11 +103,11 @@ const FourthStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     setHiddenTag(false);
-  //   };
-  // }, []);
+  useEffect(() => {
+    if (!isSearch) {
+      setHiddenTag(false);
+    }
+  }, [isSearch]);
   // 주소 검색 컴포넌트 on/off
   if (isSearch) {
     return <SearchAddress isSearch={isSearch} setIsSearch={setIsSearch} />;
