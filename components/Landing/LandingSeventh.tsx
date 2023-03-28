@@ -128,6 +128,7 @@ const P = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   @media (max-width: 600pt) {
+    margin-left: 24pt;
     font-size: 19.5pt;
     font-weight: 700;
     line-height: 28.5pt;
@@ -159,7 +160,7 @@ const SwiperWrapper = styled(Swiper)`
     /* width: 429.75pt; */
     width: 400pt;
     height: 169.5pt;
-    padding-left: 100%;
+    padding-left: 63%;
   }
 `;
 

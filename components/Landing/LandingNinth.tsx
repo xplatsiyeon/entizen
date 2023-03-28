@@ -117,6 +117,7 @@ const Title = styled.span`
     font-size: 10.5pt;
     line-height: 10.5pt;
     top: 20%;
+    /* left: 24pt; */
     left: 24pt;
   }
 `;
@@ -145,7 +146,8 @@ const UnderLeftText = styled.span`
     text-align: left;
     /* top: 147pt; */
     bottom: 45pt;
-    left: 4%;
+    /* left: 4%; */
+    left: 24pt;
   }
 `;
 
@@ -162,7 +164,8 @@ const RightBox = styled.div`
     position: absolute;
     /* top: 204pt; */
     bottom: 27pt;
-    left: 4%;
+    /* left: 4%; */
+    left: 24pt;
     gap: 6pt;
   }
 `;

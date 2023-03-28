@@ -5,44 +5,39 @@ import Image from 'next/image';
 import LeftImg from 'public/Landing/ThirdLeft.png';
 import RightImg from 'public/Landing/ThirdRight.png';
 import { useMediaQuery } from 'react-responsive';
+import LandingLibraryImg from 'public/Landing/LandingLibraryImg.png';
+import LandingMobile from 'public/Landing/LandingThirdImgMobile.png';
 
 const LandingThird = () => {
   const mobile = useMediaQuery({
     query: '(max-width:600pt)',
   });
   return (
-    <Wrapper>
+    <>
       {mobile ? (
-        <MobileWrapper>
-          <MobileTextWrapper>
-            <TextBox>
-              <MainText>
-                어려운 충전기를 <br />
-                알기 쉽게,
-                <br />
-                엔티즌 도서관
-              </MainText>
-              <SubText>
-                핵심만 쏙쏙 뽑아둔 가이드를 통해서,
-                <br />
-                나에게 딱 맞는 충전기와 보조금을 확인해 보세요.
-              </SubText>
-            </TextBox>
-          </MobileTextWrapper>
-          <MobileImgContainer>
+        <Wrapper>
+          <TextBox>
+            <MainText>
+              어려운 충전기를 <br />
+              알기 쉽게,
+              <br />
+              엔티즌 도서관
+            </MainText>
+            <SubText>
+              핵심만 쏙쏙 뽑아둔 가이드를 통해서,
+              <br />
+              나에게 맞는 충전기와 보조금을 확인해보세요.
+            </SubText>
+          </TextBox>
+          <MobileImgBox>
             <MobileScroll>
-              <ImgBox>
-                <Image src={LeftImg} />
-              </ImgBox>
-              <RightBox>
-                <Image src={RightImg} />
-              </RightBox>
+              <Image src={LandingMobile} />
             </MobileScroll>
-          </MobileImgContainer>
-        </MobileWrapper>
+          </MobileImgBox>
+        </Wrapper>
       ) : (
-        <>
-          <LeftBox>
+        <WebWrapper>
+          <WebInner>
             <TextBox>
               <MainText>
                 어려운 충전기를 <br />
@@ -53,64 +48,65 @@ const LandingThird = () => {
               <SubText>
                 핵심만 쏙쏙 뽑아둔 가이드를 통해서,
                 <br />
-                나에게 딱 맞는 충전기와 보조금을 확인해 보세요.
+                나에게 맞는 충전기와 보조금을 확인해보세요.
               </SubText>
             </TextBox>
-            <ImgBox>
+            <WebeftImgBox>
               <Image src={LeftImg} />
-            </ImgBox>
-          </LeftBox>
-          <RightBox>
-            <Image src={RightImg} />
-          </RightBox>
-        </>
+            </WebeftImgBox>
+            <WebRightImgBox>
+              <Image src={RightImg} />
+            </WebRightImgBox>
+          </WebInner>
+        </WebWrapper>
       )}
-    </Wrapper>
+    </>
   );
 };
 
 export default LandingThird;
 
+// const Wrapper = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 201.75pt 0;
+//   @media (max-width: 600pt) {
+//     /* padding: 80px 0; */
+//     padding-top: 60pt;
+//     overflow-x: hidden;
+//     padding-bottom: 0;
+//     /* width: 100vw; */
+//     width: 100%;
+//     /* width: 800px; */
+//   }
+// `;
+
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 201.75pt 0;
+  position: relative;
+  background-color: #ffffff;
   @media (max-width: 600pt) {
-    /* padding: 80px 0; */
-    padding-top: 60pt;
-    overflow-x: hidden;
-    padding-bottom: 0;
-    /* width: 100vw; */
-    width: 100%;
-    /* width: 800px; */
-  }
-`;
-
-const LeftBox = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  @media (max-width: 600pt) {
-    padding-left: 42.75pt;
-    width: 262.5pt;
-  }
-`;
-
-const ImgBox = styled.div`
-  @media (max-width: 600pt) {
-    width: 300pt;
-  }
-`;
-
-const RightBox = styled.div`
-  @media (max-width: 600pt) {
-    width: 300pt;
+    background-color: #ffffff;
+    min-height: 718.5pt;
   }
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
+  padding-bottom: 76.5pt;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 10;
+  }
+  @media (max-width: 600pt) {
+    display: flex;
+    position: static;
+    padding-top: 60pt;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
 
 const MobileTextWrapper = styled.div`
@@ -141,8 +137,6 @@ const MainText = styled.span`
 
 const SubText = styled.span`
   padding-top: 30pt;
-  /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  /* font-family: 'AppleGothicNeo'; */
   font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   font-size: 15pt;
   font-weight: 500;
@@ -161,26 +155,49 @@ const SubText = styled.span`
   }
 `;
 
-const MobileImgContainer = styled.div`
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: flex-start; */
-  overflow-x: scroll;
-
-  width: 100vw;
-`;
-
-const MobileWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* width: 100vw; */
+const MobileImgBox = styled.div`
+  @media (max-width: 600pt) {
+    display: block;
+    overflow-x: scroll;
+    width: 100vw;
+    /* padding-left: -30pt; */
+  }
 `;
 
 const MobileScroll = styled.div`
   @media (max-width: 600pt) {
-    width: 675pt;
+    padding-top: 0;
+    width: 500pt;
     display: flex;
     justify-content: flex-start;
     gap: 12pt;
   }
+`;
+
+const WebWrapper = styled.div`
+  position: relative;
+  background-color: #ffffff;
+  width: 100vw;
+  padding: 269px 0;
+`;
+
+const WebInner = styled.div`
+  position: relative;
+  max-width: 1193px;
+  height: 1453px;
+  margin: 0 auto;
+`;
+
+const WebeftImgBox = styled.div`
+  position: absolute;
+  width: 630px;
+  left: -110px;
+  bottom: 78px;
+`;
+
+const WebRightImgBox = styled.div`
+  position: absolute;
+  width: 630px;
+  right: -110px;
+  top: -95px;
 `;

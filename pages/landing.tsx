@@ -18,8 +18,11 @@ import { Fragment } from 'react';
 import Head from 'next/head';
 
 const Landing = () => {
+  // const mobile = useMediaQuery({
+  //   query: '(max-width:899.25pt)',
+  // });
   const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: '(max-width:600pt)',
   });
   // font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif;
   return (
@@ -150,7 +153,8 @@ const Footer = styled.div`
   @media (max-width: 899.25pt) {
     height: 51pt;
     /* padding: 12pt 15pt; */
-    padding: 21.75pt 24pt;
+    /* padding: 21.75pt 24pt; */
+    padding: 18px 32px;
     width: 100vw;
   }
 `;
@@ -166,9 +170,10 @@ const CopyText = styled.span`
   text-align: left;
   color: #a6a9b0;
   @media (max-width: 600pt) {
-    font-size: 6pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 8px;
     font-weight: 400;
-    line-height: 7.5pt;
+    line-height: 10px;
     letter-spacing: 0em;
     text-align: left;
   }
@@ -185,8 +190,10 @@ const Button = styled.div`
   justify-content: center;
   cursor: pointer;
   @media (max-width: 600pt) {
-    width: 24pt;
-    height: 24pt;
+    /* width: 24pt;
+    height: 24pt; */
+    width: 32px;
+    height: 32px;
   }
 `;
 const BtnText = styled.span`
@@ -201,6 +208,11 @@ const BtnText = styled.span`
   padding-top: 4.5pt;
   color: white;
   @media (max-width: 600pt) {
-    font-size: 6pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 10px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 `;
