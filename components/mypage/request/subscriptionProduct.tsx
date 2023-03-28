@@ -59,7 +59,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
         {data?.map((company, index) => (
-          <GridItem 
+          <GridItem
             isFailed={company?.finalQuotation ? true : false}
             key={index}
             onClick={() => onClickCompany(company, index)}
@@ -167,7 +167,7 @@ const Notice = styled.p`
 `;
 const GridContainer = styled.div`
   //display: grid;
-  //grid-template-columns: repeat(2, 1fr); 
+  //grid-template-columns: repeat(2, 1fr);
   display: flex;
   flex-wrap: wrap;
   padding-top: 30pt;
@@ -175,7 +175,6 @@ const GridContainer = styled.div`
   @media (max-width: 899.25pt) {
     gap: 11.25pt;
   }
-
 `;
 const GridItem = styled.div<{ isFailed: boolean }>`
   background: ${colors.lightWhite};
@@ -190,7 +189,7 @@ const GridItem = styled.div<{ isFailed: boolean }>`
   cursor: pointer;
   & > h2 {
     font-family: 'Spoqa Han Sans Neo';
-    padding-top: 9pt;
+    padding-top: 15pt;
     font-weight: 400;
     font-size: 9pt;
     line-height: 12pt;
@@ -216,10 +215,10 @@ const GridItem = styled.div<{ isFailed: boolean }>`
   @media (max-width: 899.25pt) {
     width: 120pt;
     height: 138pt;
-    > h2{
-      padding-top: 15pt;
+    & > h2 {
+      padding-top: 0pt;
     }
-    > p{
+    & > p {
       padding-top: 6pt;
     }
   }

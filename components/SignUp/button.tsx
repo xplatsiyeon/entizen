@@ -57,8 +57,8 @@ const ButtonBox = styled.div<{ propsGet?: boolean; bottom?: number }>`
   ${({ propsGet }) =>
     propsGet === true &&
     css`
-      position: fixed;
-      bottom: bottom + 'pt';
+      /* position: fixed;
+      bottom: bottom + 'pt'; */
       box-sizing: border-box;
       width: 100%;
     `}
