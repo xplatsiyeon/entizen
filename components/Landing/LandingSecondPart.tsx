@@ -13,62 +13,98 @@ const LandingSecondPart = () => {
   const completedTitle2 = 'life';
   const [landingTitle, setLandingTitle] = useState('');
   const [landingTitle2, setLandingTitle2] = useState('');
+  const [ladningLife, setLandingLife] = useState('');
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
+  const [contLife, setCountLife] = useState(0);
   const [countNow, setCountNow] = useState(false);
 
+  // useEffect(() => {
+  //   const typingInterval = setInterval(
+  //     () => {
+  //       setLandingTitle(landingTitle + completedTitle[count]);
+  //       setCount(count + 1);
+
+  //       // setLandingTitle((prevTitleValue) => {
+  //       //   let result = prevTitleValue
+  //       //     ? prevTitleValue + completedTitle[count]
+  //       //     : completedTitle[0];
+  //       //   setCount(count + 1);
+
+  //       //   if (count >= completedTitle.length) {
+  //       //     setCount(0);
+  //       //     setLandingTitle('');
+  //       //   }
+
+  //       //   return result;
+  //       // });
+  //     },
+  //     count === 11 ? 1300 : 300,
+  //   );
+
+  //   if (count === 11) {
+  //     setCountNow(true);
+  //   } else {
+  //     setCountNow(false);
+  //   }
+  //   if (count > completedTitle.length) {
+  //     clearInterval(typingInterval);
+  //     setCount(0);
+  //     setLandingTitle('');
+  //   }
+  //   return () => {
+  //     clearInterval(typingInterval);
+  //   };
+  // }, [count]);
+
+  // useEffect(() => {
+  //   const typingInterval2 = setInterval(() => {
+  //     setLandingTitle2(landingTitle2 + completedTitle2[count2]);
+  //     setCount2(count2 + 1);
+  //   }, 300);
+  //   if (count2 > completedTitle2.length || countNow === false) {
+  //     clearInterval(typingInterval2);
+  //     setCount2(0);
+  //     setLandingTitle2('');
+  //   }
+  //   return () => {
+  //     clearInterval(typingInterval2);
+  //   };
+  // }, [countNow, count2]);
+
   useEffect(() => {
-    const typingInterval = setInterval(
-      () => {
-        setLandingTitle(landingTitle + completedTitle[count]);
-        setCount(count + 1);
+    const typingInterval = setInterval(() => {
+      setLandingLife(ladningLife + completedTitle2[contLife]);
+      setCountLife(contLife + 1);
+      // setLandingTitle((prevTitleValue) => {
+      //   let result = prevTitleValue
+      //     ? prevTitleValue + completedTitle[count]
+      //     : completedTitle[0];
+      //   setCount(count + 1);
 
-        // setLandingTitle((prevTitleValue) => {
-        //   let result = prevTitleValue
-        //     ? prevTitleValue + completedTitle[count]
-        //     : completedTitle[0];
-        //   setCount(count + 1);
+      //   if (count >= completedTitle.length) {
+      //     setCount(0);
+      //     setLandingTitle('');
+      //   }
 
-        //   if (count >= completedTitle.length) {
-        //     setCount(0);
-        //     setLandingTitle('');
-        //   }
+      //   return result;
+      // });
+    }, 1300);
 
-        //   return result;
-        // });
-      },
-      count === 11 ? 1300 : 300,
-    );
-
-    if (count === 11) {
-      setCountNow(true);
-    } else {
-      setCountNow(false);
-    }
-    if (count > completedTitle.length) {
+    // if (count === 11) {
+    //   setCountNow(true);
+    // } else {
+    //   setCountNow(false);
+    // }
+    if (contLife > completedTitle2.length) {
       clearInterval(typingInterval);
-      setCount(0);
-      setLandingTitle('');
+      setCountLife(0);
+      setLandingLife('');
     }
     return () => {
       clearInterval(typingInterval);
     };
-  }, [count]);
-
-  useEffect(() => {
-    const typingInterval2 = setInterval(() => {
-      setLandingTitle2(landingTitle2 + completedTitle2[count2]);
-      setCount2(count2 + 1);
-    }, 300);
-    if (count2 > completedTitle2.length || countNow === false) {
-      clearInterval(typingInterval2);
-      setCount2(0);
-      setLandingTitle2('');
-    }
-    return () => {
-      clearInterval(typingInterval2);
-    };
-  }, [countNow, count2]);
+  }, [contLife]);
 
   return (
     <Wrapper>
@@ -80,13 +116,16 @@ const LandingSecondPart = () => {
       <Black>
         <MainImgBox>
           <TextTyping>
-            <TextTypingFirst>
+            {/* <TextTypingFirst>
               {landingTitle !== undefined && landingTitle}
-            </TextTypingFirst>
-            <TextTypingSecond count={count}>
+            </TextTypingFirst> */}
+            <TextTypingFirst>Charge your</TextTypingFirst>
+            {/* <TextTypingSecond count={count}>
               {count === 11 && landingTitle2 !== undefined && landingTitle2}
-            </TextTypingSecond>
-            {count2 === 4 && <Dot />}
+            </TextTypingSecond> */}
+            <TextTypingSecond count={contLife}>{ladningLife}</TextTypingSecond>
+            {/* {count2 === 4 && <Dot />} */}
+            {contLife === 4 && <Dot />}
           </TextTyping>
           <Image src={SecondMainImg} />
           {/* <img src="Landing/SecondLanding.png" /> */}
@@ -177,7 +216,7 @@ const TextTypingFirst = styled.span`
   color: white;
   font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  font-weight: 400;
+  font-weight: 700;
   font-size: 60pt;
   line-height: 90pt;
   @media (max-width: 600pt) {
@@ -189,7 +228,7 @@ const TextTypingFirst = styled.span`
   }
 `;
 
-const TextTypingSecond = styled.span<{ count: number }>`
+const TextTypingSecond = styled.span<{ count?: number }>`
   /* font-family: 'Spoqa Han Sans Neo'; */
   font-family: 'Finger Paint', cursive;
   color: #5221cb;
@@ -199,7 +238,8 @@ const TextTypingSecond = styled.span<{ count: number }>`
   font-size: 60pt;
   line-height: 90pt;
   padding-left: 15pt;
-  border-bottom: ${({ count }) => (count === 11 ? '3.75pt solid white' : '')};
+  border-bottom: ${({ count }) => (count !== 0 ? '3.75pt solid white' : '')};
+  /* border-bottom: 3.75pt solid white; */
   @media (max-width: 600pt) {
     font-size: 15pt;
     font-weight: 400;
@@ -208,7 +248,10 @@ const TextTypingSecond = styled.span<{ count: number }>`
     text-align: left;
     height: 15pt;
     padding-left: 5pt;
-    border-bottom: ${({ count }) => (count === 11 ? '2pt solid white' : '')};
+    /* border-bottom: ${({ count }) =>
+      count === 11 ? '2pt solid white' : ''}; */
+    border-bottom: ${({ count }) => (count !== 0 ? '2pt solid white' : '')};
+    /* border-bottom: 2pt solid white; */
   }
 `;
 
