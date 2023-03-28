@@ -143,7 +143,6 @@ const Wrapper = styled.div`
   p {
     width: 100%;
     position: relative;
-    display: inline-block;
     word-break: break-all;
     white-space: pre-line;
 
