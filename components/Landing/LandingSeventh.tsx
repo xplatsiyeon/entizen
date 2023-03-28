@@ -142,6 +142,7 @@ const SwiperWrapper = styled(Swiper)`
   /* width: 800pt; */
   width: 775.5pt;
   overflow: hidden;
+
   @media (max-width: 600pt) {
     width: 257.25pt;
   }
@@ -154,9 +155,11 @@ const SwiperWrapper = styled(Swiper)`
 
   @media (max-width: 600pt) {
     top: 87pt;
-    left: 6%;
-    width: 429.75pt;
+    left: 0;
+    /* width: 429.75pt; */
+    width: 400pt;
     height: 169.5pt;
+    padding-left: 100%;
   }
 `;
 

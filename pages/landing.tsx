@@ -51,7 +51,7 @@ const Landing = () => {
         </Inner>
         <Footer>
           <CopyText>
-            Copyright ⓒ 2023 LS ELECTRIC Co., Ltd. All Rights Reserved.
+            Copyright ⓒ 2023 LS ELECTRIC Co., Ltd. All Rights Reserved
           </CopyText>
           <Button
             onClick={() => {
@@ -158,7 +158,7 @@ const Footer = styled.div`
 const CopyText = styled.span`
   /* font-family: 'Haan YHead L'; */
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  font-family: 'AppleGothicNeo';
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 19.5pt;
@@ -192,7 +192,7 @@ const Button = styled.div`
 const BtnText = styled.span`
   /* font-family: 'Haan YHead M'; */
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-  font-family: 'AppleGothicNeo';
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 7.5pt;
   font-weight: 400;
   line-height: 7.5pt;

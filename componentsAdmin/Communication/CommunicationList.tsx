@@ -31,19 +31,19 @@ const CommunicationList = ({ setNowHeight }: Props) => {
   const excelUrl = `/admin/chatting/members/${detatilId}/excel`;
 
   // 달력 날짜 변경 함수
-  const handleDateChange = (
-    value: DateRange | null,
-    event: React.SyntheticEvent<Element, Event>,
-  ) => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    // console.log('input?', inputValue);
-    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(() => {
-      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600);
-  };
+  // const handleDateChange = (
+  //   value: DateRange | null,
+  //   event: React.SyntheticEvent<Element, Event>,
+  // ) => {
+  //   const inputValue = dateRef.current
+  //     ?.querySelector('.datePicker-input')
+  //     ?.querySelector('input')?.value;
+  //   // console.log('input?', inputValue);
+  //   dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+  //   setTimeout(() => {
+  //     dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+  //   }, 600);
+  // };
 
   const handleDate = () => {
     setPickedDate([
