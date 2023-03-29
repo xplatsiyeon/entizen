@@ -21,9 +21,9 @@ import { addressType } from 'hooks/userAddressHooks';
 type Props = {
   text?: string;
   setText?: Dispatch<SetStateAction<string>>;
-  isSearchBar: boolean;
-  setIsSearchBar: Dispatch<SetStateAction<boolean>>;
-  results: addressType[];
+  isSearchBar?: boolean;
+  setIsSearchBar?: Dispatch<SetStateAction<boolean>>;
+  results?: addressType[];
 };
 
 const SalesProjection = ({
@@ -147,9 +147,9 @@ const SalesProjection = ({
         {/* 예상 매출 하단 바 */}
         {isSearchBar && (
           <SearchBar
-            results={results}
-            isSearchBar={isSearchBar}
-            setIsSearchBar={setIsSearchBar}
+            results={results!}
+            isSearchBar={isSearchBar!}
+            setIsSearchBar={setIsSearchBar!}
           />
         )}
       </SearchMapWrapper>
