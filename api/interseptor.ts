@@ -46,6 +46,7 @@ instance.interceptors.response.use(
     // alert('interseptor 에러 발생 콘솔 창 확인 필요');
     // console.log('🔥 err : ', err);
 
+    // return;
     const {
       config,
       response: {
@@ -72,10 +73,11 @@ instance.interceptors.response.use(
     /** 2 */
     // 에세스 토큰이 만료되면 리프레쉬 토큰을 헤더에 담아서 다시 서버로 받아와서 보낸다.
     if (!isSuccess && message === 'jwt expired') {
-      console.log('=============== 리프레쉬 토큰 ===================');
+      // alert('리프레쉬 토큰 호출');
+      // console.log('=============== 리프레쉬 토큰 ===================');
       config.sent = true;
       const ACCESS_TOKEN = await getRfreshToken();
-      // console.log('ACCESS_TOKEN===>', ACCESS_TOKEN);
+      console.log('ACCESS_TOKEN===>', ACCESS_TOKEN);
       // return;
       if (ACCESS_TOKEN) {
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;

@@ -13,13 +13,26 @@ import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
+import SearchBar from './searchBar';
+import Exit from 'public/images/X.svg';
+import { relative } from 'path/posix';
+import { addressType } from 'hooks/addressHooks';
 
 type Props = {
   text?: string;
   setText?: Dispatch<SetStateAction<string>>;
+  isSearchBar: boolean;
+  setIsSearchBar: Dispatch<SetStateAction<boolean>>;
+  results: addressType[];
 };
 
-const SalesProjection = ({ text, setText }: Props) => {
+const SalesProjection = ({
+  text,
+  setText,
+  isSearchBar,
+  setIsSearchBar,
+  results,
+}: Props) => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
@@ -110,7 +123,15 @@ const SalesProjection = ({ text, setText }: Props) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                      {isSearchBar ? (
+                        <Image src={Exit} alt="exit" layout="intrinsic" />
+                      ) : (
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      )}
                     </div>
                   </InputAdornment>
                 ),
@@ -118,6 +139,14 @@ const SalesProjection = ({ text, setText }: Props) => {
             />
           )}
         </SearchMapArea>
+        {/* 예상 매출 하단 바 */}
+        {isSearchBar && (
+          <SearchBar
+            results={results}
+            isSearchBar={isSearchBar}
+            setIsSearchBar={setIsSearchBar}
+          />
+        )}
       </SearchMapWrapper>
     </>
   );
@@ -128,6 +157,7 @@ const SearchMapWrapper = styled.div`
   margin-top: 52.5pt;
   min-width: 331.5pt;
   /* height: 470px; */
+  position: relative;
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
     min-width: 251.25pt;

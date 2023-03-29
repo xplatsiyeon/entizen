@@ -66,7 +66,6 @@ const WebSearchAddress = ({
   setSearchWord,
   searchWord,
 }: Props) => {
-  // const [searchWord, setSearchWord] = useState<string>('');
   const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,10 +89,6 @@ const WebSearchAddress = ({
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-    // console.log('jibun==>', jibun);
-    // console.log('roadad==>', roadad);
-    // console.log('sggnm==>', sggnm);
-    // console.log('sinm==>', sinm);
 
     setFakeWord(roadad!);
     dispatch(coordinateAction.setMark(true));
@@ -126,57 +121,62 @@ const WebSearchAddress = ({
     setChargeInfoOpen(true);
   };
 
-  // 처음 검색 시 배열 0번째 주소로 이동
-  useEffect(() => {
-    dispatch(coordinateAction.setMark(false));
-    // 조건준 이유: 모바일일때는 호출 하지 말라고
-    if (!mobile) {
-      // 검색 키워드
-      dispatch(locationAction.addKeyword(searchWord));
-      dispatch(
-        locationAction.load({
-          jibunAddr: results[0]?.jibunAddr,
-          roadAddrPart: results[0]?.roadAddr,
-          sggNm: results[0]?.sggNm,
-          siNm: results[0]?.siNm,
-        }),
-      );
-    }
-    // setFakeWord(locationList.jibunAddr);
-  }, [results]);
-
   // 특수 문자 예외 처리
+  const findAddresss = async () => {
+    if (keyWord !== '') {
+      setIsLoading(true);
+      let result: any = [];
+      const { data } = await axios.get(
+        `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
+      );
+      const match = await data.match(/\((.*)\)/);
+      let jsonResult = await JSON.parse(match[1].toString()).results.juso;
+      await jsonResult?.map((el: any, index: number) => {
+        result.push(el);
+      });
+      setResults(result);
+      // setChargeInfoOpen(false);
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const findAddresss = async () => {
-      if (keyWord === '') {
-        setResults([]);
-        dispatch(coordinateAction.setMark(false));
-      }
-      if (keyWord !== '') {
-        setIsLoading(true);
-        let result: any = [];
-        const { data } = await axios.get(
-          `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
-        );
-        const match = await data.match(/\((.*)\)/);
-        let jsonResult = await JSON.parse(match[1].toString()).results.juso;
-        await jsonResult?.map((el: any, index: number) => {
-          result.push(el);
-        });
-        setResults(result);
-        setChargeInfoOpen(false);
-        // console.log(result);
-        setIsLoading(false);
-      }
-    };
+    if (keyWord === '') {
+      setResults([]);
+      setChargeInfoOpen(false);
+      // dispatch(coordinateAction.setMark(false));
+    }
+
     if (checkSearchedWord(keyWord) === true) {
       findAddresss();
     } else {
       setSearchWord('');
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
+
+  // 처음 검색 시 배열 0번째 주소로 이동
+  useEffect(() => {
+    // dispatch(coordinateAction.setMark(false));
+    // 조건준 이유: 모바일일때는 호출 하지 말라고
+    if (!mobile) {
+      dispatch(coordinateAction.setMark(true));
+      setSearchWord(searchKeyword);
+      setChargeInfoOpen(true);
+
+      // 검색 키워드
+      //  dispatch(locationAction.addKeyword(searchWord));
+      //  dispatch(
+      //    locationAction.load({
+      //      jibunAddr: results[0]?.jibunAddr,
+      //      roadAddrPart: results[0]?.roadAddr,
+      //      sggNm: results[0]?.sggNm,
+      //      siNm: results[0]?.siNm,
+      //    }),
+      //  );
+    }
+    // }, [results]);
+  }, []);
 
   useEffect(() => {
     if (searchKeyword.length >= 1) {

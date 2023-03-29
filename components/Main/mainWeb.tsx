@@ -29,13 +29,20 @@ import Loader from 'components/Loader';
 import UserRightMenu from 'components/UserRightMenu';
 import MainSlider from 'components/MainSlider';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
+import SearchBar from './searchBar';
+import { getJuso } from 'utils/adrressFilter';
+import JusoHooks from 'hooks/addressHooks';
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const [text, setText] = useState('');
+  // const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
+  const [isSearchBar, setIsSearchBar] = useState(false);
+  // const [result, setResult] = useState<any>();
+
+  const [keyword, setKeyword, results] = JusoHooks();
 
   const {
     data: quotationData,
@@ -56,12 +63,11 @@ const Main = () => {
     enabled: ACCESS_TOKEN ? true : false,
   });
 
-  const handleOnClick = (evnet: React.FormEvent<HTMLFormElement>) => {
+  // 검색 클릭
+  const handleOnClick = async (evnet: React.FormEvent<HTMLFormElement>) => {
     evnet.preventDefault();
-    if (text.length >= 1) {
-      dispatch(locationAction.addKeyword(text));
-      router.push('/chargerMap');
-    } else {
+    setIsSearchBar((prev) => !prev);
+    if (keyword.length === 0) {
       setIsModal(true);
     }
   };
@@ -97,9 +103,18 @@ const Main = () => {
       <ContentWrap>
         {/*예상 매출 검색 */}
         <SalesForm onSubmit={handleOnClick}>
-          <SalesProjection text={text} setText={setText} />
-          <Button type="submit">검색</Button>
+          <SalesProjection
+            text={keyword}
+            setText={setKeyword}
+            isSearchBar={isSearchBar}
+            setIsSearchBar={setIsSearchBar}
+            results={results}
+          />
+          <Button type="submit" isSearchBar={isSearchBar}>
+            검색
+          </Button>
         </SalesForm>
+
         {/* 내 견적서, 내 프로젝트 수량 */}
         <ProjectWrap>
           <MyEstimateProject
@@ -205,7 +220,8 @@ const SalesForm = styled.form`
   font-family: 'Spoqa Han Sans Neo';
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ isSearchBar: boolean }>`
+  visibility: ${({ isSearchBar }) => isSearchBar === true && 'hidden'};
   width: 100%;
   height: 45pt;
   display: flex;

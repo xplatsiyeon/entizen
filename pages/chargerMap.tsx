@@ -54,10 +54,6 @@ const ChargerMap = (props: Props) => {
   // console.log(locationList)
   console.log('⭐️ chargerMap 컴포넌트에서 locationList : ', locationList);
 
-  // useEffect(() => {
-  //   useMap();
-  // }, [biggerClick]);
-
   useEffect(() => {
     let calcHeight;
     let findHeight;
@@ -99,12 +95,11 @@ const ChargerMap = (props: Props) => {
             }
             return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
-          // console.log(response);
-          if (response.v2.meta.totalCount === 0) {
+          if (response.v2.meta?.totalCount === 0) {
             return alert('No result.');
           }
 
-          let item = response.v2.addresses[0];
+          let item = response.v2.addresses[0]!;
           dispatch(
             coordinateAction.set({
               lng: item.x,
@@ -232,23 +227,16 @@ const ChargerMap = (props: Props) => {
           </WebWrap>
           <MapWrap biggerClick={biggerClick}>
             {/* 실제 지도 나오는 컴포넌트 */}
-
-            {/* <WholeMap id="map" onClick={(e) => bigger(e)}></WholeMap> */}
             <WholeMap id="map" biggerClick={biggerClick}></WholeMap>
             <MapBiggerIconBox
               onClick={() => {
-                // setBiggerClick(!biggerClick);
                 setBiggerClick(true);
               }}
               biggerClick={biggerClick}
             >
               <Image src={MapBiggerIcon} />
             </MapBiggerIconBox>
-            <Header
-              // onClick={cancleBigger}
-              className="addressHeader"
-              biggerClick={biggerClick}
-            >
+            <Header className="addressHeader" biggerClick={biggerClick}>
               <BigMapAddressBack>
                 <Image
                   src={btnImg}

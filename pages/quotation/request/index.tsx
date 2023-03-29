@@ -61,10 +61,6 @@ const Quotation1_1 = () => {
   //   console.log('isSearch 🍎', isSearch);
   // }, [isSearch]);
 
-  useEffect(() => {
-    console.log('🔥 isSearch : ', isSearch);
-    console.log('🔥 hiddenTag : ', hiddenTag);
-  }, [isSearch, hiddenTag]);
   return (
     <>
       <WebBody>
