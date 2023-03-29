@@ -3,11 +3,14 @@ import { isTokenPostApi } from 'api';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import MypageHeader from 'components/mypage/request/header';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FindKey } from 'pages/signin';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import colors from 'styles/colors';
+
+import backIcon from 'public/images/backIcon.svg';
 
 interface UserInfo {
   data: {
@@ -168,9 +171,9 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       {/* 웹 */}
       <HeadWrapper>
         <Header>
-          <HeaderText
-            onClick={() => router.push('/signin')}
-          >{`${'<'}`}</HeaderText>
+          <HeaderText onClick={() => router.push('/signin')}>
+            <Image src={backIcon} alt="back" />
+          </HeaderText>
           <HeaderText style={{ margin: '0 auto' }}>비밀번호 찾기</HeaderText>
         </Header>
       </HeadWrapper>
