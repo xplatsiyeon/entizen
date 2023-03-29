@@ -20,6 +20,7 @@ import CommunicationBox from 'components/CommunicationBox';
 import Loader from 'components/Loader';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import RequestHeader from '../RecievedQuotation/RequestHeader';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -380,7 +381,7 @@ const SentQuoatationFirst = () => {
         />
         <Wrapper>
           {nowWidth < 1200 && (
-            <SignUpHeader
+            <RequestHeader
               back={true}
               title={'보낸 견적'}
               handleBackClick={onClickBackBtn}

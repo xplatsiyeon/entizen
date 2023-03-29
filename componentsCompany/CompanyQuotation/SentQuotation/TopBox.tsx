@@ -238,7 +238,7 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0pt 3pt 7.5pt rgba(137, 163, 201, 0.2);
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;

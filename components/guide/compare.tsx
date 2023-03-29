@@ -65,8 +65,21 @@ const Main = styled.div`
     width: 100%;
   }
   ul {
-    list-style: circle !important;
-    padding: 10px;
+    /* list-style: circle !important; */
+    /* padding: 10px; */
+    /* list-style-position: initial; */
+    list-style-position: outside !important;
+    li {
+      display: flex;
+    }
+    li::before {
+      content: '•';
+      border-radius: 50%;
+      padding-inline: 5px;
+      text-align: center;
+
+      /* margin-inline-end: 5px; */
+    }
   }
   ol {
     list-style-type: decimal !important;
@@ -81,6 +94,8 @@ const Main = styled.div`
   p {
     width: 100%;
     position: relative;
+    word-break: break-all;
+    white-space: pre-line;
 
     span {
       width: 100%;

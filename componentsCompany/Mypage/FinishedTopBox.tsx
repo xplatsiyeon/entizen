@@ -45,7 +45,7 @@ const FinishedTopBox = ({ data }: Props) => {
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <div className="badge">{`구독종료 D-${subscribePassed}`}</div>
+          <span className="badge">{`구독종료 D-${subscribePassed}`}</span>
           <div>
             <h1>{data?.projectName}</h1>
             {open ? (
@@ -286,25 +286,24 @@ const StoreName = styled(ListItemText)`
     justify-content: space-between;
   }
   .badge {
-    padding: 4.5pt 7.5pt;
+    padding: 6pt 9pt !important;
     background-color: ${colors.main1};
+    width: max-content;
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 9pt;
-    width: 80.25pt;
+    font-size: 9pt !important;
     font-weight: 500;
-    line-height: 9pt;
+    line-height: 9pt !important;
     letter-spacing: -0.02em;
     text-align: center;
-    border-radius: 12pt;
+    border-radius: 12pt !important;
     @media (min-width: 900pt) {
-      width: 88.5pt;
-      padding: 6pt 9pt;
-      font-size: 10.5pt;
-      line-height: 9pt;
+      padding: 6pt 9pt !important;
+      font-size: 10.5pt !important;
+      line-height: 9pt !important;
     }
   }
   & div > h1 {

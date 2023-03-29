@@ -164,7 +164,7 @@ const TextBox = styled.div`
     font-size: 15pt;
   }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   font-family: 'Spoqa Han Sans Neo';
   background: ${colors.main};
   border-radius: 21.75pt;

@@ -89,6 +89,9 @@ const ContainerBox = styled(Container)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media (max-width: 899.25pt) {
+    margin-top: 86.6pt;
+  }
 `;
 const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
@@ -138,7 +141,7 @@ const TextBox = styled.div`
     justify-content: center;
   }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   background: ${colors.main};
   border-radius: 6pt;
   width: 100%;

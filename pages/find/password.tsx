@@ -11,6 +11,8 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
+import backIcon from 'public/images/backIcon.svg';
+import Image from 'next/image';
 
 const FindPassword = () => {
   const router = useRouter();
@@ -288,10 +290,10 @@ const FindPassword = () => {
         <Inner>
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
-            {step === 0 ? (
+            {step === 0 && (
+              /*? (
               <PassowrdStep1 setStep={setStep} />
-            ) : (
-              <>
+            ) : */ <>
                 <div className="container">
                   <HeadWrapper>
                     <HeaderText
@@ -299,64 +301,71 @@ const FindPassword = () => {
                       onClick={() => {
                         router.push('/signin');
                       }}
-                    >{`${'<'}`}</HeaderText>
+                    >
+                      <Image src={backIcon} alt="back" />
+                      <span>비밀번호 찾기</span>
+                    </HeaderText>
                   </HeadWrapper>
-                  <NewPassword>새 비밀번호를 설정해주세요</NewPassword>
-                  <Input
-                    placeholder="비밀번호 입력"
-                    onChange={handleIdChange}
-                    type={pwShow[0] ? 'text' : 'password'}
-                    value={pwInput}
-                    name="pw"
-                    hiddenLabel
-                    InputProps={iconAdornment}
-                    onFocus={(e) => setPwSelected(true)}
-                    onBlur={(e) => setPwSelected(false)}
-                  />
-                  {!checkedPw && pwInput.length > 4 ? (
-                    <Box>
-                      <Typography
-                        sx={{
-                          color: '#F75015',
-                          fontSize: '9pt',
-                        }}
-                      >
-                        영문,숫자,특수문자 조합 8자 이상
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <></>
-                  )}
-                  <Input
-                    placeholder="비밀번호 재입력"
-                    onChange={handleIdChange}
-                    type={pwShow[1] ? 'text' : 'password'}
-                    value={checkPw}
-                    name="checkPw"
-                    InputProps={secondIconAdornment}
-                    onFocus={(e) => setCheckPwSelected(true)}
-                    onBlur={(e) => setCheckPwSelected(false)}
-                  />
-                  {!checkSamePw && checkPw.length > 4 ? (
-                    <Box>
-                      <Typography
-                        sx={{
-                          color: '#F75015',
-                          fontSize: '9pt',
-                        }}
-                      >
-                        비밀번호를 확인해주세요
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <></>
-                  )}
+                  <DivWrapper>
+                    <NewPassword>새 비밀번호를 설정해주세요</NewPassword>
+                    <Input
+                      placeholder="새 비밀번호 입력"
+                      onChange={handleIdChange}
+                      type={pwShow[0] ? 'text' : 'password'}
+                      value={pwInput}
+                      name="pw"
+                      hiddenLabel
+                      InputProps={iconAdornment}
+                      onFocus={(e) => setPwSelected(true)}
+                      onBlur={(e) => setPwSelected(false)}
+                    />
+                    {!checkedPw && pwInput.length > 4 ? (
+                      <Box>
+                        <Typography
+                          sx={{
+                            color: '#F75015',
+                            fontSize: '9pt',
+                            margin: '9pt 0 0',
+                          }}
+                        >
+                          영문,숫자,특수문자 조합 8자 이상
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                    <Input
+                      placeholder="비밀번호 재입력"
+                      onChange={handleIdChange}
+                      type={pwShow[1] ? 'text' : 'password'}
+                      value={checkPw}
+                      name="checkPw"
+                      InputProps={secondIconAdornment}
+                      onFocus={(e) => setCheckPwSelected(true)}
+                      onBlur={(e) => setCheckPwSelected(false)}
+                    />
+                    {!checkSamePw && checkPw.length > 4 ? (
+                      <Box>
+                        <Typography
+                          sx={{
+                            color: '#F75015',
+                            fontSize: '9pt',
+                            margin: '9pt 0 0',
+                          }}
+                        >
+                          비밀번호를 확인해주세요
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                    <BtnBox>
+                      <Btn isValid={btnActive} onClick={onClickButton}>
+                        확인
+                      </Btn>
+                    </BtnBox>
+                  </DivWrapper>
                 </div>
-                <BtnBox>
-                  <Btn isValid={btnActive} onClick={onClickButton}>
-                    확인
-                  </Btn>
-                </BtnBox>
               </>
             )}
           </Wrapper>
@@ -387,9 +396,7 @@ const WebBody = styled.div`
 
 const HeadWrapper = styled.div`
   display: flex;
-  @media (max-width: 899.25pt) {
-    display: none;
-  }
+  position: relative;
 `;
 
 const HeaderText = styled.div`
@@ -400,8 +407,21 @@ const HeaderText = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #222222;
-`;
 
+  @media (max-width: 899.25pt) {
+    margin: 12.375pt 15pt;
+  }
+  > span {
+    width: max-content;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+`;
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -425,13 +445,16 @@ const Inner = styled.div`
 `;
 const NewPassword = styled.p`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 12pt;
   font-weight: 500;
-  margin-top: 30pt;
-  line-height: 12pt;
+  margin-top: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-  padding-left: 15pt;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18pt;
+  line-height: 27pt;
+  color: #222222;
+  margin-bottom: 36pt;
 
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
@@ -444,6 +467,7 @@ const NewPassword = styled.p`
     padding-bottom: 21pt;
     margin-top: 45.75pt;
     padding-left: 0pt;
+    margin-bottom: 0;
   }
 `;
 
@@ -466,9 +490,10 @@ const Wrapper = styled.div`
   }
 `;
 const Input = styled(TextField)`
-  border: 0.75pt solid ${colors.gray};
+  border: 0.75pt solid #e2e5ed !important;
   border-radius: 6pt;
-  margin-top: 9pt;
+  margin: 9pt 0 0 !important;
+  width: 100% !important;
   & input {
     padding: 13.5pt 0 13.5pt 12pt;
     font-size: 12pt;
@@ -480,7 +505,7 @@ const Input = styled(TextField)`
   }
 
   ::placeholder {
-    color: ${colors.gray};
+    color: #caccd1;
     font-weight: 500;
   }
   & .remove {
@@ -523,4 +548,12 @@ const Btn = styled.button<{ isValid: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   cursor: pointer;
+`;
+
+const DivWrapper = styled.div`
+  margin: 0 16pt;
+
+  @media (max-width: 899.25pt) {
+    margin: 0 15pt;
+  }
 `;

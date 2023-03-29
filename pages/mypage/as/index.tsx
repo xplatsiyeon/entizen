@@ -101,17 +101,25 @@ const asNumber = () => {
     query: '(max-width:899.25pt)',
   });
 
+  console.log(routerId);
   // --------------------- AS detail API ------------------------------
   const { data, isLoading, isError, error, refetch } =
     useQuery<AsDetailReseponse>(
       'as-detail',
       () => isTokenGetApi(`/after-sales-services/${routerId}`),
       {
+        onSuccess: (res) => {
+          console.log('???????', res);
+        },
+        onError: (res) => {
+          console.log('???????', res);
+        },
         enabled: router.isReady && accessToken ? true : false,
       },
     );
 
   useEffect(() => {
+    console.log('?????????', routerId);
     if (routerId) {
       refetch();
     }
@@ -193,7 +201,7 @@ const asNumber = () => {
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.
         */}
-        <WebHeader num={2} now={'mypage'} sub={'mypage'}/>
+        <WebHeader num={2} now={'mypage'} sub={'mypage'} />
         <Inner>
           <FlexBox>
             <Wrap1 isReview={isReview}>
