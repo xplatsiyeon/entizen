@@ -39,7 +39,7 @@ export type Response = [
  * @param [state, setState, results];
  * @returns results: 최종 주소값;
  */
-export default function JusoHooks(): Response {
+export default function userAddressHooks(): Response {
   const [keyword, setKeyword] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]); // 주소에 저장할 최종 결과값
   let searchValue = useDebounce(keyword, 300); //디바운스 처리로 검색 최적화

@@ -31,7 +31,7 @@ import MainSlider from 'components/MainSlider';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import SearchBar from './searchBar';
 import { getJuso } from 'utils/adrressFilter';
-import JusoHooks from 'hooks/addressHooks';
+import JusoHooks from 'hooks/userAddressHooks';
 
 const Main = () => {
   const router = useRouter();

@@ -85,6 +85,7 @@ const WebSearchAddress = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFakeWord('');
     setSearchWord(() => e.target.value);
+    setChargeInfoOpen(false);
   };
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {

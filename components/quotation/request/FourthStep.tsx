@@ -6,13 +6,17 @@ import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { InputAdornment, TextField } from '@mui/material';
 import search from 'public/images/search.png';
-import mapPin from 'public/images/MapPin.png';
+import mainMapPin from 'public/images/MapPin.png';
+import MapPin from 'public/images/MapPin.svg';
 import SearchAddress from 'components/quotation/request/searchAddress';
 import { useSelector } from 'react-redux';
 import { coordinateAction } from 'store/lnglatSlice';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
+import userAddressHooks, { addressType } from 'hooks/userAddressHooks';
+import { locationAction } from 'store/locationSlice';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   tabNumber: number;
@@ -20,7 +24,6 @@ interface Props {
   isSearch: boolean;
   setHiddenTag: Dispatch<SetStateAction<boolean>>;
 }
-const TAG = 'componets/quotation/request/FourthStep.tsx';
 const FourthStep = ({
   tabNumber,
   setHiddenTag,
@@ -34,18 +37,38 @@ const FourthStep = ({
   const { installationLocation } = useSelector(
     (state: RootState) => state.quotationData,
   );
-  // const [isSearch, setIsSearch] = useState<boolean>(false);
+
   const [buildingNumber, setBuildingNumber] = useState(-1);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const location: string[] = ['INSIDE', 'OUTSIDE'];
   const tabType: string[] = ['건물 안', '건물 밖'];
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
+  const [keyword, setKeyword, results] = userAddressHooks();
+  const [isClickAddress, setIsClickAddress] = useState(false);
   // 지도 실행
   useMap();
   // 지도 모달창 열기
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    setIsSearch((prev) => !prev);
-    setHiddenTag((prev) => !prev);
-    // setProgressShow(false);
+    if (mobile) {
+      setIsSearch((prev) => !prev);
+      setHiddenTag((prev) => !prev);
+    }
+  };
+  // 주소 클릭
+  const onClickAddress = (result: addressType) => {
+    console.log('주소 클릭');
+    setKeyword(result.roadAddrPart1);
+    dispatch(
+      locationAction.load({
+        jibunAddr: result.jibunAddr,
+        roadAddrPart: result.roadAddrPart1,
+      }),
+    );
+    setIsClickAddress(true);
+    setIsSearch(false);
   };
   // 이전버튼
   const HandlePrevBtn = () => {
@@ -58,12 +81,14 @@ const FourthStep = ({
       dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
   };
+
   // 버튼 활성화
   useEffect(() => {
     if (locationList.roadAddrPart.length > 1 && buildingNumber !== -1) {
       setButtonActivate(true);
     }
   }, [locationList, buildingNumber]);
+
   // 데이터 기억
   useEffect(() => {
     const locationIndex = location.indexOf(installationLocation);
@@ -72,6 +97,7 @@ const FourthStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // useMap 업데이트
   useEffect(() => {
     dispatch(coordinateAction.setMark(true));
@@ -103,77 +129,146 @@ const FourthStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
+  // 단계 탭바 생성 또는 삭제
   useEffect(() => {
-    if (!isSearch) {
-      setHiddenTag(false);
-    }
+    if (!isSearch) setHiddenTag(false);
   }, [isSearch]);
-  // 주소 검색 컴포넌트 on/off
-  if (isSearch) {
-    return <SearchAddress isSearch={isSearch} setIsSearch={setIsSearch} />;
-  }
+
+  // 검색된 주소 목록 생성 또는 삭제
+  useEffect(() => {
+    if (!mobile) {
+      if (results.length > 0 && keyword.length > 0 && !isClickAddress) {
+        setIsSearch(true);
+      }
+    }
+  }, [isClickAddress, keyword, results]);
 
   return (
-    <Wrraper>
-      <Title>
-        설치하고 싶은 지역의 주소와 <br />
-        설치 위치를 알려주세요
-      </Title>
-
-      <SubTitle pt={45}>주소</SubTitle>
-      {/* 주소 검색 박스 */}
-      <SearchMapArea>
-        <Input
-          placeholder="도로명/지번 주소를 입력해 주세요"
-          type="submit"
-          onClick={handleOnClick}
-          value={locationList.roadAddrPart}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <div style={{ width: '15pt', height: '15pt' }}>
-                  <Image src={search} alt="searchIcon" layout="intrinsic" />
-                </div>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <div style={{ width: '15pt', height: '15pt' }}>
-                  <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
-                </div>
-              </InputAdornment>
-            ),
-          }}
+    <>
+      {isSearch && mobile && (
+        <SearchAddress
+          setKeyword={setKeyword}
+          isSearch={isSearch}
+          setIsSearch={setIsSearch}
         />
-      </SearchMapArea>
-      {/* 맵지도 */}
-      <Map id="map"></Map>
-      <SubTitle pt={30}>충전기 설치 위치 선택</SubTitle>
-      <TypeBox>
-        {tabType.map((type, index) => (
-          <Tab
-            key={index}
-            idx={index.toString()}
-            tabNumber={buildingNumber.toString()}
-            onClick={() => setBuildingNumber(index)}
-          >
-            {type}
-          </Tab>
-        ))}
-      </TypeBox>
-      <TwoBtn>
-        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
-        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
-          다음
-        </NextBtn>
-      </TwoBtn>
-    </Wrraper>
+      )}
+      <Wrraper isSearch={isSearch} mobile={mobile}>
+        <Title>
+          설치하고 싶은 지역의 주소와 <br />
+          설치 위치를 알려주세요
+        </Title>
+
+        <SubTitle pt={45}>주소</SubTitle>
+        {/* 주소 검색 박스 */}
+        <SearchMapArea>
+          {/* 모바일 */}
+          {mobile ? (
+            <Input
+              placeholder="도로명/지번 주소를 입력해 주세요"
+              type="submit"
+              onClick={handleOnClick}
+              value={keyword}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image
+                        src={mainMapPin}
+                        alt="searchIcon"
+                        layout="intrinsic"
+                      />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          ) : (
+            // PC
+            <Input
+              placeholder="도로명/지번 주소를 입력해 주세요"
+              type="text"
+              onClick={handleOnClick}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+                setIsClickAddress(false);
+              }}
+              value={keyword}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image
+                        src={mainMapPin}
+                        alt="searchIcon"
+                        layout="intrinsic"
+                      />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+
+          {isSearch && !mobile && (
+            <SearchBar>
+              {results.map((result) => (
+                <li onClick={() => onClickAddress(result)}>
+                  <div>
+                    <div className="imgWrap">
+                      <Image src={MapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                    <p className="name">{result.jibunAddr}</p>
+                  </div>
+                  <div className="address">{result.roadAddrPart1}</div>
+                </li>
+              ))}
+            </SearchBar>
+          )}
+        </SearchMapArea>
+        {/* 맵지도 */}
+        <Map id="map"></Map>
+        <SubTitle pt={30}>충전기 설치 위치 선택</SubTitle>
+        <TypeBox>
+          {tabType.map((type, index) => (
+            <Tab
+              key={index}
+              idx={index.toString()}
+              tabNumber={buildingNumber.toString()}
+              onClick={() => setBuildingNumber(index)}
+            >
+              {type}
+            </Tab>
+          ))}
+        </TypeBox>
+        <TwoBtn>
+          <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+          <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+            다음
+          </NextBtn>
+        </TwoBtn>
+      </Wrraper>
+    </>
   );
 };
 
 export default FourthStep;
 
-const Wrraper = styled.div`
+const Wrraper = styled.div<{ isSearch: boolean; mobile: boolean }>`
+  display: ${({ isSearch, mobile }) => isSearch && mobile && 'none'};
   position: relative;
   padding-bottom: 96pt;
   z-index: 2;
@@ -359,4 +454,51 @@ const SearchAddressWrapper = styled.div`
   top: 0;
   left: 0;
   border: 1px solid;
+`;
+const SearchBar = styled.ul`
+  position: relative;
+  z-index: 9999;
+  margin-top: 15pt;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
+  height: 306pt;
+  overflow: scroll;
+  & > li {
+    position: relative;
+    padding-top: 16.5pt;
+    cursor: pointer;
+    border-bottom: 0.75pt solid #e9eaee;
+  }
+  & > li > div {
+    display: flex;
+    align-items: center;
+    margin-left: 36pt;
+  }
+  .imgWrap {
+    position: absolute;
+    left: 15.375pt;
+    top: 15.7pt;
+  }
+  .name {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13.5pt;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    padding-right: 15pt;
+  }
+  .address {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    margin-top: 7.5pt;
+    padding-right: 15pt;
+  }
 `;

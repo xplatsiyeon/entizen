@@ -16,7 +16,7 @@ import { useMediaQuery } from 'react-responsive';
 import SearchBar from './searchBar';
 import Exit from 'public/images/X.svg';
 import { relative } from 'path/posix';
-import { addressType } from 'hooks/addressHooks';
+import { addressType } from 'hooks/userAddressHooks';
 
 type Props = {
   text?: string;
@@ -90,7 +90,12 @@ const SalesProjection = ({
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <div style={{ width: '15pt', height: '15pt' }}>
+                    <div
+                      style={{
+                        width: '15pt',
+                        height: '15pt',
+                      }}
+                    >
                       <Image src={search} alt="searchIcon" layout="intrinsic" />
                     </div>
                   </InputAdornment>
@@ -213,17 +218,19 @@ const Input = styled(TextField)`
     padding: 12pt 15pt;
   }
   & input {
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    color: ${colors.main2};
     text-align: left;
     padding: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13.5pt;
+    line-height: 15.75pt;
+    letter-spacing: -0.02em;
   }
 
   ::placeholder {
-    color: ${colors.lightGray3};
+    color: '##CACCD1';
     font-weight: 400;
   }
   & span > img {

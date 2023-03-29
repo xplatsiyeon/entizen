@@ -4,7 +4,7 @@ import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
 import Image from 'next/image';
-import JusoHooks, { addressType } from 'hooks/addressHooks';
+import JusoHooks, { addressType } from 'hooks/userAddressHooks';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';

@@ -349,7 +349,8 @@ const MapBiggerIconBox = styled.div<{ biggerClick?: boolean }>`
   position: absolute;
   z-index: 300;
   top: 0;
-  right: 2.3%;
+  /* right: 2.3%; */
+  right: 15pt;
   cursor: pointer;
   display: ${({ biggerClick }) => (biggerClick ? 'none' : '')};
   @media (min-width: 900pt) {
