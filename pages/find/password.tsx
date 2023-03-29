@@ -290,10 +290,10 @@ const FindPassword = () => {
         <Inner>
           <Wrapper>
             {openModal && <Modal text={modalText} click={handleModalYes} />}
-            {step === 0 && (
-              /*? (
+            {step === 0 ? (
               <PassowrdStep1 setStep={setStep} />
-            ) : */ <>
+            ) : (
+              <>
                 <div className="container">
                   <HeadWrapper>
                     <HeaderText
