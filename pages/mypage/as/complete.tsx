@@ -42,8 +42,8 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
+  //height: 100vh;
   //height: 810pt;
   background: #fcfcfc;
 
@@ -61,12 +61,14 @@ const Inner = styled.div`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
+  padding-top: 7.5pt;
 
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
     margin: 0;
+    padding-top: 0;
   }
 `;
 

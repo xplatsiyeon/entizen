@@ -105,12 +105,22 @@ const AsIndex = ({ listUp }: Props) => {
   });
   // ----------------- AS 리스트 GET -----------------------
   const { data, isError, isLoading, refetch, error, remove } =
-    reactQuery<AsResposne>('asList', () =>
-      isTokenGetApi(
-        `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
-      ),
+    reactQuery<AsResposne>(
+      'asList',
+      () =>
+        isTokenGetApi(
+          `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
+        ),
+      {
+        onSuccess: (res) => {
+          console.log('???????', res);
+        },
+        onError: (res) => {
+          console.log('???????', res);
+        },
+      },
     );
-  ('/api/after-sales-services?sort=register');
+  // ('/api/after-sales-services?sort=register');
 
   const list = (anchor: string) => (
     <FilterBox
@@ -578,11 +588,11 @@ const Btn = styled(Button)`
     text-align: left;
   }
 
-  &:hover{
+  &:hover {
     background: ${colors.main}!important;
   }
-  .MuiTouchRipple-root{
-    display: none!important;
+  .MuiTouchRipple-root {
+    display: none !important;
   }
 `;
 
