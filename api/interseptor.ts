@@ -117,6 +117,8 @@ const getRfreshToken = async (): Promise<string | void> => {
         // 리프레쉬 토큰 요청 후 성공하면 로컬스토리지에 에세스 토큰과 리프레쉬 토큰을 저장한다.
         const ACCESS_TOKEN = res.data.accessToken;
         const REFRESH_TOKEN = res.data.refreshToken;
+        localStorage.removeItem('ACCESS_TOKEN');
+        localStorage.removeItem('REFRESH_TOKEN');
         localStorage.setItem('ACCESS_TOKEN', JSON.stringify(ACCESS_TOKEN));
         localStorage.setItem('REFRESH_TOKEN', JSON.stringify(REFRESH_TOKEN));
         return ACCESS_TOKEN;

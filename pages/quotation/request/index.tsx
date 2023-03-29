@@ -109,8 +109,7 @@ const Quotation1_1 = () => {
               ) : (
                 ''
               )}
-              {/* {components[tabNumber]} */}
-              {components[3]}
+              {components[tabNumber]}
             </Body>
           </Wrapper>
         </Inner>
