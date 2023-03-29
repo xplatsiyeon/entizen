@@ -77,19 +77,21 @@ const Wrap = styled.ul`
   margin-top: 9.75pt;
   display: flex;
   flex-direction: column;
-  gap: 9.75pt;
+  /* gap: 9.75pt; */
   min-width: 331.5pt;
   z-index: 9999;
   max-height: 200pt;
   overflow-y: scroll;
   li {
+    position: relative;
+    z-index: 100000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-radius: 6pt;
-    background: ${colors.lightWhite};
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-    padding: 12pt 18pt 12pt 18pt;
+    padding: 12pt 15pt 12pt 18pt;
+    margin: 4.875pt;
     cursor: pointer;
   }
   li > span {
@@ -100,7 +102,7 @@ const Wrap = styled.ul`
   }
 
   li > p {
-    width: 50%;
+    width: 55%;
   }
 
   .name {
