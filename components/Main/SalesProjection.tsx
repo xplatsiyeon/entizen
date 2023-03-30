@@ -65,25 +65,19 @@ const SalesProjection = ({
     document.addEventListener('click', inputOnFocus);
   }, [userID]);
 
-  // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
-  // useEffect(() => {
-  //   if (text) {
-  //     if (text.length > 0 && userID === null) {
-  //       router.push('/signin');
-  //     }
-  //   }
-  // }, [text]);
-
   return (
     <>
       <SearchMapWrapper>
-        <TextArea>
-          내 충전기의 <span>예상 매출</span>을
-          <br /> 확인해보세요!
-        </TextArea>
+        {!isSearchBar && (
+          <TextArea>
+            내 충전기의 <span>예상 매출</span>을
+            <br /> 확인해보세요!
+          </TextArea>
+        )}
         <SearchMapArea>
           {mobile && (
             <Input
+              isMobile={true}
               value="주소 입력 후 간단 체크!"
               type="submit"
               onClick={handleOnClick}
@@ -145,7 +139,7 @@ const SalesProjection = ({
           )}
         </SearchMapArea>
         {/* 예상 매출 하단 바 */}
-        {isSearchBar && (
+        {text && text.length > 0 && isSearchBar && (
           <SearchBar
             results={results!}
             isSearchBar={isSearchBar!}
@@ -197,12 +191,10 @@ const TextArea = styled(Typography)`
 
 const SearchMapArea = styled.div`
   width: 100%;
-  /* height: 50pt; */
-  position: relative;
-  margin-top: 10.5pt;
 `;
 
-const Input = styled(TextField)`
+const Input = styled(TextField)<{ isMobile?: boolean }>`
+  margin-top: ${({ isMobile }) => isMobile && '10.5pt'};
   width: 100%;
   border-radius: 6pt;
   border: 2.5pt solid ${colors.main};
@@ -214,8 +206,10 @@ const Input = styled(TextField)`
   .MuiInputBase-root {
     padding: 12pt 15pt;
   }
+
   & input {
-    color: ${colors.main2};
+    color: ${({ isMobile }) => (isMobile ? colors.lightGray3 : colors.main2)};
+
     text-align: left;
     padding: 0;
     font-family: 'Spoqa Han Sans Neo';
@@ -226,13 +220,18 @@ const Input = styled(TextField)`
     letter-spacing: -0.02em;
   }
 
+  &.mobile {
+    color: '##CACCD1';
+  }
+
   ::placeholder {
     color: '##CACCD1';
     font-weight: 400;
   }
   & span > img {
-    width: 15pt;
-    height: 15pt;
+    width: 11.25pt;
+    height: 13.875pt;
+    margin-right: 9.375pt;
   }
   & fieldset {
     border: none;

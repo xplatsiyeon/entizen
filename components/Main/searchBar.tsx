@@ -20,6 +20,7 @@ export default function SearchBar({
   setIsSearchBar,
   results,
 }: Props) {
+  console.log('🔥 results : ', results);
   const searchBarRef = useRef<HTMLUListElement | null>(null);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -72,21 +73,50 @@ export default function SearchBar({
 }
 
 const Wrap = styled.ul`
-  background-color: ${colors.lightWhite};
+  /* background-color: ${colors.lightWhite};
   position: absolute;
+  top: 0;
   margin-top: 9.75pt;
   display: flex;
   flex-direction: column;
-  /* gap: 9.75pt; */
   min-width: 331.5pt;
   z-index: 9999;
   max-height: 200pt;
   overflow-y: scroll;
+  border: 1px solid red; */
+
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  right: -56.25pt;
+  padding-right: 45.25pt;
+  margin-top: 9.75pt;
+  display: flex;
+  flex-direction: column;
+  min-width: 331.5pt;
+  z-index: 999;
+  max-height: 200pt;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: initial;
+    width: 7.5pt;
+  }
+  ::-webkit-scrollbar-track {
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #caccd1;
+    border-radius: 100px;
+    height: 15%;
+  }
+
   li {
+    min-width: 331.5pt;
+
+    line-height: 20.25pt;
     position: relative;
-    z-index: 100000;
+    z-index: 999;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     border-radius: 6pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
@@ -98,11 +128,12 @@ const Wrap = styled.ul`
     display: flex;
     align-items: center;
     gap: 6pt;
-    width: 40%;
+    width: 130px;
+    margin-right: 28px;
   }
 
   li > p {
-    width: 55%;
+    width: 200px;
   }
 
   .name {
