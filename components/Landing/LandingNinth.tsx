@@ -194,7 +194,8 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   height: 48pt;
   /* top: 140pt; */
   top: 30%;
-  left: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 100;
   padding: 16pt 49.5pt;
   font-family: 'Spoqa Han Sans Neo';
@@ -210,7 +211,6 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
     padding: 16pt 30pt;
     top: 80pt;
     width: 250pt;
-    left: 6%;
   }
 `;
 

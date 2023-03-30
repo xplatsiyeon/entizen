@@ -43,6 +43,7 @@ const LandingHeader = () => {
 export default LandingHeader;
 
 const HeaderWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,8 +121,10 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   width: 345pt;
   height: 48pt;
   /* top: 140pt; */
-  top: 40%;
-  left: 34%;
+
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 500px;
   z-index: 100;
   padding: 16pt 49.5pt;
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
@@ -136,9 +139,9 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   color: #ffffff;
   border-radius: 8pt;
   @media (max-width: 600pt) {
+    margin-top: 200px;
     padding: 16pt 30pt;
-    top: 30%;
+    /* top: 30%; */
     width: 250pt;
-    left: 6%;
   }
 `;

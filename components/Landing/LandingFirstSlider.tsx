@@ -45,15 +45,16 @@ const LandingFirstSlider = () => {
 
   return (
     <Wrapper>
-      <MainTitle>
-        내일의 충전생활,
-        <br />그 일상을 오늘로.
-      </MainTitle>
-      <SubTitle>
-        생활 반경 속 나를 위한 충전기,
-        <br />더 쉽게 누릴 수 있도록 엔티즌이 함께 합니다.
-      </SubTitle>
-
+      <TextBox>
+        <MainTitle>
+          내일의 충전생활,
+          <br />그 일상을 오늘로.
+        </MainTitle>
+        <SubTitle>
+          생활 반경 속 나를 위한 충전기,
+          <br />더 쉽게 누릴 수 있도록 엔티즌이 함께 합니다.
+        </SubTitle>
+      </TextBox>
       <ImgContainer>
         <MainImgBox>
           <ImgTag src="Landing/IPHONEMainSvg.svg" />
@@ -82,6 +83,12 @@ const SliderBox = styled(Slider)`
   @media (max-width: 600pt) {
     width: 280pt;
   }
+`;
+
+const TextBox = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Wrapper = styled.div`
