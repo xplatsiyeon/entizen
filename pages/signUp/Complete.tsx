@@ -31,7 +31,6 @@ const SignUpComplete = () => {
             mobile ? router.push('/quotation/request') : router.push('/')
           }
         />
-        {/* 임시로 막음 */}
         <Wrap>{mobile && <WhyEntizen />}</Wrap>
       </Inner>
       <WebFooter />

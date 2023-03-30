@@ -232,7 +232,7 @@ const SwiperMain = styled(Swiper)`
     /* width: fit-content; */
     /* right: 9.75pt;
     left: auto; */
-    text-align: left;
+    text-align: center;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 500;
@@ -243,6 +243,9 @@ const SwiperMain = styled(Swiper)`
     padding: 1.5pt 10pt;
     /* background: rgba(0, 0, 0, 0.3); */
     border-radius: 7.5pt;
+    @media (max-width: 899.25pt) {
+      text-align: left;
+    }
   }
 
   .swiper-wrapper {

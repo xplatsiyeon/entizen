@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import mainBanner1 from 'public/images/mainBanner1.png';
 import mainBanner2 from 'public/images/mainBanner2.png';
 import mainBanner3 from 'public/images/mainBanner3.png';
-
 import main2 from 'public/images/main2.png';
 import main6 from 'public/images/main6.png';
 import main8 from 'public/images/main8.png';
@@ -20,7 +19,6 @@ import main9 from 'public/images/main9.png';
 import { useRouter } from 'next/router';
 import WhyEntizenWeb from './WhyEntizenWeb';
 import { useDispatch } from 'react-redux';
-import { locationAction } from 'store/locationSlice';
 import Modal from 'components/Modal/Modal';
 import { useQuery } from 'react-query';
 import { Count } from '.';
@@ -29,13 +27,15 @@ import Loader from 'components/Loader';
 import UserRightMenu from 'components/UserRightMenu';
 import MainSlider from 'components/MainSlider';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
+import JusoHooks from 'hooks/userAddressHooks';
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
+  const [isSearchBar, setIsSearchBar] = useState(false);
+  const [keyword, setKeyword, results] = JusoHooks();
 
   const {
     data: quotationData,
@@ -56,12 +56,11 @@ const Main = () => {
     enabled: ACCESS_TOKEN ? true : false,
   });
 
-  const handleOnClick = (evnet: React.FormEvent<HTMLFormElement>) => {
+  // 검색 클릭
+  const handleOnClick = async (evnet: React.FormEvent<HTMLFormElement>) => {
     evnet.preventDefault();
-    if (text.length >= 1) {
-      dispatch(locationAction.addKeyword(text));
-      router.push('/chargerMap');
-    } else {
+    setIsSearchBar((prev) => !prev);
+    if (keyword.length === 0) {
       setIsModal(true);
     }
   };
@@ -70,6 +69,12 @@ const Main = () => {
   useEffect(() => {
     dispatch(adminPageNumberAction.reset());
   }, []);
+
+  useEffect(() => {
+    if (!keyword) {
+      setIsSearchBar(false);
+    }
+  }, [keyword, isSearchBar]);
 
   if (quotationIsLoading || projectIsLoading) {
     return <Loader />;
@@ -96,10 +101,20 @@ const Main = () => {
       {/* 기능 부분 */}
       <ContentWrap>
         {/*예상 매출 검색 */}
-        <SalesForm onSubmit={handleOnClick}>
-          <SalesProjection text={text} setText={setText} />
-          <Button type="submit">검색</Button>
+
+        <SalesForm onSubmit={handleOnClick} className="salesForm">
+          <SalesProjection
+            text={keyword}
+            setText={setKeyword}
+            isSearchBar={isSearchBar}
+            setIsSearchBar={setIsSearchBar}
+            results={results}
+          />
+          <Button type="submit" isSearchBar={isSearchBar}>
+            검색
+          </Button>
         </SalesForm>
+
         {/* 내 견적서, 내 프로젝트 수량 */}
         <ProjectWrap>
           <MyEstimateProject
@@ -203,9 +218,12 @@ const SalesForm = styled.form`
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 16px;
   font-family: 'Spoqa Han Sans Neo';
+  max-height: 352.5pt;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ isSearchBar: boolean }>`
+  visibility: ${({ isSearchBar }) => isSearchBar === true && 'hidden'};
+  min-width: 331.5pt;
   width: 100%;
   height: 45pt;
   display: flex;

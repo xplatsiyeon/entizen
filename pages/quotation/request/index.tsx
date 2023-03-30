@@ -17,6 +17,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 
 import rootReducer, { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -30,6 +31,9 @@ const Quotation1_1 = () => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { tabNumber } = useSelector((state: RootState) => state.quotationData);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -61,10 +65,6 @@ const Quotation1_1 = () => {
   //   console.log('isSearch 🍎', isSearch);
   // }, [isSearch]);
 
-  useEffect(() => {
-    console.log('🔥 isSearch : ', isSearch);
-    console.log('🔥 hiddenTag : ', hiddenTag);
-  }, [isSearch, hiddenTag]);
   return (
     <>
       <WebBody>
@@ -94,7 +94,7 @@ const Quotation1_1 = () => {
             )}
             {/* 메인 */}
             <Body>
-              {!isSearch === true && !hiddenTag ? (
+              {!hiddenTag ? (
                 <TabBox>
                   {Object.keys(components).map((tab, index) => (
                     <React.Fragment key={index}>

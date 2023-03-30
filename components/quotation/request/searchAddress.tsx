@@ -13,10 +13,12 @@ import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 import { checkSearchedWord } from 'utils/adrressFilter';
 import { coordinateAction } from 'store/lnglatSlice';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   isSearch?: boolean;
   setIsSearch: Dispatch<SetStateAction<boolean>>;
+  setKeyword: Dispatch<SetStateAction<string>>;
 };
 
 export interface addressType {
@@ -46,25 +48,25 @@ export interface addressType {
   zipNo?: string;
 }
 
-const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
+const SearchAddress = ({ isSearch, setIsSearch, setKeyword }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 300);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
-  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { jibun, roadad } = e.currentTarget.dataset;
-
+  const handleOnClick = (result: addressType) => {
     dispatch(
       locationAction.load({
-        jibunAddr: jibun,
-        roadAddrPart: roadad,
+        jibunAddr: result.jibunAddr,
+        roadAddrPart: result.roadAddrPart1,
       }),
     );
     setIsSearch(!isSearch);
+    setKeyword(result.roadAddrPart1);
   };
   useEffect(() => {
     const findAddresss = async () => {
@@ -116,6 +118,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
           >
             <Image src={btnImg} alt="backBtn" />
           </ImgBox>
+
           <FindAddress
             placeholder="도로명/지번 주소를 입력해 주세요"
             onChange={handleChange}
@@ -126,19 +129,14 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
           )}
         </HeaderBox>
 
-        {results.map((el, index) => (
-          <SearchResult
-            data-jibun={el.jibunAddr}
-            data-roadad={el.roadAddrPart1}
-            key={index}
-            onClick={handleOnClick}
-          >
+        {results.map((result, index) => (
+          <SearchResult key={index} onClick={() => handleOnClick(result)}>
             <IconBox>
               <Image src={whiteMapPin} alt="mapPin" />
             </IconBox>
             <AddressBox>
-              <div>{el.roadAddrPart1}</div>
-              <div>{el.jibunAddr}</div>
+              <div>{result.roadAddrPart1}</div>
+              <div>{result.jibunAddr}</div>
             </AddressBox>
           </SearchResult>
         ))}
@@ -169,8 +167,8 @@ const Container = styled.div`
 `;
 
 const HeaderBox = styled.div`
-  padding-left: 15pt;
-  padding-right: 12pt;
+  padding-left: 20.625pt;
+  padding-right: 0pt;
   border: 0.75pt solid #e9eaee;
   border-radius: 6pt;
   display: flex;
@@ -179,8 +177,8 @@ const HeaderBox = styled.div`
     border: 0;
     border-radius: 0;
     border-bottom: 0.75pt solid #e9eaee;
-    padding-left: 20.625pt;
-    padding-right: 0pt;
+    padding-left: 15pt;
+    padding-right: 12pt;
   }
 `;
 

@@ -13,13 +13,26 @@ import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
+import SearchBar from './searchBar';
+import Exit from 'public/images/X.svg';
+import { relative } from 'path/posix';
+import { addressType } from 'hooks/userAddressHooks';
 
 type Props = {
   text?: string;
   setText?: Dispatch<SetStateAction<string>>;
+  isSearchBar?: boolean;
+  setIsSearchBar?: Dispatch<SetStateAction<boolean>>;
+  results?: addressType[];
 };
 
-const SalesProjection = ({ text, setText }: Props) => {
+const SalesProjection = ({
+  text,
+  setText,
+  isSearchBar,
+  setIsSearchBar,
+  results,
+}: Props) => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
@@ -52,32 +65,31 @@ const SalesProjection = ({ text, setText }: Props) => {
     document.addEventListener('click', inputOnFocus);
   }, [userID]);
 
-  // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
-  // useEffect(() => {
-  //   if (text) {
-  //     if (text.length > 0 && userID === null) {
-  //       router.push('/signin');
-  //     }
-  //   }
-  // }, [text]);
-
   return (
     <>
       <SearchMapWrapper>
-        <TextArea>
-          내 충전기의 <span>예상 매출</span>을
-          <br /> 확인해보세요!
-        </TextArea>
+        {!isSearchBar && (
+          <TextArea>
+            내 충전기의 <span>예상 매출</span>을
+            <br /> 확인해보세요!
+          </TextArea>
+        )}
         <SearchMapArea>
           {mobile && (
             <Input
+              isMobile={true}
               value="주소 입력 후 간단 체크!"
               type="submit"
               onClick={handleOnClick}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <div style={{ width: '15pt', height: '15pt' }}>
+                    <div
+                      style={{
+                        width: '15pt',
+                        height: '15pt',
+                      }}
+                    >
                       <Image src={search} alt="searchIcon" layout="intrinsic" />
                     </div>
                   </InputAdornment>
@@ -110,7 +122,15 @@ const SalesProjection = ({ text, setText }: Props) => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                      {isSearchBar ? (
+                        <Image src={Exit} alt="exit" layout="intrinsic" />
+                      ) : (
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      )}
                     </div>
                   </InputAdornment>
                 ),
@@ -118,6 +138,14 @@ const SalesProjection = ({ text, setText }: Props) => {
             />
           )}
         </SearchMapArea>
+        {/* 예상 매출 하단 바 */}
+        {text && text.length > 0 && isSearchBar && (
+          <SearchBar
+            results={results!}
+            isSearchBar={isSearchBar!}
+            setIsSearchBar={setIsSearchBar!}
+          />
+        )}
       </SearchMapWrapper>
     </>
   );
@@ -128,6 +156,7 @@ const SearchMapWrapper = styled.div`
   margin-top: 52.5pt;
   min-width: 331.5pt;
   /* height: 470px; */
+  position: relative;
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
     min-width: 251.25pt;
@@ -138,9 +167,6 @@ const SearchMapWrapper = styled.div`
 const TextArea = styled(Typography)`
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
-  /* font-family: 'AppleGothicNeo'; */
-  /* font-family: 'abc'; */
-  /* font-family: 'Apple SD Gothic Neo'; */
   font-size: 25.5pt;
   font-weight: 700;
   line-height: 37.5pt;
@@ -165,12 +191,10 @@ const TextArea = styled(Typography)`
 
 const SearchMapArea = styled.div`
   width: 100%;
-  /* height: 50pt; */
-  position: relative;
-  margin-top: 10.5pt;
 `;
 
-const Input = styled(TextField)`
+const Input = styled(TextField)<{ isMobile?: boolean }>`
+  margin-top: ${({ isMobile }) => isMobile && '10.5pt'};
   width: 100%;
   border-radius: 6pt;
   border: 2.5pt solid ${colors.main};
@@ -182,23 +206,32 @@ const Input = styled(TextField)`
   .MuiInputBase-root {
     padding: 12pt 15pt;
   }
+
   & input {
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    color: ${({ isMobile }) => (isMobile ? colors.lightGray3 : colors.main2)};
+
     text-align: left;
     padding: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13.5pt;
+    line-height: 15.75pt;
+    letter-spacing: -0.02em;
+  }
+
+  &.mobile {
+    color: '##CACCD1';
   }
 
   ::placeholder {
-    color: ${colors.lightGray3};
+    color: '##CACCD1';
     font-weight: 400;
   }
   & span > img {
-    width: 15pt;
-    height: 15pt;
+    width: 11.25pt;
+    height: 13.875pt;
+    margin-right: 9.375pt;
   }
   & fieldset {
     border: none;

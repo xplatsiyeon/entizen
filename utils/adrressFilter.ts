@@ -53,10 +53,19 @@ export const checkSearchedWord = (keyword: string) => {
   return true;
 };
 
-// 적용예 (api 호출 전에 검색어 체크)
-// export const searchJuso = () => {
-//   if (!checkSearchedWord(document.form.keyword)) {
-//     return;
-//   }
-// };
-// </script>
+export async function getJuso(value: string) {
+  let answer: any = [];
+  await axios
+    .get(
+      `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${value}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
+    )
+    .then((data) => {
+      const match = data.data.match(/\((.*)\)/);
+      let jsonResult = JSON.parse(match[1].toString()).results.juso;
+      jsonResult?.map((el: any, index: number) => {
+        answer.push(el);
+      });
+    });
+
+  return answer;
+}
