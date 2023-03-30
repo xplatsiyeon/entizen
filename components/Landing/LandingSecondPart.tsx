@@ -89,7 +89,7 @@ const LandingSecondPart = () => {
 
       //   return result;
       // });
-    }, 1300);
+    }, 400);
 
     // if (count === 11) {
     //   setCountNow(true);
