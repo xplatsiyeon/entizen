@@ -93,7 +93,7 @@ type Props = {
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
-  console.log(userChatting)
+  console.log(userChatting);
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -533,14 +533,14 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       //focusRef.current?.focus();
 
       // console.log(width);
-        if (inner)
-          inner.scroll({
-            top: inner.scrollHeight,
-            left: 0,
-            behavior: 'auto',
-          });
+      if (inner)
+        inner.scroll({
+          top: inner.scrollHeight,
+          left: 0,
+          behavior: 'auto',
+        });
 
-        focusRef.current?.focus({ preventScroll: true });
+      focusRef.current?.focus({ preventScroll: true });
       // console.log(focusRef.current);
     }, 600);
 
@@ -576,23 +576,23 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   };
 
   //텍스트 인풋에 포커스 될 때, 블러 될 때 form박스 스타일 변경.
-  const inputStyle =(e:React.FocusEvent, type:boolean)=>{
+  const inputStyle = (e: React.FocusEvent, type: boolean) => {
     const target = e.currentTarget as HTMLFormElement;
-    if(type){
-      target.classList.replace('off','on');
-    }else{
+    if (type) {
+      target.classList.replace('off', 'on');
+    } else {
       //파일 버튼, 메세지 전송 버튼을 누르면 포커스가 블러되는데 handleFoucs함수로 인해
       //메세지 전송 버튼을 눌러도 텍스트인풋에 다시 포커스된다.
-      // settimeout으로 0.3초 후 text input에 포커스가 있으면 스타일변경x. 
-      setTimeout(()=>{
+      // settimeout으로 0.3초 후 text input에 포커스가 있으면 스타일변경x.
+      setTimeout(() => {
         const input = target.querySelector('.textInput:focus');
-        console.log(input)
-        if(!input){
-          target.classList.replace('on','off');
+        console.log(input);
+        if (!input) {
+          target.classList.replace('on', 'off');
         }
-      },300)   
+      }, 300);
     }
-  }
+  };
   return (
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
@@ -646,7 +646,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                     if (item.messageType === 'SYSTEM') {
                       return;
                     } else {
-                      console.log(d.logs.length)
+                      console.log(d.logs.length);
                       return (
                         <Wrap key={index}>
                           <ChatBox
@@ -672,88 +672,95 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                               )}
                             </ImageWrap>
 
-                            <StyledWrap className={`${
-                              item.fromMemberType === 'USER'
-                                ? 'user'
-                                : 'company'
-                            }`} userChatting={userChatting}>
-                            {item.content && (
-                              <Chat
-                                userChatting={userChatting}
-                                className={`${
-                                  item.fromMemberType === 'USER'
-                                    ? 'user'
-                                    : 'company'
-                                }`}
-                                //tabIndex={1}
-                              >
-                                {item.content}
-                              </Chat>
-                            )}
-                            {item.messageType === 'FILE' && (
-                              <File>
-                                <FileDownload
-                                  // onClick={DownloadFile}
-                                  // href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  onClick={() => {
-                                    fileDownload(
-                                      userAgent,
-                                      item?.fileOriginalName!,
-                                      item?.fileUrl!,
-                                    );
-                                  }}
-                                  type={'blob'}
+                            <StyledWrap
+                              className={`${
+                                item.fromMemberType === 'USER'
+                                  ? 'user'
+                                  : 'company'
+                              }`}
+                              userChatting={userChatting}
+                            >
+                              {item.content && (
+                                <Chat
+                                  userChatting={userChatting}
+                                  className={`${
+                                    item.fromMemberType === 'USER'
+                                      ? 'user'
+                                      : 'company'
+                                  }`}
+                                  //tabIndex={1}
                                 >
-                                  <Image
-                                    src={fileImg}
-                                    alt="file-icon"
-                                    layout="intrinsic"
-                                  />
-                                  {item?.fileOriginalName}
-                                </FileDownload>
-                              </File>
-                            )}
-
-                            {item.messageType === 'IMAGE' && (
-                              <>
-                                <FileDownload
-                                  // href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  type={'blob'}
-                                  onClick={() => {
-                                    fileDownload(
-                                      userAgent,
-                                      item?.fileOriginalName!,
-                                      item?.fileUrl!,
-                                    );
-                                  }}
-                                >
-                                  <img
-                                    src={item?.fileUrl!}
-                                    style={{
-                                      maxWidth: '112.5pt',
-                                      maxHeight: '150pt',
-                                      objectFit: 'cover',
-                                      background: '#0000001c',
+                                  {item.content}
+                                </Chat>
+                              )}
+                              {item.messageType === 'FILE' && (
+                                <File>
+                                  <FileDownload
+                                    // onClick={DownloadFile}
+                                    // href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    onClick={() => {
+                                      fileDownload(
+                                        userAgent,
+                                        item?.fileOriginalName!,
+                                        item?.fileUrl!,
+                                      );
                                     }}
-                                  />
-                                </FileDownload>
-                              </>
-                            )}
+                                    type={'blob'}
+                                  >
+                                    <Image
+                                      src={fileImg}
+                                      alt="file-icon"
+                                      layout="intrinsic"
+                                    />
+                                    {item?.fileOriginalName}
+                                  </FileDownload>
+                                </File>
+                              )}
+
+                              {item.messageType === 'IMAGE' && (
+                                <>
+                                  <FileDownload
+                                    // href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    type={'blob'}
+                                    onClick={() => {
+                                      fileDownload(
+                                        userAgent,
+                                        item?.fileOriginalName!,
+                                        item?.fileUrl!,
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      src={item?.fileUrl!}
+                                      style={{
+                                        maxWidth: '112.5pt',
+                                        maxHeight: '150pt',
+                                        objectFit: 'cover',
+                                        background: '#0000001c',
+                                      }}
+                                    />
+                                  </FileDownload>
+                                </>
+                              )}
                             </StyledWrap>
-                            <WrapDate   className={`${
-                              item.fromMemberType === 'USER'
-                                ? 'user'
-                                : 'company'
-                            }`} >
+                            <WrapDate
+                              className={`${
+                                item.fromMemberType === 'USER'
+                                  ? 'user'
+                                  : 'company'
+                              }`}
+                            >
                               <P
                                 className={`${
                                   item.fromMemberType === 'USER'
                                     ? 'user-p'
                                     : 'company-p'
                                 } ${
-                                 (idx === data.length-1 && index === d.logs.length - 1) && `p-target`
+                                  idx === data.length - 1 &&
+                                  index === d.logs.length - 1 &&
+                                  `p-target`
                                 } ???`}
                                 userChatting={userChatting}
                               >
@@ -785,14 +792,18 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
       <MobBottomWrap>
         <BottomBox onClick={handleFocus}>
-          <FlexBox onSubmit={onSubmitText} className="off" 
-            onFocus={(e)=>{
+          <FlexBox
+            onSubmit={onSubmitText}
+            className="off"
+            onFocus={(e) => {
               inputStyle(e, true);
             }}
-            onBlur={(e)=>{
+            onBlur={(e) => {
               inputStyle(e, false);
-            }}>
-            <TextInput className='textInput'
+            }}
+          >
+            <TextInput
+              className="textInput"
               placeholder="메세지를 입력하세요"
               value={text}
               onChange={onChangeText}
@@ -809,7 +820,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               )}
             </IconWrap2>
           </FlexBox>
-          
         </BottomBox>
         <AddBtn onClick={handleButton}>
           <ImgTag src={'/images/addBtnSvg.svg'} />
@@ -981,10 +991,10 @@ const FlexBox = styled.form`
   justify-content: space-between;
   padding: 0 12pt 0 38.25pt;
 
-  &.off{
+  &.off {
     margin-bottom: 20pt;
   }
-  &.on{
+  &.on {
     transition: 0s 0.5s;
     margin-bottom: 0;
   }
@@ -998,9 +1008,9 @@ const AddBtn = styled.div`
   border-radius: 50%;
   background: #a6a9b0;
   transition: 0.3s;
- &.on {
+  &.on {
     //transform: rotate(45deg);
-    .add{
+    .add {
       transition: 0.3s;
       transform: rotate(45deg);
     }
@@ -1029,7 +1039,7 @@ const ImgTag = styled.img`
   transform: translate(-50%, -50%);
 `;
 const TextInput = styled.input`
-  flex: 2;
+  width: 100%;
   border-radius: 37.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
@@ -1124,7 +1134,7 @@ const LoadingWrap = styled.div`
   }
 `;
 const Wrap = styled.div`
-  min-height :39pt
+  min-height: 39pt;
 `;
 
 const DateChatting = styled.div`
@@ -1175,19 +1185,18 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
 `;
 const StyledWrap = styled.div<{ userChatting: boolean }>`
   &.user {
-    margin-left: ${({ userChatting }) => userChatting ? '0pt' : '36pt'};
+    margin-left: ${({ userChatting }) => (userChatting ? '0pt' : '36pt')};
     @media (max-width: 899.25pt) {
-      margin-left: ${({ userChatting }) => userChatting ? '0pt' : '33pt'};
-  }
+      margin-left: ${({ userChatting }) => (userChatting ? '0pt' : '33pt')};
+    }
   }
   &.company {
-    margin-left: ${({ userChatting }) => userChatting ? '36pt' : '0'};
+    margin-left: ${({ userChatting }) => (userChatting ? '36pt' : '0')};
     @media (max-width: 899.25pt) {
-      margin-left: ${({ userChatting }) => userChatting ? '33pt' : '0'};
+      margin-left: ${({ userChatting }) => (userChatting ? '33pt' : '0')};
+    }
   }
-  }
-
-`
+`;
 const ImageWrap = styled.div<{ userChatting: boolean }>`
   width: 27pt;
   height: 27pt;
@@ -1252,7 +1261,7 @@ const File = styled.button`
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
   border-radius: 6pt;
-  
+
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -1284,10 +1293,10 @@ const WrapDate = styled.div`
   display: flex;
   flex-direction: column;
   &.user {
-    margin-left:6pt;
+    margin-left: 6pt;
   }
   &.company {
-    margin-right:6pt;
+    margin-right: 6pt;
   }
 `;
 const P = styled.p<{ userChatting: boolean }>`
