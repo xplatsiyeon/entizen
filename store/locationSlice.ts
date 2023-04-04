@@ -9,6 +9,8 @@ export interface LocationType {
 export interface LocationListTypes {
   locationList: LocationType;
   searchKeyword: string;
+  isChargeInfoOpen: boolean;
+  fakeWord: string;
 }
 
 const initialState: LocationListTypes = {
@@ -19,6 +21,8 @@ const initialState: LocationListTypes = {
     siNm: '',
   },
   searchKeyword: '',
+  isChargeInfoOpen: false,
+  fakeWord: '',
 };
 
 const slice = createSlice({
@@ -31,6 +35,12 @@ const slice = createSlice({
     },
     addKeyword(state, action: PayloadAction<string>) {
       state.searchKeyword = action.payload;
+    },
+    changeIsChargeInfoOpen(state, action: PayloadAction<boolean>) {
+      state.isChargeInfoOpen = action.payload;
+    },
+    changeFakeWord(state, action: PayloadAction<string>) {
+      state.fakeWord = action.payload;
     },
     reset(state) {
       Object.assign(state, initialState);

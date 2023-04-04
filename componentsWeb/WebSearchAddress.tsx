@@ -23,8 +23,6 @@ import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
-  chargeInfoOpen: boolean;
-  setChargeInfoOpen: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
   setSearchWord: React.Dispatch<React.SetStateAction<string>>;
@@ -59,14 +57,12 @@ export interface addressType {
 }
 
 const WebSearchAddress = ({
-  chargeInfoOpen,
-  setChargeInfoOpen,
   selectedCharger,
   setSelectedCharger,
   setSearchWord,
   searchWord,
 }: Props) => {
-  const [fakeWord, setFakeWord] = useState<string>('');
+  // const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -78,22 +74,21 @@ const WebSearchAddress = ({
   });
 
   let keyWord = useDebounce(searchWord, 300);
-  const { searchKeyword, locationList } = useSelector(
-    (state: RootState) => state.locationList,
-  );
+  const { searchKeyword, locationList, isChargeInfoOpen, fakeWord } =
+    useSelector((state: RootState) => state.locationList);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFakeWord('');
+    // setFakeWord('');
+    dispatch(locationAction.changeFakeWord('')); // 주소 마스킹
     setSearchWord(() => e.target.value);
-    setChargeInfoOpen(false);
+    dispatch(locationAction.changeIsChargeInfoOpen(false)); // 충전기 정보 변경
   };
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-
-    setFakeWord(roadad!);
+    // setFakeWord(roadad!);
+    dispatch(locationAction.changeFakeWord(roadad!)); // 주소 마스킹
     dispatch(coordinateAction.setMark(true));
-
     // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
       // 검색 키워드
@@ -119,7 +114,7 @@ const WebSearchAddress = ({
     callInfo('SLOW', location);
     callInfo('FAST', location);
 
-    setChargeInfoOpen(true);
+    dispatch(locationAction.changeIsChargeInfoOpen(true)); // 충전기 정보 변경
   };
 
   // 특수 문자 예외 처리
@@ -142,12 +137,14 @@ const WebSearchAddress = ({
   };
 
   useEffect(() => {
-    if (keyWord === '') {
+    if (!mobile && keyWord === '') {
+      // 모바일이 아니고 키워드가 없다면 빈값처리
       setResults([]);
-      setChargeInfoOpen(false);
-      // dispatch(coordinateAction.setMark(false));
+      dispatch(locationAction.changeIsChargeInfoOpen(false)); // 충전기 정보 변경
     }
+  }, []);
 
+  useEffect(() => {
     if (checkSearchedWord(keyWord) === true) {
       findAddresss();
     } else {
@@ -158,25 +155,12 @@ const WebSearchAddress = ({
 
   // 처음 검색 시 배열 0번째 주소로 이동
   useEffect(() => {
-    // dispatch(coordinateAction.setMark(false));
     // 조건준 이유: 모바일일때는 호출 하지 말라고
     if (!mobile) {
       dispatch(coordinateAction.setMark(true));
       setSearchWord(searchKeyword);
-      setChargeInfoOpen(true);
-
-      // 검색 키워드
-      //  dispatch(locationAction.addKeyword(searchWord));
-      //  dispatch(
-      //    locationAction.load({
-      //      jibunAddr: results[0]?.jibunAddr,
-      //      roadAddrPart: results[0]?.roadAddr,
-      //      sggNm: results[0]?.sggNm,
-      //      siNm: results[0]?.siNm,
-      //    }),
-      //  );
+      dispatch(locationAction.changeIsChargeInfoOpen(true)); // 충전기 정보 변경
     }
-    // }, [results]);
   }, []);
 
   useEffect(() => {
@@ -192,7 +176,7 @@ const WebSearchAddress = ({
         <FindAddress
           placeholder="도로명/지번 주소를 입력해 주세요"
           onChange={handleChange}
-          value={fakeWord.length > 0 ? fakeWord : searchWord}
+          value={fakeWord?.length > 0 ? fakeWord : searchWord}
         />
 
         {searchWord?.length > 0 ? (
@@ -200,9 +184,9 @@ const WebSearchAddress = ({
             <Image
               onClick={() => {
                 setSearchWord('');
-                setFakeWord('');
                 setResults([]);
-                setChargeInfoOpen(false);
+                dispatch(locationAction.changeFakeWord('')); // 주소 마스킹
+                dispatch(locationAction.changeIsChargeInfoOpen(false)); // 충전기 정보 변경
               }}
               src={xBtn}
               alt="xButton"
@@ -215,7 +199,7 @@ const WebSearchAddress = ({
           </span>
         )}
       </HeaderBox>
-      {chargeInfoOpen ? (
+      {isChargeInfoOpen ? (
         <WebChargerInfo
           selectedCharger={selectedCharger}
           setSelectedCharger={setSelectedCharger}
