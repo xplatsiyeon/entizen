@@ -70,6 +70,7 @@ const Request = () => {
   }
 
   alert(accessToken);
+  alert(memberType);
 
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
