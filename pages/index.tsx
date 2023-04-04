@@ -19,13 +19,16 @@ const Home: NextPage<Props> = ({}: Props) => {
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
-    if (userAgent === 'Android_App') {
-      setLoginChecking(true);
-      window.entizen!.getUserInfo();
-    } else if (userAgent === 'iOS_App') {
-      setLoginChecking(true);
-      window.webkit.messageHandlers.getUserInfo.postMessage('');
+    async function getAppUserInfo() {
+      if (userAgent === 'Android_App') {
+        setLoginChecking(true);
+        await window.entizen!.getUserInfo();
+      } else if (userAgent === 'iOS_App') {
+        setLoginChecking(true);
+        await window.webkit.messageHandlers.getUserInfo.postMessage('');
+      }
     }
+    getAppUserInfo();
   }, []);
 
   // 앱 -> 웹
