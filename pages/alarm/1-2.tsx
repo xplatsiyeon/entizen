@@ -22,7 +22,7 @@ const Alam1_2 = () => {
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [componentId, setComponentId] = useState<number>();
   const [tabNumber, setTabNumber] = useState<number>(7);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const tabHandler = (num: number) => setTab(num);
   const dispatch = useDispatch();
   const tabList: string[] = ['전체 알림', '공지사항'];

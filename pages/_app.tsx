@@ -35,6 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, [queryClient]);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);

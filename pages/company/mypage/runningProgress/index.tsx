@@ -33,8 +33,8 @@ const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [open, setOpen] = useState<boolean>(false);
   // 계약서 유무
   // const [openContract, setOpenContract] = useState<boolean>(false);

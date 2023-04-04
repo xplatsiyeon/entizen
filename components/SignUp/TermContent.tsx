@@ -68,7 +68,7 @@ const TermContent = ({
     (state: RootState) => state.LoginType.signUpLevel,
   );
 
-  const {fnPopup} = useNice();
+  const { fnPopup } = useNice();
   // ========================== 본인인증 창 띄우기
   // const fnPopup = () => {
   //   if (typeof window !== 'object') return;
@@ -87,7 +87,7 @@ const TermContent = ({
   //   }
   // };
   const handleForceClick = () => {
-    let key = localStorage.getItem('key');
+    let key = sessionStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       setName(data.name);

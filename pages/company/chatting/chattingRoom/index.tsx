@@ -35,8 +35,8 @@ type Props = {};
 const ChattingRoom = ({}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
@@ -112,7 +112,7 @@ const Wrapper = styled.div`
   flex-direction: row;
 
   @media (max-width: 899.25pt) {
-   // padding-bottom: 60pt;
+    // padding-bottom: 60pt;
     flex-direction: column;
     width: 100%;
     gap: 0;

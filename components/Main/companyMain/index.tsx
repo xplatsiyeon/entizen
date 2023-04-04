@@ -34,7 +34,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
     query: '(max-width:899.25pt)',
   });
   const router = useRouter();
-  const userID = JSON.parse(localStorage?.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage?.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const [tabNumber, setTabNumber] = useState<number>(-1);
   const [componentId, setComponentId] = useState<number>();
@@ -77,10 +77,10 @@ const CompanyMainPage = ({ num, now }: Props) => {
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
-    localStorage.removeItem('key');
+    sessionStorage.removeItem('key');
   }, []);
   useEffect(() => {
-    if (localStorage?.getItem('USER_ID')) {
+    if (sessionStorage?.getItem('USER_ID')) {
       // console.log('login check!');
       setIsLogin(true);
     } else {

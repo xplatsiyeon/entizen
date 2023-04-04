@@ -205,9 +205,9 @@ const SentQuoatationFirst = () => {
   const dispatch = useDispatch();
   const routerId = router?.query?.preQuotationIdx!;
   const historyId = router?.query?.historyIdx!;
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
 
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달

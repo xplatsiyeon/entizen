@@ -37,7 +37,7 @@ const LeftProjectBox = ({
   const nowRouter = router.pathname;
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   // 진행중인 프로젝트

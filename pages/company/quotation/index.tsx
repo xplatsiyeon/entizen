@@ -56,8 +56,8 @@ const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -211,7 +211,7 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;

@@ -44,9 +44,9 @@ const EditPW = ({ setComponent }: Props) => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
 
   // 원버튼 모달
@@ -107,7 +107,7 @@ const EditPW = ({ setComponent }: Props) => {
   };
   // 원버튼 모달 온클릭
   const handleModalYes = () => {
-    localStorage.removeItem('key');
+    sessionStorage.removeItem('key');
     setOpenModal(false);
     if (modalMessage === '비밀번호 변경이 완료되었습니다.') setComponent!(1);
     /*router.push('/signin'); */

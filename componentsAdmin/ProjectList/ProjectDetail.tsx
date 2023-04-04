@@ -276,7 +276,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   };
 
   // -----진행중인 프로젝트 상세 리스트 api-----
-  // const accessToken = JSON.parse(localStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // const {
   //   loading: contractLoading,
   //   error: contractError,

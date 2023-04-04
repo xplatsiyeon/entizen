@@ -56,8 +56,8 @@ type Props = {};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoom = ({}: Props) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const dispatch = useDispatch();
 

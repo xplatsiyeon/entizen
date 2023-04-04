@@ -20,7 +20,7 @@ const UnderBox = ({ id }: Props) => {
   // 계약서 작성 및 서명 클릭 화면
   const [contr, setContr] = useState<boolean>(false);
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
 
   const { createChatting, createLoading } = useCreateChatting();

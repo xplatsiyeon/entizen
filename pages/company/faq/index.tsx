@@ -159,7 +159,7 @@ const Faq = () => {
   } = useQuery<FaqListResponse>('faq-list', () =>
     isTokenGetApi(`/faqs?faqKind=${TabTypeEn[tabCompNumber]}`),
   );
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
 
   const components: Components = {
     0: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,

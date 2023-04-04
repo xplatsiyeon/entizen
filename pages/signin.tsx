@@ -106,7 +106,7 @@ const Signin = () => {
 
   const appleRef = useRef<HTMLDivElement>(null);
 
-  const {login} = useNaverAuthHook();
+  const { login } = useNaverAuthHook();
 
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
@@ -162,14 +162,14 @@ const Signin = () => {
       if (resData.isMember === true) {
         // 로그인
         const token: JwtTokenType = jwt_decode(resData.accessToken);
-        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-        localStorage.setItem(
+        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+        sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+        sessionStorage.setItem(
           'ACCESS_TOKEN',
           JSON.stringify(resData.accessToken),
         );
-        localStorage.setItem(
+        sessionStorage.setItem(
           'REFRESH_TOKEN',
           JSON.stringify(resData.refreshToken),
         );
@@ -281,11 +281,11 @@ const Signin = () => {
       );
       if (c.isMember === true) {
         const token: JwtTokenType = jwt_decode(res.data.accessToken);
-        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-        localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+        sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+        sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(data.user.email));
 
         // ================브릿지 연결=====================
@@ -315,7 +315,7 @@ const Signin = () => {
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
     if (naverRef) {
-      console.log(naverRef.current.children[0])
+      console.log(naverRef.current.children[0]);
       naverRef.current.children[0].click();
     }
   };
@@ -364,19 +364,19 @@ const Signin = () => {
   };
   // 아이디 찾기
   const HandleFindId = async () => {
-    let key = localStorage.getItem('key');
+    let key = sessionStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     // console.log(data);
     if (data.isMember) {
       dispatch(findUserInfoAction.addId(data.id));
-      localStorage.removeItem('key');
+      sessionStorage.removeItem('key');
       router.push('/find/id');
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
       );
       setErrorModal((prev) => !prev);
-      localStorage.removeItem('key');
+      sessionStorage.removeItem('key');
     }
   };
 
@@ -478,7 +478,7 @@ const Signin = () => {
     //   }
     // }
     // );
-    login()
+    login();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -547,10 +547,10 @@ const Signin = () => {
       );
       if (c.isMember === true) {
         const token: JwtTokenType = jwt_decode(res.data.accessToken);
-        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem('USER_ID', JSON.stringify(result.email));
-        localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        sessionStorage.setItem('USER_ID', JSON.stringify(result.email));
+        sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(result.email));
 
         // ================브릿지 연결=====================
@@ -591,7 +591,7 @@ const Signin = () => {
   }, [selectedLoginType]);
 
   useEffect(() => {
-    localStorage.removeItem('key');
+    sessionStorage.removeItem('key');
     dispatch(selectAction.reset());
   }, []);
 

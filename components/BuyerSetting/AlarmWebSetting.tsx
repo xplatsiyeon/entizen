@@ -124,7 +124,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   // 알람 idx
   const [alertSettingIdx, setAlertSettingIdx] = useState(0);
   // 유저인지 회사인지
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const [alertChecked, setAlertChecked] = useState<NewAlert>({
     alertApp: alertsList?.data?.alertSetting?.alertApp,

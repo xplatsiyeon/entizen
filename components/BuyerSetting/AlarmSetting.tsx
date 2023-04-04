@@ -90,7 +90,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const [alertSettingIdx, setAlertSettingIdx] = useState(0);
 
   // 유저인지 회사인지
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [alertChecked, setAlertChecked] = useState<NewAlert>({
     alertApp: alertsList?.data?.alertSetting?.alertApp,

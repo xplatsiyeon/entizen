@@ -32,7 +32,7 @@ type Props = {
 
 const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
   const router = useRouter();
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const [mailOn, setMailOn] = useState<boolean>(false);
   const [callBtnModal, setCallBtnModal] = useState<boolean>(false);
 

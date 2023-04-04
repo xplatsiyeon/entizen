@@ -33,7 +33,7 @@ const Alam1_3 = () => {
   const [tab, setTab] = useState<number>(1);
   const tabHandler = (num: number) => setTab(num);
   const dispatch = useDispatch();
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });

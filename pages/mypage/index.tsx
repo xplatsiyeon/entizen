@@ -29,8 +29,8 @@ interface Components {
 }
 const TAG = 'page/mypage/index.tsx';
 const Request = () => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();

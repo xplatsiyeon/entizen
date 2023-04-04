@@ -6,8 +6,8 @@ type Props = {};
 
 const Footer = (props: Props) => {
   const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
-  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
+  const userID = sessionStorage.getItem('USER_ID');
+  const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
   return (
     <Container>
       <FooterBox>

@@ -28,7 +28,7 @@ interface MenuList {
 
 const WhyEntizen = () => {
   const router = useRouter();
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   // 제휴문의 채팅방 보내기
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',

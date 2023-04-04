@@ -32,7 +32,7 @@ import JusoHooks from 'hooks/userAddressHooks';
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [isModal, setIsModal] = useState(false);
   const [isSearchBar, setIsSearchBar] = useState(false);
   const [keyword, setKeyword, results] = JusoHooks();

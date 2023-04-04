@@ -24,7 +24,7 @@ const ProjectInProgress = ({
   componentId,
 }: Props) => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
     context: {
       headers: {

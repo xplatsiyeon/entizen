@@ -44,7 +44,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
 
   const router = useRouter();
 
@@ -96,7 +96,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   };
   // 비밀번호 변경 api
   const handleClick = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
     const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members/password/${token.memberIdx}`;
     // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
@@ -135,7 +135,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       });
   };
   const handleModalYes = () => {
-    localStorage.removeItem('key');
+    sessionStorage.removeItem('key');
     setOpenModal(false);
     router.push('/signin');
   };

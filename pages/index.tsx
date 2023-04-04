@@ -26,7 +26,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [loginChecking, setLoginChecking] = useState(false);
-  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
   const [isModal, setIsModal] = useState(false);
 
   //  ------------------브릿지-------------------
@@ -48,23 +48,23 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          localStorage.setItem(
+          sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
@@ -75,23 +75,23 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          localStorage.setItem(
+          sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(userInfo.MEMBER_TYPE),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(userInfo.ACCESS_TOKEN),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(userInfo.REFRESH_TOKEN),
           );
-          localStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
           setLoginChecking(false);
         }
       };

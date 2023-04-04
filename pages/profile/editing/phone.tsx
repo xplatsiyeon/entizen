@@ -31,8 +31,8 @@ const phone = () => {
   const [data, setData] = useState<any>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
   const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
@@ -40,7 +40,7 @@ const phone = () => {
 
   // 휴대폰 변경
   const HandlePhone = async () => {
-    const key: Key = JSON.parse(localStorage.getItem('key')!);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     const newnumber = key?.phone
       .replace(/[^0-9]/g, '')
       .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
@@ -49,7 +49,7 @@ const phone = () => {
 
   const onClickBtn = () => {
     //수정완료 api
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members`;
     try {
       axios({
@@ -114,7 +114,7 @@ const phone = () => {
   }, [data]);
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

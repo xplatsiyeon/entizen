@@ -54,7 +54,7 @@ const Carousel = () => {
   });
 
   // 멤버타입 조회
-  const accessToken = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   // 배너 조회
   const {
     data: bannerList,

@@ -60,7 +60,7 @@ const useNice = () => {
   const [data, setData] = useState<any>();
   // 나이스 인승
   const fnPopup = () => {
-    console.log('훅훅훅')
+    console.log('훅훅훅');
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -80,27 +80,27 @@ const useNice = () => {
     }
   };
 
-    // 인증된 정보의 회원 유효성검사
-    // cloneDocument.form_chk.submit(); 다음 실행될 함수
-    const onSubmitBtn = ()=>{
-        let key = localStorage.getItem('key');
-        // console.log('key ===>', key);
-        let data: FindKey = JSON.parse(key!);
-        // console.log('data==>', data);
-  
-        //동작 예시 코드.
-        // if (data.name === name && data.id === id) {
-        //   setStep(1);
-        // } else {
-        //   localStorage.removeItem('key');
-        //   setIsModal(true);
-        //   setModalMsg(
-        //     '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
-        //   );
-        // }
-      }
+  // 인증된 정보의 회원 유효성검사
+  // cloneDocument.form_chk.submit(); 다음 실행될 함수
+  const onSubmitBtn = () => {
+    let key = sessionStorage.getItem('key');
+    // console.log('key ===>', key);
+    let data: FindKey = JSON.parse(key!);
+    // console.log('data==>', data);
 
-  return {fnPopup, onSubmitBtn};
+    //동작 예시 코드.
+    // if (data.name === name && data.id === id) {
+    //   setStep(1);
+    // } else {
+    //   sessionStorage.removeItem('key');
+    //   setIsModal(true);
+    //   setModalMsg(
+    //     '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
+    //   );
+    // }
+  };
+
+  return { fnPopup, onSubmitBtn };
 };
 
 export default useNice;

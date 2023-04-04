@@ -42,11 +42,11 @@ export interface Charger {
   projectIdx: string;
 }
 
-type Props={
-  rewrite?:boolean
-}
+type Props = {
+  rewrite?: boolean;
+};
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
-const AsRequestWrite = ({rewrite}:Props) => {
+const AsRequestWrite = ({ rewrite }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
@@ -101,7 +101,7 @@ const AsRequestWrite = ({rewrite}:Props) => {
     },
   });
   // ---------------- 내 충전소 불러오기 ------------------
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,
@@ -331,9 +331,12 @@ const AsRequestWrite = ({rewrite}:Props) => {
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Container>
         {!mobile ? (
-          <Header text={rewrite? 'A/S 수정하기' :'A/S 요청하기'} colorselect={checkAll} />
+          <Header
+            text={rewrite ? 'A/S 수정하기' : 'A/S 요청하기'}
+            colorselect={checkAll}
+          />
         ) : (
-          <WebHeader>{rewrite? 'A/S 수정하기' :'A/S 요청하기'}</WebHeader>
+          <WebHeader>{rewrite ? 'A/S 수정하기' : 'A/S 요청하기'}</WebHeader>
         )}
         <TitleInputBox>
           <Label>제목</Label>

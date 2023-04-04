@@ -19,7 +19,7 @@ type Props = {
 };
 const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
   const route = useRouter();
-  // const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+  // const UserId = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const {
     data: userData,
     isError: userError,

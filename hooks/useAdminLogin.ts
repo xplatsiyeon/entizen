@@ -24,15 +24,15 @@ function useAdminLogin(
   } = useMutation(isPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
-      localStorage.setItem(
+      sessionStorage.setItem(
         'ADMIN_ACCESS_TOKEN',
         JSON.stringify(res.data.accessToken),
       );
-      localStorage.setItem(
+      sessionStorage.setItem(
         'ADMIN_REFRESH_TOKEN',
         JSON.stringify(res.data.refreshToken),
       );
-      localStorage.setItem('ADMIN_NAME', JSON.stringify(userId));
+      sessionStorage.setItem('ADMIN_NAME', JSON.stringify(userId));
       //   dispatch(originUserAction.set(userId));
 
       if (url.length > 0) {
@@ -64,7 +64,7 @@ function useAdminLogin(
       } else {
         setErrorModal(true);
         setErrorMessage(message);
-        // console.log('error: ' + JSON.stringify(localStorage));
+        // console.log('error: ' + JSON.stringify(sessionStorage));
       }
     },
   });

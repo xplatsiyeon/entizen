@@ -90,7 +90,7 @@ const AsIndex = ({ listUp }: Props) => {
   const [isModalMessage, setIsModalMessage] = useState('');
 
   // -------------------------- 내충전소 GET ------------------------------
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,

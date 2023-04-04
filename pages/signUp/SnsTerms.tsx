@@ -140,7 +140,7 @@ const SignUpTerms = () => {
   };
 
   const handleForceClick = async () => {
-    let key = localStorage.getItem('key');
+    let key = sessionStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       // console.log('sns data==>>', data);

@@ -104,11 +104,11 @@ export interface QuotationRequestsResponse {
 }
 
 const Mypage1_3 = ({}: any) => {
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const router = useRouter();
   const routerId = router?.query?.quotationRequestIdx;
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const queryclient = useQueryClient();
   const [partnerModal, setPartnerModal] = useState(false);
@@ -305,25 +305,36 @@ const Mypage1_3 = ({}: any) => {
   useLayoutEffect(() => {
     const currentInProgressPreQuotationIdx =
       data?.quotationRequest?.currentInProgressPreQuotationIdx!;
+    const hasCurrentInProgressPreQuotationIdx =
+      data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx!;
 
-    if (currentInProgressPreQuotationIdx !== null) {
+    // if (currentInProgressPreQuotationIdx !== null) {
+    if (hasCurrentInProgressPreQuotationIdx) {
       console.log('첫번째 조건문', currentInProgressPreQuotationIdx);
       data?.preQuotations?.forEach((preQuotation, index) => {
         const preQuotationIdx = preQuotation?.finalQuotation?.preQuotationIdx!;
+
+        console.log('🔥 preQuotationIdx : ', preQuotationIdx);
+        console.log(
+          '🔥 currentInProgressPreQuotationIdx : ',
+          currentInProgressPreQuotationIdx,
+        );
 
         console.log('forEach 문', preQuotationIdx);
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
           console.log('인덱스 변경');
           setIsFinalItmeIndex(index);
-        } else {
-          console.log('-1 진입');
-          setIsFinalItmeIndex(-1);
         }
       });
     } else {
+      console.log('🔥 -1 ');
       setIsFinalItmeIndex(-1);
     }
   }, [data]);
+
+  useEffect(() => {
+    console.log('🔥 isFinalItmeIndex : ', isFinalItmeIndex);
+  }, [isFinalItmeIndex]);
 
   useEffect(() => {
     if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {

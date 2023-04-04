@@ -24,8 +24,8 @@ type Props = {};
 const TAG = 'componsts/BottomNavigation.tsx';
 const BottomNavigation = ({}: Props) => {
   const router = useRouter();
-  const user_ID = localStorage?.getItem('USER_ID')!;
-  const memberType = JSON.parse(localStorage?.getItem('MEMBER_TYPE')!);
+  const user_ID = sessionStorage?.getItem('USER_ID')!;
+  const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 

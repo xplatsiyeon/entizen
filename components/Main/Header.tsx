@@ -25,7 +25,7 @@ type GetUnread = {
 
 const Header = (props: Props) => {
   const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
 
   // 알람 조회
   // alerts/histories/unread

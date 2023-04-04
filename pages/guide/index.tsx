@@ -53,7 +53,7 @@ const Guide1 = () => {
   });
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const dispatch = useDispatch();
   // 알람 조회
   // alerts/histories/unread
@@ -98,7 +98,7 @@ const Guide1 = () => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
-    if (localStorage.getItem('USER_ID')) {
+    if (sessionStorage.getItem('USER_ID')) {
       // console.log('login check !');
       setIsLogin(true);
     } else {
@@ -108,7 +108,7 @@ const Guide1 = () => {
   }, [userId]);
 
   // 이름 가져오기
-  const _accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const _accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     profile: profileData,
     isLoading: profileIsLoading,

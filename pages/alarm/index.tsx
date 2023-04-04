@@ -73,7 +73,7 @@ const Alam = () => {
     router.push('/alarm/1-2');
   };
 
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const { alarmNumberSlice } = useSelector(
     (state: RootState) => state.alarmNumberSliceState,

@@ -17,8 +17,8 @@ import { redirectAction } from 'store/redirectUrlSlice';
 const Chatting = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
@@ -41,7 +41,6 @@ const Chatting = () => {
     // queryClinet.invalidateQueries('chatting-list');
     refetch();
   }, [index, keyword]);
-
 
   if (isLoading) {
     return <Loader />;

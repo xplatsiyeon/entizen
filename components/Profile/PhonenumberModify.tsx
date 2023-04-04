@@ -32,8 +32,8 @@ type Props = {
 };
 const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { selectedType } = useSelector((state: RootState) => state.LoginType);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
@@ -48,8 +48,8 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const [modalMessage, setModalMessage] = useState('');
 
   const value = useDebounce(existingPassword, 500);
-  const memeberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const memeberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
 
   const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
@@ -59,11 +59,11 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const { mutate: passowrdCheckMutate } = useMutation(isPostApi, {
     onSuccess: (res) => {
       if (res.data.isSuccess === true) {
-        localStorage.setItem(
+        sessionStorage.setItem(
           'ACCESS_TOKEN',
           JSON.stringify(res.data.accessToken),
         );
-        localStorage.setItem(
+        sessionStorage.setItem(
           'REFRESH_TOKEN',
           JSON.stringify(res.data.refreshToken),
         );
@@ -114,7 +114,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   }, [value]);
 
   const onClickBtn = () => {
-    const key: Key = JSON.parse(localStorage.getItem('key')!);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     changePhoneMutate({
       url: '/members/phone',
       data: {
@@ -160,7 +160,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }
