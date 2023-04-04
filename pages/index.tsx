@@ -39,29 +39,31 @@ const Home: NextPage<Props> = ({}: Props) => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
       window.returnUserInfo = (userInfo) => {
-        if (userInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(userInfo);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-          );
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          );
-          sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(jsonGetUserInfo.USER_ID),
-          );
-        }
+        setTimeout(() => {
+          if (userInfo.length > 1) {
+            const jsonGetUserInfo = JSON.parse(userInfo);
+            sessionStorage.setItem(
+              'SNS_MEMBER',
+              JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+            );
+            sessionStorage.setItem(
+              'MEMBER_TYPE',
+              JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+            );
+            sessionStorage.setItem(
+              'ACCESS_TOKEN',
+              JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+            );
+            sessionStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+            );
+            sessionStorage.setItem(
+              'USER_ID',
+              JSON.stringify(jsonGetUserInfo.USER_ID),
+            );
+          }
+        }, 2000);
 
         setLoginChecking(false);
       };
