@@ -49,15 +49,12 @@ export interface MutateData {
 }
 
 type Props = {};
-const TAG = 'components/CompanyQuotation/LastQuotation/index.tsx;';
 const LastWrite = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.preQuotation;
   const finalQuotationIdx = router?.query?.finalQuotationIdx!;
-
   // FirstStep 충전기 갯수
   const [chargeNum, setChargeNum] = useState<number>(0);
-
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -69,13 +66,13 @@ const LastWrite = (props: Props) => {
   ] = useState<string>('');
   // 구독상품
   const [subscribeProduct, setSubscribeProduct] = useState<string>('');
-
   // 구독기간
   const [subscribePeriod, setSubscribePeriod] = useState('');
-
+  // 가정용 홈충전기 하이픈 처리를 위한 boolean
+  const [isHomePercent, setIsHomePercent] = useState(false);
   // 고객 퍼센트
   const [profitableInterestUser, setProfitableInterestUser] = useState('');
-  // ChargePoint
+  // 기업 퍼센트
   const [chargePoint, setChargePoint] = useState('');
   // 월 구독료
   const [subscribePricePerMonth, setSubscribePricePerMonth] =
@@ -204,6 +201,8 @@ const LastWrite = (props: Props) => {
 
         const quotationCharger =
           quotationRequest?.quotationRequestChargers[count];
+
+        console.log('🔥 quotationCharger : ', quotationCharger);
         const preQutationCharger =
           preQuotation?.preQuotationCharger[
             preQuotation?.preQuotationCharger?.length! - 1 - count
@@ -213,7 +212,7 @@ const LastWrite = (props: Props) => {
           idx: M5_LIST_EN.indexOf(quotationCharger?.kind),
           kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger?.kind),
           standType:
-            quotationCharger?.standType === ''
+            quotationCharger?.standType === null
               ? '-'
               : convertKo(M6_LIST, M6_LIST_EN, quotationCharger?.standType),
           channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger?.channel),
@@ -389,31 +388,42 @@ const LastWrite = (props: Props) => {
 
   // 최종견적 수익지분 업데이트
   useEffect(() => {
-    if (Number(chargePoint) < 0) {
-      setChargePoint('0');
-      setProfitableInterestUser('100');
-    }
-    if (Number(chargePoint) > 100) {
-      setChargePoint('100');
-      setProfitableInterestUser('0');
-    }
-    if (Number(profitableInterestUser) < 0) {
-      setChargePoint('100');
-      setProfitableInterestUser('0');
-    }
-    if (Number(profitableInterestUser) > 100) {
-      setChargePoint('0');
-      setProfitableInterestUser('100');
+    // 가정용 충전기 퍼센트 처리
+    const quotationRequestChargers =
+      data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
+    if (
+      quotationRequestChargers?.length === 1 &&
+      quotationRequestChargers[0]?.kind === '7-HOME'
+    ) {
+      console.log('수익지분 업데이트');
+      setIsHomePercent(true);
+    } else {
+      if (Number(chargePoint) < 0) {
+        setChargePoint('0');
+        setProfitableInterestUser('100');
+      }
+      if (Number(chargePoint) > 100) {
+        setChargePoint('100');
+        setProfitableInterestUser('0');
+      }
+      if (Number(profitableInterestUser) < 0) {
+        setChargePoint('100');
+        setProfitableInterestUser('0');
+      }
+      if (Number(profitableInterestUser) > 100) {
+        setChargePoint('0');
+        setProfitableInterestUser('100');
+      }
     }
   }, [profitableInterestUser, chargePoint]);
 
-  // console.log(data);
-  // console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
+  console.log('🔥 data : ', data);
 
   const components: Components = {
     // 기본
     0: (
       <FirstStep
+        isHomePercent={isHomePercent}
         sendData={data!}
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -521,6 +531,7 @@ const LastWrite = (props: Props) => {
     // 마지막 스텝
     6: (
       <ThirdStep
+        isHomePercent={isHomePercent}
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
         canNext={canNext}

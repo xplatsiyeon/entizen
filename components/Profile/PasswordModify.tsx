@@ -13,6 +13,7 @@ import Image from 'next/image';
 import axios from 'axios';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
+import { handleLogoutOnClickModalClick } from 'api/logout';
 
 export interface Key {
   id: string;
@@ -135,7 +136,9 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       });
   };
   const handleModalYes = () => {
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
     sessionStorage.removeItem('key');
+    handleLogoutOnClickModalClick(userAgent);
     setOpenModal(false);
     router.push('/signin');
   };

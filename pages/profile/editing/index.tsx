@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -9,12 +9,14 @@ import ProfileModify from 'components/Profile/ProfileModify';
 import PhoneNumberModify from 'components/Profile/PhonenumberModify';
 import UserRightMenu from 'components/UserRightMenu';
 import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const ProfileEditing = () => {
+  const router = useRouter();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const web = useMediaQuery({
     query: '(min-width:900pt)',
@@ -29,12 +31,17 @@ const ProfileEditing = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-
-    // console.log(checkSns);
-    // console.log(snsMember);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 로그아웃 시 로그인 페이지로 강제 이동
+  useLayoutEffect(() => {
+    const USER_ID = JSON.parse(sessionStorage.getItem('USER_ID')!);
+    if (!USER_ID) {
+      router.push('/signin');
+    }
+  }, []);
+
   // 오른쪽 컴포넌트
   const components: Components = {
     0: <PhoneNumberModify setTabNumber={setTabNumber} />,

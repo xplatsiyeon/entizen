@@ -22,6 +22,7 @@ import SelectComponents from 'components/Select';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
+  isHomePercent: boolean;
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
@@ -57,6 +58,7 @@ const subScribe = ['전체구독', '부분구독'];
 
 const subscribeType: string[] = ['24 개월', '36 개월', '48 개월', '60 개월'];
 const FirstStep = ({
+  isHomePercent,
   tabNumber,
   setTabNumber,
   canNext,
@@ -88,11 +90,11 @@ const FirstStep = ({
   chargingStationInstallationPrice,
   setChargingStationInstallationPrice,
 }: Props) => {
+  console.log('🔥 selectedOption : ', selectedOption);
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: chargers[] = [...selectedOption];
     let copyEn: chargers[] = [...selectedOptionEn];
-
     // 영어 값 추출
     let valueEn: string;
     // 충전기 종류
@@ -178,9 +180,6 @@ const FirstStep = ({
   };
   // 충전기 종류 및 수량 추가
   const onClickChargerAdd = () => {
-    // console.log(selectedOption);
-    // console.log(selectedOptionEn);
-
     if (selectedOptionEn.length === 5) return;
     const temp = selectedOption.concat({
       idx: 0,
@@ -300,8 +299,8 @@ const FirstStep = ({
 
   // 수익 지분 100% 맞춰 주는 업데이트 useEffect
   useEffect(() => {
-    // console.log(profitableInterestUser);
-    // console.log(chargePoint);
+    console.log(profitableInterestUser);
+    console.log(chargePoint);
   }, [profitableInterestUser, chargePoint]);
   // 충전기 개수
   useEffect(() => {
@@ -311,12 +310,7 @@ const FirstStep = ({
     }
   }, [selectedOption.length]);
 
-  // 테스트
-  // useEffect(() => {
-  //   // console.log('🔥 ~line 226 ~selectedOptionEn data check');
-  //   // console.log(selectedOption);
-  // }, [selectedOption]);
-  // console.log(`first step입니다`, selectedOption.length);
+  console.log('🔥 isHomePercent : ', isHomePercent);
 
   return (
     <WebRapper>
@@ -347,7 +341,7 @@ const FirstStep = ({
           <SelectContainer>
             <SelectComponents
               value={
-                subscribePeriod.includes('개월')
+                subscribePeriod?.includes('개월')
                   ? subscribePeriod
                   : `${subscribePeriod} 개월`
               }
@@ -380,8 +374,11 @@ const FirstStep = ({
                     );
                   }}
                   type="number"
-                  placeholder="0"
+                  placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
+                  InputProps={{
+                    readOnly: isHomePercent && true,
+                  }}
                 />
                 <Percent>%</Percent>
               </SmallInputBox>
@@ -396,7 +393,9 @@ const FirstStep = ({
               <SmallInputBox>
                 <Input
                   value={
-                    chargePoint[0] !== '0'
+                    isHomePercent === true
+                      ? undefined
+                      : chargePoint[0] !== '0'
                       ? chargePoint
                       : chargePoint.replace(/(^0+)/, '')
                   }
@@ -411,8 +410,11 @@ const FirstStep = ({
                     );
                   }}
                   type="number"
-                  placeholder="0"
+                  placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
+                  InputProps={{
+                    readOnly: isHomePercent && true,
+                  }}
                 />
                 <Percent>%</Percent>
               </SmallInputBox>

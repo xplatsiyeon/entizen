@@ -57,7 +57,7 @@ instance.interceptors.response.use(
     ) {
       console.log('================ 토큰 오류 발생 ================');
       // console.log('⭐️ message : ', message);
-      alert('토큰 자체가 없는 경우');
+      // alert('토큰 자체가 없는 경우');
       deleteData();
       return Promise.reject(err);
     }
@@ -130,7 +130,7 @@ const getRfreshToken = async (): Promise<string | void> => {
       // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
       console.log('🔥 리프레쉬 토큰 만료로 리셋');
       console.log('🔥 err : ', err);
-      alert('리플에쉬 토큰이 만료된 경우');
+      // alert('리플에쉬 토큰이 만료된 경우');
       deleteData();
     });
 };
