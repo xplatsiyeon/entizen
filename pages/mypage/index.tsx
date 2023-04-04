@@ -73,8 +73,8 @@ const Request = () => {
   // alert(memberType);
 
   if (!accessToken && memberType !== 'USER') {
-    // dispatch(redirectAction.addUrl(router.asPath));
-    // router.push('/signin');
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
 
     useEffect(() => {
       if (accessToken) {

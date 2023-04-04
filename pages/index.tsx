@@ -38,6 +38,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   useLayoutEffect(() => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
+      alert('Android_App');
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
@@ -67,6 +68,7 @@ const Home: NextPage<Props> = ({}: Props) => {
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
+      alert('iOS_App');
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
           sessionStorage.setItem(
