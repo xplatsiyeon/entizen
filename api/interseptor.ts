@@ -34,19 +34,10 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   // ================== 응답 요청 성공했을 떄 ===================
   (response) => {
-    // 아무런 오류 없이 정상적으로 데이터를 받아옴.
-    // console.log(`============ reponse success ==============`);
-    // console.log(response);
     return response;
   },
   // =================== 응답 요청 실패했을 떄 ====================
   async (err) => {
-    // 요청 실패, 토큰이 만료 로직 처리.
-    // console.log('=============== response error ================= ');
-    // alert('interseptor 에러 발생 콘솔 창 확인 필요');
-    // console.log('🔥 err : ', err);
-
-    // return;
     const {
       config,
       response: {
@@ -64,32 +55,32 @@ instance.interceptors.response.use(
         message === 'COMPANY - 회원이 아닙니다.' || // 탈퇴한 회원
         errorCode === 1003)
     ) {
-      console.log('================ 토큰 오류 ================');
-      console.log('⭐️ message : ', message);
-
+      console.log('================ 토큰 오류 발생 ================');
+      // console.log('⭐️ message : ', message);
       deleteData();
       return Promise.reject(err);
     }
     /** 2 */
     // 에세스 토큰이 만료되면 리프레쉬 토큰을 헤더에 담아서 다시 서버로 받아와서 보낸다.
     if (!isSuccess && message === 'jwt expired') {
-      // alert('리프레쉬 토큰 호출');
+      // console.log('리프레쉬 토큰 호출');
       // console.log('=============== 리프레쉬 토큰 ===================');
       config.sent = true;
-      const ACCESS_TOKEN = await getRfreshToken();
-      console.log('ACCESS_TOKEN===>', ACCESS_TOKEN);
-      // return;
+      await getRfreshToken();
+      const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      console.log('🔥 ACCESS_TOKEN===>', ACCESS_TOKEN);
       if (ACCESS_TOKEN) {
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
       }
     }
+    // console.log('🔥 에세스 토큰 해더에 담아서 보내기');
     return axios(config);
   },
 );
 
 const deleteData = () => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  console.log('================ getRfreshToken catch ================');
+  // console.log('================ getRfreshToken catch ================');
   // 리프레쉬 토큰을 요청하였는데도 실패가 했다는 건, 리프레쉬 토큰도 만료가 되었다는 것이기에 로그아웃 처리를 진행한다.
   localStorage.removeItem('SNS_MEMBER');
   localStorage.removeItem('ACCESS_TOKEN');
@@ -113,7 +104,7 @@ const getRfreshToken = async (): Promise<string | void> => {
         refreshToken: REFRESH_TOKEN,
       })
       .then((res) => {
-        console.log('============ getRfreshToken then ===============');
+        // console.log('============ getRfreshToken then ===============');
         // 리프레쉬 토큰 요청 후 성공하면 로컬스토리지에 에세스 토큰과 리프레쉬 토큰을 저장한다.
         const ACCESS_TOKEN = res.data.accessToken;
         const REFRESH_TOKEN = res.data.refreshToken;
@@ -121,10 +112,12 @@ const getRfreshToken = async (): Promise<string | void> => {
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.setItem('ACCESS_TOKEN', JSON.stringify(ACCESS_TOKEN));
         localStorage.setItem('REFRESH_TOKEN', JSON.stringify(REFRESH_TOKEN));
-        return ACCESS_TOKEN;
+        // console.log('ACCESS_TOKEN =>', ACCESS_TOKEN);
+        return;
       });
   } catch (e) {
     // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
+    // console.log('🔥 리프레쉬 토큰 만료로 리셋');
     deleteData();
   }
 };
