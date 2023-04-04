@@ -61,8 +61,9 @@ const Home: NextPage<Props> = ({}: Props) => {
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
-          setLoginChecking(false);
         }
+
+        setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
@@ -85,8 +86,9 @@ const Home: NextPage<Props> = ({}: Props) => {
             JSON.stringify(userInfo.REFRESH_TOKEN),
           );
           sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
-          setLoginChecking(false);
         }
+
+        setLoginChecking(false);
       };
     }
   }, []);
@@ -94,11 +96,6 @@ const Home: NextPage<Props> = ({}: Props) => {
   // if (loginChecking) {
   // return <Loader />;
   // }
-
-  useEffect(() => {
-    alert('라이브 서버 테스트 중입니다.');
-    alert(loginChecking);
-  }, [loginChecking]);
 
   return (
     <>
