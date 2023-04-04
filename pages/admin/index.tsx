@@ -75,7 +75,7 @@ const index = (props: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
       // unmount 됐을때 초기값 넣어줌
       // return () => {
-      //   localStorage.setItem('number', '4');
+      //   sessionStorage.setItem('number', '4');
       //   setNowHeight(window.document.documentElement.scrollHeight);
       // };
     }

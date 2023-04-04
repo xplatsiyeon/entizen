@@ -69,7 +69,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   // useEffect(() => {
   //   if (changeNumber) {
   //     setNumber(15);
-  //     localStorage.setItem('number', '15');
+  //     sessionStorage.setItem('number', '15');
   //   }
   // }, [changeNumber]);
 

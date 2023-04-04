@@ -72,7 +72,7 @@ const MyprojectLink = ({
   }
 
   // const handleLink = (idx: number) => {
-  //   const user = localStorage.getItem('USER_ID');
+  //   const user = sessionStorage.getItem('USER_ID');
   //   if (!user && type === 'project') {
   //     router.push('/signin');
   //   } else {
@@ -85,7 +85,7 @@ const MyprojectLink = ({
   // };
 
   const handleLink = (idx: number) => {
-    const user = localStorage.getItem('USER_ID');
+    const user = sessionStorage.getItem('USER_ID');
     if (!user && type === 'project') {
       router.push('/signin');
     } else {

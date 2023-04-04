@@ -32,7 +32,7 @@ interface MenuList {
 }
 
 const WhyEntizenWeb = (props: Props) => {
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   // 제휴문의 채팅방 보내기
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',

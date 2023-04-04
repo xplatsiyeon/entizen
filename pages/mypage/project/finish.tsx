@@ -22,10 +22,10 @@ const FinPage = () => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   const type = router.query.id;
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
 
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
 
   // 제휴문의 채팅방 보내기
   // 'chatting-list' 타입에러 나는데 이유를 모르겠음,

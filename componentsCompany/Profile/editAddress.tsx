@@ -15,7 +15,7 @@ const EditAddress = ({ setComponent }: Props) => {
   // 원버튼 모달 온클릭
   //setComponent(4)
   //   const handleModalYes = () => {
-  //     localStorage.removeItem('key');
+  //     sessionStorage.removeItem('key');
 
   //     if () setComponent!(1);
   //     /*router.push('/signin'); */
@@ -28,7 +28,7 @@ const EditAddress = ({ setComponent }: Props) => {
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const { mutate: addressMutate } = useMutation(isTokenPatchApi, {

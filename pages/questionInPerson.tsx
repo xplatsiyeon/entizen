@@ -25,7 +25,7 @@ interface Components {
 
 const questionInPerson = () => {
   const router = useRouter();
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [mailOn, setMailOn] = useState<boolean>(false);
   const [callBtnModal, setCallBtnModal] = useState<boolean>(false);

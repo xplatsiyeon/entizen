@@ -34,7 +34,7 @@ const SalesProjection = ({
   results,
 }: Props) => {
   const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

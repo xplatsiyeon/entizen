@@ -138,7 +138,7 @@ const Faq = () => {
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
   const TabTypeEn: string[] = ['service', 'member', 'report'];
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
 
   // faq 리스트 조회
   const {

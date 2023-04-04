@@ -27,7 +27,7 @@ export default function useCharger() {
 
   const callInfo = async (speed: 'SLOW' | 'FAST', location: Location) => {
     // console.log('실행');
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/charge`, {
       params: {
         siDo: location.siNm,

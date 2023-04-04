@@ -23,7 +23,7 @@ type Props = {
 const HamburgerMenu = ({ st }: Props) => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const dispatch = useDispatch();
   const [state, setState] = useState({
     right: false,

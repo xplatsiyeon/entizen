@@ -41,7 +41,7 @@ const GuideLink = ({ type, num, now }: Props) => {
   }
 
   const handleLink = (idx: number) => {
-    const user = localStorage.getItem('USER_ID');
+    const user = sessionStorage.getItem('USER_ID');
     if (!user) {
       router.push('/signin');
     } else {
@@ -107,7 +107,7 @@ const StyledLink = styled.li`
     font-weight: 700;
     color: #5a2dc9;
   }
-  &:after{
+  &:after {
     content: '';
     display: none;
     width: 140%;
@@ -119,7 +119,7 @@ const StyledLink = styled.li`
     transform: translateX(-50%);
     border-radius: 6pt;
   }
-  &.on:after{
+  &.on:after {
     display: block;
   }
 `;

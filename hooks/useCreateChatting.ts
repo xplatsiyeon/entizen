@@ -14,7 +14,7 @@ const TAG = 'hooks/useCreateChatting.ts';
  */
 const useCreateChatting = () => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = accessToken && jwt_decode(accessToken!);
   // ------------- 채팅방 생성하기 API ---------------
   const { mutate: createMutate, isLoading: createLoading } = useMutation(

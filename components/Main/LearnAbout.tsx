@@ -29,7 +29,7 @@ interface MenuList {
 
 const LearnAbout = ({ borders }: Props) => {
   const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
@@ -110,11 +110,7 @@ const LearnAbout = ({ borders }: Props) => {
                   <Image src={el.leftImg} alt="icon" layout="intrinsic" />
                 </LeftImgBox>
                 <LeftImgBox>
-                  <Image
-                    src={el.leftImg}
-                    alt="icon"
-                    layout="intrinsic"
-                  />
+                  <Image src={el.leftImg} alt="icon" layout="intrinsic" />
                 </LeftImgBox>
                 {/* <RightImgBox>
                   <Image src={el.rightImg} alt="icon" layout="intrinsic" />
@@ -194,7 +190,7 @@ const Item = styled.div<{ borders: number }>`
   cursor: pointer;
   @media (max-width: 899.25pt) {
     min-width: 105pt; //점차 작아지다가 105pt에서 스톱.
-    height: 153pt;    
+    height: 153pt;
     padding-top: 12pt;
     padding-left: 12pt;
   }

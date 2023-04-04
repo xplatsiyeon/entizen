@@ -54,7 +54,7 @@ const Mypage = ({ num, now }: Props) => {
   }, [nowWidth]);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   const components: Components = {

@@ -20,8 +20,8 @@ const TAG = 'pages/mypage/project/index.tsx';
 const ProjectInfo = () => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
@@ -65,7 +65,7 @@ const ProjectInfo = () => {
     return (
       <>
         <Body>
-          <WebHeader num={1} now={'mypage'}  sub={'mypage'}/>
+          <WebHeader num={1} now={'mypage'} sub={'mypage'} />
           <UserRightMenu />
           <Inner>
             <FlexBox>

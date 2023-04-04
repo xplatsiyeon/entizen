@@ -27,7 +27,7 @@ const LeftASBox = ({
   const queryclient = useQueryClient();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['신규 A/S', '히스토리'];
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   // 왼쪽 열리고 닫히고

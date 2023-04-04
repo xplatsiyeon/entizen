@@ -31,7 +31,7 @@ type Props = {
 
 const PassowrdStep1 = ({ setStep }: Props) => {
   const router = useRouter();
-  // let key = localStorage.getItem('key');
+  // let key = sessionStorage.getItem('key');
   // let data = JSON.parse(key!);
   const [data, setData] = useState<any>();
   const memberType = router.query.loginType;
@@ -93,7 +93,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   const onSubmitBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isValid) {
-      let key = localStorage.getItem('key');
+      let key = sessionStorage.getItem('key');
       // console.log('key ===>', key);
       let data: FindKey = JSON.parse(key!);
       // console.log('data==>', data);
@@ -104,7 +104,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       if (data.name === name && data.id === id) {
         setStep(1);
       } else {
-        localStorage.removeItem('key');
+        sessionStorage.removeItem('key');
         setIsModal(true);
         setModalMsg(
           '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',

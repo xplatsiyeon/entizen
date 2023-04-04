@@ -24,7 +24,7 @@ const ComAsIndex = ({ num, now }: Props) => {
   const [componentId, setComponentId] = useState<number | undefined>();
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
 
   // NEW AS 리스트 보기
   const [newSearchWord, setNewSearchWord] = useState<string>('');

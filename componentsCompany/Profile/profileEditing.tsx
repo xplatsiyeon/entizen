@@ -42,7 +42,7 @@ const ProfileEditing = ({
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
@@ -157,7 +157,7 @@ const ProfileEditing = ({
   }, []);
 
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

@@ -13,7 +13,7 @@ type Props = {
 const SubscribeRequest = ({ borders }: Props) => {
   const router = useRouter();
   const handleLink = () => {
-    const user = localStorage.getItem('USER_ID');
+    const user = sessionStorage.getItem('USER_ID');
     if (user) {
       router.push('/quotation/request');
     } else {

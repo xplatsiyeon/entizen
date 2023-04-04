@@ -30,7 +30,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -116,7 +116,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 담당자 정보 수정하기
   const onCickBtn = () => {
     //setIsTwoBtnModal(false);
-    const key: Key = JSON.parse(localStorage.getItem('key')!);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     // console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({

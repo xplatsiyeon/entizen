@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 const QuestionInPersonWeb = () => {
   const router = useRouter();
   const [mailOn, setMailOn] = useState<boolean>(false);
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
 
   // 이메일 주소 복사하는 함수
   const handleCopyEmail = (text: string) => {

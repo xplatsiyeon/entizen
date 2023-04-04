@@ -25,7 +25,7 @@ const ProfileEditing = () => {
   console.log('tabNumber', tabNumber);
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

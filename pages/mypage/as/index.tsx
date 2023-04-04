@@ -91,8 +91,8 @@ const asNumber = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [isReview, setIsReview] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');

@@ -17,7 +17,7 @@ interface Props {
 
 const CommunicationBox = ({ id, text, hide }: Props) => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken!);
 
   const { createChatting, createLoading } = useCreateChatting();

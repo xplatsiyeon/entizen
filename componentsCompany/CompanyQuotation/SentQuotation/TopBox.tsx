@@ -40,7 +40,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
   //   data?.sendQuotationRequest.quotationRequest.etcRequest,
   //   '39번째줄',
   // );
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const callPhone = hyphenFn(
     data?.sendQuotationRequest?.quotationRequest?.member?.phone,

@@ -36,7 +36,7 @@ const JoditReact = React.lazy(() => {
 
 const AdminTermsJodit = ({ setBodyText, bodyText, firstContent }: Props) => {
   const isSSR = typeof window === 'undefined';
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [pcImgArr, setPcImgArr] = useState<IMG[]>([]);
   const { mutate: pcImage, isLoading: multerPcImageLoading } = useMutation<
     MulterResponse,

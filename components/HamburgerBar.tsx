@@ -28,7 +28,7 @@ const HambuguerBar = (anchor: string) => {
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
   );
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -44,7 +44,7 @@ const HambuguerBar = (anchor: string) => {
     };
 
   useEffect(() => {
-    if (localStorage.getItem('USER_ID')) {
+    if (sessionStorage.getItem('USER_ID')) {
       // console.log('login check !');
       setIsLogin(true);
     } else {

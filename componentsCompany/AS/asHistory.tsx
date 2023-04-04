@@ -64,8 +64,8 @@ const AsHistory = ({
   });
   const router = useRouter();
   const dispatch = useDispatch();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [modal, setModal] = useState<boolean>(false);
   const excelUrl =
     '/after-sales-services/histories/download?sort=lowRate&searchKeyword=';

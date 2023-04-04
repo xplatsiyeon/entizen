@@ -80,7 +80,7 @@ const ProgressBody = ({
 
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
   // -----진행중인 프로젝트 상세 리스트 api-----
