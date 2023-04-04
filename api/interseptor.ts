@@ -73,6 +73,7 @@ instance.interceptors.response.use(
       );
       console.log('🔥 ACCESS_TOKEN===>', ACCESS_TOKEN);
       if (ACCESS_TOKEN) {
+        console.log('🔥 if문 진입');
         config.headers.Authorization = `Bearer ${ACCESS_TOKEN}`;
         return await axios(config);
       }
@@ -90,8 +91,7 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  // window.location.href = '/';
-
+  window.location.href = '/';
   appLogout(userAgent as string);
 };
 
@@ -112,9 +112,11 @@ const getRfreshToken = async (): Promise<string | void> => {
       // 리프레쉬 토큰 요청 후 성공하면 로컬스토리지에 에세스 토큰과 리프레쉬 토큰을 저장한다.
       const ACCESS_TOKEN = res.data.accessToken;
       const REFRESH_TOKEN = res.data.refreshToken;
+      console.log('🔥 ACCESS_TOKEN : ', ACCESS_TOKEN);
+      console.log('🔥 REFRESH_TOKEN : ', REFRESH_TOKEN);
+
       await sessionStorage.removeItem('ACCESS_TOKEN');
       await sessionStorage.removeItem('REFRESH_TOKEN');
-
       await sessionStorage.setItem(
         'ACCESS_TOKEN',
         JSON.stringify(ACCESS_TOKEN),
@@ -130,7 +132,7 @@ const getRfreshToken = async (): Promise<string | void> => {
       // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
       console.log('🔥 리프레쉬 토큰 만료로 리셋');
       console.log('🔥 err : ', err);
-      // alert('리플에쉬 토큰이 만료된 경우');
+      // alert('리프레쉬 토큰 만료');
       deleteData();
     });
 };
