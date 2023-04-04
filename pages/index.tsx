@@ -16,18 +16,11 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
-  console.log('=================window.location.href==================');
-  console.log(window.location.href);
-
   const landingPage = window.location.href === 'https://entizen.kr/';
-  // const landingPage = window.location.href === 'https://test.entizen.kr/';
 
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
-  const [isModal, setIsModal] = useState(false);
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
@@ -98,8 +91,6 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
 
-  useEffect(() => {}, [isModal]);
-
   // if (loginChecking) {
   // return <Loader />;
   // }
@@ -110,25 +101,27 @@ const Home: NextPage<Props> = ({}: Props) => {
         <Landing />
       ) : (
         <>
-          {isModal && (
-            <Modal
-              text="탈퇴한 회원입니다."
-              click={() => {
-                setIsModal(false);
-              }}
-            />
-          )}
           {memberType === 'COMPANY' ? (
             <CompanyMainPage />
           ) : (
             <>
+              {loginChecking === false && (
+                <>
+                  <WebWrap>
+                    <Main />
+                  </WebWrap>
+                  <MobWrap>
+                    <MainPage />
+                  </MobWrap>
+                </>
+              )}
               {/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
-              <WebWrap>
+              {/* <WebWrap>
                 <Main />
               </WebWrap>
               <MobWrap>
                 <MainPage />
-              </MobWrap>
+              </MobWrap> */}
             </>
           )}
         </>
