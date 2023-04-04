@@ -19,42 +19,39 @@ const Home: NextPage<Props> = ({}: Props) => {
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
-    async function getAppUserInfo() {
-      if (userAgent === 'Android_App') {
-        setLoginChecking(true);
-        await window.entizen!.getUserInfo();
-      } else if (userAgent === 'iOS_App') {
-        setLoginChecking(true);
-        await window.webkit.messageHandlers.getUserInfo.postMessage('');
-      }
+    if (userAgent === 'Android_App') {
+      setLoginChecking(true);
+      window.entizen!.getUserInfo();
+    } else if (userAgent === 'iOS_App') {
+      setLoginChecking(true);
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
-    getAppUserInfo();
   }, []);
 
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
-      window.returnUserInfo = async (userInfo) => {
+      window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
-          const jsonGetUserInfo = await JSON.parse(userInfo);
-          await sessionStorage.setItem(
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
@@ -63,28 +60,25 @@ const Home: NextPage<Props> = ({}: Props) => {
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
-      window.returnUserInfo = async (userInfo) => {
+      window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(userInfo.MEMBER_TYPE),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(userInfo.ACCESS_TOKEN),
           );
-          await sessionStorage.setItem(
+          sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(userInfo.REFRESH_TOKEN),
           );
-          await sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(userInfo.USER_ID),
-          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
         }
 
         setLoginChecking(false);
