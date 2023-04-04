@@ -13,12 +13,16 @@ type Props = {
   isSearchBar: boolean;
   setIsSearchBar: Dispatch<SetStateAction<boolean>>;
   results: addressType[];
+  isScroll: boolean;
+  setIsScroll: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function SearchBar({
   isSearchBar,
   setIsSearchBar,
   results,
+  isScroll,
+  setIsScroll,
 }: Props) {
   console.log('🔥 results : ', results);
   const searchBarRef = useRef<HTMLUListElement | null>(null);
@@ -55,7 +59,11 @@ export default function SearchBar({
   });
 
   return (
-    <Wrap ref={searchBarRef}>
+    <Wrap
+      isScroll={isScroll}
+      ref={searchBarRef}
+      onScroll={() => setIsScroll(true)}
+    >
       {results?.map((result) => (
         <li onClick={() => onClickAddress(result)}>
           <span>
@@ -72,19 +80,7 @@ export default function SearchBar({
   );
 }
 
-const Wrap = styled.ul`
-  /* background-color: ${colors.lightWhite};
-  position: absolute;
-  top: 0;
-  margin-top: 9.75pt;
-  display: flex;
-  flex-direction: column;
-  min-width: 331.5pt;
-  z-index: 9999;
-  max-height: 200pt;
-  overflow-y: scroll;
-  border: 1px solid red; */
-
+const Wrap = styled.ul<{ isScroll: boolean }>`
   background-color: rgb(255, 255, 255);
   position: absolute;
   right: -56.25pt;
@@ -94,9 +90,8 @@ const Wrap = styled.ul`
   flex-direction: column;
   min-width: 331.5pt;
   z-index: 999;
-  max-height: 200pt;
+  max-height: ${({ isScroll }) => (isScroll === false ? '100pt' : '200pt')};
   overflow-y: scroll;
-
   ::-webkit-scrollbar {
     display: initial;
     width: 7.5pt;
@@ -133,7 +128,7 @@ const Wrap = styled.ul`
   }
 
   li > p {
-    width: 200px;
+    /* width: 200px; */
   }
 
   .name {

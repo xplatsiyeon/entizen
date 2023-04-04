@@ -8,6 +8,7 @@ type Props = {
 };
 
 const Checking = ({ date }: Props) => {
+  // console.log('🔥 date : ', date);
   const route = useRouter();
   return (
     <Wrapper>

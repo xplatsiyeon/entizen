@@ -288,6 +288,7 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
+  console.log('🔥 spotData : ', spotData);
   useEffect(() => {
     if (routerId && router.isReady) {
       // console.log('refetch');
@@ -344,7 +345,8 @@ const Mypage1_3 = ({}: any) => {
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   // console.log('⭐️ isFinalItmeIndex : ', isFinalItmeIndex);
-  console.log('⭐️ date check  : ', data);
+  // console.log('⭐️ date check  : ', data);
+  console.log('⭐️ quotationData  : ', quotationData);
 
   // console.log('⭐️ data : ', data);
   if (isError || spotIsError) {
@@ -462,12 +464,15 @@ const Mypage1_3 = ({}: any) => {
                           routerId={routerId}
                         />
                       ) : (
-                        <Checking
-                          date={
-                            spotData?.data?.spotInspection
-                              ?.spotInspectionDate[0]!
-                          }
-                        />
+                        spotData?.data?.spotInspection
+                          ?.spotInspectionDate[0]! && (
+                          <Checking
+                            date={
+                              spotData?.data?.spotInspection
+                                ?.spotInspectionDate[0]!
+                            }
+                          />
+                        )
                       )
                     ) : null}
 
@@ -489,7 +494,8 @@ const Mypage1_3 = ({}: any) => {
                             }
                           />
                         </TextBox>
-                        {router.isReady && router.query.history === 'false' ? (
+                        {router.isReady &&
+                        router.query.history === undefined ? (
                           <ButtonBox>
                             <Button
                               isWhite={true}

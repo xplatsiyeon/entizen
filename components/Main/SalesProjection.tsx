@@ -22,6 +22,8 @@ type Props = {
   text?: string;
   setText?: Dispatch<SetStateAction<string>>;
   isSearchBar?: boolean;
+  isScroll?: boolean;
+  setIsScroll?: Dispatch<SetStateAction<boolean>>;
   setIsSearchBar?: Dispatch<SetStateAction<boolean>>;
   results?: addressType[];
 };
@@ -29,6 +31,8 @@ type Props = {
 const SalesProjection = ({
   text,
   setText,
+  isScroll,
+  setIsScroll,
   isSearchBar,
   setIsSearchBar,
   results,
@@ -68,7 +72,7 @@ const SalesProjection = ({
   return (
     <>
       <SearchMapWrapper>
-        {!isSearchBar && (
+        {!isScroll && (
           <TextArea>
             내 충전기의 <span>예상 매출</span>을
             <br /> 확인해보세요!
@@ -123,7 +127,14 @@ const SalesProjection = ({
                   <InputAdornment position="end">
                     <div style={{ width: '15pt', height: '15pt' }}>
                       {isSearchBar ? (
-                        <Image src={Exit} alt="exit" layout="intrinsic" />
+                        <Image
+                          src={Exit}
+                          alt="exit"
+                          layout="intrinsic"
+                          onClick={() => {
+                            setIsScroll && setIsScroll(false);
+                          }}
+                        />
                       ) : (
                         <Image
                           src={mapPin}
@@ -144,6 +155,8 @@ const SalesProjection = ({
             results={results!}
             isSearchBar={isSearchBar!}
             setIsSearchBar={setIsSearchBar!}
+            isScroll={isScroll!}
+            setIsScroll={setIsScroll!}
           />
         )}
       </SearchMapWrapper>

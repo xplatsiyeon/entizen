@@ -35,6 +35,7 @@ const Main = () => {
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [isModal, setIsModal] = useState(false);
   const [isSearchBar, setIsSearchBar] = useState(false);
+  const [isScroll, setIsScroll] = useState(false);
   const [keyword, setKeyword, results] = JusoHooks();
 
   const {
@@ -106,6 +107,8 @@ const Main = () => {
           <SalesProjection
             text={keyword}
             setText={setKeyword}
+            isScroll={isScroll}
+            setIsScroll={setIsScroll}
             isSearchBar={isSearchBar}
             setIsSearchBar={setIsSearchBar}
             results={results}
