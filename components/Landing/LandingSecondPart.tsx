@@ -208,13 +208,16 @@ const TextTyping = styled.div`
   align-items: center;
   z-index: 100;
   position: absolute;
-  top: 40%;
-  left: 30%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 775px;
 `;
 
 const TextTypingFirst = styled.span`
   color: white;
-  font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
+  /* font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo'; */
+  font-family: 'Poppins';
   /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
   font-weight: 700;
   font-size: 60pt;

@@ -184,3 +184,7 @@ input::placeholder {
 .test123 {
   font-family: 'AppleGothicNeo';
 }
+@font-face {
+  font-family: 'Poppins';
+  src: url(./Fonts/Poppins-Bold.ttf), url(./Fonts/Poppins-Bold.woff);
+}
