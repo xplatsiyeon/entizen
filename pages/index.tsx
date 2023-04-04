@@ -95,6 +95,11 @@ const Home: NextPage<Props> = ({}: Props) => {
   // return <Loader />;
   // }
 
+  useEffect(() => {
+    alert('라이브 서버 테스트 중입니다.');
+    alert(loginChecking);
+  }, [loginChecking]);
+
   return (
     <>
       {landingPage ? (
@@ -105,7 +110,7 @@ const Home: NextPage<Props> = ({}: Props) => {
             <CompanyMainPage />
           ) : (
             <>
-              {loginChecking === false && (
+              {!loginChecking && (
                 <>
                   <WebWrap>
                     <Main />
