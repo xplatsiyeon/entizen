@@ -33,6 +33,7 @@ export interface BusinessRegistrationType {
 }
 
 type Props = {
+  isHomePercent: boolean;
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
@@ -58,6 +59,7 @@ type Props = {
 };
 const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
+  isHomePercent,
   tabNumber,
   setTabNumber,
   canNext,

@@ -81,6 +81,8 @@ const SearchAddress = (props: Props) => {
         siNm: sinm,
       }),
     );
+    dispatch(locationAction.changeFakeWord(roadad!)); // 주소 마스킹
+    dispatch(locationAction.changeIsChargeInfoOpen(true)); // 충전기 정보 변경
     // 예상 매출 금액
     const location = {
       jibunAddr: jibun,
@@ -96,10 +98,6 @@ const SearchAddress = (props: Props) => {
 
     await dispatch(locationAction.load(location));
     router.push('/chargerMap');
-
-    // setTimeout(() => {
-    //   router.push('/chargerMap');
-    // }, 300);
   };
 
   useEffect(() => {

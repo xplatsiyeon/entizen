@@ -1,18 +1,8 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { coordinateAction } from 'store/lnglatSlice';
-
 import { RootState } from 'store/store';
 
-// interface MapRef {
-//   current : object.
-// }
-
-const TAG = 'utills/useMap.tsx';
 function useMap() {
-  // let mapRef = useRef<any >(null);
-  const dispatch = useDispatch();
   const { lnglatList, isMark } = useSelector(
     (state: RootState) => state.lnglatList,
   );
@@ -53,10 +43,6 @@ function useMap() {
         }
       }
     }
-    // console.log('mapRef 로그 확인');
-    // console.log(mapRef);
-    // console.log('useMap useEffect 입니다.');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lnglatList, locationList]);
 
   return {

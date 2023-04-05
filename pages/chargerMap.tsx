@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
-import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
 import btnImg from 'public/images/back-btn.svg';
 import search from 'public/images/search.png';
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
@@ -15,9 +13,7 @@ import { coordinateAction } from 'store/lnglatSlice';
 import { useDispatch } from 'react-redux';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
-import { locationAction } from 'store/locationSlice';
 import WebChargerInfo from 'componentsWeb/WebChargerInfo';
 import MapBiggerIcon from 'public/images/MapBiggerIcon.svg';
 import { css } from '@emotion/react';
@@ -30,57 +26,17 @@ export interface SlowFast {
 }
 
 const ChargerMap = (props: Props) => {
+  useMap();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [selectedCharger, setSelectedCharger] = useState<number>(0);
+  const [type, setType] = useState<boolean>(false);
+  const [biggerClick, setBiggerClick] = useState(false);
+  const [searchWord, setSearchWord] = useState<string>('');
   const { locationList, searchKeyword } = useSelector(
     (state: RootState) => state.locationList,
   );
-  const dispatch = useDispatch();
-  const web = useMediaQuery({
-    query: '(min-width:900pt)',
-  });
-
-  useMap();
-  const [changeHeight, setChangeHeight] = useState<boolean>(false);
-  const [selectedCharger, setSelectedCharger] = useState<number>(0);
-  const [checkHeight, setCheckHeight] = useState<number>(0);
-  const [scrollHeight, setScrollHeight] = useState<number>(0);
-  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
-  const [type, setType] = useState<boolean>(false);
-  const biggerRef = useRef(null);
-  const [biggerClick, setBiggerClick] = useState(false);
-  const [searchWord, setSearchWord] = useState<string>('');
-  console.log('chargeInfoOpen', chargeInfoOpen);
-
-  // console.log(locationList)
   console.log('⭐️ chargerMap 컴포넌트에서 locationList : ', locationList);
-
-  useEffect(() => {
-    let calcHeight;
-    let findHeight;
-    const searchInput = document.querySelector('.searchInput');
-    const forScroll = document.querySelector('.forScroll');
-
-    if (searchInput && forScroll) {
-      findHeight = forScroll.getBoundingClientRect();
-      setScrollHeight(
-        (document.body.clientHeight - (findHeight.y + findHeight.height + 28)) *
-          0.75,
-      );
-      calcHeight = searchInput.getBoundingClientRect();
-      // console.log(calcHeight);
-
-      setCheckHeight(
-        (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
-          0.75,
-      );
-      if (changeHeight === false) {
-        setCheckHeight(
-          document.body.clientHeight -
-            (calcHeight.y + calcHeight.height + 16 + 272),
-        );
-      }
-    }
-  }, [checkHeight, changeHeight]);
 
   useEffect(() => {
     if (locationList.roadAddrPart) {
@@ -111,69 +67,13 @@ const ChargerMap = (props: Props) => {
     }
   }, [locationList]);
 
-  useEffect(() => {
-    return () => {
-      // console.log('컴포넌트 디드마운트');
-      // dispatch(coordinateAction.reset());
-      //dispatch(locationAction.reset());
-    };
-  }, []);
-
   const handleBack = () => {
     router.back();
-  };
-  const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    setType(!type);
-  };
-
-  const bigger = (e: MouseEvent) => {
-    const width = window.innerWidth;
-    if (width < 1200) {
-      const map = e.currentTarget as HTMLElement;
-      map.classList.add('bigger');
-      map.parentElement?.classList.add('bigger');
-    }
-  };
-  const cancleBigger = (e: MouseEvent) => {
-    const target = e.currentTarget as HTMLElement;
-    setBiggerClick(false);
-    if (target.previousElementSibling?.classList.contains('bigger')) {
-      target.previousElementSibling.classList.remove('bigger');
-    }
   };
 
   useEffect(() => {
     window.dispatchEvent(new Event('resize'));
   }, [biggerClick]);
-
-  // setChargerInfo 조건
-  // 웹 -> 모바일일때는 문제 없음
-  // 모바일에서 주소 검색하고 견적나오고, 견족 나온상태에서 웹으로 비율 키우면 chargerInfo가 true로 변경되야함(+ 주소도 키워드가 아니라 내가 견적낸 주소의 전체 주소가 나와야함)
-  // 그리고 웹에서 새로운 주소 검색할때는 다시 chargerInfo가 fasle로 되어야함
-
-  // useEffect(() => {
-  //   if (web) {
-  //     if (searchKeyword !== searchWord) {
-  //       setChargeInfoOpen(false);
-  //     } else if (searchKeyword === '') {
-  //       setChargeInfoOpen(false);
-  //     } else if (searchWord === '') {
-  //       setChargeInfoOpen(false);
-  //     }
-  //     if (
-  //       locationList.jibunAddr !== '' ||
-  //       locationList.jibunAddr !== undefined
-  //     ) {
-  //       console.log(
-  //         `locationList.jibunAddr !== '' || locationList.jibunAddr !== undefined`,
-  //       );
-
-  //       setChargeInfoOpen(true);
-  //     } else {
-  //       setChargeInfoOpen(false);
-  //     }
-  //   }
-  // }, [locationList, web, searchKeyword, searchWord]);
 
   return (
     <>
@@ -218,8 +118,6 @@ const ChargerMap = (props: Props) => {
                 searchWord={searchWord}
                 setSearchWord={setSearchWord}
                 setType={setType}
-                chargeInfoOpen={chargeInfoOpen}
-                setChargeInfoOpen={setChargeInfoOpen}
                 selectedCharger={selectedCharger}
                 setSelectedCharger={setSelectedCharger}
               />
@@ -349,7 +247,6 @@ const MapBiggerIconBox = styled.div<{ biggerClick?: boolean }>`
   position: absolute;
   z-index: 300;
   top: 0;
-  /* right: 2.3%; */
   right: 15pt;
   cursor: pointer;
   display: ${({ biggerClick }) => (biggerClick ? 'none' : '')};
@@ -403,14 +300,12 @@ const WholeMap = styled.div<{ biggerClick?: boolean }>`
 const Header = styled.div<{ biggerClick?: boolean }>`
   display: none;
   @media (max-width: 899.25pt) {
-    /* display: block; */
     display: flex;
     align-items: center;
     position: relative;
     width: 100%;
     z-index: 10;
     padding-top: 9pt;
-    /* padding-left: 15pt; */
     padding-bottom: 10.5pt;
 
     &.addressHeader {
@@ -470,7 +365,6 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    //color: ${colors.main2};
     text-align: left;
     padding: 0;
   }

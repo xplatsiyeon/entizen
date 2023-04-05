@@ -1,15 +1,9 @@
 import { NextPage } from 'next';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import { appLogout } from 'bridge/appToWeb';
-import Modal from 'components/Modal/Modal';
 import Landing from './landing';
 
 interface Props {
@@ -39,32 +33,29 @@ const Home: NextPage<Props> = ({}: Props) => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
       window.returnUserInfo = (userInfo) => {
-        setTimeout(() => {
-          if (userInfo.length > 1) {
-            const jsonGetUserInfo = JSON.parse(userInfo);
-            sessionStorage.setItem(
-              'SNS_MEMBER',
-              JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-            );
-            sessionStorage.setItem(
-              'MEMBER_TYPE',
-              JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-            );
-            sessionStorage.setItem(
-              'ACCESS_TOKEN',
-              JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-            );
-            sessionStorage.setItem(
-              'REFRESH_TOKEN',
-              JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-            );
-            sessionStorage.setItem(
-              'USER_ID',
-              JSON.stringify(jsonGetUserInfo.USER_ID),
-            );
-          }
-        }, 2000);
-
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem(
+            'USER_ID',
+            JSON.stringify(jsonGetUserInfo.USER_ID),
+          );
+        }
         setLoginChecking(false);
       };
       // 아이폰 호출

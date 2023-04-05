@@ -104,14 +104,6 @@ const ChargerMap = (props: Props) => {
     }
   }, [locationList]);
 
-  useEffect(() => {
-    return () => {
-      // console.log('컴포넌트 디드마운트');
-      // dispatch(coordinateAction.reset());
-      // dispatch(locationAction.reset());
-    };
-  }, []);
-
   const handleBack = () => {
     router.back();
   };
