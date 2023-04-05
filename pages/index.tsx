@@ -34,23 +34,23 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          localStorage.setItem(
+          sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          localStorage.setItem(
+          sessionStorage.setItem(
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
