@@ -83,6 +83,7 @@ instance.interceptors.response.use(
 );
 
 const deleteData = () => {
+  alert('푸쉬알림 테스트 중 : intersepor deleteData');
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // console.log('================ getRfreshToken catch ================');
   // 리프레쉬 토큰을 요청하였는데도 실패가 했다는 건, 리프레쉬 토큰도 만료가 되었다는 것이기에 로그아웃 처리를 진행한다.

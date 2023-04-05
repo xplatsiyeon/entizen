@@ -22,6 +22,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     if (userAgent === 'Android_App') {
       setLoginChecking(true);
       window.entizen!.getUserInfo();
+      alert('푸쉬알림 테스트 중 : getUserIfno');
     } else if (userAgent === 'iOS_App') {
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
@@ -32,6 +33,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   useLayoutEffect(() => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
+      alert('푸쉬알림 테스트 중 : returnUserInfo');
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
