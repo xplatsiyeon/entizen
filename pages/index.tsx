@@ -20,10 +20,11 @@ const Home: NextPage<Props> = ({}: Props) => {
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
     if (userAgent === 'Android_App') {
-      alert('푸쉬알림 테스트 중 : getUserIfno');
+      alert('getUserIfno');
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
+      alert('getUserIfno');
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
@@ -72,6 +73,11 @@ const Home: NextPage<Props> = ({}: Props) => {
         alert('1뎁스');
         if (typeof userInfo === 'object') {
           alert('2뎁스');
+          alert(userInfo.SNS_MEMBER);
+          alert(userInfo.MEMBER_TYPE);
+          alert(userInfo.ACCESS_TOKEN);
+          alert(userInfo.REFRESH_TOKEN);
+          alert(userInfo.USER_ID);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
