@@ -89,8 +89,14 @@ instance.interceptors.response.use(
             await sessionStorage.removeItem('ACCESS_TOKEN');
             await sessionStorage.removeItem('REFRESH_TOKEN');
 
-            await sessionStorage.setItem('ACCESS_TOKEN', newAccessToken);
-            await sessionStorage.setItem('REFRESH_TOKEN', newRefreshToken);
+            await sessionStorage.setItem(
+              'ACCESS_TOKEN',
+              JSON.stringify(newAccessToken),
+            );
+            await sessionStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(newRefreshToken),
+            );
 
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
             return axios(originalRequest);
