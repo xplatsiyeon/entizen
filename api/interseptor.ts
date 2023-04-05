@@ -59,7 +59,6 @@ instance.interceptors.response.use(
       // console.log('⭐️ message : ', message);
       // alert('토큰 자체가 없는 경우');
       deleteData();
-      return Promise.reject(err);
     }
     /** 2 */
     // 에세스 토큰이 만료되면 리프레쉬 토큰을 헤더에 담아서 다시 서버로 받아와서 보낸다.
@@ -78,7 +77,8 @@ instance.interceptors.response.use(
         return await axios(config);
       }
     }
-    console.log('🔥 에세스 토큰 해더에 담아서 보내기');
+
+    return Promise.reject(err);
   },
 );
 
