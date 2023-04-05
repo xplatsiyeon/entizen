@@ -20,9 +20,9 @@ const Home: NextPage<Props> = ({}: Props) => {
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
     if (userAgent === 'Android_App') {
+      alert('푸쉬알림 테스트 중 : getUserIfno');
       setLoginChecking(true);
       window.entizen!.getUserInfo();
-      // alert('푸쉬알림 테스트 중 : getUserIfno');
     } else if (userAgent === 'iOS_App') {
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
@@ -33,7 +33,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   useLayoutEffect(() => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
-      // alert('푸쉬알림 테스트 중 : returnUserInfo');
+      alert('푸쉬알림 테스트 중 : returnUserInfo');
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
