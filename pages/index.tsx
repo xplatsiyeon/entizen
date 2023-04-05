@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
@@ -29,13 +29,10 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
 
-  // 앱 -> 웹
-  useLayoutEffect(() => {
-    alert(userAgent);
-    // 안드로이드 호출
+  async function returnUserInfo() {
     if (userAgent === 'Android_App') {
-      alert('푸쉬알림 테스트 중 : returnUserInfo');
-      window.returnUserInfo = (userInfo) => {
+      await alert('푸쉬알림 테스트 중 : returnUserInfo');
+      window.returnUserInfo = async (userInfo) => {
         alert('1뎁스');
         if (userInfo.length > 1) {
           alert('2뎁스');
@@ -45,30 +42,28 @@ const Home: NextPage<Props> = ({}: Props) => {
           alert(jsonGetUserInfo.ACCESS_TOKEN);
           alert(jsonGetUserInfo.REFRESH_TOKEN);
           alert(jsonGetUserInfo.USER_ID);
-          sessionStorage.setItem(
+          await sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
-          sessionStorage.setItem(
+          await sessionStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
-          sessionStorage.setItem(
+          await sessionStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
-          sessionStorage.setItem(
+          await sessionStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem(
+          await sessionStorage.setItem(
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
         }
-        setTimeout(() => {
-          setLoginChecking(false);
-        }, 2000);
+        setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
@@ -92,10 +87,76 @@ const Home: NextPage<Props> = ({}: Props) => {
           );
           sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
         }
-
         setLoginChecking(false);
       };
     }
+  }
+
+  // 앱 -> 웹
+  useEffect(() => {
+    alert(userAgent);
+    returnUserInfo();
+    // 안드로이드 호출
+    // if (userAgent === 'Android_App') {
+    //   alert('푸쉬알림 테스트 중 : returnUserInfo');
+    //   window.returnUserInfo = (userInfo) => {
+    //     alert('1뎁스');
+    //     if (userInfo.length > 1) {
+    //       alert('2뎁스');
+    //       const jsonGetUserInfo = JSON.parse(userInfo);
+    //       alert(jsonGetUserInfo.SNS_MEMBER);
+    //       alert(jsonGetUserInfo.MEMBER_TYPE);
+    //       alert(jsonGetUserInfo.ACCESS_TOKEN);
+    //       alert(jsonGetUserInfo.REFRESH_TOKEN);
+    //       alert(jsonGetUserInfo.USER_ID);
+    //       sessionStorage.setItem(
+    //         'SNS_MEMBER',
+    //         JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+    //       );
+    //       sessionStorage.setItem(
+    //         'MEMBER_TYPE',
+    //         JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+    //       );
+    //       sessionStorage.setItem(
+    //         'ACCESS_TOKEN',
+    //         JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+    //       );
+    //       sessionStorage.setItem(
+    //         'REFRESH_TOKEN',
+    //         JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+    //       );
+    //       sessionStorage.setItem(
+    //         'USER_ID',
+    //         JSON.stringify(jsonGetUserInfo.USER_ID),
+    //       );
+    //     }
+    //     setLoginChecking(false);
+    //   };
+    //   // 아이폰 호출
+    // } else if (userAgent === 'iOS_App') {
+    //   window.returnUserInfo = (userInfo) => {
+    //     if (typeof userInfo === 'object') {
+    //       sessionStorage.setItem(
+    //         'SNS_MEMBER',
+    //         JSON.stringify(userInfo.SNS_MEMBER),
+    //       );
+    //       sessionStorage.setItem(
+    //         'MEMBER_TYPE',
+    //         JSON.stringify(userInfo.MEMBER_TYPE),
+    //       );
+    //       sessionStorage.setItem(
+    //         'ACCESS_TOKEN',
+    //         JSON.stringify(userInfo.ACCESS_TOKEN),
+    //       );
+    //       sessionStorage.setItem(
+    //         'REFRESH_TOKEN',
+    //         JSON.stringify(userInfo.REFRESH_TOKEN),
+    //       );
+    //       sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+    //     }
+    //     setLoginChecking(false);
+    //   };
+    // }
   }, []);
 
   // if (loginChecking) {
