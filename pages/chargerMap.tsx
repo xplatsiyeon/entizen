@@ -17,6 +17,7 @@ import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import WebChargerInfo from 'componentsWeb/WebChargerInfo';
 import MapBiggerIcon from 'public/images/MapBiggerIcon.svg';
 import { css } from '@emotion/react';
+import colors from 'styles/colors';
 
 type Props = {};
 export interface SlowFast {
@@ -200,6 +201,8 @@ const HeaderWrap = styled.div`
   z-index: 999;
   position: sticky;
   top: 0;
+  left: 0;
+  background-color: ${colors.lightWhite};
 `;
 
 const WrapAddress = styled.div`
@@ -238,6 +241,7 @@ const FlexBox = styled.div`
 const MapWrap = styled.div<{ biggerClick?: boolean }>`
   flex: 1;
   position: relative;
+
   .addressHeader {
     ${({ biggerClick }) =>
       biggerClick &&
@@ -279,7 +283,7 @@ const WholeMap = styled.div<{ biggerClick?: boolean }>`
   position: fixed;
   height: 495pt;
   display: flex;
-  flex: 1;
+
   @media (max-width: 899.25pt) {
     display: block;
     width: calc(100vw - 30pt);
