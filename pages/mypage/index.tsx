@@ -69,9 +69,6 @@ const Request = () => {
     // console.log('유저 정보 에러');
   }
 
-  // alert(accessToken);
-  // alert(memberType);
-
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');

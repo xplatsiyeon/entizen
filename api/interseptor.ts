@@ -57,7 +57,7 @@ instance.interceptors.response.use(
     ) {
       console.log('================ 토큰 오류 발생 ================');
       // console.log('⭐️ message : ', message);
-      // alert('토큰 자체가 없는 경우');
+      alert('푸쉬알림 테스트 중 : token error');
       deleteData();
     }
     /** 2 */
@@ -83,6 +83,7 @@ instance.interceptors.response.use(
 );
 
 const deleteData = () => {
+  // alert('푸쉬알림 테스트 중 : intersepor deleteData');
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // console.log('================ getRfreshToken catch ================');
   // 리프레쉬 토큰을 요청하였는데도 실패가 했다는 건, 리프레쉬 토큰도 만료가 되었다는 것이기에 로그아웃 처리를 진행한다.
@@ -91,7 +92,7 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  window.location.href = '/';
+  // window.location.href = '/';
   appLogout(userAgent as string);
 };
 
@@ -133,7 +134,8 @@ const getRfreshToken = async (): Promise<string | void> => {
       console.log('🔥 리프레쉬 토큰 만료로 리셋');
       console.log('🔥 err : ', err);
       // alert('리프레쉬 토큰 만료');
-      deleteData();
+      // alert('푸쉬알림 테스트 중 : refresh token expired');
+      // deleteData();
     });
 };
 
