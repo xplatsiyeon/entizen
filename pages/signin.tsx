@@ -178,12 +178,12 @@ const Signin = () => {
           JSON.stringify(resData.refreshToken),
         );
 
-        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-        setCookie('USER_ID', JSON.stringify(jsonData.email));
-        setCookie('ACCESS_TOKEN', JSON.stringify(resData.accessToken));
-        setCookie('REFRESH_TOKEN', JSON.stringify(resData.refreshToken));
-        dispatch(originUserAction.set(jsonData.email));
+        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
+        // setCookie('USER_ID', JSON.stringify(jsonData.email));
+        // setCookie('ACCESS_TOKEN', JSON.stringify(resData.accessToken));
+        // setCookie('REFRESH_TOKEN', JSON.stringify(resData.refreshToken));
+        // dispatch(originUserAction.set(jsonData.email));
 
         // ================ 브릿지 연결 =====================
         const userInfo = {
@@ -297,12 +297,12 @@ const Signin = () => {
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
 
-        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-        setCookie('USER_ID', JSON.stringify(data.user.email));
-        setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-        dispatch(originUserAction.set(data.user.email));
+        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
+        // setCookie('USER_ID', JSON.stringify(data.user.email));
+        // setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        // setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        // dispatch(originUserAction.set(data.user.email));
 
         // ================브릿지 연결=====================
         const userInfo = {
@@ -568,10 +568,10 @@ const Signin = () => {
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
 
-        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        setCookie('USER_ID', JSON.stringify(result.email));
-        setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        // setCookie('USER_ID', JSON.stringify(result.email));
+        // setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        // setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(result.email));
 
         // ================브릿지 연결=====================

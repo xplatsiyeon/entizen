@@ -44,11 +44,11 @@ function useLogin(
       );
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
 
-      setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-      setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-      setCookie('ACCESS_TOKEN', JSON.stringify(res.data.accessToken));
-      setCookie('REFRESH_TOKEN', JSON.stringify(res.data.refreshToken));
-      setCookie('USER_ID', JSON.stringify(userId));
+      // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+      // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
+      // setCookie('ACCESS_TOKEN', JSON.stringify(res.data.accessToken));
+      // setCookie('REFRESH_TOKEN', JSON.stringify(res.data.refreshToken));
+      // setCookie('USER_ID', JSON.stringify(userId));
 
       dispatch(originUserAction.set(userId));
 

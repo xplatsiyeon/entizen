@@ -20,11 +20,9 @@ const Home: NextPage<Props> = ({}: Props) => {
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
     if (userAgent === 'Android_App') {
-      alert('getUserIfno');
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
-      alert('getUserIfno');
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
@@ -36,38 +34,38 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          sessionStorage.setItem(
+          localStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
-          sessionStorage.setItem(
+          localStorage.setItem(
             'MEMBER_TYPE',
             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
-          sessionStorage.setItem(
+          localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
-          sessionStorage.setItem(
+          localStorage.setItem(
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem(
+          localStorage.setItem(
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
 
-          setCookie('SNS_MEMBER', JSON.stringify(jsonGetUserInfo.SNS_MEMBER));
-          setCookie('MEMBER_TYPE', JSON.stringify(jsonGetUserInfo.MEMBER_TYPE));
-          setCookie(
-            'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          );
-          setCookie(
-            'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          );
-          setCookie('USER_ID', JSON.stringify(jsonGetUserInfo.USER_ID));
+          // setCookie('SNS_MEMBER', JSON.stringify(jsonGetUserInfo.SNS_MEMBER));
+          // setCookie('MEMBER_TYPE', JSON.stringify(jsonGetUserInfo.MEMBER_TYPE));
+          // setCookie(
+          //   'ACCESS_TOKEN',
+          //   JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+          // );
+          // setCookie(
+          //   'REFRESH_TOKEN',
+          //   JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+          // );
+          // setCookie('USER_ID', JSON.stringify(jsonGetUserInfo.USER_ID));
         }
         setLoginChecking(false);
       };
