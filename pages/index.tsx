@@ -29,9 +29,9 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
 
-  async function returnUserInfo() {
+  const returnUserInfo = () => {
     if (userAgent === 'Android_App') {
-      await alert('푸쉬알림 테스트 중 : returnUserInfo');
+      alert('aos returnUserInfo');
       window.returnUserInfo = async (userInfo) => {
         alert('1뎁스');
         if (userInfo.length > 1) {
@@ -67,8 +67,11 @@ const Home: NextPage<Props> = ({}: Props) => {
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
+      alert('ios returnUserInfo');
       window.returnUserInfo = (userInfo) => {
+        alert('1뎁스');
         if (typeof userInfo === 'object') {
+          alert('2뎁스');
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
@@ -90,11 +93,11 @@ const Home: NextPage<Props> = ({}: Props) => {
         setLoginChecking(false);
       };
     }
-  }
+  };
 
   // 앱 -> 웹
   useEffect(() => {
-    alert(userAgent);
+    // alert(userAgent);
     returnUserInfo();
     // 안드로이드 호출
     // if (userAgent === 'Android_App') {
