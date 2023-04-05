@@ -3,6 +3,7 @@ import { appLogout } from 'bridge/appToWeb';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const REFRESH_URL = `${BASE_URL}/auth/token`;
+let isRefreshing = false;
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -68,36 +69,43 @@ instance.interceptors.response.use(
       originalRequest.sent = true;
       const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
       const refreshToken = JSON.parse(sessionStorage.getItem('REFRESH_TOKEN')!);
-      await axios
-        .post(REFRESH_URL, {
-          accessToken,
-          refreshToken,
-        })
-        .then(async (res) => {
-          console.log('============ getRfreshToken then ===============');
-          console.log('res=>', res);
-          // 리프레쉬 토큰 요청 후 성공하면 로컬스토리지에 에세스 토큰과 리프레쉬 토큰을 저장한다.
-          const newAccessToken = await res.data.accessToken;
-          const newRefreshToken = await res.data.refreshToken;
-          console.log('🔥 newAccessToken : ', newAccessToken);
-          console.log('🔥 newRefreshToken : ', newRefreshToken);
+      if (!isRefreshing) {
+        isRefreshing = true;
 
-          await sessionStorage.removeItem('ACCESS_TOKEN');
-          await sessionStorage.removeItem('REFRESH_TOKEN');
+        await axios
+          .post(REFRESH_URL, {
+            accessToken,
+            refreshToken,
+          })
+          .then(async (res) => {
+            console.log('============ getRfreshToken then ===============');
+            console.log('res=>', res);
+            // 리프레쉬 토큰 요청 후 성공하면 로컬스토리지에 에세스 토큰과 리프레쉬 토큰을 저장한다.
+            const newAccessToken = await res.data.accessToken;
+            const newRefreshToken = await res.data.refreshToken;
+            console.log('🔥 newAccessToken : ', newAccessToken);
+            console.log('🔥 newRefreshToken : ', newRefreshToken);
 
-          await sessionStorage.setItem('ACCESS_TOKEN', newAccessToken);
-          await sessionStorage.setItem('REFRESH_TOKEN', newRefreshToken);
+            await sessionStorage.removeItem('ACCESS_TOKEN');
+            await sessionStorage.removeItem('REFRESH_TOKEN');
 
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          return axios(originalRequest);
-        })
-        .catch((err) => {
-          // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
-          console.log('🔥 리프레쉬 토큰 만료로 리셋');
-          console.log('🔥 err : ', err);
-          alert('리프레쉬 토큰 만료');
-          deleteData();
-        });
+            await sessionStorage.setItem('ACCESS_TOKEN', newAccessToken);
+            await sessionStorage.setItem('REFRESH_TOKEN', newRefreshToken);
+
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            return axios(originalRequest);
+          })
+          .catch((err) => {
+            // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
+            console.log('🔥 리프레쉬 토큰 만료로 리셋');
+            console.log('🔥 err : ', err);
+            alert('리프레쉬 토큰 만료');
+            deleteData();
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      }
 
       // console.log('ACCESS_TOKEN 확인', ACCESS_TOKEN);
       // alert(ACCESS_TOKEN);
