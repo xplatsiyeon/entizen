@@ -37,7 +37,11 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          alert(userInfo);
+          alert(jsonGetUserInfo.SNS_MEMBER);
+          alert(jsonGetUserInfo.MEMBER_TYPE);
+          alert(jsonGetUserInfo.ACCESS_TOKEN);
+          alert(jsonGetUserInfo.REFRESH_TOKEN);
+          alert(jsonGetUserInfo.USER_ID);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
