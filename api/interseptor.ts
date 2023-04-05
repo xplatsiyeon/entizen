@@ -136,7 +136,7 @@ const getRfreshToken = async (): Promise<string | void> => {
       console.log('🔥 err : ', err);
       // alert('리프레쉬 토큰 만료');
       // alert('푸쉬알림 테스트 중 : refresh token expired');
-      // deleteData();
+      deleteData();
     });
 };
 
