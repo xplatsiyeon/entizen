@@ -12,7 +12,7 @@ interface Props {
 const Home: NextPage<Props> = ({}: Props) => {
   const landingPage = window.location.href === 'https://entizen.kr/';
 
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const userAgent = JSON.parse(sessionStorage?.getItem('userAgent')!);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
 
@@ -34,9 +34,11 @@ const Home: NextPage<Props> = ({}: Props) => {
     alert(userAgent);
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
-      // alert('푸쉬알림 테스트 중 : returnUserInfo');
+      alert('푸쉬알림 테스트 중 : returnUserInfo');
       window.returnUserInfo = (userInfo) => {
+        alert('1뎁스');
         if (userInfo.length > 1) {
+          alert('2뎁스');
           const jsonGetUserInfo = JSON.parse(userInfo);
           alert(jsonGetUserInfo.SNS_MEMBER);
           alert(jsonGetUserInfo.MEMBER_TYPE);
@@ -64,7 +66,9 @@ const Home: NextPage<Props> = ({}: Props) => {
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
         }
-        setLoginChecking(false);
+        setTimeout(() => {
+          setLoginChecking(false);
+        }, 2000);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
