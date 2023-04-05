@@ -298,6 +298,6 @@ const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 0pt 9pt 0;
+  margin: 6pt 9pt 0;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
