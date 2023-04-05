@@ -13,6 +13,7 @@ import { AppProps } from 'next/app';
 import { useDispatch } from 'react-redux';
 import { userAgentAction } from 'store/userAgent';
 import { useRouter } from 'next/router';
+import { CookiesProvider } from 'react-cookie';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -51,30 +52,32 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <Suspense fallback={<Loader />}>
-      <ApolloProvider client={client}>
-        <QueryClientProvider client={queryClient}>
-          <PersistGate persistor={persistor} loading={<div>loading...</div>}>
-            <GoogleOAuthProvider
-              clientId={
-                '648537683223-gn7j135rk9b1scqroj2botm8t746ci9i.apps.googleusercontent.com'
-              }
-            >
-              {/* <CustomProvider locale={koKR}> */}
-              <Head>
-                {/* <meta charSet="utf-8" /> */}
-                <meta
-                  name="viewport"
-                  content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
-                />
-                <title>Next Naver maps</title>
-              </Head>
-              {/* </CustomProvider> */}
-              <Component {...pageProps} />
-            </GoogleOAuthProvider>
-          </PersistGate>
-          <ReactQueryDevtools initialIsOpen={true} />
-        </QueryClientProvider>
-      </ApolloProvider>
+      <CookiesProvider>
+        <ApolloProvider client={client}>
+          <QueryClientProvider client={queryClient}>
+            <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+              <GoogleOAuthProvider
+                clientId={
+                  '648537683223-gn7j135rk9b1scqroj2botm8t746ci9i.apps.googleusercontent.com'
+                }
+              >
+                {/* <CustomProvider locale={koKR}> */}
+                <Head>
+                  {/* <meta charSet="utf-8" /> */}
+                  <meta
+                    name="viewport"
+                    content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+                  />
+                  <title>Next Naver maps</title>
+                </Head>
+                {/* </CustomProvider> */}
+                <Component {...pageProps} />
+              </GoogleOAuthProvider>
+            </PersistGate>
+            <ReactQueryDevtools initialIsOpen={true} />
+          </QueryClientProvider>
+        </ApolloProvider>
+      </CookiesProvider>
     </Suspense>
   );
 };

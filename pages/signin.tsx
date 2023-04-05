@@ -34,6 +34,7 @@ import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
 import { useNaverAuthHook } from 'hooks/useNaverAuthHook';
+import { useCookies } from 'react-cookie';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -104,6 +105,9 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
+  // 데이터 쿠키에 저장
+  const [cookies, setCookie, removeCookie] = useCookies();
+
   const appleRef = useRef<HTMLDivElement>(null);
 
   const { login } = useNaverAuthHook();
@@ -173,6 +177,12 @@ const Signin = () => {
           'REFRESH_TOKEN',
           JSON.stringify(resData.refreshToken),
         );
+
+        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
+        setCookie('USER_ID', JSON.stringify(jsonData.email));
+        setCookie('ACCESS_TOKEN', JSON.stringify(resData.accessToken));
+        setCookie('REFRESH_TOKEN', JSON.stringify(resData.refreshToken));
         dispatch(originUserAction.set(jsonData.email));
 
         // ================ 브릿지 연결 =====================
@@ -286,6 +296,12 @@ const Signin = () => {
         sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+
+        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
+        setCookie('USER_ID', JSON.stringify(data.user.email));
+        setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(data.user.email));
 
         // ================브릿지 연결=====================
@@ -551,6 +567,11 @@ const Signin = () => {
         sessionStorage.setItem('USER_ID', JSON.stringify(result.email));
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+
+        setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        setCookie('USER_ID', JSON.stringify(result.email));
+        setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+        setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(result.email));
 
         // ================브릿지 연결=====================
