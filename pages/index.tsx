@@ -31,6 +31,7 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   // 앱 -> 웹
   useLayoutEffect(() => {
+    alert('호출');
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
       // alert('푸쉬알림 테스트 중 : returnUserInfo');

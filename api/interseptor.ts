@@ -57,7 +57,7 @@ instance.interceptors.response.use(
     ) {
       console.log('================ 토큰 오류 발생 ================');
       // console.log('⭐️ message : ', message);
-      // alert('푸쉬알림 테스트 중 :', message);
+      alert(message);
       deleteData();
     }
 
