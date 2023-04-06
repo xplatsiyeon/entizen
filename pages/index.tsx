@@ -29,68 +29,63 @@ const Home: NextPage<Props> = ({}: Props) => {
   //   }
   // }, []);
 
-  // // 유저 정보 받아오기
-  // const returnUserInfo = () => {
-  //   if (userAgent === 'Android_App') {
-  //     window.returnUserInfo = (userInfo) => {
-  //       if (userInfo.length > 1) {
-  //         const jsonGetUserInfo = JSON.parse(userInfo);
-  //         sessionStorage.setItem(
-  //           'SNS_MEMBER',
-  //           JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-  //         );
-  //         sessionStorage.setItem(
-  //           'MEMBER_TYPE',
-  //           JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-  //         );
-  //         sessionStorage.setItem(
-  //           'ACCESS_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'REFRESH_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'USER_ID',
-  //           JSON.stringify(jsonGetUserInfo.USER_ID),
-  //         );
-  //       }
-  //       setLoginChecking(false);
-  //     };
-  //     // 아이폰 호출
-  //   } else if (userAgent === 'iOS_App') {
-  //     window.returnUserInfo = (userInfo) => {
-  //       if (typeof userInfo === 'object') {
-  //         alert('returnUserInfo 실행');
-  //         sessionStorage.setItem(
-  //           'SNS_MEMBER',
-  //           JSON.stringify(userInfo.SNS_MEMBER),
-  //         );
-  //         sessionStorage.setItem(
-  //           'MEMBER_TYPE',
-  //           JSON.stringify(userInfo.MEMBER_TYPE),
-  //         );
-  //         sessionStorage.setItem(
-  //           'ACCESS_TOKEN',
-  //           JSON.stringify(userInfo.ACCESS_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'REFRESH_TOKEN',
-  //           JSON.stringify(userInfo.REFRESH_TOKEN),
-  //         );
-  //         sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
-  //       }
-  //       setLoginChecking(false);
-  //     };
-  //   }
-  // };
-
-  // // 앱 -> 웹
-  // useEffect(() => {
-  //   returnUserInfo();
-  // }, []);
-
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 유저 정보 받아오기
+    if (userAgent === 'Android_App') {
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem(
+            'USER_ID',
+            JSON.stringify(jsonGetUserInfo.USER_ID),
+          );
+        }
+        // setLoginChecking(false);
+      };
+      // 아이폰 호출
+    } else if (userAgent === 'iOS_App') {
+      window.returnUserInfo = (userInfo) => {
+        if (typeof userInfo === 'object') {
+          alert('returnUserInfo 실행2222');
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(userInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(userInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(userInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(userInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+        }
+        // setLoginChecking(false);
+      };
+    }
+  }, []);
   // if (loginChecking) {
   // return <Loader />;
   // }

@@ -36,9 +36,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [queryClient]);
 
-  useEffect(() => {
-    const iOS = navigator.userAgent.match(/iOS_App/i);
-    const Android = navigator.userAgent.match(/Android_App/i);
+  const iOS = navigator.userAgent.match(/iOS_App/i);
+  const Android = navigator.userAgent.match(/Android_App/i);
+  useLayoutEffect(() => {
     if (iOS) {
       sessionStorage.setItem('userAgent', JSON.stringify('iOS_App'));
       dispatch(userAgentAction.set('iOS_App'));
@@ -52,8 +52,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
-    const iOS = navigator.userAgent.match(/iOS_App/i);
-    const Android = navigator.userAgent.match(/Android_App/i);
     if (Android) {
       // setLoginChecking(true);
       window.entizen!.getUserInfo();
@@ -64,10 +62,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   }, []);
 
-  // 유저 정보 받아오기
-  const returnUserInfo = () => {
-    const iOS = navigator.userAgent.match(/iOS_App/i);
-    const Android = navigator.userAgent.match(/Android_App/i);
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 유저 정보 받아오기
     if (Android) {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
@@ -121,11 +118,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         // setLoginChecking(false);
       };
     }
-  };
-
-  // 앱 -> 웹
-  useEffect(() => {
-    returnUserInfo();
   }, []);
 
   return (
