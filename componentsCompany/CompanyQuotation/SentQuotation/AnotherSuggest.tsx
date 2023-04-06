@@ -3,8 +3,7 @@ import MypageHeader from 'components/mypage/request/header';
 import WebHeader from 'componentsWeb/WebHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import Modal from 'components/Modal/Modal';
@@ -14,15 +13,17 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
 import BackImg from 'public/images/back-btn.svg';
+import ScheduleIcon from 'public/mypage/schedule-icon.svg';
+import { type } from 'os';
 
 type Props = {};
 
 const AnotherSuggest = (props: Props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [selectedDaysArr, setSelectedDaysArr] = useState<string[]>([]);
   const [isModal, setIsModal] = useState(false); // 모달
+  const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
   const {
     mutate: postMutate,
     isLoading,
@@ -92,6 +93,17 @@ const AnotherSuggest = (props: Props) => {
       />
     );
   }
+
+  useEffect(() => {
+    if (selectedDaysArr.length > 0) {
+      SetIsValid(true);
+    } else {
+      SetIsValid(false);
+    }
+  }, [selectedDaysArr]);
+
+  // useEffect(() => {}, [selectedDaysArr]);
+
   if (spotIsError) {
     // console.log('🔥 ~line 42 에러 코드');
     // console.log(spotError);
@@ -133,31 +145,30 @@ const AnotherSuggest = (props: Props) => {
               SetSelectedDays={SetSelectedDays}
               selectedDaysArr={selectedDaysArr}
               setSelectedDaysArr={setSelectedDaysArr}
-              days={days}
+              days={days?.sort()}
               types={'company'}
             />
-            {/* <Explanation> */}
-            {/* * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
-              <br />
-              담당자로부터 현장사진을 요청받을 수 있습니다. */}
-            {/* </Explanation> */}
-            {/* <Schedule>
-              <h3 className="name">선택된 일정</h3>
+            <Schedule>
+              {days?.length > 0 && <h3 className="name">재선택 일정</h3>}
               <UL>
-                {selectedDays.map((day, index) => (
-                  <li className="list" key={index}>
-                    <div className="img-box">
-                      <Image src={ScheduleIcon} alt="img" />
-                    </div>
-                    <div className="due-date">
-                      <div>현장실사 방문 예정일</div>
-                      <div>{day}</div>
-                    </div>
-                  </li>
+                {selectedDaysArr?.sort().map((day, index) => (
+                  <>
+                    <li className="list" key={index}>
+                      <div className="img-box">
+                        <Image src={ScheduleIcon} alt="img" />
+                      </div>
+                      <div className="due-date">
+                        <div>현장실사 방문 예정일</div>
+                        <div>{day}</div>
+                      </div>
+                    </li>
+                  </>
                 ))}
+                <Btn isValid={isValid} onClick={onClickBtn}>
+                  다른 일정 제안하기
+                </Btn>
               </UL>
-            </Schedule> */}
-            <Btn onClick={onClickBtn}>다른 일정 제안하기</Btn>
+            </Schedule>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -264,41 +275,52 @@ const Explanation = styled.p`
   border-bottom: 1px solid #e9eaee;
 `;
 const Schedule = styled.div`
-  padding: 18pt 15pt 0 15pt;
+  padding: 18pt 15pt 70pt 15pt;
+  font-family: 'Spoqa Han Sans Neo';
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
     color: ${colors.main2};
   }
+  @media (min-width: 900pt) {
+    padding: 18pt 47.25pt 0 47.25pt;
+  }
 `;
 const UL = styled.ul`
   padding-top: 24pt;
+  font-family: 'Spoqa Han Sans Neo';
   .list {
-    background-color: rgba(90, 45, 201, 0.7);
+    font-family: 'Spoqa Han Sans Neo';
+    /* background-color: #e2e5ed; */
+    background: rgba(90, 45, 201, 0.7);
     border-radius: 6pt;
     padding: 6pt;
     margin-bottom: 9pt;
     display: flex;
     gap: 12pt;
   }
+  .img-box {
+    height: 36pt;
+  }
   .due-date {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 9pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    //padding-top: 2pt;
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 8px;
+    gap: 6pt;
   }
 `;
-const Btn = styled.button`
+const Btn = styled.button<{ isValid: boolean }>`
   position: absolute;
   bottom: 0;
-  background-color: ${colors.main};
+  background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
   width: 100%;
   text-align: center;
   padding-top: 15pt;
@@ -308,6 +330,7 @@ const Btn = styled.button`
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightWhite};
   cursor: pointer;
   @media (max-width: 899.25pt) {
@@ -317,10 +340,10 @@ const Btn = styled.button`
   }
 
   @media (min-width: 900pt) {
-    position: relative;
     border-radius: 8px;
     width: 251.25pt;
-    margin-left: 47.25pt;
+    position: relative;
+    margin-top: 50pt;
   }
 `;
 

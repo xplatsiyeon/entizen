@@ -20,11 +20,8 @@ import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
-import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
 import Loader from 'components/Loader';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 
 export interface BusinessRegistrationType {
   url: string;
@@ -48,7 +45,7 @@ type Props = {
   subscribeProduct: string;
   subscribePeriod: string;
   userInvestRate: string;
-  chargingPointRate: string;
+  companyInvestRate: string;
   subscribePricePerMonth: string;
   chargers: chargers[];
   detailQuotationFiles: BusinessRegistrationType[];
@@ -57,9 +54,7 @@ type Props = {
   subscribeProductFeature: string;
   chargingStationInstallationPrice: string;
 };
-const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
-  isHomePercent,
   tabNumber,
   setTabNumber,
   canNext,
@@ -72,7 +67,7 @@ const ThirdStep = ({
   subscribeProduct,
   subscribePeriod,
   userInvestRate,
-  chargingPointRate,
+  companyInvestRate,
   subscribePricePerMonth,
   chargers,
   constructionPeriod,
@@ -80,11 +75,8 @@ const ThirdStep = ({
   subscribeProductFeature,
   chargingStationInstallationPrice,
 }: Props) => {
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-
   const router = useRouter();
-
   const routerId = router?.query?.finalQuotationIdx!;
   const fileRef = useRef<HTMLInputElement>(null);
   // 에러 모달
@@ -239,7 +231,14 @@ const ThirdStep = ({
   });
   // 보내기 API 함수
   const onClickPost = () => {
-    // console.log(changeCharger);
+    const newUserInvestRate =
+      userInvestRate === '-'
+        ? '0'
+        : Math.floor(Number(userInvestRate)) / 100 + '';
+    const newCompanyInvestRate =
+      companyInvestRate === '-'
+        ? '100'
+        : Math.floor(Number(companyInvestRate)) / 100 + '';
 
     const data = {
       quotationRequestIdx: quotationRequestIdx,
@@ -253,8 +252,8 @@ const ThirdStep = ({
         Number(chargingStationInstallationPrice.replaceAll(',', '')),
       ),
       subscribePeriod: subscribePeriod.slice(0, 2),
-      userInvestRate: Math.floor(Number(userInvestRate)) / 100 + '',
-      chargingPointRate: Math.floor(Number(chargingPointRate)) / 100 + '',
+      userInvestRate: newUserInvestRate,
+      chargingPointRate: newCompanyInvestRate,
       subscribePricePerMonth: Math.floor(
         Number(subscribePricePerMonth.replaceAll(',', '')),
       ),
@@ -265,9 +264,6 @@ const ThirdStep = ({
       subscribeProductFeature: subscribeProductFeature,
     };
 
-    // console.log(data);
-    // console.log(userInvestRate);
-    // console.log(chargingPointRate);
     if (canNext) {
       postMutate({
         url: '/quotations/final',
@@ -278,31 +274,42 @@ const ThirdStep = ({
   // 수정하기 API 함수
   const onClickPut = () => {
     if (canNext) {
+      const newUserInvestRate =
+        userInvestRate === '-'
+          ? '0'
+          : Math.floor(Number(userInvestRate)) / 100 + '';
+      const newCompanyInvestRate =
+        companyInvestRate === '-'
+          ? '100'
+          : Math.floor(Number(companyInvestRate)) / 100 + '';
+
+      const data = {
+        quotationRequestIdx: quotationRequestIdx,
+        preQuotationIdx: preQuotationIdx,
+        subscribeProduct: convertEn(
+          subscribeType,
+          subscribeTypeEn,
+          subscribeProduct,
+        ),
+        chargingStationInstallationPrice: Math.floor(
+          Number(chargingStationInstallationPrice.replaceAll(',', '')),
+        ),
+        subscribePeriod: subscribePeriod.slice(0, 2),
+        userInvestRate: newUserInvestRate,
+        chargingPointRate: newCompanyInvestRate,
+        subscribePricePerMonth: Math.floor(
+          Number(subscribePricePerMonth.replaceAll(',', '')),
+        ),
+        chargers: changeCharger,
+        detailQuotationFiles: BusinessRegistration,
+        constructionPeriod: constructionPeriod,
+        spotInspectionResult: spotInspectionResult,
+        subscribeProductFeature: subscribeProductFeature,
+      };
+
       putMutate({
         url: `/quotations/final/${routerId}`,
-        data: {
-          quotationRequestIdx: quotationRequestIdx,
-          preQuotationIdx: preQuotationIdx,
-          subscribeProduct: convertEn(
-            subscribeType,
-            subscribeTypeEn,
-            subscribeProduct,
-          ),
-          chargingStationInstallationPrice: Math.floor(
-            Number(chargingStationInstallationPrice.replaceAll(',', '')),
-          ),
-          subscribePeriod: subscribePeriod.slice(0, 2),
-          userInvestRate: Math.floor(Number(userInvestRate)) / 100 + '',
-          chargingPointRate: Math.floor(Number(chargingPointRate)) / 100 + '',
-          subscribePricePerMonth: Math.floor(
-            Number(subscribePricePerMonth.replaceAll(',', '')),
-          ),
-          chargers: changeCharger,
-          detailQuotationFiles: BusinessRegistration,
-          constructionPeriod: constructionPeriod,
-          spotInspectionResult: spotInspectionResult,
-          subscribeProductFeature: subscribeProductFeature,
-        },
+        data: data,
       });
     }
   };

@@ -32,10 +32,10 @@ type Props = {
   setSubscribeProduct: Dispatch<SetStateAction<string>>;
   subscribePeriod: string;
   setSubscribePeriod: Dispatch<SetStateAction<string>>;
-  profitableInterestUser: string;
-  setProfitableInterestUser: Dispatch<SetStateAction<string>>;
-  chargePoint: string;
-  setChargePoint: Dispatch<SetStateAction<string>>;
+  userInvestRate: string;
+  setUserInvestRate: Dispatch<SetStateAction<string>>;
+  companyInvestRate: string;
+  setCompanyInvestRate: Dispatch<SetStateAction<string>>;
   subscribePricePerMonth: string;
   setSubscribePricePerMonth: Dispatch<SetStateAction<string>>;
   selectedOption: chargers[];
@@ -69,10 +69,10 @@ const FirstStep = ({
   setSubscribeProduct,
   subscribePeriod,
   setSubscribePeriod,
-  profitableInterestUser,
-  setProfitableInterestUser,
-  chargePoint,
-  setChargePoint,
+  userInvestRate,
+  setUserInvestRate,
+  companyInvestRate,
+  setCompanyInvestRate,
   subscribePricePerMonth,
   setSubscribePricePerMonth,
   selectedOption,
@@ -240,28 +240,21 @@ const FirstStep = ({
     const opponentNum = Number(opponentState);
     const targetResult = 100 - valueNum;
     const valueResult = 100 - opponentNum;
-    const input: HTMLInputElement[] | null = Array.from(
-      document.querySelectorAll('.MuiInputBase-input'),
-    );
 
     if (e.currentTarget.value === '-') {
       setOpponentState('-');
       setState('-');
-      // setIsHomePercent(true);
     } else {
       if (valueNum + opponentNum !== 100) {
         if (targetResult <= 100 && targetResult > -1) {
           setOpponentState(targetResult.toString());
-          // setOpponentState(str);
         }
       } else {
         if (valueResult <= 100 && valueResult > -1) {
           setState(valueResult.toString());
-          // setState(str);
         }
       }
       setState(str);
-      // setState(e.target.value);
     }
   };
 
@@ -290,8 +283,8 @@ const FirstStep = ({
     if (
       subscribeProduct !== '' &&
       subscribePeriod !== '' &&
-      profitableInterestUser !== '' &&
-      chargePoint !== '' &&
+      userInvestRate !== '' &&
+      companyInvestRate !== '' &&
       subscribePricePerMonth !== '' &&
       dueDiligenceResult !== '' &&
       selectedOption.filter((e) => {
@@ -307,8 +300,8 @@ const FirstStep = ({
     selectedOption,
     subscribeProduct,
     subscribePeriod,
-    profitableInterestUser,
-    chargePoint,
+    userInvestRate,
+    companyInvestRate,
     dueDiligenceResult,
     subscribePricePerMonth,
     chargingStationInstallationPrice,
@@ -316,9 +309,9 @@ const FirstStep = ({
 
   // 수익 지분 100% 맞춰 주는 업데이트 useEffect
   useEffect(() => {
-    console.log(profitableInterestUser);
-    console.log(chargePoint);
-  }, [profitableInterestUser, chargePoint]);
+    console.log(userInvestRate);
+    console.log(companyInvestRate);
+  }, [userInvestRate, companyInvestRate]);
   // 충전기 개수
   useEffect(() => {
     const num = selectedOption.length;
@@ -379,18 +372,17 @@ const FirstStep = ({
                   value={
                     isHomePercent === true
                       ? '-'
-                      : profitableInterestUser[0] !== '0'
-                      ? profitableInterestUser
-                      : profitableInterestUser.replace(/(^0+)/, '')
+                      : userInvestRate[0] !== '0'
+                      ? userInvestRate
+                      : userInvestRate.replace(/(^0+)/, '')
                   }
-                  // value={profitableInterestUser}
                   className="inputText inputTextLeft"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
-                      setProfitableInterestUser,
-                      chargePoint,
-                      setChargePoint,
+                      setUserInvestRate,
+                      companyInvestRate,
+                      setCompanyInvestRate,
                     );
                   }}
                   type="text"
@@ -416,18 +408,17 @@ const FirstStep = ({
                   value={
                     isHomePercent === true
                       ? '-'
-                      : chargePoint[0] !== '0'
-                      ? chargePoint
-                      : chargePoint.replace(/(^0+)/, '')
+                      : companyInvestRate[0] !== '0'
+                      ? companyInvestRate
+                      : companyInvestRate.replace(/(^0+)/, '')
                   }
-                  // value={chargePoint}
                   className="inputText inputTextRight"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
-                      setChargePoint,
-                      profitableInterestUser,
-                      setProfitableInterestUser,
+                      setCompanyInvestRate,
+                      userInvestRate,
+                      setUserInvestRate,
                     );
                   }}
                   type="text"
