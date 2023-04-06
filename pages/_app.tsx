@@ -55,7 +55,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     if (Android) {
       window.entizen!.getUserInfo();
     } else if (iOS) {
-      alert('getUserInfo 실행1');
+      // alert('getUserInfo 실행1');
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
   }, []);
@@ -94,7 +94,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     } else if (iOS) {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          alert('returnUserInfo 실행1');
+          // alert('returnUserInfo 실행1');
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
