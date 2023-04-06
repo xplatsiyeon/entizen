@@ -23,6 +23,7 @@ const Home: NextPage<Props> = ({}: Props) => {
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
+      alert('getUserInfo 실행');
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }

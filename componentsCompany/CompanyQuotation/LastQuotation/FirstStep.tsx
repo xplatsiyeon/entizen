@@ -240,10 +240,14 @@ const FirstStep = ({
     const opponentNum = Number(opponentState);
     const targetResult = 100 - valueNum;
     const valueResult = 100 - opponentNum;
+    const input: HTMLInputElement[] | null = Array.from(
+      document.querySelectorAll('.MuiInputBase-input'),
+    );
 
     if (e.currentTarget.value === '-') {
       setOpponentState('-');
       setState('-');
+      // setIsHomePercent(true);
     } else {
       if (valueNum + opponentNum !== 100) {
         if (targetResult <= 100 && targetResult > -1) {
@@ -371,6 +375,7 @@ const FirstStep = ({
               <SubTitle>고객</SubTitle>
               <SmallInputBox>
                 <Input
+                  isHomePercent={isHomePercent}
                   value={
                     isHomePercent === true
                       ? '-'
@@ -407,6 +412,7 @@ const FirstStep = ({
               </SubTitle>
               <SmallInputBox>
                 <Input
+                  isHomePercent={isHomePercent}
                   value={
                     isHomePercent === true
                       ? '-'
@@ -836,13 +842,14 @@ const AfterWord = styled.div`
     color: #222222;
   }
 `;
-const Input = styled(TextField)`
-  b & input {
+const Input = styled(TextField)<{ isHomePercent?: boolean }>`
+  & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
+    color: ${({ isHomePercent }) => isHomePercent === true && '#caccd1'};
   }
   /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
