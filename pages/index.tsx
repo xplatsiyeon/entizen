@@ -54,18 +54,6 @@ const Home: NextPage<Props> = ({}: Props) => {
             'USER_ID',
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
-
-          // setCookie('SNS_MEMBER', JSON.stringify(jsonGetUserInfo.SNS_MEMBER));
-          // setCookie('MEMBER_TYPE', JSON.stringify(jsonGetUserInfo.MEMBER_TYPE));
-          // setCookie(
-          //   'ACCESS_TOKEN',
-          //   JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          // );
-          // setCookie(
-          //   'REFRESH_TOKEN',
-          //   JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          // );
-          // setCookie('USER_ID', JSON.stringify(jsonGetUserInfo.USER_ID));
         }
         setLoginChecking(false);
       };
@@ -73,6 +61,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
+          alert('returnUserInfo 실행');
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),

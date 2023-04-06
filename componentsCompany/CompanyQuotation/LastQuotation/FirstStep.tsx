@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   M5_LIST,
   M5_LIST_EN,
@@ -23,6 +23,7 @@ import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation'
 
 type Props = {
   isHomePercent: boolean;
+  setIsHomePercent: Dispatch<SetStateAction<boolean>>;
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
@@ -59,6 +60,7 @@ const subScribe = ['전체구독', '부분구독'];
 const subscribeType: string[] = ['24 개월', '36 개월', '48 개월', '60 개월'];
 const FirstStep = ({
   isHomePercent,
+  setIsHomePercent,
   tabNumber,
   setTabNumber,
   canNext,
@@ -91,6 +93,7 @@ const FirstStep = ({
   setChargingStationInstallationPrice,
 }: Props) => {
   console.log('🔥 selectedOption : ', selectedOption);
+  const [isChangePoint, setIsChangePoint] = useState(false);
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: chargers[] = [...selectedOption];
@@ -228,24 +231,34 @@ const FirstStep = ({
   const onChangeProfitableInterestUser = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     setState: Dispatch<SetStateAction<string>>,
-    opponent: string,
-    opponentState: Dispatch<SetStateAction<string>>,
+    opponentState: string,
+    setOpponentState: Dispatch<SetStateAction<string>>,
   ) => {
-    const valueNum = Number(e.target.value);
-    const opponentNum = Number(opponent);
+    const str = e.target.value.replace(/[^0-9]/g, '');
+    // const valueNum = Number(e.target.value);
+    const valueNum = Number(str);
+    const opponentNum = Number(opponentState);
     const targetResult = 100 - valueNum;
     const valueResult = 100 - opponentNum;
 
-    if (valueNum + opponentNum !== 100) {
-      if (targetResult <= 100 && targetResult > -1) {
-        opponentState(targetResult.toString());
-      }
+    if (e.currentTarget.value === '-') {
+      setOpponentState('-');
+      setState('-');
     } else {
-      if (valueResult <= 100 && valueResult > -1) {
-        setState(valueResult.toString());
+      if (valueNum + opponentNum !== 100) {
+        if (targetResult <= 100 && targetResult > -1) {
+          setOpponentState(targetResult.toString());
+          // setOpponentState(str);
+        }
+      } else {
+        if (valueResult <= 100 && valueResult > -1) {
+          setState(valueResult.toString());
+          // setState(str);
+        }
       }
+      setState(str);
+      // setState(e.target.value);
     }
-    setState(e.target.value);
   };
 
   // 다음 버튼 클릭
@@ -359,12 +372,14 @@ const FirstStep = ({
               <SmallInputBox>
                 <Input
                   value={
-                    profitableInterestUser[0] !== '0'
+                    isHomePercent === true
+                      ? '-'
+                      : profitableInterestUser[0] !== '0'
                       ? profitableInterestUser
                       : profitableInterestUser.replace(/(^0+)/, '')
                   }
                   // value={profitableInterestUser}
-                  className="inputTextLeft"
+                  className="inputText inputTextLeft"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
@@ -373,11 +388,11 @@ const FirstStep = ({
                       setChargePoint,
                     );
                   }}
-                  type="number"
+                  type="text"
                   placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
                   InputProps={{
-                    readOnly: isHomePercent && true,
+                    readOnly: isHomePercent,
                   }}
                 />
                 <Percent>%</Percent>
@@ -394,13 +409,13 @@ const FirstStep = ({
                 <Input
                   value={
                     isHomePercent === true
-                      ? undefined
+                      ? '-'
                       : chargePoint[0] !== '0'
                       ? chargePoint
                       : chargePoint.replace(/(^0+)/, '')
                   }
                   // value={chargePoint}
-                  className="inputTextRight"
+                  className="inputText inputTextRight"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
@@ -409,11 +424,11 @@ const FirstStep = ({
                       setProfitableInterestUser,
                     );
                   }}
-                  type="number"
+                  type="text"
                   placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
                   InputProps={{
-                    readOnly: isHomePercent && true,
+                    readOnly: isHomePercent,
                   }}
                 />
                 <Percent>%</Percent>
@@ -866,6 +881,7 @@ const Input = styled(TextField)`
       letter-spacing: -0.02em;
     }
   }
+
   & .remove {
     display: none;
   }

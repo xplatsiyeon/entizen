@@ -424,6 +424,7 @@ const LastWrite = (props: Props) => {
     0: (
       <FirstStep
         isHomePercent={isHomePercent}
+        setIsHomePercent={setIsHomePercent}
         sendData={data!}
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}

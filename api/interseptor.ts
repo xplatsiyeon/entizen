@@ -135,8 +135,8 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  // window.location.href = '/';
   appLogout(userAgent as string);
+  // window.location.href = '/';
 };
 
 // 응답이 왔는데, 토큰이 만료되어 다시 리프레쉬 토큰으로 토큰 값 호출
