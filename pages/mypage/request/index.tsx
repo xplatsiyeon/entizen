@@ -293,7 +293,7 @@ const Mypage1_3 = ({}: any) => {
       // console.log('refetch');
       console.log('⭐️ refrech check');
       refetch();
-      spotRetch();
+      // spotRetch();
     }
   }, [router]);
 
@@ -324,7 +324,7 @@ const Mypage1_3 = ({}: any) => {
     if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
       refetch();
       quotationRefetch();
-      spotRetch();
+      // spotRetch();
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
@@ -333,16 +333,16 @@ const Mypage1_3 = ({}: any) => {
   // console.log('⭐️ quotationData  : ', quotationData);
   // console.log('⭐️ data : ', data);
 
-  if (isError || spotIsError) {
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
+  // if (isError || spotIsError) {
+  //   return (
+  //     <Modal
+  //       text="다시 시도해주세요"
+  //       click={() => {
+  //         router.push('/');
+  //       }}
+  //     />
+  //   );
+  // }
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');

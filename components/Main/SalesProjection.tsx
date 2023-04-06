@@ -1,13 +1,7 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
@@ -15,7 +9,6 @@ import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
 import SearchBar from './searchBar';
 import Exit from 'public/images/X.svg';
-import { relative } from 'path/posix';
 import { addressType } from 'hooks/userAddressHooks';
 
 type Props = {
@@ -72,12 +65,10 @@ const SalesProjection = ({
   return (
     <>
       <SearchMapWrapper>
-        {!isScroll && (
-          <TextArea>
-            내 충전기의 <span>예상 매출</span>을
-            <br /> 확인해보세요!
-          </TextArea>
-        )}
+        <TextArea>
+          내 충전기의 <span>예상 매출</span>을
+          <br /> 확인해보세요!
+        </TextArea>
         <SearchMapArea>
           {mobile && (
             <Input
@@ -109,44 +100,50 @@ const SalesProjection = ({
             />
           )}
           {!mobile && (
-            <Input
-              placeholder="주소 입력 후 간단 체크!"
-              type="text"
-              onChange={onChangeInput}
-              value={text}
-              ref={inputRef}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={search} alt="searchIcon" layout="intrinsic" />
-                    </div>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      {isSearchBar ? (
+            <InputWrap>
+              <Input
+                placeholder="주소 입력 후 간단 체크!"
+                type="text"
+                onChange={onChangeInput}
+                value={text}
+                ref={inputRef}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
                         <Image
-                          src={Exit}
-                          alt="exit"
-                          layout="intrinsic"
-                          onClick={() => {
-                            setIsScroll && setIsScroll(false);
-                          }}
-                        />
-                      ) : (
-                        <Image
-                          src={mapPin}
+                          src={search}
                           alt="searchIcon"
                           layout="intrinsic"
                         />
-                      )}
-                    </div>
-                  </InputAdornment>
-                ),
-              }}
-            />
+                      </div>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        {isSearchBar ? (
+                          <Image
+                            src={Exit}
+                            alt="exit"
+                            layout="intrinsic"
+                            onClick={() => {
+                              setIsScroll && setIsScroll(false);
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            src={mapPin}
+                            alt="searchIcon"
+                            layout="intrinsic"
+                          />
+                        )}
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </InputWrap>
           )}
         </SearchMapArea>
         {/* 예상 매출 하단 바 */}
@@ -170,13 +167,13 @@ const SearchMapWrapper = styled.div`
   min-width: 331.5pt;
   /* height: 470px; */
   position: relative;
+  overflow-y: scroll;
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
     min-width: 251.25pt;
     min-height: 88.5pt;
   }
 `;
-
 const TextArea = styled(Typography)`
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
@@ -201,14 +198,16 @@ const TextArea = styled(Typography)`
     letter-spacing: -2%;
   }
 `;
-
 const SearchMapArea = styled.div`
   width: 100%;
 `;
-
+const InputWrap = styled.div`
+  padding: 0 56.25pt;
+`;
 const Input = styled(TextField)<{ isMobile?: boolean }>`
   margin-top: ${({ isMobile }) => isMobile && '10.5pt'};
   width: 100%;
+  min-width: 324pt;
   border-radius: 6pt;
   border: 2.5pt solid ${colors.main};
   display: flex;
@@ -219,12 +218,11 @@ const Input = styled(TextField)<{ isMobile?: boolean }>`
   .MuiInputBase-root {
     padding: 12pt 15pt;
   }
-
   & input {
     color: ${({ isMobile }) => (isMobile ? colors.lightGray3 : colors.main2)};
-
     text-align: left;
     padding: 0;
+
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 500;
@@ -232,11 +230,9 @@ const Input = styled(TextField)<{ isMobile?: boolean }>`
     line-height: 15.75pt;
     letter-spacing: -0.02em;
   }
-
   &.mobile {
     color: '##CACCD1';
   }
-
   ::placeholder {
     color: '##CACCD1';
     font-weight: 400;

@@ -82,17 +82,12 @@ export default function SearchBar({
 
 const Wrap = styled.ul<{ isScroll: boolean }>`
   background-color: rgb(255, 255, 255);
-  position: absolute;
-  right: -56.25pt;
-  padding-right: 45.25pt;
   margin-top: 9.75pt;
   display: flex;
   flex-direction: column;
-  min-width: 331.5pt;
   z-index: 999;
-  max-height: ${({ isScroll }) => (isScroll === false ? '100pt' : '200pt')};
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
+  padding: 0 56.25pt;
+  /* ::-webkit-scrollbar {
     display: initial;
     width: 7.5pt;
   }
@@ -102,10 +97,10 @@ const Wrap = styled.ul<{ isScroll: boolean }>`
     background: #caccd1;
     border-radius: 100px;
     height: 15%;
-  }
+  } */
 
   li {
-    min-width: 331.5pt;
+    min-width: 324pt;
 
     line-height: 20.25pt;
     position: relative;

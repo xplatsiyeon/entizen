@@ -102,7 +102,6 @@ const Main = () => {
       {/* 기능 부분 */}
       <ContentWrap>
         {/*예상 매출 검색 */}
-
         <SalesForm onSubmit={handleOnClick} className="salesForm">
           <SalesProjection
             text={keyword}
@@ -113,9 +112,11 @@ const Main = () => {
             setIsSearchBar={setIsSearchBar}
             results={results}
           />
-          <Button type="submit" isSearchBar={isSearchBar}>
-            검색
-          </Button>
+          <ButtonWrap>
+            <Button type="submit" isSearchBar={isSearchBar}>
+              검색
+            </Button>
+          </ButtonWrap>
         </SalesForm>
 
         {/* 내 견적서, 내 프로젝트 수량 */}
@@ -214,19 +215,36 @@ const ContentWrap = styled.section`
 const SalesForm = styled.form`
   display: flex;
   flex-direction: column;
-  /* width: 322pt; */
-  padding: 0 56.25pt;
   margin-right: 22.5pt;
   border: 1.5pt solid #e2e5ed;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 16px;
   font-family: 'Spoqa Han Sans Neo';
   max-height: 352.5pt;
+  max-width: 594.22px;
+  width: 594.22px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: initial;
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #caccd1;
+    border-radius: 100px;
+    height: 80px;
+  }
+`;
+
+const ButtonWrap = styled.div`
+  padding-left: 56.25pt;
+  padding-right: 56.25pt;
 `;
 
 const Button = styled.button<{ isSearchBar: boolean }>`
   visibility: ${({ isSearchBar }) => isSearchBar === true && 'hidden'};
-  min-width: 331.5pt;
+  min-width: 324pt;
   width: 100%;
   height: 45pt;
   display: flex;
@@ -240,8 +258,9 @@ const Button = styled.button<{ isSearchBar: boolean }>`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  margin-bottom: 69pt;
+  /* margin-bottom: 69pt; */
   margin-top: 6pt;
+  box-sizing: border-box;
   cursor: pointer;
 `;
 
