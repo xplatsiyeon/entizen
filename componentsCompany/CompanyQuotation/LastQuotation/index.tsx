@@ -39,7 +39,7 @@ export interface MutateData {
   subscribeProduct: string; // 구독 상품
   subscribePeriod: string; // 구독 기간
   userInvestRate: string; // 사용자 수익 비율
-  chargingPointRate: string; // chargingPoint - (1 - userInvestRate)
+  companyInvestRate: string; // 기업 수익 비율
   subscribePricePerMonth: number; // 월 구독료
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
@@ -71,9 +71,9 @@ const LastWrite = (props: Props) => {
   // 가정용 홈충전기 하이픈 처리를 위한 boolean
   const [isHomePercent, setIsHomePercent] = useState(false);
   // 고객 퍼센트
-  const [profitableInterestUser, setProfitableInterestUser] = useState('');
+  const [userInvestRate, setUserInvestRate] = useState('');
   // 기업 퍼센트
-  const [chargePoint, setChargePoint] = useState('');
+  const [companyInvestRate, setCompanyInvestRate] = useState('');
   // 월 구독료
   const [subscribePricePerMonth, setSubscribePricePerMonth] =
     useState<string>('');
@@ -175,10 +175,10 @@ const LastWrite = (props: Props) => {
         ),
       );
       setSubscribePeriod(quotationRequest?.subscribePeriod?.toString());
-      setProfitableInterestUser(
+      setUserInvestRate(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
-      setChargePoint(
+      setCompanyInvestRate(
         Math.floor(100 - Number(quotationRequest.investRate) * 100).toString(),
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
@@ -267,10 +267,10 @@ const LastWrite = (props: Props) => {
         ),
       );
       setSubscribePeriod(finalQuotation?.subscribePeriod?.toString());
-      setProfitableInterestUser(
+      setUserInvestRate(
         Math.floor(Number(finalQuotation?.userInvestRate) * 100).toString(),
       );
-      setChargePoint(
+      setCompanyInvestRate(
         Math.floor(Number(finalQuotation?.chargingPointRate) * 100).toString(),
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
@@ -398,24 +398,24 @@ const LastWrite = (props: Props) => {
       console.log('수익지분 업데이트');
       setIsHomePercent(true);
     } else {
-      if (Number(chargePoint) < 0) {
-        setChargePoint('0');
-        setProfitableInterestUser('100');
+      if (Number(companyInvestRate) < 0) {
+        setCompanyInvestRate('0');
+        setUserInvestRate('100');
       }
-      if (Number(chargePoint) > 100) {
-        setChargePoint('100');
-        setProfitableInterestUser('0');
+      if (Number(companyInvestRate) > 100) {
+        setCompanyInvestRate('100');
+        setUserInvestRate('0');
       }
-      if (Number(profitableInterestUser) < 0) {
-        setChargePoint('100');
-        setProfitableInterestUser('0');
+      if (Number(userInvestRate) < 0) {
+        setCompanyInvestRate('100');
+        setUserInvestRate('0');
       }
-      if (Number(profitableInterestUser) > 100) {
-        setChargePoint('0');
-        setProfitableInterestUser('100');
+      if (Number(userInvestRate) > 100) {
+        setCompanyInvestRate('0');
+        setUserInvestRate('100');
       }
     }
-  }, [profitableInterestUser, chargePoint]);
+  }, [userInvestRate, companyInvestRate]);
 
   console.log('🔥 data : ', data);
 
@@ -434,10 +434,10 @@ const LastWrite = (props: Props) => {
         setSubscribeProduct={setSubscribeProduct}
         subscribePeriod={subscribePeriod}
         setSubscribePeriod={setSubscribePeriod}
-        profitableInterestUser={profitableInterestUser}
-        setProfitableInterestUser={setProfitableInterestUser}
-        chargePoint={chargePoint}
-        setChargePoint={setChargePoint}
+        userInvestRate={userInvestRate}
+        setUserInvestRate={setUserInvestRate}
+        companyInvestRate={companyInvestRate}
+        setCompanyInvestRate={setCompanyInvestRate}
         subscribePricePerMonth={subscribePricePerMonth}
         setSubscribePricePerMonth={setSubscribePricePerMonth}
         selectedOption={selectedOption}
@@ -551,8 +551,8 @@ const LastWrite = (props: Props) => {
         }
         subscribeProduct={subscribeProduct}
         subscribePeriod={subscribePeriod}
-        userInvestRate={profitableInterestUser}
-        chargingPointRate={chargePoint}
+        userInvestRate={userInvestRate}
+        companyInvestRate={companyInvestRate}
         subscribePricePerMonth={subscribePricePerMonth}
         chargers={selectedOptionEn}
         detailQuotationFiles={BusinessRegistration}

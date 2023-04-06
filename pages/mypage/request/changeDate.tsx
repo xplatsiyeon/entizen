@@ -110,11 +110,16 @@ const changeDate = () => {
               <SelectDate>일정 변경</SelectDate>
             </WebSelectHeader>
             <Title>
-             { isReqest? `가능한 날짜를 선택해주세요` : `현장실사 방문이 \n가능한 날짜를 선택해주세요` }
+              {isReqest
+                ? `가능한 날짜를 선택해주세요`
+                : `현장실사 방문이 \n가능한 날짜를 선택해주세요`}
             </Title>
-            { !isReqest && <DateNotice>
-              현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.
-            </DateNotice>}
+            {!isReqest && (
+              <DateNotice>
+                현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.
+              </DateNotice>
+            )}
+            {/* 달력 */}
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}

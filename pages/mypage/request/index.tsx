@@ -191,7 +191,7 @@ const Mypage1_3 = ({}: any) => {
       },
       onError: (error: any) => {
         // console.log('다른 파트너 선정 patch error');
-        // console.log(error);
+        console.log(error);
       },
     });
   // ----------- 견적취소 하기 -----------
@@ -227,7 +227,7 @@ const Mypage1_3 = ({}: any) => {
       },
       onError: (error: any) => {
         // console.log('다른 파트너 선정 patch error');
-        // console.log(error);
+        console.log(error);
       },
     });
 
@@ -288,12 +288,12 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
-  console.log('🔥 spotData : ', spotData);
   useEffect(() => {
     if (routerId && router.isReady) {
       // console.log('refetch');
       console.log('⭐️ refrech check');
       refetch();
+      spotRetch();
     }
   }, [router]);
 
@@ -308,47 +308,31 @@ const Mypage1_3 = ({}: any) => {
       data?.quotationRequest?.currentInProgressPreQuotationIdx!;
     const hasCurrentInProgressPreQuotationIdx =
       data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx!;
-
-    // if (currentInProgressPreQuotationIdx !== null) {
     if (hasCurrentInProgressPreQuotationIdx) {
-      console.log('첫번째 조건문', currentInProgressPreQuotationIdx);
       data?.preQuotations?.forEach((preQuotation, index) => {
         const preQuotationIdx = preQuotation?.finalQuotation?.preQuotationIdx!;
-
-        console.log('🔥 preQuotationIdx : ', preQuotationIdx);
-        console.log(
-          '🔥 currentInProgressPreQuotationIdx : ',
-          currentInProgressPreQuotationIdx,
-        );
-
-        console.log('forEach 문', preQuotationIdx);
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
-          console.log('인덱스 변경');
           setIsFinalItmeIndex(index);
         }
       });
     } else {
-      console.log('🔥 -1 ');
       setIsFinalItmeIndex(-1);
     }
   }, [data]);
 
   useEffect(() => {
-    console.log('🔥 isFinalItmeIndex : ', isFinalItmeIndex);
-  }, [isFinalItmeIndex]);
-
-  useEffect(() => {
     if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
       refetch();
       quotationRefetch();
+      spotRetch();
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   // console.log('⭐️ isFinalItmeIndex : ', isFinalItmeIndex);
   // console.log('⭐️ date check  : ', data);
-  console.log('⭐️ quotationData  : ', quotationData);
-
+  // console.log('⭐️ quotationData  : ', quotationData);
   // console.log('⭐️ data : ', data);
+
   if (isError || spotIsError) {
     return (
       <Modal
@@ -440,7 +424,7 @@ const Mypage1_3 = ({}: any) => {
                   </React.Fragment>
                 ) : (
                   <>
-                    {/* 상태에 따라 안내문 변경 */}
+                    {/* ============================= 상태에 따라 안내문 변경 ============================ */}
                     {/* 최종견적이 없고 */}
                     {quotationData?.preQuotation?.finalQuotation === null &&
                     data?.badge !== '최종견적 대기 중' ? (
@@ -455,6 +439,7 @@ const Mypage1_3 = ({}: any) => {
                           routerId={routerId}
                         />
                       ) : hasReceivedSpotInspectionDates === true &&
+                        // 일정 변경 데이터
                         spotInspection?.isNewPropose ? (
                         <ScheduleChange
                           spotId={
@@ -464,6 +449,7 @@ const Mypage1_3 = ({}: any) => {
                           routerId={routerId}
                         />
                       ) : (
+                        // 현장 실사 확인 중
                         spotData?.data?.spotInspection
                           ?.spotInspectionDate[0]! && (
                           <Checking

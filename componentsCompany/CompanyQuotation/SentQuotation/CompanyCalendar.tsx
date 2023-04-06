@@ -40,6 +40,8 @@ const CompanyCalendar = ({
     day: new Date().getDay(), //오늘 요일
   };
 
+  console.log('selectedDaysArr=>', selectedDaysArr);
+
   let temp: string[][] = [];
   const getDate = () => {
     for (let i = 0; i < days?.length; i++) {
@@ -81,8 +83,50 @@ const CompanyCalendar = ({
     return weekArr;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // 날짜 차이 계산
+  const CalculateDifference = (day: number) => {
+    const { year, month, date } = today;
+    const todayAdd = new Date(year, month, date);
+    const selectedAdd = new Date(selectedYear, selectedMonth, day);
+    const btMs = todayAdd.getTime() - selectedAdd.getTime();
+    const btDay = btMs / (1000 * 60 * 60 * 24);
+    return btDay;
+  };
+  // 날짜 선택하기
+  const HandleSelectedDay = (day: number) => {
+    // console.log('날짜 선택');
+    const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
+    const differencerDate = CalculateDifference(day);
+
+    // console.log('🔥 selectedDaysArr : ', selectedDaysArr);
+    // console.log('🔥 selectedDate : ', selectedDate);
+    if (types === 'customer') {
+      if (days.includes(selectedDate)) {
+        SetSelectedDays(selectedDate);
+      }
+      if (selectedDays === selectedDate) {
+        SetSelectedDays('');
+      }
+    } else if (types === 'company') {
+      // 이전 날짜 | 이미 선택된 날짜 클릭 금지
+      if (differencerDate > 0 || days.includes(selectedDate)) return;
+      // console.log(selectedDate);
+
+      // 클릭 취소
+      if (selectedDaysArr!.includes(selectedDate)) {
+        const temp: string[] = selectedDaysArr!;
+        const index = temp.indexOf(selectedDate);
+        temp.splice(index, 1);
+        setSelectedDaysArr!([...temp]);
+        // 최대 5개까지 선택 가능
+      } else if (selectedDaysArr!.length < 5) {
+        setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
+      }
+    }
+  };
+
   //일짜 반화
-  const returnDay = useCallback(() => {
+  const returnDay = () => {
     let dayArr: JSX.Element[] = [];
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
@@ -92,7 +136,7 @@ const CompanyCalendar = ({
         if (types === 'customer') {
           for (let i = 0; i < dateTotalCount; i++) {
             const loopDate = `${selectedYear}.${selectedMonth}.${i + 1}`;
-            if (days.includes(loopDate)) {
+            if (days?.includes(loopDate)) {
               dayArr.push(
                 <Day
                   selectedDay={selectedDay(i + 1)}
@@ -117,7 +161,7 @@ const CompanyCalendar = ({
         } else if (types === 'company') {
           for (let i = 0; i < dateTotalCount; i++) {
             const loopDate = `${selectedYear}.${selectedMonth}.${i + 1}`;
-            if (days.includes(loopDate)) {
+            if (days?.includes(loopDate)) {
               dayArr.push(
                 <Day
                   selectedDay={selectedDay(i + 1)}
@@ -147,13 +191,8 @@ const CompanyCalendar = ({
     }
     return dayArr;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    selectedDaysArr,
-    selectedDays,
-    selectedYear,
-    selectedMonth,
-    dateTotalCount,
-  ]);
+  };
+
   // 선택된 날짜 컬러 커스텀
   const selectedDay = (day: number): boolean => {
     // 년,월,일 날짜
@@ -162,45 +201,6 @@ const CompanyCalendar = ({
       return selectedDaysArr!.includes(date) ? true : false;
     } else {
       return selectedDays === date ? true : false;
-    }
-  };
-  // 날짜 차이 계산
-  const CalculateDifference = (day: number) => {
-    const { year, month, date } = today;
-    const todayAdd = new Date(year, month, date);
-    const selectedAdd = new Date(selectedYear, selectedMonth, day);
-    const btMs = todayAdd.getTime() - selectedAdd.getTime();
-    const btDay = btMs / (1000 * 60 * 60 * 24);
-    return btDay;
-  };
-  // 날짜 선택하기
-  const HandleSelectedDay = (day: number) => {
-    const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
-    const differencerDate = CalculateDifference(day);
-
-    if (types === 'customer') {
-      if (days.includes(selectedDate)) {
-        SetSelectedDays(selectedDate);
-      }
-      if (selectedDays === selectedDate) {
-        SetSelectedDays('');
-      }
-    } else if (types === 'company') {
-      // 이전 날짜 | 이미 선택된 날짜 클릭 금지
-      if (differencerDate > 0 || days.includes(selectedDate)) return;
-      // console.log(selectedDate);
-
-      // 클릭 취소
-      if (selectedDaysArr!.includes(selectedDate)) {
-        const temp: string[] = selectedDaysArr!;
-        const index = temp.indexOf(selectedDate);
-        temp.splice(index, 1);
-        setSelectedDaysArr!(temp);
-        // 최대 5개까지 선택 가능
-      } else if (selectedDaysArr!.length < 5) {
-        day;
-        setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
-      }
     }
   };
 
