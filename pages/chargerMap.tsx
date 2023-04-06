@@ -80,51 +80,41 @@ const ChargerMap = (props: Props) => {
     <>
       <WebHeader />
       <Wrapper>
+        {/* 모바일 주소 검색 헤더 */}
+        <HeaderWrap>
+          <Header onClick={handleBack} biggerClick={biggerClick}>
+            <ArrowIMGBox>
+              <Image src={btnImg} alt="backBtn" />
+            </ArrowIMGBox>
+            <HeaderText>예상매출</HeaderText>
+          </Header>
+          <SearchMapArea>
+            {/* 모바일에서 주소 검색하는 input 창 주소 검색 누르면 /searchAddress로 넘어감*/}
+            <Input
+              value={locationList.roadAddrPart ? locationList.roadAddrPart : ''}
+              type="submit"
+              className="searchInput"
+              onClick={() => router.push('/searchAddress')}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </SearchMapArea>
+        </HeaderWrap>
         <FlexBox>
-          {/* 모바일 주소 검색 헤더 */}
-          <HeaderWrap>
-            <Header onClick={handleBack} biggerClick={biggerClick}>
-              <ArrowIMGBox>
-                <Image src={btnImg} alt="backBtn" />
-              </ArrowIMGBox>
-              <HeaderText>예상매출</HeaderText>
-            </Header>
-            <SearchMapArea>
-              {/* 모바일에서 주소 검색하는 input 창 주소 검색 누르면 /searchAddress로 넘어감*/}
-              <Input
-                value={
-                  locationList.roadAddrPart ? locationList.roadAddrPart : ''
-                }
-                type="submit"
-                className="searchInput"
-                onClick={() => router.push('/searchAddress')}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={search}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={mapPin}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </SearchMapArea>
-          </HeaderWrap>
           <WebWrap>
             {/* 웹에서 주소 + 예상 견적 보여주는 컴포넌트 */}
             <WrapAddress>
@@ -200,6 +190,7 @@ const Wrapper = styled.div`
 const HeaderWrap = styled.div`
   z-index: 999;
   position: sticky;
+  width: 100%;
   top: 0;
   left: 0;
   background-color: ${colors.lightWhite};
@@ -236,12 +227,16 @@ const FlexBox = styled.div`
     margin-top: 0;
     border: none;
     box-shadow: none;
+    position: static;
   }
 `;
 const MapWrap = styled.div<{ biggerClick?: boolean }>`
   flex: 1;
   position: relative;
 
+  @media (max-width: 899.25pt) {
+    /* margin-top: 160px; */
+  }
   .addressHeader {
     ${({ biggerClick }) =>
       biggerClick &&

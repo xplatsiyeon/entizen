@@ -57,7 +57,7 @@ instance.interceptors.response.use(
     ) {
       console.log('================ 토큰 오류 발생 ================');
       // console.log('⭐️ message : ', message);
-      alert(message);
+      // alert(message);
       deleteData();
     }
 
@@ -105,7 +105,7 @@ instance.interceptors.response.use(
             // 리프레쉬 토큰으로 토큰을 추가로 요청 했지만, 리프레쉬도 만료되었다면 데이터 삭제.
             console.log('🔥 리프레쉬 토큰 만료로 리셋');
             console.log('🔥 err : ', err);
-            alert('리프레쉬 토큰 만료');
+            // alert('리프레쉬 토큰 만료');
             deleteData();
           })
           .finally(() => {
