@@ -12,7 +12,6 @@ declare global {
   interface Window {
     entizen?: any;
     webkit?: any;
-    // test?: () => void;
     returnUserInfo?: (userInfo: any) => void;
     onClickBackButton: () => void;
     openGallery?: () => void;
@@ -22,10 +21,6 @@ declare global {
       id: String,
       email: String,
     ) => void;
-    // testEntizen: {
-    //   test?: () => void;
-    //   testtest?: () => void;
-    // };
   }
   interface Document {
     form_chk: HTMLFormElement;

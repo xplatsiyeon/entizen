@@ -12,11 +12,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AppProps } from 'next/app';
 import { useDispatch } from 'react-redux';
 import { userAgentAction } from 'store/userAgent';
-import { useRouter } from 'next/router';
 import { CookiesProvider } from 'react-cookie';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const [queryClient] = useState(() => new QueryClient());
   const client = new ApolloClient({
@@ -36,9 +34,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [queryClient]);
 
-  const iOS = navigator.userAgent.match(/iOS_App/i);
-  const Android = navigator.userAgent.match(/Android_App/i);
   useLayoutEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
     if (iOS) {
       sessionStorage.setItem('userAgent', JSON.stringify('iOS_App'));
       dispatch(userAgentAction.set('iOS_App'));
@@ -52,73 +50,15 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useLayoutEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
     if (Android) {
-      // setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (iOS) {
       alert('getUserInfo 실행');
-      // setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
   }, []);
-
-  // // 앱 -> 웹
-  // useLayoutEffect(() => {
-  //   // 유저 정보 받아오기
-  //   if (Android) {
-  //     window.returnUserInfo = (userInfo) => {
-  //       if (userInfo.length > 1) {
-  //         const jsonGetUserInfo = JSON.parse(userInfo);
-  //         sessionStorage.setItem(
-  //           'SNS_MEMBER',
-  //           JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-  //         );
-  //         sessionStorage.setItem(
-  //           'MEMBER_TYPE',
-  //           JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-  //         );
-  //         sessionStorage.setItem(
-  //           'ACCESS_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'REFRESH_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'USER_ID',
-  //           JSON.stringify(jsonGetUserInfo.USER_ID),
-  //         );
-  //       }
-  //       // setLoginChecking(false);
-  //     };
-  //     // 아이폰 호출
-  //   } else if (iOS) {
-  //     window.returnUserInfo = (userInfo) => {
-  //       if (typeof userInfo === 'object') {
-  //         alert('returnUserInfo 실행');
-  //         sessionStorage.setItem(
-  //           'SNS_MEMBER',
-  //           JSON.stringify(userInfo.SNS_MEMBER),
-  //         );
-  //         sessionStorage.setItem(
-  //           'MEMBER_TYPE',
-  //           JSON.stringify(userInfo.MEMBER_TYPE),
-  //         );
-  //         sessionStorage.setItem(
-  //           'ACCESS_TOKEN',
-  //           JSON.stringify(userInfo.ACCESS_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'REFRESH_TOKEN',
-  //           JSON.stringify(userInfo.REFRESH_TOKEN),
-  //         );
-  //         sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
-  //       }
-  //       // setLoginChecking(false);
-  //     };
-  //   }
-  // }, []);
 
   return (
     <Suspense fallback={<Loader />}>

@@ -1,33 +1,29 @@
 import { NextPage } from 'next';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
 import Landing from './landing';
-import { useCookies } from 'react-cookie';
+
 interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
   const landingPage = window.location.href === 'https://entizen.kr/';
   const userAgent = JSON.parse(sessionStorage?.getItem('userAgent')!);
-  const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
-  const [cookies, setCookie, removeCookie] = useCookies();
 
-  // //  ------------------브릿지-------------------
-  // // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  // useLayoutEffect(() => {
-  //   if (userAgent === 'Android_App') {
-  //     setLoginChecking(true);
-  //     window.entizen!.getUserInfo();
-  //   } else if (userAgent === 'iOS_App') {
-  //     alert('getUserInfo 실행');
-  //     setLoginChecking(true);
-  //     window.webkit.messageHandlers.getUserInfo.postMessage('');
-  //   }
-  // }, []);
+  //  ------------------브릿지-------------------
+  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
+  useLayoutEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.entizen!.getUserInfo();
+    } else if (userAgent === 'iOS_App') {
+      alert('getUserInfo 실행');
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
+    }
+  }, []);
 
   // 앱 -> 웹
   useLayoutEffect(() => {
@@ -57,7 +53,6 @@ const Home: NextPage<Props> = ({}: Props) => {
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
         }
-        // setLoginChecking(false);
       };
       // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
@@ -82,26 +77,9 @@ const Home: NextPage<Props> = ({}: Props) => {
           );
           sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
         }
-        // setLoginChecking(false);
       };
     }
   }, []);
-  // if (loginChecking) {
-  // return <Loader />;
-  // }
-
-  // 브라우저 종료 시 쿠키 삭제
-  useEffect(() => {
-    // setCookie('my-cookie', 'my-cookieDeleteTest');
-    // window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      // window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-  const handleBeforeUnload = () => {
-    // removeCookie('my-cookie');
-  };
 
   return (
     <>
@@ -113,16 +91,14 @@ const Home: NextPage<Props> = ({}: Props) => {
             <CompanyMainPage />
           ) : (
             <>
-              {!loginChecking && (
-                <>
-                  <WebWrap>
-                    <Main />
-                  </WebWrap>
-                  <MobWrap>
-                    <MainPage />
-                  </MobWrap>
-                </>
-              )}
+              <>
+                <WebWrap>
+                  <Main />
+                </WebWrap>
+                <MobWrap>
+                  <MainPage />
+                </MobWrap>
+              </>
               {/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
               {/* <WebWrap>
                 <Main />
