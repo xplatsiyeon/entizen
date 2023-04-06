@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, wrapper } from 'store';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useLayoutEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
@@ -17,6 +17,7 @@ import { CookiesProvider } from 'react-cookie';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [queryClient] = useState(() => new QueryClient());
   const client = new ApolloClient({
     uri: `${process.env.NEXT_PUBLIC_BASE_URL}/graphql`,
@@ -35,8 +36,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [queryClient]);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
@@ -48,6 +47,85 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       sessionStorage.setItem('userAgent', JSON.stringify('Android_App'));
       dispatch(userAgentAction.set('Android_App'));
     }
+  }, []);
+
+  //  ------------------브릿지-------------------
+  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
+  useLayoutEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (Android) {
+      // setLoginChecking(true);
+      window.entizen!.getUserInfo();
+    } else if (iOS) {
+      alert('getUserInfo 실행');
+      // setLoginChecking(true);
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
+    }
+  }, []);
+
+  // 유저 정보 받아오기
+  const returnUserInfo = () => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (Android) {
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem(
+            'USER_ID',
+            JSON.stringify(jsonGetUserInfo.USER_ID),
+          );
+        }
+        // setLoginChecking(false);
+      };
+      // 아이폰 호출
+    } else if (iOS) {
+      window.returnUserInfo = (userInfo) => {
+        if (typeof userInfo === 'object') {
+          alert('returnUserInfo 실행');
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(userInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(userInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(userInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(userInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+        }
+        // setLoginChecking(false);
+      };
+    }
+  };
+
+  // 앱 -> 웹
+  useEffect(() => {
+    returnUserInfo();
   }, []);
 
   return (
