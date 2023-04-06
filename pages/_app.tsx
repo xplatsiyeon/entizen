@@ -55,8 +55,65 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     if (Android) {
       window.entizen!.getUserInfo();
     } else if (iOS) {
-      alert('getUserInfo 실행');
+      alert('getUserInfo 실행1');
       window.webkit.messageHandlers.getUserInfo.postMessage('');
+    }
+  }, []);
+
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (Android) {
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem(
+            'USER_ID',
+            JSON.stringify(jsonGetUserInfo.USER_ID),
+          );
+        }
+      };
+      // 아이폰 호출
+    } else if (iOS) {
+      window.returnUserInfo = (userInfo) => {
+        if (typeof userInfo === 'object') {
+          alert('returnUserInfo 실행1');
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(userInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(userInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(userInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(userInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
+        }
+      };
     }
   }, []);
 

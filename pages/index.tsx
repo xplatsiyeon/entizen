@@ -20,7 +20,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     if (userAgent === 'Android_App') {
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
-      alert('getUserInfo 실행');
+      alert('getUserInfo 실행2');
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
   }, []);
@@ -58,7 +58,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          alert('returnUserInfo 실행2222');
+          alert('returnUserInfo 실행2');
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
