@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { InputAdornment, TextField, Typography } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
 import btnImg from 'public/images/back-btn.svg';
 import search from 'public/images/search.png';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
@@ -186,7 +186,6 @@ const Wrapper = styled.div`
     height: 100vh;
   }
 `;
-
 const HeaderWrap = styled.div`
   z-index: 999;
   position: sticky;
@@ -195,7 +194,6 @@ const HeaderWrap = styled.div`
   left: 0;
   background-color: ${colors.lightWhite};
 `;
-
 const WrapAddress = styled.div`
   position: relative;
   display: flex;
@@ -205,7 +203,6 @@ const WrapAddress = styled.div`
   width: 281.25pt;
   height: 495pt;
   background-color: #ffffff;
-
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
@@ -213,13 +210,11 @@ const WrapAddress = styled.div`
     top: 0;
   }
 `;
-
 const FlexBox = styled.div`
   display: flex;
   border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-  /* overflow: hidden; */
   position: relative;
   margin-top: 54pt;
   @media (max-width: 899.25pt) {
@@ -233,9 +228,7 @@ const FlexBox = styled.div`
 const MapWrap = styled.div<{ biggerClick?: boolean }>`
   flex: 1;
   position: relative;
-
   @media (max-width: 899.25pt) {
-    /* margin-top: 160px; */
   }
   .addressHeader {
     ${({ biggerClick }) =>
@@ -273,12 +266,10 @@ const MapBiggerIconBox = styled.div<{ biggerClick?: boolean }>`
     display: none;
   }
 `;
-
 const WholeMap = styled.div<{ biggerClick?: boolean }>`
   position: fixed;
   height: 495pt;
   display: flex;
-
   @media (max-width: 899.25pt) {
     display: block;
     width: calc(100vw - 30pt);
@@ -300,7 +291,6 @@ const WholeMap = styled.div<{ biggerClick?: boolean }>`
           background-color: white;
         }
       `};
-
     &.bigger {
       width: 100vw;
       height: 100vh;
@@ -315,7 +305,6 @@ const WholeMap = styled.div<{ biggerClick?: boolean }>`
     }
   }
 `;
-
 const Header = styled.div<{ biggerClick?: boolean }>`
   display: none;
   @media (max-width: 899.25pt) {
@@ -326,13 +315,11 @@ const Header = styled.div<{ biggerClick?: boolean }>`
     z-index: 10;
     padding-top: 9pt;
     padding-bottom: 10.5pt;
-
     &.addressHeader {
       display: ${({ biggerClick }) => (biggerClick ? 'block' : 'none')};
     }
   }
 `;
-
 const HeaderText = styled.span`
   display: flex;
   justify-content: center;
@@ -345,13 +332,11 @@ const HeaderText = styled.span`
   color: #222222;
   margin: 0 auto;
 `;
-
 const ArrowIMGBox = styled.div`
   position: absolute;
   left: 15pt;
   top: 9pt;
 `;
-
 const SearchMapArea = styled.div`
   display: none;
   @media (max-width: 899.25pt) {
@@ -364,7 +349,6 @@ const SearchMapArea = styled.div`
     padding-right: 15pt;
   }
 `;
-
 const Input = styled(TextField)`
   display: flex;
   margin: 18pt 15pt 0pt;
@@ -387,7 +371,6 @@ const Input = styled(TextField)`
     text-align: left;
     padding: 0;
   }
-
   & span > img {
     width: 15pt;
     height: 15pt;
@@ -400,7 +383,6 @@ const Input = styled(TextField)`
     margin: 0;
   }
 `;
-
 const BigMapAddress = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
@@ -411,7 +393,6 @@ const BigMapAddress = styled.span`
   color: #222222;
   padding-left: 15.75pt;
 `;
-
 const BigMapAddressBack = styled.div`
   padding-left: 20.25pt;
 `;

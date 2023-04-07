@@ -243,11 +243,10 @@ const ButtonWrap = styled.div`
 `;
 
 const Button = styled.button<{ isSearchBar: boolean }>`
-  visibility: ${({ isSearchBar }) => isSearchBar === true && 'hidden'};
+  display: ${({ isSearchBar }) => (isSearchBar === true ? 'none' : 'flex')};
   min-width: 324pt;
   width: 100%;
   height: 45pt;
-  display: flex;
   align-items: center;
   justify-content: center;
   background: #5a2dc9;

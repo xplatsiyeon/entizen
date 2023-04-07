@@ -167,7 +167,7 @@ const SearchMapWrapper = styled.div`
   min-width: 331.5pt;
   /* height: 470px; */
   position: relative;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
     min-width: 251.25pt;
@@ -206,6 +206,7 @@ const InputWrap = styled.div`
 `;
 const Input = styled(TextField)<{ isMobile?: boolean }>`
   margin-top: ${({ isMobile }) => isMobile && '10.5pt'};
+  border: 1px solid red;
   width: 100%;
   min-width: 324pt;
   border-radius: 6pt;
@@ -246,6 +247,7 @@ const Input = styled(TextField)<{ isMobile?: boolean }>`
     border: none;
   }
   @media (max-width: 899.25pt) {
+    min-width: 0;
     .MuiInputBase-root {
       cursor: pointer;
     }

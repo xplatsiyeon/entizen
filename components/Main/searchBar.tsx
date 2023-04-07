@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import colors from 'styles/colors';
-import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
 import Image from 'next/image';
-import JusoHooks, { addressType } from 'hooks/userAddressHooks';
+import { addressType } from 'hooks/userAddressHooks';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
+import useCharger from 'hooks/useCharger';
 
 type Props = {
   isSearchBar: boolean;
@@ -28,6 +28,7 @@ export default function SearchBar({
   const searchBarRef = useRef<HTMLUListElement | null>(null);
   const router = useRouter();
   const dispatch = useDispatch();
+  const { callInfo } = useCharger();
 
   const handleCloseSelect = (e: any) => {
     if (
@@ -39,15 +40,18 @@ export default function SearchBar({
   };
 
   const onClickAddress = (result: addressType) => {
-    dispatch(
-      locationAction.load({
-        jibunAddr: result.jibunAddr,
-        roadAddrPart: result.roadAddrPart1,
-        sggNm: result.sggNm,
-        siNm: result.siNm,
-      }),
-    );
+    const location = {
+      jibunAddr: result.jibunAddr,
+      roadAddrPart: result.roadAddrPart1,
+      sggNm: result.sggNm,
+      siNm: result.siNm,
+    };
+
+    dispatch(locationAction.load(location));
     dispatch(locationAction.addKeyword(result.roadAddrPart1));
+
+    callInfo('SLOW', location);
+    callInfo('FAST', location);
     router.push('/chargerMap');
   };
 
@@ -111,7 +115,7 @@ const Wrap = styled.ul<{ isScroll: boolean }>`
     border-radius: 6pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     padding: 12pt 15pt 12pt 18pt;
-    margin: 4.875pt;
+    margin: 4.875pt 0;
     cursor: pointer;
   }
   li > span {

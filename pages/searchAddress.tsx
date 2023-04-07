@@ -64,10 +64,6 @@ const SearchAddress = (props: Props) => {
     setSearchWord(() => e.target.value);
   };
 
-  const { locationList } = useSelector(
-    (state: RootState) => state.locationList,
-  );
-
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
     // 검색 키워드

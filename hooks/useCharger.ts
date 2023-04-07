@@ -4,8 +4,6 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { speedAction } from 'store/speed';
 
-type Props = {};
-
 export interface SlowFast {
   year: string;
   chargeQuantity: number;
@@ -26,7 +24,6 @@ export default function useCharger() {
   const dispatch = useDispatch();
 
   const callInfo = async (speed: 'SLOW' | 'FAST', location: Location) => {
-    // console.log('실행');
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/charge`, {
       params: {
@@ -40,6 +37,8 @@ export default function useCharger() {
         ContentType: 'application/json',
       },
     });
+
+    console.log('🔥 speed : ', speed);
 
     if (speed === 'SLOW') {
       dispatch(speedAction.addSlowSpeed(res.data.charge));

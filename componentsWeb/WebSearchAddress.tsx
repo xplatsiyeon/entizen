@@ -110,10 +110,8 @@ const WebSearchAddress = ({
       sggNm: sggnm,
       siNm: sinm,
     };
-
     callInfo('SLOW', location);
     callInfo('FAST', location);
-
     dispatch(locationAction.changeIsChargeInfoOpen(true)); // 충전기 정보 변경
   };
 
@@ -131,7 +129,6 @@ const WebSearchAddress = ({
         result.push(el);
       });
       setResults(result);
-      // setChargeInfoOpen(false);
       setIsLoading(false);
     }
   };
@@ -178,7 +175,6 @@ const WebSearchAddress = ({
           onChange={handleChange}
           value={fakeWord?.length > 0 ? fakeWord : searchWord}
         />
-
         {searchWord?.length > 0 ? (
           <span className="exitIcon">
             <Image

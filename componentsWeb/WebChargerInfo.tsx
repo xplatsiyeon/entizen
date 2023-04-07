@@ -5,7 +5,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
-import { SlowFast } from 'pages/chargerMap';
 import useCharger from 'hooks/useCharger';
 
 type Props = {
@@ -18,6 +17,9 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
   const router = useRouter();
 
   const { slowCharger, fastCharger } = useCharger();
+
+  console.log('🔥 slowCharger : ', slowCharger);
+  console.log('🔥 fastCharger : ', fastCharger);
 
   return (
     <InfoBox>
@@ -55,7 +57,7 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
           </ChargerNotice>
         </ChargerTypeNCountBox>
         <PredictBoxWrapper>
-          {selectedCharger == 0 &&
+          {selectedCharger === 0 &&
             slowCharger?.map((el, index) => (
               <PredictBox key={index}>
                 <div>{el.year}</div>
@@ -65,7 +67,7 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
                 <div>{el.sales.toLocaleString()} 원</div>
               </PredictBox>
             ))}
-          {selectedCharger == 1 &&
+          {selectedCharger === 1 &&
             fastCharger?.map((el, index) => (
               <PredictBox key={index}>
                 <div>{el.year}</div>
