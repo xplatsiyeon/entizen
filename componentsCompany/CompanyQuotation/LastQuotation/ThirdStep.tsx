@@ -226,6 +226,9 @@ const ThirdStep = ({
     if (obj?.modelName?.length! < 1) {
       delete obj.modelName;
     }
+    if (obj?.standType === null) {
+      obj.standType = '';
+    }
     delete obj.idx;
     return obj;
   });
@@ -233,11 +236,11 @@ const ThirdStep = ({
   const onClickPost = () => {
     const newUserInvestRate =
       userInvestRate === '-'
-        ? '0'
+        ? '-'
         : Math.floor(Number(userInvestRate)) / 100 + '';
     const newCompanyInvestRate =
       companyInvestRate === '-'
-        ? '100'
+        ? '-'
         : Math.floor(Number(companyInvestRate)) / 100 + '';
 
     const data = {
@@ -263,7 +266,9 @@ const ThirdStep = ({
       spotInspectionResult: spotInspectionResult,
       subscribeProductFeature: subscribeProductFeature,
     };
+    // console.log(data);
 
+    // return;
     if (canNext) {
       postMutate({
         url: '/quotations/final',
@@ -276,11 +281,11 @@ const ThirdStep = ({
     if (canNext) {
       const newUserInvestRate =
         userInvestRate === '-'
-          ? '0'
+          ? '-'
           : Math.floor(Number(userInvestRate)) / 100 + '';
       const newCompanyInvestRate =
         companyInvestRate === '-'
-          ? '100'
+          ? '-'
           : Math.floor(Number(companyInvestRate)) / 100 + '';
 
       const data = {
