@@ -21,6 +21,7 @@ import { unavailableGraphSlice } from './unavailableGraph';
 import { subsidySlice } from './subsidySlice';
 import { speedSlice } from './speed';
 import { alarmNumberSlice } from './alarmNumberSlice';
+import { addressSlice } from './addressSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   unavailableGraphBoolean: unavailableGraphSlice.reducer,
   subsidySlice: subsidySlice.reducer,
   alarmNumberSliceState: alarmNumberSlice.reducer,
+  addressSlice: addressSlice.reducer,
 });
 
 export default rootReducer;

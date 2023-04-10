@@ -1,5 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { addressSliceAction } from 'store/addressSlice';
+import { RootState } from 'store/store';
 import useDebounce from './useDebounce';
 
 export interface addressType {
@@ -31,7 +35,10 @@ export interface addressType {
 
 export type Response = [
   string,
-  React.Dispatch<React.SetStateAction<string>>,
+  (keyword: string) => {
+    payload: string;
+    type: string;
+  },
   addressType[],
 ];
 /**
@@ -40,12 +47,18 @@ export type Response = [
  * @returns results: 최종 주소값;
  */
 export default function userAddressHooks(): Response {
-  const [keyword, setKeyword] = useState<string>('');
+  // const [keyword, setKeyword] = useState<string>('');
+  const dispatch = useDispatch();
+  const { keyword } = useSelector((state: RootState) => state.addressSlice);
+  const setKeyword = (keyword: string) => {
+    return dispatch(addressSliceAction.setAddressSlice(keyword));
+  };
+
   const [results, setResults] = useState<addressType[]>([]); // 주소에 저장할 최종 결과값
   let searchValue = useDebounce(keyword, 300); //디바운스 처리로 검색 최적화
 
   // 주소 API 호출
-  async function getJuso() {
+  async function getAddress() {
     let answer: any = [];
     await axios
       .get(
@@ -63,7 +76,7 @@ export default function userAddressHooks(): Response {
 
   useEffect(() => {
     if (searchValue.length > 0) {
-      getJuso();
+      getAddress();
     }
   }, [searchValue]);
 

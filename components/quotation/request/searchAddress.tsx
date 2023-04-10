@@ -18,7 +18,10 @@ import { useMediaQuery } from 'react-responsive';
 type Props = {
   isSearch?: boolean;
   setIsSearch: Dispatch<SetStateAction<boolean>>;
-  setKeyword: Dispatch<SetStateAction<string>>;
+  setKeyword: (keyword: string) => {
+    payload: string;
+    type: string;
+  };
 };
 
 export interface addressType {

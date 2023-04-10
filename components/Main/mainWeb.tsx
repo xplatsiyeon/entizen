@@ -27,7 +27,7 @@ import Loader from 'components/Loader';
 import UserRightMenu from 'components/UserRightMenu';
 import MainSlider from 'components/MainSlider';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
-import JusoHooks from 'hooks/userAddressHooks';
+import userAddressHooks from 'hooks/userAddressHooks';
 
 const Main = () => {
   const router = useRouter();
@@ -36,7 +36,7 @@ const Main = () => {
   const [isModal, setIsModal] = useState(false);
   const [isSearchBar, setIsSearchBar] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
-  const [keyword, setKeyword, results] = JusoHooks();
+  const [keyword, setKeyword, results] = userAddressHooks();
 
   const {
     data: quotationData,
@@ -104,8 +104,8 @@ const Main = () => {
         {/*예상 매출 검색 */}
         <SalesForm onSubmit={handleOnClick} className="salesForm">
           <SalesProjection
-            text={keyword}
-            setText={setKeyword}
+            keyword={keyword}
+            setKeyword={setKeyword}
             isScroll={isScroll}
             setIsScroll={setIsScroll}
             isSearchBar={isSearchBar}
