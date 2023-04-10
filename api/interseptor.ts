@@ -58,6 +58,7 @@ const getRefreshToken = mem(
 
       return accessToken;
     } catch (e) {
+      alert('토큰이 만료되었습니다.');
       deleteData();
     }
   },
@@ -88,6 +89,7 @@ instance.interceptors.response.use(
         errorCode === 1003)
     ) {
       console.log('================ 토큰 오류 발생 ================');
+      alert('message 테스트 중 : ' + message);
       deleteData(); // 데이터 삭제
     }
 
