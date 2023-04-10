@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import StrikethroughSOutlinedIcon from '@mui/icons-material/StrikethroughSOutlined';
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined';
 import FormatUnderlinedOutlinedIcon from '@mui/icons-material/FormatUnderlinedOutlined';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
 import LinkOffOutlinedIcon from '@mui/icons-material/LinkOffOutlined';
 import FormatAlignCenterOutlinedIcon from '@mui/icons-material/FormatAlignCenterOutlined';
@@ -19,6 +19,7 @@ import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import FormatItalicOutlinedIcon from '@mui/icons-material/FormatItalicOutlined';
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import e from 'express';
 
 type Props = {
   setEditorImg: React.Dispatch<any>;
@@ -58,9 +59,25 @@ function TipTapMenu({ editor, setEditorImg, editorImg, addImage }: Props) {
   const [onFontDropDown, setOnFontDropDown] = useState(false);
   const [fontSize, setFontSize] = useState('10pt');
 
+  const enterREf = useRef(null);
+
+  const handleEnter = (e: any) => {
+    // if (window.event.keyCode == 13) {
+    //   editor.chain().focus().setHardBreak().run();
+    // }
+  };
+
   return (
     <Wrapper>
       <div className="editor-menu">
+        {/* <button
+          type="button"
+          aria-label="줄바꿈"
+          style={{ border: 'none' }}
+          onClick={() => editor.chain().focus().setHardBreak().run()}
+        >
+          줄바꿈
+        </button> */}
         <button
           type="button"
           aria-label="굵은글씨"
