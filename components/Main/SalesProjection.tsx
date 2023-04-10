@@ -12,8 +12,11 @@ import Exit from 'public/images/X.svg';
 import { addressType } from 'hooks/userAddressHooks';
 
 type Props = {
-  text?: string;
-  setText?: Dispatch<SetStateAction<string>>;
+  keyword?: string;
+  setKeyword?: (keyword: string) => {
+    payload: string;
+    type: string;
+  };
   isSearchBar?: boolean;
   isScroll?: boolean;
   setIsScroll?: Dispatch<SetStateAction<boolean>>;
@@ -22,8 +25,8 @@ type Props = {
 };
 
 const SalesProjection = ({
-  text,
-  setText,
+  keyword,
+  setKeyword,
   isScroll,
   setIsScroll,
   isSearchBar,
@@ -44,7 +47,7 @@ const SalesProjection = ({
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText!(e.target.value);
+    setKeyword!(e.target.value);
   };
 
   // input창 비회원 로그인시 input창 클릭하면 sign in으로
@@ -104,10 +107,11 @@ const SalesProjection = ({
         {!mobile && (
           <InputWrap>
             <Input
+              className="mainSearchInput"
               placeholder="주소 입력 후 간단 체크!"
               type="text"
               onChange={onChangeInput}
-              value={text}
+              value={keyword}
               ref={inputRef}
               InputProps={{
                 startAdornment: (
@@ -151,7 +155,7 @@ const SalesProjection = ({
         )}
       </SearchMapArea>
       {/* 예상 매출 하단 바 */}
-      {text && text.length > 0 && isSearchBar && (
+      {keyword && keyword.length > 0 && isSearchBar && (
         <SearchBar
           results={results!}
           isSearchBar={isSearchBar!}
@@ -206,6 +210,7 @@ const SearchMapArea = styled.div`
   z-index: 9999;
   @media (max-width: 899.25pt) {
     padding-top: 0pt;
+    z-index: 0;
   }
 `;
 const InputWrap = styled.div`

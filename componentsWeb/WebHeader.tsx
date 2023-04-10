@@ -20,9 +20,8 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { selectAction } from 'store/loginTypeSlice';
+import userAddressHooks from 'hooks/userAddressHooks';
 
 type Props = {
   num?: number;
@@ -43,14 +42,15 @@ type GetUnread = {
 
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const isUser = sessionStorage.getItem('USER_ID');
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
+  const [keyword, setKeyword, results] = userAddressHooks();
+
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
-  const dispatch = useDispatch();
-
   // 알람 조회
   // alerts/histories/unread
   const {
@@ -85,9 +85,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
     router.push('/signUp/Terms');
   };
 
-  useEffect(() => {
-    // console.log(linklist);
-  }, [linklist]);
+  useEffect(() => {}, [linklist]);
 
   return (
     <>
@@ -101,8 +99,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     src={Logos}
                     alt="logo"
                     layout="intrinsic"
-                    onClick={() => {
-                      router.push('/');
+                    onClick={async () => {
+                      await router.push('/');
+                      setKeyword('');
                     }}
                     style={{ cursor: 'pointer' }}
                   />

@@ -10,6 +10,7 @@ const persistConfig = {
   version: 1,
   storage,
   blacklist: [
+    'addressSlice',
     'redirectSlice',
     'lnglatList',
     'speedData',
