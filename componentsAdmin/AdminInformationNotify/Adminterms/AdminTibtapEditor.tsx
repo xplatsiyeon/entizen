@@ -20,6 +20,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
 import Underline from '@tiptap/extension-underline';
+import HardBreak from '@tiptap/extension-hard-break';
 import Link from '@tiptap/extension-link';
 import { Color } from '@tiptap/extension-color';
 import { FontSize } from 'tiptap-extension-font-size';
@@ -133,6 +134,7 @@ const AdminTibtapEditor = ({
 
   const editor = useEditor({
     extensions: [
+      HardBreak,
       StarterKit,
       Image,
       BulletList,
@@ -177,7 +179,14 @@ const AdminTibtapEditor = ({
         editorImg={editorImg}
         addImage={addImage}
       />
-      <EditorContent editor={editor} />
+      <EditorContent
+        editor={editor}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            editor?.chain().focus().setHardBreak().run();
+          }
+        }}
+      />
     </Wrapper>
   );
 };

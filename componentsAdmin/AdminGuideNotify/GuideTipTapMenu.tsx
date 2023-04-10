@@ -61,6 +61,14 @@ function GuideTipTapMenu({ editor, setEditorImg, editorImg, addImage }: Props) {
   return (
     <Wrapper>
       <div className="editor-menu">
+        {/* <button
+          type="button"
+          aria-label="줄바꿈"
+          style={{ border: 'none' }}
+          onClick={() => editor.chain().focus().setHardBreak().run()}
+        >
+          줄바꿈
+        </button> */}
         <button
           type="button"
           aria-label="굵은글씨"

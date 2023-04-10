@@ -24,6 +24,7 @@ import { Color } from '@tiptap/extension-color';
 import { FontSize } from 'tiptap-extension-font-size';
 import TextStyle from '@tiptap/extension-text-style';
 import Text from '@tiptap/extension-text';
+import HardBreak from '@tiptap/extension-hard-break';
 import { useEffect, useRef, useState } from 'react';
 import { multerAdminApi } from 'api';
 import {
@@ -132,6 +133,7 @@ const GuideTiptapEditor = ({
 
   const editor = useEditor({
     extensions: [
+      HardBreak,
       StarterKit,
       Image,
       BulletList,
@@ -176,7 +178,14 @@ const GuideTiptapEditor = ({
         editorImg={editorImg}
         addImage={addImage}
       />
-      <EditorContent editor={editor} />
+      <EditorContent
+        editor={editor}
+        onKeyUp={(event) => {
+          if (event.key === 'Enter') {
+            editor?.chain().focus().setHardBreak().run();
+          }
+        }}
+      />
     </Wrapper>
   );
 };
