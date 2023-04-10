@@ -467,6 +467,9 @@ const Input = styled(TextField)`
   :focus > .remove {
     display: block;
   }
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
 `;
 const BtnBox = styled.div`
   width: 100%;

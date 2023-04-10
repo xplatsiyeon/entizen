@@ -1,5 +1,5 @@
 import axios from 'axios';
-import instance from './interseptor';
+import instance from './interceptor';
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   endpoint: string;

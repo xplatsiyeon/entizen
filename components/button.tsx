@@ -46,10 +46,12 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  /* border: 1px solid red; */
   /* cursor: pointer; */
   @media (max-width: 899.25pt) {
-    padding: 0;
-    position: absolute;
+    padding: 0 15pt;
     bottom: 30pt;
+    left: 0;
+    position: fixed;
   }
 `;

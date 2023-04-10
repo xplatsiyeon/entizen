@@ -46,7 +46,7 @@ const ImageBox = styled.div<{ borders: number }>`
   height: 165pt;
   background-color: ${colors.main};
   border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
-  border: 1px solid silver;
+  /* border: 1px solid silver; */
   object-fit: cover;
   margin-top: 22.5pt;
   @media (max-width: 899.25pt) {

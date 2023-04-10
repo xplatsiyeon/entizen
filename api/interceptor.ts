@@ -5,7 +5,7 @@ import mem from 'mem';
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const REFRESH_URL = `${BASE_URL}/auth/token`;
 
-// 초기 intersepot 값
+// 초기 interceptor 값
 const instance = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -58,7 +58,7 @@ const getRefreshToken = mem(
 
       return accessToken;
     } catch (e) {
-      alert('토큰이 만료되었습니다.');
+      // alert('토큰이 만료되었습니다.');
       deleteData();
     }
   },
@@ -89,7 +89,7 @@ instance.interceptors.response.use(
         errorCode === 1003)
     ) {
       console.log('================ 토큰 오류 발생 ================');
-      alert('message 테스트 중 : ' + message);
+      // alert('message 테스트 중 : ' + message);
       deleteData(); // 데이터 삭제
     }
 

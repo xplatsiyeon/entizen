@@ -34,6 +34,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [queryClient]);
 
+  // 기기별 userAgent 확인.
   useLayoutEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
@@ -48,14 +49,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   //  ------------------브릿지-------------------
-  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
+  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장
   useLayoutEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
     if (Android) {
       window.entizen!.getUserInfo();
     } else if (iOS) {
-      // alert('getUserInfo 실행1');
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
   }, []);
@@ -94,7 +94,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     } else if (iOS) {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {
-          // alert('returnUserInfo 실행1');
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(userInfo.SNS_MEMBER),
