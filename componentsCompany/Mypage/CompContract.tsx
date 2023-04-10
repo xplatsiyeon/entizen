@@ -3,7 +3,7 @@ import arrowR from 'public/images/grayRightArrow20.png';
 import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import styled from '@emotion/styled';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { modusign } from 'api/sign';
 import {
   GET_InProgressProjectsDetail,
@@ -11,26 +11,31 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import { api, isTokenPostApi, multerApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import { modusignCancel } from 'api/cancelSign';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import {
   GET_ModuSignResponse,
   ModuSignResponse,
 } from 'QueryComponents/ModuSignQuery';
+import arrowRGr from 'public/mypage/ChatsArrow.png';
+import ChatsIcon from 'public/mypage/myProjectChats.png';
+import useCreateChatting from 'hooks/useCreateChatting';
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
 
-type Props = {};
+type Props = {
+  id?: string;
+};
 export type ImageType = 'IMAGE' | 'FILE';
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
-const ComContranct = ({}: Props) => {
+const ComContranct = ({ id }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
@@ -45,7 +50,7 @@ const ComContranct = ({}: Props) => {
   const [openSelfContract, setOpenSelfContract] = useState(false);
   const [tpye, setType] = useState<ImageType>();
 
-  // -----진행중인 프로젝트 상세 리스트 api-----
+  // -------------진행중인 프로젝트 상세 리스트 api-------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading,
@@ -64,7 +69,7 @@ const ComContranct = ({}: Props) => {
     },
   });
 
-  // -------모두싸인 GET API-------
+  // ------------------모두싸인 GET API----------------------
   const {
     loading: inModuSignLoading,
     error: inModuSignErroe,
@@ -82,7 +87,7 @@ const ComContranct = ({}: Props) => {
     },
   });
 
-  // -------모두싸인 POST API------
+  // -----------------------모두싸인 POST API---------------------------
   const {
     mutate: modusignMutate,
     isError: modusignIsError,
@@ -110,7 +115,7 @@ const ComContranct = ({}: Props) => {
       setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
     },
   });
-  // ------------모두싸인 POST 후 백엔드에 데이터 전송 --------------
+  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 --------------
   const {
     mutate: contractsMutate,
     isError: contractsIsError,
@@ -126,7 +131,7 @@ const ComContranct = ({}: Props) => {
       // console.log(error);
     },
   });
-  // ------------모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
+  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
   const {
     mutate: destroyMutate,
     isError: destroyIsError,
@@ -251,6 +256,21 @@ const ComContranct = ({}: Props) => {
     }
   };
 
+  const token: JwtTokenType = jwt_decode(accessToken);
+  const { createChatting, createLoading } = useCreateChatting();
+  const onClickBtn = (id?: string) => {
+    if (id) {
+      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
+      createChatting(id!);
+    } else {
+      if (token.memberType === 'USER') {
+        router.push('/chatting');
+      } else {
+        router.push('/company/chatting');
+      }
+    }
+  };
+
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {
@@ -353,6 +373,18 @@ const ComContranct = ({}: Props) => {
           </BigIconBox>
         </EntizenContractBox>
       </FlexBox>
+      {/* 모바일 : 고객과 소통하기 */}
+      <BtnWrap>
+        <BtnBox2>
+          <WebImageBox width={15} height={15}>
+            <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
+          </WebImageBox>
+          <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
+          <WebImageBox width={3.75} height={7.5}>
+            <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
+          </WebImageBox>
+        </BtnBox2>
+      </BtnWrap>
     </Wrapper>
   );
 };
@@ -463,4 +495,49 @@ const ExplainText = styled.div`
 const BigIconBox = styled.div`
   width: 45pt;
   height: 45pt;
+`;
+
+const CommunityBtnBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 135.75pt;
+  //height: 33pt;
+  padding: 10.5pt 12pt;
+  background-color: #f3f4f7;
+  border-radius: 21.75pt;
+  cursor: pointer;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const BtnWrap = styled.div`
+  position: relative;
+  padding: 60pt 0;
+  background: white;
+`;
+
+const BtnBox2 = styled(CommunityBtnBox)`
+  display: none;
+
+  @media (max-width: 899.25pt) {
+    display: flex;
+  }
+`;
+
+const WebTitle = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+`;
+
+const WebImageBox = styled.div<{ width: number; height: number }>`
+  width: ${(props) => props.width}pt;
+  height: ${(props) => props.height}pt;
+  position: relative;
+  margin: 0 auto;
 `;

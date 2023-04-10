@@ -202,7 +202,7 @@ const LastWrite = (props: Props) => {
         const quotationCharger =
           quotationRequest?.quotationRequestChargers[count];
 
-        console.log('🔥 quotationCharger : ', quotationCharger);
+        // console.log('🔥 quotationCharger : ', quotationCharger);
         const preQutationCharger =
           preQuotation?.preQuotationCharger[
             preQuotation?.preQuotationCharger?.length! - 1 - count
@@ -418,7 +418,7 @@ const LastWrite = (props: Props) => {
     }
   }, [userInvestRate, companyInvestRate]);
 
-  console.log('🔥 data : ', data);
+  // console.log('🔥 data : ', data);
 
   const components: Components = {
     // 기본

@@ -38,7 +38,7 @@ export default function useCharger() {
       },
     });
 
-    console.log('🔥 speed : ', speed);
+    // console.log('🔥 speed : ', speed);
 
     if (speed === 'SLOW') {
       dispatch(speedAction.addSlowSpeed(res.data.charge));

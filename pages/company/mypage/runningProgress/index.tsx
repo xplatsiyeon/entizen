@@ -59,7 +59,7 @@ const RunningProgress = (props: Props) => {
   });
   // -----진행중인 프로젝트 상세 리스트 api-----
   const {
-    loading,
+    loading: inProgressLoading,
     error,
     data: inProgressData,
     refetch: inProgressRefetch,
@@ -136,7 +136,8 @@ const RunningProgress = (props: Props) => {
                 />
                 {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
                 {/* 프로젝트 진행 */}
-                {inProgressData?.project?.contract?.documentId?.length! > 0 ? (
+                {inProgressData &&
+                inProgressData?.project?.contract?.documentId?.length! > 0 ? (
                   <Progress
                     data={inProgressData!}
                     inProgressRefetch={inProgressRefetch}

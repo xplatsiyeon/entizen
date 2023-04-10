@@ -61,7 +61,7 @@ const getRefreshToken = mem(
       deleteData();
     }
   },
-  { maxAge: 1000 },
+  { maxAge: 2000 },
 );
 // ============================= response interceptor ===================================
 instance.interceptors.response.use(
@@ -116,8 +116,9 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  appLogout(userAgent as string);
   window.location.href = '/';
+
+  appLogout(userAgent as string);
 };
 
 export default instance;

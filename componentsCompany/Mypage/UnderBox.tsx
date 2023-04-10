@@ -1,6 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
-import contract from 'public/images/contract.png';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
@@ -44,8 +43,10 @@ const UnderBox = ({ id }: Props) => {
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
+        {/* 모바일 */}
         <MobWrap>
-          {!contr ? (
+          <ComContranct id={id} />
+          {/* {!contr ? (
             // 빈 화면
             <NoContractBox>
               <CenterImgBox>
@@ -57,11 +58,11 @@ const UnderBox = ({ id }: Props) => {
           ) : (
             // 계약서 선택 템플릿
             <ComContranct />
-          )}
+          )} */}
         </MobWrap>
       </Wrapper>
 
-      {!contr ? (
+      {/* {!contr ? (
         <BtnBox>
           <Btn onClick={() => setContr(true)} tColor={true}>
             계약서 작성 및 서명
@@ -82,23 +83,22 @@ const UnderBox = ({ id }: Props) => {
             </WebImageBox>
           </BtnBox2>
         </BtnWrap>
-      )}
+      )} */}
 
-      <>
-        <WebBtnWrapper>
-          {/* 계약서 선택란*/}
-          <ComContranct />
-        </WebBtnWrapper>
-        <CommunityBtnBox>
-          <WebImageBox width={15} height={15}>
-            <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-          <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
-          <WebImageBox width={3.75} height={7.5}>
-            <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-        </CommunityBtnBox>
-      </>
+      {/* 데스트탑  */}
+      <WebBtnWrapper>
+        {/* 계약서 선택란*/}
+        <ComContranct />
+      </WebBtnWrapper>
+      <CommunityBtnBox>
+        <WebImageBox width={15} height={15}>
+          <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
+        </WebImageBox>
+        <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
+        <WebImageBox width={3.75} height={7.5}>
+          <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
+        </WebImageBox>
+      </CommunityBtnBox>
     </WebRapper>
   );
 };
