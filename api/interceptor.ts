@@ -58,11 +58,11 @@ const getRefreshToken = mem(
 
       return accessToken;
     } catch (e) {
-      // alert('토큰이 만료되었습니다.');
+      alert('토큰이 만료되었습니다.');
       deleteData();
     }
   },
-  { maxAge: 2000 },
+  { maxAge: 1000 },
 );
 // ============================= response interceptor ===================================
 instance.interceptors.response.use(

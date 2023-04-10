@@ -23,10 +23,7 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { PreQuotations } from 'pages/mypage/request';
-import { RootState } from 'store/store';
-import { useSelector } from 'react-redux';
 import { fileDownload } from 'bridge/appToWeb';
-import { useRouter } from 'next/router';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 interface Props {
@@ -52,10 +49,8 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   );
 
   const chargerFile2 = { ...chargerFile };
-
   const callPhone = hyphenFn(data?.member?.phone!);
   const finalQuotation = data?.finalQuotation;
-
   const homeSelect = data?.finalQuotation?.finalQuotationChargers.filter(
     (el) => el.kind === '7-HOME',
   );
@@ -266,14 +261,6 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
           <FeaturesList3>
-            {/* {finalQuotation?.subscribeProductFeature
-              ?.split('\n')
-              .map((line, idx) => (
-                <p key={idx} className="productText">
-                  {line}
-                  <br />
-                </p>
-              ))} */}
             {finalQuotation?.subscribeProductFeature}
           </FeaturesList3>
           {/* 특장점 충전기 부분 */}
@@ -372,9 +359,9 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           ))}
         </FileWrapper>
       </Section>
-      <Line2 />
+      <Line />
       <Contents>
-        <Subtitle>파트너 정보</Subtitle>
+        <Subtitle>담당자 정보</Subtitle>
         <div className="text-box">
           <span className="name">담당자</span>
           <span className="text">{data?.member?.name}</span>
@@ -423,7 +410,6 @@ const Section = styled.section<{
 }>`
   font-family: 'Spoqa Han Sans Neo' !important;
   padding: 30pt 0pt;
-  padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
     grid &&
     css`
@@ -568,13 +554,15 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-bottom: 15pt;
-  &.ml-15 {
-    margin-left: 15pt;
-  }
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
     padding-bottom: 24pt;
+  }
+  @media (max-width: 899.25pt) {
+    &.ml-15 {
+      margin-left: 15pt;
+    }
   }
 `;
 const Subtitle2 = styled.h2`
@@ -713,17 +701,9 @@ const GridImg = styled.div`
   display: flex;
   overflow-x: scroll;
   grid-template-columns: repeat(4, 1fr);
-  /* padding-top: 15pt; */
-  padding-left: 15pt;
   gap: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    /* width: 580.5pt;
-    display: flex;
-    overflow: scroll; */
-
-    /* padding-top: 24pt; */
-    /* padding-bottom: 30pt; */
     flex-wrap: wrap;
     width: 580.5pt;
     display: flex;
@@ -731,9 +711,9 @@ const GridImg = styled.div`
     padding-bottom: 30pt;
     gap: 22.5pt;
   }
-  /* @media (min-width: 900pt) {
-    padding-left: 0;
-  } */
+  @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+  }
 `;
 const GridItem = styled.div`
   position: relative;
@@ -769,7 +749,11 @@ const FileDownload = styled.a`
   color: ${colors.gray2};
 `;
 const Line = styled.div`
-  border-bottom: 0.75pt solid #e9eaee;
+  border-bottom: 0.75pt solid ${colors.lightGray};
+  @media (max-width: 899.25pt) {
+    width: calc(100% - 30pt);
+    margin: 0 auto;
+  }
 `;
 const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;

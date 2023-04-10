@@ -150,7 +150,7 @@ const BottomBox = ({ pb, data }: Props) => {
         ) : (
           <>
             {/* 충전량 2개 이상일 때 */}
-            <Line />
+            <Line2 />
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
               {reverseNewArr?.map((item, index) => (
@@ -206,6 +206,7 @@ const BottomBox = ({ pb, data }: Props) => {
           </>
         )}
       </List>
+      <Line />
       <Section>
         <Subtitle>특장점</Subtitle>
         <FlexWrap>
@@ -244,6 +245,7 @@ const BottomBox = ({ pb, data }: Props) => {
           </FlexWrap>
         ))}
       </Section>
+      <Line />
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -273,6 +275,7 @@ const BottomBox = ({ pb, data }: Props) => {
           )}
         </GridImg>
       </Section>
+      <Line />
       {/* 이미지 자세히 보기 기능 */}
       {openImgModal && (
         <ImgDetailCarousel
@@ -363,7 +366,7 @@ const Title = styled.h1`
 
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
     grid &&
@@ -377,7 +380,7 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
 const List = styled.ul`
   padding: 30pt 0 51pt;
   gap: 12pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   @media (max-width: 899.25pt) {
     padding-top: 30pt;
     padding-bottom: 18pt;
@@ -615,9 +618,16 @@ const NoImage = styled.div`
   }
 `;
 
-const Line = styled.div`
+const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
   padding-top: 30pt;
+`;
+const Line = styled.div`
+  border-bottom: 0.75pt solid ${colors.lightGray};
+  @media (max-width: 899.25pt) {
+    width: calc(100% - 30pt);
+    margin: 0 auto;
+  }
 `;
 
 const FileName = styled.div`

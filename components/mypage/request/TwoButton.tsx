@@ -62,8 +62,9 @@ const BtnBox = styled.div`
   }
 `;
 const LeftBtn = styled(Button)`
-  padding: 15pt 16.75pt;
-  width: 33%;
+  /* padding: 15pt 16.75pt; */
+  padding: 15pt 0;
+  /* width: 33%; */
   border: 0.75pt solid ${colors.main};
   color: ${colors.main};
   background-color: ${colors.lightWhite};
@@ -72,13 +73,14 @@ const LeftBtn = styled(Button)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  flex: 3;
   @media (min-width: 900pt) {
     width: 100%;
   }
 `;
 const RightBtn = styled(Button)`
   padding: 15pt 32.5pt;
-  width: 72%;
+  /* width: 72%; */
   background-color: ${colors.main};
   color: ${colors.lightWhite};
   border-radius: 6pt;
@@ -86,6 +88,7 @@ const RightBtn = styled(Button)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  flex: 4;
   &:hover {
     background-color: ${colors.main}!important;
   }

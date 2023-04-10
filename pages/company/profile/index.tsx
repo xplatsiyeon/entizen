@@ -135,8 +135,8 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
   /* padding: 32.25pt 0 42pt; */
   /* padding-bottom: 42pt; */
   /* padding-left: 31.5pt; */
-  //padding-left: 47.25pt;
-
+  /* padding-left: 47.25pt; */
+  /*  */
   margin: ${({ heightOn }) => (heightOn ? '20vh 0' : '45.75pt 0')};
 
   @media (max-width: 899.25pt) {
@@ -144,7 +144,7 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
     height: 100vh;
     position: relative;
     margin: 0 auto;
-    padding-left: 47.25pt;
+    /* padding-left: 15pt; */
     box-shadow: none;
     background: none;
   }

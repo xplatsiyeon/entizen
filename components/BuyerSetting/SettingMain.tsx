@@ -373,10 +373,10 @@ const Wrapper = styled.div`
   }
 `;
 const Version = styled.div`
-  padding: 18pt 15pt 18pt 15pt;
-  height: 36pt;
+  padding: 18pt 15pt 0 15pt;
+  /* height: 36pt; */
   display: flex;
-  gap: 9pt;
+  /* gap: 9pt; */
   flex-direction: column;
   background-color: #fbfcff;
   margin-bottom: 7.5pt;
@@ -388,6 +388,9 @@ const Version = styled.div`
     padding-bottom: 24pt;
     margin-bottom: 0;
     background-color: #ffffff;
+    padding: 18pt 15pt 18pt 15pt;
+    height: 36pt;
+    gap: 9pt;
   }
 `;
 const VersionInfoText = styled(Typography)`
@@ -414,13 +417,19 @@ const VersionNumber = styled(Typography)`
   line-height: 15pt;
   letter-spacing: 0em;
   text-align: left;
+  /* border: 1px solid red; */
+  padding-top: 9pt;
+  padding-bottom: 18pt;
+  color: #a6a9b0;
   @media (min-width: 900pt) {
     font-size: 12pt;
     font-weight: 500;
     line-height: 15pt;
     letter-spacing: -0.02em;
     text-align: left;
-    color: #a6a9b0;
+
+    padding-top: 0;
+    padding-bottom: 0;
   }
 `;
 const SettingList = styled.div`

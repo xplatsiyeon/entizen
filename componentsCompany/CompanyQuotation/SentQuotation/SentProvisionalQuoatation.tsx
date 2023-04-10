@@ -420,6 +420,7 @@ const SentQuoatationFirst = () => {
               {nowWidth >= 1200 && (
                 <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
               )}
+              {/* 상단 상세 정보 */}
               <TopBox
                 handleClick={handleClick}
                 open={open}

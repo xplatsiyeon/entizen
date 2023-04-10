@@ -10,7 +10,6 @@ interface Props {
   exit: () => void;
   title: string;
   subtitle?: string;
-  border?: boolean | undefined;
 }
 
 const RequestDetailModal = ({
@@ -18,7 +17,6 @@ const RequestDetailModal = ({
   subtitle,
   leftControl,
   rightControl,
-  border,
   exit,
 }: Props) => {
   const outside = useRef(null);
@@ -34,27 +32,14 @@ const RequestDetailModal = ({
   };
   return (
     <ModalBackground ref={outside} onClick={(e) => handleModalClose(e)}>
-      {border ? (
-        <Modal border={border}>
-          <H1>{title}</H1>
-          <Text>{subtitle}</Text>
-          <BtnBox>
-            <RightBtn border={border} onClick={rightControl}>
-              다시 생각해 볼게요
-            </RightBtn>
-            <LeftBtn onClick={leftControl}>계정 탈퇴</LeftBtn>
-          </BtnBox>
-        </Modal>
-      ) : (
-        <Modal>
-          <H1>{title}</H1>
-          <Text>{subtitle}</Text>
-          <BtnBox>
-            <LeftBtn onClick={leftControl}>취소</LeftBtn>
-            <RightBtn onClick={rightControl}>확인</RightBtn>
-          </BtnBox>
-        </Modal>
-      )}
+      <Modal>
+        <H1>{title}</H1>
+        <Text>{subtitle}</Text>
+        <BtnBox>
+          <LeftBtn onClick={leftControl}>취소</LeftBtn>
+          <RightBtn onClick={rightControl}>확인</RightBtn>
+        </BtnBox>
+      </Modal>
     </ModalBackground>
   );
 };
@@ -153,8 +138,9 @@ const LeftBtn = styled(Button)`
   letter-spacing: -0.02em;
   color: ${colors.darkGray};
   background-color: #e2e5ed;
-  padding: 15pt 26.25pt;
-  flex: 1;
+  /* padding: 15pt 26.25pt; */
+  padding: 15pt 0;
+  flex: 2;
   @media (min-width: 900pt) {
     width: 100%;
   }
@@ -169,8 +155,9 @@ const RightBtn = styled(Button)<{ border?: boolean }>`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
-  flex: 2;
+  /* padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; */
+  padding: 15pt 0;
+  flex: 4;
   @media (min-width: 900pt) {
     width: 100%;
     font-size: 12pt;

@@ -146,9 +146,9 @@ const CenterBox = ({ spotData, data }: Props) => {
             data?.sendQuotationRequest?.badge === '낙찰실패') && (
             <SecondTitle>최종 견적서</SecondTitle>
           )}
-        { data?.sendQuotationRequest?.badge === '선택대기' && (
-            <SecondTitle>보낸 가견적서</SecondTitle>
-          )}
+        {data?.sendQuotationRequest?.badge === '선택대기' && (
+          <SecondTitle>보낸 가견적서</SecondTitle>
+        )}
       </Wrapper>
     </>
   );

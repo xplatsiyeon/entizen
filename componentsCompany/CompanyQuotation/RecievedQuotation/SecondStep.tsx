@@ -930,7 +930,7 @@ const Wrapper = styled.div`
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
-  padding-right: 15pt;
+  /* padding-right: 15pt; */
   box-sizing: border-box;
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
@@ -1096,6 +1096,7 @@ const InputBox = styled.div<{ isSelected?: boolean }>`
   flex-direction: column;
   &.secondChargerText {
     margin-top: 30pt;
+    padding-right: 15pt;
     & div:first-of-type {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
@@ -1103,6 +1104,9 @@ const InputBox = styled.div<{ isSelected?: boolean }>`
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: left;
+    }
+    @media (min-width: 900pt) {
+      padding-right: 0;
     }
   }
   & > div {
@@ -1130,9 +1134,11 @@ const InputBox = styled.div<{ isSelected?: boolean }>`
 const BottomInputBox = styled.div`
   display: flex;
   margin-top: 30pt;
+  padding-right: 15pt;
   flex-direction: column;
   gap: 9pt;
   @media (min-width: 900pt) {
+    padding-right: 0;
     gap: 12pt;
   }
   & .withAfter {
@@ -1326,12 +1332,14 @@ const TopBox = styled.div`
 `;
 const SelectContainer = styled.div`
   width: 100%;
+  padding-right: 15pt;
   display: flex;
   gap: 8.25pt;
   margin-top: 9pt;
 
   @media (min-width: 900pt) {
     margin-top: 12pt;
+    padding-right: 0;
   }
 `;
 const SelectBox = styled(Select)`
@@ -1478,8 +1486,10 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  padding-right: 15pt;
   @media (min-width: 900pt) {
     height: auto;
+    padding-right: 0;
     padding-bottom: 0;
   }
 `;
@@ -1488,6 +1498,7 @@ const AddPhotos = styled.button`
   /* display: inline-block; */
   min-width: 56.0625pt;
   min-height: 56.0625pt;
+  max-height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
@@ -1511,13 +1522,9 @@ const ImgSpanBox = styled.div`
   @media (max-width: 899.25pt) {
     position: relative;
     display: flex;
-    /* grid-auto-flow: column; */
     width: 100%;
-    /* height: auto; */
     height: 100%;
-    /* overflow-x: scroll; */
     flex-wrap: wrap;
-    gap: 9pt;
   }
 `;
 
@@ -1526,6 +1533,8 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  margin-right: 9pt;
+  margin-bottom: 9pt;
   & > span {
     border-radius: 6pt;
   }
@@ -1732,13 +1741,6 @@ const FlexText = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
     padding-bottom: 12pt;
-    @media (min-width: 900pt) {
-      font-size: 15pt;
-      font-weight: 700;
-      line-height: 12pt;
-      letter-spacing: -0.02em;
-      text-align: left;
-    }
   }
   .lengthText {
     font-family: 'Spoqa Han Sans Neo';
@@ -1748,6 +1750,16 @@ const FlexText = styled.div`
     letter-spacing: -0.02em;
     text-align: right;
     color: #222222;
+  }
+
+  @media (min-width: 900pt) {
+    .titleText {
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 `;
 
