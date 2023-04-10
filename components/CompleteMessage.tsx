@@ -1,15 +1,10 @@
 import styled from '@emotion/styled';
-import { Button, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import Image from 'next/image';
 import ExitImg from '../public/images/X.svg';
 import CheckImg from '../public/images/CheckCircle.svg';
 import colors from 'styles/colors';
-import WebHeader from 'componentsWeb/WebHeader';
-import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
-import WhyEntizenWeb from './Main/WhyEntizenWeb';
-import WhyEntizen from './Main/WhyEntizen';
-import WhyEntizenHorizontal from './Main/WhyEntizenHorizontal';
 
 interface Props {
   title?: string;
@@ -38,10 +33,20 @@ const CompleteMessage = ({
   textChange,
 }: Props) => {
   const router = useRouter();
+
+  // 클릭 라우팅 함수
+  const onCLickRouter = () => {
+    if (yesExit) {
+      router.push('/');
+    } else {
+      router.push('/company/quotation?id=1');
+    }
+  };
+
   return (
     <>
       <Wrapper>
-        <IconWrap onClick={() => router.push('/company/quotation?id=1')}>
+        <IconWrap onClick={onCLickRouter}>
           {yesExit && (
             <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
           )}
