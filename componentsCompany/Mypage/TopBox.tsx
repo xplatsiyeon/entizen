@@ -97,7 +97,7 @@ const TopBox = ({
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                {data?.project?.finalQuotation?.finalQuotationChargers
+                {/* {data?.project?.finalQuotation?.finalQuotationChargers
                   ?.length! === homeSelect?.length ? (
                   <span className="text">-</span>
                 ) : (
@@ -107,7 +107,13 @@ const TopBox = ({
                         100,
                     )} %`}
                   </span>
-                )}
+                )} */}
+                {data?.project?.finalQuotation?.userInvestRate === '-'
+                  ? data?.project?.finalQuotation?.userInvestRate
+                  : `${Math.floor(
+                      Number(data?.project?.finalQuotation?.userInvestRate) *
+                        100,
+                    )} %`}
               </div>
               {data?.project?.finalQuotation?.finalQuotationChargers?.map(
                 (item, index) => (

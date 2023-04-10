@@ -120,14 +120,11 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
-          {data?.finalQuotation?.finalQuotationChargers?.length! ===
-          homeSelect?.length! ? (
-            <span className="value">-</span>
-          ) : (
-            <span className="value">
-              {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
-            </span>
-          )}
+          <span className="value">
+            {finalQuotation?.userInvestRate === '-'
+              ? finalQuotation?.userInvestRate
+              : `${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
+          </span>
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <Item key={index}>

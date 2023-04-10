@@ -124,14 +124,19 @@ const FinishedTopBox = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              {data?.finalQuotation?.finalQuotationChargers?.length! ===
+              {/* {data?.finalQuotation?.finalQuotationChargers?.length! ===
               homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
                 <span className="text">{`${Math.floor(
                   Number(data?.finalQuotation?.userInvestRate) * 100,
                 )} %`}</span>
-              )}
+              )} */}
+              {data?.finalQuotation?.userInvestRate === '-'
+                ? data?.finalQuotation?.userInvestRate
+                : `${Math.floor(
+                    Number(data?.finalQuotation?.userInvestRate) * 100,
+                  )} %`}
             </div>
             {data?.finalQuotation?.finalQuotationChargers?.map(
               (item, index) => (

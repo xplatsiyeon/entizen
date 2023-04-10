@@ -139,16 +139,52 @@ const Main = () => {
       {/* 엔티즌 도서관 */}
       <EntizenLibrary fontSize={19.5} smallfont={13.5} />
       <ImageWrap2>
-        <Image src={mainBanner1} alt="사진" />
-        <Image src={mainBanner2} alt="사진" />
-        <Image src={mainBanner3} alt="사진" />
-        <Image src={main6} alt="사진" />
+        <Image
+          src={mainBanner1}
+          alt="사진"
+          // loading="lazy"
+          priority
+          placeholder="blur"
+        />
+        <Image
+          src={mainBanner2}
+          alt="사진"
+          // loading="lazy"
+          priority
+          placeholder="blur"
+        />
+        <Image
+          src={mainBanner3}
+          alt="사진"
+          // loading="lazy"
+          priority
+          placeholder="blur"
+        />
+        <Image
+          src={main6}
+          alt="사진"
+          // loading="lazy"
+          priority
+          placeholder="blur"
+        />
         {/* 전기차 슬라이드 */}
         {/* <MainSlider /> */}
         <MainSlider />
-        <Image src={main8} alt="사진" />
+        <Image
+          src={main8}
+          alt="사진"
+          // loading="lazy"
+          priority
+          placeholder="blur"
+        />
         <Wrap onClick={() => router.push('/signUp/Terms')}>
-          <Image src={main9} alt="사진" />
+          <Image
+            src={main9}
+            alt="사진"
+            // loading="lazy"
+            priority
+            placeholder="blur"
+          />
         </Wrap>
       </ImageWrap2>
       <WebFooter />

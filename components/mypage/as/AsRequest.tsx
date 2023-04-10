@@ -145,7 +145,7 @@ const AsRequest = ({ data }: Props) => {
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                {projectData?.project?.finalQuotation?.finalQuotationChargers
+                {/* {projectData?.project?.finalQuotation?.finalQuotationChargers
                   .length! === homeSelect?.length! ? (
                   <span className="text">-</span>
                 ) : (
@@ -154,7 +154,14 @@ const AsRequest = ({ data }: Props) => {
                       projectData?.project?.finalQuotation?.userInvestRate,
                     ) * 100,
                   )} %`}</span>
-                )}
+                )} */}
+                {projectData?.project?.finalQuotation?.userInvestRate === '-'
+                  ? projectData?.project?.finalQuotation?.userInvestRate
+                  : `${Math.floor(
+                      Number(
+                        projectData?.project?.finalQuotation?.userInvestRate,
+                      ) * 100,
+                    )} %`}
               </div>
 
               {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(

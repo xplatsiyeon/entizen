@@ -76,6 +76,7 @@ const ProjectInfo = () => {
                 <MypageHeader back={true} title={'내 프로젝트'} />
                 {typeof router?.query?.projectIdx === 'string' ? (
                   <>
+                    {/* 프로젝트 상단 상세 내용 */}
                     <TopBox
                       type="USER"
                       open={open}

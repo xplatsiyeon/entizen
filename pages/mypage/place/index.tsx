@@ -96,6 +96,7 @@ const ChargingPlace = () => {
                   handleOnClick={() => setOpen(!open)}
                 />
                 <RightBox>
+                  {/* 상단 상세 내용 */}
                   {hideTopBox ? <PlaceTopBox data={target![0]} /> : null}
                   {open ? (
                     <Wrap>

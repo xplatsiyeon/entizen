@@ -142,14 +142,12 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
-          {data?.sendQuotationRequest?.quotationRequest
-            ?.quotationRequestChargers?.length! === homeSelect?.length! ? (
-            <span className="value">-</span>
-          ) : (
-            <span className="value">
-              {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
-            </span>
-          )}
+          <span className="value">
+            {/* {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`} */}
+            {finalQuotation?.userInvestRate === '-'
+              ? finalQuotation?.userInvestRate
+              : `${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
+          </span>
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <Item key={index}>

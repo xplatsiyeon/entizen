@@ -395,8 +395,9 @@ const LastWrite = (props: Props) => {
       quotationRequestChargers?.length === 1 &&
       quotationRequestChargers[0]?.kind === '7-HOME'
     ) {
-      console.log('수익지분 업데이트');
       setIsHomePercent(true);
+      setUserInvestRate('-');
+      setCompanyInvestRate('-');
     } else {
       if (Number(companyInvestRate) < 0) {
         setCompanyInvestRate('0');

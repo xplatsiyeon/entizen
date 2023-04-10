@@ -149,12 +149,7 @@ const PlaceInfo = ({ data }: Props) => {
               ?.filter((el) => el.productFileType === 'CATALOG')
               ?.map((file, index) => (
                 <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
-                  <FileDownload
-                    // onClick={DownloadFile}
-                    download={file?.originalName}
-                    // href={file?.url}
-                    href={file?.url}
-                  >
+                  <FileDownload download={file?.originalName} href={file?.url}>
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     <FileName>{file.originalName}</FileName>
                   </FileDownload>
@@ -211,7 +206,6 @@ const PlaceInfo = ({ data }: Props) => {
         {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
           <Carousel file={data?.projectCompletionFiles} ImgDetail={true} />
-          {/*<Index onClick={handleNum}>{idx}/2</Index>*/}
         </FinishedPhotoBox>
 
         {/* 웹 사진이 들어갈 공간*/}

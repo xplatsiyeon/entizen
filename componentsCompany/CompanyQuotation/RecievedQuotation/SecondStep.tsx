@@ -92,29 +92,18 @@ const SecondStep = ({
 
   const charger =
     data?.receivedQuotationRequest?.quotationRequestChargers[StepIndex]!;
-
-  // 충전 요금 종류
-  const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
-  // 충전 요금
-  const [fee, setFee] = useState<string>('');
-  // 내 제품 리스트 종류
-  const [productItem, setProductItem] = useState<string>();
+  const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1); // 충전 요금 종류
+  const [fee, setFee] = useState<string>(''); // 충전 요금
+  const [productItem, setProductItem] = useState<string>(); // 내 제품 리스트 종류
   const [productId, setProductId] = useState<number | null>(null);
   const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
-  // 제조사
-  const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
-  // 충전기 특장점
-  const [chargeFeatures, setChargeFeatures] = useState<string>('');
-
-  // 사진 첨부
-  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
-  // 충전기 카탈로그
-  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
-
-  // 에러 모달
-  const [isModal, setIsModal] = useState(false);
-  const [networkError, setNetworkError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [manufacturingCompany, setManufacturingCompany] = useState<string>(''); // 제조사
+  const [chargeFeatures, setChargeFeatures] = useState<string>(''); // 충전기 특장점
+  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]); // 사진 첨부
+  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]); // 충전기 카탈로그
+  const [isModal, setIsModal] = useState(false); // 에러 모달
+  const [networkError, setNetworkError] = useState(false); // 네트워크 에러
+  const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
   // 리덕스
   const {
     chargers,
@@ -451,23 +440,17 @@ const SecondStep = ({
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
         chargers: newChargers,
+        subscribeProductFeature:
+          subscribeProductFeature.length > 0
+            ? subscribeProductFeature
+            : undefined,
       };
-      // console.log(newData);
 
-      if (subscribeProductFeature.length < 1) {
-        postMutate({
-          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-          data: newData,
-        });
-      } else {
-        postMutate({
-          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-          data: {
-            ...newData,
-            subscribeProductFeature,
-          },
-        });
-      }
+      postMutate({
+        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+        data: newData,
+      });
+
       dispatch(myEstimateAction.reset());
     }
   };

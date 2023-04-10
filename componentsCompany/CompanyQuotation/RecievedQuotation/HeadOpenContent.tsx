@@ -141,21 +141,6 @@ const HeadOpenContent = () => {
     setNowHeight(window.innerHeight);
   };
 
-  // 다른 곳 클릭할때 모달창 나오게 하는거
-  // const onRouteChangeStart = useCallback((url: string) => {
-  // if (url !== router.pathname) {
-  //   setModalOpen(true);
-  // } else {
-  //   setModalOpen(false);
-  // }
-  // }, []);
-  // useEffect(() => {
-  //   router.events.on('routeChangeStart', onRouteChangeStart);
-  //   return () => {
-  //     router.events.on('routeChangeStart', onRouteChangeStart);
-  //   };
-  // }, [onRouteChangeStart, router.events]);
-
   //  받은 요청 상세페이지 api 요청
   const { data, isError, isLoading, refetch, remove } = useQuery<
     QuotationsDetailResponse,
@@ -210,7 +195,6 @@ const HeadOpenContent = () => {
     if (router.query.quotationRequestIdx) {
       const num = Number(router.query.quotationRequestIdx);
       setComponentId(num);
-      // setData(tempProceeding[num]);
       setUnderNum(0);
     }
   }, [router.query.quotationRequestIdx]);
@@ -259,10 +243,6 @@ const HeadOpenContent = () => {
     return <Loader />;
   }
 
-  // console.log('🔥 ~line 208 ~editData! ' + TAG);
-  // console.log(editData);
-  // console.log('렌더링 되나?');
-
   // 부분 구독인지 아닌지
   const partSubscribe = data?.receivedQuotationRequest?.subscribeProduct;
 
@@ -293,12 +273,10 @@ const HeadOpenContent = () => {
   const quotationRequestChargers =
     data?.receivedQuotationRequest?.quotationRequestChargers! ||
     editData?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
-
   const maskingInstallationAddress =
     data?.receivedQuotationRequest.maskingInstallationAddress! ||
     editData?.sendQuotationRequest?.quotationRequest
       ?.maskingInstallationAddress!;
-
   const homeSelect =
     data?.receivedQuotationRequest.quotationRequestChargers.filter(
       (el) => el.kind === '7-HOME',

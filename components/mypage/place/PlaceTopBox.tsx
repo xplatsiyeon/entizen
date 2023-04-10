@@ -139,7 +139,7 @@ const PlaceTopBox = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              {data?.finalQuotation?.finalQuotationChargers?.length! ===
+              {/* {data?.finalQuotation?.finalQuotationChargers?.length! ===
               homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
@@ -148,7 +148,12 @@ const PlaceTopBox = ({ data }: Props) => {
                     Number(data?.finalQuotation?.userInvestRate) * 100,
                   )} %`}
                 </span>
-              )}
+              )} */}
+              {data?.finalQuotation?.userInvestRate === '-'
+                ? data?.finalQuotation?.userInvestRate
+                : `${Math.floor(
+                    Number(data?.finalQuotation?.userInvestRate) * 100,
+                  )} %`}
             </div>
             {/* 충전기 종류 및 수량 */}
             {data?.finalQuotation?.finalQuotationChargers?.map(
