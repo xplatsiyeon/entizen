@@ -69,7 +69,7 @@ const ModalWrapper = styled(Box)`
   position: fixed;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10000;
 `;
 const ModalBox = styled(Box)<{ size: string }>`
   width: ${({ size }) => (size ? `${size}pt` : '205.5pt')};
