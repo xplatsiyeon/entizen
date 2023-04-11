@@ -1,5 +1,6 @@
 import axios from 'axios';
-import instance from './interceptor';
+import instance from './interceptor/service';
+import adminInstance from './interceptor/admin';
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   endpoint: string;
@@ -116,63 +117,84 @@ export async function multerApi(formData: any): Promise<any> {
   }).then((res) => res.data);
 }
 
-// ------------------------------admin------------------------------------
-
+// ========================================== admin ============================================
 // API 호출 (토큰 O)
 export const isTokenAdminGetApi = async (url: string) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  return await axios({
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // return await axios({
+  //   method: 'GET',
+  //   url: `${BASE_URL}${url}`,
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     ContentType: 'application/json',
+  //   },
+  //   withCredentials: true,
+  // }).then((res) => res.data);
+  return await adminInstance({
     method: 'GET',
-    url: `${BASE_URL}${url}`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    url: `${url}`,
   }).then((res) => res.data);
 };
 export const isTokenAdminPostApi = async (apiInfo: PropsApi): Promise<any> => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const { url, data } = apiInfo;
+  // return await axios({
+  //   method: 'POST',
+  //   url: `${BASE_URL}${url}`,
+  //   data,
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     ContentType: 'application/json',
+  //   },
+  //   withCredentials: true,
+  // }).then((res) => res);
   const { url, data } = apiInfo;
-  return await axios({
+  return await adminInstance({
     method: 'POST',
-    url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
   }).then((res) => res);
 };
 // API 호출 (토큰 O)
 export const isTokenAdminPatchApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const { url, data } = apiInfo;
+  // return await axios({
+  //   method: 'PATCH',
+  //   url: `${BASE_URL}${url}`,
+  //   data,
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     ContentType: 'application/json',
+  //   },
+  //   withCredentials: true,
+  // }).then((res) => res.data);
   const { url, data } = apiInfo;
-  return await axios({
+  return await adminInstance({
     method: 'PATCH',
-    url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
   }).then((res) => res.data);
 };
 // API 호출 (토큰 O)
 export const isTokenAdminPutApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const { url, data } = apiInfo;
+  // return await axios({
+  //   method: 'PUT',
+  //   url: `${BASE_URL}${url}`,
+  //   data,
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     ContentType: 'application/json',
+  //   },
+  //   withCredentials: true,
+  // }).then((res) => res.data);
   const { url, data } = apiInfo;
-  return await axios({
+  return await adminInstance({
     method: 'PUT',
-    url: `${BASE_URL}${url}`,
+    url: `${url}`,
     data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
   }).then((res) => res.data);
 };
 
@@ -196,17 +218,23 @@ export const isTokenAdminPutExcelApi = async (apiInfo: PropsApi) => {
 
 // API 호출 (토큰 O)
 export const isTokenAdminDeleteApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const { url, data } = apiInfo;
+  // return await axios({
+  //   method: 'DELETE',
+  //   url: `${BASE_URL}${url}`,
+  //   // data,
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //     ContentType: 'application/json',
+  //   },
+  //   withCredentials: true,
+  // }).then((res) => res.data);
   const { url, data } = apiInfo;
-  return await axios({
+  return await adminInstance({
     method: 'DELETE',
-    url: `${BASE_URL}${url}`,
-    // data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
+    url: `${url}`,
+    data,
   }).then((res) => res.data);
 };
 

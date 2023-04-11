@@ -568,6 +568,7 @@ const RequestContents = styled.div<{ height?: true }>`
   border-radius: 6px;
   width: 748px;
   height: ${({ height }) => height === true && '200px'};
+  overflow: scroll;
 `;
 
 const ImgSpanBox = styled.div`
