@@ -51,16 +51,16 @@ const getRefreshToken = mem(
       });
 
       sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(accessToken));
-
-      if (refreshToken !== null) {
-        sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
-      }
+      sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
+      // if (refreshToken !== null) {
+      //   sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
+      // }
 
       return accessToken;
     } catch (error) {
-      alert('로그인 테스트 진행 중 입니다.');
-      alert(error);
-      // deleteData();
+      // alert('로그인 테스트 진행 중 입니다.');
+      // alert(error);
+      deleteData();
     }
   },
   { maxAge: 1000 },
@@ -119,7 +119,7 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  window.location.href = '/';
+  // window.location.href = '/';
 
   appLogout(userAgent as string);
 };
