@@ -57,9 +57,10 @@ const getRefreshToken = mem(
       }
 
       return accessToken;
-    } catch (e) {
-      alert('토큰이 만료되었습니다.');
-      deleteData();
+    } catch (error) {
+      alert('로그인 테스트 진행 중 입니다.');
+      alert(error);
+      // deleteData();
     }
   },
   { maxAge: 1000 },
