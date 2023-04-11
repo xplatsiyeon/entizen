@@ -50,8 +50,11 @@ const getRefreshToken = mem(
         refreshToken: REFRESH_TOKEN,
       });
 
-      sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(accessToken));
-      sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
+      await sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(accessToken));
+      await sessionStorage.setItem(
+        'REFRESH_TOKEN',
+        JSON.stringify(refreshToken),
+      );
       // if (refreshToken !== null) {
       //   sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
       // }
