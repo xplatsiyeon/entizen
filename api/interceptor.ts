@@ -41,7 +41,7 @@ const getRefreshToken = mem(
         sessionStorage.getItem('REFRESH_TOKEN')!,
       );
       const {
-        data: { accessToken, refreshToken },
+        data: { accessToken },
       } = await axios.post<{
         accessToken: string;
         refreshToken: string | null;
@@ -51,10 +51,10 @@ const getRefreshToken = mem(
       });
 
       await sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(accessToken));
-      await sessionStorage.setItem(
-        'REFRESH_TOKEN',
-        JSON.stringify(refreshToken),
-      );
+      // await sessionStorage.setItem(
+      //   'REFRESH_TOKEN',
+      //   JSON.stringify(refreshToken),
+      // );
       // if (refreshToken !== null) {
       //   sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
       // }
