@@ -134,7 +134,13 @@ const AdminTibtapEditor = ({
 
   const editor = useEditor({
     extensions: [
-      HardBreak,
+      HardBreak.extend({
+        addKeyboardShortcuts() {
+          return {
+            Enter: () => this.editor.commands.setHardBreak(),
+          };
+        },
+      }),
       StarterKit,
       Image,
       BulletList,
@@ -181,11 +187,12 @@ const AdminTibtapEditor = ({
       />
       <EditorContent
         editor={editor}
-        onKeyUp={(event) => {
-          if (event.key === 'Enter') {
-            editor?.chain().focus().setHardBreak().run();
-          }
-        }}
+
+        // onKeyUp={(event) => {
+        //   if (event.key === 'Enter') {
+        //     editor?.chain().focus().setHardBreak().run();
+        //   }
+        // }}
       />
     </Wrapper>
   );

@@ -133,7 +133,13 @@ const GuideTiptapEditor = ({
 
   const editor = useEditor({
     extensions: [
-      HardBreak,
+      HardBreak.extend({
+        addKeyboardShortcuts() {
+          return {
+            Enter: () => this.editor.commands.setHardBreak(),
+          };
+        },
+      }),
       StarterKit,
       Image,
       BulletList,
@@ -180,11 +186,12 @@ const GuideTiptapEditor = ({
       />
       <EditorContent
         editor={editor}
-        onKeyUp={(event) => {
-          if (event.key === 'Enter') {
-            editor?.chain().focus().setHardBreak().run();
-          }
-        }}
+        // ddKeyboardShortcuts
+        // onKeyUp={(event) => {
+        //   if (event.key === 'Enter') {
+        //     editor?.chain().focus().setHardBreak().run();
+        //   }
+        // }}
       />
     </Wrapper>
   );
