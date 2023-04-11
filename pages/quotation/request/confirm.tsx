@@ -15,13 +15,16 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
-import { SubscribePrice } from 'store/quotationSlice';
+import { quotationAction, SubscribePrice } from 'store/quotationSlice';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import { stat } from 'fs';
 import { useMediaQuery } from 'react-responsive';
 import DoubleArrow from 'public/images/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { useDispatch } from 'react-redux';
+import { locationAction } from 'store/locationSlice';
+import { addressSliceAction } from 'store/addressSlice';
 
 type Props = {};
 
@@ -44,6 +47,7 @@ const Confirm = (props: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);

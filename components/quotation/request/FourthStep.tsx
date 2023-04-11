@@ -109,12 +109,12 @@ const FourthStep = ({
         function (status, response) {
           if (status === naver.maps.Service.Status.ERROR) {
             if (locationList.roadAddrPart) {
-              return alert('Geocode Error, Please check address');
+              // return alert('Geocode Error, Please check address');
             }
-            return alert('Geocode Error, address:' + locationList.roadAddrPart);
+            // return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
           if (response.v2.meta.totalCount === 0) {
-            return alert('No result.');
+            // return alert('No result.');
           }
           let item = response.v2.addresses[0];
           dispatch(

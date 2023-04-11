@@ -29,6 +29,8 @@ adminInstance.interceptors.request.use((config) => {
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  console.log('🔥 token : ', token);
   return config;
 });
 

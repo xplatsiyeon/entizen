@@ -15,7 +15,7 @@ const slice = createSlice({
     setAddressSlice(state, action: PayloadAction<string>) {
       state.keyword = action.payload;
     },
-    reset(state, action) {
+    reset(state) {
       Object.assign(state, initialState);
     },
   },

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { locationAction } from 'store/locationSlice';
 import { useMediaQuery } from 'react-responsive';
+import { addressSliceAction } from 'store/addressSlice';
 
 interface Props {
   isModal: boolean;
@@ -33,8 +34,9 @@ const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
   };
 
   const HandleButton = () => {
-    dispatch(quotationAction.init());
-    dispatch(locationAction.reset());
+    dispatch(quotationAction.init()); // 간편견적 초기화
+    dispatch(locationAction.reset()); // 주소 초기화
+    dispatch(addressSliceAction.reset()); // 주소 검색 초기화
     onClick();
   };
 

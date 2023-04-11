@@ -126,13 +126,13 @@ const MainPage = (props: Props) => {
   };
 
   // 초기화
-  useEffect(() => {
-    sessionStorage.removeItem('key');
-    dispatch(quotationAction.init());
-    dispatch(subsidyGuideAction.reset());
-    dispatch(locationAction.reset());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   sessionStorage.removeItem('key');
+  //   dispatch(quotationAction.init());
+  //   dispatch(subsidyGuideAction.reset());
+  //   dispatch(locationAction.reset());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   if (quotationIsLoading || projectIsLoading) {
     return <Loader />;

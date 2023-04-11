@@ -58,8 +58,8 @@ const Main = () => {
   });
 
   // 검색 클릭
-  const handleOnClick = async (evnet: React.FormEvent<HTMLFormElement>) => {
-    evnet.preventDefault();
+  const handleOnClick = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsSearchBar((prev) => !prev);
     if (keyword.length === 0) {
       setIsModal(true);

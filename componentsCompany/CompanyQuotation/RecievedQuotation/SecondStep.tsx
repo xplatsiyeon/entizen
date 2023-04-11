@@ -457,6 +457,29 @@ const SecondStep = ({
   // 수정하기 버튼
   const onClickEdit = () => {
     if (canNext) {
+      console.log('🔥 imgArr : ', imgArr);
+      console.log('🔥 fileArr : ', fileArr);
+      // 이미지 파일
+      const chargerImageFiles = imgArr.map((file) => {
+        const data = {
+          originalName: file.originalName,
+          size: file.size,
+          url: file.url,
+        };
+
+        return data;
+      });
+      // 파일
+      const catalogFiles = fileArr.map((file) => {
+        const data = {
+          originalName: file.originalName,
+          size: file.size,
+          url: file.url,
+        };
+
+        return data;
+      });
+
       const chargers = [
         ...newCharge.slice(0, maxIndex! - 1),
         {
@@ -466,13 +489,16 @@ const SecondStep = ({
           modelName: productItem,
           manufacturer: manufacturingCompany,
           feature: chargeFeatures,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
+          chargerImageFiles: chargerImageFiles,
+          catalogFiles: catalogFiles,
         },
       ];
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
         let result: Result = { ...newCharger };
+
+        console.log('🔥 result : ', result.catalogFiles);
+
         if (feature && feature?.length! > 0) {
           result = {
             ...newCharger,
