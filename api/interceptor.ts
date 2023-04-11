@@ -51,10 +51,8 @@ const getRefreshToken = mem(
       });
 
       await sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(accessToken));
-      // await sessionStorage.setItem(
-      //   'REFRESH_TOKEN',
-      //   JSON.stringify(refreshToken),
-      // );
+
+      // refreshToken은 따로 갱신하지 않아서 주석처리
       // if (refreshToken !== null) {
       //   sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(refreshToken));
       // }
@@ -122,7 +120,7 @@ const deleteData = () => {
   sessionStorage.removeItem('REFRESH_TOKEN');
   sessionStorage.removeItem('USER_ID');
   sessionStorage.removeItem('MEMBER_TYPE');
-  // window.location.href = '/';
+  window.location.href = '/';
 
   appLogout(userAgent as string);
 };
