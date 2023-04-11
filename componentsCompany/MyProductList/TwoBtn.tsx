@@ -31,7 +31,8 @@ const Wrapper = styled.div`
   padding-bottom: 30pt;
   width: 100%;
   @media (max-width: 899.25pt) {
-    position: fixed;
+    /* position: abo; */
+    margin-top: 51pt;
   }
 
   @media (min-width: 900pt) {

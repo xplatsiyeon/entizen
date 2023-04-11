@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import useProfile from 'hooks/useProfile';
 import NewASUnder from './NewASUnder';
-import { useQueryClient } from 'react-query';
 
 type Props = {
   num?: number;
@@ -24,7 +23,6 @@ const LeftASBox = ({
   setComponentId,
 }: Props) => {
   const route = useRouter();
-  const queryclient = useQueryClient();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -251,7 +249,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
+    tab === index ? colors.main : colors.lightGray3};
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;

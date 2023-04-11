@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import AsHistory, { HisttoryResponse } from 'componentsCompany/AS/asHistory';
+import AsHistory, { HistoryResponse } from 'componentsCompany/AS/asHistory';
 import NewAs, { CompanyAsListResposne } from 'componentsCompany/AS/newAs';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -19,13 +19,12 @@ interface Components {
 const ComAsIndex = ({ num, now }: Props) => {
   // forK테스트 주석
   const router = useRouter();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [tabNumber, setTabNumber] = useState<number>(0);
   // 내 프로젝트에서 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
   const [componentId, setComponentId] = useState<number | undefined>();
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-
   // NEW AS 리스트 보기
   const [newSearchWord, setNewSearchWord] = useState<string>('');
   const [newFilterTypeEn, setNewFilterTypeEn] = useState('date');
@@ -60,7 +59,7 @@ const ComAsIndex = ({ num, now }: Props) => {
     data: historyData,
     isLoading: historyLoading,
     refetch: historyRefetch,
-  } = useQuery<HisttoryResponse>(
+  } = useQuery<HistoryResponse>(
     'company-history-as',
     () =>
       isTokenGetApi(

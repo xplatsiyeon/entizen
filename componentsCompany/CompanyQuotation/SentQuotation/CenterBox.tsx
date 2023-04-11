@@ -271,6 +271,7 @@ const ReservationDateCheck = styled.div`
     text-align: left;
     border-radius: 12pt;
     border: 0.75pt solid ${colors.main};
+    color: ${colors.main};
     cursor: pointer;
   }
 `;

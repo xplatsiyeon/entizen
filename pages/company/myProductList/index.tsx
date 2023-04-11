@@ -78,6 +78,6 @@ const Inner = styled.div`
     padding: 0;
     box-shadow: none;
     background: none;
-    margin: 0;
+    margin-top: 36pt;
   }
 `;

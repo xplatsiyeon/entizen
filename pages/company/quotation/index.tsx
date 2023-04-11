@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
-import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import History from 'componentsCompany/CompanyQuotation/History';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
@@ -13,9 +12,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
-import { RootState } from 'store/store';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
 import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
@@ -69,10 +66,8 @@ const CompanyQuotations = ({ num, now }: Props) => {
   const keyword = useDebounce(searchWord, 2000);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
   // 실시간 width 저장하는 state
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -136,12 +131,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
     }
   }, []);
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
   if (isError) {
-    // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    // console.log(error);
     return (
       <Modal
         text="다시 시도해주세요"
@@ -193,8 +183,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
-  /* background-color: white; */
-
   @media (max-height: 350pt) {
     height: 100%;
     display: block;
@@ -204,14 +192,12 @@ const WebBody = styled.div`
     justify-content: space-between;
   }
 `;
-
 const Container = styled.div`
   display: block;
   position: relative;
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -232,17 +218,7 @@ const Container = styled.div`
     margin-top: 60pt;
   }
 `;
-
 const WebBox = styled.div``;
-
-const WebRapper = styled.div`
-  @media (min-width: 900pt) {
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
 const Mobile = styled.div`
   @media (max-width: 899.25pt) {
     padding: 0 15pt;

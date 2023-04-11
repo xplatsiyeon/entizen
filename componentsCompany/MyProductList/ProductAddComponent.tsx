@@ -627,29 +627,31 @@ const ProductAddComponent = (props: Props) => {
                     capture={userAgent === 'Android_App' && true}
                   />
                   {/* <Preview> */}
-                  {imgArr?.map((img, index) => (
-                    <ImgSpan key={index} data-name={index}>
-                      <Image
-                        layout="fill"
-                        alt="preview"
-                        data-name={index}
-                        key={index}
-                        src={img.url}
-                        priority={true}
-                        unoptimized={true}
-                      />
-                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <ImgWrap>
+                    {imgArr?.map((img, index) => (
+                      <ImgSpan key={index} data-name={index}>
                         <Image
-                          src={CloseImg}
+                          layout="fill"
+                          alt="preview"
                           data-name={index}
-                          layout="intrinsic"
-                          alt="closeBtn"
-                          width={24}
-                          height={24}
+                          key={index}
+                          src={img.url}
+                          priority={true}
+                          unoptimized={true}
                         />
-                      </Xbox>
-                    </ImgSpan>
-                  ))}
+                        <Xbox onClick={handlePhotoDelete} data-name={index}>
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            layout="intrinsic"
+                            alt="closeBtn"
+                            width={24}
+                            height={24}
+                          />
+                        </Xbox>
+                      </ImgSpan>
+                    ))}
+                  </ImgWrap>
                   {/* </Preview> */}
                 </PhotosBox>
               </RemainderInputBox>
@@ -1123,7 +1125,6 @@ const RemainderInputBoxs = styled.div`
   position: relative;
   width: 100%;
   display: flex;
-  /* height: 100%; */
   padding-bottom: 58.6875pt;
   margin-top: 24pt;
   & .file-preview {
@@ -1164,14 +1165,11 @@ const PhotosBox = styled.div`
   height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
-  flex-wrap: wrap;
-  gap: 9.1875pt;
   align-items: center;
   height: auto;
 `;
 
 const PhotosBoxs = styled.div`
-  /* width: 100%; */
   height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
@@ -1187,19 +1185,36 @@ const PhotosBoxs = styled.div`
 
 const AddPhotos = styled.button`
   display: inline-block;
+  min-width: 56.0625pt;
   width: 56.0625pt;
+  margin-right: 6.1875pt;
   height: 56.0625pt;
   border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   background-color: #ffffff;
   cursor: pointer;
 `;
+const ImgWrap = styled.div`
+  width: 100%;
 
+  display: flex;
+  /* 모바일 기기 데스크탑만 대응 (패드는 제외)*/
+  @media (max-width: 337.5pt), (min-width: 900pt) {
+    display: grid;
+    grid-template-columns: repeat(3, 56.0625pt);
+    gap: 6.1875pt;
+  }
+`;
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  margin-right: 6.1875pt;
+  /* 모바일 기기 데스크탑만 대응 (패드는 제외)*/
+  @media (max-width: 337.5pt), (min-width: 900pt) {
+    margin-right: 0;
+  }
 `;
 const Xbox = styled.div`
   position: absolute;

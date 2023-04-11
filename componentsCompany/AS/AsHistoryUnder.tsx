@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useQuery } from 'react-query';
 import { CompanyAsListResposne } from './newAs';
-import { HisttoryResponse } from 'componentsCompany/AS/asHistory';
+import { HistoryResponse } from 'componentsCompany/AS/asHistory';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 
@@ -17,7 +17,7 @@ const TAG = 'componentsCompany/AS/AsHistoryUnder.tsx';
 const AsHistoryUnder = () => {
   const router = useRouter();
   // 기업 AS 리스트 보기
-  const { data, isLoading, isError, error } = useQuery<HisttoryResponse>(
+  const { data, isLoading, isError, error } = useQuery<HistoryResponse>(
     'company-asList',
     () =>
       isTokenGetApi(
@@ -80,7 +80,7 @@ export default AsHistoryUnder;
 const Body = styled.div`
   flex: 1;
   /* margin: 0 15pt; */
-  font-family: 'Spoqa Han Sans Neo'!important;
+  font-family: 'Spoqa Han Sans Neo' !important;
   display: flex;
   flex-direction: column;
   @media (max-width: 899.25pt) {

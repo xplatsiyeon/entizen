@@ -258,6 +258,7 @@ const MyProduct = (props: Props) => {
               </FileWrap>
             </Section>
           </List>
+          {/* 버튼 태그 */}
           <TwoBtn handleRightBtn={clickDelete} handleLeftBtn={clickEdit} />
         </Wrapper>
       </Inner>
@@ -471,10 +472,11 @@ const Subtitle = styled.span`
   }
 `;
 const GridImg = styled.div`
-  display: flex;
+  display: grid;
   padding-top: 9pt;
-  gap: 6pt;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(3, 81pt);
+  gap: 3.75pt;
+  width: 100%;
 
   @media (min-width: 900pt) {
     padding-top: 0;
@@ -486,9 +488,7 @@ const GridItem = styled.div`
   text-align: center;
   position: relative;
   border-radius: 6pt;
-  width: 81pt;
-  /* height: 97.5pt; */
-  height: 81pt;
+  height: 97.5pt;
   @media (min-width: 900pt) {
     border-radius: 6pt;
   }

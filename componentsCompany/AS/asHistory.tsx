@@ -21,7 +21,7 @@ export interface AfterSalesServices {
     averagePoint: string;
   };
 }
-export interface HisttoryResponse {
+export interface HistoryResponse {
   isSuccess: true;
   data: {
     afterSalesServiceHistories: {
@@ -41,7 +41,7 @@ export interface HisttoryResponse {
 }
 
 interface Props {
-  data: HisttoryResponse;
+  data: HistoryResponse;
   isLoading: boolean;
   newSearchWord: string;
   setHistoryFilterTypeEn: Dispatch<SetStateAction<string>>;

@@ -93,7 +93,11 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
       {/* Open */}
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <Contents>
+          {/* 상세 정보 */}
+          <Contents
+            isPartner={spotData?.data?.spotInspection ? true : false}
+            className="detail"
+          >
             <div className="text-box">
               <span className="name">구독상품</span>
               <span className="text">
@@ -121,13 +125,6 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                   ) * 100,
                 )} %`}</span>
               )}
-              {/* <span className="text">
-                {`${Math.floor(
-                  Number(
-                    data?.sendQuotationRequest?.quotationRequest?.investRate!,
-                  ) * 100,
-                )} %`}
-              </span> */}
             </div>
             {data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!.map(
               (item, index) => (
@@ -209,7 +206,6 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                   {data?.sendQuotationRequest?.quotationRequest?.member?.name}
                 </span>
               </div>
-              {/* 어디서 쓰는 컴포넌트 일까 ㅠㅜ */}
               <div className="text-box">
                 <span className="name">연락처</span>
                 <a href={'tel:' + callPhone} className="textPhone">
@@ -238,7 +234,8 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   display: block;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  /* box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2); */
+  box-shadow: 0pt 5pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;
@@ -312,10 +309,12 @@ const ArrowImg = styled.div`
   height: 18pt;
 `;
 
-const Contents = styled.div`
+const Contents = styled.div<{ isPartner?: boolean }>`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
-  border-bottom: 0.75pt solid #e9eaee;
+  &.detail {
+    border-bottom: ${({ isPartner }) => isPartner && '0.75pt solid #e2e5ed'};
+  }
   .text-box {
     display: flex;
     justify-content: space-between;

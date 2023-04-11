@@ -10,6 +10,7 @@ import { AlertsResponse, NewAlert } from './AlarmWebSetting';
 import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
+import Toggle from 'rsuite/Toggle';
 
 type Props = {
   tabNumber: number;
@@ -687,15 +688,16 @@ const CustomSwitch = styled(Switch)`
   }
   .MuiSwitch-thumb {
     color: white;
-    width: 12pt;
-    height: 12pt;
-    margin-top: 2.75pt;
+    width: 11pt;
+    height: 11pt;
+    margin-top: 3.5pt;
+
     display: flex;
   }
   .MuiSwitch-track {
     background-color: #e2e5ed;
     height: 13.125pt;
-    width: 21pt;
+
     padding: 0 7.5pt;
     border-radius: 15pt;
   }

@@ -315,7 +315,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
+    tab === index ? colors.main : colors.lightGray3};
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;

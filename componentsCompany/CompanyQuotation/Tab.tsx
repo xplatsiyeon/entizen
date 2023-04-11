@@ -39,7 +39,7 @@ const TabLists = styled.div`
   color: #caccd1;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;

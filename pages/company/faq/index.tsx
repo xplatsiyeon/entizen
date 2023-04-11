@@ -309,7 +309,6 @@ const Inner = styled.div`
     background: none;
     margin: 0;
   }
-
   @media (min-width: 900pt) {
     margin: 54pt auto 100pt;
   }
@@ -322,13 +321,10 @@ const TabContainer = styled.div`
   padding-right: 15pt;
   cursor: pointer;
   @media (max-width: 899.25pt) {
-    justify-content: space-evenly;
-    align-items: center;
     width: 100%;
-    padding: 0;
   }
 `;
-const TabItem = styled.div<{ tab: string; index: string }>`
+const TabItem = styled.span<{ tab: string; index: string }>`
   text-align: center;
   font-weight: 700;
   padding: 0 0 12pt;
@@ -341,6 +337,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   @media (max-width: 899.25pt) {
     margin-right: 0;
     padding: 12pt 0;
+    margin-right: 15pt;
   }
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
