@@ -121,7 +121,7 @@ const SettingMain = ({
           googleLogout();
         }
       })
-      .then((res) => router.push('/'));
+      .then((res) => router.push('/completedwithdrawal'));
   };
   // SNS/일반회원 구별
   const HandleWidthdrawal = async () => {

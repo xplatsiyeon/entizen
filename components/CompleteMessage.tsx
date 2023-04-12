@@ -18,6 +18,7 @@ interface Props {
   user?: string;
   cssDetail?: boolean;
   textChange?: boolean;
+  isPreWrap?: boolean;
 }
 
 const CompleteMessage = ({
@@ -31,6 +32,7 @@ const CompleteMessage = ({
   user,
   cssDetail,
   textChange,
+  isPreWrap,
 }: Props) => {
   const router = useRouter();
 
@@ -51,22 +53,16 @@ const CompleteMessage = ({
             <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
           )}
         </IconWrap>
-        {/* <Nav>
-          {yesExit && (
-            <Image
-              onClick={handleExitClick}
-              src={ExitImg}
-              alt="exit"
-              style={{ cursor: 'pointer' }}
-            />
-          )}
-        </Nav> */}
         <ContainerBox disableGutters>
           <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
         </ContainerBox>
         <Title cssDetail={Boolean(cssDetail)}>{title}</Title>
         <Footer>
-          {text && <TextBox cssDetail={Boolean(cssDetail)}>{text}</TextBox>}
+          {text && (
+            <TextBox isPreWrap={isPreWrap} cssDetail={Boolean(cssDetail)}>
+              {text}
+            </TextBox>
+          )}
           <Btn onClick={handleOnClick}>{buttonText}</Btn>
           <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
         </Footer>
@@ -155,7 +151,7 @@ const Footer = styled.div`
     padding: 0 15pt;
   }
 `;
-const TextBox = styled.div<{ cssDetail: boolean }>`
+const TextBox = styled.div<{ cssDetail: boolean; isPreWrap?: boolean }>`
   display: flex;
   justify-content: center;
   white-space: pre-wrap;
@@ -177,8 +173,10 @@ const TextBox = styled.div<{ cssDetail: boolean }>`
   }
 
   @media (min-width: 900pt) {
-    white-space: normal;
+    white-space: ${({ isPreWrap }) =>
+      isPreWrap && isPreWrap === true ? 'pre-wrap' : 'normal'};
     font-size: 15pt;
+    line-height: 32px;
   }
 `;
 const Btn = styled.button`

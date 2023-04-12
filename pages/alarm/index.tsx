@@ -280,7 +280,7 @@ const Alam = () => {
                   key={index}
                   onClick={() => {
                     router.push({
-                      pathname: '/alarm/1-3',
+                      pathname: '/alarm/Notices',
                       query: {
                         noticesIdx: item?.noticeIdx,
                       },

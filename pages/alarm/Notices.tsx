@@ -7,7 +7,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 import { adminDateFomat } from 'utils/calculatePackage';
@@ -25,10 +25,10 @@ type NoticeResponse = {
   };
 };
 
-const Alam1_3 = () => {
+const Notices = () => {
   // /notices/:noticeIdx
   const router = useRouter();
-  const routerID = router.query.noticesIdx;
+  const routerID = router?.query?.noticesIdx;
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(1);
   const tabHandler = (num: number) => setTab(num);
@@ -42,12 +42,20 @@ const Alam1_3 = () => {
     isLoading: noticeIsLoading,
     isError: noticeIsError,
     refetch: noticeIsRefetch,
-  } = useQuery<NoticeResponse>('noticesList', () =>
-    isTokenGetApi(`/notices/${routerID}`),
+  } = useQuery<NoticeResponse>(
+    'noticesList',
+    () => isTokenGetApi(`/notices/${routerID}`),
+    {
+      enabled: Boolean(router.query.noticesIdx),
+    },
   );
 
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [tabNumber, setTabNumber] = useState<number>(7);
+
+  useEffect(() => {
+    console.log('idx 값 확인 :', router.query.noticesIdx);
+  }, [router]);
 
   return (
     <WebBody>
@@ -134,7 +142,7 @@ const Alam1_3 = () => {
   );
 };
 
-export default Alam1_3;
+export default Notices;
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
