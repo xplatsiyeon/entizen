@@ -3,7 +3,7 @@ import { appLogout } from 'bridge/appToWeb';
 import mem from 'mem';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const REFRESH_URL = `${BASE_URL}/auth/token`;
+const REFRESH_URL = `${BASE_URL}/admin/auth/token`;
 
 // 초기 interceptor 값
 const adminInstance = axios.create({

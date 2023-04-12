@@ -120,7 +120,7 @@ Props) => {
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isButtonValid, setIsButtonValid] = useState(false); // 버튼 유효성 검사
+  // const [isButtonValid, setIsButtonValid] = useState(false); // 버튼 유효성 검사
 
   // console.log('이미지 데이터 어케오노', data?.project);
 
@@ -286,9 +286,10 @@ Props) => {
 
   // 완료 버튼 클릭
   const onClickDoneButton = () => {
-    if (isButtonValid) {
-      setTwoBtnModalOpen(!twoBtnModalOpen);
-    }
+    setTwoBtnModalOpen(!twoBtnModalOpen);
+    // if (isButtonValid) {
+    //   setTwoBtnModalOpen(!twoBtnModalOpen);
+    // }
   };
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
@@ -305,15 +306,15 @@ Props) => {
   }, []);
 
   // 버튼 유효성 검사
-  useEffect(() => {
-    console.log('🔥 isButtonValid : ', isButtonValid);
+  // useEffect(() => {
+  //   console.log('🔥 isButtonValid : ', isButtonValid);
 
-    if (imgArr.length > 0) {
-      setIsButtonValid(true);
-    } else {
-      setIsButtonValid(false);
-    }
-  }, [imgArr]);
+  //   if (imgArr.length > 0) {
+  //     setIsButtonValid(true);
+  //   } else {
+  //     setIsButtonValid(false);
+  //   }
+  // }, [imgArr]);
 
   useEffect(() => {
     // console.log('핀 업데이트 되면 새로 고침');
@@ -558,7 +559,7 @@ Props) => {
             )}
             {fin === false ? (
               <Button
-                isButtonValid={isButtonValid}
+                // isButtonValid={isButtonValid}
                 onClick={onClickDoneButton}
                 finalStep={finalStep}
                 onValid={preStepState}
@@ -904,14 +905,14 @@ const Xbox = styled.div`
 const Button = styled.div<{
   finalStep?: boolean;
   onValid: boolean;
-  isButtonValid: boolean;
+  // isButtonValid: boolean;
 }>`
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
   cursor: pointer;
-  background-color: ${({ onValid, isButtonValid }) =>
-    isButtonValid === true && onValid === true ? colors.main : '#b096ef'};
+  background-color: ${({ onValid }) =>
+    onValid === true ? colors.main : '#b096ef'};
   color: #ffffff;
   text-align: center;
   border-radius: 6pt;

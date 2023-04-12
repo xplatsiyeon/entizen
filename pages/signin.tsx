@@ -340,12 +340,9 @@ const Signin = () => {
     // console.log('🔥 type ==>>', type);
     if (type === 'id') {
       setIsId(true);
-      // console.log(data);
-      // console.log('id입니다');
     }
     if (type === 'password') {
       setIsPassword(true);
-      // console.log('passowrd입니다');
     }
     if (typeof window !== 'object') return;
     else {
@@ -385,7 +382,7 @@ const Signin = () => {
     // console.log(data);
     if (data.isMember) {
       dispatch(findUserInfoAction.addId(data.id));
-      sessionStorage.removeItem('key');
+      // sessionStorage.removeItem('key');
       router.push('/find/id');
     } else {
       setErrorMessage(

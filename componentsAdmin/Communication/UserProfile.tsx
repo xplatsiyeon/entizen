@@ -58,6 +58,10 @@ const UserProfile = (memberIdx: { memberIdx: number }) => {
     }
   }, [router.query]);
 
+  useEffect(() => {
+    console.log('🔥 userData : ', userData);
+  }, [userData]);
+
   return (
     <>
       <InfoBox>

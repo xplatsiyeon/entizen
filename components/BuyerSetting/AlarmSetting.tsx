@@ -10,7 +10,6 @@ import { AlertsResponse, NewAlert } from './AlarmWebSetting';
 import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
 import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
-import Toggle from 'rsuite/Toggle';
 
 type Props = {
   tabNumber: number;

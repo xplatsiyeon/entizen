@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import colors from '../../styles/colors';
 import { Box, Button } from '@mui/material';
 import Header from 'components/header';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ const findingId2 = () => {
   const HandleFindPassword = async () => {
     let key = sessionStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
+    console.log('🔥 data  : ', data);
     if (data.isMember) {
       // console.log('멤버 확인 -> ' + data.isMember);
       sessionStorage.getItem('key');
@@ -32,6 +33,14 @@ const findingId2 = () => {
       setErrorModal((prev) => !prev);
     }
   };
+
+  // 언마운트 될 때 key 삭제
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem('key');
+    };
+  }, []);
+
   if (id) {
     return (
       <React.Fragment>
