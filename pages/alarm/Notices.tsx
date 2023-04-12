@@ -34,6 +34,7 @@ const Notices = () => {
   const tabHandler = (num: number) => setTab(num);
   const dispatch = useDispatch();
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const userID = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });

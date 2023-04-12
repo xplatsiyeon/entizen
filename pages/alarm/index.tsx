@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { useMediaQuery } from 'react-responsive';
+import Notices from './Notices';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -59,13 +60,9 @@ const Alam = () => {
     query: '(max-width:899.25pt)',
   });
 
-  // const [list, setList] = useState(arr.slice(0, 1));
-  // const [isLoading, setIsLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
-  const [componentId, setComponentId] = useState<number>();
   const [tabNumber, setTabNumber] = useState<number>(7);
-
   const loadRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const tabHandler = (num: number) => setTab(num);
@@ -198,7 +195,6 @@ const Alam = () => {
             <span className="text">알림함</span>
             <div
               className="setting-img"
-              // onClick={() => router.push('/setting?id=1')}
               onClick={() =>
                 router.push({
                   pathname: '/setting',
@@ -229,13 +225,6 @@ const Alam = () => {
                 key={index}
                 onClick={() => {
                   tabHandler(index);
-                  // router.push({
-                  //   pathname: '/alarm',
-                  //   query: {
-                  //     id: index,
-                  //   },
-                  // });
-
                   dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
                 }}
               >
@@ -244,22 +233,13 @@ const Alam = () => {
               </Text>
             ))}
           </Tab>
-
-          {/* {list.length === 0 && (
-            <Body>
-              <Image src={Bell} alt="bell" />
-              <p className="text">새로운 알림이 없습니다</p>
-            </Body>
-          )} */}
           {/* 전체 알림 데이터 */}
           {tab === 0 && (
             <Main>
               {historyList?.data?.alertHistories?.map((item, index) => (
-                // <ContensBox key={index} onClick={onClicklist1}>
                 <ContensBox key={index} cursor={false}>
                   <DisplayBox>
                     <DisplaySubBox>
-                      {/* <label className="label">{[`${item.title}`]}</label> */}
                       <HistoryBodyText>{item?.body}</HistoryBodyText>
                       <p className="contents">{item.title}</p>
                     </DisplaySubBox>

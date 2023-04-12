@@ -100,15 +100,7 @@ const UserProfile = (memberIdx: { memberIdx: number }) => {
       </InfoBox>
       <TextAreaContainer>
         <label>관리자 전용 특이사항</label>
-        <textarea
-          rows={10}
-          cols={30}
-          // value={
-          //   specialNote !== undefined
-          //     ? specialNote
-          //     : userData?.data?.member?.etc
-          // }
-        >
+        <textarea rows={10} cols={30}>
           {userData?.data?.member?.etc}
         </textarea>
       </TextAreaContainer>

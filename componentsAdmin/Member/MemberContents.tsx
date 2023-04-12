@@ -39,7 +39,6 @@ const MemberContents = ({
   const [message, setMessage] = useState('');
   const [messageModal, setMessageModal] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
-  const [fileIdx, setFileIdx] = useState(0);
 
   // 기업 상세보기 refetch
   const {
@@ -74,7 +73,7 @@ const MemberContents = ({
   });
 
   //  파트너 등록 제품 첨부파일 삭제
-  const modalDeleteFileBtnControll = () => {
+  const modalDeleteFileBtnControll = (fileIdx: number) => {
     delelteMutate({
       url: `/admin/members/companies/${memberIdx}/business-registration/${fileIdx}`,
     });
@@ -187,8 +186,9 @@ const MemberContents = ({
                     <button
                       className="businessBtn"
                       onClick={() => {
-                        setFileIdx(item?.businessRegistrationFileIdx);
-                        modalDeleteFileBtnControll();
+                        modalDeleteFileBtnControll(
+                          item?.businessRegistrationFileIdx,
+                        );
                       }}
                     >
                       삭제

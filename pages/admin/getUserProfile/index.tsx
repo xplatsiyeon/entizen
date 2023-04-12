@@ -58,6 +58,8 @@ const UserProfile = () => {
     }
   }, [router.query]);
 
+  console.log('🔥 userData : ', userData);
+
   return (
     <div style={{ padding: '0 20px' }}>
       {userId && (

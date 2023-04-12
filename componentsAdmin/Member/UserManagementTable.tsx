@@ -250,7 +250,7 @@ const UserManagementTable = ({
       },
     );
 
-  console.log('comUserData', comUserData);
+  // console.log('comUserData', comUserData);
 
   useEffect(() => {
     switch (tableType) {

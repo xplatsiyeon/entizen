@@ -80,9 +80,10 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const [messageModal, setMessageModal] = useState<boolean>(false);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
-
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
+  // 관리자 전용 특이사항
+  const [specialNote, setSpecialNote] = useState<string>('');
 
   const {
     data: userData,
@@ -95,6 +96,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     {
       // enabled: false,
       enabled: type === 'USER' && memberIdx ? true : false,
+      onSuccess: (res) => {
+        setSpecialNote(res.data.member.etc);
+      },
     },
   );
   const {
@@ -108,6 +112,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     {
       // enabled: false,
       enabled: type === 'COMPANY' && memberIdx ? true : false,
+      onSuccess: (res) => {
+        setSpecialNote(res.data.member.etc);
+      },
     },
   );
 
@@ -130,9 +137,6 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   // console.log(selectValue, 'selectValue', '💔');
   // console.log(approve, 'approve', '💔');
   // console.log(currentApprove, 'currentApprove', '💔');
-
-  // 관리자 전용 특이사항
-  const [specialNote, setSpecialNote] = useState<string | undefined>();
 
   // 일반회원 프로필 삭제
   const {
@@ -250,6 +254,8 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const companyAvatar =
     companyData?.data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl;
 
+  console.log('🔥 userData : ', userData);
+
   return (
     <Background nowHeight={nowHeight}>
       <Wrapper>
@@ -348,52 +354,22 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
             <textarea
               rows={10}
               cols={30}
-              // value={
-              //   specialNote !== undefined
-              //     ? specialNote
-              //     : userData?.data?.member?.etc
-              // }
+              value={specialNote}
               onChange={(e) => {
                 setSpecialNote(e.target.value);
               }}
-            >
-              {userData?.data?.member?.etc}
-            </textarea>
+            />
           ) : (
             <textarea
               rows={10}
               cols={30}
-              // value={
-              //   specialNote !== undefined
-              //     ? specialNote
-              //     : companyData?.data?.member?.etc
-              // }
+              value={specialNote}
               onChange={(e) => {
                 setSpecialNote(e.target.value);
               }}
-            >
-              {companyData?.data?.member?.etc}
-            </textarea>
+            />
           )}
         </TextAreaContainer>
-        {/* <ButtonBox>
-          <button
-            onClick={() => {
-              alert('개발중입니다.');
-            }}
-          >
-            회원삭제
-          </button>
-          <button
-            onClick={() => {
-              if (approve !== undefined) {
-                adminJoinApprove();
-              }
-            }}
-          >
-            수정
-          </button>
-        </ButtonBox> */}
       </Wrapper>
     </Background>
   );
