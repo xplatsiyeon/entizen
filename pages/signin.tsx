@@ -460,76 +460,24 @@ const Signin = () => {
   }, []);
   // 네이버 로그인
   useEffect(() => {
-    //  login( naverLogin, (naverLogin) => {
-    //   const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-    //   console.log('⭐️hash -> ' + hash);
-
-    //   if (hash) {
-    //     const token = hash.split('=')[1].split('&')[0]; // token값 확인
-    //     // console.log('⭐️ token : ', token);
-    //     naverLogin.getLoginStatus((status: any) => {
-    //       if (status) {
-    //         // console.log('⭐️ status : ', status);
-    //         NaverApi(naverLogin);
-    //         // console.log('⭐️ naverLogin : ', naverLogin);
-    //         dispatch(
-    //           userAction.add({
-    //             ...user,
-    //             email: naverLogin.user.email,
-    //             snsType: naverLogin.user.snsType,
-    //           }),
-    //         );
-    //         // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
-    //         router.push({
-    //           pathname: '/signUp/Terms',
-    //           query: {
-    //             token: token,
-    //           },
-    //         });
-    //       }
-    //     });
-    //   }
-    // }
-    // );
     login();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
-      //handle successful response
-      // console.log('AppleIDSignInOnSuccess', data);
-      // console.log(data.detail.authorization);
-      //todo success logic
-
       const token = data.detail.authorization.id_token;
-      // console.log(token);
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
-
-      // console.log(
-      //   '=============== apple login useEffect 실행 =========================',
-      // );
       handleAppleLogin(result);
     });
     //애플로 로그인 실패 시.
-    document.addEventListener('AppleIDSignInOnFailure', (error) => {
-      //handle error.
-      // console.log('AppleIDSignInOnFailure');
-      //todo fail logic
-    });
+    document.addEventListener('AppleIDSignInOnFailure', (error) => {});
   }, []);
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    // console.log(
-    //   '=============== apple login 핸들러 함수 실행 =========================',
-    // );
-    // console.log('애플로그인 user 유니크값 : ', result);
-
     const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await axios({
       method: 'post',
@@ -564,13 +512,7 @@ const Signin = () => {
         sessionStorage.setItem('USER_ID', JSON.stringify(result.email));
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-
-        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        // setCookie('USER_ID', JSON.stringify(result.email));
-        // setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        // setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(result.email));
-
         // ================브릿지 연결=====================
         const userInfo = {
           SNS_MEMBER: token.isSnsMember,
@@ -580,7 +522,6 @@ const Signin = () => {
           USER_ID: result.email,
         };
         // console.log('==========userInfo==========');
-        // console.log(userInfo);
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (userAgent === 'iOS_App') {

@@ -35,11 +35,11 @@ const findingId2 = () => {
   };
 
   // 언마운트 될 때 key 삭제
-  useEffect(() => {
-    return () => {
-      sessionStorage.removeItem('key');
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     sessionStorage.removeItem('key');
+  //   };
+  // }, []);
 
   if (id) {
     return (
