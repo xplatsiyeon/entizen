@@ -601,7 +601,7 @@ const HeadOpenContent = () => {
                       <React.Fragment key={index}>
                         {index <=
                           data?.receivedQuotationRequest
-                            .quotationRequestChargers.length! && (
+                            ?.quotationRequestChargers?.length! && (
                           <TabLine
                             className="target"
                             idx={index.toString()}
