@@ -248,8 +248,8 @@ const AsRequest = ({ data }: Props) => {
               )}
 
               {/* 충전기 제조사 2개 이상 일 때 */}
-              {projectData?.project.finalQuotation.finalQuotationChargers
-                .length! > 1 && (
+              {projectData?.project.finalQuotation?.finalQuotationChargers
+                ?.length! > 1 && (
                 <>
                   <MultiSection>
                     <BorderTop></BorderTop>

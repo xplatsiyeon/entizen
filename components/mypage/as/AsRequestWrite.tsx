@@ -229,6 +229,7 @@ const AsRequestWrite = ({ rewrite }: Props) => {
   };
   // as 수정하기 버튼
   const onClickModifiedBtn = () => {
+    console.log('🔥 review : ', review);
     if (checkAll) {
       modifiedMutate({
         url: `/after-sales-services/${routerId}`,
@@ -251,17 +252,20 @@ const AsRequestWrite = ({ rewrite }: Props) => {
   const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRequestText(() => e.target.value);
   };
-
   // 수정하기 초기값
   useEffect(() => {
     if (detailData && routerId !== undefined) {
       const afterSalesServiceRequestFiles =
         detailData?.data.afterSalesService.afterSalesService
           .afterSalesServiceRequestFiles;
+
+      // console.log(afterSalesServiceRequestFiles);
       const newFile = [...afterSalesServiceRequestFiles].map((obj: any) => {
         delete obj.afterSalesServiceIdx;
         delete obj.afterSalesServiceRequestFileIdx;
         delete obj.createdAt;
+        delete obj.updatedAt;
+        delete obj.deletedAt;
         return obj;
       });
       setTitle(
