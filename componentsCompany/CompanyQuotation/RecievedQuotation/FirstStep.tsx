@@ -81,28 +81,6 @@ const FirstStep = ({
     }
   };
 
-  // 수정하기
-  useEffect(() => {
-    if (editData) {
-      const { preQuotation } = editData?.sendQuotationRequest;
-      // console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
-      // console.log(preQuotation);
-
-      setChargingStationInstallationPrice(
-        preQuotation?.chargingStationInstallationPrice?.toString(),
-      );
-      setMonthleSubscribePrice(
-        preQuotation?.subscribePricePerMonth?.toString(),
-      );
-      setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
-      setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
-    }
-
-    if (chargingStationInstallationPrice[0] === '0' || 0) {
-      chargingStationInstallationPrice.substring(1);
-    }
-  }, [editData]);
-
   // 페이지 최상단으로 이동
   useEffect(() => {
     window.scrollTo(0, 0);

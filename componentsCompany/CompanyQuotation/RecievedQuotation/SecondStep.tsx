@@ -12,7 +12,6 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
-// import { BusinessRegistrationType } from 'components/SignUp';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { useSelector } from 'react-redux';
@@ -68,8 +67,6 @@ interface Result {
   modelName?: string;
 }
 
-const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
-
 const SecondStep = ({
   tabNumber,
   maxIndex,
@@ -112,11 +109,9 @@ const SecondStep = ({
     subscribePricePerMonth,
     chargingStationInstallationPrice,
   } = useSelector((state: RootState) => state.companymyEstimateData);
-  const companymyEstimateData = useSelector(
-    (state: RootState) => state.companymyEstimateData,
-  );
+
   const newCharge = chargers.slice(0, maxIndex);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -382,6 +377,25 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
+    // 이미지 파일
+    const chargerImageFiles = imgArr.map((file) => {
+      const data = {
+        originalName: file.originalName,
+        size: file.size,
+        url: file.url,
+      };
+      return data;
+    });
+    // 파일
+    const catalogFiles = fileArr.map((file) => {
+      const data = {
+        originalName: file.originalName,
+        size: file.size,
+        url: file.url,
+      };
+      return data;
+    });
+
     if (canNext && tabNumber < maxIndex!) {
       dispatch(
         myEstimateAction.setCharge({
@@ -393,8 +407,8 @@ const SecondStep = ({
             modelName: productItem,
             manufacturer: manufacturingCompany,
             feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
+            chargerImageFiles: chargerImageFiles,
+            catalogFiles: catalogFiles,
           },
         }),
       );
@@ -466,7 +480,6 @@ const SecondStep = ({
           size: file.size,
           url: file.url,
         };
-
         return data;
       });
       // 파일
@@ -476,7 +489,6 @@ const SecondStep = ({
           size: file.size,
           url: file.url,
         };
-
         return data;
       });
 
@@ -493,12 +505,10 @@ const SecondStep = ({
           catalogFiles: catalogFiles,
         },
       ];
+
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
         let result: Result = { ...newCharger };
-
-        console.log('🔥 result : ', result.catalogFiles);
-
         if (feature && feature?.length! > 0) {
           result = {
             ...newCharger,
@@ -513,13 +523,18 @@ const SecondStep = ({
         }
         return result;
       });
+
       const newData = {
+        chargers: newChargers,
         chargingStationInstallationPrice: chargingStationInstallationPrice,
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
-        chargers: newChargers,
       };
-      if (subscribeProductFeature.length < 1) {
+
+      if (
+        subscribeProductFeature.length < 1 &&
+        !editData?.sendQuotationRequest?.preQuotation.subscribeProductFeature
+      ) {
         putMutate({
           url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
           data: newData,
@@ -533,6 +548,10 @@ const SecondStep = ({
           },
         });
       }
+      putMutate({
+        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+        data: newData,
+      });
       dispatch(myEstimateAction.reset());
     }
   };

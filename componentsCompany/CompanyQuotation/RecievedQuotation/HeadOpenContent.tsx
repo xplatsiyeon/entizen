@@ -239,13 +239,34 @@ const HeadOpenContent = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    console.log('🔥 firstPageTextArea : ', firstPageTextArea);
+  }, [firstPageTextArea]);
+
+  // 수정하기
+  useEffect(() => {
+    if (editData) {
+      const { preQuotation } = editData?.sendQuotationRequest;
+      // console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
+      // console.log(preQuotation);
+
+      setChargingStationInstallationPrice(
+        preQuotation?.chargingStationInstallationPrice?.toString(),
+      );
+      setMonthleSubscribePrice(
+        preQuotation?.subscribePricePerMonth?.toString(),
+      );
+      setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
+      setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
+    }
+
+    if (chargingStationInstallationPrice[0] === '0' || 0) {
+      chargingStationInstallationPrice.substring(1);
+    }
+  }, [editData]);
 
   // 부분 구독인지 아닌지
   const partSubscribe = data?.receivedQuotationRequest?.subscribeProduct;
-
   const badge =
     data?.receivedQuotationRequest.badge! ||
     editData?.sendQuotationRequest?.badge!;
@@ -388,6 +409,10 @@ const HeadOpenContent = () => {
       </WebContainer>
     ),
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -593,7 +618,7 @@ const HeadOpenContent = () => {
                   paddingOn={true}
                 />
               )}
-              {/* ------------내부 컴포넌트--------- */}
+              {/* ----------------------- 내부 컴포넌트 ------------------------ */}
               {
                 <TapWrapper tabNumber={tabNumber} className="tabnumber">
                   <TabBox open={open} className="target-list">
