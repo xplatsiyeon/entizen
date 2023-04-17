@@ -1,18 +1,6 @@
-import {
-  useEditor,
-  EditorContent,
-  BubbleMenu,
-  FloatingMenu,
-} from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import Image from '@tiptap/extension-image';
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { useMutation } from 'react-query';
 import StarterKit from '@tiptap/starter-kit';
 import styled from '@emotion/styled';
 import TextAlign from '@tiptap/extension-text-align';
@@ -56,13 +44,7 @@ const GuideTiptapEditor = ({
     useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
       onSuccess: (res) => {
         console.log(' 👀 ~ line 44 multer onSuccess');
-
-        // console.log(res);
         const newFile = editorImg;
-        // const newFile = preFile.map((e) => {
-        //   const { createdAt, bannerImageIdx, ...rest } = e;
-        //   return { ...rest };
-        // });
         res?.uploadedFiles.forEach((img) => {
           if (editor) {
             editor
@@ -82,19 +64,10 @@ const GuideTiptapEditor = ({
       onError: (error: any) => {
         if (error.response.data.message) {
           console.log(`첫번째 에러:${error.response.data.message}`);
-
-          //   setMessage(`첫번째 에러:${error.response.data.message}`);
-          //   setMessageModal(true);
         } else if (error.response.status === 413) {
           console.log('용량이 너무 큽니다.');
-
-          //   setMessage('용량이 너무 큽니다.');
-          //   setMessageModal(true);
         } else {
           console.log('다시 시도해주세요');
-
-          //   setMessage('다시 시도해주세요');
-          //   setMessageModal(true);
         }
       },
     });

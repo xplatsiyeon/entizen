@@ -12,6 +12,7 @@ const colors = {
   lightGray4: '#dcdde1',
   lightGray5: '#e7e7e7',
   lightGray6: '#d9d9d9',
+  lightGray7: '#747780',
 
   sub4: '#F75015',
   gray: '#E2E5ED',

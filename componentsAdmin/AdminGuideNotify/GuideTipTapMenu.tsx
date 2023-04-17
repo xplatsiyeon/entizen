@@ -396,13 +396,13 @@ function GuideTipTapMenu({ editor, setEditorImg, editorImg, addImage }: Props) {
           style={{ display: 'none' }}
           className="imgIcon"
         />
-        <label
+        {/* <label
           htmlFor="addImage"
           onClick={() => editor.chain().focus()}
           className="imgIcon"
         >
           <PhotoSizeSelectActualOutlinedIcon />
-        </label>
+        </label> */}
       </div>
     </Wrapper>
   );

@@ -557,7 +557,7 @@ const ProductAddComponent = (props: Props) => {
                       option={CHARGING_METHOD}
                       value={chargingMethod[index]}
                       index={index}
-                      placeholder={'충전 방식'}
+                      placeholder={'충전 방식1'}
                       onClickCharger={onChangeSelectBox}
                     />
                   )}
@@ -569,7 +569,7 @@ const ProductAddComponent = (props: Props) => {
                         option={CHARGING_METHOD}
                         value={chargingMethod[index]}
                         index={index}
-                        placeholder={'충전 방식'}
+                        placeholder={'충전 방식2'}
                         onClickCharger={onChangeSelectBox}
                       />
                       <DeleteBtn onClick={() => onClickMinus(index)}>
@@ -1104,7 +1104,8 @@ const WebBtn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
 
 const PlusBox = styled.div`
   display: flex;
-  gap: 12pt;
+  justify-content: space-between;
+  margin-top: 9pt;
 `;
 
 const DeleteBtn = styled.div`
@@ -1112,6 +1113,7 @@ const DeleteBtn = styled.div`
   height: 21pt;
   padding-top: 10.885pt;
   padding-bottom: 10.885pt;
+  margin-left: 12pt;
   cursor: pointer;
 `;
 

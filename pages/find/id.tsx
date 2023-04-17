@@ -190,7 +190,7 @@ const Password = styled.div`
   text-align: center;
 `;
 
-const ButtonWrap = styled(Button)`
+const ButtonWrap = styled.button`
   font-weight: 700;
   margin: 48pt 15pt 0 15pt;
   width: 100%;

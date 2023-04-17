@@ -19,12 +19,12 @@ import colors from 'styles/colors';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { ReceivedRequest } from 'pages/company/quotation';
+import { GetUnread } from './Main';
 
 type Props = {};
-const TAG = 'componsts/BottomNavigation.tsx';
 const BottomNavigation = ({}: Props) => {
   const router = useRouter();
-  const user_ID = sessionStorage?.getItem('USER_ID')!;
+  const userID = sessionStorage?.getItem('USER_ID')!;
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
@@ -36,6 +36,21 @@ const BottomNavigation = ({}: Props) => {
       staleTime: 5000,
       cacheTime: Infinity,
       enabled: memberType === 'COMPANY',
+    },
+  );
+
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: userID !== null ? true : false,
     },
   );
 
@@ -81,8 +96,13 @@ const BottomNavigation = ({}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
 
+  console.log(
+    '🔥 unreadChatLogsCount : ',
+    historyUnread?.data.unreadChatLogsCount,
+  );
   return (
     <Wrapper>
+      {/* 판매자 */}
       {memberType === 'COMPANY' ? (
         <>
           <BoxBg>
@@ -131,46 +151,56 @@ const BottomNavigation = ({}: Props) => {
                     alt="guide"
                     layout="fill"
                   />
-                  <CountQuotation
-                    upNumber={
-                      data?.receivedQuotationRequests.length &&
-                      data?.receivedQuotationRequests.length > 9
-                        ? true
-                        : false
-                    }
-                  >
-                    {data?.receivedQuotationRequests.length &&
-                    data?.receivedQuotationRequests.length > 300
-                      ? 300 + '+'
-                      : data?.receivedQuotationRequests.length}
-                  </CountQuotation>
                 </ImgBox>
               )}
-
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
+              {/* 카운트 체크 */}
+              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+                <Count
+                  length={
+                    historyUnread?.data?.unreadChatLogsCount?.toString().length
+                  }
+                >
+                  {historyUnread?.data?.unreadChatLogsCount}
+                </Count>
+              )}
             </div>
 
+            {/* 소통하기 */}
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID
+                userID
                   ? router.push('/company/chatting')
                   : router.push('/signin');
               }}
             >
-              <Image
-                src={tabNumber === 2 ? chattingOn : chatting}
-                alt="chatting"
-                width={32}
-                height={32}
-              />
+              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+                <ImgBox>
+                  <Image
+                    src={tabNumber === 2 ? chattingOn : chatting}
+                    alt="chatting"
+                    layout="fill"
+                  />
+                </ImgBox>
+              )}
               <H3 clicked={false}>소통하기</H3>
+              {/* 카운트 체크 */}
+              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+                <Count
+                  length={
+                    historyUnread?.data?.unreadChatLogsCount?.toString().length
+                  }
+                >
+                  {historyUnread?.data?.unreadChatLogsCount}
+                </Count>
+              )}
             </div>
             {/* AS */}
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID
+                userID
                   ? router.push({
                       pathname: '/company/as',
                       query: { id: 0 },
@@ -190,7 +220,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID
+                userID
                   ? router.push({
                       pathname: '/company/mypage',
                       query: { id: 0 },
@@ -211,6 +241,7 @@ const BottomNavigation = ({}: Props) => {
           </BoxBg>
         </>
       ) : (
+        // 구매자
         <>
           <BoxBg>
             <div
@@ -246,7 +277,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID
+                userID
                   ? router.push('/quotation/request')
                   : router.push('/signin');
               }}
@@ -257,7 +288,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID ? router.push('/chatting') : router.push('/signin');
+                userID ? router.push('/chatting') : router.push('/signin');
               }}
             >
               <ImgBox>
@@ -268,11 +299,21 @@ const BottomNavigation = ({}: Props) => {
                 />
               </ImgBox>
               <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
+              {/* 카운트 체크 */}
+              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+                <Count
+                  length={
+                    historyUnread?.data?.unreadChatLogsCount?.toString().length
+                  }
+                >
+                  {historyUnread?.data?.unreadChatLogsCount}
+                </Count>
+              )}
             </div>
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID ? router.push('/mypage') : router.push('/signin');
+                userID ? router.push('/mypage') : router.push('/signin');
               }}
             >
               <ImgBox>
@@ -310,12 +351,36 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 3pt;
+    position: relative;
+    /* border: 1px solid red; */
   }
-
   @media (max-width: 899.25pt) {
     display: block;
   }
 `;
+
+const Count = styled.div<{ length: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: ${({ length }) =>
+    length === 1 ? '0' : length === 2 ? '-5pt' : '-7pt'};
+  top: -5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 6pt;
+  line-height: 6pt;
+  color: ${colors.lightWhite};
+  background-color: ${colors.main1};
+  min-width: 10.5pt;
+  min-height: 10.5pt;
+  border-radius: 50px;
+  text-align: right;
+  padding: 2.25pt 3.375pt;
+`;
+
 const BoxBg = styled.div`
   display: flex;
   justify-content: space-between;
@@ -337,21 +402,21 @@ const H3 = styled.h3<{ clicked: boolean }>`
   color: ${({ clicked }) => (clicked ? colors.main2 : '#A6A9B0')};
 `;
 
-const CountQuotation = styled.div<{ upNumber: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: ${({ upNumber }) => (upNumber ? `-10pt` : `-3pt`)};
-  top: -3pt;
-  background-color: #5a2dc9;
-  border-radius: ${({ upNumber }) => (upNumber ? `21.75pt` : `50%`)};
-  color: #ffffff;
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 6pt;
-  font-weight: 700;
-  letter-spacing: 0em;
-  line-height: ${({ upNumber }) => (upNumber ? `none` : `6pt`)};
-  text-align: center;
-  padding: ${({ upNumber }) => (upNumber ? `2.25pt 3.375pt` : `2.25pt 3pt`)};
-`;
+// const CountQuotation = styled.div<{ upNumber: boolean }>`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   position: absolute;
+//   right: ${({ upNumber }) => (upNumber ? `-10pt` : `-3pt`)};
+//   top: -3pt;
+//   background-color: #5a2dc9;
+//   border-radius: ${({ upNumber }) => (upNumber ? `21.75pt` : `50%`)};
+//   color: #ffffff;
+//   font-family: 'Spoqa Han Sans Neo';
+//   font-size: 6pt;
+//   font-weight: 700;
+//   letter-spacing: 0em;
+//   line-height: ${({ upNumber }) => (upNumber ? `none` : `6pt`)};
+//   text-align: center;
+//   padding: ${({ upNumber }) => (upNumber ? `2.25pt 3.375pt` : `2.25pt 3pt`)};
+// `;

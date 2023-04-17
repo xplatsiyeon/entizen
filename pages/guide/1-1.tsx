@@ -5,9 +5,9 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 // import Platform from 'public/guide/platform_guide.png';
 // import Platform from 'public/guide/GuideBannerMobilePng.png';
-import Platform from 'public/guide/GuideBannerMobileSvg.svg';
+// import Platform from 'public/guide/GuideBannerMobileSvg.svg';
 import { useEffect, useState } from 'react';
-import Infom from 'components/guide/infomation';
+import Info from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
@@ -21,7 +21,7 @@ import GuideApp from 'public/guide/guide_banner_app.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
-import { getApi, isTokenGetApi } from 'api';
+import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
 interface Components {
@@ -59,7 +59,7 @@ const Guide1_1 = () => {
   const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
   const components: Components = {
     0: (
-      <Infom
+      <Info
         data={
           guideList?.data?.guides?.filter((item) => item?.title === '정보확인')!
         }
@@ -164,7 +164,6 @@ const Guide1_1 = () => {
             layout="fill"
             objectFit="cover"
             quality={100}
-            // loading="eager"
           />
         </GuideImgBox>
         <ModalBox>

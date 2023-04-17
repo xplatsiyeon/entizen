@@ -374,6 +374,7 @@ const List = styled.ul`
 `;
 const Item = styled.li`
   display: flex;
+
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
   }

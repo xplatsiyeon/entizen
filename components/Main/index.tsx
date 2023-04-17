@@ -48,6 +48,8 @@ export type GetUnread = {
     wasReadProject: boolean;
     wasReadChatting: boolean;
     wasReadAlert: boolean;
+    unreadChatLogsCount: number;
+    unreadQuotationRequestsCount: number;
   };
 };
 export interface Count {

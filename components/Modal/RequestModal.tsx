@@ -134,7 +134,7 @@ const BtnBox = styled.div`
   flex-direction: column;
   gap: 9pt;
 `;
-const LeftBtn = styled(Button)`
+const LeftBtn = styled.button`
   /* background: ${colors.gray}; */
   border-radius: 6pt;
   font-weight: 700;
@@ -148,7 +148,7 @@ const LeftBtn = styled(Button)`
     width: 100%;
   }
 `;
-const RightBtn = styled(Button)<{ border?: boolean }>`
+const RightBtn = styled.button<{ border?: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
   background: ${colors.main};
   border-radius: 6pt;

@@ -1,39 +1,26 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi, isTokenAdminPatchApi } from 'api';
+import { isTokenAdminPatchApi } from 'api';
 import {
   isTokenAdminGetApi,
   isTokenAdminPostApi,
-  isTokenAdminPutApi,
   isTokenAdminDeleteApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import {
-  AdminGuideListResponse,
-  AdminTermsListResponse,
-} from 'types/tableDataType';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import dynamic from 'next/dynamic';
-import htmlToDraft from 'html-to-draftjs';
+import { AdminGuideListResponse } from 'types/tableDataType';
+import { EditorState } from 'draft-js';
 import { multerAdminApi } from 'api';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import GuideTiptapEditor from '../GuideTiptapEditor';
+import Image from 'next/image';
+import CloseImg from 'public/images/XCircle.svg';
 
 type IMG = {
   originalName: string;
@@ -56,8 +43,18 @@ export const dropDownValue = [
   '설치 모니터링',
   '운영/관리',
 ];
-
 // PLATFORM: 플랫폼 가이드, SUBSCRIPTION: 구독 가이드, CHARGER: 충전기 가이드, FEE: 요금 정보
+export interface GuideImage {
+  createdAt: string;
+  deletedAt: string;
+  guideIdx: number;
+  guideImageIdx: number;
+  imageSizeType: string;
+  originalName: string;
+  size: number;
+  updatedAt: string;
+  url: string;
+}
 
 export interface GuideUpdate {
   isSuccess: true;
@@ -70,6 +67,7 @@ export interface GuideUpdate {
       guideKind: string;
       title: string;
       content: string;
+      guideImages: GuideImage[];
     };
   };
 }
@@ -94,52 +92,54 @@ const PlatformGuideEditor = ({
   const newDropDown = (firstArray: string[], secondArray: string[]) => {
     return firstArray.filter((item) => !secondArray.includes(item));
   };
-
-  // 제목
-  const [title, setTitle] = useState<string>('');
-
-  // 수정된 value가 있는지 없는지
-  const [checkAll, setCheckAll] = useState<boolean>(false);
-
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
-
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
-
-  // 페이지 전체 렌더링
-  const [open, setOpen] = useState(false);
+  // Img
+  const outsidePcImgRef = useRef<HTMLInputElement>(null);
+  const outsideTabletImgRef = useRef<HTMLInputElement>(null);
+  const outsideMobileImgRef = useRef<HTMLInputElement>(null);
+  const [pcImgArr, setPcImgArr] = useState<any[]>([]);
+  const [tabletImgArr, setTabletImgArr] = useState<any[]>([]);
+  const [mobileImgArr, setMobileImgArr] = useState<any[]>([]);
   const { data, isLoading, isError, refetch } = useQuery<GuideUpdate>(
     'adminGuideDetail',
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
-      onSuccess: (res) => {
+      onSuccess: async (res) => {
+        console.log('🔥 res : ', res);
+        const { guideImages } = res?.data?.guide;
+        const PC = await guideImages.find((e) => e.imageSizeType === 'PC');
+        const TABLET = await guideImages.find(
+          (e) => e.imageSizeType === 'TABLET',
+        );
+        const MOBILE = await guideImages.find(
+          (e) => e.imageSizeType === 'MOBILE',
+        );
+
         setBodyText(res?.data?.guide?.content!);
+        if (PC) setPcImgArr([PC]);
+        if (TABLET) setTabletImgArr([TABLET]);
+        if (MOBILE) setMobileImgArr([MOBILE]);
       },
       onSettled: (res) => {
         res?.data?.guide?.guideKind === 'PLATFORM';
       },
     },
   );
-
   const editorImgRef = useRef<any>(null);
-
   // 이미지 set
   const [editorImg, setEditorImg] = useState<any>();
-
   // 본문 초기값
   const firstContent = data?.data?.guide?.content!;
-
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
-
   // 약관 타입
   const [selectValue, setSelectValue] = useState<string>('');
-  const [selctValueEn, setSelctValueEn] = useState<number>(0);
   const [selctValueKr, setSelctValueKr] = useState<number>(0);
-  const [dropDownClick, setDropDownClick] = useState(true);
 
   // Draft 값 state
   // useState로 상태관리하기 초기값은 EditorState.createEmpty()
@@ -200,7 +200,6 @@ const PlatformGuideEditor = ({
   };
 
   // 수정 api
-
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
     isTokenAdminPatchApi,
     {
@@ -218,16 +217,39 @@ const PlatformGuideEditor = ({
   );
 
   const onClickModifiedBtn = () => {
+    let images = [];
+    if (pcImgArr.length > 0) {
+      images.push({
+        type: 'PC',
+        url: pcImgArr[0].url,
+        size: pcImgArr[0].size,
+        originalName: pcImgArr[0].originalName,
+      });
+    }
+
+    if (tabletImgArr.length > 0) {
+      images.push({
+        type: 'TABLET',
+        url: tabletImgArr[0].url,
+        size: tabletImgArr[0].size,
+        originalName: tabletImgArr[0].originalName,
+      });
+    }
+
+    if (mobileImgArr.length > 0) {
+      images.push({
+        type: 'MOBILE',
+        url: mobileImgArr[0].url,
+        size: mobileImgArr[0].size,
+        originalName: mobileImgArr[0].originalName,
+      });
+    }
+
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        // title: selectValue
-        //   ? dropDownValue[selctValueKr]
-        //   : data?.data?.guide?.title,
-
-        // guideKind: 'PLATFORM',
-
         content: bodyText,
+        images,
       },
     });
   };
@@ -259,13 +281,7 @@ const PlatformGuideEditor = ({
   const { mutate: guidesImage, isLoading: multerMobileImageLoading } =
     useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
       onSuccess: (res) => {
-        // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
-        // console.log(res);
         const newFile = editorImg;
-        // const newFile = preFile.map((e) => {
-        //   const { createdAt, bannerImageIdx, ...rest } = e;
-        //   return { ...rest };
-        // });
         res?.uploadedFiles.forEach((img) => {
           newFile.push({
             url: img.url,
@@ -278,19 +294,10 @@ const PlatformGuideEditor = ({
       onError: (error: any) => {
         if (error.response.data.message) {
           console.log(`첫번째 에러:${error.response.data.message}`);
-
-          //   setMessage(`첫번째 에러:${error.response.data.message}`);
-          //   setMessageModal(true);
         } else if (error.response.status === 413) {
           console.log('용량이 너무 큽니다.');
-
-          //   setMessage('용량이 너무 큽니다.');
-          //   setMessageModal(true);
         } else {
           console.log('다시 시도해주세요');
-
-          //   setMessage('다시 시도해주세요');
-          //   setMessageModal(true);
         }
       },
     });
@@ -309,30 +316,175 @@ const PlatformGuideEditor = ({
     e.target.value = '';
   };
 
-  const editorImgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    editorImgRef?.current?.click();
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: pcImage, isLoading: pcLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerAdminApi, {
+    onSuccess: (res) => {
+      // const newFile = pcImgArr;
+      let newFile: IMG[] = [];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setPcImgArr(newFile!);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setMessage(`첫번째 에러:${error.response.data.message}`);
+        setMessageModal(true);
+      } else if (error.response.status === 413) {
+        setMessage('용량이 너무 큽니다.');
+        setMessageModal(true);
+      } else {
+        setMessage('다시 시도해주세요');
+        setMessageModal(true);
+      }
+    },
+  });
+
+  const { mutate: tabletImage, isLoading: tabletLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerAdminApi, {
+    onSuccess: (res) => {
+      // const newFile = tabletImgArr;
+      let newFile: IMG[] = [];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setTabletImgArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setMessage(`첫번째 에러:${error.response.data.message}`);
+        setMessageModal(true);
+      } else if (error.response.status === 413) {
+        setMessage('용량이 너무 큽니다.');
+        setMessageModal(true);
+      } else {
+        setMessage('다시 시도해주세요');
+        setMessageModal(true);
+      }
+    },
+  });
+
+  const { mutate: mobileImage, isLoading: mobileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerAdminApi, {
+    onSuccess: (res) => {
+      let newFile: IMG[] = [];
+      // const newFile = mobileImgArr;
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setMobileImgArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setMessage(`첫번째 에러:${error.response.data.message}`);
+        setMessageModal(true);
+      } else if (error.response.status === 413) {
+        setMessage('용량이 너무 큽니다.');
+        setMessageModal(true);
+      } else {
+        setMessage('다시 시도해주세요');
+        setMessageModal(true);
+      }
+    },
+  });
+
+  // 사진 온클릭
+  const pcImgOutHandler = (ref: React.RefObject<HTMLElement>) => {
+    console.log('🔥 ref : ', ref);
+    ref?.current?.click();
   };
+  // 이미지 첨부 api
+  const saveFileImage = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: 'pc' | 'tablet' | 'mobile',
+  ) => {
+    console.log('🔥 type : ', type);
 
-  // useEffect(() => {
-  //   setBodyText(data?.data?.content!);
-  //   const res = document.querySelector('.ProseMirror') as HTMLElement;
-  //   if (res) {
-  //     console.log('res', res);
-  //     res.innerHTML = bodyText;
-  //   }
-  //   if (data?.data !== undefined) {
-  //     setDropDownClick(false);
-  //   }
-  // }, [data]);
+    const { files } = e.target;
+    const maxLength = 1;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('banner', files![i], encodeURIComponent(files![i].name));
+    }
+    switch (type) {
+      case 'pc':
+        pcImage(formData);
+        break;
+      case 'tablet':
+        tabletImage(formData);
+        break;
+      case 'mobile':
+        mobileImage(formData);
+        break;
+    }
 
-  //   useEffect(() => {
-  //     setSelctValueEn(dropDownValue.indexOf(selectValue));
-  //     if (data !== undefined) {
-  //       setSelctValueKr(dropDownValueEn.indexOf(data?.data?.guideKind));
-  //     } else {
-  //       setSelctValueKr(0);
-  //     }
-  //   }, [selctValueEn, selctValueKr, selectValue, data]);
+    e.target.value = '';
+  };
+  // 사진 삭제
+  const handleDeleteImg = (
+    e: React.MouseEvent<HTMLDivElement>,
+    type: 'pc' | 'tablet' | 'mobile',
+  ) => {
+    // const name = Number(e.currentTarget.dataset.name);
+    console.log('🔥 name : ', name);
+    let copyArr: IMG[]; // 이미지 배열 복사
+    switch (type) {
+      case 'pc':
+        copyArr = pcImgArr;
+        break;
+      case 'tablet':
+        copyArr = tabletImgArr;
+        break;
+      case 'mobile':
+        copyArr = mobileImgArr;
+        break;
+    }
+
+    console.log('🔥 copyArr : ', copyArr);
+    // 이미지 값 state에 저장
+    for (let i = 0; i < copyArr.length; i++) {
+      // if (i === name) {
+      // copyArr.splice(i, 1);
+      switch (type) {
+        case 'pc':
+          setPcImgArr([]);
+          break;
+        case 'tablet':
+          setTabletImgArr([]);
+          break;
+        case 'mobile':
+          setMobileImgArr([]);
+          break;
+      }
+      return;
+      // }
+    }
+  };
 
   useEffect(() => {
     setSelctValueKr(
@@ -349,6 +501,16 @@ const PlatformGuideEditor = ({
       setSelctValueKr(0);
     }
   }, [data, selctValueKr, selectValue]);
+
+  useEffect(() => {
+    console.log('🔥 data : ', data);
+  }, [data]);
+
+  useEffect(() => {
+    console.log('🔥 img pcImgArr : ', pcImgArr);
+    console.log('🔥 img tabletImgArr : ', tabletImgArr);
+    console.log('🔥 img mobileImgArr : ', mobileImgArr);
+  }, [pcImgArr, tabletImgArr, mobileImgArr]);
 
   return (
     <>
@@ -400,19 +562,149 @@ const PlatformGuideEditor = ({
             ) : (
               <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
-
-            {/* <TitleBox>
-                <TitleText>제목</TitleText>
-                <TitleArea
-                  type="text"
-                  value={title}
-                  placeholder="제목을 입력해주세요"
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </TitleBox> */}
           </TitleContainer>
+          {/* ================================ PC ============================ */}
+          <ImgWrap>
+            <span className="addImgWrap">
+              <p className="imgText">
+                메인 이미지 추가 <br />
+                (PC 이미지)
+              </p>
+              <label htmlFor="imgUpload" className="fileLabel">
+                <button onClick={() => pcImgOutHandler(outsidePcImgRef)}>
+                  사진 첨부
+                </button>
+                <input
+                  className="fileInput"
+                  id="imgUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => saveFileImage(e, 'pc')}
+                  ref={outsidePcImgRef}
+                />
+              </label>
+
+              <p className="imgSize">1920*480</p>
+            </span>
+            <div className="previewImgWrap">
+              {pcImgArr.map((img) => (
+                <ImgSpan>
+                  <Image
+                    src={img?.url}
+                    alt={img?.originalName}
+                    width={140}
+                    height={104}
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                  <Xbox onClick={(e) => handleDeleteImg(e, 'pc')}>
+                    <Image
+                      src={CloseImg}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            </div>
+          </ImgWrap>
+          {/*========================== tablet ============================== */}
+          <ImgWrap>
+            <span className="addImgWrap">
+              <p className="imgText">
+                메인 이미지 추가 <br />
+                (모바일 이미지)
+              </p>
+              <label htmlFor="tabletImgUpload" className="fileLabel">
+                <button onClick={() => pcImgOutHandler(outsideTabletImgRef)}>
+                  사진 첨부
+                </button>
+                <input
+                  className="fileInput"
+                  id="tabletImgUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => saveFileImage(e, 'tablet')}
+                  ref={outsideTabletImgRef}
+                />
+              </label>
+              <p className="imgSize">1024*132</p>
+            </span>
+            <div className="previewImgWrap">
+              {tabletImgArr.map((img) => (
+                <ImgSpan>
+                  <Image
+                    src={img?.url}
+                    alt={img?.originalName}
+                    width={140}
+                    height={104}
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                  <Xbox onClick={(e) => handleDeleteImg(e, 'tablet')}>
+                    <Image
+                      src={CloseImg}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            </div>
+          </ImgWrap>
+          {/* ============================= mobile =============================== */}
+          <ImgWrap>
+            <span className="addImgWrap">
+              <p className="imgText">
+                메인 이미지 추가 <br />
+                (PC 이미지)
+              </p>
+              <label htmlFor="mobileImgUpload" className="fileLabel">
+                <button onClick={() => pcImgOutHandler(outsideMobileImgRef)}>
+                  사진 첨부
+                </button>
+                <input
+                  className="fileInput"
+                  id="mobileImgUpload"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => saveFileImage(e, 'mobile')}
+                  ref={outsideMobileImgRef}
+                />
+              </label>
+              <p className="imgSize">430*132</p>
+            </span>
+            <div className="previewImgWrap">
+              {mobileImgArr.map((img) => (
+                <ImgSpan>
+                  <Image
+                    src={img?.url}
+                    alt={img?.originalName}
+                    width={140}
+                    height={104}
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                  <Xbox onClick={(e) => handleDeleteImg(e, 'mobile')}>
+                    <Image
+                      src={CloseImg}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            </div>
+          </ImgWrap>
 
           <GuideTiptapEditor
             setBodyText={setBodyText}
@@ -445,9 +737,7 @@ const PlatformGuideEditor = ({
                   <AdminBtn
                     onClick={() => {
                       onClickModifiedBtn();
-                      // editorImgHandler;
                     }}
-                    // onClick={editorImgHandler}
                   >
                     수정
                   </AdminBtn>
@@ -573,5 +863,78 @@ const SecondText = styled.span`
   /* color: ${colors.main2}; */
   color: #5221cb;
   text-align: left;
+  cursor: pointer;
+`;
+
+const ImgWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid ${colors.gray};
+  border-radius: 0px 0px 2px 2px;
+  margin-bottom: 15px;
+  .addImgWrap {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: ${colors.main2};
+    border-right: 1px solid ${colors.gray};
+    padding-right: 13px;
+  }
+  .imgText {
+    margin-bottom: 8px;
+  }
+  .previewImgWrap {
+    padding-left: 13px;
+  }
+
+  .fileInput {
+    display: none;
+  }
+  .fileLabel {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: ${colors.lightGray7};
+    background: ${colors.lightWhite3};
+    /* border: 1px solid ${colors.lightGray7}; */
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+  }
+  .imgSize {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: ${colors.main2};
+    margin-top: 16px;
+    text-align: center;
+  }
+`;
+
+const ImgSpan = styled.div`
+  position: relative;
+  width: 140px;
+  height: 104px;
+  border-radius: 4px;
+  border: 0.75pt solid #e2e5ed;
+  & > span > img {
+    border-radius: 4px;
+  }
+`;
+
+const Xbox = styled.div`
+  position: absolute;
+  top: -7pt;
+  right: -7pt;
   cursor: pointer;
 `;
