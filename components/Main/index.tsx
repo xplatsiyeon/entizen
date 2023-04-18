@@ -58,7 +58,6 @@ export interface Count {
     count: number;
   };
 }
-const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -185,9 +184,6 @@ const MainPage = (props: Props) => {
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
-                  // onClick={() => {
-                  //   router.push('/alarm?id=0');
-                  // }}
                   onClick={() => {
                     router.push('/alarm');
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
@@ -198,9 +194,6 @@ const MainPage = (props: Props) => {
                 <Image
                   src={BellOn}
                   alt="alarmIcon"
-                  // onClick={() => {
-                  //   router.push('/alarm?id=0');
-                  // }}
                   onClick={() => {
                     router.push('/alarm');
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
@@ -236,37 +229,7 @@ const MainPage = (props: Props) => {
             )}
           </IconWrapper>
         </HeadWrapper>
-        {/* 브릿지 테스트용 코드 */}
-        {/* <button onClick={onClickTest}>구글 테스트 버튼</button> */}
-        {/* <input
-            style={{ display: 'none' }}
-            ref={imgRef}
-            type="file"
-            accept="image/*"
-            multiple
-            capture={userAgent === 'Android_App' && true}
-          />
-          <button onClick={imgHandler}>사진 업로드</button>
-          <input
-            style={{ display: 'none' }}
-            ref={fileRef}
-            type="file"
-            accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
-            multiple
-          />
-          <button onClick={handleFileClick}>파일 업로드</button> */}
-        {/* <FileDownload
-    
-            onClick={() => {
-              fileDownload(
-                userAgent,
-                '1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
-                'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
-              );
-            }}
-          >
-            FileDownload
-          </FileDownload> */}
+        {/* 배너 (스와이퍼) */}
         <CarouselWrapper>
           <Carousel />
         </CarouselWrapper>

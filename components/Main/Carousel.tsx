@@ -26,7 +26,6 @@ export type BannerList = {
       bannerImages: {
         bannerImageIdx: number;
         imageSizeType: string;
-        // isMainImage: boolean;
         originalName: string;
         url: string;
         size: number;
@@ -38,7 +37,6 @@ export type BannerList = {
 interface SelectData {
   bannerImageIdx: number;
   imageSizeType: string;
-  // isMainImage: boolean;
   originalName: string;
   url: string;
   size: number;
@@ -66,19 +64,6 @@ const Carousel = () => {
     () => getApi(`/banners?targetMemberType=USER`),
     {
       enabled: accessToken === null || accessToken === 'USER' ? true : false,
-      // onSettled(data, error) {
-      //   data?.data?.banners?.map((item) =>
-      //     item?.bannerImages.filter((el) => {
-      //       if (pcSize) {
-      //         return el.imageSizeType === 'PC';
-      //       } else if (mobileSize) {
-      //         return el.imageSizeType === 'MOBILE';
-      //       } else {
-      //         el.imageSizeType === 'TABLET';
-      //       }
-      //     }),
-      //   );
-      // },
     },
   );
 
@@ -100,16 +85,16 @@ const Carousel = () => {
   return (
     <>
       <SwiperMain
-        spaceBetween={0}
+        spaceBetween={mobileSize ? 16 : 24}
         pagination={{
           type: 'bullets',
           clickable: true,
         }}
         autoplay={{
           delay: 3000,
-          disableOnInteraction: false,
+          // disableOnInteraction: false,
         }}
-        speed={3000}
+        speed={300}
         loop={true}
         navigation={{
           nextEl: '.swiper-button-next',
@@ -169,27 +154,16 @@ const Carousel = () => {
                           key={img?.bannerImageIdx}
                           src={img?.url}
                           alt={img?.originalName}
-                          style={{ cursor: 'pointer' }}
+                          style={{
+                            cursor: 'pointer',
+                            // borderRadius: '10px'
+                          }}
                           layout="fill"
                           priority={true}
                           unoptimized={true}
                           objectFit="cover"
                         />
-                        // <SliderImg
-                        //   key={img?.bannerImageIdx}
-                        //   src={img?.url}
-                        //   alt={img?.originalName}
-                        //   style={{ cursor: 'pointer' }}
-                        // />
                       ))}
-                    {/* {el?.bannerImages?.map((img) => (
-                      <SliderImg
-                        key={img?.bannerImageIdx}
-                        src={img?.url}
-                        alt={img?.originalName}
-                        style={{ cursor: 'pointer' }}
-                      />
-                    ))} */}
                   </a>
                 </Slider>
               ))}
@@ -205,12 +179,18 @@ const Carousel = () => {
 };
 
 const Slider = styled(SwiperSlide)`
+  position: relative;
+
   .imgBox {
     width: 100%;
     height: 360pt;
     margin: auto;
     overflow: hidden;
-    @media (max-width: 899.25pt) {
+  }
+  @media (max-width: 899.25pt) {
+    border-radius: 6pt;
+    overflow: hidden;
+    .imgBox {
       height: 91.5pt;
     }
   }
@@ -226,7 +206,7 @@ const SwiperMain = styled(Swiper)`
   height: 360pt;
   @media (max-width: 899.25pt) {
     height: 99pt;
-    border-radius: 6pt;
+    /* border-radius: 6pt; */
   }
   .swiper-pagination {
     /* width: fit-content; */
