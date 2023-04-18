@@ -39,7 +39,13 @@ type Props = {
 };
 
 // export const dropDownValueEn = ['LOCATION', 'PERSONAL_INFO', 'SERVICE'];
-export const dropDownValue = ['충전전력요금', '일반사항'];
+
+export const dropDownValue = [
+  '충전전력요금',
+  '일반사항-선택요금제도',
+  '일반사항-전압구분',
+  '일반사항-계절별 시간대별 구분',
+];
 
 // PLATFORM: 플랫폼 가이드, SUBSCRIPTION: 구독 가이드, CHARGER: 충전기 가이드, FEE: 요금 정보
 
@@ -177,20 +183,6 @@ const PriceInformationEditor = ({
     onSettled: () => {},
   });
 
-  const modalPostBtnControll = () => {
-    if (detatilId === '') {
-      postMutate({
-        url: `/admin/guides`,
-        data: {
-          guideKind: 'FEE',
-          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
-          // content: editorState,
-        },
-      });
-    }
-  };
-
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
@@ -209,9 +201,8 @@ const PriceInformationEditor = ({
     },
   );
 
-  // 수정 버튼 클릭
-  const onClickModifiedBtn = () => {
-    // 수정에 필요한 이미지값
+  // 이미지 데이터 추출
+  const getImges = () => {
     const images = [];
     if (pcImgArr.length > 0) {
       images.push({
@@ -240,12 +231,33 @@ const PriceInformationEditor = ({
       });
     }
 
+    return images;
+  };
+
+  // 등록 버튼 클릭
+  const modalPostBtnControll = () => {
+    if (detatilId === '') {
+      postMutate({
+        url: `/admin/guides`,
+        data: {
+          guideKind: 'FEE',
+          // title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
+          title: selectValue,
+          content: bodyText,
+          images: getImges(),
+        },
+      });
+    }
+  };
+
+  // 수정 버튼 클릭
+  const onClickModifiedBtn = () => {
     // 수정 API
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
         content: bodyText,
-        images,
+        images: getImges(),
       },
     });
   };
@@ -329,16 +341,18 @@ const PriceInformationEditor = ({
 
   // 초기 이미지 설정
   useEffect(() => {
+    console.log('초기 이미지 렌더링');
     setBodyText(data?.data?.guide?.content!);
-
-    const { guideImages } = data?.data?.guide!;
-    const PC = guideImages.find((e) => e.imageSizeType === 'PC');
-    const TABLET = guideImages.find((e) => e.imageSizeType === 'TABLET');
-    const MOBILE = guideImages.find((e) => e.imageSizeType === 'MOBILE');
-    if (PC) setPcImgArr([PC]);
-    if (TABLET) setTabletImgArr([TABLET]);
-    if (MOBILE) setMobileImgArr([MOBILE]);
-  }, []);
+    const guideImages = data?.data?.guide?.guideImages!;
+    if (guideImages) {
+      const PC = guideImages.find((e) => e.imageSizeType === 'PC');
+      const TABLET = guideImages.find((e) => e.imageSizeType === 'TABLET');
+      const MOBILE = guideImages.find((e) => e.imageSizeType === 'MOBILE');
+      if (PC) setPcImgArr([PC]);
+      if (TABLET) setTabletImgArr([TABLET]);
+      if (MOBILE) setMobileImgArr([MOBILE]);
+    }
+  }, [data]);
 
   return (
     <>
@@ -391,7 +405,7 @@ const PriceInformationEditor = ({
               <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
           </TitleContainer>
-          {/* ============================= 사이즈 별 사진 추가 =============================== */}
+          {/* ============================= 사이즈 별 사진 추가 =========================== */}
           <AdminGuideBanner
             pcImgArr={pcImgArr}
             setPcImgArr={setPcImgArr}
@@ -434,9 +448,7 @@ const PriceInformationEditor = ({
                   <AdminBtn
                     onClick={() => {
                       onClickModifiedBtn();
-                      // editorImgHandler;
                     }}
-                    // onClick={editorImgHandler}
                   >
                     수정
                   </AdminBtn>

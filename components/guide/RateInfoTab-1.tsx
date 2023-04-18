@@ -2,13 +2,24 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import ChargeInfo from 'public/guide/charge-info-img.png';
 import Icon from 'public/guide/img-icon.svg';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { GuideData } from './infomation';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const Tab1 = ({ data }: Props) => {
+const Tab1 = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
   return (
     <Container>
       {/* <Image src={ChargeInfo} alt="charging-img" /> */}
@@ -17,8 +28,20 @@ const Tab1 = ({ data }: Props) => {
         <p>표를 확대하시면 더 자세히 볼 수 있습니다.</p>
         <Image src={Icon} alt="icon" />
       </Message> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+            height={'100%'}
+          />
+        </ImageBox>
+      )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -100,4 +123,13 @@ const Message = styled.div`
     letter-spacing: -0.18pt;
     color: #a6a9b0;
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

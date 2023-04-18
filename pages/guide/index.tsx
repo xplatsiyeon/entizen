@@ -2,25 +2,16 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
-import bell from 'public/images/guide-bell.svg';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
 import charger_icon from 'public/guide/charger_icon.png';
 import subscribe_icon from 'public/guide/subscribe_icon.png';
-import whiteRight from 'public/images/whiteRight20.png';
 import Hamburger from 'public/images/list-bar.svg';
 import arrow_small from 'public/images/arrow.svg';
-import guide from 'public/images/guide.png';
-import mypageIcon from 'public/images/mypageIcon.png';
-import { Divider, Drawer } from '@mui/material';
+import { Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
-import conversation from 'public/images/conversation.png';
-import grayInsta from 'public/images/grayCircleInsta.png';
-import grayNaver from 'public/images/grayCircleNaver.png';
 import BottomNavigation from 'components/BottomNavigation';
-import simpleEstimate from 'public/images/simpleEstimate.png';
-import xBtn from 'public/images/X.png';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import React, { useEffect, useState } from 'react';
@@ -29,15 +20,9 @@ import { RootState } from 'store/store';
 import arrowR from 'public/images/arrowR.png';
 import guideIndex1 from 'public/guide/guideIndex1.png';
 import guideIndex2 from 'public/guide/guideIndex2.png';
-// import BingGuideBanner from 'public/guide/Big-guide-banner.png';
 import BingGuideBanner from 'public/guide/EntizenGuidePng.png';
-import UserRightMenu from 'components/UserRightMenu';
 import useProfile from 'hooks/useProfile';
-import BellNormal from 'public/images/BellNormal.svg';
-import Nut from 'public/images/NutSVG.svg';
-// import BellOn from 'public/images/guide-bell.svg';
 import BellOn from 'public/images/BellOnSvg.svg';
-// import BellNormal from 'public/images/BellNormal.svg';
 import BellOff from 'public/images/BellOffSvg.svg';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
@@ -123,12 +108,6 @@ const Guide1 = () => {
           <Header>
             <span className="left">가이드</span>
             <div className="right">
-              {/* <div
-                className="bell-img"
-                onClick={() => pageHandler('/alarm?id=0')}
-              >
-                <Image src={bell} alt="bell" />
-              </div> */}
               {!userID && (
                 <div
                   className="bell-img"
@@ -142,9 +121,6 @@ const Guide1 = () => {
               {userID && allAlert?.wasReadAlert === true && (
                 <div
                   className="bell-img"
-                  // onClick={() => {
-                  //   router.push('/alarm?id=0');
-                  // }}
                   onClick={() => {
                     router.push('/alarm');
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
@@ -156,9 +132,6 @@ const Guide1 = () => {
               {userID && allAlert?.wasReadAlert === false && (
                 <div
                   className="bell-img"
-                  // onClick={() => {
-                  //   router.push('/alarm?id=0');
-                  // }}
                   onClick={() => {
                     router.push('/alarm');
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
@@ -167,9 +140,6 @@ const Guide1 = () => {
                   <Image src={BellOn} alt="alarmIcon" />
                 </div>
               )}
-              {/* <div className="bell-img" onClick={() => pageHandler('/alarm')}>
-                <Image src={bell} alt="bell" />
-              </div> */}
               {mobile && (
                 <>
                   {(['right'] as const).map((anchor) => (
@@ -183,7 +153,6 @@ const Guide1 = () => {
                         anchor={anchor}
                         open={state[anchor]}
                         onClose={toggleDrawer(anchor, false)}
-                        // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                       >
                         <HamburgerBar
                           anchor={anchor}

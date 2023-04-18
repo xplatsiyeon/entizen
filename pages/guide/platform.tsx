@@ -51,6 +51,8 @@ export type GuideList = {
   };
 };
 
+const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
+
 const PlatformGuide = () => {
   // 플랫폼 가이드 리스트 조회
   const {
@@ -70,7 +72,6 @@ const PlatformGuide = () => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [device, setDevice] = useState<'pc' | 'tablet' | 'mobile'>();
-  const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
 
   const pc = useMediaQuery({
     query: '(min-width:768pt)',

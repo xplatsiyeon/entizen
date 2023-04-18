@@ -3,12 +3,24 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import BannerIcon from 'public/guide/guide-1-4-banner-icon.png';
 import { GuideData } from './infomation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const Share = ({ data }: Props) => {
+const Share = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Wrapper>
       {/* <BannerBox>
@@ -73,8 +85,19 @@ const Share = ({ data }: Props) => {
       <Notice>
         * 홈 충전기는 수익지분과 무관한 상품입니다. <br />
       </Notice> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -269,4 +292,13 @@ const Notice = styled.p`
     text-align: start;
     font-size: 9pt;
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

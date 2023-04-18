@@ -165,20 +165,6 @@ const SubscribeGuideEidtor = ({
     onSettled: () => {},
   });
 
-  const modalPostBtnControll = () => {
-    if (detatilId === '') {
-      postMutate({
-        url: `/admin/guides`,
-        data: {
-          guideKind: 'SUBSCRIPTION',
-          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
-          // content: editorState,
-        },
-      });
-    }
-  };
-
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
@@ -197,9 +183,8 @@ const SubscribeGuideEidtor = ({
     },
   );
 
-  // 수정 버튼 클릭
-  const onClickModifiedBtn = () => {
-    // 수정에 필요한 이미지값
+  // 이미지 데이터 추출
+  const getImges = () => {
     const images = [];
     if (pcImgArr.length > 0) {
       images.push({
@@ -228,12 +213,32 @@ const SubscribeGuideEidtor = ({
       });
     }
 
+    return images;
+  };
+
+  // 등록 버튼 클릭
+  const modalPostBtnControll = () => {
+    if (detatilId === '') {
+      postMutate({
+        url: `/admin/guides`,
+        data: {
+          guideKind: 'SUBSCRIPTION',
+          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
+          content: bodyText,
+          images: getImges(),
+        },
+      });
+    }
+  };
+
+  // 수정 버튼 클릭
+  const onClickModifiedBtn = () => {
     // 수정 API
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
         content: bodyText,
-        images,
+        images: getImges(),
       },
     });
   };

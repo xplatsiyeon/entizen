@@ -1,46 +1,24 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import {
-  api,
-  getApi,
   isTokenAdminDeleteApi,
   isTokenAdminGetApi,
   isTokenAdminPostApi,
   isTokenAdminPutApi,
   multerAdminApi,
 } from 'api';
-import {
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
-} from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import { AxiosError } from 'axios';
 import { css } from '@emotion/react';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
-import { Label } from '@mui/icons-material';
-import {
-  AdminBannerDetailResponse,
-  AdminBannerListResponse,
-} from '../../../types/tableDataType';
+import { AdminBannerDetailResponse } from '../../../types/tableDataType';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,12 +33,6 @@ type IMG = {
   url: string;
   createdAt?: string | undefined;
   bannerImageIdx?: number | undefined;
-};
-
-type NEWIMG = {
-  originalName: string;
-  size: number;
-  url: string;
 };
 
 const AdminBannerEditor = ({

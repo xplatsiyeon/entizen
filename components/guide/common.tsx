@@ -1,12 +1,25 @@
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { GuideData } from './infomation';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const Common = ({ data }: Props) => {
+const Common = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Wrapper>
       {/* <Container>
@@ -113,8 +126,19 @@ const Common = ({ data }: Props) => {
           <UnderText>• 테슬라는 자체 충전방식</UnderText>
         </Body>
       </Container> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -229,4 +253,13 @@ const UnderText = styled.span`
     letter-spacing: -0.02em;
     text-align: left;
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

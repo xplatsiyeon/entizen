@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import GuideHeader from 'components/guide/header';
 import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
@@ -15,6 +15,8 @@ import Loader from 'components/Loader';
 import { GuideList } from './platform';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
+import { GuideData } from 'components/guide/infomation';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -36,19 +38,68 @@ const SubscribeGuide = () => {
     isTokenGetApi(`/guide?guideKind=SUBSCRIPTION`),
   );
 
+  const [device, setDevice] = useState<'pc' | 'tablet' | 'mobile'>();
+
+  const pc = useMediaQuery({
+    query: '(min-width:768pt)',
+  });
+  const tablet = useMediaQuery({
+    query: '(min-width:576pt)',
+  });
+  const mobile = useMediaQuery({
+    query: '(min-width:270pt)',
+  });
+
+  // 이미지 값 찾기
+  const getImg = (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => {
+    if (data && data.guideImages) {
+      const pcImg = data.guideImages.find((e) => e.imageSizeType === 'PC');
+      const tabletImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'TABLET',
+      );
+      const mobileImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'MOBILE',
+      );
+      if (device === 'pc') {
+        if (pcImg) {
+          setImgUrl(pcImg?.url);
+        }
+      } else if (device === 'tablet') {
+        if (tabletImg) {
+          setImgUrl(tabletImg?.url);
+        }
+      } else if (device === 'mobile') {
+        if (mobileImg) {
+          setImgUrl(mobileImg?.url);
+        }
+      }
+    }
+  };
+
   const components: Components = {
     0: (
       <SubcribeGraph
         data={
-          guideList?.data?.guides?.filter((item) => item?.title === '구독상품')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '구독상품',
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     1: (
       <Share
         data={
-          guideList?.data?.guides?.filter((item) => item?.title === '수익지분')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '수익지분',
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     2: <Contract />,
@@ -69,6 +120,16 @@ const SubscribeGuide = () => {
       setTabNumber(Number(router.query.tab));
     }
   }, [router.isReady]);
+
+  useEffect(() => {
+    if (pc) {
+      setDevice('pc');
+    } else if (tablet) {
+      setDevice('tablet');
+    } else if (mobile) {
+      setDevice('mobile');
+    }
+  }, [pc, tablet, mobile]);
 
   return (
     <Body>

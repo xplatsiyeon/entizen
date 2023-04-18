@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RateInfoTab1 from 'components/guide/RateInfoTab-1';
 import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 import GuideHeader from 'components/guide/header';
@@ -11,10 +11,14 @@ import UserRightMenu from 'components/UserRightMenu';
 import { GuideList } from './platform';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
+import { GuideData } from 'components/guide/infomation';
 
 interface Components {
   [key: number]: JSX.Element;
 }
+
+const TabType: string[] = ['충전전력요금', '일반사항'];
 const RateInfoGuide = () => {
   // 플랫폼 가이드 리스트 조회
   const {
@@ -27,26 +31,83 @@ const RateInfoGuide = () => {
   );
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
-  const TabType: string[] = ['충전전력요금', '일반사항'];
+
+  const [device, setDevice] = useState<'pc' | 'tablet' | 'mobile'>();
+
+  const pc = useMediaQuery({
+    query: '(min-width:768pt)',
+  });
+  const tablet = useMediaQuery({
+    query: '(min-width:576pt)',
+  });
+  const mobile = useMediaQuery({
+    query: '(min-width:270pt)',
+  });
+
+  // 이미지 값 찾기
+  const getImg = (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => {
+    if (data && data.guideImages) {
+      const pcImg = data.guideImages.find((e) => e.imageSizeType === 'PC');
+      const tabletImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'TABLET',
+      );
+      const mobileImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'MOBILE',
+      );
+      if (device === 'pc') {
+        if (pcImg) {
+          setImgUrl(pcImg?.url);
+        }
+      } else if (device === 'tablet') {
+        if (tabletImg) {
+          setImgUrl(tabletImg?.url);
+        }
+      } else if (device === 'mobile') {
+        if (mobileImg) {
+          setImgUrl(mobileImg?.url);
+        }
+      }
+    }
+  };
+
   const components: Components = {
     0: (
       <RateInfoTab1
         data={
           guideList?.data?.guides?.filter(
             (item) => item?.title === '충전전력요금',
-          )!
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     1: (
       <RateInfoTab2
         data={
-          guideList?.data?.guides?.filter((item) => item?.title === '일반사항')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '일반사항',
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
   };
   const handleTab = (index: number) => setTabNumber(index);
+
+  useEffect(() => {
+    if (pc) {
+      setDevice('pc');
+    } else if (tablet) {
+      setDevice('tablet');
+    } else if (mobile) {
+      setDevice('mobile');
+    }
+  }, [pc, tablet, mobile]);
 
   return (
     <Body>

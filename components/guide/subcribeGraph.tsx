@@ -1,12 +1,24 @@
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { GuideData } from './infomation';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const SubcribeGraph = ({ data }: Props) => {
+const SubcribeGraph = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
   return (
     <Wrapper>
       {/* <Table>
@@ -90,8 +102,21 @@ const SubcribeGraph = ({ data }: Props) => {
           최적의 충전요금 진단 서비스가 런칭될 예정입니다.
         </Contents>
       </InfoBox> */}
+
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
+
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -226,4 +251,13 @@ const Contents = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-top: 12pt;
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

@@ -1,12 +1,25 @@
 import styled from '@emotion/styled';
+import Image from 'next/image';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { GuideData } from './infomation';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const Tab2 = ({ data }: Props) => {
+const Tab2 = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Wrapper>
       {/* 1번째 테이블 */}
@@ -164,8 +177,19 @@ const Tab2 = ({ data }: Props) => {
           </tr>
         </TableBody>
       </Table> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -302,4 +326,13 @@ const TableBody = styled.tbody<{ shadow?: boolean }>`
   .third-table-contents {
     padding: 9pt 0pt;
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

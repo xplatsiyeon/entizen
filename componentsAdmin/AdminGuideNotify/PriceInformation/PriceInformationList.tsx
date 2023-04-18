@@ -20,7 +20,6 @@ type Props = {
 };
 
 const PriceInformationList = ({ setNowHeight, setNumber }: Props) => {
-  const queryClinet = useQueryClient();
   const dispatch = useDispatch();
   const { data, isLoading, isError, refetch, remove } = useQuery<GuideUpdate>(
     'adminGuideDetail',
@@ -73,7 +72,7 @@ const PriceInformationList = ({ setNowHeight, setNumber }: Props) => {
         commonBtn={'등록'}
         handleCommon={handleCommon}
         guideKind={'FEE'}
-        dataLength={2}
+        dataLength={4}
       />
     </Wrapper>
   );

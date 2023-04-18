@@ -7,7 +7,6 @@ import React, { useRef } from 'react';
 import { useMutation } from 'react-query';
 import colors from 'styles/colors';
 import CloseImg from 'public/images/XCircle.svg';
-import { GuideImage } from './PlatformGuide/PlatformGuideEditor';
 
 type Props = {
   pcImgArr: IMG[];
@@ -52,6 +51,7 @@ export default function AdminGuideBanner({
     onSuccess: (res) => {
       // const newFile = pcImgArr;
       let newFile: IMG[] = [];
+
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -83,6 +83,7 @@ export default function AdminGuideBanner({
     onSuccess: (res) => {
       // const newFile = tabletImgArr;
       let newFile: IMG[] = [];
+
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -113,7 +114,7 @@ export default function AdminGuideBanner({
   >(multerAdminApi, {
     onSuccess: (res) => {
       let newFile: IMG[] = [];
-      // const newFile = mobileImgArr;
+
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -175,10 +176,10 @@ export default function AdminGuideBanner({
   // 사진 삭제
   const handleDeleteImg = (
     e: React.MouseEvent<HTMLDivElement>,
+    index: number,
     type: 'pc' | 'tablet' | 'mobile',
   ) => {
     // const name = Number(e.currentTarget.dataset.name);
-    console.log('🔥 name : ', name);
     let copyArr: IMG[]; // 이미지 배열 복사
     switch (type) {
       case 'pc':
@@ -191,24 +192,27 @@ export default function AdminGuideBanner({
         copyArr = mobileImgArr;
         break;
     }
+    copyArr.splice(index, 1);
 
-    console.log('🔥 copyArr : ', copyArr);
-    // 이미지 값 state에 저장
-    for (let i = 0; i < copyArr.length; i++) {
-      switch (type) {
-        case 'pc':
-          setPcImgArr([]);
-          break;
-        case 'tablet':
-          setTabletImgArr([]);
-          break;
-        case 'mobile':
-          setMobileImgArr([]);
-          break;
-      }
-      return;
+    switch (type) {
+      case 'pc':
+        setPcImgArr([...copyArr]);
+        break;
+      case 'tablet':
+        setTabletImgArr([...copyArr]);
+        break;
+      case 'mobile':
+        setMobileImgArr([...copyArr]);
+        break;
     }
+    return;
   };
+
+  // useEffect(() => {
+  //   console.log('🔥 pcImgArr : ', pcImgArr);
+  //   console.log('🔥 tabletImgArr : ', tabletImgArr);
+  //   console.log('🔥 mobileImgArr : ', mobileImgArr);
+  // }, [pcImgArr, tabletImgArr, mobileImgArr]);
 
   return (
     <div>
@@ -234,7 +238,7 @@ export default function AdminGuideBanner({
           <p className="imgSize">1920*480</p>
         </span>
         <div className="previewImgWrap">
-          {pcImgArr.map((img) => (
+          {pcImgArr.map((img, index) => (
             <ImgSpan>
               <Image
                 src={img?.url}
@@ -245,7 +249,7 @@ export default function AdminGuideBanner({
                 unoptimized={true}
                 objectFit="cover"
               />
-              <Xbox onClick={(e) => handleDeleteImg(e, 'pc')}>
+              <Xbox onClick={(e) => handleDeleteImg(e, index, 'pc')}>
                 <Image
                   src={CloseImg}
                   layout="intrinsic"
@@ -263,7 +267,7 @@ export default function AdminGuideBanner({
         <span className="addImgWrap">
           <p className="imgText">
             메인 이미지 추가 <br />
-            (모바일 이미지)
+            (태블릿 이미지)
           </p>
           <label htmlFor="tabletImgUpload" className="fileLabel">
             <button onClick={() => pcImgOutHandler(tabletRef)}>
@@ -281,7 +285,7 @@ export default function AdminGuideBanner({
           <p className="imgSize">1024*132</p>
         </span>
         <div className="previewImgWrap">
-          {tabletImgArr.map((img) => (
+          {tabletImgArr.map((img, index) => (
             <ImgSpan>
               <Image
                 src={img?.url}
@@ -292,7 +296,7 @@ export default function AdminGuideBanner({
                 unoptimized={true}
                 objectFit="cover"
               />
-              <Xbox onClick={(e) => handleDeleteImg(e, 'tablet')}>
+              <Xbox onClick={(e) => handleDeleteImg(e, index, 'tablet')}>
                 <Image
                   src={CloseImg}
                   layout="intrinsic"
@@ -310,7 +314,7 @@ export default function AdminGuideBanner({
         <span className="addImgWrap">
           <p className="imgText">
             메인 이미지 추가 <br />
-            (PC 이미지)
+            (모바일 이미지)
           </p>
           <label htmlFor="mobileImgUpload" className="fileLabel">
             <button onClick={() => pcImgOutHandler(mobileRef)}>
@@ -328,7 +332,7 @@ export default function AdminGuideBanner({
           <p className="imgSize">430*132</p>
         </span>
         <div className="previewImgWrap">
-          {mobileImgArr.map((img) => (
+          {mobileImgArr.map((img, index) => (
             <ImgSpan>
               <Image
                 src={img?.url}
@@ -339,7 +343,7 @@ export default function AdminGuideBanner({
                 unoptimized={true}
                 objectFit="cover"
               />
-              <Xbox onClick={(e) => handleDeleteImg(e, 'mobile')}>
+              <Xbox onClick={(e) => handleDeleteImg(e, index, 'mobile')}>
                 <Image
                   src={CloseImg}
                   layout="intrinsic"
@@ -380,6 +384,7 @@ const ImgWrap = styled.div`
   }
   .previewImgWrap {
     padding-left: 13px;
+    display: flex;
   }
 
   .fileInput {
@@ -417,6 +422,7 @@ const ImgSpan = styled.div`
   height: 104px;
   border-radius: 4px;
   border: 0.75pt solid #e2e5ed;
+  margin-right: 15px;
   & > span > img {
     border-radius: 4px;
   }

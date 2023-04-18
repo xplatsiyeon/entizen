@@ -157,20 +157,6 @@ const PlatformGuideEditor = ({
     onSettled: () => {},
   });
 
-  const modalPostBtnControll = () => {
-    if (detatilId === '') {
-      postMutate({
-        url: `/admin/guides`,
-        data: {
-          guideKind: 'PLATFORM',
-          // title: dropDownValue[selctValueKr],
-          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
-        },
-      });
-    }
-  };
-
   // 수정 api
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
     isTokenAdminPatchApi,
@@ -187,9 +173,9 @@ const PlatformGuideEditor = ({
       },
     },
   );
-  // 수정 버튼 클릭
-  const onClickModifiedBtn = () => {
-    // 수정에 필요한 이미지값
+
+  // 이미지 데이터 추출
+  const getImges = () => {
     const images = [];
     if (pcImgArr.length > 0) {
       images.push({
@@ -218,12 +204,31 @@ const PlatformGuideEditor = ({
       });
     }
 
+    return images;
+  };
+
+  // 등록 버튼 클릭
+  const modalPostBtnControll = () => {
+    if (detatilId === '') {
+      postMutate({
+        url: `/admin/guides`,
+        data: {
+          guideKind: 'PLATFORM',
+          title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
+          content: bodyText,
+          images: getImges(),
+        },
+      });
+    }
+  };
+  // 수정 버튼 클릭
+  const onClickModifiedBtn = () => {
     // 수정 API
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
         content: bodyText,
-        images,
+        images: getImges(),
       },
     });
   };
