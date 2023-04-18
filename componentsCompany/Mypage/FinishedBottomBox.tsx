@@ -26,7 +26,6 @@ type Props = {
 };
 
 const FinishedBottomBox = ({ data }: Props) => {
-  console.log('🔥 data.projectReview : ', data.projectReview);
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
