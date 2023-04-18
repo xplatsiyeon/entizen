@@ -31,7 +31,7 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   return (
     <>
-      {!landingPage ? (
+      {landingPage ? (
         <Landing />
       ) : (
         <>
