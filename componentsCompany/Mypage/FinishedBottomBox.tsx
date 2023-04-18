@@ -85,6 +85,7 @@ const FinishedBottomBox = ({ data }: Props) => {
             <span className="webPhone">{callPhone}</span>
           </div>
         </Contents>
+        {/* 첨부 파일 */}
         <BiggerText className="catalog">첨부 파일</BiggerText>
         {data?.finalQuotation?.finalQuotationChargers?.map((el, idx) =>
           el?.finalQuotationChargerFiles
@@ -132,6 +133,12 @@ const FinishedBottomBox = ({ data }: Props) => {
           </FileDownloadBtn>
         )}
         <Line />
+        {/* 현장 실사 사진 */}
+        {/* =========================================================== */}
+
+        {/* =========================================================== */}
+        <Line />
+        {/* 리뷰 */}
         <ReviewBox>
           <AsCompGetReview review={data?.projectReview} isProject={true} />
         </ReviewBox>

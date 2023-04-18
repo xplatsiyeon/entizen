@@ -20,7 +20,6 @@ import { redirectAction } from 'store/redirectUrlSlice';
 
 type Props = {};
 
-const TAG = 'pages/company/mypage/successedProject.index.tsx';
 const successedProject = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();

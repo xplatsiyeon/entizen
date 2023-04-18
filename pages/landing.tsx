@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
 import LandingHeader from 'components/Landing/LandingHeader';
 import LandingFirstSlider from 'components/Landing/LandingFirstSlider';
@@ -18,9 +17,6 @@ import { Fragment } from 'react';
 import Head from 'next/head';
 
 const Landing = () => {
-  // const mobile = useMediaQuery({
-  //   query: '(max-width:899.25pt)',
-  // });
   const mobile = useMediaQuery({
     query: '(max-width:600pt)',
   });
@@ -29,7 +25,6 @@ const Landing = () => {
     <Fragment>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
         <link
           href="https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap"
           rel="stylesheet"

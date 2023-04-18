@@ -47,7 +47,12 @@ const LandingSeventh = () => {
                 개인 용도로 사용해 보세요.
               </ImgText>
             )}
-            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+            <Image
+              src={MainSliderImg1}
+              alt="MainSliderImg1"
+              layout="fill"
+              priority
+            />
           </ImgTag>
           <ImgTag>
             <ImgText>
@@ -57,7 +62,12 @@ const LandingSeventh = () => {
               <br />
               충전 수익도 챙겨가세요.
             </ImgText>
-            <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
+            <Image
+              src={MainSliderImg2}
+              alt="MainSliderImg2"
+              layout="fill"
+              priority
+            />
           </ImgTag>
           <ImgTag>
             <ImgText>
@@ -67,7 +77,12 @@ const LandingSeventh = () => {
               <br />
               직접 충전사업을 해보세요.
             </ImgText>
-            <Image src={MainSliderImg3} alt="MainSliderImg1" layout="fill" />
+            <Image
+              src={MainSliderImg3}
+              alt="MainSliderImg1"
+              layout="fill"
+              priority
+            />
           </ImgTag>
           <ImgTag>
             <ImgText>
@@ -77,7 +92,12 @@ const LandingSeventh = () => {
               <br />
               편의를 제공해 보세요.
             </ImgText>
-            <Image src={MainSliderImg4} alt="MainSliderImg2" layout="fill" />
+            <Image
+              src={MainSliderImg4}
+              alt="MainSliderImg2"
+              layout="fill"
+              priority
+            />
           </ImgTag>
           <ImgTag>
             <ImgText>
@@ -87,7 +107,12 @@ const LandingSeventh = () => {
               <br />
               복지를 제공해 보세요.
             </ImgText>
-            <Image src={MainSliderImg5} alt="MainSliderImg1" layout="fill" />
+            <Image
+              src={MainSliderImg5}
+              alt="MainSliderImg1"
+              layout="fill"
+              priority
+            />
           </ImgTag>
         </SwiperWrapper>
         {/* <WebBox>

@@ -27,7 +27,7 @@ const LandingFifth = () => {
                 나에게 딱 맞는 상품을 선택하세요.
               </SubText>
             </TextBox>
-            <Image src={MobileImg} />
+            <Image src={MobileImg} priority />
           </MobileWrapper>
         ) : (
           <WebWrapper>
@@ -43,10 +43,10 @@ const LandingFifth = () => {
                 </SubText>
               </TextBox>
               <WebLeftImgBox>
-                <Image src={LeftImg} />
+                <Image src={LeftImg} priority />
               </WebLeftImgBox>
               <WebRightImgBox>
-                <Image src={RightImg} />
+                <Image src={RightImg} priority />
               </WebRightImgBox>
             </WebInner>
           </WebWrapper>

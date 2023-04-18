@@ -30,7 +30,7 @@ const LandingFourth = () => {
           </TextBox>
           <MobileImgBox>
             <MobileScroll>
-              <Image src={mainImgMobile} />
+              <Image src={mainImgMobile} priority />
             </MobileScroll>
           </MobileImgBox>
         </Wrapper>
@@ -51,10 +51,10 @@ const LandingFourth = () => {
               </SubText>
             </TextBox>
             <WebeftImgBox>
-              <Image src={Left} />
+              <Image src={Left} priority />
             </WebeftImgBox>
             <WebRightImgBox>
-              <Image src={Right} />
+              <Image src={Right} priority />
             </WebRightImgBox>
           </WebInner>
         </WebWrapper>

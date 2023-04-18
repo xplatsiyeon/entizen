@@ -31,7 +31,7 @@ const LandingThird = () => {
           </TextBox>
           <MobileImgBox>
             <MobileScroll>
-              <Image src={LandingMobile} />
+              <Image src={LandingMobile} priority />
             </MobileScroll>
           </MobileImgBox>
         </Wrapper>
@@ -52,10 +52,10 @@ const LandingThird = () => {
               </SubText>
             </TextBox>
             <WebeftImgBox>
-              <Image src={LeftImg} />
+              <Image src={LeftImg} priority />
             </WebeftImgBox>
             <WebRightImgBox>
-              <Image src={RightImg} />
+              <Image src={RightImg} priority />
             </WebRightImgBox>
           </WebInner>
         </WebWrapper>
