@@ -165,12 +165,6 @@ const MainPage = (props: Props) => {
                 dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
               }}
             >
-              {/* <FirstIconBox onClick={() => router.push('/alarm')}> */}
-              {/* {userID ? (
-                <Image src={BellOn} alt="alarmIcon" />
-              ) : (
-                <Image src={BellNormal} alt="alarmIcon" />
-              )} */}
               {!userID && (
                 <Image
                   src={BellOff}

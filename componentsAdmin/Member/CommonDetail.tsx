@@ -222,7 +222,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const adminSpecialNote = () => {
     patchSpecialNoteMutate({
       url: `/admin/members/${memberIdx}/etc`,
-      data: { etc: specialNote },
+      data: { etc: specialNote ? specialNote : '' },
     });
   };
 

@@ -206,12 +206,8 @@ const SwiperMain = styled(Swiper)`
   height: 360pt;
   @media (max-width: 899.25pt) {
     height: 99pt;
-    /* border-radius: 6pt; */
   }
   .swiper-pagination {
-    /* width: fit-content; */
-    /* right: 9.75pt;
-    left: auto; */
     text-align: center;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
