@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
@@ -10,32 +10,49 @@ import { hyphenFn } from 'utils/calculatePackage';
 import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
 import { fileDownload } from 'bridge/appToWeb';
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { SelfContract } from 'components/mypage/projects/ClientProgress';
+import { useQuery as reactQuery } from 'react-query';
 import {
-  useMutation,
-  useQuery as reactQuery,
-  useQueryClient,
-} from 'react-query';
-import {
-  getDocument,
   modusignPdfDown,
   modusignPdfResponse,
   downloadModusignPdf,
 } from 'api/getDocument';
+import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import { useMediaQuery } from 'react-responsive';
+import Carousel from 'components/mypage/projects/Carousel';
 
 type Props = {
   data: HistoryProjectsDetail;
 };
 
 const FinishedBottomBox = ({ data }: Props) => {
+  console.log('🔥 data.projectReview : ', data.projectReview);
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const callPhone = hyphenFn(data?.userMember?.phone.toString());
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+  const fileArray: any = [];
+  for (let i = data?.projectCompletionFiles?.length - 1; i >= 0; i--) {
+    fileArray.push(data?.projectCompletionFiles[i]);
+  }
 
   const contractContent: SelfContract[] =
     data?.contract && JSON.parse(data?.contract?.contractContent!);
+
+  // 이미지 상세보기 모달창
+  const [openImgModal, setOpenImgModal] = useState(false);
+  // 충전기 이미지 클릭시 뭐 눌렀는지 확인
+  const idxRef = useRef(0);
+  const [webIdx, setWebIdx] = useState<number>(0);
+
+  const initialSlideOnChange = (idx: number) => {
+    idxRef.current = idx;
+  };
+
+  const webHandleNum = (idx: number) => {
+    setWebIdx(idx);
+  };
 
   // 자체 계약서 다운로드
   const onClickBtn = (data: fileDownLoad) => {
@@ -64,6 +81,8 @@ const FinishedBottomBox = ({ data }: Props) => {
           : false,
     },
   );
+
+  const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
   return (
     <>
@@ -95,7 +114,6 @@ const FinishedBottomBox = ({ data }: Props) => {
               <FileDownloadBtn key={fileIdx}>
                 <FileDownload
                   download={file.originalName}
-                  // href={file.url}
                   onClick={() => {
                     fileDownload(userAgent, file.originalName, file.url);
                   }}
@@ -133,9 +151,66 @@ const FinishedBottomBox = ({ data }: Props) => {
           </FileDownloadBtn>
         )}
         <Line />
-        {/* 현장 실사 사진 */}
-        {/* =========================================================== */}
+        {/* ======================= 현장 실사 사진 =======================  */}
+        <BiggerText>완료현장 사진</BiggerText>
 
+        {/* 모바일 사진이 들어갈 공간*/}
+        <FinishedPhotoBox>
+          <Carousel file={data?.projectCompletionFiles} ImgDetail={true} />
+        </FinishedPhotoBox>
+
+        {/* 웹 사진이 들어갈 공간*/}
+        <WebFinishedPhotoWrapper>
+          <WebLeftPhotoBox>
+            {data?.projectCompletionFiles?.map((el, idx) => (
+              <WebLeftPhotos
+                key={el?.projectCompletionFileIdx}
+                onClick={() => {
+                  webHandleNum(idx);
+                  initialSlideOnChange(idx);
+                }}
+                webIdx={webIdx}
+                idx={idx}
+              >
+                <div className="imgBox">
+                  <Image
+                    src={el?.url}
+                    alt={el?.originalName}
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                    objectFit="cover"
+                  />
+                </div>
+              </WebLeftPhotos>
+            ))}
+          </WebLeftPhotoBox>
+          <WebRightPhotoBox
+            key={DataFilter?.projectCompletionFileIdx}
+            onClick={() => {
+              setOpenImgModal(!openImgModal);
+            }}
+          >
+            <div className="imgBox">
+              <Image
+                src={DataFilter?.url}
+                alt={DataFilter?.originalName}
+                layout="fill"
+                priority={true}
+                unoptimized={true}
+                objectFit="contain"
+              />
+            </div>
+          </WebRightPhotoBox>
+        </WebFinishedPhotoWrapper>
+        {/* 이미지 자세히 보기 기능 */}
+        {!mobile && openImgModal && (
+          <ImgDetailCarousel
+            file={fileArray}
+            setOpenImgModal={setOpenImgModal}
+            idxRef={idxRef}
+          />
+        )}
         {/* =========================================================== */}
         <Line />
         {/* 리뷰 */}
@@ -338,4 +413,73 @@ const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
 `;
 
+const WebFinishedPhotoWrapper = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24pt;
+  }
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const WebLeftPhotoBox = styled.div`
+  @media (min-width: 900pt) {
+    // display: flex;
+    // flex-direction: column;
+    overflow-y: scroll;
+    // justify-content: flex-start;
+    // gap: 9pt;
+    height: 330pt;
+  }
+`;
+
+const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
+  @media (min-width: 900pt) {
+    width: 60pt;
+    height: 60pt;
+    /* border-radius: 6pt; */
+    margin-bottom: 8pt;
+    overflow: hidden;
+    border: ${({ idx, webIdx }) => idx === webIdx && `0.75pt solid #5221cb`};
+    border-radius: 6pt;
+    cursor: pointer;
+    .imgBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
+const WebRightPhotoBox = styled.div`
+  @media (min-width: 900pt) {
+    cursor: pointer;
+    width: 508.5pt;
+    height: 330pt;
+    border-radius: 12pt;
+    /* box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.2); */
+    .imgBox {
+      position: relative;
+      border-radius: 12pt;
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
+const FinishedPhotoBox = styled.div`
+  width: 100%;
+  height: 91.5pt;
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
+  border: 0.75pt solid ${colors.lightGray};
+  margin-top: 12pt;
+  border-radius: 6pt;
+  position: relative;
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
 export default FinishedBottomBox;

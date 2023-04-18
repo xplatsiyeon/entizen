@@ -10,7 +10,6 @@ import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
 import { useEffect, useRef, useState } from 'react';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
-import { set } from 'immer/dist/internal';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 
 interface Props {
@@ -18,34 +17,23 @@ interface Props {
   ImgDetail?: true;
 }
 const Carousel = ({ file, ImgDetail }: Props) => {
-  const [swiper, setSwiper] = useState(null);
+  console.log('🔥 file : ', file);
   const [fileArr, setFileArr] = useState<ProjectCompletionFiles[]>([]);
-  const [mainImageIndex, setMainImageIndex] = useState(0);
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
-
   // 충전기 이미지 클릭시 뭐 눌렀는지 확인
   const idxRef = useRef(-1);
-
   const initialSlideOnChange = (idx: number) => {
     idxRef.current = idx;
   };
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
   useEffect(() => {
-    // console.log('캐러쉘', file);
     if (file) {
       const copy = [...file!].reverse();
       setFileArr(copy);
-      // console.log('new', copy);
     }
-  }, []);
+  }, [file]);
+
   SwipeCore.use([Navigation]);
-  // const swiperParams = {
-  //   navigation: true,
-  //   onSwiper: setSwiper,
-  //   onSlideChange: (e)=> set(e.activeIndex)
-  // }
 
   return (
     <Wrapper
@@ -64,13 +52,6 @@ const Carousel = ({ file, ImgDetail }: Props) => {
         return (
           <Slider key={el?.projectCompletionFileIdx}>
             <div className="imgBox">
-              {/* <Image
-              src={el?.url}
-              alt={el?.originalName}
-              layout="fill"
-              priority={true}
-              unoptimized={true}
-            /> */}
               <SliderImg
                 src={el?.url}
                 alt={el?.originalName}
@@ -121,11 +102,9 @@ const Wrapper = styled(Swiper)<{ openImgModal?: boolean }>`
       openImgModal === true ? '' : 'rgba(0, 0, 0, 0.3)'};
     border-radius: 7.5pt;
   }
-
   .swiper-wrapper {
     width: 0;
   }
-
   .swiper-button-next {
     background-size: 50% auto;
     background-position: center;
@@ -136,7 +115,6 @@ const Wrapper = styled(Swiper)<{ openImgModal?: boolean }>`
       display: none;
     }
   }
-
   .swiper-button-prev {
     width: 21pt;
     height: 21pt;

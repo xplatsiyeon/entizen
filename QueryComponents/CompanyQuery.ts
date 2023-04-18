@@ -238,6 +238,13 @@ export interface HistoryProjectsDetail {
   projectNumber: string;
   subscribeStartDate: string;
   subscribeEndDate: string;
+  projectCompletionFiles: {
+    url: string;
+    projectCompletionFileIdx: string;
+    originalName: string;
+    size: number;
+    projectIdx: number;
+  }[];
   projectReview: {
     projectReviewIdx: string;
     attentivenessPoint: number;
@@ -310,6 +317,13 @@ export const GET_historyProjectsDetail = gql`
       projectNumber
       subscribeStartDate
       subscribeEndDate
+      projectCompletionFiles {
+        url
+        projectCompletionFileIdx
+        originalName
+        size
+        projectIdx
+      }
       projectReview {
         projectReviewIdx
         attentivenessPoint

@@ -219,6 +219,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     }
   };
 
+  // 특이사항 수정
   const adminSpecialNote = () => {
     patchSpecialNoteMutate({
       url: `/admin/members/${memberIdx}/etc`,
@@ -234,18 +235,6 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     setIsModal(false);
   };
 
-  // useEffect(() => {
-  //   if (companyData?.data?.member?.isAdminJoinApproved !== approve) {
-  //     adminJoinApprove();
-  //   }
-  // }, [approve]);
-
-  // useEffect(() => {
-  //   if (currentApprove !== undefined) {
-  //     setSelectValue(isAdminJoinApprovedString(currentApprove));
-  //   }
-  // }, []);
-
   const loading = userLoading || companyLoading;
 
   const nowHeight = window.document.documentElement.scrollHeight;
@@ -253,8 +242,6 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const userAvatar = userData?.data?.member?.profileImageUrl;
   const companyAvatar =
     companyData?.data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl;
-
-  console.log('🔥 userData : ', userData);
 
   return (
     <Background nowHeight={nowHeight}>
