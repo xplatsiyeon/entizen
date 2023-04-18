@@ -5,6 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import Image from 'next/image';
 
 type Img = {
   id: number;
@@ -12,13 +13,13 @@ type Img = {
 };
 
 const SubImg: Img[] = [
-  { id: 0, url: 'Landing/LandingIcon_1.svg' },
-  { id: 1, url: 'Landing/LandingIcon_2.svg' },
-  { id: 2, url: 'Landing/LandingIcon_3.svg' },
-  { id: 3, url: 'Landing/LandingIcon_4.svg' },
-  { id: 4, url: 'Landing/LandingIcon_5.svg' },
-  { id: 5, url: 'Landing/LandingIcon_6.svg' },
-  { id: 6, url: 'Landing/LandingIcon_7.svg' },
+  { id: 0, url: '/Landing/LandingIcon_1.svg' },
+  { id: 1, url: '/Landing/LandingIcon_2.svg' },
+  { id: 2, url: '/Landing/LandingIcon_3.svg' },
+  { id: 3, url: '/Landing/LandingIcon_4.svg' },
+  { id: 4, url: '/Landing/LandingIcon_5.svg' },
+  { id: 5, url: '/Landing/LandingIcon_6.svg' },
+  { id: 6, url: '/Landing/LandingIcon_7.svg' },
 ];
 
 const LandingFirstSlider = () => {
@@ -38,9 +39,6 @@ const LandingFirstSlider = () => {
     speed: 2000,
     autoplaySpeed: 2000,
     cssEase: 'linear',
-    // variableWidth: true,
-    // centerMode: true,
-    // centerPadding: '0px',
   };
 
   return (
@@ -64,11 +62,13 @@ const LandingFirstSlider = () => {
 
       <SliderBox {...settings}>
         {SubImg.map((item, index) => (
-          <img
+          <Image
             width={mobile ? 64 : 160}
             height={mobile ? 64 : 160}
-            src={item.url}
+            src={item.url ? item.url : ''}
+            alt={item.id ? item.id.toString() : '#'}
             key={index}
+            priority
           />
         ))}
       </SliderBox>
