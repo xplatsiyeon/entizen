@@ -5,12 +5,25 @@ import colors from 'styles/colors';
 import CompareImg from 'public/guide/Compare.png';
 import CompareImg2 from 'public/guide/guide1-2.png';
 import { GuideData } from './infomation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const Contract = ({ data }: Props) => {
+const Contract = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Main>
       {/* <ImageWrap>
@@ -34,8 +47,20 @@ const Contract = ({ data }: Props) => {
           상품이 만족스러우시면 함께 할 파트너를 확정해주세요.
         </li>
       </TextBox> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
+
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data!?.content }} />
       ) : (
         <></>
       )}
@@ -65,9 +90,6 @@ const Main = styled.div`
     width: 100%;
   }
   ul {
-    /* list-style: circle !important; */
-    /* padding: 10px; */
-    /* list-style-position: initial; */
     list-style-position: outside !important;
     li {
       display: flex;
@@ -77,17 +99,12 @@ const Main = styled.div`
       border-radius: 50%;
       padding-inline: 5px;
       text-align: center;
-
-      /* margin-inline-end: 5px; */
     }
   }
   ol {
     list-style-type: decimal !important;
     padding: 10px;
   }
-  /* :focus {
-      border: none;
-    } */
   em {
     font-style: italic;
   }
@@ -150,4 +167,13 @@ const TextBox = styled(Box)`
       line-height: 16.5pt;
     }
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

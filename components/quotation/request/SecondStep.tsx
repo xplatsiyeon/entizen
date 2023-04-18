@@ -86,7 +86,7 @@ const SecondStep = ({ tabNumber }: Props) => {
       }
     }
     router.push({
-      pathname: '/guide/1-4',
+      pathname: '/guide/subscribe',
       query: {
         id: 1,
       },

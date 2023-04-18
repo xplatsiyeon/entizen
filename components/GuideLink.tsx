@@ -26,11 +26,11 @@ const GuideLink = ({ type, num, now }: Props) => {
         '요금정보',
       ];
       linkUrl = [
-        `/guide/1-1`,
-        `/guide/1-4`,
-        '/guide/1-5',
-        '/guide/1-2',
-        '/guide/1-3',
+        `/guide/platform`,
+        `/guide/subscribe`,
+        '/guide/charger',
+        '/guide/subsidy',
+        '/guide/rateInfo',
       ];
       break;
     case 'mypage':

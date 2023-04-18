@@ -1,16 +1,10 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi, isTokenAdminPatchApi } from 'api';
+import { isTokenAdminPatchApi } from 'api';
 import {
   isTokenAdminGetApi,
   isTokenAdminPostApi,
@@ -21,20 +15,14 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import {
-  AdminGuideListResponse,
-  AdminTermsListResponse,
-} from 'types/tableDataType';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import dynamic from 'next/dynamic';
-import htmlToDraft from 'html-to-draftjs';
+import { AdminGuideListResponse } from 'types/tableDataType';
+import { EditorState } from 'draft-js';
 import { multerAdminApi } from 'api';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import GuideTiptapEditor from '../GuideTiptapEditor';
+import AdminGuideBanner from '../AdminGuideBanner';
+import { GuideImage } from '../PlatformGuide/PlatformGuideEditor';
 
 type IMG = {
   originalName: string;
@@ -66,6 +54,7 @@ export interface GuideUpdate {
       guideKind: string;
       title: string;
       content: string;
+      guideImages: GuideImage[];
     };
   };
 }
@@ -91,19 +80,16 @@ const PriceInformationEditor = ({
     return firstArray.filter((item) => !secondArray.includes(item));
   };
 
-  // 제목
-  const [title, setTitle] = useState<string>('');
-
-  // 수정된 value가 있는지 없는지
-  const [checkAll, setCheckAll] = useState<boolean>(false);
-
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
-
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
+  // 배너 이미지
+  const [pcImgArr, setPcImgArr] = useState<IMG[]>([]);
+  const [tabletImgArr, setTabletImgArr] = useState<IMG[]>([]);
+  const [mobileImgArr, setMobileImgArr] = useState<IMG[]>([]);
 
   // 페이지 전체 렌더링
   const [open, setOpen] = useState(false);
@@ -111,8 +97,19 @@ const PriceInformationEditor = ({
     'adminGuideDetail',
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
-      onSuccess: (res) => {
-        setBodyText(res?.data?.guide?.content!);
+      onSuccess: async (res) => {
+        // setBodyText(res?.data?.guide?.content!);
+        // const { guideImages } = res?.data?.guide;
+        // const PC = await guideImages.find((e) => e.imageSizeType === 'PC');
+        // const TABLET = await guideImages.find(
+        //   (e) => e.imageSizeType === 'TABLET',
+        // );
+        // const MOBILE = await guideImages.find(
+        //   (e) => e.imageSizeType === 'MOBILE',
+        // );
+        // if (PC) setPcImgArr([PC]);
+        // if (TABLET) setTabletImgArr([TABLET]);
+        // if (MOBILE) setMobileImgArr([MOBILE]);
       },
       onSettled: (res) => {
         res?.data?.guide?.guideKind === 'FEE';
@@ -212,18 +209,43 @@ const PriceInformationEditor = ({
     },
   );
 
+  // 수정 버튼 클릭
   const onClickModifiedBtn = () => {
+    // 수정에 필요한 이미지값
+    const images = [];
+    if (pcImgArr.length > 0) {
+      images.push({
+        type: 'PC',
+        url: pcImgArr[0].url,
+        size: pcImgArr[0].size,
+        originalName: pcImgArr[0].originalName,
+      });
+    }
+
+    if (tabletImgArr.length > 0) {
+      images.push({
+        type: 'TABLET',
+        url: tabletImgArr[0].url,
+        size: tabletImgArr[0].size,
+        originalName: tabletImgArr[0].originalName,
+      });
+    }
+
+    if (mobileImgArr.length > 0) {
+      images.push({
+        type: 'MOBILE',
+        url: mobileImgArr[0].url,
+        size: mobileImgArr[0].size,
+        originalName: mobileImgArr[0].originalName,
+      });
+    }
+
+    // 수정 API
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        // title: selectValue
-        //   ? dropDownValue[selctValueKr]
-        //   : data?.data?.guides?.title,
-        // content: bodyText,
-
-        // guideKind: 'CHARGER',
-        // title: dropDownValue[selctValueKr],
         content: bodyText,
+        images,
       },
     });
   };
@@ -255,13 +277,7 @@ const PriceInformationEditor = ({
   const { mutate: guidesImage, isLoading: multerMobileImageLoading } =
     useMutation<MulterResponse, AxiosError, FormData>(multerAdminApi, {
       onSuccess: (res) => {
-        // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
-        // console.log(res);
         const newFile = editorImg;
-        // const newFile = preFile.map((e) => {
-        //   const { createdAt, bannerImageIdx, ...rest } = e;
-        //   return { ...rest };
-        // });
         res?.uploadedFiles.forEach((img) => {
           newFile.push({
             url: img.url,
@@ -274,19 +290,10 @@ const PriceInformationEditor = ({
       onError: (error: any) => {
         if (error.response.data.message) {
           console.log(`첫번째 에러:${error.response.data.message}`);
-
-          //   setMessage(`첫번째 에러:${error.response.data.message}`);
-          //   setMessageModal(true);
         } else if (error.response.status === 413) {
           console.log('용량이 너무 큽니다.');
-
-          //   setMessage('용량이 너무 큽니다.');
-          //   setMessageModal(true);
         } else {
           console.log('다시 시도해주세요');
-
-          //   setMessage('다시 시도해주세요');
-          //   setMessageModal(true);
         }
       },
     });
@@ -305,33 +312,10 @@ const PriceInformationEditor = ({
     e.target.value = '';
   };
 
-  const editorImgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    editorImgRef?.current?.click();
-  };
-
-  useEffect(() => {
-    // setBodyText(data?.data?.content!);
-    // const res = document.querySelector('.ProseMirror') as HTMLElement;
-    // if (res) {
-    //   console.log('res', res);
-    //   res.innerHTML = bodyText;
-    // }
-  }, [data]);
-
-  //   useEffect(() => {
-  //     setSelctValueEn(dropDownValue.indexOf(selectValue));
-  //     if (data !== undefined) {
-  //       setSelctValueKr(dropDownValueEn.indexOf(data?.data?.guideKind));
-  //     } else {
-  //       setSelctValueKr(0);
-  //     }
-  //   }, [selctValueEn, selctValueKr, selectValue, data]);
-
   useEffect(() => {
     setSelctValueKr(
       newDropDown(dropDownValue, secondArray!).indexOf(selectValue),
     );
-    // if (data?.data?.guideKind === 'PLATFORM') {
     if (data?.data?.guide?.title !== undefined) {
       setSelctValueKr(
         newDropDown(dropDownValue, secondArray!).indexOf(
@@ -342,6 +326,19 @@ const PriceInformationEditor = ({
       setSelctValueKr(0);
     }
   }, [data, selctValueKr, selectValue]);
+
+  // 초기 이미지 설정
+  useEffect(() => {
+    setBodyText(data?.data?.guide?.content!);
+
+    const { guideImages } = data?.data?.guide!;
+    const PC = guideImages.find((e) => e.imageSizeType === 'PC');
+    const TABLET = guideImages.find((e) => e.imageSizeType === 'TABLET');
+    const MOBILE = guideImages.find((e) => e.imageSizeType === 'MOBILE');
+    if (PC) setPcImgArr([PC]);
+    if (TABLET) setTabletImgArr([TABLET]);
+    if (MOBILE) setMobileImgArr([MOBILE]);
+  }, []);
 
   return (
     <>
@@ -393,19 +390,19 @@ const PriceInformationEditor = ({
             ) : (
               <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
-            {/* <TitleBox>
-                <TitleText>제목</TitleText>
-                <TitleArea
-                  type="text"
-                  value={title}
-                  placeholder="제목을 입력해주세요"
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </TitleBox> */}
           </TitleContainer>
-
+          {/* ============================= 사이즈 별 사진 추가 =============================== */}
+          <AdminGuideBanner
+            pcImgArr={pcImgArr}
+            setPcImgArr={setPcImgArr}
+            tabletImgArr={tabletImgArr}
+            setTabletImgArr={setTabletImgArr}
+            mobileImgArr={mobileImgArr}
+            setMobileImgArr={setMobileImgArr}
+            setMessage={setMessage}
+            setMessageModal={setMessageModal}
+          />
+          {/* ============================= 텍스트 에디터 =============================== */}
           <GuideTiptapEditor
             setBodyText={setBodyText}
             bodyText={bodyText}

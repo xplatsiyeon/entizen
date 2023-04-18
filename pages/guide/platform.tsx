@@ -3,29 +3,36 @@ import { css } from '@emotion/react';
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
-// import Platform from 'public/guide/platform_guide.png';
-// import Platform from 'public/guide/GuideBannerMobilePng.png';
-// import Platform from 'public/guide/GuideBannerMobileSvg.svg';
-import { useEffect, useState } from 'react';
-import Info from 'components/guide/infomation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import Info, { GuideData } from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-// import Guide from 'public/guide/guide1.png';
-// import Guide from 'public/guide/GuideBannerSvgPng.png';
 import Guide from 'public/guide/guide_banner_web.png';
 import GuideApp from 'public/guide/guide_banner_app.png';
-// import Guide from 'public/guide/GuideBannerSvg.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
+}
+
+export interface GuideImages {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  guideImageIdx: number;
+  imageSizeType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  guideIdx: number;
 }
 
 export type GuideList = {
@@ -39,30 +46,81 @@ export type GuideList = {
       guideKind: string;
       title: string;
       content: string;
+      guideImages: GuideImages[];
     }[];
   };
 };
 
-const Guide1_1 = () => {
+const PlatformGuide = () => {
   // 플랫폼 가이드 리스트 조회
   const {
     data: guideList,
     isLoading: guideIsLoading,
     isError: guideIsError,
     refetch: guideRefetch,
-  } = useQuery<GuideList>('guide-list', () =>
-    isTokenGetApi('/guide?guideKind=PLATFORM'),
+  } = useQuery<GuideList>(
+    'guide-list',
+    () => isTokenGetApi('/guide?guideKind=PLATFORM'),
+    {
+      onSuccess: (res) => {
+        console.log('🔥 res : ', res);
+      },
+    },
   );
-
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
+  const [device, setDevice] = useState<'pc' | 'tablet' | 'mobile'>();
   const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
+
+  const pc = useMediaQuery({
+    query: '(min-width:768pt)',
+  });
+  const tablet = useMediaQuery({
+    query: '(min-width:576pt)',
+  });
+  const mobile = useMediaQuery({
+    query: '(min-width:270pt)',
+  });
+
+  // 이미지 값 찾기
+  const getImg = (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => {
+    if (data && data.guideImages) {
+      const pcImg = data.guideImages.find((e) => e.imageSizeType === 'PC');
+      const tabletImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'TABLET',
+      );
+      const mobileImg = data.guideImages.find(
+        (e) => e.imageSizeType === 'MOBILE',
+      );
+      if (device === 'pc') {
+        if (pcImg) {
+          setImgUrl(pcImg?.url);
+        }
+      } else if (device === 'tablet') {
+        if (tabletImg) {
+          setImgUrl(tabletImg?.url);
+        }
+      } else if (device === 'mobile') {
+        if (mobileImg) {
+          setImgUrl(mobileImg?.url);
+        }
+      }
+    }
+  };
+
   const components: Components = {
     0: (
       <Info
         data={
-          guideList?.data?.guides?.filter((item) => item?.title === '정보확인')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '정보확인',
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     1: (
@@ -70,8 +128,10 @@ const Guide1_1 = () => {
         data={
           guideList?.data?.guides?.filter(
             (item) => item?.title === '비교/선택',
-          )!
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     2: (
@@ -79,8 +139,10 @@ const Guide1_1 = () => {
         data={
           guideList?.data?.guides?.filter(
             (item) => item?.title === '설치 모니터링',
-          )!
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
     3: (
@@ -88,8 +150,10 @@ const Guide1_1 = () => {
         data={
           guideList?.data?.guides?.filter(
             (item) => item?.title === '운영/관리',
-          )!
+          )![0]!
         }
+        getImg={getImg}
+        device={device!}
       />
     ),
   };
@@ -99,6 +163,16 @@ const Guide1_1 = () => {
   useEffect(() => {
     guideRefetch();
   }, []);
+
+  useEffect(() => {
+    if (pc) {
+      setDevice('pc');
+    } else if (tablet) {
+      setDevice('tablet');
+    } else if (mobile) {
+      setDevice('mobile');
+    }
+  }, [pc, tablet, mobile]);
 
   return (
     <>
@@ -188,7 +262,7 @@ const Guide1_1 = () => {
   );
 };
 
-export default Guide1_1;
+export default PlatformGuide;
 
 const align = css`
   position: absolute;

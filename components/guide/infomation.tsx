@@ -4,6 +4,8 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import InfoImg from 'public/guide/Information.png';
 import InfoImg2 from 'public/guide/info2.png';
+import { GuideImages } from 'pages/guide/platform';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export type GuideData = {
   createdAt: string;
@@ -13,13 +15,26 @@ export type GuideData = {
   guideKind: string;
   title: string;
   content: string;
+  guideImages: GuideImages[];
 };
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const infomation = ({ data }: Props) => {
+const infomation = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+  console.log('🔥 platform data : ', data);
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Main>
       {/* <ImageWrap>
@@ -50,8 +65,20 @@ const infomation = ({ data }: Props) => {
           예상견적을 확인하고, 연결된 파트너들에게 맞춤 상품을 요청하세요.
         </li>
       </TextBox> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
+
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -165,4 +192,13 @@ const TextBox = styled(Box)`
   .accent {
     color: ${colors.main};
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

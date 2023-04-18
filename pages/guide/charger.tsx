@@ -1,21 +1,25 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { useState } from 'react';
-import RateInfoTab1 from 'components/guide/RateInfoTab-1';
-import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 import GuideHeader from 'components/guide/header';
+import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
+import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
+import Common from 'components/guide/common';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
-import { GuideList } from './1-1';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { GuideList } from './platform';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
 interface Components {
   [key: number]: JSX.Element;
 }
-const Guide1_3 = () => {
+
+const ChargerGuide = () => {
   // 플랫폼 가이드 리스트 조회
   const {
     data: guideList,
@@ -23,63 +27,81 @@ const Guide1_3 = () => {
     isError: guideIsError,
     refetch: guideRefetch,
   } = useQuery<GuideList>('guide-list', () =>
-    isTokenGetApi(`/guide?guideKind=FEE`),
+    isTokenGetApi(`/guide?guideKind=CHARGER`),
   );
+
   const router = useRouter();
-  const [tabNumber, setTabNumber] = useState(0);
-  const TabType: string[] = ['충전전력요금', '일반사항'];
+  const dispatch = useDispatch();
+  const [tabNum, setTabNum] = useState(0);
+  const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
   const components: Components = {
     0: (
-      <RateInfoTab1
+      <MediumSpeedGraph
         data={
           guideList?.data?.guides?.filter(
-            (item) => item?.title === '충전전력요금',
+            (item) => item?.title === '완속/중속',
           )!
         }
       />
     ),
     1: (
-      <RateInfoTab2
+      <ExpressSpeedGraph
         data={
-          guideList?.data?.guides?.filter((item) => item?.title === '일반사항')!
+          guideList?.data?.guides?.filter(
+            (item) => item?.title === '급속/초급속',
+          )!
+        }
+      />
+    ),
+    2: (
+      <Common
+        data={
+          guideList?.data?.guides?.filter((item) => item?.title === '공통사항')!
         }
       />
     ),
   };
-  const handleTab = (index: number) => setTabNumber(index);
+  const handleTab = (index: number) => setTabNum(index);
+
+  const handleRouterBack = () => {
+    if (router.query.id) {
+      dispatch(quotationAction.setTabNumber(Number(router.query.id)));
+    }
+    router.back();
+  };
 
   return (
     <Body>
-      <WebHeader num={4} now={'guide'} sub={'guide'} />
+      <WebHeader num={2} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
         <GuideHeader
-          title={'요금정보'}
-          leftOnClick={() => router.back()}
+          title="충전기 가이드"
+          leftOnClick={handleRouterBack}
           rightOnClick={() => router.push('/')}
         />
         <TabContainer>
           {TabType.map((tab, index) => (
             <TabItem
               key={index}
-              tab={tabNumber.toString()}
+              tab={tabNum.toString()}
               index={index.toString()}
               onClick={() => handleTab(index)}
             >
               {tab}
-              <Line tab={tabNumber.toString()} index={index.toString()}></Line>
+              <Line tab={tabNum.toString()} index={index.toString()}></Line>
             </TabItem>
           ))}
         </TabContainer>
         {/* 메인 */}
-        <Main>{components[tabNumber]}</Main>
+        <Main>{components[tabNum]}</Main>
       </Inner>
       <WebFooter />
     </Body>
   );
 };
 
-export default Guide1_3;
+export default ChargerGuide;
 
 const Body = styled.div`
   display: flex;
@@ -88,7 +110,6 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
 
   @media (max-height: 809pt) {
@@ -101,7 +122,8 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 645pt;
-  margin: 100pt auto; //
+  height: 100%;
+  margin: 100pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -144,5 +166,5 @@ const Line = styled.div<{ tab: string; index: string }>`
     tab === index && `3pt solid ${colors.main}`};
 `;
 const Main = styled.div`
-  padding: 27pt 8.25pt 0 8.25pt;
+  padding: 0 15pt;
 `;

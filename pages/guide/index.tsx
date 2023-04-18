@@ -200,7 +200,7 @@ const Guide1 = () => {
           </Header>
           <Container>
             <Wrap>
-              <Platform onClick={() => pageHandler('/guide/1-1')}>
+              <Platform onClick={() => pageHandler('/guide/platform')}>
                 <p>플랫폼 가이드</p>
                 <h3>
                   충전의 정석
@@ -222,7 +222,7 @@ const Guide1 = () => {
                 <Subsidy
                   onClick={() => {
                     isLogin
-                      ? pageHandler('/guide/1-2')
+                      ? pageHandler('/guide/subsidy')
                       : pageHandler('/signin');
                   }}
                 >
@@ -239,7 +239,7 @@ const Guide1 = () => {
                     </IconWrap>
                   </FlexWrap>
                 </Subsidy>
-                <Fee onClick={() => pageHandler('/guide/1-3')}>
+                <Fee onClick={() => pageHandler('/guide/rateInfo')}>
                   <span className="mobIcon">
                     <Image src={fee_icon} alt="fee_icon" />
                   </span>
@@ -256,7 +256,7 @@ const Guide1 = () => {
               </SubsidyBox>
             </Wrap>
             <Wrap>
-              <GuideBox onClick={() => pageHandler('/guide/1-4')}>
+              <GuideBox onClick={() => pageHandler('/guide/subscribe')}>
                 <span>
                   <div className="name_box">
                     <h2 className="name">구독 가이드</h2>
@@ -272,7 +272,7 @@ const Guide1 = () => {
                   <Image src={charger_icon} alt="charger_icon" />
                 </div>
               </GuideBox>
-              <GuideBox onClick={() => pageHandler('/guide/1-5')}>
+              <GuideBox onClick={() => pageHandler('/guide/charger')}>
                 <span>
                   <div className="name_box">
                     <h2 className="name">충전기 가이드</h2>

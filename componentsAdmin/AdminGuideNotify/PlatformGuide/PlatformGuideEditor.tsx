@@ -14,28 +14,17 @@ import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import { AdminGuideListResponse } from 'types/tableDataType';
-import { EditorState } from 'draft-js';
 import { multerAdminApi } from 'api';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import GuideTiptapEditor from '../GuideTiptapEditor';
-import Image from 'next/image';
-import CloseImg from 'public/images/XCircle.svg';
-
-type IMG = {
-  originalName: string;
-  size: number;
-  url: string;
-  createdAt?: string | undefined;
-  bannerImageIdx?: number | undefined;
-};
+import AdminGuideBanner, { IMG } from '../AdminGuideBanner';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
   setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
 // export const dropDownValueEn = ['LOCATION', 'PERSONAL_INFO', 'SERVICE'];
 export const dropDownValue = [
   '정보확인',
@@ -45,14 +34,14 @@ export const dropDownValue = [
 ];
 // PLATFORM: 플랫폼 가이드, SUBSCRIPTION: 구독 가이드, CHARGER: 충전기 가이드, FEE: 요금 정보
 export interface GuideImage {
-  createdAt: string;
-  deletedAt: string;
-  guideIdx: number;
+  createdAt?: string;
+  deletedAt?: string | null;
+  guideIdx?: number;
   guideImageIdx: number;
-  imageSizeType: string;
+  imageSizeType?: string;
   originalName: string;
   size: number;
-  updatedAt: string;
+  updatedAt?: string;
   url: string;
 }
 
@@ -99,31 +88,26 @@ const PlatformGuideEditor = ({
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
   // Img
-  const outsidePcImgRef = useRef<HTMLInputElement>(null);
-  const outsideTabletImgRef = useRef<HTMLInputElement>(null);
-  const outsideMobileImgRef = useRef<HTMLInputElement>(null);
-  const [pcImgArr, setPcImgArr] = useState<any[]>([]);
-  const [tabletImgArr, setTabletImgArr] = useState<any[]>([]);
-  const [mobileImgArr, setMobileImgArr] = useState<any[]>([]);
+  const [pcImgArr, setPcImgArr] = useState<IMG[]>([]);
+  const [tabletImgArr, setTabletImgArr] = useState<IMG[]>([]);
+  const [mobileImgArr, setMobileImgArr] = useState<IMG[]>([]);
   const { data, isLoading, isError, refetch } = useQuery<GuideUpdate>(
     'adminGuideDetail',
     () => isTokenAdminGetApi(`/admin/guides/${detatilId}`),
     {
       onSuccess: async (res) => {
-        console.log('🔥 res : ', res);
-        const { guideImages } = res?.data?.guide;
-        const PC = await guideImages.find((e) => e.imageSizeType === 'PC');
-        const TABLET = await guideImages.find(
-          (e) => e.imageSizeType === 'TABLET',
-        );
-        const MOBILE = await guideImages.find(
-          (e) => e.imageSizeType === 'MOBILE',
-        );
-
-        setBodyText(res?.data?.guide?.content!);
-        if (PC) setPcImgArr([PC]);
-        if (TABLET) setTabletImgArr([TABLET]);
-        if (MOBILE) setMobileImgArr([MOBILE]);
+        // setBodyText(res?.data?.guide?.content!);
+        // const { guideImages } = res?.data?.guide;
+        // const PC = await guideImages.find((e) => e.imageSizeType === 'PC');
+        // const TABLET = await guideImages.find(
+        //   (e) => e.imageSizeType === 'TABLET',
+        // );
+        // const MOBILE = await guideImages.find(
+        //   (e) => e.imageSizeType === 'MOBILE',
+        // );
+        // if (PC) setPcImgArr([PC]);
+        // if (TABLET) setTabletImgArr([TABLET]);
+        // if (MOBILE) setMobileImgArr([MOBILE]);
       },
       onSettled: (res) => {
         res?.data?.guide?.guideKind === 'PLATFORM';
@@ -140,18 +124,6 @@ const PlatformGuideEditor = ({
   // 약관 타입
   const [selectValue, setSelectValue] = useState<string>('');
   const [selctValueKr, setSelctValueKr] = useState<number>(0);
-
-  // Draft 값 state
-  // useState로 상태관리하기 초기값은 EditorState.createEmpty()
-  // EditorState의 비어있는 ContentState 기본 구성으로 새 개체를 반환 => 이렇게 안하면 상태 값을 나중에 변경할 수 없음.
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-  const onEditorStateChange = (editorState: EditorState) => {
-    // editorState에 값 설정
-    setEditorState(editorState);
-  };
-
-  const rendered = useRef(false);
 
   const WriteModalHandle = () => {
     setIsModal(true);
@@ -215,9 +187,10 @@ const PlatformGuideEditor = ({
       },
     },
   );
-
+  // 수정 버튼 클릭
   const onClickModifiedBtn = () => {
-    let images = [];
+    // 수정에 필요한 이미지값
+    const images = [];
     if (pcImgArr.length > 0) {
       images.push({
         type: 'PC',
@@ -245,6 +218,7 @@ const PlatformGuideEditor = ({
       });
     }
 
+    // 수정 API
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
@@ -316,176 +290,6 @@ const PlatformGuideEditor = ({
     e.target.value = '';
   };
 
-  // file s3 multer 저장 API (with useMutation)
-  const { mutate: pcImage, isLoading: pcLoading } = useMutation<
-    MulterResponse,
-    AxiosError,
-    FormData
-  >(multerAdminApi, {
-    onSuccess: (res) => {
-      // const newFile = pcImgArr;
-      let newFile: IMG[] = [];
-      res?.uploadedFiles.forEach((img) => {
-        newFile.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
-        });
-      });
-      setPcImgArr(newFile!);
-    },
-    onError: (error: any) => {
-      if (error.response.data.message) {
-        setMessage(`첫번째 에러:${error.response.data.message}`);
-        setMessageModal(true);
-      } else if (error.response.status === 413) {
-        setMessage('용량이 너무 큽니다.');
-        setMessageModal(true);
-      } else {
-        setMessage('다시 시도해주세요');
-        setMessageModal(true);
-      }
-    },
-  });
-
-  const { mutate: tabletImage, isLoading: tabletLoading } = useMutation<
-    MulterResponse,
-    AxiosError,
-    FormData
-  >(multerAdminApi, {
-    onSuccess: (res) => {
-      // const newFile = tabletImgArr;
-      let newFile: IMG[] = [];
-      res?.uploadedFiles.forEach((img) => {
-        newFile.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
-        });
-      });
-      setTabletImgArr(newFile);
-    },
-    onError: (error: any) => {
-      if (error.response.data.message) {
-        setMessage(`첫번째 에러:${error.response.data.message}`);
-        setMessageModal(true);
-      } else if (error.response.status === 413) {
-        setMessage('용량이 너무 큽니다.');
-        setMessageModal(true);
-      } else {
-        setMessage('다시 시도해주세요');
-        setMessageModal(true);
-      }
-    },
-  });
-
-  const { mutate: mobileImage, isLoading: mobileLoading } = useMutation<
-    MulterResponse,
-    AxiosError,
-    FormData
-  >(multerAdminApi, {
-    onSuccess: (res) => {
-      let newFile: IMG[] = [];
-      // const newFile = mobileImgArr;
-      res?.uploadedFiles.forEach((img) => {
-        newFile.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
-        });
-      });
-      setMobileImgArr(newFile);
-    },
-    onError: (error: any) => {
-      if (error.response.data.message) {
-        setMessage(`첫번째 에러:${error.response.data.message}`);
-        setMessageModal(true);
-      } else if (error.response.status === 413) {
-        setMessage('용량이 너무 큽니다.');
-        setMessageModal(true);
-      } else {
-        setMessage('다시 시도해주세요');
-        setMessageModal(true);
-      }
-    },
-  });
-
-  // 사진 온클릭
-  const pcImgOutHandler = (ref: React.RefObject<HTMLElement>) => {
-    console.log('🔥 ref : ', ref);
-    ref?.current?.click();
-  };
-  // 이미지 첨부 api
-  const saveFileImage = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: 'pc' | 'tablet' | 'mobile',
-  ) => {
-    console.log('🔥 type : ', type);
-
-    const { files } = e.target;
-    const maxLength = 1;
-    const formData = new FormData();
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files![i] === undefined) {
-        break;
-      }
-      formData.append('banner', files![i], encodeURIComponent(files![i].name));
-    }
-    switch (type) {
-      case 'pc':
-        pcImage(formData);
-        break;
-      case 'tablet':
-        tabletImage(formData);
-        break;
-      case 'mobile':
-        mobileImage(formData);
-        break;
-    }
-
-    e.target.value = '';
-  };
-  // 사진 삭제
-  const handleDeleteImg = (
-    e: React.MouseEvent<HTMLDivElement>,
-    type: 'pc' | 'tablet' | 'mobile',
-  ) => {
-    // const name = Number(e.currentTarget.dataset.name);
-    console.log('🔥 name : ', name);
-    let copyArr: IMG[]; // 이미지 배열 복사
-    switch (type) {
-      case 'pc':
-        copyArr = pcImgArr;
-        break;
-      case 'tablet':
-        copyArr = tabletImgArr;
-        break;
-      case 'mobile':
-        copyArr = mobileImgArr;
-        break;
-    }
-
-    console.log('🔥 copyArr : ', copyArr);
-    // 이미지 값 state에 저장
-    for (let i = 0; i < copyArr.length; i++) {
-      // if (i === name) {
-      // copyArr.splice(i, 1);
-      switch (type) {
-        case 'pc':
-          setPcImgArr([]);
-          break;
-        case 'tablet':
-          setTabletImgArr([]);
-          break;
-        case 'mobile':
-          setMobileImgArr([]);
-          break;
-      }
-      return;
-      // }
-    }
-  };
-
   useEffect(() => {
     setSelctValueKr(
       newDropDown(dropDownValue, secondArray!).indexOf(selectValue),
@@ -502,15 +306,20 @@ const PlatformGuideEditor = ({
     }
   }, [data, selctValueKr, selectValue]);
 
+  // 초기 이미지 설정
   useEffect(() => {
-    console.log('🔥 data : ', data);
+    console.log('초기 이미지 렌더링');
+    setBodyText(data?.data?.guide?.content!);
+    const guideImages = data?.data?.guide?.guideImages!;
+    if (guideImages) {
+      const PC = guideImages.find((e) => e.imageSizeType === 'PC');
+      const TABLET = guideImages.find((e) => e.imageSizeType === 'TABLET');
+      const MOBILE = guideImages.find((e) => e.imageSizeType === 'MOBILE');
+      if (PC) setPcImgArr([PC]);
+      if (TABLET) setTabletImgArr([TABLET]);
+      if (MOBILE) setMobileImgArr([MOBILE]);
+    }
   }, [data]);
-
-  useEffect(() => {
-    console.log('🔥 img pcImgArr : ', pcImgArr);
-    console.log('🔥 img tabletImgArr : ', tabletImgArr);
-    console.log('🔥 img mobileImgArr : ', mobileImgArr);
-  }, [pcImgArr, tabletImgArr, mobileImgArr]);
 
   return (
     <>
@@ -563,149 +372,18 @@ const PlatformGuideEditor = ({
               <SecondText>{data?.data?.guide?.title}</SecondText>
             )}
           </TitleContainer>
-          {/* ================================ PC ============================ */}
-          <ImgWrap>
-            <span className="addImgWrap">
-              <p className="imgText">
-                메인 이미지 추가 <br />
-                (PC 이미지)
-              </p>
-              <label htmlFor="imgUpload" className="fileLabel">
-                <button onClick={() => pcImgOutHandler(outsidePcImgRef)}>
-                  사진 첨부
-                </button>
-                <input
-                  className="fileInput"
-                  id="imgUpload"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => saveFileImage(e, 'pc')}
-                  ref={outsidePcImgRef}
-                />
-              </label>
-
-              <p className="imgSize">1920*480</p>
-            </span>
-            <div className="previewImgWrap">
-              {pcImgArr.map((img) => (
-                <ImgSpan>
-                  <Image
-                    src={img?.url}
-                    alt={img?.originalName}
-                    width={140}
-                    height={104}
-                    priority={true}
-                    unoptimized={true}
-                    objectFit="cover"
-                  />
-                  <Xbox onClick={(e) => handleDeleteImg(e, 'pc')}>
-                    <Image
-                      src={CloseImg}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-            </div>
-          </ImgWrap>
-          {/*========================== tablet ============================== */}
-          <ImgWrap>
-            <span className="addImgWrap">
-              <p className="imgText">
-                메인 이미지 추가 <br />
-                (모바일 이미지)
-              </p>
-              <label htmlFor="tabletImgUpload" className="fileLabel">
-                <button onClick={() => pcImgOutHandler(outsideTabletImgRef)}>
-                  사진 첨부
-                </button>
-                <input
-                  className="fileInput"
-                  id="tabletImgUpload"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => saveFileImage(e, 'tablet')}
-                  ref={outsideTabletImgRef}
-                />
-              </label>
-              <p className="imgSize">1024*132</p>
-            </span>
-            <div className="previewImgWrap">
-              {tabletImgArr.map((img) => (
-                <ImgSpan>
-                  <Image
-                    src={img?.url}
-                    alt={img?.originalName}
-                    width={140}
-                    height={104}
-                    priority={true}
-                    unoptimized={true}
-                    objectFit="cover"
-                  />
-                  <Xbox onClick={(e) => handleDeleteImg(e, 'tablet')}>
-                    <Image
-                      src={CloseImg}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-            </div>
-          </ImgWrap>
-          {/* ============================= mobile =============================== */}
-          <ImgWrap>
-            <span className="addImgWrap">
-              <p className="imgText">
-                메인 이미지 추가 <br />
-                (PC 이미지)
-              </p>
-              <label htmlFor="mobileImgUpload" className="fileLabel">
-                <button onClick={() => pcImgOutHandler(outsideMobileImgRef)}>
-                  사진 첨부
-                </button>
-                <input
-                  className="fileInput"
-                  id="mobileImgUpload"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => saveFileImage(e, 'mobile')}
-                  ref={outsideMobileImgRef}
-                />
-              </label>
-              <p className="imgSize">430*132</p>
-            </span>
-            <div className="previewImgWrap">
-              {mobileImgArr.map((img) => (
-                <ImgSpan>
-                  <Image
-                    src={img?.url}
-                    alt={img?.originalName}
-                    width={140}
-                    height={104}
-                    priority={true}
-                    unoptimized={true}
-                    objectFit="cover"
-                  />
-                  <Xbox onClick={(e) => handleDeleteImg(e, 'mobile')}>
-                    <Image
-                      src={CloseImg}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-            </div>
-          </ImgWrap>
-
+          {/* ============================= 사이즈 별 사진 추가 =============================== */}
+          <AdminGuideBanner
+            pcImgArr={pcImgArr}
+            setPcImgArr={setPcImgArr}
+            tabletImgArr={tabletImgArr}
+            setTabletImgArr={setTabletImgArr}
+            mobileImgArr={mobileImgArr}
+            setMobileImgArr={setMobileImgArr}
+            setMessage={setMessage}
+            setMessageModal={setMessageModal}
+          />
+          {/* ============================= 텍스트 에디터 =============================== */}
           <GuideTiptapEditor
             setBodyText={setBodyText}
             bodyText={bodyText}

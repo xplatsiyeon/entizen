@@ -5,12 +5,24 @@ import colors from 'styles/colors';
 import ManagementImg from 'public/guide/Management.png';
 import ManagementImg2 from 'public/guide/guide1-4.png';
 import { GuideData } from './infomation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type Props = {
-  data: GuideData[];
+  data: GuideData;
+  getImg: (
+    data: GuideData,
+    setImgUrl: Dispatch<SetStateAction<string>>,
+  ) => void;
+  device: 'pc' | 'tablet' | 'mobile';
 };
 
-const management = ({ data }: Props) => {
+const management = ({ data, getImg, device }: Props) => {
+  const [imgUrl, setImgUrl] = useState('');
+
+  useEffect(() => {
+    getImg(data, setImgUrl);
+  }, [data, device]);
+
   return (
     <Main>
       {/* <ImageWrap>
@@ -40,8 +52,20 @@ const management = ({ data }: Props) => {
           운영해보세요.
         </li>
       </TextBox> */}
+      {imgUrl && (
+        <ImageBox>
+          <Image
+            src={imgUrl}
+            alt={'guideImg'}
+            priority={true}
+            unoptimized={true}
+            layout={'fill'}
+          />
+        </ImageBox>
+      )}
+
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data![0]?.content }} />
+        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -157,4 +181,13 @@ const TextBox = styled(Box)`
       line-height: 16.5pt;
     }
   }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12pt;
+  overflow: hidden;
+  margin-bottom: 30pt;
 `;

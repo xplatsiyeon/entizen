@@ -6,7 +6,7 @@ import XCircle from 'public/guide/XCircle.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem } from '@mui/material';
-import { Region, SelectedOption } from 'pages/guide/1-2';
+import { Region, SelectedOption } from 'pages/guide/subsidy';
 import {
   Seoul,
   Busan,

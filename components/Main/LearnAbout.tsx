@@ -79,13 +79,13 @@ const LearnAbout = ({ borders }: Props) => {
 
   const movePage = (el: MenuList) => {
     if (el.headText === '플랫폼 가이드') {
-      router.push('/guide/1-1');
+      router.push('/guide/platform');
     } else if (el.headText === '구독 가이드') {
-      router.push('/guide/1-4');
+      router.push('/guide/subscribe');
     } else if (el.headText === '충전기 가이드') {
-      router.push('/guide/1-5');
+      router.push('/guide/charger');
     } else if (el.headText === '보조금 가이드' && userID !== null) {
-      router.push('/guide/1-2');
+      router.push('/guide/subsidy');
     } else if (el.headText === '보조금 가이드' && userID === null) {
       router.push('/signin');
     }

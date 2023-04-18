@@ -185,7 +185,7 @@ const FirstStep = ({ tabNumber }: Props) => {
       dispatch(quotationAction.setChargersKo(selectedOption));
     }
     router.push({
-      pathname: '/guide/1-5',
+      pathname: '/guide/charger',
       query: {
         id: 0,
       },

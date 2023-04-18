@@ -48,7 +48,7 @@ export interface Region {
   m10: string;
 }
 
-const Guide1_2 = () => {
+const SubsidyGuide = () => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
@@ -106,7 +106,7 @@ const Guide1_2 = () => {
               selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
           }),
         );
-        router.push('/guide/1-2-4');
+        router.push('/guide/subsidy/result');
       },
 
       onError: (error: any) => {
@@ -252,7 +252,7 @@ const Guide1_2 = () => {
   };
 
   const onClickRouter = () => {
-    router.push('/guide/1-5');
+    router.push('/guide/charger');
   };
 
   const { chargePurpose, chargeRegion, chargerEn, chargerKo } = useSelector(
@@ -340,7 +340,7 @@ const Guide1_2 = () => {
   );
 };
 
-export default Guide1_2;
+export default SubsidyGuide;
 
 const Body = styled.div`
   display: flex;

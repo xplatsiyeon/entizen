@@ -1,17 +1,18 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GuideHeader from 'components/guide/header';
-import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
-import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
-import Common from 'components/guide/common';
+import SubcribeGraph from 'components/guide/subcribeGraph';
+import Share from 'components/guide/share';
+import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
-import { GuideList } from './1-1';
+import Loader from 'components/Loader';
+import { GuideList } from './platform';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
@@ -19,7 +20,12 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
-const Guide1_5 = () => {
+const SubscribeGuide = () => {
+  const router = useRouter();
+  const [tabNumber, setTabNumber] = useState(0);
+  const TabType: string[] = ['구독상품', '수익지분', '계약'];
+  const dispatch = useDispatch();
+
   // 플랫폼 가이드 리스트 조회
   const {
     data: guideList,
@@ -27,81 +33,80 @@ const Guide1_5 = () => {
     isError: guideIsError,
     refetch: guideRefetch,
   } = useQuery<GuideList>('guide-list', () =>
-    isTokenGetApi(`/guide?guideKind=CHARGER`),
+    isTokenGetApi(`/guide?guideKind=SUBSCRIPTION`),
   );
 
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const [tabNum, setTabNum] = useState(0);
-  const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
   const components: Components = {
     0: (
-      <MediumSpeedGraph
+      <SubcribeGraph
         data={
-          guideList?.data?.guides?.filter(
-            (item) => item?.title === '완속/중속',
-          )!
+          guideList?.data?.guides?.filter((item) => item?.title === '구독상품')!
         }
       />
     ),
     1: (
-      <ExpressSpeedGraph
+      <Share
         data={
-          guideList?.data?.guides?.filter(
-            (item) => item?.title === '급속/초급속',
-          )!
+          guideList?.data?.guides?.filter((item) => item?.title === '수익지분')!
         }
       />
     ),
-    2: (
-      <Common
-        data={
-          guideList?.data?.guides?.filter((item) => item?.title === '공통사항')!
-        }
-      />
-    ),
+    2: <Contract />,
   };
-  const handleTab = (index: number) => setTabNum(index);
+
+  const handleTab = (index: number) => setTabNumber(index);
 
   const handleRouterBack = () => {
+    // console.log(router.query.id);
     if (router.query.id) {
       dispatch(quotationAction.setTabNumber(Number(router.query.id)));
     }
     router.back();
   };
 
+  useEffect(() => {
+    if (router.query.tab) {
+      setTabNumber(Number(router.query.tab));
+    }
+  }, [router.isReady]);
+
   return (
     <Body>
-      <WebHeader num={2} now={'guide'} sub={'guide'} />
+      <WebHeader num={1} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
-        <GuideHeader
-          title="충전기 가이드"
-          leftOnClick={handleRouterBack}
-          rightOnClick={() => router.push('/')}
-        />
-        <TabContainer>
-          {TabType.map((tab, index) => (
-            <TabItem
-              key={index}
-              tab={tabNum.toString()}
-              index={index.toString()}
-              onClick={() => handleTab(index)}
-            >
-              {tab}
-              <Line tab={tabNum.toString()} index={index.toString()}></Line>
-            </TabItem>
-          ))}
-        </TabContainer>
-        {/* 메인 */}
-        <Main>{components[tabNum]}</Main>
+        <Wrapper>
+          <GuideHeader
+            title={'구독 가이드'}
+            leftOnClick={handleRouterBack}
+            rightOnClick={() => router.push('/')}
+          />
+          <TabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber.toString()}
+                index={index.toString()}
+                onClick={() => handleTab(index)}
+              >
+                {tab}
+                <Line
+                  tab={tabNumber.toString()}
+                  index={index.toString()}
+                ></Line>
+              </TabItem>
+            ))}
+          </TabContainer>
+          {/* 메인 */}
+          <Main>{components[tabNumber]}</Main>
+        </Wrapper>
       </Inner>
       <WebFooter />
     </Body>
   );
 };
 
-export default Guide1_5;
+export default SubscribeGuide;
 
 const Body = styled.div`
   display: flex;
@@ -122,8 +127,8 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 645pt;
-  height: 100%;
-  margin: 100pt auto;
+  height: 100%; //
+  margin: 100pt auto; //
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -134,6 +139,8 @@ const Inner = styled.div`
   }
 `;
 
+const Wrapper = styled.div``;
+
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -141,7 +148,7 @@ const TabContainer = styled.div`
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-  border-bottom: 0.75pt solid #f3f4f7;
+  border-bottom: 0.75pt solid #e2e5ed;
 `;
 const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;
@@ -166,5 +173,6 @@ const Line = styled.div<{ tab: string; index: string }>`
     tab === index && `3pt solid ${colors.main}`};
 `;
 const Main = styled.div`
-  padding: 0 15pt;
+  padding-top: 27pt;
+  padding: 27pt 15pt 0 15pt;
 `;

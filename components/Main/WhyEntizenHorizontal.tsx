@@ -96,7 +96,7 @@ const WhyEntizenHorizontal = (props: Props) => {
   const movePage = (el: MenuList) => {
     switch (el.headText) {
       case '플랫폼 가이드':
-        return router.push('/guide/1-1');
+        return router.push('/guide/platform');
       case '구독 가이드':
         return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':

@@ -25,7 +25,7 @@ interface Subsidy {
   date: string;
 }
 
-const Guide1_2_4 = () => {
+const SubsidyResultGuide = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const mobile = useMediaQuery({
@@ -267,7 +267,7 @@ const Guide1_2_4 = () => {
   );
 };
 
-export default Guide1_2_4;
+export default SubsidyResultGuide;
 
 const Body = styled.div`
   display: flex;
