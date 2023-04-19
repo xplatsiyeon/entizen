@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import ChargeInfo from 'public/guide/charge-info-img.png';
-import Icon from 'public/guide/img-icon.svg';
+import PosterImage from 'components/PostImages';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { GuideData } from './infomation';
 
@@ -29,16 +27,9 @@ const Tab1 = ({ data, getImg, device }: Props) => {
         <Image src={Icon} alt="icon" />
       </Message> */}
       {imgUrl && (
-        <ImageBox>
-          <Image
-            src={imgUrl}
-            alt={'guideImg'}
-            priority={true}
-            unoptimized={true}
-            layout={'fill'}
-            height={'100%'}
-          />
-        </ImageBox>
+        <ImageWrapper>
+          <PosterImage src={imgUrl} />
+        </ImageWrapper>
       )}
       {data !== undefined ? (
         <div dangerouslySetInnerHTML={{ __html: data?.content }} />
@@ -66,9 +57,6 @@ const Container = styled.div`
     width: 100%;
   }
   ul {
-    /* list-style: circle !important; */
-    /* padding: 10px; */
-    /* list-style-position: initial; */
     list-style-position: outside !important;
     li {
       display: flex;
@@ -78,17 +66,12 @@ const Container = styled.div`
       border-radius: 50%;
       padding-inline: 5px;
       text-align: center;
-
-      /* margin-inline-end: 5px; */
     }
   }
   ol {
     list-style-type: decimal !important;
     padding: 10px;
   }
-  /* :focus {
-      border: none;
-    } */
   em {
     font-style: italic;
   }
@@ -109,27 +92,11 @@ const Container = styled.div`
     display: inline-block;
   }
 `;
-const Message = styled.div`
+const ImageWrapper = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-top: 15pt;
-  & p {
-    font-weight: 500;
-    font-size: 9pt;
-    line-height: 9pt;
-    text-align: center;
-    letter-spacing: -0.18pt;
-    color: #a6a9b0;
-  }
-`;
-
-const ImageBox = styled.div`
   position: relative;
-  width: 100%;
-  min-height: 240px;
-  border-radius: 12pt;
-  overflow: hidden;
-  margin-bottom: 30pt;
+
+  & > span {
+    position: unset !important;
+  }
 `;

@@ -9,6 +9,7 @@ type Props = {
   setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
   setChangeNumber?: React.Dispatch<React.SetStateAction<boolean>>;
   size?: 'sm' | 'md' | 'lg';
+  isModal?: boolean;
 };
 
 const AlertModal = ({
@@ -16,6 +17,7 @@ const AlertModal = ({
   message,
   setIsDetail,
   setChangeNumber,
+  isModal,
   size = 'md',
 }: Props) => {
   return (
@@ -29,6 +31,7 @@ const AlertModal = ({
         <AdminBtn
           onClick={() => {
             setIsModal(false);
+
             if (setChangeNumber) {
               setChangeNumber(true);
             }

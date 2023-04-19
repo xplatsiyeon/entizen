@@ -29,6 +29,8 @@ const RateInfoGuide = () => {
   } = useQuery<GuideList>('guide-list', () =>
     isTokenGetApi(`/guide?guideKind=FEE`),
   );
+
+  console.log('🔥 guideList : ', guideList);
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
 
@@ -88,9 +90,9 @@ const RateInfoGuide = () => {
     1: (
       <RateInfoTab2
         data={
-          guideList?.data?.guides?.filter(
-            (item) => item?.title === '일반사항',
-          )![0]!
+          guideList?.data?.guides?.filter((item) =>
+            item?.title.includes('일반사항'),
+          )!
         }
         getImg={getImg}
         device={device!}

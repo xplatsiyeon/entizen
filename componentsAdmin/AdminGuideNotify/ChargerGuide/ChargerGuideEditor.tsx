@@ -382,6 +382,7 @@ const ChargerGuideEditor = ({
         <Wrapper>
           {messageModal && (
             <AlertModal
+              isModal={isModal}
               setIsModal={setIsModal}
               message={message}
               setIsDetail={setIsDetail}
