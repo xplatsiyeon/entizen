@@ -1,33 +1,29 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenAdminGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
-import { css } from '@emotion/react';
 import { ASListResponse } from 'types/tableDataType';
-import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
-import { useDispatch } from 'react-redux';
-import { AdminBtn } from 'componentsAdmin/Layout';
-import Image from 'next/image';
+import { adminDateFomat, convertEn, dateFomat } from 'utils/calculatePackage';
 import { excelDownloadFile } from 'hooks/excelDown';
+import { selectOption } from './ASDetail';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
-  setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   pickedDate?: string[];
-  detatilId?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
   commonBtn?: string;
   hide?: boolean;
   excelUrl: string;
   userSearch: string | number;
+  searchType: selectOption;
+  onClickButton: boolean;
 };
 
 const ASListTable = ({
   setIsDetail,
-  setDetailId,
   tableType,
   pickedDate,
   setAfterSalesServiceIdx,
@@ -35,6 +31,8 @@ const ASListTable = ({
   hide,
   userSearch,
   excelUrl,
+  searchType,
+  onClickButton,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -43,23 +41,17 @@ const ASListTable = ({
 
   // 오늘 날짜.
   const today = new Date();
-  // console.log(adminDateFomat(String(today)));
-
-  // 역경매 견적서 보기에 넘겨줄 아이디값
-  const dispatch = useDispatch();
 
   // 유저 회원 검색 필터 뭐 눌렀는지
-  const changeSearchType = ['name', 'id'];
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-
+  const selectOptionEn = ['TITLE', 'ADDRESS'];
+  const index = ['제목', '주소'].indexOf(searchType);
   /*
   
    필터에 limit 기능이 생기면, 갯수에 따라 게시글 번호 계산해주는 함수 만들어야 함.
 
    일단, 10개 제한일때 
    : 기본은 {page -1}{idx +1}. idx가 10*page가 되면 idx = 0 처리.   
-  
-  
   */
 
   // 🎀 as 관련 데이터
@@ -73,11 +65,12 @@ const ASListTable = ({
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${
           pickedDate ? pickedDate[1] : adminDateFomat(String(today))
-        }&searchKeyword=${userSearch}`,
+        }&searchKeyword=${userSearch}&searchType=${selectOptionEn[index]}`,
       ),
     {
       enabled: false,
       onSuccess: (asData) => {
+        console.log('🔥 asData : ', asData);
         if (tableType === 'asData') {
           const temp: any = [];
           asData?.data?.afterSalesServices?.forEach((ele, idx) => {
@@ -110,7 +103,6 @@ const ASListTable = ({
                   <button
                     className="detail"
                     onClick={() => {
-                      setDetailId(cell);
                       setIsDetail(true);
                       if (setAfterSalesServiceIdx) {
                         setAfterSalesServiceIdx(Number(cell));
@@ -129,16 +121,21 @@ const ASListTable = ({
     },
   );
 
-  useEffect(() => {
-    switch (tableType) {
-      case 'asData':
-        asRefetch();
-        break;
-    }
-    // 의존성 배열에 api.get()dml data넣기.
-  }, []);
+  // useEffect(() => {
+  //   switch (tableType) {
+  //     case 'asData':
+  //       asRefetch();
+  //       break;
+  //   }
+  //   // 의존성 배열에 api.get()dml data넣기.
+  // }, []);
 
   // console.log('asData', asData);
+
+  useEffect(() => {
+    console.log(onClickButton);
+    asRefetch();
+  }, [onClickButton]);
 
   useEffect(() => {
     switch (tableType) {

@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
-import React, { useEffect } from 'react';
+import React from 'react';
 import colors from 'styles/colors';
 import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
-import { excelDownloadFile } from 'hooks/excelDown';
 import jwt_decode from 'jwt-decode';
 import { AdminJwtTokenType } from 'pages/signin';
-import { useRouter } from 'next/router';
 
 type Props = {
   type: 'main' | 'detail' | 'text' | 'admin';
@@ -69,33 +67,6 @@ const AdminHeader = ({
             </span>
             {exelHide && (
               <ButtonBox>
-                {/* <a
-                  className="excelBtn"
-                  // onClick={() => {
-                  //   alert('개발중입니다.');
-                  // }}
-                  href={excelData}
-                  download
-                >
-                  엑셀 다운로드
-                </a> */}
-                {/* <button
-                  className="excelBtn"
-                  onClick={() => {
-                    excelDownloadFile(excelData, );
-                  }}
-                >
-                  엑셀 다운로드
-                </button>  */}
-                {/* <button
-                  className="btn"
-                  onClick={() => {
-                    alert('개발중입니다.');
-                  }}
-                >
-                  회원삭제
-                </button> */}
-
                 <button
                   className="btn"
                   onClick={() => {

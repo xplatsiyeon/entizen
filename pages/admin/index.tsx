@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
 import Workspace from 'componentsAdmin/workspace';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList';
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
@@ -19,29 +19,29 @@ import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation/Pro
 import AdminTermsList from 'componentsAdmin/AdminInformationNotify/Adminterms/AdminTermsList';
 import AdminNoticeList from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import AdminBannerLIst from 'componentsAdmin/AdminInformationNotify/AdminBanner/AdminBannerList';
-import AdminGuideList from 'componentsAdmin/AdminInformationNotify/AdminGuide/AdminGuideList';
 import AdminFAQList from 'componentsAdmin/AdminInformationNotify/AdminFAQ/AdminFAQList';
 import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
-import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import IncomeSimul from 'componentsAdmin/AdminDataDownload/IncomeSimul/IncomeSimul';
 import Subsidy from 'componentsAdmin/AdminDataDownload/Subsidy/Subsidy';
 import PreQuotationExel from 'componentsAdmin/AdminDataDownload/PreQuotationExel/PreQuotationExel';
 import ProjectCompleteList from 'componentsAdmin/ProjectList/ProjectCompleteList';
 import AdminDataExcel from 'componentsAdmin/AdminDataDownload/AdminDataExcel/AdminDataExcel';
-import AdimAccountListTable from 'componentsAdmin/AdminAccount/AdimAccountListTable';
 import AdminAllAlarm from 'componentsAdmin/AdminAllAlarm/AdminAllAlarm';
 import OutstandingWork from 'componentsAdmin/MainDashboard/OutstandingWork/OutstandingWork';
 import ChargerGuideList from 'componentsAdmin/AdminGuideNotify/ChargerGuide/ChargerGuideList';
 import PlatformGuideList from 'componentsAdmin/AdminGuideNotify/PlatformGuide/PlatformGuideList';
 import PriceInformationList from 'componentsAdmin/AdminGuideNotify/PriceInformation/PriceInformationList';
 import SubscribeGuideList from 'componentsAdmin/AdminGuideNotify/SubscribeGuide/SubscribeGuideList';
+import Loader from 'components/Loader';
 
 type Props = {};
 
 const index = (props: Props) => {
+  const router = useRouter();
+  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
   // 리덕스로 페이지값 관리
   const { isAdminPage } = useSelector(
     (state: RootState) => state.adminPageNumber,
@@ -49,19 +49,7 @@ const index = (props: Props) => {
 
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(isAdminPage);
-
-  const [isDetail, setIsDetail] = useState(false);
-
   const [nowHeight, setNowHeight] = useState<number>();
-
-  const sessionNumber = sessionStorage.getItem('number');
-
-  const router = useRouter();
-
-  // console.log('🎀 인덱스임 number 🎀', number);
-  // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
-
-  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
 
   useEffect(() => {
     if (!accessToken) {
@@ -73,77 +61,108 @@ const index = (props: Props) => {
     if (isAdminPage) {
       setNumber(isAdminPage);
       setNowHeight(window.document.documentElement.scrollHeight);
-      // unmount 됐을때 초기값 넣어줌
-      // return () => {
-      //   sessionStorage.setItem('number', '4');
-      //   setNowHeight(window.document.documentElement.scrollHeight);
-      // };
     }
   }, [isAdminPage]);
 
   return (
-    <Background>
-      <Workspace setNumber={setNumber} nowHeight={nowHeight} />
-      {number === 1 && (
-        <AddAdminAccount setNowHeight={setNowHeight} setNumber={setNumber} />
+    <>
+      {accessToken && (
+        <>
+          <Background>
+            <Workspace setNumber={setNumber} nowHeight={nowHeight} />
+            {number === 1 && (
+              <AddAdminAccount
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 2 && <AdminAccountList setNowHeight={setNowHeight} />}
+            {number === 3 && <ProjectSituation setNowHeight={setNowHeight} />}
+            {number === 4 && <Statistics setNowHeight={setNowHeight} />}
+            {number === 5 && <UserManagement setNowHeight={setNowHeight} />}
+            {number === 6 && <CompanyManagement setNowHeight={setNowHeight} />}
+            {number === 7 && <ReverseAuctionList setNowHeight={setNowHeight} />}
+            {number === 8 && <ProjectList setNowHeight={setNowHeight} />}
+            {number === 28 && (
+              <ProjectCompleteList setNowHeight={setNowHeight} />
+            )}
+            {number === 9 && <ASDetail setNowHeight={setNowHeight} />}
+            {number === 10 && <CommunicationList setNowHeight={setNowHeight} />}
+            {number === 11 && <OneOnOneQuestion setNowHeight={setNowHeight} />}
+            {number === 12 && <EntizenLibrary setNowHeight={setNowHeight} />}
+            {number === 13 && (
+              <PartnerProductsList setNowHeight={setNowHeight} />
+            )}
+            {number === 14 && (
+              <AdminTermsList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 15 && (
+              <AdminNoticeList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 16 && (
+              <AdminBannerLIst
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {/* {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />} */}
+            {number === 18 && (
+              <AdminFAQList setNowHeight={setNowHeight} setNumber={setNumber} />
+            )}
+            {number === 23 && <AdminElseList setNowHeight={setNowHeight} />}
+            {number === 24 && (
+              <ReverseAuctionSituation setNowHeight={setNowHeight} />
+            )}
+            {number === 25 && <ASSituation setNowHeight={setNowHeight} />}
+            {number === 22 && (
+              <IncomeSimul setNowHeight={setNowHeight} setNumber={setNumber} />
+            )}
+            {number === 26 && (
+              <Subsidy setNowHeight={setNowHeight} setNumber={setNumber} />
+            )}
+            {number === 27 && (
+              <PreQuotationExel
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 29 && <AdminDataExcel setNowHeight={setNowHeight} />}
+            {number === 30 && <OutstandingWork />}
+            {number === 20 && <AdminAllAlarm setNowHeight={setNowHeight} />}
+            {number === 31 && (
+              <PlatformGuideList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 32 && (
+              <SubscribeGuideList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 33 && (
+              <ChargerGuideList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+            {number === 34 && (
+              <PriceInformationList
+                setNowHeight={setNowHeight}
+                setNumber={setNumber}
+              />
+            )}
+          </Background>
+        </>
       )}
-      {number === 2 && <AdminAccountList setNowHeight={setNowHeight} />}
-      {number === 3 && <ProjectSituation setNowHeight={setNowHeight} />}
-      {number === 4 && <Statistics setNowHeight={setNowHeight} />}
-      {number === 5 && <UserManagement setNowHeight={setNowHeight} />}
-      {number === 6 && <CompanyManagement setNowHeight={setNowHeight} />}
-      {number === 7 && <ReverseAuctionList setNowHeight={setNowHeight} />}
-      {number === 8 && <ProjectList setNowHeight={setNowHeight} />}
-      {number === 28 && <ProjectCompleteList setNowHeight={setNowHeight} />}
-      {number === 9 && <ASDetail setNowHeight={setNowHeight} />}
-      {number === 10 && <CommunicationList setNowHeight={setNowHeight} />}
-      {number === 11 && <OneOnOneQuestion setNowHeight={setNowHeight} />}
-      {number === 12 && <EntizenLibrary setNowHeight={setNowHeight} />}
-      {number === 13 && <PartnerProductsList setNowHeight={setNowHeight} />}
-      {number === 14 && (
-        <AdminTermsList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 15 && (
-        <AdminNoticeList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 16 && (
-        <AdminBannerLIst setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {/* {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />} */}
-      {number === 18 && (
-        <AdminFAQList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 23 && <AdminElseList setNowHeight={setNowHeight} />}
-      {number === 24 && <ReverseAuctionSituation setNowHeight={setNowHeight} />}
-      {number === 25 && <ASSituation setNowHeight={setNowHeight} />}
-      {number === 22 && (
-        <IncomeSimul setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 26 && (
-        <Subsidy setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 27 && (
-        <PreQuotationExel setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 29 && <AdminDataExcel setNowHeight={setNowHeight} />}
-      {number === 30 && <OutstandingWork />}
-      {number === 20 && <AdminAllAlarm setNowHeight={setNowHeight} />}
-      {number === 31 && (
-        <PlatformGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 32 && (
-        <SubscribeGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 33 && (
-        <ChargerGuideList setNowHeight={setNowHeight} setNumber={setNumber} />
-      )}
-      {number === 34 && (
-        <PriceInformationList
-          setNowHeight={setNowHeight}
-          setNumber={setNumber}
-        />
-      )}
-    </Background>
+    </>
   );
 };
 
