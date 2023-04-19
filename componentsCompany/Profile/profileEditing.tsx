@@ -8,7 +8,6 @@ import AvatarIcon from 'public/images/AvatarIconSvg.svg';
 import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
 import axios, { AxiosError } from 'axios';
-import CompanyAddress from 'components/SignUp/CompanyAddress';
 import arrowRight from 'public/images/arrow-right.png';
 import { isTokenPatchApi, multerApi } from 'api';
 import { useMutation } from 'react-query';

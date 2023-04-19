@@ -17,8 +17,6 @@ import { RootState } from 'store/store';
 type Props = {
   userType: number;
   setUserType: Dispatch<SetStateAction<number>>;
-  // level: number;
-  // setLevel: Dispatch<SetStateAction<number>>;
 };
 
 const ChooseUserType = ({ userType, setUserType }: Props) => {
@@ -26,14 +24,14 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const UserTypeList: string[] = ['기업회원', '일반회원'];
+  const UserTypeList: string[] = ['일반 회원', '파트너 회원'];
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(selectAction.setSignUpLevel(signUpLevel + 1));
-    // console.log(userType);
-    if (userType === 1) dispatch(selectAction.select('USER'));
-    if (userType === 0) dispatch(selectAction.select('COMPANY'));
+
+    if (userType === 0) dispatch(selectAction.select('USER'));
+    if (userType === 1) dispatch(selectAction.select('COMPANY'));
   };
 
   useEffect(() => {
@@ -53,25 +51,7 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
       <SelectWrapper>
         {UserTypeList.map((type, index) => (
           <div key={index}>
-            {type === '기업회원' && (
-              <div>
-                <SubTitle>고객과 손쉬운 거래를 진행하려면?</SubTitle>
-                <Select
-                  type={userType.toString()}
-                  idx={index.toString()}
-                  onClick={() => {
-                    setUserType(index);
-                  }}
-                >
-                  <Image
-                    src={userType === index ? companyOnImg : companyImg}
-                    alt="company"
-                  />
-                  <div>{type}</div>
-                </Select>
-              </div>
-            )}
-            {type === '일반회원' && (
+            {type === '일반 회원' && (
               <WebRapper>
                 <SubTitle>다양한 충전기를 비교해보고 싶다면?</SubTitle>
                 <Select
@@ -89,6 +69,24 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
                 </Select>
               </WebRapper>
             )}
+            {type === '파트너 회원' && (
+              <div>
+                <SubTitle>고객과 손쉬운 거래를 진행하려면?</SubTitle>
+                <Select
+                  type={userType.toString()}
+                  idx={index.toString()}
+                  onClick={() => {
+                    setUserType(index);
+                  }}
+                >
+                  <Image
+                    src={userType === index ? companyOnImg : companyImg}
+                    alt="company"
+                  />
+                  <div>{type}</div>
+                </Select>
+              </div>
+            )}
           </div>
         ))}
       </SelectWrapper>
@@ -104,9 +102,9 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
 
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
-    margin-top: 60pt;
+    margin-bottom: 60pt;
   }
-  margin-top: 15pt;
+  margin-bottom: 15pt;
 `;
 const SubTitle = styled.div`
   padding-bottom: 18pt;

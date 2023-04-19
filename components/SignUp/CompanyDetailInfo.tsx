@@ -41,6 +41,8 @@ type Props = {
   setCompanyAddress: Dispatch<SetStateAction<string>>;
   companyDetailAddress: string;
   setCompanyDetailAddress: Dispatch<SetStateAction<string>>;
+  addressOn: boolean;
+  setAddressOn: Dispatch<SetStateAction<boolean>>;
 };
 const CompanyDetailInfo = ({
   businessRegistration,
@@ -53,6 +55,8 @@ const CompanyDetailInfo = ({
   setCompanyAddress,
   companyDetailAddress,
   setCompanyDetailAddress,
+  addressOn,
+  setAddressOn,
 }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -66,7 +70,6 @@ const CompanyDetailInfo = ({
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
-  const [addressOn, setAddressOn] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

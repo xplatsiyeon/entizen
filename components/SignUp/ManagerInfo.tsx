@@ -6,17 +6,16 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import Modal from 'components/Modal/Modal';
-// import { NAME, PHONE } from 'assets/selectList';
 import { useMediaQuery } from 'react-responsive';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { selectAction } from 'store/loginTypeSlice';
 import { reg_email } from 'utils/user';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
 
 type Props = {
-  // level: number;
-  // setLevel: Dispatch<SetStateAction<number>>;
   email: string;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
@@ -36,28 +35,57 @@ const ManagerInfo = ({
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const TAB = 'components/SignUp/ManagerInfo';
-  const router = useRouter();
-  const [data, setData] = useState<any>();
-  const [authCode, setAuthCode] = useState<string>('');
-  const [isValid, setIsValid] = useState<boolean>(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isModal, setIsModal] = useState(false);
-  const loginTypeEnList: string[] = ['COMPANY', 'USER'];
 
+  const router = useRouter();
   const dispatch = useDispatch();
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
+  const [data, setData] = useState<any>();
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModal, setIsModal] = useState(false);
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
+  // 이메일 인증
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailAlert, setEmailAlert] = useState(false);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [isSuccessEmail, setIsSuccessEmail] = useState(false);
+  const [buttonMsg, setButtonMsg] = useState<'확인' | '재인증'>('확인');
+  // 이메일 코드 인증
+  const [authCode, setAuthCode] = useState<string>('');
+  const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
+  const [emailCodeAlert, setEmailCodeAlert] = useState(false);
+  const [emailCodeMessage, setEmailCodeMessage] = useState('');
+  const [isSuccessCode, setIsSuccessCode] = useState(false);
 
-  // --- 본인인증 창 띄우기 ----
-  // 브릿지용 테스트 클릭
-  // const testClick = () => {
-  //   setName(NAME[Math.floor(Math.random() * NAME.length)]);
-  //   setPhoneNumber(PHONE[Math.floor(Math.random() * PHONE.length)]);
-  //   setLevel(level + 1);
-  // };
+  // 이메일 인증 번호 발송
+  const { mutate: certifyEmailMutate } = useMutation(isTokenPostApi, {
+    onSuccess(res) {
+      setEmailAlert(true);
+      setEmailMessage('이메일로 인증번호가 전송되었습니다.');
+      setIsSuccessEmail(true);
+      setButtonMsg('재인증');
+    },
+  });
 
+  // 이메일 인증번호 체크
+  const { mutate: emailIdMutate } = useMutation(isTokenPostApi, {
+    onSuccess(res) {
+      if (res.data.isValidAuthCode) {
+        setEmailCodeMessage('인증번호가 확인되었습니다.');
+        setEmailCodeAlert(true);
+        setIsSuccessCode(true);
+        setIsValid(true);
+      } else {
+        setEmailCodeMessage('인증번호가 잘못되었습니다.');
+        setEmailCodeAlert(true);
+        setEmailAlert(false);
+      }
+      setIsSuccessCode(false);
+      setEmailMessage('');
+    },
+  });
+
+  // 나이스 인증 팝업창
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -109,49 +137,24 @@ const ManagerInfo = ({
   // 이메일 인증
   const certifyEmail = () => {
     if (isEmailValid) {
-      const EMAIL_API = `${process.env.NEXT_PUBLIC_BASE_URL}/mail/auth`;
-      axios({
-        method: 'post',
-        url: EMAIL_API,
-        data: {
-          email,
-        },
-      }).then((res) => {
-        // console.log(res);
-        setModalMessage('이메일로 인증번호가 전송되었습니다.');
-        setIsModal(true);
+      certifyEmailMutate({
+        url: '/mail/auth',
+        data: { email },
       });
     }
   };
-
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
-      const EMAIL_API = `${process.env.NEXT_PUBLIC_BASE_URL}/mail/auth/validation`;
-      axios({
-        method: 'post',
-        url: EMAIL_API,
-        data: {
-          email,
-          authCode,
-        },
-      }).then((res) => {
-        if (res.data.isValidAuthCode) {
-          setModalMessage('인증번호가 확인되었습니다.');
-          setIsModal(true);
-          setIsValid(true);
-        } else {
-          setModalMessage('잘못된 인증번호입니다.');
-          setIsModal(true);
-        }
+      emailIdMutate({
+        url: '/mail/auth/validation',
+        data: { email, authCode },
       });
     }
   };
 
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
-    // console.log(TAB + '->>멤버타입 확인');
-    // console.log(memberType);
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
@@ -163,7 +166,6 @@ const ManagerInfo = ({
       .catch((error) => {
         console.error(error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 유효성 검사
@@ -208,15 +210,20 @@ const ManagerInfo = ({
               <InputAdornment position="end">
                 <OverlapBtn isValid={isEmailValid}>
                   <Typography className="checkOverlap" onClick={certifyEmail}>
-                    인증
+                    {buttonMsg}
                   </Typography>
                 </OverlapBtn>
               </InputAdornment>
             ),
           }}
         />
+        {emailAlert && emailMessage && (
+          <AlertMessage isSuccess={isSuccessEmail}>{emailMessage}</AlertMessage>
+        )}
         {!isEmailValid && email.length > 1 && (
-          <AlertMessage>이메일을 형식에 맞게 입력해주세요.</AlertMessage>
+          <AlertMessage isSuccess={isSuccessEmail}>
+            이메일을 형식에 맞게 입력해주세요.
+          </AlertMessage>
         )}
 
         <Input
@@ -239,6 +246,12 @@ const ManagerInfo = ({
             ),
           }}
         />
+        {/* 이메일 인증 유효성 검사 */}
+        {emailCodeAlert && (
+          <AlertMessage isSuccess={isSuccessCode}>
+            {emailCodeMessage}
+          </AlertMessage>
+        )}
       </Box>
 
       <div>
@@ -255,10 +268,8 @@ const ManagerInfo = ({
           {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
           <Btn
             isClick={isValid}
-            // name={'form_chk'}
             text={'본인인증하기'}
             handleClick={fnPopup}
-            // handleClick={testClick}
             marginTop={59.25}
           />
         </form>
@@ -269,11 +280,6 @@ const ManagerInfo = ({
     </>
   );
 };
-
-const BtnBox = styled.div`
-  display: absolute;
-  bottom: 30pt;
-`;
 
 const Info = styled.p`
   font-family: 'Spoqa Han Sans Neo';
@@ -338,12 +344,7 @@ const Input = styled(TextField)`
     padding-right: 9pt;
     border-radius: 6pt;
   }
-
   .MuiOutlinedInput-root {
-    /* &:hover fieldset {
-      border-color: #5221cb;
-    } */
-
     &.Mui-focused fieldset {
       border: 0.75pt solid #5221cb;
     }
@@ -370,16 +371,15 @@ const OverlapBtn = styled.button<{
   cursor: pointer;
   background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
 `;
-
 const Buttons = styled.button`
   display: none;
 `;
-const AlertMessage = styled.p`
+const AlertMessage = styled.p<{ isSuccess: boolean }>`
+  color: ${({ isSuccess }) => (isSuccess ? colors.main1 : colors.sub4)};
   font-weight: 400;
   font-size: 9pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  color: ${colors.sub4};
   margin-top: 9pt;
 `;
 export default ManagerInfo;

@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import ProfileEditing from 'componentsCompany/Profile/profileEditing';
 import EditCertificate from 'componentsCompany/Profile/editCertificate';
-import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import EditPW from 'componentsCompany/Profile/editPW';
 import SignUpManagerInfo from 'pages/signUp/ManagerInfo';
@@ -29,9 +28,6 @@ const ProfileIndex = () => {
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
   ];
-  // console.log('component', component);
-
-  // console.log(heightOn);
 
   return (
     <WebBody>

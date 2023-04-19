@@ -69,23 +69,7 @@ const TermContent = ({
   );
 
   const { fnPopup } = useNice();
-  // ========================== 본인인증 창 띄우기
-  // const fnPopup = () => {
-  //   if (typeof window !== 'object') return;
-  //   else {
-  //     window.open(
-  //       '',
-  //       'popupChk',
-  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-  //     );
-  //     let cloneDocument = document;
-  //     cloneDocument.form_chk.action =
-  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-  //     cloneDocument.form_chk.target = 'popupChk';
-  //     // console.log(cloneDocument.form_chk);
-  //     cloneDocument.form_chk.submit();
-  //   }
-  // };
+
   const handleForceClick = () => {
     let key = sessionStorage.getItem('key');
     if (key !== null) {
@@ -320,15 +304,6 @@ const TermContent = ({
       </Form>
       <BottomForm isterms={selectTerms}>
         <Box>
-          {/* <Item id="first" onClick={onClickSelectTerms}>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={selectTerms[0] ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[선택]위치정보 서비스 약관</p>
-            </div>
-          </Item> */}
           <Item id="first" onClick={onClickSelectTerms}>
             <div>
               <Image
@@ -340,17 +315,8 @@ const TermContent = ({
           </Item>
         </Box>
       </BottomForm>
-      {/* 기업 */}
+      {/* =========================== 일반 ========================== */}
       {userType === 0 && (
-        <Btn
-          text="다음"
-          handleClick={justNextPage}
-          marginTop={42.5}
-          isClick={nextBtn}
-        />
-      )}
-      {/* 일반 */}
-      {userType === 1 && (
         <div>
           <form name="form_chk" method="get">
             <input type="hidden" name="m" value="checkplusService" />
@@ -368,7 +334,6 @@ const TermContent = ({
               name={'form_chk'}
               marginTop={42.5}
               isClick={nextBtn}
-              // handleClick={testClick}
               handleClick={fnPopup}
             />
           </form>
@@ -376,6 +341,15 @@ const TermContent = ({
             아아
           </Buttons>
         </div>
+      )}
+      {/* ===================== 기업 =========================== */}
+      {userType === 1 && (
+        <Btn
+          text="다음"
+          handleClick={justNextPage}
+          marginTop={42.5}
+          isClick={nextBtn}
+        />
       )}
     </>
   );

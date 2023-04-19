@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { selectAction } from 'store/loginTypeSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import CompoIdPwInput from './CompoIdPwInput';
 export interface BusinessRegistrationType {
   url: string;
   size: number;
@@ -36,7 +37,7 @@ const SignUpContainer = (props: Props) => {
     (state: RootState) => state.LoginType,
   );
 
-  // Type 1 일때 일반, 0 일때 기업 선택
+  // Type 0일 때 일반, 1일 때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
 
   // 회원가입 필요한 상태값들
@@ -70,6 +71,8 @@ const SignUpContainer = (props: Props) => {
   const [postNumber, setPostNumber] = useState<string>('');
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
+  // 주소 검색 모달 on/off
+  const [addressOn, setAddressOn] = useState<boolean>(false);
 
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
@@ -93,13 +96,17 @@ const SignUpContainer = (props: Props) => {
 
   useEffect(() => {
     if (selectedType === 'USER') {
-      setUserType(1);
-    } else if (selectedType === 'COMPANY') {
       setUserType(0);
+    } else if (selectedType === 'COMPANY') {
+      setUserType(1);
     } else {
       setUserType(-1);
     }
   }, [router]);
+
+  useEffect(() => {
+    console.log('userType : ', userType);
+  }, [userType]);
 
   return (
     <>
@@ -124,23 +131,17 @@ const SignUpContainer = (props: Props) => {
           <SignUpHeader
             title={mobile ? '' : '어떤 용무로 오셨나요?'}
             back={true}
-            // homeBtn={false}
             handleBackClick={() => handleBackClick(-1)}
             web={true}
           />
           <Wrapper>
-            <ChooseUserType
-              userType={userType}
-              setUserType={setUserType}
-              // level={level}
-              // setLevel={setLevel}
-            />
+            <ChooseUserType userType={userType} setUserType={setUserType} />
           </Wrapper>
         </>
       )}
-      {/* ------------일반---------- */}
+      {/* =========================== 일반 유저 ======================== */}
       {/* 약관 동의 */}
-      {signUpLevel === 1 && userType === 1 && (
+      {signUpLevel === 1 && userType === 0 && (
         <>
           <SignUpHeader
             back={true}
@@ -169,7 +170,7 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디 / 비밀번호 입력*/}
-      {signUpLevel === 2 && userType === 1 && (
+      {signUpLevel === 2 && userType === 0 && (
         <>
           <SignUpHeader
             back={true}
@@ -207,9 +208,9 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* ===================================기업 ======================================= */}
+      {/* ============================= 파트너 회원 ================================== */}
       {/* 약관 동의*/}
-      {signUpLevel === 1 && userType === 0 && (
+      {signUpLevel === 1 && userType === 1 && (
         <>
           <SignUpHeader
             back={true}
@@ -240,16 +241,19 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 상세 내용*/}
-      {signUpLevel === 2 && userType === 0 && (
+      {signUpLevel === 2 && userType === 1 && (
         <>
-          <SignUpHeader
-            web={true}
-            back={true}
-            homeBtn={true}
-            title={mobile ? '' : '회원가입'}
-            handleHomeClick={handleHomeClick}
-            handleBackClick={() => handleBackClick(1)}
-          />
+          {!addressOn && (
+            <SignUpHeader
+              web={true}
+              back={true}
+              homeBtn={true}
+              title={mobile ? '' : '회원가입'}
+              handleHomeClick={handleHomeClick}
+              handleBackClick={() => handleBackClick(1)}
+            />
+          )}
+
           <Wrapper>
             <CompanyDetailInfo
               businessRegistration={businessRegistration}
@@ -262,12 +266,14 @@ const SignUpContainer = (props: Props) => {
               setCompanyAddress={setCompanyAddress}
               companyDetailAddress={companyDetailAddress}
               setCompanyDetailAddress={setCompanyDetailAddress}
+              addressOn={addressOn}
+              setAddressOn={setAddressOn}
             />
           </Wrapper>
         </>
       )}
       {/* 담당자 정보 */}
-      {signUpLevel === 3 && userType === 0 && (
+      {signUpLevel === 3 && userType === 1 && (
         <>
           <SignUpHeader
             web={true}
@@ -290,7 +296,7 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디/비밀번호 입력 */}
-      {signUpLevel === 4 && userType === 0 && (
+      {signUpLevel === 4 && userType === 1 && (
         <>
           <SignUpHeader
             web={true}
@@ -301,7 +307,7 @@ const SignUpContainer = (props: Props) => {
             handleHomeClick={handleHomeClick}
           />
           <Wrapper>
-            <IdPwInput
+            <CompoIdPwInput
               email={email}
               companyName={companyName}
               postNumber={postNumber}
