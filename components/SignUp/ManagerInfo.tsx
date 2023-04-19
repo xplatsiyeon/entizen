@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { selectAction } from 'store/loginTypeSlice';
+import { reg_email } from 'utils/user';
 
 type Props = {
   // level: number;
@@ -48,9 +49,6 @@ const ManagerInfo = ({
 
   const dispatch = useDispatch();
   const { signUpLevel } = useSelector((state: RootState) => state.LoginType);
-  // 이메일 유효성 검사
-  const reg_email =
-    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
   // --- 본인인증 창 띄우기 ----
   // 브릿지용 테스트 클릭

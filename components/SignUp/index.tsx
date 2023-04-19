@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import SignUpHeader from './header';
@@ -30,7 +30,6 @@ const SignUpContainer = (props: Props) => {
   });
 
   // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
-  // const [level, setLevel] = useState<number>(0);
   const dispatch = useDispatch();
 
   const { signUpLevel, selectedType } = useSelector(
@@ -93,17 +92,11 @@ const SignUpContainer = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log('⭐️ selectedType : ', selectedType);
-    console.log('⭐️ signUpLevel : ', signUpLevel);
-
     if (selectedType === 'USER') {
-      console.log('⭐️ 유저 ');
       setUserType(1);
     } else if (selectedType === 'COMPANY') {
-      console.log('⭐️ 기업 ');
       setUserType(0);
     } else {
-      console.log('⭐️예외 ');
       setUserType(-1);
     }
   }, [router]);

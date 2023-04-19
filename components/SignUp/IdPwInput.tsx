@@ -8,10 +8,11 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api } from 'api';
+import { api, isTokenPostApi } from 'api';
 import useLogin from 'hooks/useLogin';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
+import { reg_email } from 'utils/user';
 
 type Props = {
   idInput: string;
@@ -49,6 +50,8 @@ interface ValidatedId {
   isSuccess: boolean;
 }
 
+const loginTypeEnList = ['COMPANY', 'USER'];
+
 const IdPwInput = ({
   email,
   idInput,
@@ -84,14 +87,28 @@ const IdPwInput = ({
   });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [initIdAlert, setInitIdAlert] = useState(false);
-  const [idLength, setIdLength] = useState(false);
-  const [isChangeColor, setIsChangeColor] = useState(false);
+  // 이메일 인증
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailAlert, setEmailAlert] = useState(false);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [isSuccessEmail, setIsSuccessEmail] = useState(false);
+  const [buttonMsg, setButtonMsg] = useState<'확인' | '재인증'>('확인');
+  // 이메일 코드 인증
+  const [authCode, setAuthCode] = useState<string>('');
+  const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
+  const [emailCodeAlert, setEmailCodeAlert] = useState(false);
+  const [emailCodeMessage, setEmailCodeMessage] = useState('');
+  const [isSuccessCode, setIsSuccessCode] = useState(false);
+
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
+  // 이메일 유효성 검사 및 이메일 인증 코드
 
-  const loginTypeEnList = ['COMPANY', 'USER'];
+  // 디바운스를 이용한 유효성 검사
+  const passwords = useDebounce(pwInput, 500);
+  const checkPassword = useDebounce(checkPw, 500);
 
+  // 로그인 훅
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
     setIsModal,
@@ -107,16 +124,60 @@ const IdPwInput = ({
       api({
         method: 'GET',
         endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
+        // endpoint: `/members?id=${idInput}&memberType=${'USER'}`,
       }),
     {
       enabled: false,
+      onSuccess: (res) => {
+        console.log(res.isMember);
+        if (!res.isMember) {
+          // 이메일 인증
+          certifyEmailMutate({
+            url: '/mail/auth',
+            data: {
+              email: idInput,
+            },
+          });
+        } else {
+          setEmailAlert(true);
+          setEmailMessage('이미 사용중인 이메일입니다.');
+          setIsSuccessEmail(false);
+        }
+      },
       onError: (error) => {
-        // console.log('----아이디 중복체크----');
-        // console.log(error);
         alert('다시 시도해주세요.');
       },
     },
   );
+
+  // 이메일 인증 번호 발송
+  const { mutate: certifyEmailMutate } = useMutation(isTokenPostApi, {
+    onSuccess(res) {
+      setEmailAlert(true);
+      setEmailMessage('이메일로 인증번호가 전송되었습니다.');
+      setIsSuccessEmail(true);
+      setButtonMsg('재인증');
+    },
+  });
+
+  // 이메일 인증번호 체크
+  const { mutate: emailIdMutate } = useMutation(isTokenPostApi, {
+    onSuccess(res) {
+      if (res.data.isValidAuthCode) {
+        setEmailCodeMessage('인증번호가 확인되었습니다.');
+        setEmailCodeAlert(true);
+        setIsSuccessCode(true);
+        // setIsValid(true);
+      } else {
+        setEmailCodeMessage('인증번호가 잘못되었습니다.');
+        setEmailCodeAlert(true);
+        setEmailAlert(false);
+        setIsSuccessCode(false);
+        setEmailMessage('');
+      }
+    },
+  });
+
   // 일반 유저 회원가입 mutate
   const {
     mutate: userMutate,
@@ -124,20 +185,12 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async (res) => {
-      // console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      // console.log(res);
-
       if (res?.isSuccess === true) {
         signin(checkPw);
-      } else {
-        // console.log('에러');
       }
-      // router.push('/signUp/Complete');
     },
     onError: (error) => {
-      // console.log('----회원가입 실패----');
-      // console.log(error);
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
@@ -148,41 +201,35 @@ const IdPwInput = ({
     error: companyError,
   } = useMutation(api, {
     onSuccess: () => {
-      // console.log('성공');
       queryClient.invalidateQueries();
       router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
-      // console.log('----회원가입 실패----');
-      // console.log(error);
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
 
-  // 디바운스를 이용한 유효성 검사
-  const passwords = useDebounce(pwInput, 500);
-  const checkPassword = useDebounce(checkPw, 500);
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
-      setInitIdAlert(false);
+      setEmailAlert(false);
       setIdInput(value);
-      idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
+      // idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
     if (e.target.name === 'pw') setPwInput(value);
     if (e.target.name === 'checkPw') setCheckPw(value);
   };
 
-  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.preventDefault();
-    e.isPropagationStopped();
-  };
-
+  // 아이디 중복 체크
   const overlabCheck = () => {
-    setInitIdAlert(true);
-    refetch();
+    if (isEmailValid) {
+      setEmailAlert(true);
+      refetch();
+    } else {
+      setEmailAlert(true);
+    }
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -248,11 +295,35 @@ const IdPwInput = ({
       });
     }
   };
+
+  // 이메일 인증코드 확인
+  const certifyEmailCode = () => {
+    if (isEmailCodeValid) {
+      emailIdMutate({
+        url: '/mail/auth/validation',
+        data: { email: idInput, authCode },
+      });
+    }
+  };
+
+  // 이메일 코드 입력란
+  const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setAuthCode(value);
+  };
+
   const handleShowBtn = (id: number) => {
     let temp = [...pwShow];
     temp[id] = !temp[id];
     setPwShow(temp);
   };
+
+  // 엔터 클릭
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    e.isPropagationStopped();
+  };
+
   // 유효성 검사
   useEffect(() => {
     if (passwords) {
@@ -266,21 +337,34 @@ const IdPwInput = ({
       if (passwords !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    // console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
-
-  // 중복확인 버튼 비활성화
+  // 유효성 검사
   useEffect(() => {
-    if (idInput.length <= 4) {
-      setIsChangeColor(false);
-      setIdLength(true);
+    // 이메일 인증
+    if (reg_email.test(idInput)) {
+      setIsEmailValid(true);
     } else {
-      setIdLength(false);
-      setIsChangeColor(true);
+      setIsEmailValid(false);
+      setButtonMsg('확인');
+      setIsSuccessEmail(false);
     }
-  }, [initIdAlert, idInput]);
+    // 이메일 코드 인증
+    if (authCode.length === 7) {
+      setIsEmailCodeValid(true);
+    } else {
+      setIsEmailCodeValid(false);
+      setIsSuccessCode(false);
+    }
+  }, [idInput, authCode]);
 
+  useEffect(() => {
+    // first;
+  }, [emailAlert]);
+
+  console.log('🫥 data : ', data);
+
+  // -----------------------------------------------------------------------------------------
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -382,46 +466,89 @@ const IdPwInput = ({
           position: 'relative',
         }}
       >
-        <Label>아이디</Label>
+        <Label>이메일</Label>
+        {/* 이메일 작성란 */}
         <Input
           borderBoolean1={
-            data?.isMember === true && initIdAlert && !idLength ? true : false
+            data?.isMember === true && emailAlert && !isEmailValid
+              ? true
+              : false
           }
           borderBoolean2={
-            data?.isMember === false && initIdAlert && idLength ? true : false
+            data?.isMember === false && emailAlert && isEmailValid
+              ? true
+              : false
           }
-          placeholder="아이디 입력"
+          placeholder="이메일 입력"
           onChange={handleIdChange}
           value={idInput}
           name="id"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+                <OverlapBtn className="overlap" isChangeColor={isEmailValid}>
                   <ButtonText className="checkOverlap" onClick={overlabCheck}>
-                    중복확인
+                    {buttonMsg}
                   </ButtonText>
                 </OverlapBtn>
               </InputAdornment>
             ),
           }}
         />
+        {/* 이메일 유효성 검사 */}
         <Box>
-          {data?.isMember === false && initIdAlert && !idLength && (
-            <MessageId>사용가능한 아이디입니다.</MessageId>
+          {emailAlert && emailMessage && (
+            <MessageErrId isSuccess={isSuccessEmail}>
+              {emailMessage}
+            </MessageErrId>
           )}
-          {data?.isMember === true && initIdAlert && !idLength && (
-            <MessageErrId>이미 사용중인 아이디입니다.</MessageErrId>
+          {idInput.length > 0 && !isEmailValid && (
+            <MessageErrId isSuccess={isSuccessEmail}>
+              이메일 형식에 맞게 입력해주세요.
+            </MessageErrId>
           )}
-          {data?.isMember === false && initIdAlert && idLength && (
-            <MessageErrId>5글자 이상 입력해주세요</MessageErrId>
+        </Box>
+        {/* 이메일 인증코드 작성란 */}
+        <Input
+          borderBoolean1={
+            data?.isMember === true && emailCodeAlert && !isEmailCodeValid
+              ? true
+              : false
+          }
+          borderBoolean2={
+            data?.isMember === false && emailCodeAlert && isEmailCodeValid
+              ? true
+              : false
+          }
+          placeholder="이메일 인증번호 입력"
+          onChange={onChangeEmailCode}
+          value={authCode}
+          name="emailCode"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <OverlapBtn
+                  className="overlap"
+                  isChangeColor={isEmailCodeValid}
+                >
+                  <ButtonText
+                    className="checkOverlap"
+                    onClick={certifyEmailCode}
+                  >
+                    확인
+                  </ButtonText>
+                </OverlapBtn>
+              </InputAdornment>
+            ),
+          }}
+        />
+        {/* 이메일 인증 유효성 검사 */}
+        <Box>
+          {emailCodeAlert && (
+            <MessageErrId isSuccess={isSuccessCode}>
+              {emailCodeMessage}
+            </MessageErrId>
           )}
-          {/* {data?.isMember === true &&
-              initIdAlert &&
-              '이미 사용중인 아이디입니다.'}
-            {data?.isMember === false &&
-              initIdAlert &&
-              '사용가능한 아이디입니다.'} */}
         </Box>
       </Box>
       <BoxPW>
@@ -466,7 +593,11 @@ const IdPwInput = ({
       </BoxPW>
       <Btn
         isClick={
-          data?.isMember === false && checkedPw && checkSamePw && initIdAlert
+          data?.isMember === false &&
+          checkedPw &&
+          checkSamePw &&
+          isSuccessEmail &&
+          isSuccessCode
             ? true
             : false
         }
@@ -553,12 +684,6 @@ const Input = styled(TextField)<{
         `}
     }
   }
-  /* .Mui-focused {
-    outline: 1px solid #5221cb;
-    border-style: none;
-  } */
-
-  /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   margin-top: 9pt;
 
@@ -651,15 +776,15 @@ const MessageId = styled.p`
   }
 `;
 
-const MessageErrId = styled.p`
-  color: ${colors.sub4};
+const MessageErrId = styled.p<{ isSuccess: boolean }>`
+  color: ${({ isSuccess }) => (isSuccess ? colors.main1 : colors.sub4)};
   font-size: 10.5pt;
   line-height: 10.5pt;
-  margin-top: 12pt;
+  margin-top: 9pt;
   font-family: 'Spoqa Han Sans Neo';
-  position: absolute;
-  bottom: -20pt;
-  margin-top: 12pt;
+  /* position: absolute;
+  bottom: -20pt; */
+  /* margin-top: 12pt; */
   @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
