@@ -126,7 +126,7 @@ const SignUpContainer = (props: Props) => {
         />
       )}
       {/* 일반/기업 선택란 */}
-      {/* {signUpLevel === 0 && (
+      {signUpLevel === 0 && (
         <>
           <SignUpHeader
             title={mobile ? '' : '어떤 용무로 오셨나요?'}
@@ -138,7 +138,7 @@ const SignUpContainer = (props: Props) => {
             <ChooseUserType userType={userType} setUserType={setUserType} />
           </Wrapper>
         </>
-      )} */}
+      )}
       {/* =========================== 일반 유저 ======================== */}
       {/* 약관 동의 */}
       {signUpLevel === 1 && userType === 0 && (
@@ -170,8 +170,7 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디 / 비밀번호 입력*/}
-      {/* {signUpLevel === 2 && userType === 0 && ( */}
-      {signUpLevel === 0 && userType === -1 && (
+      {signUpLevel === 2 && userType === 0 && (
         <>
           <SignUpHeader
             back={true}

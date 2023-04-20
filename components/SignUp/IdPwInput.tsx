@@ -123,8 +123,8 @@ const IdPwInput = ({
     () =>
       api({
         method: 'GET',
-        // endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
-        endpoint: `/members?id=${idInput}&memberType=USER`,
+        endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
+        // endpoint: `/members?id=${idInput}&memberType=USER`,
       }),
     {
       enabled: false,
