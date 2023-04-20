@@ -354,18 +354,21 @@ const Signin = () => {
     let key = sessionStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
     // console.log(data);
+
     if (data.isMember) {
       dispatch(findUserInfoAction.setId(data.id));
       dispatch(findUserInfoAction.setSNS(data.snsType));
       // router.push('/find/id');
-      setIsFindIdView(true);
+      setIsFindId(true);
     } else {
-      setErrorMessage(
-        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-      );
-      setErrorModal((prev) => !prev);
-      sessionStorage.removeItem('key');
+      setIsFindId(false);
+      // setErrorMessage(
+      //   '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      // );
+      // setErrorModal((prev) => !prev);
+      // sessionStorage.removeItem('key');
     }
+    setIsFindIdView(true);
   };
 
   // 엔터키 이벤트
@@ -607,6 +610,7 @@ const Signin = () => {
                   <FindIdComponents
                     isFindId={isFindId}
                     setIsFindId={setIsFindId}
+                    setIsFindIdView={setIsFindIdView}
                   />
                 </div>
               ) : (

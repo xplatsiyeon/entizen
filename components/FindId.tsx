@@ -12,9 +12,14 @@ import colors from 'styles/colors';
 type Props = {
   isFindId: boolean;
   setIsFindId: Dispatch<SetStateAction<boolean>>;
+  setIsFindIdView: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function FindIdComponents({ isFindId, setIsFindId }: Props) {
+export default function FindIdComponents({
+  isFindId,
+  setIsFindId,
+  setIsFindIdView,
+}: Props) {
   const router = useRouter();
   const { id } = useSelector((state: RootState) => state.findUserInfo);
   const [errorMessage, setErrorMessage] = useState('');
@@ -48,6 +53,11 @@ export default function FindIdComponents({ isFindId, setIsFindId }: Props) {
     }
   };
 
+  const onClickLogin = () => {
+    setIsFindIdView(false);
+    setIsFindId(false);
+  };
+
   return (
     <React.Fragment>
       {errorModal && (
@@ -74,7 +84,7 @@ export default function FindIdComponents({ isFindId, setIsFindId }: Props) {
           }}
         >
           {/* 로그인 버튼 */}
-          <ButtonWrap onClick={() => router.push('/signin')}>로그인</ButtonWrap>
+          <ButtonWrap onClick={onClickLogin}>로그인</ButtonWrap>
         </Box>
 
         {/* 이메일 찾기 or 비밀번호 찾기  */}
