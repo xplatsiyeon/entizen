@@ -127,6 +127,7 @@ const Setting = () => {
             <div>{components[tabNumber]}</div>
             {!mobile && tabNumber === 1 && (
               <div>
+                {/* ======================= 데스트탑 ======================= */}
                 <AlarmWebSetting
                   setTabNumber={setTabNumber}
                   tabNumber={tabNumber}

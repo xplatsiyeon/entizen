@@ -225,18 +225,18 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       <FlexWrap>
         <AlamLabel>알림</AlamLabel>
         <PaddingBox>
-          {memberType === 'COMPANY' && (
-            <AlamForm>
-              <CheckBox>
-                <span className="text">이메일</span>
-                <CustomSwitch
-                  name="alertEmail"
-                  onChange={onChangeSwitch}
-                  checked={!!alertChecked.alertEmail}
-                />
-              </CheckBox>
-            </AlamForm>
-          )}
+          {/* {memberType === 'COMPANY' && ( */}
+          <AlamForm>
+            <CheckBox>
+              <span className="text">이메일</span>
+              <CustomSwitch
+                name="alertEmail"
+                onChange={onChangeSwitch}
+                checked={!!alertChecked.alertEmail}
+              />
+            </CheckBox>
+          </AlamForm>
+          {/* )} */}
           <AlamForm>
             <CheckBox>
               <span className="text">카카오톡</span>

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';

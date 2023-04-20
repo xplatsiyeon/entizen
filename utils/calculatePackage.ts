@@ -1,5 +1,5 @@
 export const checkedPassword = (password: string): boolean => {
-  let check =
+  const check =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
       password,
     );
@@ -20,9 +20,6 @@ export const PriceCalculation = (price: number) => {
   if (price === 0) return 0;
   if (price) {
     let stringPrice = price.toString();
-    // const parts = price.toString().slice(0, -4).split('.');
-    // parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    // return parts.join('.');
     if (stringPrice.length <= 6) {
       const parts = price.toString().split('.');
       parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, '.');

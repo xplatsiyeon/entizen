@@ -32,9 +32,9 @@ type Props = {
 };
 const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const { selectedType } = useSelector((state: RootState) => state.LoginType);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const [data, setData] = useState<any>();
@@ -142,7 +142,6 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
   // 나이스 인증 1
   useEffect(() => {
-    const memberType = selectedType;
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

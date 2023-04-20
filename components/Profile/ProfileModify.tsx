@@ -6,13 +6,12 @@ import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
 import { AxiosError } from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { useMutation } from 'react-query';
 import { isTokenPatchApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import useProfile from 'hooks/useProfile';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import { hyphenFn } from 'utils/calculatePackage';
 export interface ImgFile {
   originalName: string;
   size: number;
@@ -26,10 +25,9 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
 };
-const TAG = 'components/Profile/ProfileModify.tsx';
+
 const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [data, setData] = useState<any>();
   const [imgFile, setImgFile] = useState<string>('');
@@ -45,13 +43,7 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
     isTokenPatchApi,
     {
       onSuccess: (res) => {
-        // console.log(`🔥 이미지 변경 성공 ~line 53 ${TAG}`);
-        // console.log(res);
         invalidate();
-      },
-      onError: (error) => {
-        // console.log(`🔥 이미지 변경 실패 ~line 57 ${TAG}`);
-        // console.log(error);
       },
     },
   );
@@ -62,8 +54,6 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      // console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
-      // console.log(res);
       profileMutae({
         url: '/members/profile-image',
         data: {
@@ -147,9 +137,6 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    // console.log(`☂️ SNS 멤버 확인 ~line 180 -> ${TAG}`);
-    // console.log(snsMember);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useLayoutEffect(() => {
@@ -207,9 +194,9 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
               style={{ display: 'none' }}
             />
           </Avatar>
-          <Label mt={33}>이메일</Label>
-          <InputBox type="text" readOnly placeholder={profile?.id} />
-          <Label mt={30}>이름</Label>
+          <Label mt={30} mb={9}>
+            이름
+          </Label>
           <InputBox type="text" readOnly placeholder={profile?.name} />
           {!checkSns && (
             <>
@@ -225,29 +212,31 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
                 />
                 <input type="hidden" name="recvMethodType" value="get" />
                 {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                <Form
+
+                <Label mt={30}>휴대폰 번호</Label>
+                <InputWrap
                   onClick={() => {
                     setTabNumber(0);
                   }}
                 >
-                  <TitleSection
-                    id="phone"
-                    onClick={() => {
-                      setTabNumber(0);
-                    }}
-                  >
-                    <Label mt={0}>휴대폰 번호 변경</Label>
-                    <div>
-                      <Image src={Arrow} alt="arrow-img" />
-                    </div>
-                  </TitleSection>
-                  <Text>
-                    휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만 변경이
-                    가능합니다.
-                  </Text>
-                </Form>
+                  <InputBox
+                    type="text"
+                    readOnly
+                    defaultValue={hyphenFn(profile?.phone)}
+                  />
+                  <Image src={Arrow} alt="arrow-img" />
+                </InputWrap>
+                <Label mt={30}>이메일</Label>
+                <InputWrap
+                  onClick={() => {
+                    console.log('click');
+                    setTabNumber(2);
+                  }}
+                >
+                  <InputBox type="text" readOnly defaultValue={profile?.id} />
+                  <Image src={Arrow} alt="arrow-img" />
+                </InputWrap>
                 <Form>
-                  {/* <TitleSection id="password" onClick={fnPopup}> */}
                   <TitleSection id="password" onClick={HandlePassword}>
                     <Label mt={0}>비밀번호 변경</Label>
                     <div>
@@ -299,13 +288,13 @@ const Scroll = styled.div`
 
 const Wrapper = styled.div<{ tabNumber?: number }>`
   position: relative;
-  /* margin: 0 31.875pt; */
-  margin: ${({ tabNumber }) => (tabNumber === 2 ? '0 47.25pt' : '0 24pt')};
+  margin: ${({ tabNumber }) => (tabNumber === -1 ? '0 47.25pt' : '0 24pt')};
   padding: 32.25pt 0;
   @media (max-width: 899.25pt) {
     height: 100%;
     width: 100vw;
     margin: 0;
+    padding: 0;
   }
 `;
 const Body = styled.div`
@@ -342,32 +331,40 @@ const Avatar = styled.div`
     display: none;
   }
 `;
-const Label = styled.h3<{ mt: number }>`
+const Label = styled.h3<{ mt: number; mb?: number }>`
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
   margin-top: ${({ mt }) => mt + 'pt'};
+  margin-bottom: ${({ mb }) => mb + 'pt'};
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
+
+const InputWrap = styled.div`
+  display: flex;
+  gap: 16.875pt;
+  cursor: pointer;
+  margin-top: 9pt;
+`;
 const InputBox = styled.input`
   box-sizing: border-box;
-  width: 100%;
-  padding: 13.5pt 16pt;
-  margin-top: 9pt;
+  width: 90%;
+  padding: 13.5pt 12pt;
   font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
   border-radius: 6pt;
   letter-spacing: -0.02em;
-  /* color: ${colors.main2}; */
+  max-height: 39pt;
   border: 0.75pt solid ${colors.gray};
   ::placeholder {
     color: ${colors.lightGray3};
   }
+  cursor: pointer;
 `;
 const Form = styled.div`
-  margin-top: 30pt;
+  margin-top: 31.5pt;
   border-bottom: 0.75pt solid ${colors.gray};
   padding-bottom: 18pt;
   cursor: pointer;
@@ -378,6 +375,15 @@ const TitleSection = styled.div`
   align-items: center;
   cursor: pointer;
 `;
+
+const ArrowBox = styled.span`
+  display: inline-block;
+  position: relative;
+  min-width: 4.6875pt;
+  min-height: 9.375pt;
+  margin-left: 16.875pt;
+`;
+
 const Text = styled.p`
   font-weight: 400;
   font-size: 9pt;

@@ -18,7 +18,6 @@ import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
 import { appLogout } from 'bridge/appToWeb';
 import { googleLogout } from '@react-oauth/google';
-import useProfile from 'hooks/useProfile';
 
 type Props = {
   tabNumber: number;

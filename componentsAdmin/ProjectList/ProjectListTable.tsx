@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
 import { api, isTokenAdminGetApi } from 'api';

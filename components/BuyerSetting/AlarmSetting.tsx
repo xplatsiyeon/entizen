@@ -177,13 +177,6 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     setAlertSettingIdx(alertsList?.data?.alertSetting?.alertSettingIdx!);
   }, [alertsList]);
 
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [nowWidth]);
-
   // 전체 알림 수정
   useEffect(() => {
     // 유저 회원일 때
@@ -211,10 +204,10 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
   return (
     <>
+      {/* ======================= 모바일 ======================= */}
       {mobile && (
         <Wrapper>
           <Header>
-            {/* <div className="img-item" onClick={() => setTabNumber(0)}> */}
             <div className="img-item" onClick={onClickBack}>
               <Image
                 style={{
@@ -238,16 +231,16 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 checked={!!alertChecked.alertApp}
               />
             </CheckBox>
-            {memberType === 'COMPANY' && (
-              <CheckBox>
-                <span className="text">이메일</span>
-                <CustomSwitch
-                  name="alertEmail"
-                  onChange={onChangeSwitch}
-                  checked={!!alertChecked.alertEmail}
-                />
-              </CheckBox>
-            )}
+            {/* {memberType === 'COMPANY' && ( */}
+            <CheckBox>
+              <span className="text">이메일</span>
+              <CustomSwitch
+                name="alertEmail"
+                onChange={onChangeSwitch}
+                checked={!!alertChecked.alertEmail}
+              />
+            </CheckBox>
+            {/* )} */}
             <CheckBox>
               <span className="text">카카오톡</span>
               <CustomSwitch

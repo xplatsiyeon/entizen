@@ -129,10 +129,19 @@ const ManagerInfo = ({
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setEmail(value);
+    setEmailAlert(false);
+    setIsEmailValid(false);
+    setEmailMessage('');
+    setIsSuccessEmail(false);
   };
+  // email code 변경
   const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setAuthCode(value);
+    setEmailCodeAlert(false);
+    setIsEmailCodeValid(false);
+    setEmailCodeMessage('');
+    setIsSuccessCode(false);
   };
   // 이메일 인증
   const certifyEmail = () => {
@@ -369,7 +378,7 @@ const OverlapBtn = styled.button<{
   font-weight: 500;
   line-height: 12pt;
   cursor: pointer;
-  background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
+  background-color: ${({ isValid }) => (isValid ? colors.main1 : colors.gray)};
 `;
 const Buttons = styled.button`
   display: none;

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import PasswordModify from 'components/Profile/PasswordModify';
@@ -10,6 +9,7 @@ import PhoneNumberModify from 'components/Profile/PhonenumberModify';
 import UserRightMenu from 'components/UserRightMenu';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
+import EmailModify from 'components/Profile/EmailModify';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -23,7 +23,7 @@ const ProfileEditing = () => {
   });
 
   // 오른쪽 컴포넌트 변경
-  const [tabNumber, setTabNumber] = useState<number>(2);
+  const [tabNumber, setTabNumber] = useState<number>(-1);
   console.log('tabNumber', tabNumber);
   // sns 체크
   useEffect(() => {
@@ -42,19 +42,24 @@ const ProfileEditing = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('tabNumber', tabNumber);
+  }, [tabNumber]);
+
   // 오른쪽 컴포넌트
   const components: Components = {
-    0: <PhoneNumberModify setTabNumber={setTabNumber} />,
-    1: <PasswordModify setTabNumber={setTabNumber} />,
+    0: <PhoneNumberModify setTabNumber={setTabNumber} />, // 휴대폰 번호 변경
+    1: <PasswordModify setTabNumber={setTabNumber} />, // 비밀번호 변경
+    2: <EmailModify setTabNumber={setTabNumber} />, // 이메일 변경
   };
 
   return (
     <React.Fragment>
       <UserRightMenu />
-      {tabNumber === 2 && <Header back={true} title="프로필 변경" />}
+      {tabNumber === -1 && <Header back={true} title="프로필 변경" />}
       <WebBody>
         <WebHeader />
-        {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
+        {tabNumber > -1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <WebRapper tabNumber={tabNumber}>
           <Inner tabNumber={tabNumber}>
             {/* ================= PC 프로필 변경 ================= */}
@@ -66,10 +71,10 @@ const ProfileEditing = () => {
             )}
           </Inner>
           {/* ================= 모바일 프로필 변경 ================= */}
-          {!web && tabNumber === 2 && (
+          {!web && tabNumber === -1 && (
             <ProfileModify setTabNumber={setTabNumber} />
           )}
-          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+          {tabNumber !== -1 && <div>{components[tabNumber]}</div>}
         </WebRapper>
         <WebFooter />
       </WebBody>
@@ -116,7 +121,7 @@ const Inner = styled.div<{ tabNumber: number }>`
   display: block;
   position: relative;
   /* width: 255pt; */
-  width: ${({ tabNumber }) => (tabNumber === 2 ? '345pt' : '255pt')};
+  width: ${({ tabNumber }) => (tabNumber === -1 ? '345pt' : '255pt')};
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;

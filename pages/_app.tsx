@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, wrapper } from 'store';
-import { Suspense, useEffect, useLayoutEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
@@ -35,7 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, [queryClient]);
 
   // 기기별 userAgent 확인.
-  useLayoutEffect(() => {
+  useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
     if (iOS) {
@@ -50,7 +50,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장
-  useLayoutEffect(() => {
+  useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
     if (Android) {
@@ -61,7 +61,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   // 앱 -> 웹
-  useLayoutEffect(() => {
+  useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
     const Android = navigator.userAgent.match(/Android_App/i);
     if (Android) {

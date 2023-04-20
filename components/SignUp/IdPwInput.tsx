@@ -12,7 +12,7 @@ import { api, isTokenPostApi } from 'api';
 import useLogin from 'hooks/useLogin';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
-import { reg_email } from 'utils/user';
+import { reg_email, reg_password } from 'utils/user';
 
 type Props = {
   idInput: string;
@@ -45,7 +45,7 @@ type Props = {
   businessRegistration?: BusinessRegistrationType[];
 };
 
-interface ValidatedId {
+export interface ValidatedId {
   isMember: boolean;
   isSuccess: boolean;
 }
@@ -213,7 +213,6 @@ const IdPwInput = ({
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
       setEmailAlert(false);
       setIdInput(value);
@@ -330,11 +329,7 @@ const IdPwInput = ({
   // 유효성 검사
   useEffect(() => {
     if (passwords) {
-      let check1 =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-          passwords,
-        );
-      setCheckedPw(check1);
+      setCheckedPw(reg_password(passwords));
     }
     if (checkPassword) {
       if (passwords !== checkPassword) setCheckSamePw(false);

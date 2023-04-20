@@ -77,7 +77,7 @@ export const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 export const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-export const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+export const loginTypeList: string[] = ['일반회원 로그인', '파트너회원 로그인'];
 export const loginTypeEnList: string[] = ['USER', 'COMPANY'];
 
 const Signin = () => {
@@ -246,65 +246,6 @@ const Signin = () => {
       googleLogin();
     }
   };
-  // 네이버 로그인
-  // const NaverApi = async (data: any) => {
-  //   const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
-  //   await axios({
-  //     method: 'post',
-  //     url: NAVER_POST,
-  //     data: {
-  //       uuid: '' + data.user.id,
-  //       snsType: 'NAVER',
-  //       snsResponse: JSON.stringify(data),
-  //       email: data.user.email,
-  //     },
-  //     headers: {
-  //       ContentType: 'application/json',
-  //     },
-  //     withCredentials: true,
-  //   }).then((res) => {
-  //     let c = res.data;
-  //     let d = JSON.parse(res.config.data);
-  //     dispatch(
-  //       userAction.add({
-  //         ...user,
-  //         uuid: d.uuid,
-  //         email: d.email,
-  //         snsType: d.snsType,
-  //         snsLoginIdx: c.snsLoginIdx,
-  //         isMember: c.isMember,
-  //       }),
-  //     );
-  //     if (c.isMember === true) {
-  //       const token: JwtTokenType = jwt_decode(res.data.accessToken);
-  //       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-  //       sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-  //       sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-  //       sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-  //       sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-  //       // ================브릿지 연결=====================
-  //       const userInfo = {
-  //         SNS_MEMBER: token.isSnsMember,
-  //         MEMBER_TYPE: token.memberType,
-  //         ACCESS_TOKEN: res.data.accessToken,
-  //         REFRESH_TOKEN: res.data.refreshToken,
-  //         USER_ID: data.user.email,
-  //       };
-  //       // console.log('==========userInfo==========');
-  //       // console.log(userInfo);
-  //       if (userAgent === 'Android_App') {
-  //         window.entizen!.setUserInfo(JSON.stringify(userInfo));
-  //       } else if (userAgent === 'iOS_App') {
-  //         window.webkit.messageHandlers.setUserInfo.postMessage(
-  //           JSON.stringify(userInfo),
-  //         );
-  //       }
-  //       router.push('/');
-  //     } else {
-  //       router.push('/signUp/SnsTerms');
-  //     }
-  //   });
-  // };
   // 네이버 온클릭
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
@@ -364,11 +305,6 @@ const Signin = () => {
       dispatch(findUserInfoAction.reset());
       sessionStorage.removeItem('key');
       setIsFindId(false);
-      // setErrorMessage(
-      //   '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-      // );
-      // setErrorModal((prev) => !prev);
-      // sessionStorage.removeItem('key');
     }
     setIsFindIdView(true);
   };
