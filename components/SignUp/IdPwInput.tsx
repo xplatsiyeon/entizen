@@ -114,7 +114,7 @@ const IdPwInput = ({
     setIsModal,
     setModalMessage,
     setUserCompleteModal,
-    loginTypeEnList[userType] as 'USER' | 'COMPANY',
+    loginTypeEnList[userType] as 'USER',
     true,
   );
 

@@ -8,7 +8,6 @@ import { originUserAction } from 'store/userInfoSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { useCookies } from 'react-cookie';
 
 function useLogin(
   userId: string,
@@ -20,8 +19,6 @@ function useLogin(
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const [cookies, setCookie, removeCookie] = useCookies();
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { url } = useSelector((state: RootState) => state.redirectSlice);
   const {
@@ -43,12 +40,6 @@ function useLogin(
         JSON.stringify(res.data.refreshToken),
       );
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
-
-      // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-      // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-      // setCookie('ACCESS_TOKEN', JSON.stringify(res.data.accessToken));
-      // setCookie('REFRESH_TOKEN', JSON.stringify(res.data.refreshToken));
-      // setCookie('USER_ID', JSON.stringify(userId));
 
       dispatch(originUserAction.set(userId));
 
