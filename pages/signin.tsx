@@ -93,8 +93,8 @@ const Signin = () => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   // 아이디 찾기 View 전환
-  const [isFindId, setIsFindId] = useState(true);
-  const [isFindIdView, setIsFindIdView] = useState(true);
+  const [isFindId, setIsFindId] = useState(false);
+  const [isFindIdView, setIsFindIdView] = useState(false);
 
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
@@ -358,7 +358,7 @@ const Signin = () => {
       dispatch(findUserInfoAction.setId(data.id));
       dispatch(findUserInfoAction.setSNS(data.snsType));
       // router.push('/find/id');
-      setIsFindId(true);
+      setIsFindIdView(true);
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
