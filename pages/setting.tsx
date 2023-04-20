@@ -22,7 +22,6 @@ interface Components {
 
 const Setting = () => {
   const router = useRouter();
-  // const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 유저인지 회사인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
@@ -30,19 +29,6 @@ const Setting = () => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-
-  // 실시간으로 width 받아오는 함수
-  // const handleResize = () => {
-  //   setNowWidth(window.innerWidth);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [nowWidth]);
-  // test
 
   // 오른쪽 컴포넌트 변동해주는거
   const [tabNumber, setTabNumber] = useState<number>(0);

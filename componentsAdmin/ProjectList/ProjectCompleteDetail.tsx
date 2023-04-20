@@ -648,7 +648,7 @@ const ProjectCompleteDetail = ({
           <Name className="fisrt">작성자 정보</Name>
           <UserInfoContainer>
             <List>
-              <Label>아이디</Label>
+              <Label>이메일</Label>
               <Contents>{data?.data?.project?.userMember?.id}</Contents>
             </List>
             <List>

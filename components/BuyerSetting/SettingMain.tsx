@@ -34,6 +34,7 @@ const SettingMain = ({
 }: Props) => {
   const router = useRouter();
   const userID = sessionStorage.getItem('USER_ID');
+  const MEMBER_TYPE = sessionStorage.getItem('MEMBER_TYPE');
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
@@ -75,9 +76,6 @@ const SettingMain = ({
     kakao.API.request({
       url: '/v1/user/unlink',
       success: (res: any) => {
-        // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
-        // console.log('세팅 카카오로그아웃 부분입니다.');
-        // console.log(res);
         router.push('/');
       },
       fail: (error: any) => {
@@ -215,7 +213,9 @@ const SettingMain = ({
         <RequestModal
           exit={() => setSecessionFirstModal(!secessionFirstModal)}
           title={'정말 탈퇴하시겠습니까?'}
-          subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
+          subtitle={`${
+            MEMBER_TYPE ? '사용하고 계신 이메일' : '사용하고 계신 아이디'
+          }${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
           leftControl={ModalLeftControl}
           rightControl={() => setSecessionFirstModal(!secessionFirstModal)}
           border={true}

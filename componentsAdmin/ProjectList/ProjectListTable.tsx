@@ -103,7 +103,7 @@ const ProjectListTable = ({
             setColumns([
               '번호',
               '프로젝트 번호',
-              '작성자(아이디)',
+              '작성자(이메일)',
               '기업회원(아이디)',
               {
                 name: '진행단계',
@@ -188,7 +188,7 @@ const ProjectListTable = ({
             setColumns([
               '번호',
               '프로젝트 번호',
-              '작성자(아이디)',
+              '작성자(이메일)',
               '기업회원(아이디)',
               {
                 name: '구독종료',

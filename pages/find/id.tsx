@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import colors from '../../styles/colors';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from 'components/header';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useSelector } from 'react-redux';
@@ -33,13 +33,6 @@ const findingId2 = () => {
       setErrorModal((prev) => !prev);
     }
   };
-
-  // 언마운트 될 때 key 삭제
-  // useEffect(() => {
-  //   return () => {
-  //     sessionStorage.removeItem('key');
-  //   };
-  // }, []);
 
   if (id) {
     return (

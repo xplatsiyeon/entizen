@@ -49,16 +49,6 @@ export const useNaverAuthHook = () => {
   };
 
   const login = () => {
-    //   const clientId = process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID; // ClientID
-    //   // 테스트 리다이렉트 주소
-    //   const callbackUrl = `https://api.entizen.kr/signin`;
-
-    //  // console.log('naverLogin',naverLogin);
-    //   naverLogin.init();
-    //   router.push(`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=${callbackUrl}`)
-    //   //https://nid.naver.com/oauth2.0/authorize?response_type=token&client_id=un493qdxNV0yNF9DxDxH&state=0260710a-51ec-4824-9315-a16043edeb9e&redirect_uri=https%3A%2F%2Fapi.entizen.kr%2Fsignin&version=js-2.0.0&svctype=1
-    //   // }
-
     const naver = (window as any).naver;
     // if (naverLogin) {
     naverLogin = new naver.LoginWithNaverId({
@@ -97,14 +87,8 @@ export const useNaverAuthHook = () => {
       },
       withCredentials: true,
     }).then((res) => {
-      // console.log('[axios] 리스폰스 => ');
-      // console.log(res);
-      // console.log(res.data);
-      // const match = res.config.data.match(/\((.*)\)/);
       let c = res.data;
       let d = JSON.parse(res.config.data);
-      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      // console.log(c);
       dispatch(
         userAction.add({
           ...user,
@@ -130,13 +114,6 @@ export const useNaverAuthHook = () => {
       }
     });
   };
-  // 네이버 온클릭
-  //   const handleNaver = async () => {
-  //     console.log(naverRef.current.children[0]);
-  //     if (naverRef) {
-  //       naverRef.current.children[0].click();
-  //     }
-  //   };
 
   useEffect(() => {
     console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');

@@ -2,20 +2,23 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface FindUserInfo {
   id: string;
-  password: string;
+  snsType: string;
 }
 
 const initialState: FindUserInfo = {
   id: '',
-  password: '',
+  snsType: '',
 };
 
 const slice = createSlice({
   name: 'findUserInfo',
   initialState,
   reducers: {
-    addId(state, action) {
+    setId(state, action) {
       state.id = action.payload;
+    },
+    setSNS(state, action) {
+      state.snsType = action.payload;
     },
   },
 });

@@ -9,7 +9,6 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-//import { login } from 'api/naver';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -34,7 +33,7 @@ import { useMediaQuery } from 'react-responsive';
 import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
 import { useNaverAuthHook } from 'hooks/useNaverAuthHook';
-import { useCookies } from 'react-cookie';
+import FindIdComponents from 'components/FindId';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -43,7 +42,7 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
-interface AppleResult {
+export interface AppleResult {
   aud: string;
   auth_time: number;
   c_hash: string;
@@ -74,29 +73,34 @@ export interface FindKey {
   snsType: string;
 }
 
-const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+export const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+export const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+export const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+export const loginTypeEnList: string[] = ['USER', 'COMPANY'];
 
 const Signin = () => {
-  let naverLogin: any;
   const router = useRouter();
   const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
   const naverRef = useRef<HTMLElement | null | any>(null);
-  const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
-  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
+  const appleRef = useRef<HTMLDivElement>(null);
+
   const { user } = useSelector((state: RootState) => state.userList);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+
+  // 아이디 찾기 View 전환
+  const [isFindId, setIsFindId] = useState(true);
+  const [isFindIdView, setIsFindIdView] = useState(true);
+
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const [isId, setIsId] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // 아이디 찾기 모달
@@ -105,11 +109,7 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
-  // 데이터 쿠키에 저장
-  const [cookies, setCookie, removeCookie] = useCookies();
-
-  const appleRef = useRef<HTMLDivElement>(null);
-
+  // 네이버 로그인 훅
   const { login } = useNaverAuthHook();
 
   // 구글 로그인 버튼 온클릭
@@ -177,14 +177,6 @@ const Signin = () => {
           'REFRESH_TOKEN',
           JSON.stringify(resData.refreshToken),
         );
-
-        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-        // setCookie('USER_ID', JSON.stringify(jsonData.email));
-        // setCookie('ACCESS_TOKEN', JSON.stringify(resData.accessToken));
-        // setCookie('REFRESH_TOKEN', JSON.stringify(resData.refreshToken));
-        // dispatch(originUserAction.set(jsonData.email));
-
         // ================ 브릿지 연결 =====================
         const userInfo = {
           SNS_MEMBER: token.isSnsMember,
@@ -225,7 +217,7 @@ const Signin = () => {
     setErrorModal,
     setErrorMessage,
     setUserCompleteModal,
-    loginTypeEnList[selectedLoginType] as 'USER',
+    loginTypeEnList[selectedLoginType] as 'USER' | 'COMPANY',
     false,
   );
   // 기본 로그인
@@ -255,78 +247,64 @@ const Signin = () => {
     }
   };
   // 네이버 로그인
-  const NaverApi = async (data: any) => {
-    const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
-    await axios({
-      method: 'post',
-      url: NAVER_POST,
-      data: {
-        uuid: '' + data.user.id,
-        snsType: 'NAVER',
-        snsResponse: JSON.stringify(data),
-        email: data.user.email,
-      },
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      // console.log('[axios] 리스폰스 => ');
-      // console.log(res);
-      // console.log(res.data);
-      // const match = res.config.data.match(/\((.*)\)/);
-      let c = res.data;
-      let d = JSON.parse(res.config.data);
-      // console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-      // console.log(c);
-      dispatch(
-        userAction.add({
-          ...user,
-          uuid: d.uuid,
-          email: d.email,
-          snsType: d.snsType,
-          snsLoginIdx: c.snsLoginIdx,
-          isMember: c.isMember,
-        }),
-      );
-      if (c.isMember === true) {
-        const token: JwtTokenType = jwt_decode(res.data.accessToken);
-        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
-        sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-
-        // setCookie('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        // setCookie('MEMBER_TYPE', JSON.stringify(token.memberType));
-        // setCookie('USER_ID', JSON.stringify(data.user.email));
-        // setCookie('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-        // setCookie('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-        // dispatch(originUserAction.set(data.user.email));
-
-        // ================브릿지 연결=====================
-        const userInfo = {
-          SNS_MEMBER: token.isSnsMember,
-          MEMBER_TYPE: token.memberType,
-          ACCESS_TOKEN: res.data.accessToken,
-          REFRESH_TOKEN: res.data.refreshToken,
-          USER_ID: data.user.email,
-        };
-        // console.log('==========userInfo==========');
-        // console.log(userInfo);
-        if (userAgent === 'Android_App') {
-          window.entizen!.setUserInfo(JSON.stringify(userInfo));
-        } else if (userAgent === 'iOS_App') {
-          window.webkit.messageHandlers.setUserInfo.postMessage(
-            JSON.stringify(userInfo),
-          );
-        }
-        router.push('/');
-      } else {
-        router.push('/signUp/SnsTerms');
-      }
-    });
-  };
+  // const NaverApi = async (data: any) => {
+  //   const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+  //   await axios({
+  //     method: 'post',
+  //     url: NAVER_POST,
+  //     data: {
+  //       uuid: '' + data.user.id,
+  //       snsType: 'NAVER',
+  //       snsResponse: JSON.stringify(data),
+  //       email: data.user.email,
+  //     },
+  //     headers: {
+  //       ContentType: 'application/json',
+  //     },
+  //     withCredentials: true,
+  //   }).then((res) => {
+  //     let c = res.data;
+  //     let d = JSON.parse(res.config.data);
+  //     dispatch(
+  //       userAction.add({
+  //         ...user,
+  //         uuid: d.uuid,
+  //         email: d.email,
+  //         snsType: d.snsType,
+  //         snsLoginIdx: c.snsLoginIdx,
+  //         isMember: c.isMember,
+  //       }),
+  //     );
+  //     if (c.isMember === true) {
+  //       const token: JwtTokenType = jwt_decode(res.data.accessToken);
+  //       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+  //       sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+  //       sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+  //       sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+  //       sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+  //       // ================브릿지 연결=====================
+  //       const userInfo = {
+  //         SNS_MEMBER: token.isSnsMember,
+  //         MEMBER_TYPE: token.memberType,
+  //         ACCESS_TOKEN: res.data.accessToken,
+  //         REFRESH_TOKEN: res.data.refreshToken,
+  //         USER_ID: data.user.email,
+  //       };
+  //       // console.log('==========userInfo==========');
+  //       // console.log(userInfo);
+  //       if (userAgent === 'Android_App') {
+  //         window.entizen!.setUserInfo(JSON.stringify(userInfo));
+  //       } else if (userAgent === 'iOS_App') {
+  //         window.webkit.messageHandlers.setUserInfo.postMessage(
+  //           JSON.stringify(userInfo),
+  //         );
+  //       }
+  //       router.push('/');
+  //     } else {
+  //       router.push('/signUp/SnsTerms');
+  //     }
+  //   });
+  // };
   // 네이버 온클릭
   const handleNaver = async () => {
     console.log(naverRef.current.children[0]);
@@ -337,12 +315,8 @@ const Signin = () => {
   };
   // 나이스 인증 온클릭 함수
   const fnPopup = (type: 'id' | 'password') => {
-    // console.log('🔥 type ==>>', type);
     if (type === 'id') {
       setIsId(true);
-    }
-    if (type === 'password') {
-      setIsPassword(true);
     }
     if (typeof window !== 'object') return;
     else {
@@ -381,9 +355,10 @@ const Signin = () => {
     let data: FindKey = JSON.parse(key!);
     // console.log(data);
     if (data.isMember) {
-      dispatch(findUserInfoAction.addId(data.id));
-      // sessionStorage.removeItem('key');
-      router.push('/find/id');
+      dispatch(findUserInfoAction.setId(data.id));
+      dispatch(findUserInfoAction.setSNS(data.snsType));
+      // router.push('/find/id');
+      setIsFindId(true);
     } else {
       setErrorMessage(
         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
@@ -513,7 +488,7 @@ const Signin = () => {
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(result.email));
-        // ================브릿지 연결=====================
+        // ================ 브릿지 연결 =====================
         const userInfo = {
           SNS_MEMBER: token.isSnsMember,
           MEMBER_TYPE: token.memberType,
@@ -521,7 +496,7 @@ const Signin = () => {
           REFRESH_TOKEN: res.data.refreshToken,
           USER_ID: result.email,
         };
-        // console.log('==========userInfo==========');
+        // console.log('================== userInfo =====================');
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (userAgent === 'iOS_App') {
@@ -624,104 +599,140 @@ const Signin = () => {
                 setIsModal={() => router.push('/')}
               />
             )}
-            {!mobile && (
-              <SignUpHeader
-                title={mobile ? '' : '로그인'}
-                back={false}
-                homeBtn={false}
-                web={true}
-              />
-            )}
-            <AllContainer>
-              <BackBox onClick={() => router.push('/')}>
-                <BackBtn src="/images/back-btn.svg" />
-              </BackBox>
-              <Container
-                disableGutters
-                sx={{
-                  width: '100%',
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    gap: '15pt',
-                    alignItems: 'center',
-                    marginTop: mobile ? '9.375pt' : '24pt',
-                  }}
-                >
-                  {loginTypeList.map((loginType, index) => (
-                    <Box key={index}>
-                      <Typography
-                        variant="h6"
-                        key={index}
-                        onClick={() => {
-                          setSelectedLoginType(index);
-                        }}
-                        sx={{
-                          fontWeight: '700',
-                          fontSize: '12pt',
-                          fontFamily: 'Spoqa Han Sans Neo',
-                          lineHeight: '15pt',
-                          padding:
-                            loginType === '일반회원 로그인'
-                              ? '6pt 0pt 6pt 0pt'
-                              : '6pt',
-                          // padding: '6pt',
-                          letterSpacing: '-0.02em',
-                          color:
-                            selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {loginType}
-                      </Typography>
-                      <Box
-                        sx={{
-                          width: '3pt',
-                          height: '3pt',
-                          background:
-                            selectedLoginType == index ? '#5A2DC9' : '#fff',
-                          margin: '6pt auto 0 auto',
-                          borderRadius: '100%',
-                        }}
-                      ></Box>
-                    </Box>
-                  ))}
-                </Box>
-              </Container>
-              <ContainerBox>
-                <TextFields
-                  value={userId}
-                  id="outlined-basic"
-                  placeholder="아이디 입력"
-                  onChange={(e) => {
-                    setUserId(e.target.value);
-                  }}
-                />
 
-                <TextFields
-                  value={password}
-                  id="outlined-basic"
-                  placeholder="비밀번호 입력"
-                  type="password"
-                  onBlur={(e) => {
-                    //유효성 검사
-                  }}
-                  onChange={(e) => {
-                    //비밀번호 입력값 변경
-                    setPassword(e.target.value);
-                  }}
-                  sx={{
-                    marginTop: '9pt',
-                  }}
-                  onKeyDown={onKeyPress}
-                />
-                {/* </Box> */}
-                <LoginBtn onClick={originLogin}>
-                  <BtnSpan>로그인</BtnSpan>
-                </LoginBtn>
+            <AllContainer>
+              {/* 아이디 찾기 컴포넌트 */}
+              {isFindIdView ? (
+                <div>
+                  <FindIdComponents
+                    isFindId={isFindId}
+                    setIsFindId={setIsFindId}
+                  />
+                </div>
+              ) : (
+                <div>
+                  {/* PC 헤더 추가 */}
+                  {!mobile && (
+                    <SignUpHeader
+                      title={mobile ? '' : '로그인'}
+                      back={false}
+                      homeBtn={false}
+                      web={true}
+                    />
+                  )}
+                  <BackBox onClick={() => router.push('/')}>
+                    <BackBtn src="/images/back-btn.svg" />
+                  </BackBox>
+                  {/* 일반 로그인 , 파트너 로그인 탭 */}
+                  <Container
+                    disableGutters
+                    sx={{
+                      width: '100%',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        gap: '15pt',
+                        alignItems: 'center',
+                        marginTop: mobile ? '9.375pt' : '24pt',
+                      }}
+                    >
+                      {loginTypeList.map((loginType, index) => (
+                        <Box key={index}>
+                          <Typography
+                            variant="h6"
+                            key={index}
+                            onClick={() => {
+                              setSelectedLoginType(index);
+                            }}
+                            sx={{
+                              fontWeight: '700',
+                              fontSize: '12pt',
+                              fontFamily: 'Spoqa Han Sans Neo',
+                              lineHeight: '15pt',
+                              padding:
+                                loginType === '일반회원 로그인'
+                                  ? '6pt 0pt 6pt 0pt'
+                                  : '6pt',
+                              // padding: '6pt',
+                              letterSpacing: '-0.02em',
+                              color:
+                                selectedLoginType == index
+                                  ? '#5A2DC9'
+                                  : '#CACCD1',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {loginType}
+                          </Typography>
+                          <Box
+                            sx={{
+                              width: '3pt',
+                              height: '3pt',
+                              background:
+                                selectedLoginType == index ? '#5A2DC9' : '#fff',
+                              margin: '6pt auto 0 auto',
+                              borderRadius: '100%',
+                            }}
+                          ></Box>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Container>
+                  {/* 인풋 박스 및 버튼  */}
+                  <ContainerBox>
+                    <TextFields
+                      value={userId}
+                      id="outlined-basic"
+                      placeholder="아이디 입력"
+                      onChange={(e) => {
+                        setUserId(e.target.value);
+                      }}
+                    />
+
+                    <TextFields
+                      value={password}
+                      id="outlined-basic"
+                      placeholder="비밀번호 입력"
+                      type="password"
+                      onBlur={(e) => {
+                        //유효성 검사
+                      }}
+                      onChange={(e) => {
+                        //비밀번호 입력값 변경
+                        setPassword(e.target.value);
+                      }}
+                      sx={{
+                        marginTop: '9pt',
+                      }}
+                      onKeyDown={onKeyPress}
+                    />
+                    {/* </Box> */}
+                    <LoginBtn onClick={originLogin}>
+                      <BtnSpan>로그인</BtnSpan>
+                    </LoginBtn>
+
+                    {/* <TestWrap>
+                      <div
+                        ref={appleRef}
+                        id="appleid-signin"
+                        data-color="black"
+                        data-border="true"
+                        data-type="sign in"
+                        data-width="100"
+                        data-height="32"
+                        data-mode="center-align"
+                      ></div>
+                    </TestWrap> */}
+                  </ContainerBox>
+                </div>
+              )}
+
+              {/* ============================ 아이디 찾기 / 비밀번호 찾기 버튼 ============================ */}
+
+              <BottomSection display={isFindId ? true : false}>
                 <Box
                   sx={{
                     textAlign: 'center',
@@ -735,6 +746,7 @@ const Signin = () => {
                     }}
                   >
                     <div>
+                      {/* 나이스 인증 */}
                       <form name="form_chk" method="get">
                         <input
                           type="hidden"
@@ -761,7 +773,9 @@ const Signin = () => {
                               : onClcikFindId(e, 'id');
                           }}
                         >
-                          아이디 찾기
+                          {selectedLoginType === 0
+                            ? '이메일 찾기'
+                            : '아이디 찾기'}
                         </FindBtn>
                         <FindBtn
                           onClick={(e) => {
@@ -781,19 +795,7 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <TestWrap>
-                  <div
-                    ref={appleRef}
-                    id="appleid-signin"
-                    data-color="black"
-                    data-border="true"
-                    data-type="sign in"
-                    data-width="100"
-                    data-height="32"
-                    data-mode="center-align"
-                  ></div>
-                </TestWrap>
-
+                {/* ============================ 소셜 로그인 ============================ */}
                 {selectedLoginType === 0 && (
                   <>
                     <Box
@@ -875,10 +877,12 @@ const Signin = () => {
                   }}
                 >
                   <IdRegist onClick={() => router.push('/signUp/Terms')}>
-                    <span>아이디로 가입하기</span>
+                    <span>
+                      {selectedLoginType === 0 ? '이메일' : '아이디'}로 가입하기
+                    </span>
                   </IdRegist>
                 </Box>
-              </ContainerBox>
+              </BottomSection>
             </AllContainer>
           </WebWrapper>
         </Inner>
@@ -964,7 +968,7 @@ const WebWrapper = styled.div`
     margin: 0;
   }
 `;
-const NaverBox = styled(Box)`
+export const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
   cursor: pointer;
@@ -985,7 +989,7 @@ const LoginBtn = styled.button`
   font-size: 12pt;
 `;
 const BtnSpan = styled.span``;
-const IdRegist = styled.button`
+export const IdRegist = styled.button`
   cursor: pointer;
   box-shadow: 0px 0px 7.5pt 0px rgba(137, 163, 201, 0.2);
   background-color: #ffffff;
@@ -1031,11 +1035,7 @@ const FindBtn = styled.button`
 const Buttons = styled.button`
   display: none;
 `;
-const TestWrap = styled.div`
-  margin: 20pt auto;
-  position: relative;
-  display: none;
-`;
+const SocialType = styled.div``;
 
 const AllContainer = styled.div`
   display: flex;
@@ -1050,13 +1050,11 @@ const ContainerBox = styled.div`
   margin-top: 42pt;
 `;
 
-const IDPWInput = styled.textarea`
-  width: 335px;
-  height: 52px;
-  border: 0.75pt solid #e2e5ed;
+const BottomSection = styled.div<{ display: boolean }>`
+  display: ${({ display }) => (display ? 'block' : 'none')};
 `;
 
-const Line = styled.div`
+export const Line = styled.div`
   width: 35%;
   border: 0.375pt solid #caccd1;
 `;

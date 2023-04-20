@@ -116,7 +116,7 @@ const CommunicationTable = ({
             setDataArr(temp);
             setColumns([
               '번호',
-              '일반회원(아이디)',
+              '일반회원(이메일)',
               '기업회원(아이디)',
               '최종 수정일',
               {

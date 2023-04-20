@@ -100,7 +100,7 @@ const UserManagementTable = ({
           setDataArr(temp);
           setColumns([
             { name: '번호' },
-            { name: '아이디' },
+            { name: '이메일' },
             { name: '이름' },
             { name: '전화번호' },
             { name: '생년월일' },

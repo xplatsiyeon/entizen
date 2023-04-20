@@ -57,6 +57,7 @@ const ProfileEditing = () => {
         {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <WebRapper tabNumber={tabNumber}>
           <Inner tabNumber={tabNumber}>
+            {/* ================= PC 프로필 변경 ================= */}
             {web && (
               <ProfileModify
                 setTabNumber={setTabNumber}
@@ -64,6 +65,7 @@ const ProfileEditing = () => {
               />
             )}
           </Inner>
+          {/* ================= 모바일 프로필 변경 ================= */}
           {!web && tabNumber === 2 && (
             <ProfileModify setTabNumber={setTabNumber} />
           )}

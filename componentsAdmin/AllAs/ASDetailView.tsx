@@ -242,7 +242,7 @@ const ASDetailView = ({
           <Name className="fisrt">작성자 정보</Name>
           <UserInfoContainer>
             <List>
-              <Label>아이디</Label>
+              <Label>이메일</Label>
               <Contents>
                 {data?.data?.afterSalesService?.project?.userMember?.id}
               </Contents>

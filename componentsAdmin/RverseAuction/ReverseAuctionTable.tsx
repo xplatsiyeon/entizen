@@ -196,7 +196,7 @@ const ReverseAuctionTable = ({
             setColumns([
               '번호',
               '진행상태',
-              '작성자(아이디)',
+              '작성자(이메일)',
               '견적제목',
               '작성날짜',
               {

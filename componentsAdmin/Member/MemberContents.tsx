@@ -85,7 +85,7 @@ const MemberContents = ({
       {type === 'USER' ? (
         <>
           <li>
-            <label className="label">아이디</label>
+            <label className="label">이메일</label>
             <span>{userData?.data?.member?.id}</span>
           </li>
           <li>

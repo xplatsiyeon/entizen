@@ -66,7 +66,7 @@ const LeftProfileBox = () => {
                   </div>
                 </div>
               </Avatar>
-              <Label mt={33}>아이디</Label>
+              <Label mt={33}>이메일</Label>
               <InputBox type="text" readOnly placeholder={profile?.id} />
               <Label mt={30}>
                 {profile?.companyMemberAdditionalInfo ? '기업명' : '이름'}
@@ -81,6 +81,7 @@ const LeftProfileBox = () => {
                 }
               />
             </Body>
+            {/* ============================== 기업 추가 정보 ============================= */}
             {profile?.companyMemberAdditionalInfo ? (
               <CompanyUserBox>
                 <Label mt={33}>담당자 이름</Label>
