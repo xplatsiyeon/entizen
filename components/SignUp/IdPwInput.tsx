@@ -174,7 +174,7 @@ const IdPwInput = ({
         setEmailAlert(false);
         setEmailCodeMessage('인증번호가 잘못되었습니다.');
       }
-      setIsSuccessEmail(false);
+      // setIsSuccessEmail(false);
       setEmailMessage('');
     },
   });
@@ -365,6 +365,14 @@ const IdPwInput = ({
   useEffect(() => {
     // first;
   }, [emailAlert]);
+
+  useEffect(() => {
+    console.log(data?.isMember);
+    console.log(checkedPw);
+    console.log(checkSamePw);
+    console.log(isSuccessEmail);
+    console.log(isSuccessCode);
+  }, [data?.isMember, checkedPw, checkSamePw, isSuccessEmail, isSuccessCode]);
 
   console.log('🫥 data : ', data);
 
