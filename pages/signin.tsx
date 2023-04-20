@@ -732,7 +732,7 @@ const Signin = () => {
 
               {/* ============================ 아이디 찾기 / 비밀번호 찾기 버튼 ============================ */}
 
-              <BottomSection display={isFindId ? true : false}>
+              <BottomSection display={!isFindId ? true : false}>
                 <Box
                   sx={{
                     textAlign: 'center',
