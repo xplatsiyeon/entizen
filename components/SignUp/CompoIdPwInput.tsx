@@ -358,7 +358,7 @@ const CompoIdPwInput = ({
   return (
     <>
       <Info>
-        가입하실 아이디와
+        가입하실 이메일과
         <br />
         비밀번호를 설정해주세요
       </Info>

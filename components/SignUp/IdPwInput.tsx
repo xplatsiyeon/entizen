@@ -123,7 +123,8 @@ const IdPwInput = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
+        // endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
+        endpoint: `/members?id=${idInput}&memberType=USER`,
       }),
     {
       enabled: false,
@@ -163,16 +164,17 @@ const IdPwInput = ({
   const { mutate: emailIdMutate } = useMutation(isTokenPostApi, {
     onSuccess(res) {
       if (res.data.isValidAuthCode) {
-        setEmailCodeMessage('인증번호가 확인되었습니다.');
-        setEmailCodeAlert(true);
         setIsSuccessCode(true);
+        setEmailCodeAlert(true);
+        setEmailCodeMessage('인증번호가 확인되었습니다.');
+
         // setIsValid(true);
       } else {
-        setEmailCodeMessage('인증번호가 잘못되었습니다.');
         setEmailCodeAlert(true);
         setEmailAlert(false);
+        setEmailCodeMessage('인증번호가 잘못되었습니다.');
       }
-      setIsSuccessCode(false);
+      setIsSuccessEmail(false);
       setEmailMessage('');
     },
   });
@@ -225,9 +227,11 @@ const IdPwInput = ({
   const overlabCheck = () => {
     if (isEmailValid) {
       setEmailAlert(true);
+      setEmailMessage('');
       refetch();
     } else {
       setEmailAlert(true);
+      setEmailMessage('');
     }
   };
   // 일반 회원가입 온클릭
@@ -354,6 +358,7 @@ const IdPwInput = ({
     } else {
       setIsEmailCodeValid(false);
       setIsSuccessCode(false);
+      setEmailCodeMessage('');
     }
   }, [idInput, authCode]);
 
@@ -451,7 +456,7 @@ const IdPwInput = ({
   return (
     <>
       <Info>
-        가입하실 아이디와
+        가입하실 이메일과
         <br />
         비밀번호를 설정해주세요
       </Info>
