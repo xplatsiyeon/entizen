@@ -50,7 +50,7 @@ interface ValidatedId {
   isSuccess: boolean;
 }
 
-const loginTypeEnList = ['COMPANY', 'USER'];
+const loginTypeEnList = ['USER', 'COMPANY'];
 
 const IdPwInput = ({
   email,
