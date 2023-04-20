@@ -36,17 +36,19 @@ const Home: NextPage<Props> = ({}: Props) => {
       ) : (
         <>
           {memberType === 'COMPANY' ? (
+            // 기업
             <CompanyMainPage />
           ) : (
+            // 일반 유저
             <>
-              <>
-                <WebWrap>
-                  <Main />
-                </WebWrap>
-                <MobWrap>
-                  <MainPage />
-                </MobWrap>
-              </>
+              {/* 데스크탑 */}
+              <WebWrap>
+                <Main />
+              </WebWrap>
+              {/* 모바일 */}
+              <MobWrap>
+                <MainPage />
+              </MobWrap>
             </>
           )}
         </>

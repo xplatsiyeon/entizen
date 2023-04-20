@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import colors from 'styles/colors';
-import Link from 'next/link';
 
 type Props = {
   type: string;
@@ -10,8 +8,7 @@ type Props = {
   now?: string;
 };
 
-const GuideLink = ({ type, num, now }: Props) => {
-  //나중에 이름 수정.
+const SubMenuBar = ({ type, num, now }: Props) => {
   const router = useRouter();
   let linkName: string[];
   let linkUrl: string[];
@@ -67,7 +64,10 @@ const GuideLink = ({ type, num, now }: Props) => {
             className={num === idx && type === now ? 'on' : undefined}
             onClick={() => handleLink(idx)}
           >
-            {i}
+            <Text>
+              {i}
+              {/* <BellOnText /> */}
+            </Text>
           </StyledLink>
         );
       })}
@@ -75,7 +75,7 @@ const GuideLink = ({ type, num, now }: Props) => {
   );
 };
 
-export default GuideLink;
+export default SubMenuBar;
 
 const Wrap = styled.ul`
   width: 900pt;
@@ -122,4 +122,17 @@ const StyledLink = styled.li`
   &.on:after {
     display: block;
   }
+`;
+const Text = styled.span`
+  position: relative;
+`;
+
+const BellOnText = styled.div`
+  background-color: #5221cb;
+  width: 4.5pt;
+  height: 4.5pt;
+  border-radius: 50%;
+  position: absolute;
+  top: -4.5pt;
+  right: -4.5pt;
 `;

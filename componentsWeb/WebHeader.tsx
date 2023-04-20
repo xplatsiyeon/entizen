@@ -11,7 +11,7 @@ import Bell from 'public/images/bell.png';
 // 알람 켜짐
 import BellOutline from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
-import GuideLink from 'components/GuideLink';
+import SubMenuBar from 'components/SubMenuBar';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
 import { useRouter } from 'next/router';
@@ -247,8 +247,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
             </Box2>
           </Inner>
         </MainLink>
+        {/*========================== 서브 메뉴 ==================================== */}
         {linklist ? (
-          <GuideLink type={type ? type : String(sub)} num={num} now={now} />
+          <SubMenuBar type={type ? type : String(sub)} num={num} now={now} />
         ) : null}
       </Wrapper>
     </>

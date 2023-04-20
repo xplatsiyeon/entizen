@@ -20,7 +20,7 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
-const MyprojectLink = ({
+const CompanySubMenuBar = ({
   setTabNumber,
   tabNumber,
   componentId,
@@ -142,7 +142,11 @@ const MyprojectLink = ({
               setHoverIdx(-1);
             }}
           >
-            {i}
+            <Text>
+              {i}
+              {/* <BellOnText /> */}
+            </Text>
+
             {idx === tabIdx && <UnderLine />}
             {hoverIdx === idx && show && idx !== tabIdx && <UnderLine />}
           </StyledLink>
@@ -152,7 +156,7 @@ const MyprojectLink = ({
   );
 };
 
-export default MyprojectLink;
+export default CompanySubMenuBar;
 
 const Wrap = styled.ul<{ openSubLink: boolean | undefined }>`
   width: 900pt;
@@ -198,4 +202,17 @@ const UnderLine = styled.div`
   border-radius: 5pt;
   background-color: #5a2dc9;
   margin-top: 14pt;
+`;
+const Text = styled.span`
+  position: relative;
+`;
+
+const BellOnText = styled.div`
+  background-color: #5221cb;
+  width: 4.5pt;
+  height: 4.5pt;
+  border-radius: 50%;
+  position: absolute;
+  top: -4.5pt;
+  right: -4.5pt;
 `;

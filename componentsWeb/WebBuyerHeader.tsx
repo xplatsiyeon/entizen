@@ -10,7 +10,7 @@ import Chat from 'public/images/chat.png';
 import Bell from 'public/images/bell.png';
 // 알림 0이상
 import BellOutline from 'public/images/Bell_outline.png';
-import MyprojectLink from 'componentsWeb/MyprojectLink';
+import CompanySubMenuBar from 'componentsWeb/CompanySubMenuBar';
 import Frame from 'public/images/Frame.png';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
@@ -314,8 +314,9 @@ const WebBuyerHeader = ({
             </Box2>
           </Inner>
         </MainLink>
+        {/* ================== 서브 메뉴 바 ===================== */}
         {type !== 'communication' && setTabNumber ? (
-          <MyprojectLink
+          <CompanySubMenuBar
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}
             componentId={componentId}
