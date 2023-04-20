@@ -32,39 +32,56 @@ const MypageHeader = ({
   const route = useRouter();
 
   return (
-    <Header handle={handle}>
-      {/* 뒤로가기 버튼 */}
-      {back && (
-        <div
-          className="back-img"
-          // onClick={!handle ? () => route.back() : handleOnClick}
-          onClick={!handle ? () => route.back() : handleBackClick}
-        >
-          <Image src={BackImg} alt="btn-icon" />
-        </div>
-      )}
-      {/* 제목 */}
-      <span className="text">{title ? title : <br />}</span>
-      {/* 취소 버튼 */}
-      <div className="cancel" onClick={handleOnClick}>
-        {cancel}
-      </div>
-      {/* 닫기 이미지 */}
-      {exitBtn && (
-        <div className="exit" onClick={handleOnClick}>
-          <Image src={ExitImg} alt="exit-icon" />
-        </div>
-      )}
-      {homeBtn && (
-        <div className="home" onClick={handleHomeClick}>
-          <Image src={Home} alt="home-icon" />
-        </div>
-      )}
-    </Header>
+    <>
+      <Wrap>
+        <Header handle={handle}>
+          {/* 뒤로가기 버튼 */}
+          {back && (
+            <div
+              className="back-img"
+              // onClick={!handle ? () => route.back() : handleOnClick}
+              onClick={!handle ? () => route.back() : handleBackClick}
+            >
+              <Image src={BackImg} alt="btn-icon" />
+            </div>
+          )}
+          {/* 제목 */}
+          <span className="text">{title ? title : <br />}</span>
+          {/* 취소 버튼 */}
+          <div className="cancel" onClick={handleOnClick}>
+            {cancel}
+          </div>
+          {/* 닫기 이미지 */}
+          {exitBtn && (
+            <div className="exit" onClick={handleOnClick}>
+              <Image src={ExitImg} alt="exit-icon" />
+            </div>
+          )}
+          {homeBtn && (
+            <div className="home" onClick={handleHomeClick}>
+              <Image src={Home} alt="home-icon" />
+            </div>
+          )}
+        </Header>
+      </Wrap>
+      {/* 포지션 fixed로 빈 구역 늘려주기 */}
+      <MarginBottom />
+    </>
   );
 };
 
 export default MypageHeader;
+
+const Wrap = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: white;
+  z-index: 9999;
+`;
+const MarginBottom = styled.div`
+  margin-bottom: 36pt;
+`;
 
 const Header = styled.div<{ handle: boolean | undefined }>`
   display: ${({ handle }) => (handle ? 'flex' : 'none')};

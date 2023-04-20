@@ -26,15 +26,11 @@ export interface testArr2 extends testArr {
   score: number[];
 }
 
-const TAG = 'pages/mypage/place/index.tsx';
 const ChargingPlace = () => {
   const router = useRouter();
   const routerId = router?.query?.id;
-
   const [open, setOpen] = useState<boolean>(true); //리뷰 쓰기/보기 버튼 클릭 시.
-
   const [hideTopBox, setHideTopBox] = useState<boolean>(true);
-
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
@@ -119,6 +115,7 @@ const ChargingPlace = () => {
                       </BtnWeb>
                       <BtnMob
                         onClick={() => {
+                          window.scrollTo(0, 0);
                           setOpen(!open);
                         }}
                       >

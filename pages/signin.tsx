@@ -361,6 +361,8 @@ const Signin = () => {
       // router.push('/find/id');
       setIsFindId(true);
     } else {
+      dispatch(findUserInfoAction.reset());
+      sessionStorage.removeItem('key');
       setIsFindId(false);
       // setErrorMessage(
       //   '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',

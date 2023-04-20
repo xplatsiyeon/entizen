@@ -86,7 +86,6 @@ export interface AsDetailReseponse {
   };
 }
 
-const TAG = 'pages/mypage/as/index.tsx';
 const asNumber = () => {
   const dispatch = useDispatch();
   const router = useRouter();

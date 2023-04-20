@@ -33,12 +33,12 @@ import { useMediaQuery } from 'react-responsive';
 type Props = {
   data: AsDetailReseponse;
 };
-const TAG = 'components/mypage/as/AsRequest.tsx';
+
 const AsRequest = ({ data }: Props) => {
   const router = useRouter();
   const projectIdx =
     data?.data?.afterSalesService?.afterSalesService?.projectIdx;
-  const mobile = useMediaQuery({
+  const desktop = useMediaQuery({
     query: '(min-width:900pt)',
   });
 
@@ -83,7 +83,7 @@ const AsRequest = ({ data }: Props) => {
 
   return (
     <Body>
-      {!mobile && (
+      {!desktop && (
         <MypageHeader
           title={'A/S'}
           back={true}

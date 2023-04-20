@@ -14,25 +14,16 @@ import {
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery as reactQuery } from 'react-query';
-import {
-  isTokenGetApi,
-  isTokenPatchApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  multerApi,
-} from 'api';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import {
   chargingStations,
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
 import { useQuery } from '@apollo/client';
-import Loader from 'components/Loader';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { useMediaQuery } from 'react-responsive';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 
 export interface DateType {
   new (): Date;
@@ -45,9 +36,7 @@ export interface Charger {
 type Props = {
   rewrite?: boolean;
 };
-const TAG = 'components/mypage/as/AsResquestWrite.tsx';
 const AsRequestWrite = ({ rewrite }: Props) => {
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
@@ -255,6 +244,7 @@ const AsRequestWrite = ({ rewrite }: Props) => {
   // 수정하기 초기값
   useEffect(() => {
     if (detailData && routerId !== undefined) {
+      console.log('🔥 detailData : ', detailData);
       const afterSalesServiceRequestFiles =
         detailData?.data.afterSalesService.afterSalesService
           .afterSalesServiceRequestFiles;
@@ -325,9 +315,6 @@ const AsRequestWrite = ({ rewrite }: Props) => {
     // console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
     // console.log(chargingError);
   }
-
-  // console.log('🔥 ~line 107 ~ AS 충전소 리스트 데이터 확인 ' + TAG);
-  // console.log(chargingData);
 
   return (
     <>

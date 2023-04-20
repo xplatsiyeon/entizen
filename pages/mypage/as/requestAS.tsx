@@ -9,7 +9,7 @@ type Props = {};
 
 // AS 요청
 const AsRequest = (props: Props) => {
-  const router = useRouter()
+  const router = useRouter();
   const query = router.query.afterSalesServiceIdx;
   return (
     <React.Fragment>
@@ -17,7 +17,7 @@ const AsRequest = (props: Props) => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            <AsRequestWrite rewrite={Boolean(query)}/>
+            <AsRequestWrite rewrite={Boolean(query)} />
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -64,6 +64,5 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     margin: 0;
     height: 100%;
-    /* margin: 0 31.875pt; */
   }
 `;

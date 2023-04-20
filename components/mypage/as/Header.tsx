@@ -14,21 +14,39 @@ type Props = {
 const Header = (props: Props) => {
   const router = useRouter();
   const { text, colorselect } = props;
-  // console.log(colorselect);
+
   return (
-    <HeaderBox>
-      <div className="back-img" onClick={() => router.back()}>
-        <Image src={BackImg} alt="btn" />
-      </div>
-      <span className="text">{text}</span>
-      {colorselect ? (
-        <RightText colorselect={colorselect}></RightText>
-      ) : (
-        <RightText></RightText>
-      )}
-    </HeaderBox>
+    <>
+      <Wrap>
+        <HeaderBox>
+          <div className="backImg" onClick={() => router.back()}>
+            <Image src={BackImg} alt="btn" />
+          </div>
+          <span className="text">{text}</span>
+          {colorselect ? (
+            <RightText colorselect={colorselect}></RightText>
+          ) : (
+            <RightText></RightText>
+          )}
+        </HeaderBox>
+      </Wrap>
+      {/* 포지션 fixed로 빈 구역 늘려주기 */}
+      <MarginBottom />
+    </>
   );
 };
+
+const Wrap = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 9999;
+`;
+const MarginBottom = styled.div`
+  margin-bottom: 36pt;
+`;
 
 const HeaderBox = styled.div`
   display: flex;
@@ -46,10 +64,10 @@ const HeaderBox = styled.div`
     color: ${colors.main2};
     font-family: 'Spoqa Han Sans Neo';
   }
-  .back-img {
+  .backImg {
     position: absolute;
     top: auto;
-    left: 0;
+    left: 15pt;
   }
 `;
 

@@ -20,6 +20,9 @@ const slice = createSlice({
     setSNS(state, action) {
       state.snsType = action.payload;
     },
+    reset(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
