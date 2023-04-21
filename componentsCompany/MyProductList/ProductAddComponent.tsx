@@ -11,6 +11,7 @@ import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
 import {
+  M5_CHANNEL_SET,
   M5_LIST,
   M5_LIST_EN,
   M5_TYPE_SET,
@@ -533,7 +534,7 @@ const ProductAddComponent = (props: Props) => {
 
             <SelectComponents
               name="channel"
-              option={M7_LIST}
+              option={M5_CHANNEL_SET[M5_LIST.indexOf(chargerType)]}
               value={chargingChannel}
               placeholder={'충전기 채널'}
               onClickCharger={onChangeSelectBox}
@@ -557,7 +558,7 @@ const ProductAddComponent = (props: Props) => {
                       option={CHARGING_METHOD}
                       value={chargingMethod[index]}
                       index={index}
-                      placeholder={'충전 방식1'}
+                      placeholder={'충전 방식'}
                       onClickCharger={onChangeSelectBox}
                     />
                   )}
@@ -569,7 +570,7 @@ const ProductAddComponent = (props: Props) => {
                         option={CHARGING_METHOD}
                         value={chargingMethod[index]}
                         index={index}
-                        placeholder={'충전 방식2'}
+                        placeholder={'충전 방식'}
                         onClickCharger={onChangeSelectBox}
                       />
                       <DeleteBtn onClick={() => onClickMinus(index)}>
