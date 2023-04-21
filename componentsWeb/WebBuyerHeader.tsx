@@ -20,6 +20,8 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {
   num?: number;
@@ -65,21 +67,22 @@ const WebBuyerHeader = ({
   const dispatch = useDispatch();
 
   // 알람 조회
-  // alerts/histories/unread
+  // /v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: isUser !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
-
-  const allAlert = historyUnread?.data;
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -134,34 +137,77 @@ const WebBuyerHeader = ({
     linkUrl: string;
     alert?: boolean;
   };
+  const allAlert = (type: string) => {
+    if (historyUnread) {
+      const {
+        wasReadCompanyReceivedQuotation,
+        wasReadCompanySentQuotation,
+        wasReadCompanyQuotationHistory,
+        wasReadCompanyInProgressProject,
+        wasReadCompanyCompletedProject,
+        wasReadCompanyNewAfterSalesService,
+        wasReadCompanyAfterSalesServiceHistory,
+        wasReadChatting,
+      } = historyUnread;
+
+      const quotationAlert = [
+        wasReadCompanyReceivedQuotation,
+        wasReadCompanySentQuotation,
+        wasReadCompanyQuotationHistory,
+      ].every((e) => true);
+
+      const projectAlert = [
+        wasReadCompanyInProgressProject,
+        wasReadCompanyCompletedProject,
+      ].every((e) => true);
+
+      const asAlert = [
+        wasReadCompanyNewAfterSalesService,
+        wasReadCompanyAfterSalesServiceHistory,
+      ].every((e) => true);
+
+      switch (type) {
+        case 'quotation':
+          return quotationAlert;
+        case 'project':
+          return projectAlert;
+        case 'chatting':
+          return wasReadChatting;
+        case 'as':
+          return asAlert;
+      }
+    } else {
+      return true;
+    }
+  };
   const HeaderMenu: Menu[] = [
     {
       id: 0,
       type: 'estimate',
       menu: '내 견적',
       linkUrl: '/company/quotation',
-      alert: allAlert?.wasReadQuotation,
+      alert: allAlert('quotation'),
     },
     {
       id: 1,
       type: 'communication',
       menu: '소통하기',
       linkUrl: '/company/chatting',
-      alert: allAlert?.wasReadChatting,
+      alert: allAlert('chatting'),
     },
     {
       id: 2,
       type: 'as',
       menu: 'A/S',
       linkUrl: '/company/as',
-      alert: allAlert?.wasReadAfterSalesService,
+      alert: allAlert('asAlert'),
     },
     {
       id: 3,
       type: 'myProject',
       menu: '내 프로젝트',
       linkUrl: '/company/mypage',
-      alert: allAlert?.wasReadProject,
+      alert: allAlert('projectAlert'),
     },
   ];
 
@@ -224,7 +270,7 @@ const WebBuyerHeader = ({
                       />
                     </IconBox>
                     <IconBox>
-                      {allAlert?.wasReadAlert === true ? (
+                      {historyUnread?.wasReadAlert === true ? (
                         <Image
                           src={Bell}
                           alt="bell off"

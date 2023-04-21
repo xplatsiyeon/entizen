@@ -1,10 +1,12 @@
 export interface Alerts {
+  mypageAlertsEn: any;
   createdAt: string;
   updatedAt: string | null;
   deletedAt: string | null;
   unreadPointsIdx: number;
   memberType: string;
   memberIdx: number;
+
   wasReadUserQuotation: boolean;
   wasReadUserProject: boolean;
   wasReadUserAfterSalesService: boolean;
@@ -20,6 +22,8 @@ export interface Alerts {
   wasReadAlertBell: boolean;
   unreadChatLogsCount: number;
   unreadQuotationRequestsCount: number;
+
+  [key: string]: string | null | number | boolean;
 }
 
 export interface AlertsResponse {

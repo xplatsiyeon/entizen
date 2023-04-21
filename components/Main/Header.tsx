@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { TroubleshootOutlined } from '@mui/icons-material';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {};
 
@@ -28,21 +30,22 @@ const Header = (props: Props) => {
   const userID = sessionStorage.getItem('USER_ID');
 
   // 알람 조회
-  // alerts/histories/unread
+  // v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
-
-  const allAlert = historyUnread?.data;
 
   return (
     <HeadWrapper>
@@ -60,7 +63,7 @@ const Header = (props: Props) => {
       </LogoBox>
       <IconWrapper>
         <IconBox>
-          {allAlert?.wasReadAlert === true ? (
+          {historyUnread?.wasReadAlert === true ? (
             <Image src={Ring} alt="alarmOff" />
           ) : (
             <Image src={OnRing} alt="alarmOn" />

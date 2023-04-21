@@ -37,6 +37,8 @@ import {
 import colors from 'styles/colors';
 import { useMediaQuery } from 'react-responsive';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {};
 
@@ -74,21 +76,22 @@ const MainPage = (props: Props) => {
   });
 
   // 알람 조회
-  // alerts/histories/unread
+  // /v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
-
-  const allAlert = historyUnread?.data;
 
   const {
     data: quotationData,
@@ -174,7 +177,7 @@ const MainPage = (props: Props) => {
                   }}
                 />
               )}
-              {userID && allAlert?.wasReadAlert === true && (
+              {userID && historyUnread?.wasReadAlert === true && (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
@@ -184,7 +187,7 @@ const MainPage = (props: Props) => {
                   }}
                 />
               )}
-              {userID && allAlert?.wasReadAlert === false && (
+              {userID && historyUnread?.wasReadAlert === false && (
                 <Image
                   src={BellOn}
                   alt="alarmIcon"

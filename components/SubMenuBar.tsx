@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
-import { mypageAlertsEn } from 'assets/alerts';
+import { userAlertsEn } from 'assets/alerts';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
@@ -19,7 +19,7 @@ const SubMenuBar = ({ type, num, now }: Props) => {
   let linkUrl: string[];
 
   // 알림 읽은 여부 확인
-  const { data } = useQuery<AlertsResponse, AxiosError, Alerts>(
+  const { data: alertData } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'alerts',
     () => isTokenGetApi('/v1/alerts/unread-points'),
     {
@@ -29,12 +29,10 @@ const SubMenuBar = ({ type, num, now }: Props) => {
     },
   );
   // 알림 읽음 여부 변경
-  const { mutate } = useMutation(isTokenPatchApi, {
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {},
     onError: () => {},
   });
-
-  console.log('🔥 data : ', data);
 
   switch (type) {
     case 'guide':
@@ -78,8 +76,27 @@ const SubMenuBar = ({ type, num, now }: Props) => {
     }
   };
 
+  // 읽음 표시
   const onClickLink = (idx: number) => {
     handleLink(idx);
+    const key = userAlertsEn[idx];
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        [key]: true,
+      },
+    });
+  };
+
+  // 불 들어오는 확인
+  const getBell = (idx: number) => {
+    let result = false;
+    const target = userAlertsEn[idx];
+
+    if (alertData?.hasOwnProperty(target)) {
+      result = alertData[target] as boolean;
+    }
+    return result;
   };
 
   return (
@@ -93,7 +110,7 @@ const SubMenuBar = ({ type, num, now }: Props) => {
           >
             <Text>
               {i}
-              {type === 'mypage' && mypageAlertsEn[idx] ? <BellOnText /> : ''}
+              {type === 'mypage' && !getBell(idx) && <BellOnText />}
             </Text>
           </StyledLink>
         );

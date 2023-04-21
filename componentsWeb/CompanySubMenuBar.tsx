@@ -4,6 +4,15 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import colors from 'styles/colors';
 import { css } from '@emotion/react';
+import { useMutation, useQuery } from 'react-query';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
+import {
+  companyQuotationAlertsEn,
+  companyProjectAlertsEn,
+  companyAsAlertsEn,
+} from 'assets/alerts';
 
 type Props = {
   setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
@@ -31,8 +40,7 @@ const CompanySubMenuBar = ({
   openSubLink,
 }: Props) => {
   let linkName: string[];
-  let linkUrl: string[];
-  let linkNum: number[];
+  let linkNameEn: string[];
 
   const router = useRouter();
   // 클릭 시
@@ -41,48 +49,48 @@ const CompanySubMenuBar = ({
   const [hoverIdx, setHoverIdx] = useState(-1);
   const [show, setShow] = useState(false);
 
+  // 알림 읽은 여부 확인
+  const { data: alertData } = useQuery<AlertsResponse, AxiosError, Alerts>(
+    'alerts',
+    () => isTokenGetApi('/v1/alerts/unread-points'),
+    {
+      select(res) {
+        return res.data;
+      },
+    },
+  );
+  // 알림 읽음 여부 변경
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+
   switch (type) {
     case 'myProject':
       linkName = ['진행 프로젝트', '완료 프로젝트'];
-      linkUrl = [`/company/mypage`, `/company/mypage`];
+      linkNameEn = companyProjectAlertsEn;
       break;
 
     case 'as':
       linkName = ['신규 A/S', '히스토리'];
-      linkUrl = [`/company/as`, `/company/as`];
+      linkNameEn = companyAsAlertsEn;
       break;
 
     case 'communication':
       linkName = [' '];
-      linkUrl = [`/company/mypage`];
+      linkNameEn = [' '];
+
       break;
 
     case 'estimate':
       linkName = ['받은 요청', '보낸 견적', '히스토리'];
-      linkUrl = [
-        `/company/quotation`,
-        `/company/quotation`,
-        '/company/quotation',
-      ];
+      linkNameEn = companyQuotationAlertsEn;
       break;
 
     default:
       linkName = ['진행 프로젝트', '완료 프로젝트'];
-      linkUrl = [`/company/mypage`, `/company/mypage`];
+      linkNameEn = companyProjectAlertsEn;
   }
-
-  // const handleLink = (idx: number) => {
-  //   const user = sessionStorage.getItem('USER_ID');
-  //   if (!user && type === 'project') {
-  //     router.push('/signin');
-  //   } else {
-  //     if (linkUrl[idx] === '/mypage') {
-  //       alert('2차 작업 범위입니다');
-  //     } else {
-  //       router.push(linkUrl[idx]);
-  //     }
-  //   }
-  // };
 
   const handleLink = (idx: number) => {
     const user = sessionStorage.getItem('USER_ID');
@@ -118,21 +126,43 @@ const CompanySubMenuBar = ({
     }
   };
 
+  // 읽음 표시
+  const onClickLink = (idx: number) => {
+    handleLink(idx);
+    setTabIdx(idx);
+
+    const key = linkNameEn[idx];
+    console.log('🔥 linkName : ', linkName);
+    console.log('🔥 key : ', key);
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        [key]: true,
+      },
+    });
+  };
+
+  // 불 들어오는 확인
+  const getBell = (idx: number) => {
+    let result = false;
+    const target = linkNameEn[idx];
+
+    if (alertData?.hasOwnProperty(target)) {
+      result = alertData[target] as boolean;
+    }
+    return result;
+  };
+
   return (
     <Wrap openSubLink={openSubLink}>
       {linkName.map((i, idx) => {
-        // console.log('tab, idx', tabIdx === idx);
         return (
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
             tab={tabNumber?.toString()!}
             index={idx.toString()}
-            onClick={() => {
-              // setTabNumber(idx);
-              handleLink(idx);
-              setTabIdx(idx);
-            }}
+            onClick={() => onClickLink(idx)}
             onMouseOver={() => {
               setShow(true);
               setHoverIdx(idx);
@@ -144,7 +174,10 @@ const CompanySubMenuBar = ({
           >
             <Text>
               {i}
-              {/* <BellOnText /> */}
+              {/* 읽음 표시 */}
+              {type === 'estimate' && !getBell(idx) && <BellOnText />}
+              {type === 'myProject' && !getBell(idx) && <BellOnText />}
+              {type === 'as' && !getBell(idx) && <BellOnText />}
             </Text>
 
             {idx === tabIdx && <UnderLine />}
@@ -184,17 +217,7 @@ const StyledLink = styled.li<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) => (tab === index ? colors.main : colors.main2)};
   text-decoration: none;
-  /* ${({ tab, index }) =>
-    tab === index &&
-    css`
-      border-bottom: 3pt solid #5a2dc9;
-      box-sizing: border-box;
-    `} */
   cursor: pointer;
-  /* &:hover {
-    border-bottom: 3pt solid #5a2dc9;
-    box-sizing: border-box;
-  } */
 `;
 const UnderLine = styled.div`
   width: 100%;

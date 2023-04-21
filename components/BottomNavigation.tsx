@@ -19,7 +19,8 @@ import colors from 'styles/colors';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { ReceivedRequest } from 'pages/company/quotation';
-import { GetUnread } from './Main';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {};
 const BottomNavigation = ({}: Props) => {
@@ -40,17 +41,21 @@ const BottomNavigation = ({}: Props) => {
   );
 
   // 알람 조회
-  // alerts/histories/unread
+  // v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+    // } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
+      select(data) {
+        return data.data;
+      },
     },
   );
 
@@ -96,10 +101,10 @@ const BottomNavigation = ({}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
 
-  console.log(
-    '🔥 unreadChatLogsCount : ',
-    historyUnread?.data.unreadChatLogsCount,
-  );
+  // console.log(
+  //   '🔥 unreadChatLogsCount : ',
+  //   historyUnread?.data.unreadChatLogsCount,
+  // );
   return (
     <Wrapper>
       {/* 판매자 */}
@@ -155,13 +160,11 @@ const BottomNavigation = ({}: Props) => {
               )}
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
               {/* 카운트 체크 */}
-              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+              {historyUnread?.unreadChatLogsCount !== undefined && (
                 <Count
-                  length={
-                    historyUnread?.data?.unreadChatLogsCount?.toString().length
-                  }
+                  length={historyUnread?.unreadChatLogsCount?.toString().length}
                 >
-                  {historyUnread?.data?.unreadChatLogsCount}
+                  {historyUnread?.unreadChatLogsCount}
                 </Count>
               )}
             </div>
@@ -175,7 +178,7 @@ const BottomNavigation = ({}: Props) => {
                   : router.push('/signin');
               }}
             >
-              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+              {historyUnread?.unreadChatLogsCount !== undefined && (
                 <ImgBox>
                   <Image
                     src={tabNumber === 2 ? chattingOn : chatting}
@@ -186,13 +189,11 @@ const BottomNavigation = ({}: Props) => {
               )}
               <H3 clicked={false}>소통하기</H3>
               {/* 카운트 체크 */}
-              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+              {historyUnread?.unreadChatLogsCount !== undefined && (
                 <Count
-                  length={
-                    historyUnread?.data?.unreadChatLogsCount?.toString().length
-                  }
+                  length={historyUnread?.unreadChatLogsCount?.toString().length}
                 >
-                  {historyUnread?.data?.unreadChatLogsCount}
+                  {historyUnread?.unreadChatLogsCount}
                 </Count>
               )}
             </div>
@@ -300,13 +301,11 @@ const BottomNavigation = ({}: Props) => {
               </ImgBox>
               <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
               {/* 카운트 체크 */}
-              {historyUnread?.data.unreadChatLogsCount !== undefined && (
+              {historyUnread?.unreadChatLogsCount !== undefined && (
                 <Count
-                  length={
-                    historyUnread?.data?.unreadChatLogsCount?.toString().length
-                  }
+                  length={historyUnread?.unreadChatLogsCount?.toString().length}
                 >
-                  {historyUnread?.data?.unreadChatLogsCount}
+                  {historyUnread?.unreadChatLogsCount}
                 </Count>
               )}
             </div>
@@ -401,22 +400,3 @@ const H3 = styled.h3<{ clicked: boolean }>`
   letter-spacing: -0.02em;
   color: ${({ clicked }) => (clicked ? colors.main2 : '#A6A9B0')};
 `;
-
-// const CountQuotation = styled.div<{ upNumber: boolean }>`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   position: absolute;
-//   right: ${({ upNumber }) => (upNumber ? `-10pt` : `-3pt`)};
-//   top: -3pt;
-//   background-color: #5a2dc9;
-//   border-radius: ${({ upNumber }) => (upNumber ? `21.75pt` : `50%`)};
-//   color: #ffffff;
-//   font-family: 'Spoqa Han Sans Neo';
-//   font-size: 6pt;
-//   font-weight: 700;
-//   letter-spacing: 0em;
-//   line-height: ${({ upNumber }) => (upNumber ? `none` : `6pt`)};
-//   text-align: center;
-//   padding: ${({ upNumber }) => (upNumber ? `2.25pt 3.375pt` : `2.25pt 3pt`)};
-// `;

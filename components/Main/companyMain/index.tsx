@@ -26,6 +26,8 @@ import BellOff from 'public/images/BellOffSvg.svg';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { GetUnread } from '..';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = { num?: number; now?: string };
 
@@ -59,21 +61,24 @@ const CompanyMainPage = ({ num, now }: Props) => {
     };
 
   // 알람 조회
-  // alerts/histories/unread
+  // /v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
 
-  const allAlert = historyUnread?.data;
+  // const allAlert = historyUnread?.data;
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -127,7 +132,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                 <Image src={BellOff} alt="alarmIcon" />
               </FirstIconBox>
             )}
-            {userID && allAlert?.wasReadAlert === true && (
+            {userID && historyUnread?.wasReadAlert === true && (
               <FirstIconBox
                 onClick={() => {
                   router.push('/alarm');
@@ -137,7 +142,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                 <Image src={BellOff} alt="alarmIcon" />
               </FirstIconBox>
             )}
-            {userID && allAlert?.wasReadAlert === false && (
+            {userID && historyUnread?.wasReadAlert === false && (
               <FirstIconBox
                 onClick={() => {
                   router.push('/alarm');

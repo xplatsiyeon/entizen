@@ -31,6 +31,8 @@ import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { useMediaQuery } from 'react-responsive';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { useDispatch } from 'react-redux';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 const Guide1 = () => {
   const mobile = useMediaQuery({
@@ -41,21 +43,24 @@ const Guide1 = () => {
   const userID = sessionStorage.getItem('USER_ID');
   const dispatch = useDispatch();
   // 알람 조회
-  // alerts/histories/unread
+  // v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
 
-  const allAlert = historyUnread?.data;
+  // const allAlert = historyUnread?.data;
 
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
@@ -118,7 +123,7 @@ const Guide1 = () => {
                   <Image src={BellOff} alt="alarmIcon" />
                 </div>
               )}
-              {userID && allAlert?.wasReadAlert === true && (
+              {userID && historyUnread?.wasReadAlert === true && (
                 <div
                   className="bell-img"
                   onClick={() => {
@@ -129,7 +134,7 @@ const Guide1 = () => {
                   <Image src={BellOff} alt="alarmIcon" />
                 </div>
               )}
-              {userID && allAlert?.wasReadAlert === false && (
+              {userID && historyUnread?.wasReadAlert === false && (
                 <div
                   className="bell-img"
                   onClick={() => {

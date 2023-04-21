@@ -22,6 +22,8 @@ import { useDispatch } from 'react-redux';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { selectAction } from 'store/loginTypeSlice';
 import userAddressHooks from 'hooks/userAddressHooks';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {
   num?: number;
@@ -52,21 +54,24 @@ const WebHeader = ({ num, now, sub }: Props) => {
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   // 알람 조회
-  // alerts/histories/unread
+  // v1/alerts/unread-points
   const {
     data: historyUnread,
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'historyUnread',
-    () => isTokenGetApi(`/alerts/histories/unread`),
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: isUser !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
     },
   );
 
-  const allAlert = historyUnread?.data;
+  // const allAlert = historyUnread?.data;
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -120,7 +125,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
               </DivBox>
               <DivBox onClick={() => handleLink('/chatting')}>
                 소통하기
-                {isUser && allAlert?.wasReadChatting === false && (
+                {isUser && historyUnread?.wasReadChatting === false && (
                   <BellOnText />
                 )}
               </DivBox>
@@ -133,7 +138,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 }}
               >
                 마이페이지
-                {isUser && allAlert?.wasReadProject === false && <BellOnText />}
+                {isUser && historyUnread?.wasReadProject === false && (
+                  <BellOnText />
+                )}
               </DivBox>
             </Box1>
             <Box2>
@@ -155,7 +162,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       />
                     </IconBox>
                     <IconBox>
-                      {allAlert?.wasReadAlert === true ? (
+                      {historyUnread?.wasReadAlert === true ? (
                         <Image
                           src={Bell}
                           alt="bell off"
