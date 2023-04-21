@@ -271,7 +271,7 @@ const Guide1 = () => {
                 </div>
               </Btn>
             </EntizenLibrary>
-            <BottomNavigation />
+            {mobile && <BottomNavigation />}
           </Container>
         </Wrapper>
       </Inner>

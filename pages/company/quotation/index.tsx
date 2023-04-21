@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { redirectAction } from 'store/redirectUrlSlice';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
@@ -55,6 +56,10 @@ const CompanyQuotations = ({ num, now }: Props) => {
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -171,7 +176,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
             )}
             <CompanyRightMenu />
             <Mobile>{components[tabNumber]}</Mobile>
-            <BottomNavigation />
+            {mobile && <BottomNavigation />}
           </Container>
         </WebBox>
         <WebFooter />

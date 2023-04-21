@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import colors from 'styles/colors';
-import { css } from '@emotion/react';
 import { useMutation, useQuery } from 'react-query';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
@@ -39,6 +37,8 @@ const CompanySubMenuBar = ({
   now,
   openSubLink,
 }: Props) => {
+  console.log('🔥 type : ', type);
+
   let linkName: string[];
   let linkNameEn: string[];
 

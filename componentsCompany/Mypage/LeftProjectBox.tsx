@@ -15,6 +15,7 @@ import {
   ResponseHistoryProjectsDetail,
 } from 'QueryComponents/CompanyQuery';
 import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   num?: number;
@@ -39,6 +40,10 @@ const LeftProjectBox = ({
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   // 진행중인 프로젝트
   const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
@@ -205,7 +210,7 @@ const LeftProjectBox = ({
             )} */}
           </WebTabContainer>
         </Body>
-        <BottomNavigation />
+        {mobile && <BottomNavigation />}
       </Wrapper>
     </>
   );

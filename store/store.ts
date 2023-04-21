@@ -22,6 +22,7 @@ import { subsidySlice } from './subsidySlice';
 import { speedSlice } from './speed';
 import { alarmNumberSlice } from './alarmNumberSlice';
 import { addressSlice } from './addressSlice';
+import { headerSlice } from 'storeCompany/headerSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   subsidySlice: subsidySlice.reducer,
   alarmNumberSliceState: alarmNumberSlice.reducer,
   addressSlice: addressSlice.reducer,
+  headerSlice: headerSlice.reducer,
 });
 
 export default rootReducer;

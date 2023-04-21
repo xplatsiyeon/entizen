@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
 import Footer from './Footer';
@@ -8,32 +8,20 @@ import MyEstimateProject from './MyEstimateProject';
 import SalesProjection from './SalesProjection';
 import SubscribeRequest from './SubscribeRequest';
 import WhyEntizen from './WhyEntizen';
-// import Logos from 'public/images/entizenLogo.png';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
 import { Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
-import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
-import { subsidyGuideAction } from 'store/subsidyGuideSlice';
-import { locationAction } from 'store/locationSlice';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
-// import BellOn from 'public/images/guide-bell.svg';
 import BellOn from 'public/images/BellOnSvg.svg';
-// import BellNormal from 'public/images/BellNormal.svg';
 import BellOff from 'public/images/BellOffSvg.svg';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import {
-  fileDownload,
-  googleUnlink,
-  requestPermissionCheck,
-} from 'bridge/appToWeb';
+import { googleUnlink } from 'bridge/appToWeb';
 import colors from 'styles/colors';
 import { useMediaQuery } from 'react-responsive';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
@@ -69,7 +57,6 @@ const MainPage = (props: Props) => {
   const dispatch = useDispatch();
   const userID = sessionStorage.getItem('USER_ID');
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [state, setState] = useState({
     right: false,
@@ -244,7 +231,7 @@ const MainPage = (props: Props) => {
       <Box>
         <Footer />
       </Box>
-      <BottomNavigation />
+      {mobile && <BottomNavigation />}
     </>
   );
 };

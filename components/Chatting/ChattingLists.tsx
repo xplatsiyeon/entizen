@@ -232,7 +232,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
               <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
             </MobBox>
           )} */}
-      <BottomNavigation />
+      {mobile && <BottomNavigation />}
     </Body>
   );
 };

@@ -23,6 +23,7 @@ const persistConfig = {
     'adminReverseData',
     'subsidySlice',
     'LoginType',
+    'header',
   ],
 };
 // userList

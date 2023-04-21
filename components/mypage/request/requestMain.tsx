@@ -14,6 +14,7 @@ import { UserInfo } from 'pages/mypage';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -34,6 +35,10 @@ const RequestMain = (props: props) => {
   const [on, setOn] = useState<boolean>(true);
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const myPageIndex = useRef<HTMLDivElement>(null);
   const components: Components = {
@@ -121,18 +126,18 @@ const RequestMain = (props: props) => {
                   </TabItem>
                   <Dot tab={tabNumber?.toString()} index={index.toString()} />
                 </Wrap>
-                 {tabNumber === 0 ? (
+                {tabNumber === 0 ? (
                   <List className={`list ${tabNumber === index && 'on'}`}>
                     {components[tabNumber]}
                   </List>
-                ) : null} 
+                ) : null}
               </Tab>
             </React.Fragment>
           ))}
         </TabContainer>
         {/* 탭 */}
       </Body>
-      <BottomNavigation />
+      {mobile && <BottomNavigation />}
     </Wrapper>
   );
 };

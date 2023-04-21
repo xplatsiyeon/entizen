@@ -194,7 +194,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
       <MobileNone>
         <Footer />
       </MobileNone>
-      <BottomNavigation />
+      {mobile && <BottomNavigation />}
     </Wrapper>
   );
 };

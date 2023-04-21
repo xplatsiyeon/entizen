@@ -160,11 +160,14 @@ const BottomNavigation = ({}: Props) => {
               )}
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
               {/* 카운트 체크 */}
-              {historyUnread?.unreadChatLogsCount !== undefined && (
+              {historyUnread?.unreadQuotationRequestsCount !== undefined && (
                 <Count
-                  length={historyUnread?.unreadChatLogsCount?.toString().length}
+                  length={
+                    historyUnread?.unreadQuotationRequestsCount?.toString()
+                      .length
+                  }
                 >
-                  {historyUnread?.unreadChatLogsCount}
+                  {historyUnread?.unreadQuotationRequestsCount}
                 </Count>
               )}
             </div>

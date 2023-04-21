@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import useProfile from 'hooks/useProfile';
 import NewASUnder from './NewASUnder';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   num?: number;
@@ -27,6 +28,10 @@ const LeftASBox = ({
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   // 왼쪽 열리고 닫히고
   const [newAS, setNewAS] = useState<boolean>(true);
@@ -155,7 +160,7 @@ const LeftASBox = ({
             )} */}
           </WebTabContainer>
         </Body>
-        <BottomNavigation />
+        {mobile && <BottomNavigation />}
       </Wrapper>
     </>
   );

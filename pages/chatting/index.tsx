@@ -1,20 +1,12 @@
 import styled from '@emotion/styled';
-import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
-import BottomNavigation from 'components/BottomNavigation';
-import ChattingList from 'components/Chatting/ChattingList';
 import Loader from 'components/Loader';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import useDebounce from 'hooks/useDebounce';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import search from 'public/images/search.png';
 import React, { useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
-import bell from 'public/images/bell.png';
-import Bell_outline from 'public/images/Bell_outline.png';
-import List from 'public/images/List.png';
+import { useQuery } from 'react-query';
 import ChattingLists from 'components/Chatting/ChattingLists';
 import UserRightMenu from 'components/UserRightMenu';
 
@@ -163,11 +155,10 @@ const Wrapper = styled.div`
   flex-direction: row;
 
   @media (max-width: 899.25pt) {
-   // padding-bottom: 60pt;
+    // padding-bottom: 60pt;
     flex-direction: column;
     width: 100%;
     gap: 0;
     margin: 0;
   }
 `;
-

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 import colors from 'styles/colors';
-// import Logos from 'public/images/webLogo.png';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Chat from 'public/images/chat.png';
 // 알림 0
@@ -22,6 +21,9 @@ import { useDispatch } from 'react-redux';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
+import { headerAction } from 'storeCompany/headerSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   num?: number;
@@ -35,17 +37,6 @@ type Props = {
   height?: boolean;
 };
 
-type GetUnread = {
-  isSuccess: boolean;
-  data: {
-    wasReadQuotation: boolean;
-    wasReadAfterSalesService: boolean;
-    wasReadProject: boolean;
-    wasReadChatting: boolean;
-    wasReadAlert: boolean;
-  };
-};
-
 const WebBuyerHeader = ({
   setTabNumber,
   tabNumber,
@@ -56,15 +47,15 @@ const WebBuyerHeader = ({
   setOpenSubLink,
   height,
 }: Props) => {
-  const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
-  const [type, setType] = useState<string>('');
-  const [tab, setTab] = useState<number>();
+  // const [type, setType] = useState<string>('');
+  // const [tab, setTab] = useState<number>();
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
-  const isUser = sessionStorage.getItem('USER_ID');
   const dispatch = useDispatch();
+  const { tab, type } = useSelector((state: RootState) => state.headerSlice);
+  const isUser = sessionStorage.getItem('USER_ID');
 
   // 알람 조회
   // /v1/alerts/unread-points
@@ -90,45 +81,55 @@ const WebBuyerHeader = ({
       .catch((error) => alert(error));
   };
 
+  const onClickMenu = ({ type, id, linkUrl }: Menu) => {
+    dispatch(headerAction.setTab(id));
+    dispatch(headerAction.setType(type));
+
+    router.push(linkUrl);
+    setOpenSubLink(true);
+  };
+
   // router로 setType이랑 setTab 바로 업데이트
-  useEffect(() => {
-    if (router.pathname === '/company/mypage') {
-      setType('myProject');
-      setTab(3);
-    } else if (
-      router.pathname === '/company/quotation' ||
-      router.pathname === '/company/quotation/lastQuotation'
-    ) {
-      setType('estimate');
-      setTab(0);
-    } else if (
-      router.pathname === '/company/mypage/runningProgress' ||
-      router.pathname === '/company/mypage/successedProject'
-    ) {
-      setType('myProject');
-      setTab(3);
-    } else if (
-      router.pathname === '/company/recievedRequest' ||
-      router.pathname === '/company/sentProvisionalQuotation'
-    ) {
-      setType('estimate');
-      setTab(0);
-    } else if (router.pathname === '/company/as') {
-      setType('as');
-      setTab(2);
-    } else if (
-      router.pathname === '/company/as/receivedAS' ||
-      router.pathname === `/company/as/history`
-    ) {
-      setType('as');
-      setTab(2);
-    } else if (
-      router.pathname === '/company/chatting' ||
-      router.pathname === `/company/chatting/chattingRoom`
-    ) {
-      setTab(1);
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     if (router.pathname === '/company/mypage') {
+  //       setType('myProject');
+  //       setTab(3);
+  //     } else if (
+  //       router.pathname === '/company/quotation' ||
+  //       router.pathname === '/company/quotation/lastQuotation'
+  //     ) {
+  //       setType('estimate');
+  //       setTab(0);
+  //     } else if (
+  //       router.pathname === '/company/mypage/runningProgress' ||
+  //       router.pathname === '/company/mypage/successedProject'
+  //     ) {
+  //       setType('myProject');
+  //       setTab(3);
+  //     } else if (
+  //       router.pathname === '/company/recievedRequest' ||
+  //       router.pathname === '/company/sentProvisionalQuotation'
+  //     ) {
+  //       setType('estimate');
+  //       setTab(0);
+  //     } else if (router.pathname === '/company/as') {
+  //       setType('as');
+  //       setTab(2);
+  //     } else if (
+  //       router.pathname === '/company/as/receivedAS' ||
+  //       router.pathname === `/company/as/history`
+  //     ) {
+  //       setType('as');
+  //       setTab(2);
+  //     } else if (
+  //       router.pathname === '/company/chatting' ||
+  //       router.pathname === `/company/chatting/chattingRoom`
+  //     ) {
+  //       setTab(1);
+  //     }
+  //   }
+  // }, [router]);
 
   type Menu = {
     id: number;
@@ -154,17 +155,17 @@ const WebBuyerHeader = ({
         wasReadCompanyReceivedQuotation,
         wasReadCompanySentQuotation,
         wasReadCompanyQuotationHistory,
-      ].every((e) => true);
+      ].every((alert) => alert === true);
 
       const projectAlert = [
         wasReadCompanyInProgressProject,
         wasReadCompanyCompletedProject,
-      ].every((e) => true);
+      ].every((alert) => alert === true);
 
       const asAlert = [
         wasReadCompanyNewAfterSalesService,
         wasReadCompanyAfterSalesServiceHistory,
-      ].every((e) => true);
+      ].every((alert) => alert === true);
 
       switch (type) {
         case 'quotation':
@@ -213,7 +214,7 @@ const WebBuyerHeader = ({
 
   useEffect(() => {
     if (router.pathname === '/company/faq') {
-      setTab(5);
+      dispatch(headerAction.setTab(5));
     }
   }, []);
 
@@ -236,6 +237,7 @@ const WebBuyerHeader = ({
                   />
                 </div>
               </LogoBox>
+              {/* 기업 헤더 메뉴 */}
               {HeaderMenu.map((el, idx) => {
                 return (
                   <DivBox
@@ -243,12 +245,7 @@ const WebBuyerHeader = ({
                     tab={tab!}
                     index={idx}
                     onClick={() => {
-                      setLinklist(linklist);
-                      setType(el.type);
-                      setTab(el.id);
-                      router.push(el.linkUrl);
-                      // setOpenSubLink(!openSubLink);
-                      setOpenSubLink(true);
+                      onClickMenu(el);
                     }}
                   >
                     {el.menu}

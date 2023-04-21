@@ -17,6 +17,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import UserRightMenu from 'components/UserRightMenu';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import { useMediaQuery } from 'react-responsive';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -36,6 +37,10 @@ const Request = () => {
   const queryClient = useQueryClient();
 
   const [tabNumber, setTabNumber] = useState<number>();
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
@@ -154,7 +159,7 @@ const Request = () => {
           <Wrap className="right-content">
             {typeof tabNumber === 'number' && components[tabNumber]}
           </Wrap>
-          <BottomNavigation />
+          {mobile && <BottomNavigation />}
         </Wrapper>
         <WebFooter />
       </WebBody>

@@ -3,41 +3,20 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { isTokenGetApi } from 'api';
-import { useQuery, useQueryClient } from 'react-query';
-import useDebounce from 'hooks/useDebounce';
-import Logos from 'public/images/entizenLogo.png';
-import Ring from 'public/images/guide-bell.svg';
-import Hamburger from 'public/images/list-bar.svg';
-import { Box, Divider, Drawer } from '@mui/material';
+import { useQuery } from 'react-query';
+import { Box } from '@mui/material';
 import colors from 'styles/colors';
-// import xBtn from 'public/images/X.png';
 import xBtn from 'public/images/HAMBURGERX.svg';
 import whiteRight from 'public/images/whiteRight20.png';
-import simpleEstimate from 'public/images/simpleEstimate.png';
-import mypageIcon from 'public/images/mypageIcon.png';
-import guide from 'public/images/guide.png';
-// import grayInsta from 'public/images/grayCircleInsta.png';
-// import grayNaver from 'public/images/grayCircleNaver.png';
-import grayInsta from 'public/images/InstaHamburgerSvg.svg';
 import grayNaver from 'public/images/NaverHamburgerSvg.svg';
-// import Nut from 'public/images/Nut.png';
 import Nut from 'public/images/NutSVG.svg';
-import Bell from 'public/images/mobBell.png';
-import myProduct from 'public/images/myProductList.png';
-import hamburgerAs from 'public/images/hamburgerAs.png';
-import BottomNavigation from 'components/BottomNavigation';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import WebFooter from 'componentsWeb/WebFooter';
-import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
 import BellNormal from 'public/images/BellNormal.svg';
 import { openExternalBrowser } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import CompanyASSVG from 'public/images/CompanyASSVG.svg';
 import CompanyQuotationAndGuideSVG from 'public/images/CompanyQuotationAndGuideSVG.svg';
 import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
@@ -65,19 +44,11 @@ type Props = {
 const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   // 햄버거바 컴포넌트
 
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
-  });
-
   const router = useRouter();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  const [tabNumber, setTabNumber] = useState<number>(-1);
-  const [componentId, setComponentId] = useState<number>();
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+
   const [isLogin, setIsLogin] = useState(false);
 
   // 제휴문의 채팅방 보내기
@@ -88,9 +59,6 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
       enabled: userID !== null ? true : false,
     },
   );
-
-  const chattingRoomIdx =
-    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   // 기업인지 판매자인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);

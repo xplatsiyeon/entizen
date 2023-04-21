@@ -90,6 +90,35 @@ const WebHeader = ({ num, now, sub }: Props) => {
     router.push('/signUp/Terms');
   };
 
+  const allAlert = (type: string) => {
+    if (historyUnread) {
+      const {
+        wasReadUserQuotation,
+        wasReadUserProject,
+        wasReadUserAfterSalesService,
+        wasReadUserChargingStation,
+        wasReadChatting,
+      } = historyUnread;
+
+      const mypageAlert = [
+        wasReadUserQuotation,
+        wasReadUserProject,
+        wasReadUserAfterSalesService,
+        wasReadUserChargingStation,
+      ].every((alert) => alert === true);
+      console.log('🔥 mypageAlert : ', mypageAlert);
+
+      switch (type) {
+        case 'mypage':
+          return mypageAlert;
+        case 'chatting':
+          return wasReadChatting;
+      }
+    } else {
+      return true;
+    }
+  };
+
   useEffect(() => {}, [linklist]);
 
   return (
@@ -138,9 +167,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 }}
               >
                 마이페이지
-                {isUser && historyUnread?.wasReadProject === false && (
-                  <BellOnText />
-                )}
+                {isUser && allAlert('mypage') === false && <BellOnText />}
               </DivBox>
             </Box1>
             <Box2>
