@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
+import { mypageAlertsEn } from 'assets/alerts';
+import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
+import { useMutation, useQuery } from 'react-query';
 import colors from 'styles/colors';
+import { Alerts, AlertsResponse } from 'types/alerts';
 
 type Props = {
   type: string;
@@ -12,6 +17,24 @@ const SubMenuBar = ({ type, num, now }: Props) => {
   const router = useRouter();
   let linkName: string[];
   let linkUrl: string[];
+
+  // 알림 읽은 여부 확인
+  const { data } = useQuery<AlertsResponse, AxiosError, Alerts>(
+    'alerts',
+    () => isTokenGetApi('/v1/alerts/unread-points'),
+    {
+      select(res) {
+        return res.data;
+      },
+    },
+  );
+  // 알림 읽음 여부 변경
+  const { mutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+
+  console.log('🔥 data : ', data);
 
   switch (type) {
     case 'guide':
@@ -55,6 +78,10 @@ const SubMenuBar = ({ type, num, now }: Props) => {
     }
   };
 
+  const onClickLink = (idx: number) => {
+    handleLink(idx);
+  };
+
   return (
     <Wrap>
       {linkName.map((i, idx) => {
@@ -62,11 +89,11 @@ const SubMenuBar = ({ type, num, now }: Props) => {
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
-            onClick={() => handleLink(idx)}
+            onClick={() => onClickLink(idx)}
           >
             <Text>
               {i}
-              {/* <BellOnText /> */}
+              {type === 'mypage' && mypageAlertsEn[idx] ? <BellOnText /> : ''}
             </Text>
           </StyledLink>
         );
@@ -97,12 +124,7 @@ const StyledLink = styled.li`
   text-decoration: none;
   cursor: pointer;
   position: relative;
-  &:hover {
-    /* border-bottom: 3pt solid #5a2dc9;
-    box-sizing: border-box; */
-  }
   &.on {
-    /* border-bottom: 3pt solid #5a2dc9; */
     box-sizing: border-box;
     font-weight: 700;
     color: #5a2dc9;

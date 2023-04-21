@@ -27,7 +27,7 @@ export interface UserInfo {
 interface Components {
   [key: number]: JSX.Element;
 }
-const TAG = 'page/mypage/index.tsx';
+
 const Request = () => {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
