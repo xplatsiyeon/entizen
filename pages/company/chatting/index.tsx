@@ -22,6 +22,8 @@ const Chatting = () => {
 
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  const [tabNumber, setTabNumber] = useState<number>(0);
   // const [user, setUser] = useState<string>('');
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
@@ -51,7 +53,12 @@ const Chatting = () => {
   } else {
     return (
       <WebBody>
-        <WebBuyerHeader setOpenSubLink={() => {}} />
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
         <CompanyRightMenu />
         <Wrapper>
           <ChattingLists userChatting={false} />

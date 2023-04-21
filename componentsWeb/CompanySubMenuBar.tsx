@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
@@ -11,6 +11,10 @@ import {
   companyProjectAlertsEn,
   companyAsAlertsEn,
 } from 'assets/alerts';
+import { useDispatch } from 'react-redux';
+import { headerAction } from 'storeCompany/headerSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
@@ -43,17 +47,21 @@ const CompanySubMenuBar = ({
   let linkNameEn: string[];
 
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { tabIdx } = useSelector((state: RootState) => state.headerSlice);
   // 클릭 시
-  const [tabIdx, setTabIdx] = useState(-1);
+  // const [tabIdx, setTabIdx] = useState(-1);
   // 마우스 오버
   const [hoverIdx, setHoverIdx] = useState(-1);
   const [show, setShow] = useState(false);
 
   // 알림 읽은 여부 확인
+  const userID = sessionStorage?.getItem('USER_ID')!;
   const { data: alertData } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'alerts',
     () => isTokenGetApi('/v1/alerts/unread-points'),
     {
+      enabled: userID !== null ? true : false,
       select(res) {
         return res.data;
       },
@@ -93,8 +101,9 @@ const CompanySubMenuBar = ({
   }
 
   const handleLink = (idx: number) => {
-    const user = sessionStorage.getItem('USER_ID');
-    if (!user && type === 'project') {
+    const userId = sessionStorage.getItem('USER_ID');
+
+    if (!userId && type === 'project') {
       router.push('/signin');
     } else {
       if (type === 'myProject') {
@@ -129,11 +138,10 @@ const CompanySubMenuBar = ({
   // 읽음 표시
   const onClickLink = (idx: number) => {
     handleLink(idx);
-    setTabIdx(idx);
+    // setTabIdx(idx);
+    dispatch(headerAction.setTabIdx(idx));
 
     const key = linkNameEn[idx];
-    console.log('🔥 linkName : ', linkName);
-    console.log('🔥 key : ', key);
     updateAlertMutate({
       url: '/v1/alerts/unread-points',
       data: {
@@ -153,6 +161,10 @@ const CompanySubMenuBar = ({
     return result;
   };
 
+  useEffect(() => {
+    console.log('🔥 tabIdx : ', tabIdx);
+  }, [tabIdx]);
+
   return (
     <Wrap openSubLink={openSubLink}>
       {linkName.map((i, idx) => {
@@ -160,7 +172,7 @@ const CompanySubMenuBar = ({
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
-            tab={tabNumber?.toString()!}
+            tab={tabIdx?.toString()!}
             index={idx.toString()}
             onClick={() => onClickLink(idx)}
             onMouseOver={() => {

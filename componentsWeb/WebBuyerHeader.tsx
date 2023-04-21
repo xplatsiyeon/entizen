@@ -82,10 +82,18 @@ const WebBuyerHeader = ({
   };
 
   const onClickMenu = ({ type, id, linkUrl }: Menu) => {
+    console.log('클릭');
+    console.log('🔥 type : ', type);
+
+    // dispatch(headerAction.setTabId(-1));
+
+    if (type === 'communication') {
+      router.push(linkUrl);
+    }
+    dispatch(headerAction.setTabIdx(-1));
     dispatch(headerAction.setTab(id));
     dispatch(headerAction.setType(type));
 
-    router.push(linkUrl);
     setOpenSubLink(true);
   };
 

@@ -19,10 +19,12 @@ const SubMenuBar = ({ type, num, now }: Props) => {
   let linkUrl: string[];
 
   // 알림 읽은 여부 확인
+  const userID = sessionStorage?.getItem('USER_ID')!;
   const { data: alertData } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'alerts',
     () => isTokenGetApi('/v1/alerts/unread-points'),
     {
+      enabled: userID !== null ? true : false,
       select(res) {
         return res.data;
       },

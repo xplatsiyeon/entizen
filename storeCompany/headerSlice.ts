@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  tab: 0,
+  tab: -1,
   type: '',
+  tabIdx: -1,
 };
 
 const slice = createSlice({
@@ -14,6 +15,9 @@ const slice = createSlice({
     },
     setType(state, action) {
       state.type = action.payload;
+    },
+    setTabIdx(state, action) {
+      state.tabIdx = action.payload;
     },
     reset(state) {
       Object.assign(state, initialState);
