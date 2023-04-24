@@ -24,6 +24,7 @@ const persistConfig = {
     'subsidySlice',
     'LoginType',
     'header',
+    'contract',
   ],
 };
 // userList

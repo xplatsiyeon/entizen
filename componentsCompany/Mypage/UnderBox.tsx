@@ -43,7 +43,7 @@ const UnderBox = ({ id }: Props) => {
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
-        {/* 모바일 */}
+        {/* ========================= 모바일 =========================*/}
         <MobWrap>
           <ComContranct id={id} />
           {/* {!contr ? (
@@ -85,7 +85,7 @@ const UnderBox = ({ id }: Props) => {
         </BtnWrap>
       )} */}
 
-      {/* 데스트탑  */}
+      {/* ========================= 데스트탑 =========================  */}
       <WebBtnWrapper>
         {/* 계약서 선택란*/}
         <ComContranct />

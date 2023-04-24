@@ -34,9 +34,7 @@ type Props = {
   id?: string;
 };
 export type ImageType = 'IMAGE' | 'FILE';
-const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({ id }: Props) => {
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   const router = useRouter();
@@ -202,8 +200,10 @@ const ComContranct = ({ id }: Props) => {
 
   // console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
   // console.log(modusignData);
-  const handleContr = () => modusignMutate(inModuSignData!);
-  // console.log('inModuSignData', inModuSignData?.project?.userMember?.name);
+  // const handleContr = () => modusignMutate(inModuSignData!);
+  const handleContr = () => {
+    console.log('🔥 click : ');
+  };
 
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
