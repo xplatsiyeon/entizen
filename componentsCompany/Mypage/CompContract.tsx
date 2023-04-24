@@ -203,6 +203,12 @@ const ComContranct = ({ id }: Props) => {
   // const handleContr = () => modusignMutate(inModuSignData!);
   const handleContr = () => {
     console.log('🔥 click : ');
+    router.push({
+      pathname: '/company/mypage/runningProgress/addContract',
+      query: {
+        projectIdx: routerId,
+      },
+    });
   };
 
   // 사진 || 파일 저장

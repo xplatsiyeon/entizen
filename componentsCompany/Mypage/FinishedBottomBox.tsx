@@ -89,6 +89,12 @@ const FinishedBottomBox = ({ data }: Props) => {
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
+        <BiggerText>현장실사 결과</BiggerText>
+        <Contents>
+          <p className="contents">
+            {data?.finalQuotation?.spotInspectionResult}
+          </p>
+        </Contents>
         <BiggerText>고객 정보</BiggerText>
         <Contents>
           <div className="text-box">
@@ -288,6 +294,16 @@ const Contents = styled.div`
   @media (min-width: 900pt) {
     padding-top: 24pt;
     padding-bottom: 30pt;
+  }
+
+  .contents {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
   }
   .text-box {
     display: flex;

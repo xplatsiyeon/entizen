@@ -53,19 +53,6 @@ const FinalBottomBox = ({ pb, data }: Props) => {
 
   const fileArray2 = { ...fileArray };
 
-  // for (
-  //   let i =
-  //     data?.sendQuotationRequest?.preQuotation?.finalQuotation
-  //       ?.finalQuotationChargers?.length - 1;
-  //   i >= 0;
-  //   i--
-  // ) {
-  //   fileArray.push(
-  //     data?.sendQuotationRequest?.preQuotation?.finalQuotation
-  //       ?.finalQuotationChargers[i],
-  //   );
-  // }
-
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const finalQuotation =
@@ -276,6 +263,13 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           </>
         )}
       </List>
+
+      <Line />
+      <Section>
+        {/* 현장실사 결과 */}
+        <Subtitle>현장실사 결과</Subtitle>
+        <Text>{finalQuotation?.spotInspectionResult}</Text>
+      </Section>
       <Line />
       <Section>
         <Subtitle>특장점</Subtitle>
@@ -283,15 +277,6 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
           <FeaturesList>
-            {/* {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
-              ?.split('\n')
-              .map((line, idx) => (
-                <li key={idx}>
-                  {line}
-                  <br />
-                </li>
-              ))} */}
-
             {
               data?.sendQuotationRequest?.preQuotation?.finalQuotation
                 ?.subscribeProductFeature
@@ -633,6 +618,19 @@ const Label = styled.h3`
     padding-left: 0;
   }
 `;
+const Text = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  margin-top: 15pt;
+  padding-left: 15pt;
+  padding-right: 15pt;
+`;
+
 const FeaturesList = styled.ol`
   padding-top: 15pt;
   list-style-type: decimal;

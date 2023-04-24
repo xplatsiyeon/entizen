@@ -1,16 +1,31 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ContractButton from './Button';
 import Tab from './Tab';
 import Info from './Info';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { inputPriceFormat } from 'utils/calculatePackage';
 
 type Props = {};
 
 export default function Step3(props: Props) {
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const { extensionSubscriptionFee } = useSelector(
+    (state: RootState) => state.contractSlice,
+  );
+
+  useEffect(() => {
+    if (extensionSubscriptionFee !== '') {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [extensionSubscriptionFee]);
 
   return (
     <Wrap>
@@ -41,7 +56,18 @@ export default function Step3(props: Props) {
               <li>
                 <Name>구독료</Name>
                 <span>
-                  <input type={'text'} placeholder="0" value={''} />
+                  <input
+                    type={'text'}
+                    placeholder="0"
+                    value={inputPriceFormat(extensionSubscriptionFee)}
+                    onChange={(e) =>
+                      dispatch(
+                        contractAction.setExtensionSubscriptionFee(
+                          e.currentTarget.value,
+                        ),
+                      )
+                    }
+                  />
                   원/월
                 </span>
               </li>
@@ -53,10 +79,10 @@ export default function Step3(props: Props) {
       <ContractButton
         prev={true}
         prevValue={'이전'}
-        prevOnClick={() => dispatch(contractAction.addStep(2))}
+        prevOnClick={() => dispatch(contractAction.setStep(2))}
         value={'다음'}
-        isValid={true}
-        onClick={() => dispatch(contractAction.addStep(4))}
+        isValid={isValid}
+        onClick={() => isValid && dispatch(contractAction.setStep(4))}
       />
     </Wrap>
   );
@@ -144,7 +170,7 @@ const ContentsSection = styled.section`
     line-height: 12pt;
     text-align: right;
     letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
+    color: ${colors.main2};
     margin-right: 12pt;
     width: 135pt;
     ::placeholder {

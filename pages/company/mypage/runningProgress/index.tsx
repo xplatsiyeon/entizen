@@ -29,7 +29,6 @@ export interface Data {
   address: string;
 }
 
-const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();

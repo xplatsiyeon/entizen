@@ -11,8 +11,10 @@ export default function Tab(props: Props) {
   const { step } = useSelector((state: RootState) => state.contractSlice);
   return (
     <Wrap>
-      {steps.map((item) => (
-        <span className={step === item ? 'target' : ''}>{item}</span>
+      {steps.map((item, key) => (
+        <span key={item + key} className={step === item ? 'target' : ''}>
+          {item}
+        </span>
       ))}
     </Wrap>
   );

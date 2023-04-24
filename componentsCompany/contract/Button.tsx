@@ -20,6 +20,7 @@ export default function ContractButton({
   isValid,
   onClick,
 }: Props) {
+  console.log('🔥 isValid : ', isValid);
   {
     return (
       <Wrap>
@@ -60,7 +61,7 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
   flex: 2;
 
   ${({ isValid }) =>
-    isValid &&
+    !isValid &&
     css`
       background-color: ${colors.blue3};
     `}

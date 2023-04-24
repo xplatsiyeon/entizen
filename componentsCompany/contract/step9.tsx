@@ -1,17 +1,139 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ContractButton from './Button';
 import Tab from './Tab';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { BuisnessHyphenFn } from 'utils/calculatePackage';
+import {
+  GET_ModuSignResponse,
+  ModuSignResponse,
+} from 'QueryComponents/ModuSignQuery';
+import { useMutation } from 'react-query';
+import { modusign } from 'api/sign';
+import { isTokenPostApi } from 'api';
+import { modusignCancel } from 'api/cancelSign';
+import { useQuery } from '@apollo/client';
 
 type Props = {};
 
 export default function Step9(props: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const { companyRegistrationNumber, representativeName } = useSelector(
+    (state: RootState) => state.contractSlice,
+  );
+  const { contractSlice } = useSelector((state: RootState) => state);
+
+  // ------------------모두싸인 GET API----------------------
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: inModuSignLoading,
+    error: inModuSignErroe,
+    data: inModuSignData,
+    refetch: inModuSignRefetch,
+  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+    variables: {
+      projectIdx: router?.query?.projectIdx,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  // -----------------------모두싸인 POST API---------------------------
+  const {
+    mutate: modusignMutate,
+    isError: modusignIsError,
+    isLoading: modusignIsLoading,
+    data: modusignData,
+  } = useMutation(modusign, {
+    onSuccess: (modusignData: any) => {
+      // 백엔드에 보내줄 API 연결
+
+      console.log('성공');
+
+      const apiData: any = {
+        ...modusignData,
+        projectIdx: router?.query?.projectIdx,
+      };
+      contractsMutate({
+        url: '/contracts',
+        data: {
+          contract: JSON.stringify(apiData),
+          additionalInfo: JSON.stringify(contractSlice),
+        },
+      });
+    },
+    onError: (error) => {
+      // console.log('data 확인');
+      console.log(error);
+      // setIsModal(true);
+      // setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 --------------
+  const {
+    mutate: contractsMutate,
+    isError: contractsIsError,
+    isLoading: contractsIsLoading,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      // setIsModal(true);
+      // setModalMessage('계약서가 전송되었습니다');
+    },
+    onError: (error) => {
+      console.log(error);
+      // destroyMutate(modusignData?.id);
+      // console.log('🔥 모두싸인 POST 에러 ~line 87');
+      // console.log(error);
+    },
+  });
+  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
+  const {
+    mutate: destroyMutate,
+    isError: destroyIsError,
+    isLoading: destroyIsLoading,
+  } = useMutation(modusignCancel, {
+    onSuccess: () => {
+      // setIsModal(true);
+      // setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
+    },
+    onError: (error: any) => {
+      // console.log('-----------서명 취소 요청 에러----------');
+      // console.log(error);
+    },
+  });
+
+  // 온클릭 요청
+  const onClickContractRequest = () => {
+    inModuSignRefetch();
+    console.log('inModuSignData : ', inModuSignData);
+    // modusignMutate(inModuSignData!);
+    return;
+    if (isValid) {
+      modusignMutate(inModuSignData!);
+      // dispatch(contractAction.setStep(10));
+    }
+  };
+
+  console.log('🔥 inModuSignData : ', inModuSignData);
+  console.log('🔥 productIdx : ', router.query.projectIdx);
+  useEffect(() => {
+    if (companyRegistrationNumber !== '' && representativeName !== '') {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [companyRegistrationNumber, representativeName]);
 
   return (
     <Wrap>
@@ -22,19 +144,33 @@ export default function Step9(props: Props) {
 
       {/* 내용 */}
       <Label pt={24}>사업자 등록번호</Label>
-      <Input placeholder="예) 123-45-67890" />
+      <Input
+        value={BuisnessHyphenFn(companyRegistrationNumber)}
+        placeholder="예) 123-45-67890"
+        onChange={(e) =>
+          dispatch(
+            contractAction.setCompanyRegistrationNumber(e.currentTarget.value),
+          )
+        }
+      />
       <P>사업자 등록번호에는 숫자만 입력해주세요.</P>
 
       <Label pt={30}>대표자 이름</Label>
-      <Input placeholder="예) 홍길동" />
+      <Input
+        value={representativeName}
+        placeholder="예) 홍길동"
+        onChange={(e) =>
+          dispatch(contractAction.setRepresentativeName(e.currentTarget.value))
+        }
+      />
 
       <ContractButton
         prev={true}
         prevValue={'이전'}
-        prevOnClick={() => dispatch(contractAction.addStep(8))}
+        prevOnClick={() => dispatch(contractAction.setStep(8))}
         value={'계약서 요청'}
-        isValid={true}
-        onClick={() => dispatch(contractAction.addStep(10))}
+        isValid={isValid}
+        onClick={onClickContractRequest}
       />
     </Wrap>
   );
@@ -96,9 +232,12 @@ const Input = styled.input`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
+  color: ${colors.main2};
   padding: 13.5pt 12pt;
   margin-top: 9pt;
+  ::placeholder {
+    color: ${colors.lightGray3};
+  }
 `;
 const P = styled.p`
   font-family: 'Spoqa Han Sans Neo';

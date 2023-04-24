@@ -14,6 +14,7 @@ export default function Step0(props: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isModal, setIsModal] = useState(false);
+
   return (
     <Wrap>
       {isModal && (
@@ -40,7 +41,7 @@ export default function Step0(props: Props) {
       <ImageBox>
         <Image src={contract_pen_icon} alt="contract_pen_icon" />
       </ImageBox>
-      <Button onClick={() => dispatch(contractAction.addStep(1))}>
+      <Button onClick={() => dispatch(contractAction.setStep(1))}>
         시작하기
       </Button>
     </Wrap>

@@ -13,24 +13,34 @@ import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
 import TwoButton from './TwoButton';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { fileDownload } from 'bridge/appToWeb';
 import { useMediaQuery } from 'react-responsive';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import arrow_icon from 'public/images/gray_arraow_icon.svg';
+import { PreQuotations } from 'pages/mypage/request';
 
 interface Props {
   pb?: number;
   data?: PreQuotationResponse;
   isSpot?: boolean;
+  preQuotations?: PreQuotations[];
   onClcikModal?: () => void;
 }
 
-const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
+const BiddingQuote = ({
+  pb,
+  data,
+  isSpot,
+  onClcikModal,
+  preQuotations,
+}: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
 
@@ -74,14 +84,89 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
     .flat()
     .reverse();
 
+  console.log('🔥 preQuotations : ', preQuotations);
+
   return (
-    <Wrapper>
-      {isSpot === undefined && (
-        <TopWebRapper>
-          {/* 웹 사진이 들어갈 공간*/}
-          <WebFinishedPhotoWrapper>
-            <WebLeftPhotoWrapper>
+    <Wrap>
+      {/* ================= 웹 왼쪽 영역 ================= */}
+      {desktop && (
+        <LeftSection>
+          <ProductList>
+            <h1>
+              총 <span className="emphasis">{preQuotations?.length}</span>개의
+              구독상품이
+              <br />
+              도착했습니다.
+            </h1>
+            <p>
+              상세 내용을 비교해보고,
+              <br />
+              나에게 맞는 상품을 선택해보세요!
+            </p>
+            <ul>
+              {preQuotations?.map((data, index) => (
+                <li key={index}>
+                  <div className="leftBox">
+                    {data?.member?.companyMemberAdditionalInfo
+                      ?.companyLogoImageUrl ? (
+                      <div className="imgBox">
+                        <Image
+                          src={
+                            data?.member?.companyMemberAdditionalInfo
+                              ?.companyLogoImageUrl
+                          }
+                          alt="logo"
+                          layout="fill"
+                        />
+                      </div>
+                    ) : (
+                      <NoImage2 />
+                    )}
+                    <span>
+                      <div className="companyName">
+                        {data?.member?.companyMemberAdditionalInfo?.companyName}
+                      </div>
+                      <div className="price">
+                        {' '}
+                        {PriceBasicCalculation(data.subscribePricePerMonth)
+                          ? `${PriceBasicCalculation(
+                              data.subscribePricePerMonth,
+                            )}원`
+                          : '무료'}
+                      </div>
+                    </span>
+                  </div>
+
+                  <Image src={arrow_icon} alt="arrow_icon" />
+                </li>
+              ))}
+            </ul>
+          </ProductList>
+          <TwoButton
+            onClcikModal={onClcikModal!}
+            id={data?.companyMemberAdditionalInfo?.memberIdx}
+          />
+        </LeftSection>
+      )}
+
+      {/* ================= 웹 오른쪽 영역 ==================== */}
+      <RightSection>
+        {isSpot === undefined && (
+          <TopWebRapper>
+            {/* ============== 웹 사진이 들어갈 공간 =================*/}
+            <WebFinishedPhotoWrapper>
               <WebLeftPhotoBox>
+                <Image
+                  src={DataFilter ? DataFilter : '#'}
+                  alt="img-icon"
+                  layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="contain"
+                />
+                {/* </div> */}
+              </WebLeftPhotoBox>
+              <WebRightPhotoWrapper>
                 {newChargerImageFiles?.map((item, idx) => (
                   <WebLeftPhotos
                     key={idx}
@@ -103,291 +188,320 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                     </div>
                   </WebLeftPhotos>
                 ))}
-              </WebLeftPhotoBox>
-            </WebLeftPhotoWrapper>
-            <WebRightPhotoBox>
-              <div className="imgBox">
-                <Image
-                  src={DataFilter!}
-                  alt="img-icon"
-                  layout="fill"
-                  priority={true}
-                  unoptimized={true}
-                  objectFit="contain"
-                />
-              </div>
-            </WebRightPhotoBox>
-          </WebFinishedPhotoWrapper>
+              </WebRightPhotoWrapper>
+            </WebFinishedPhotoWrapper>
 
-          {/* 충전소 회사 정보 */}
-
-          <ChareCompanyInfo>
-            {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
-              <ImageBox>
-                <Image
-                  src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
-                  alt="icon"
-                  priority={true}
-                  unoptimized={true}
-                  layout="fill"
-                  objectFit="cover"
-                  style={{ borderRadius: '6pt' }}
-                />
-              </ImageBox>
-            ) : (
-              <NoImage />
-            )}
-
-            <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
-            <WebList>
-              {/* 🍎 부분구독일경우 충전소 설치비 불러와야함 */}
-              {partSubscribe === 'PART' && (
-                <WebItem>
-                  <span className="name">충전소 설치비</span>
-                  <span className="value">{`${PriceBasicCalculation(
-                    data?.preQuotation?.chargingStationInstallationPrice!,
-                  )} 원`}</span>
-                </WebItem>
-              )}
-              <WebItem>
-                <span className="name">월 구독료</span>
-                <span className="value">
-                  {`${PriceBasicCalculation(
-                    data?.preQuotation?.subscribePricePerMonth!,
-                  )} 원`}
-                </span>
-              </WebItem>
-              <WebItem>
-                <span className="name">수익지분</span>
-                {/* <span className="value">
-                  {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
-                  %
-                </span> */}
-
-                {data?.quotationRequest?.quotationRequestChargers?.length! ===
-                homeSelect?.length! ? (
-                  <span className="text">-</span>
-                ) : (
-                  <span className="text">{`${Math.floor(
-                    Number(data?.quotationRequest?.investRate) * 100,
-                  )} %`}</span>
-                )}
-              </WebItem>
-              <WebItem>
-                <span className="name">공사기간</span>
-                <span className="value">
-                  {data?.preQuotation?.constructionPeriod
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  일
-                </span>
-              </WebItem>
-              {/* 🍎 충전기 제조사 1개 일 때 */}
-              {data?.preQuotation?.preQuotationChargers.length === 1 && (
-                <>
-                  <WebItem>
-                    <span className="name">충전요금</span>
-                    {data?.preQuotation?.preQuotationChargers[0]
-                      ?.chargePriceType === 'PURCHASER_AUTONOMY' ? (
-                      <span className="value">구매자 자율</span>
-                    ) : (
-                      <span className="value">
-                        {
-                          data?.preQuotation?.preQuotationChargers[0]
-                            .chargePrice
-                        }
-                        원 / kW
-                      </span>
-                    )}
-                  </WebItem>
-                  <WebItem>
-                    <span className="name">충전기 제조사</span>
-                    <span className="value">
-                      {data?.preQuotation?.preQuotationChargers[0].manufacturer}
-                    </span>
-                  </WebItem>
-                </>
-              )}
-            </WebList>
-            <TwoButton
-              onClcikModal={onClcikModal!}
-              id={data?.companyMemberAdditionalInfo?.memberIdx}
-            />
-          </ChareCompanyInfo>
-        </TopWebRapper>
-      )}
-
-      <>
-        {mobile && (
-          <>
-            {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
-              <ImageBox>
-                <Image
-                  src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
-                  alt="icon"
-                  priority={true}
-                  unoptimized={true}
-                  layout="fill"
-                  objectFit="cover"
-                />
-              </ImageBox>
-            ) : (
-              <NoImage />
-            )}
-            <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
-            <List>
-              {/* 🍎 부분구독일 경우 충전소 설치비 데이터 불러와야함 */}
-              {partSubscribe === 'PART' && (
-                <Item>
-                  <span className="name">충전소 설치비</span>
-                  <span className="value">{`${PriceBasicCalculation(
-                    data?.preQuotation?.chargingStationInstallationPrice!,
-                  )} 원`}</span>
-                </Item>
-              )}
-              <Item>
-                <span className="name">월 구독료</span>
-                <span className="value">
-                  {`${PriceBasicCalculation(
-                    data?.preQuotation?.subscribePricePerMonth!,
-                  )} 원`}
-                </span>
-              </Item>
-              <Item>
-                <span className="name">수익지분</span>
-                {/* <span className="value">
-                  {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
-                  %
-                </span> */}
-                {data?.quotationRequest?.quotationRequestChargers?.length! ===
-                homeSelect?.length! ? (
-                  <span className="text">-</span>
-                ) : (
-                  <span className="text">{`${Math.floor(
-                    Number(data?.quotationRequest?.investRate) * 100,
-                  )} %`}</span>
-                )}
-              </Item>
-              <Item>
-                <span className="name">공사기간</span>
-                <span className="value">
-                  {data?.preQuotation?.constructionPeriod
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  일
-                </span>
-              </Item>
-              {/* 🍎 충전기 제조사 1개 일 때 */}
-              {/* 🍎 구매자 자율이면 '구매자 자율'문자 반영 */}
-              {data?.preQuotation?.preQuotationChargers.length === 1 ? (
-                <>
-                  <Item>
-                    <span className="name">충전요금</span>
-                    {data?.preQuotation?.preQuotationChargers[0]
-                      .chargePriceType !== 'PURCHASER_AUTONOMY' ? (
-                      <span className="value">
-                        {
-                          data?.preQuotation?.preQuotationChargers[0]
-                            .chargePrice
-                        }{' '}
-                        원 / kW
-                      </span>
-                    ) : (
-                      <span className="value">구매자 자율</span>
-                    )}
-                  </Item>
-                  <Item>
-                    <span className="name">충전기 제조사</span>
-                    <span className="value">
-                      {data?.preQuotation?.preQuotationChargers[0].manufacturer}
-                    </span>
-                  </Item>
-                </>
+            {/* 충전소 회사 정보 */}
+            <ChareCompanyInfo>
+              {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+                <ImageBox>
+                  <Image
+                    src={
+                      data?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                        ? data?.companyMemberAdditionalInfo
+                            ?.companyLogoImageUrl!
+                        : '#'
+                    }
+                    alt="icon"
+                    priority={true}
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="cover"
+                    style={{ borderRadius: '6pt' }}
+                  />
+                </ImageBox>
               ) : (
-                <>
-                  {/* 🍎 충전기 제조사 2개 이상 일 때 */}
-                  <MultiSection>
-                    <Subtitle>충전요금</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
-                          <Item>
-                            <span className="name">
-                              {convertKo(
-                                M5_LIST,
-                                M5_LIST_EN,
-                                data?.quotationRequest
-                                  ?.quotationRequestChargers[index]?.kind,
-                              )}
-                            </span>
-                            <span className="value">{`${PriceBasicCalculation(
-                              item.chargePrice,
-                            )} 원 / kW`}</span>
-                          </Item>
-                        ) : (
-                          <Item>
-                            <span className="name">
-                              {convertKo(
-                                M5_LIST,
-                                M5_LIST_EN,
-                                data?.quotationRequest
-                                  ?.quotationRequestChargers[index]?.kind,
-                              )}
-                            </span>
-                            <span className="value">구매자 자율</span>
-                          </Item>
-                        )}
-                      </MultiBox>
-                    ))}
-                  </MultiSection>
-                  <MultiSection>
-                    <Subtitle>충전기 제조사</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        <Item>
-                          <span className="name">
-                            {convertKo(
-                              M5_LIST,
-                              M5_LIST_EN,
-                              data?.quotationRequest?.quotationRequestChargers[
-                                index
-                              ]?.kind,
-                            )}
-                          </span>
-                          <span className="value">{item.manufacturer}</span>
-                        </Item>
-                      </MultiBox>
-                    ))}
-                  </MultiSection>
-                </>
+                <NoImage />
               )}
-            </List>
-          </>
+
+              <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+              <WebList>
+                {/* 🍎 부분구독일경우 충전소 설치비 불러와야함 */}
+                {partSubscribe === 'PART' && (
+                  <WebItem>
+                    <span className="name">충전소 설치비</span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      data?.preQuotation?.chargingStationInstallationPrice!,
+                    )} 원`}</span>
+                  </WebItem>
+                )}
+                <WebItem>
+                  <span className="name">월 구독료</span>
+                  <span className="value">
+                    {`${PriceBasicCalculation(
+                      data?.preQuotation?.subscribePricePerMonth!,
+                    )} 원`}
+                  </span>
+                </WebItem>
+                <WebItem>
+                  <span className="name">수익지분</span>
+                  {data?.quotationRequest?.quotationRequestChargers?.length! ===
+                  homeSelect?.length! ? (
+                    <span className="value">-</span>
+                  ) : (
+                    <span className="value">{`${Math.floor(
+                      Number(data?.quotationRequest?.investRate) * 100,
+                    )} %`}</span>
+                  )}
+                </WebItem>
+                <WebItem>
+                  <span className="name">공사기간</span>
+                  <span className="value">
+                    {data?.preQuotation?.constructionPeriod
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    일
+                  </span>
+                </WebItem>
+                {/* 🍎 충전기 제조사 1개 일 때 */}
+                {data?.preQuotation?.preQuotationChargers.length === 1 && (
+                  <>
+                    <WebItem>
+                      <span className="name">충전요금</span>
+                      {data?.preQuotation?.preQuotationChargers[0]
+                        ?.chargePriceType === 'PURCHASER_AUTONOMY' ? (
+                        <span className="value">구매자 자율</span>
+                      ) : (
+                        <span className="value">
+                          {
+                            data?.preQuotation?.preQuotationChargers[0]
+                              .chargePrice
+                          }
+                          원 / kW
+                        </span>
+                      )}
+                    </WebItem>
+                    <WebItem>
+                      <span className="name">충전기 제조사</span>
+                      <span className="value">
+                        {
+                          data?.preQuotation?.preQuotationChargers[0]
+                            .manufacturer
+                        }
+                      </span>
+                    </WebItem>
+                  </>
+                )}
+              </WebList>
+            </ChareCompanyInfo>
+          </TopWebRapper>
         )}
-      </>
-      {data?.preQuotation?.preQuotationChargers !== undefined &&
-        data?.preQuotation?.preQuotationChargers.length > 1 && (
-          <Line style={{ marginTop: '60pt' }} />
-        )}
-      <UnderInfo>
-        {!mobile && (
-          <>
-            {/* 🍎 충전기 제조사 1개 일 때 */}
-            {data?.preQuotation?.preQuotationChargers !== undefined &&
-              data?.preQuotation?.preQuotationChargers.length > 1 && (
-                <>
-                  {/* 🍎 충전기 제조사 2개 이상 일 때 */}
-                  <Section pb={580.5}>
-                    <Subtitle>충전요금</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 index 뒤집어져서 나오는 이슈가 있어서 여기는 map전에 reverse()해줌 이상있으면 바로 수정 / 여기 위치는 웹에서 오른쪽 상단박스 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+
+        <>
+          {mobile && (
+            <>
+              {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+                <ImageBox>
+                  <Image
+                    src={
+                      data?.companyMemberAdditionalInfo?.companyLogoImageUrl!
+                    }
+                    alt="icon"
+                    priority={true}
+                    unoptimized={true}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </ImageBox>
+              ) : (
+                <NoImage />
+              )}
+              <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+              <List>
+                {/* 🍎 부분구독일 경우 충전소 설치비 데이터 불러와야함 */}
+                {partSubscribe === 'PART' && (
+                  <Item>
+                    <span className="name">충전소 설치비</span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      data?.preQuotation?.chargingStationInstallationPrice!,
+                    )} 원`}</span>
+                  </Item>
+                )}
+                <Item>
+                  <span className="name">월 구독료</span>
+                  <span className="value">
+                    {`${PriceBasicCalculation(
+                      data?.preQuotation?.subscribePricePerMonth!,
+                    )} 원`}
+                  </span>
+                </Item>
+                <Item>
+                  <span className="name">수익지분</span>
+                  {/* <span className="value">
+                  {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
+                  %
+                </span> */}
+                  {data?.quotationRequest?.quotationRequestChargers?.length! ===
+                  homeSelect?.length! ? (
+                    <span className="text">-</span>
+                  ) : (
+                    <span className="text">{`${Math.floor(
+                      Number(data?.quotationRequest?.investRate) * 100,
+                    )} %`}</span>
+                  )}
+                </Item>
+                <Item>
+                  <span className="name">공사기간</span>
+                  <span className="value">
+                    {data?.preQuotation?.constructionPeriod
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    일
+                  </span>
+                </Item>
+                {/* 🍎 충전기 제조사 1개 일 때 */}
+                {/* 🍎 구매자 자율이면 '구매자 자율'문자 반영 */}
+                {data?.preQuotation?.preQuotationChargers.length === 1 ? (
+                  <>
+                    <Item>
+                      <span className="name">충전요금</span>
+                      {data?.preQuotation?.preQuotationChargers[0]
+                        .chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                        <span className="value">
+                          {
+                            data?.preQuotation?.preQuotationChargers[0]
+                              .chargePrice
+                          }{' '}
+                          원 / kW
+                        </span>
+                      ) : (
+                        <span className="value">구매자 자율</span>
+                      )}
+                    </Item>
+                    <Item>
+                      <span className="name">충전기 제조사</span>
+                      <span className="value">
+                        {
+                          data?.preQuotation?.preQuotationChargers[0]
+                            .manufacturer
+                        }
+                      </span>
+                    </Item>
+                  </>
+                ) : (
+                  <>
+                    {/* 🍎 충전기 제조사 2개 이상 일 때 */}
+                    <MultiSection>
+                      <Subtitle>충전요금</Subtitle>
+                      {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                      {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
+                      {reverseNewArr?.map((item, index) => (
+                        <MultiBox key={index}>
+                          {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                            <Item>
+                              <span className="name">
+                                {convertKo(
+                                  M5_LIST,
+                                  M5_LIST_EN,
+                                  data?.quotationRequest
+                                    ?.quotationRequestChargers[index]?.kind,
+                                )}
+                              </span>
+                              <span className="value">{`${PriceBasicCalculation(
+                                item.chargePrice,
+                              )} 원 / kW`}</span>
+                            </Item>
+                          ) : (
+                            <Item>
+                              <span className="name">
+                                {convertKo(
+                                  M5_LIST,
+                                  M5_LIST_EN,
+                                  data?.quotationRequest
+                                    ?.quotationRequestChargers[index]?.kind,
+                                )}
+                              </span>
+                              <span className="value">구매자 자율</span>
+                            </Item>
+                          )}
+                        </MultiBox>
+                      ))}
+                    </MultiSection>
+                    <MultiSection>
+                      <Subtitle>충전기 제조사</Subtitle>
+                      {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                      {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
+                      {reverseNewArr?.map((item, index) => (
+                        <MultiBox key={index}>
+                          <Item>
+                            <span className="name">
+                              {convertKo(
+                                M5_LIST,
+                                M5_LIST_EN,
+                                data?.quotationRequest
+                                  ?.quotationRequestChargers[index]?.kind,
+                              )}
+                            </span>
+                            <span className="value">{item.manufacturer}</span>
+                          </Item>
+                        </MultiBox>
+                      ))}
+                    </MultiSection>
+                  </>
+                )}
+              </List>
+            </>
+          )}
+        </>
+        {data?.preQuotation?.preQuotationChargers !== undefined &&
+          data?.preQuotation?.preQuotationChargers.length > 1 && (
+            <Line style={{ marginTop: '60pt' }} />
+          )}
+        <UnderInfo>
+          {!mobile && (
+            <>
+              {/* 🍎 충전기 제조사 1개 일 때 */}
+              {data?.preQuotation?.preQuotationChargers !== undefined &&
+                data?.preQuotation?.preQuotationChargers.length > 1 && (
+                  <>
+                    {/* 🍎 충전기 제조사 2개 이상 일 때 */}
+                    <Section pb={580.5}>
+                      <Subtitle>충전요금</Subtitle>
+                      {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                      {/* 🍎 index 뒤집어져서 나오는 이슈가 있어서 여기는 map전에 reverse()해줌 이상있으면 바로 수정 / 여기 위치는 웹에서 오른쪽 상단박스 */}
+                      {reverseNewArr?.map((item, index) => (
+                        <MultiBox key={index}>
+                          {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                            <FlexWrap>
+                              <Label>
+                                {convertKo(
+                                  M5_LIST,
+                                  M5_LIST_EN,
+                                  data?.quotationRequest
+                                    ?.quotationRequestChargers[index]?.kind,
+                                )}
+                              </Label>
+                              <FeaturesList>
+                                <li>{`${PriceBasicCalculation(
+                                  item.chargePrice,
+                                )} 원 / kW`}</li>
+                              </FeaturesList>
+                            </FlexWrap>
+                          ) : (
+                            <WebItem>
+                              <Label>
+                                {convertKo(
+                                  M5_LIST,
+                                  M5_LIST_EN,
+                                  data?.quotationRequest
+                                    ?.quotationRequestChargers[index]?.kind,
+                                )}
+                              </Label>
+                              <FeaturesList>
+                                <li>구매자 자율</li>
+                              </FeaturesList>
+                            </WebItem>
+                          )}
+                        </MultiBox>
+                      ))}
+                    </Section>
+                    <Line style={{ marginTop: '30pt', marginBottom: '16pt' }} />
+                    <MultiSection>
+                      <Subtitle>충전기 제조사</Subtitle>
+                      {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
+                      {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
+                      {reverseNewArr?.map((item, index) => (
+                        <MultiBox key={index}>
                           <FlexWrap>
                             <Label>
                               {convertKo(
@@ -398,205 +512,291 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                               )}
                             </Label>
                             <FeaturesList>
-                              <li>{`${PriceBasicCalculation(
-                                item.chargePrice,
-                              )} 원 / kW`}</li>
+                              <li>{item.manufacturer}</li>
                             </FeaturesList>
                           </FlexWrap>
-                        ) : (
-                          <WebItem>
-                            <Label>
-                              {convertKo(
-                                M5_LIST,
-                                M5_LIST_EN,
-                                data?.quotationRequest
-                                  ?.quotationRequestChargers[index]?.kind,
-                              )}
-                            </Label>
-                            <FeaturesList>
-                              <li>구매자 자율</li>
-                            </FeaturesList>
-                          </WebItem>
-                        )}
-                      </MultiBox>
-                    ))}
-                  </Section>
-                  <Line style={{ marginTop: '30pt', marginBottom: '16pt' }} />
-                  <MultiSection>
-                    <Subtitle>충전기 제조사</Subtitle>
-                    {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
-                    {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                    {reverseNewArr?.map((item, index) => (
-                      <MultiBox key={index}>
-                        <FlexWrap>
-                          <Label>
-                            {convertKo(
-                              M5_LIST,
-                              M5_LIST_EN,
-                              data?.quotationRequest?.quotationRequestChargers[
-                                index
-                              ]?.kind,
-                            )}
-                          </Label>
-                          <FeaturesList>
-                            <li>{item.manufacturer}</li>
-                          </FeaturesList>
-                        </FlexWrap>
-                      </MultiBox>
-                    ))}
-                  </MultiSection>
-                </>
-              )}
-          </>
-        )}
-        <Line style={{ marginTop: '30pt' }} />
-        <Section className="borderOn">
-          <Subtitle>특장점</Subtitle>
-          <FlexWrap>
-            <Label>구독 상품</Label>
-            <FeaturesList>
-              {/* textarea 줄바꿈 */}
-              {data?.preQuotation?.subscribeProductFeature
-                ?.split('\n')
-                .map((line) => (
-                  <li>
-                    {line}
-                    <br />
-                  </li>
-                ))}
-            </FeaturesList>
-          </FlexWrap>
-          {reverseNewArr?.map((item, index) => (
-            <FlexWrap key={index}>
-              <Label>
-                {convertKo(
-                  M5_LIST,
-                  M5_LIST_EN,
-                  data?.quotationRequest?.quotationRequestChargers[index]?.kind,
+                        </MultiBox>
+                      ))}
+                    </MultiSection>
+                  </>
                 )}
-              </Label>
-              {/* textarea 줄바꿈 */}
-              {/* 여기 특장점 2개부터 인덱스가 반대로 나와서 reverse() 사용 */}
+            </>
+          )}
+          <Line style={{ marginTop: '30pt' }} />
+          <Section className="borderOn">
+            <Subtitle>특장점</Subtitle>
+            <FlexWrap>
+              <Label>구독 상품</Label>
               <FeaturesList>
-                {item?.productFeature?.split('\n').map((line, index) => (
-                  <li key={index}>
-                    {line}
-                    <br />
-                  </li>
-                ))}
-                {/* <li>{item.modelName}</li> */}
+                {/* textarea 줄바꿈 */}
+                {data?.preQuotation?.subscribeProductFeature
+                  ?.split('\n')
+                  .map((line, idx) => (
+                    <li key={idx}>
+                      {line}
+                      <br />
+                    </li>
+                  ))}
               </FeaturesList>
             </FlexWrap>
-          ))}
-        </Section>
-        <Line style={{ marginTop: '30pt' }} />
-        {/* 이미지 부분 */}
-        <Section imgBox={true} width={true}>
-          <Subtitle>충전기 이미지</Subtitle>
-          <GridImg>
-            {data?.preQuotation.preQuotationChargers.map((item, index) => (
-              <React.Fragment key={index}>
-                {item.chargerImageFiles.map((img, index) => (
-                  <GridItem
-                    key={index}
-                    onClick={() => {
-                      initialSlideOnChange(index);
-                    }}
-                  >
-                    <Image
-                      src={img.url}
-                      alt="img-icon"
-                      layout="fill"
-                      priority={true}
-                      unoptimized={true}
-                      objectFit="cover"
-                      style={{ borderRadius: '6pt' }}
-                      onClick={() => {
-                        setOpenImgModal(!openImgModal);
-                      }}
-                    />
-                  </GridItem>
-                ))}
-              </React.Fragment>
+            {reverseNewArr?.map((item, index) => (
+              <FlexWrap key={index}>
+                <Label>
+                  {convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    data?.quotationRequest?.quotationRequestChargers[index]
+                      ?.kind,
+                  )}
+                </Label>
+                {/* textarea 줄바꿈 */}
+                {/* 여기 특장점 2개부터 인덱스가 반대로 나와서 reverse() 사용 */}
+                <FeaturesList>
+                  {item?.productFeature?.split('\n').map((line, index) => (
+                    <li key={index}>
+                      {line}
+                      <br />
+                    </li>
+                  ))}
+                  {/* <li>{item.modelName}</li> */}
+                </FeaturesList>
+              </FlexWrap>
             ))}
-          </GridImg>
-        </Section>
-        {/* 이미지 자세히 보기 기능 */}
-        {openImgModal && (
-          <ImgDetailCarousel
-            file={newChargerImageFiles2!}
-            setOpenImgModal={setOpenImgModal}
-            idxRef={idxRef}
-          />
-        )}
-        <Line />
-        {/* 파일 부분 */}
-        <ChargeSection pb={pb}>
-          <Subtitle>충전기 카탈로그</Subtitle>
-          <FileContainer>
-            {data?.preQuotation.preQuotationChargers.map((item, index) => (
-              <React.Fragment key={index}>
-                {item.catalogFiles.map((file, index) => (
-                  <FileDownloadBtn key={index}>
-                    <FileDownload
-                      download={file.originalName}
-                      // href={file.url}
+          </Section>
+          <Line style={{ marginTop: '30pt' }} />
+          {/* 이미지 부분 */}
+          <Section imgBox={true} length={true}>
+            <Subtitle>충전기 이미지</Subtitle>
+            <GridImg>
+              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+                <React.Fragment key={index}>
+                  {item.chargerImageFiles.map((img, index) => (
+                    <GridItem
+                      key={index}
                       onClick={() => {
-                        fileDownload(userAgent, file.originalName, file.url);
+                        initialSlideOnChange(index);
                       }}
                     >
-                      <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                      <FileName> {file.originalName}</FileName>
-                    </FileDownload>
-                  </FileDownloadBtn>
-                ))}
-              </React.Fragment>
-            ))}
-          </FileContainer>
-        </ChargeSection>
-        {isSpot !== undefined && (
-          <Section pb={pb}>
-            {/* 담당자 정보 */}
-            {isSpot && (
-              <ManagerInfo
-                name={data?.preQuotation?.member?.name!}
-                email={data?.companyMemberAdditionalInfo?.managerEmail!}
-                phone={data?.preQuotation?.member?.phone!}
-              />
-            )}
+                      <Image
+                        src={img.url}
+                        alt="img-icon"
+                        layout="fill"
+                        priority={true}
+                        unoptimized={true}
+                        objectFit="cover"
+                        style={{ borderRadius: '6pt' }}
+                        onClick={() => {
+                          setOpenImgModal(!openImgModal);
+                        }}
+                      />
+                    </GridItem>
+                  ))}
+                </React.Fragment>
+              ))}
+            </GridImg>
           </Section>
-        )}
-      </UnderInfo>
-    </Wrapper>
+          {/* 이미지 자세히 보기 기능 */}
+          {openImgModal && (
+            <ImgDetailCarousel
+              file={newChargerImageFiles2!}
+              setOpenImgModal={setOpenImgModal}
+              idxRef={idxRef}
+            />
+          )}
+          <Line />
+          {/* 파일 부분 */}
+          <ChargeSection pb={pb}>
+            <Subtitle>충전기 카탈로그</Subtitle>
+            <FileContainer>
+              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+                <React.Fragment key={index}>
+                  {item.catalogFiles.map((file, index) => (
+                    <FileDownloadBtn key={index}>
+                      <FileDownload
+                        download={file.originalName}
+                        // href={file.url}
+                        onClick={() => {
+                          fileDownload(userAgent, file.originalName, file.url);
+                        }}
+                      >
+                        <Image
+                          src={fileImg}
+                          alt="file-icon"
+                          layout="intrinsic"
+                        />
+                        <FileName> {file.originalName}</FileName>
+                      </FileDownload>
+                    </FileDownloadBtn>
+                  ))}
+                </React.Fragment>
+              ))}
+            </FileContainer>
+          </ChargeSection>
+          {isSpot !== undefined && (
+            <Section pb={pb}>
+              {/* 담당자 정보 */}
+              {isSpot && (
+                <ManagerInfo
+                  name={data?.preQuotation?.member?.name!}
+                  email={data?.companyMemberAdditionalInfo?.managerEmail!}
+                  phone={data?.preQuotation?.member?.phone!}
+                />
+              )}
+            </Section>
+          )}
+        </UnderInfo>
+      </RightSection>
+    </Wrap>
   );
 };
+const Wrap = styled.div`
+  display: flex;
+`;
+
+const LeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 196.5pt;
+`;
+
+const RightSection = styled.div`
+  /* border: 2px solid green; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  @media (max-width: 899.25pt) {
+    padding-top: 21pt;
+    display: block;
+    width: 100%;
+  }
+`;
+const ProductList = styled.div`
+  width: 255pt;
+  height: 424.5pt;
+  border: 0.75pt solid ${colors.gray};
+  border-radius: 12pt;
+  margin-right: 60pt;
+
+  overflow: scroll;
+  h1 {
+    padding-left: 28.5pt;
+    padding-right: 28.5pt;
+    padding-top: 42pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18pt;
+    line-height: 27pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: ${colors.lightWhite};
+    z-index: 999;
+  }
+  p {
+    padding-left: 28.5pt;
+    padding-right: 28.5pt;
+    padding-top: 9pt;
+    padding-bottom: 9pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray2};
+    position: sticky;
+    top: 96pt;
+    background-color: ${colors.lightWhite};
+    z-index: 999;
+  }
+  ul {
+    margin-top: 30pt;
+    padding-left: 28.5pt;
+    padding-right: 28.5pt;
+  }
+  li {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray2};
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+    border-radius: 6pt;
+    margin-bottom: 9pt;
+    padding-top: 16.5pt;
+    padding-bottom: 16.5pt;
+    padding-left: 12pt;
+    padding-right: 19.125pt;
+  }
+  .leftBox {
+    display: flex;
+    gap: 9pt;
+  }
+  .imgBox {
+    position: relative;
+    width: 30pt;
+    height: 30pt;
+  }
+  .companyName {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray7};
+  }
+  .price {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    margin-top: 9pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+  .emphasis {
+    color: ${colors.main1};
+  }
+`;
 
 const TopWebRapper = styled.div`
+  width: 580.5pt;
   display: flex;
-  justify-content: space-between;
-  width: 900pt;
+  align-items: flex-end;
+  flex-direction: column;
+
   @media (max-width: 899.25pt) {
     display: none;
+    width: 100%;
   }
 `;
 
 const ChareCompanyInfo = styled.div`
   display: flex;
   flex-direction: column;
-  width: 255pt;
+  /* width: 255pt; */
+  width: 100%;
+  /* border: 1px solid red; */
 
   @media (max-width: 899.25pt) {
     display: none;
   }
 `;
 
-const Wrapper = styled.div`
-  /* padding-top: 60pt; */
-
-  @media (max-width: 899.25pt) {
-    padding-top: 21pt;
-  }
-`;
 const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
@@ -618,7 +818,7 @@ const Title = styled.h1`
 const Section = styled.section<{
   imgBox?: boolean;
   pb?: number;
-  width?: boolean;
+  length?: boolean;
 }>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
@@ -642,8 +842,8 @@ const Section = styled.section<{
   @media (min-width: 900pt) {
     overflow-x: scroll;
     padding: 30pt 0;
-    ${({ width }) =>
-      width &&
+    ${({ length }) =>
+      length &&
       css`
         width: 580.5pt;
       `}
@@ -806,16 +1006,15 @@ const WebItem = styled.li`
   }
 
   @media (min-width: 900pt) {
-    justify-content: space-between;
     .name {
-      flex: none;
+      flex: 1;
     }
     .value {
-      flex: none;
-      text-align: right;
+      flex: 2;
     }
   }
 `;
+
 const ImageBox = styled.div`
   position: relative;
   width: 48pt;
@@ -824,8 +1023,10 @@ const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin-top: 60pt;
+  /* border: 2px solid red; */
   @media (min-width: 900pt) {
+    margin-top: 0;
     margin-left: 0;
     width: 75pt;
     height: 75pt;
@@ -991,7 +1192,9 @@ const WebFinishedPhotoWrapper = styled.div`
   @media (min-width: 900pt) {
     width: 580.5pt;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    /* border: 1px solid red; */
+    /* justify-content: space-between; */
     /* margin-bottom: 51pt; */
   }
   @media (max-width: 899.25pt) {
@@ -999,9 +1202,7 @@ const WebFinishedPhotoWrapper = styled.div`
   }
 `;
 
-const WebLeftPhotoBox = styled.div``;
-
-const WebLeftPhotoWrapper = styled.div`
+const WebRightPhotoWrapper = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -1025,6 +1226,7 @@ const WebLeftPhotos = styled.div<{ index: number; chargeIdx: number }>`
       border-radius: 6pt;
     }
     .imgBox {
+      /* border: 2px solid blue; */
       & > span {
         border-radius: 6pt;
       }
@@ -1035,20 +1237,15 @@ const WebLeftPhotos = styled.div<{ index: number; chargeIdx: number }>`
   }
 `;
 
-const WebRightPhotoBox = styled.div`
+const WebLeftPhotoBox = styled.div`
   @media (min-width: 900pt) {
     width: 508.5pt;
     height: 396pt;
     border-radius: 12pt;
-
-    .imgBox {
-      position: relative;
+    position: relative;
+    margin-right: 12pt;
+    & > span {
       border-radius: 12pt;
-      width: 100%;
-      height: 100%;
-      & > span {
-        border-radius: 12pt;
-      }
     }
   }
 `;
@@ -1058,9 +1255,25 @@ const NoImage = styled.div`
   width: 75pt;
   border-radius: 6pt;
   background: #caccd1;
+  margin-top: 60pt;
   @media (max-width: 899.25pt) {
     height: 48pt;
     width: 48pt;
+    border-radius: 6pt;
+    margin-left: 15pt;
+    margin-bottom: 15pt;
+  }
+`;
+
+const NoImage2 = styled.div`
+  height: 30pt;
+  width: 30pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  /* margin-top: 60pt; */
+  @media (max-width: 899.25pt) {
+    height: 25pt;
+    width: 25pt;
     border-radius: 6pt;
     margin-left: 15pt;
     margin-bottom: 15pt;
@@ -1081,6 +1294,8 @@ const FileName = styled.div`
   overflow: hidden;
 `;
 
-const UnderInfo = styled.div``;
+const UnderInfo = styled.div`
+  /* border: 1px solid red; */
+`;
 
 export default BiddingQuote;

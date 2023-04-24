@@ -1,17 +1,32 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import colors from 'styles/colors';
-import ContractButton from './Button';
-import Tab from './Tab';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import check_circle_icon from 'public/companyContract/check_circle_icon.png';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 export default function Complete(props: Props) {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const projectIdx = router.query.projectIdx;
+
+  const onClickButton = useCallback(() => {
+    dispatch(contractAction.reset());
+    router.push({
+      pathname: '/company/mypage/runningProgress',
+      query: {
+        projectIdx: projectIdx,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(projectIdx);
+  }, [router.isReady]);
 
   return (
     <Wrap>
@@ -23,7 +38,7 @@ export default function Complete(props: Props) {
         카카오톡을 통해 전달된 계약서를
         <br /> 검토 후 서명해주세요.
       </Notice>
-      <Button>진행 프로젝트 바로가기</Button>
+      <Button onClick={onClickButton}>진행 프로젝트 바로가기</Button>
     </Wrap>
   );
 }

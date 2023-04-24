@@ -1,16 +1,31 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ContractButton from './Button';
 import Tab from './Tab';
 import Info from './Info';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { inputPriceFormat, PriceCalculation } from 'utils/calculatePackage';
 
 type Props = {};
 
 export default function Step1(props: Props) {
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const { productPrice, installationCost } = useSelector(
+    (state: RootState) => state.contractSlice,
+  );
+
+  useEffect(() => {
+    if (productPrice !== '' && installationCost !== '') {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [productPrice, installationCost]);
 
   return (
     <Wrap>
@@ -32,13 +47,35 @@ export default function Step1(props: Props) {
               <li>
                 <Name>제품 가격</Name>
                 <span>
-                  <input type={'text'} placeholder="0" value={''} />원
+                  <input
+                    onChange={(e) =>
+                      dispatch(
+                        contractAction.setProductPrice(e.currentTarget.value),
+                      )
+                    }
+                    type={'text'}
+                    placeholder="0"
+                    value={inputPriceFormat(productPrice)}
+                  />
+                  원
                 </span>
               </li>
               <li>
                 <Name>설치공사비</Name>
                 <span>
-                  <input type={'text'} placeholder="0" value={''} />원
+                  <input
+                    onChange={(e) =>
+                      dispatch(
+                        contractAction.setInstallationCost(
+                          e.currentTarget.value,
+                        ),
+                      )
+                    }
+                    type={'text'}
+                    placeholder="0"
+                    value={inputPriceFormat(installationCost)}
+                  />
+                  원
                 </span>
               </li>
             </>
@@ -48,8 +85,8 @@ export default function Step1(props: Props) {
       <ContractButton
         prev={false}
         value={'다음'}
-        isValid={true}
-        onClick={() => dispatch(contractAction.addStep(2))}
+        isValid={isValid}
+        onClick={() => isValid && dispatch(contractAction.setStep(2))}
       />
     </Wrap>
   );
@@ -137,7 +174,7 @@ const ContentsSection = styled.section`
     line-height: 12pt;
     text-align: right;
     letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
+    color: ${colors.main2};
     margin-right: 12pt;
     width: 135pt;
     ::placeholder {
@@ -154,10 +191,4 @@ const Name = styled.span`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-`;
-
-const Line = styled.div`
-  border: 1px solid #e2e5ed;
-  margin-top: 18pt;
-  margin-bottom: 18pt;
 `;

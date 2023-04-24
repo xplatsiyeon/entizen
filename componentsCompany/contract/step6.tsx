@@ -1,16 +1,30 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ContractButton from './Button';
 import Tab from './Tab';
 import Info from './Info';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 export default function Step6(props: Props) {
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const { invoiceDeliveryDate, subscriptionPaymentDate } = useSelector(
+    (state: RootState) => state.contractSlice,
+  );
+
+  useEffect(() => {
+    if (invoiceDeliveryDate !== '' && subscriptionPaymentDate !== '') {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [invoiceDeliveryDate, subscriptionPaymentDate]);
 
   return (
     <Wrap>
@@ -26,14 +40,32 @@ export default function Step6(props: Props) {
       <P>매월 말일을 기준으로 정산한 후, </P>
       <DateWrap>
         <span className="month">익월</span>
-        <input type="text" value="" placeholder="날짜를 입력해주세요." />
+        <input
+          type="text"
+          value={invoiceDeliveryDate}
+          placeholder="날짜를 입력해주세요."
+          onChange={(e) =>
+            dispatch(
+              contractAction.setInvoiceDeliveryDate(e.currentTarget.value),
+            )
+          }
+        />
         <span className="day">일</span>
       </DateWrap>
       <P>까지 구독료 청구서를 구매자에게 교부하며,</P>
       <P className="first">구매자는</P>
       <DateWrap>
         <span className="month">익월</span>
-        <input type="text" value="" placeholder="날짜를 입력해주세요." />
+        <input
+          type="text"
+          value={subscriptionPaymentDate}
+          placeholder="날짜를 입력해주세요."
+          onChange={(e) =>
+            dispatch(
+              contractAction.setSubscriptionPaymentDate(e.currentTarget.value),
+            )
+          }
+        />
         <span className="day">일</span>
       </DateWrap>
       <P>까지 구독료를 지급하여야 한다.</P>
@@ -41,10 +73,10 @@ export default function Step6(props: Props) {
       <ContractButton
         prev={true}
         prevValue={'이전'}
-        prevOnClick={() => dispatch(contractAction.addStep(5))}
+        prevOnClick={() => dispatch(contractAction.setStep(5))}
         value={'다음'}
-        isValid={true}
-        onClick={() => dispatch(contractAction.addStep(7))}
+        isValid={isValid}
+        onClick={() => isValid && dispatch(contractAction.setStep(7))}
       />
     </Wrap>
   );

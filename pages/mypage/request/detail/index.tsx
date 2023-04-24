@@ -18,6 +18,7 @@ import {
   SpotDataResponse,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 import RequestDetailModal from 'components/Modal/RequestDetailModal';
+import { QuotationRequestsResponse } from '..';
 export interface PreQuotationChargers {
   createdAt: string;
   preQuotationChargerIdx: number;
@@ -129,6 +130,21 @@ const MypageDetail = () => {
     // enabled: false,
   });
 
+  // ----------- 구매자 내견적 상세 조회 API ------------
+  const { data: quotationsData, refetch } = useQuery<QuotationRequestsResponse>(
+    'mypage-request-id',
+    () =>
+      isTokenGetApi(
+        `/quotations/request/${data?.quotationRequest?.quotationRequestIdx}`,
+      ),
+    {
+      enabled: router.isReady && data ? true : false,
+      // enabled: false,
+    },
+  );
+
+  console.log('🔥 data : ', data);
+
   // 모달창에 넘겨 줄 기업이름
   const ModalCompany = data?.companyMemberAdditionalInfo?.companyName;
 
@@ -189,12 +205,13 @@ const MypageDetail = () => {
             handleOnClick={handleOnClick}
           />
           {/* 담당자 정보 */}
-          {/* <ManagerInfo /> */}
-          <BiddingQuote pb={0} data={data!} onClcikModal={onClcikModal} />
-          {/* 
-          {!spotData?.data.spotInspection && (
-            <TwoButton onClcikModal={onClcikModal} />
-          )} */}
+          <BiddingQuote
+            preQuotations={quotationsData?.preQuotations!}
+            pb={0}
+            data={data!}
+            onClcikModal={onClcikModal}
+          />
+
           <WebHide>
             <TwoButton
               onClcikModal={onClcikModal}

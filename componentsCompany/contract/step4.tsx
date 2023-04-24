@@ -1,16 +1,30 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ContractButton from './Button';
 import Tab from './Tab';
 import Info from './Info';
 import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 export default function Step3(props: Props) {
   const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const { otherSpecifics } = useSelector(
+    (state: RootState) => state.contractSlice,
+  );
+
+  useEffect(() => {
+    if (otherSpecifics !== '') {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [otherSpecifics]);
 
   return (
     <Wrap>
@@ -23,18 +37,22 @@ export default function Step3(props: Props) {
       </Notice>
       {/* 내용 */}
       <Contents
+        value={otherSpecifics}
         placeholder="[선택] 기타 특이사항을 입력해주세요."
         maxLength={500}
+        onChange={(e) =>
+          dispatch(contractAction.setOtherSpecifics(e.currentTarget.value))
+        }
       />
 
       {/* 버튼 */}
       <ContractButton
         prev={true}
         prevValue={'이전'}
-        prevOnClick={() => dispatch(contractAction.addStep(3))}
+        prevOnClick={() => dispatch(contractAction.setStep(3))}
         value={'다음'}
         isValid={true}
-        onClick={() => dispatch(contractAction.addStep(5))}
+        onClick={() => isValid && dispatch(contractAction.setStep(5))}
       />
     </Wrap>
   );

@@ -127,6 +127,8 @@ const Mypage1_3 = ({}: any) => {
       },
     );
 
+  console.log('🔥 data : ', data);
+
   // ---------  가견적 상세조회 api -----------
   const {
     data: quotationData,
@@ -328,21 +330,6 @@ const Mypage1_3 = ({}: any) => {
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
-  // console.log('⭐️ isFinalItmeIndex : ', isFinalItmeIndex);
-  // console.log('⭐️ date check  : ', data);
-  // console.log('⭐️ quotationData  : ', quotationData);
-  // console.log('⭐️ data : ', data);
-
-  // if (isError || spotIsError) {
-  //   return (
-  //     <Modal
-  //       text="다시 시도해주세요"
-  //       click={() => {
-  //         router.push('/');
-  //       }}
-  //     />
-  //   );
-  // }
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
@@ -517,6 +504,7 @@ const Mypage1_3 = ({}: any) => {
                         {/* ----------------------가견적------------------------- */}
                         <SendTextTitle>보낸 가견적서</SendTextTitle>
                         <BiddingQuote
+                          // preQuotations={data?.preQuotations!}
                           data={quotationData!}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
