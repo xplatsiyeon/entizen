@@ -197,8 +197,6 @@ const LastWrite = (props: Props) => {
       const arrEn = [];
       // 충전기 부분 스텝 2~6
       while (count < quotationRequest?.quotationRequestChargers?.length!) {
-        // console.log(preQuotation.preQuotationCharger.length - 2 - count);
-
         const quotationCharger =
           quotationRequest?.quotationRequestChargers[count];
 

@@ -97,9 +97,7 @@ export default function Step7({ subscribeProduct }: Props) {
               value={handlingFee}
               placeholder="날짜를 입력해주세요."
               onChange={(e) =>
-                dispatch(
-                  contractAction.setPaymentDeadlineDate(e.currentTarget.value),
-                )
+                dispatch(contractAction.setHandlingFee(e.currentTarget.value))
               }
             />
             <span className="day">%</span>
@@ -129,16 +127,23 @@ export default function Step7({ subscribeProduct }: Props) {
 }
 
 const Wrap = styled.div`
-  padding-top: 24pt;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  padding-left: 15pt;
-  padding-right: 15pt;
   position: relative;
-  min-height: calc(100vh - 48px);
-  padding-bottom: 130pt;
+  padding-top: 26.18pt;
+  padding-left: 37.99pt;
+  padding-right: 37.99pt;
+  padding-bottom: 42pt;
+
+  @media (max-width: 899.25pt) {
+    min-height: calc(100vh - 48px);
+    padding-top: 24pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    padding-bottom: 130pt;
+  }
 `;
 
 const Notice = styled.div`
@@ -146,6 +151,7 @@ const Notice = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   letter-spacing: -0.02em;
+  width: 100%;
   h2 {
     font-weight: 500;
     font-size: 15pt;

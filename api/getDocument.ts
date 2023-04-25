@@ -9,7 +9,9 @@ export const getDocument = (documentId: string) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
+      // authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
+      authorization:
+        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
     },
   };
 

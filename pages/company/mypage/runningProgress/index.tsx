@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import Progress from '../projectProgress';
+import { contractAction } from 'storeCompany/contract';
 
 type Props = {};
 export interface Data {
@@ -98,6 +99,11 @@ const RunningProgress = (props: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
+
+  // 계약서 추가 내용 리셋 시키기
+  useEffect(() => {
+    dispatch(contractAction.reset());
+  }, []);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));

@@ -63,32 +63,34 @@ export interface UnConsentProjectDateChangeHistories {
   processingStatus: boolean;
   projectIdx: number;
 }
+
+export interface FinalQuotation {
+  finalQuotationIdx: string;
+  subscribeProduct: 'ENTIRETY' | 'PART';
+  subscribePeriod: string;
+  userInvestRate: string;
+  chargingPointRate: string;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  spotInspectionResult: string;
+  finalQuotationChargers: FinalQuotationChargers[];
+  quotationRequest: {
+    installationPurpose:
+      | 'BUSINESS'
+      | 'WELFARE'
+      | 'MARKETING'
+      | 'PERSONAL'
+      | 'ETC';
+    etcRequest: string;
+  };
+}
 export interface InProgressProjectsDetail {
   projectIdx: string;
   projectName: string;
   projectNumber: string;
   badge: string;
-  finalQuotation: {
-    finalQuotationIdx: string;
-    subscribeProduct: 'ENTIRETY' | 'PART';
-    subscribePeriod: string;
-    userInvestRate: string;
-    chargingPointRate: string;
-    subscribePricePerMonth: number;
-    constructionPeriod: number;
-    subscribeProductFeature: string;
-    spotInspectionResult: string;
-    finalQuotationChargers: FinalQuotationChargers[];
-    quotationRequest: {
-      installationPurpose:
-        | 'BUSINESS'
-        | 'WELFARE'
-        | 'MARKETING'
-        | 'PERSONAL'
-        | 'ETC';
-      etcRequest: string;
-    };
-  };
+  finalQuotation: FinalQuotation;
   userMember: UserMember;
   companyMember: CompanyMember;
   isCompletedContractStep: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETION';

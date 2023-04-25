@@ -206,7 +206,7 @@ const MypageDetail = () => {
           />
           {/* 담당자 정보 */}
           <BiddingQuote
-            preQuotations={quotationsData?.preQuotations!}
+            quotationsData={quotationsData!}
             pb={0}
             data={data!}
             onClcikModal={onClcikModal}

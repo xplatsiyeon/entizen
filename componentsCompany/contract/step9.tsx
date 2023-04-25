@@ -14,10 +14,11 @@ import {
   ModuSignResponse,
 } from 'QueryComponents/ModuSignQuery';
 import { useMutation } from 'react-query';
-import { modusign } from 'api/sign';
+import { moduSign } from 'api/sign';
 import { isTokenPostApi } from 'api';
 import { modusignCancel } from 'api/cancelSign';
 import { useQuery } from '@apollo/client';
+import Modal from 'components/Modal/Modal';
 
 type Props = {};
 
@@ -25,18 +26,22 @@ export default function Step9(props: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
   const { companyRegistrationNumber, representativeName } = useSelector(
     (state: RootState) => state.contractSlice,
   );
   const { contractSlice } = useSelector((state: RootState) => state);
 
+  console.log('🔥 contractSlice : ', contractSlice);
   // ------------------모두싸인 GET API----------------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: inModuSignLoading,
     error: inModuSignErroe,
     data: inModuSignData,
-    refetch: inModuSignRefetch,
+    // refetch: inModuSignRefetch,
   } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
     variables: {
       projectIdx: router?.query?.projectIdx,
@@ -49,17 +54,23 @@ export default function Step9(props: Props) {
     },
   });
 
+  console.log('🔥 inModuSignErroe : ', inModuSignErroe);
+  console.log('🔥 inModuSignData : ', inModuSignData);
+  console.log('🔥 inModuSignLoading : ', inModuSignLoading);
+
   // -----------------------모두싸인 POST API---------------------------
   const {
     mutate: modusignMutate,
     isError: modusignIsError,
     isLoading: modusignIsLoading,
     data: modusignData,
-  } = useMutation(modusign, {
+  } = useMutation(moduSign, {
     onSuccess: (modusignData: any) => {
       // 백엔드에 보내줄 API 연결
 
       console.log('성공');
+
+      console.log('🔥 modusignData : ', modusignData);
 
       const apiData: any = {
         ...modusignData,
@@ -74,10 +85,9 @@ export default function Step9(props: Props) {
       });
     },
     onError: (error) => {
-      // console.log('data 확인');
       console.log(error);
-      // setIsModal(true);
-      // setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+      setIsModal(true);
+      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
     },
   });
   // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 --------------
@@ -87,14 +97,13 @@ export default function Step9(props: Props) {
     isLoading: contractsIsLoading,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      // setIsModal(true);
-      // setModalMessage('계약서가 전송되었습니다');
+      setIsModal(true);
+      setModalMessage('계약서가 전송되었습니다');
     },
     onError: (error) => {
+      destroyMutate(modusignData?.id);
+      console.log('🔥 모두싸인 POST 에러 ~line 102');
       console.log(error);
-      // destroyMutate(modusignData?.id);
-      // console.log('🔥 모두싸인 POST 에러 ~line 87');
-      // console.log(error);
     },
   });
   // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
@@ -104,24 +113,33 @@ export default function Step9(props: Props) {
     isLoading: destroyIsLoading,
   } = useMutation(modusignCancel, {
     onSuccess: () => {
-      // setIsModal(true);
-      // setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
+      setIsModal(true);
+      setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
     },
     onError: (error: any) => {
-      // console.log('-----------서명 취소 요청 에러----------');
-      // console.log(error);
+      console.log('-----------서명 취소 요청 에러----------');
+      console.log(error);
     },
   });
 
   // 온클릭 요청
   const onClickContractRequest = () => {
-    inModuSignRefetch();
-    console.log('inModuSignData : ', inModuSignData);
-    // modusignMutate(inModuSignData!);
-    return;
     if (isValid) {
-      modusignMutate(inModuSignData!);
-      // dispatch(contractAction.setStep(10));
+      modusignMutate(
+        { data: inModuSignData!, newContractData: contractSlice }!,
+      );
+    }
+  };
+
+  // 모달 버튼 클릭
+  const onClickModal = () => {
+    setIsModal(false);
+    setModalMessage('');
+
+    if (modalMessage === '계약서가 전송되었습니다') {
+      router.replace(
+        `/company/mypage/runningProgress/complete?projectIdx=${router.query.projectIdx}`,
+      );
     }
   };
 
@@ -137,6 +155,7 @@ export default function Step9(props: Props) {
 
   return (
     <Wrap>
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
       <Tab />
       <Notice>
         <h2>계약서 서명을 위해 아래에 운영사업자 정보를 입력해주세요.</h2>
@@ -177,16 +196,23 @@ export default function Step9(props: Props) {
 }
 
 const Wrap = styled.div`
-  padding-top: 18.375pt;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  padding-left: 15pt;
-  padding-right: 15pt;
   position: relative;
-  min-height: calc(100vh - 48px);
-  padding-bottom: 130pt;
+  padding-top: 26.18pt;
+  padding-left: 37.99pt;
+  padding-right: 37.99pt;
+  padding-bottom: 42pt;
+
+  @media (max-width: 899.25pt) {
+    min-height: calc(100vh - 48px);
+    padding-top: 24pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    padding-bottom: 130pt;
+  }
 `;
 
 const Notice = styled.div`
@@ -194,6 +220,7 @@ const Notice = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   letter-spacing: -0.02em;
+  width: 100%;
   h2 {
     font-weight: 500;
     font-size: 15pt;

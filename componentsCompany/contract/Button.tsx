@@ -35,18 +35,21 @@ export default function ContractButton({
   }
 }
 const Wrap = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+
+  @media (max-width: 899.25pt) {
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
 `;
 
 const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
   display: ${({ prev }) => (prev === false ? 'none' : 'block')};
-  width: 100%;
   background-color: ${colors.main1};
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
@@ -59,7 +62,10 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
   padding-top: 15pt;
   padding-bottom: 39pt;
   flex: 2;
-
+  margin-right: 8.7375pt;
+  max-height: 42pt;
+  margin-top: 45pt;
+  border-radius: 6pt;
   ${({ isValid }) =>
     !isValid &&
     css`
@@ -69,5 +75,14 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
   &.prev {
     background-color: ${colors.gray} !important;
     flex: 1;
+  }
+  @media (max-width: 899.25pt) {
+    width: 100%;
+
+    min-width: none;
+    margin-top: none;
+    border-radius: 0;
+    margin-right: auto;
+    max-height: auto;
   }
 `;

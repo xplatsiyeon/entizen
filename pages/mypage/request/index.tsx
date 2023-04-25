@@ -23,7 +23,7 @@ import FinalQuotation from 'components/mypage/request/FinalQuotation';
 import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import M17Modal from 'components/Modal/M17Modal';
+import OtherPartnerModal from 'components/Modal/OtherPartnerModal';
 import UserRightMenu from 'components/UserRightMenu';
 import CancelButton from 'components/mypage/request/CancelButton';
 import { useDispatch } from 'react-redux';
@@ -31,6 +31,7 @@ import { redirectAction } from 'store/redirectUrlSlice';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import { QuotationDataV1, QuotationRequest } from 'types/quotation';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -116,6 +117,26 @@ const Mypage1_3 = ({}: any) => {
   const [modalMessage, setModalMessage] = useState('');
   const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
 
+  // ==================== 간편 견적 조회 V1 ====================
+  const {
+    data: quotationDataV1,
+    isError: quotationErrorV1,
+    isLoading: quotationLoadingV1,
+    refetch: quotationRefresh,
+  } = useQuery<QuotationDataV1, AxiosError, QuotationRequest>(
+    'v1/quotation-requests',
+    () =>
+      isTokenGetApi(
+        `/v1/quotation-requests/${router?.query?.quotationRequestIdx}`,
+      ),
+    {
+      enabled: router.isReady,
+      select(data) {
+        return data.quotationRequest;
+      },
+    },
+  );
+
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
@@ -127,7 +148,10 @@ const Mypage1_3 = ({}: any) => {
       },
     );
 
-  console.log('🔥 data : ', data);
+  console.log(
+    '🔥 data : ',
+    data?.quotationRequest.hasCurrentInProgressPreQuotationIdx,
+  );
 
   // ---------  가견적 상세조회 api -----------
   const {
@@ -330,6 +354,10 @@ const Mypage1_3 = ({}: any) => {
     }
   }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
+  useEffect(() => {
+    console.log('quotationDataV1 : ', quotationDataV1);
+  }, [quotationDataV1]);
+
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
@@ -351,7 +379,8 @@ const Mypage1_3 = ({}: any) => {
         )}
         {/* 확정하기 모달 */}
         {partnerModal && (
-          <M17Modal
+          <OtherPartnerModal
+            quotationDataV1={quotationDataV1!}
             backgroundOnClick={() => setPartnerModal(false)}
             contents={modalMessage}
             rightText={'확인'}
@@ -454,7 +483,7 @@ const Mypage1_3 = ({}: any) => {
                       <>
                         {/* --------------------최종견적 상세 내용--------------------------*/}
                         <FinalQuotation
-                          data={data?.preQuotations[isFinalItmeIndex]!}
+                          data={data?.preQuotations![isFinalItmeIndex]!}
                           isFinalItmeIndex={isFinalItmeIndex}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
@@ -475,7 +504,7 @@ const Mypage1_3 = ({}: any) => {
                               onClick={() =>
                                 onClickConfirm(
                                   0,
-                                  '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                                  '다른 파트너에게\n 재견적을 받아보시겠습니까?',
                                 )
                               }
                             >

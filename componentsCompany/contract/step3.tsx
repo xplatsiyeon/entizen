@@ -9,10 +9,13 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { inputPriceFormat } from 'utils/calculatePackage';
+import { FinalQuotation } from 'QueryComponents/CompanyQuery';
 
-type Props = {};
+type Props = {
+  data: FinalQuotation;
+};
 
-export default function Step3(props: Props) {
+export default function Step3({ data }: Props) {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const { extensionSubscriptionFee } = useSelector(
@@ -20,7 +23,7 @@ export default function Step3(props: Props) {
   );
 
   useEffect(() => {
-    if (extensionSubscriptionFee !== '') {
+    if (extensionSubscriptionFee.length > 0) {
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -48,33 +51,37 @@ export default function Step3(props: Props) {
           3) 구독상품, 구독기간 외 다른 항목들은 동일한 조건으로 자동 연장
         </p>
       </Notice>
-      <ContentsSection>
-        <Info
-          // 자식요소로 추가 데이터 내려 주기
-          children={
-            <>
-              <li>
-                <Name>구독료</Name>
-                <span>
-                  <input
-                    type={'text'}
-                    placeholder="0"
-                    value={inputPriceFormat(extensionSubscriptionFee)}
-                    onChange={(e) =>
-                      dispatch(
-                        contractAction.setExtensionSubscriptionFee(
-                          e.currentTarget.value,
-                        ),
-                      )
-                    }
-                  />
-                  원/월
-                </span>
-              </li>
-            </>
-          }
-        />
-      </ContentsSection>
+
+      {data.finalQuotationChargers.map((charger, index) => (
+        <ContentsSection key={index}>
+          <ul>
+            {/* 상단 정보  */}
+            <Info charger={charger} />
+            <Line />
+            {/* 스텝 3 내용 */}
+            <li>
+              <Name>구독료</Name>
+              <span>
+                <input
+                  type={'text'}
+                  placeholder="0"
+                  value={inputPriceFormat(extensionSubscriptionFee[index])}
+                  onChange={(e) =>
+                    dispatch(
+                      contractAction.setExtensionSubscriptionFee([
+                        index,
+                        e.currentTarget.value,
+                      ]),
+                    )
+                  }
+                />
+                원/월
+              </span>
+            </li>
+          </ul>
+        </ContentsSection>
+      ))}
+
       {/* 버튼 */}
       <ContractButton
         prev={true}
@@ -89,23 +96,30 @@ export default function Step3(props: Props) {
 }
 
 const Wrap = styled.div`
-  padding-top: 24pt;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  padding-left: 15pt;
-  padding-right: 15pt;
   position: relative;
-  min-height: calc(100vh - 48px);
-  padding-bottom: 130pt;
-`;
+  padding-top: 26.18pt;
+  padding-left: 37.99pt;
+  padding-right: 37.99pt;
+  padding-bottom: 42pt;
 
+  @media (max-width: 899.25pt) {
+    min-height: calc(100vh - 48px);
+    padding-top: 24pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    padding-bottom: 130pt;
+  }
+`;
 const Notice = styled.div`
   padding-top: 15.75pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   letter-spacing: -0.02em;
+  width: 100%;
   h2 {
     font-weight: 500;
     font-size: 15pt;
@@ -122,10 +136,15 @@ const Notice = styled.div`
 `;
 
 const ContentsSection = styled.section`
-  margin-top: 30pt;
   background: ${colors.lightWhite4};
   border-radius: 6pt;
   width: 100%;
+  :nth-of-type(1) {
+    margin-top: 30pt;
+  }
+  :not(:last-of-type) {
+    margin-bottom: 12pt;
+  }
   ul {
     padding: 18pt 15pt;
   }

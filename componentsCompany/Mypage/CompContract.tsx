@@ -4,7 +4,6 @@ import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
-import { modusign } from 'api/sign';
 import {
   GET_InProgressProjectsDetail,
   InProgressProjectsDetailResponse,
@@ -12,23 +11,19 @@ import {
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
-import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import { isTokenPostApi, multerApi } from 'api';
-import { modusignCancel } from 'api/cancelSign';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import {
-  GET_ModuSignResponse,
-  ModuSignResponse,
-} from 'QueryComponents/ModuSignQuery';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import useCreateChatting from 'hooks/useCreateChatting';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
+import ContractModal from 'componentsCompany/Modal/contractModal';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   id?: string;
@@ -36,7 +31,6 @@ type Props = {
 export type ImageType = 'IMAGE' | 'FILE';
 const ComContranct = ({ id }: Props) => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-
   const router = useRouter();
   const routerId = router.query.projectIdx!;
   const imgRef = useRef<HTMLInputElement>(null);
@@ -47,6 +41,13 @@ const ComContranct = ({ id }: Props) => {
   // 자체 계약서 파일 모달
   const [openSelfContract, setOpenSelfContract] = useState(false);
   const [tpye, setType] = useState<ImageType>();
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+
+  // PC 계약 모달
+  const [contractIsModal, setContractIsModal] = useState(false);
 
   // -------------진행중인 프로젝트 상세 리스트 api-------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -67,83 +68,6 @@ const ComContranct = ({ id }: Props) => {
     },
   });
 
-  // ------------------모두싸인 GET API----------------------
-  const {
-    loading: inModuSignLoading,
-    error: inModuSignErroe,
-    data: inModuSignData,
-    refetch: inModuSignRefetch,
-  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
-    variables: {
-      projectIdx: router?.query?.projectIdx,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
-
-  // -----------------------모두싸인 POST API---------------------------
-  const {
-    mutate: modusignMutate,
-    isError: modusignIsError,
-    isLoading: modusignIsLoading,
-    data: modusignData,
-  } = useMutation(modusign, {
-    onSuccess: (modusignData: any) => {
-      // 백엔드에 보내줄 API 연결
-
-      const apiData: any = {
-        ...modusignData,
-        projectIdx: router?.query?.projectIdx,
-      };
-      contractsMutate({
-        url: '/contracts',
-        data: {
-          contract: JSON.stringify(apiData),
-        },
-      });
-    },
-    onError: (error) => {
-      // console.log('data 확인');
-      // console.log(error);
-      setIsModal(true);
-      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
-    },
-  });
-  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 --------------
-  const {
-    mutate: contractsMutate,
-    isError: contractsIsError,
-    isLoading: contractsIsLoading,
-  } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      setIsModal(true);
-      setModalMessage('계약서가 전송되었습니다');
-    },
-    onError: (error) => {
-      destroyMutate(modusignData?.id);
-      // console.log('🔥 모두싸인 POST 에러 ~line 87');
-      // console.log(error);
-    },
-  });
-  // ------------ 모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
-  const {
-    mutate: destroyMutate,
-    isError: destroyIsError,
-    isLoading: destroyIsLoading,
-  } = useMutation(modusignCancel, {
-    onSuccess: () => {
-      setIsModal(true);
-      setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
-    },
-    onError: (error: any) => {
-      // console.log('-----------서명 취소 요청 에러----------');
-      // console.log(error);
-    },
-  });
   // /contracts/self
   const { mutate: selfMutate, isLoading: selftLoading } = useMutation(
     isTokenPostApi,
@@ -199,16 +123,18 @@ const ComContranct = ({ id }: Props) => {
   });
 
   // console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
-  // console.log(modusignData);
-  // const handleContr = () => modusignMutate(inModuSignData!);
+  // 엔티즌 전자 계약서 클릭
   const handleContr = () => {
-    console.log('🔥 click : ');
-    router.push({
-      pathname: '/company/mypage/runningProgress/addContract',
-      query: {
-        projectIdx: routerId,
-      },
-    });
+    if (mobile) {
+      router.push({
+        pathname: '/company/mypage/runningProgress/addContract',
+        query: {
+          projectIdx: routerId,
+        },
+      });
+    } else {
+      setIsModal(true);
+    }
   };
 
   // 사진 || 파일 저장
@@ -234,6 +160,7 @@ const ComContranct = ({ id }: Props) => {
     e.target.value = '';
   };
 
+  // 자체 계약서 모달 클릭
   const onClickModal = () => {
     if (modalMessage === '자체 계약서를 전송하였습니다.') {
       inProgressRefetch();
@@ -296,12 +223,13 @@ const ComContranct = ({ id }: Props) => {
     }
   }, []);
 
-  if (modusignIsLoading || contractsIsLoading || multerImageLoading) {
-    return <Loader />;
-  }
+  // if (modusignIsLoading || contractsIsLoading || multerImageLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Wrapper>
+      {isModal && <ContractModal setIsModal={setIsModal} />}
       {openSelfContract && (
         <FileSelectModal
           fileText="앨범에서 가져오기"

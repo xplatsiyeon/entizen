@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type State = {
+export type ContractState = {
   step: number;
-  productPrice: string;
-  installationCost: string;
-  subscriptionFee: string;
-  extensionSubscriptionFee: string;
+  productPrice: string[];
+  installationCost: string[];
+  subscriptionFee: string[];
+  extensionSubscriptionFee: string[];
   otherSpecifics: string;
   productExplanation: string;
   invoiceDeliveryDate: string;
@@ -18,12 +18,12 @@ type State = {
   representativeName: string;
 };
 
-const initialState: State = {
+const initialState: ContractState = {
   step: 0,
-  productPrice: '',
-  installationCost: '',
-  subscriptionFee: '',
-  extensionSubscriptionFee: '',
+  productPrice: [],
+  installationCost: [],
+  subscriptionFee: [],
+  extensionSubscriptionFee: [],
   otherSpecifics: '',
   productExplanation: '',
   invoiceDeliveryDate: '',
@@ -44,19 +44,22 @@ const slice = createSlice({
       state.step = action.payload;
     },
     // 섹션 1
-    setProductPrice(state, action: PayloadAction<string>) {
-      state.productPrice = action.payload;
+    setProductPrice(state, action: PayloadAction<[number, string]>) {
+      state.productPrice[action.payload[0]] = action.payload[1];
     },
-    setInstallationCost(state, action: PayloadAction<string>) {
-      state.installationCost = action.payload;
+    setInstallationCost(state, action: PayloadAction<[number, string]>) {
+      state.installationCost[action.payload[0]] = action.payload[1];
     },
     // 섹션 2
-    setSubscribe(state, action: PayloadAction<string>) {
-      state.subscriptionFee = action.payload;
+    setSubscribe(state, action: PayloadAction<[number, string]>) {
+      state.subscriptionFee[action.payload[0]] = action.payload[1];
     },
     // 섹션 3
-    setExtensionSubscriptionFee(state, action: PayloadAction<string>) {
-      state.extensionSubscriptionFee = action.payload;
+    setExtensionSubscriptionFee(
+      state,
+      action: PayloadAction<[number, string]>,
+    ) {
+      state.extensionSubscriptionFee[action.payload[0]] = action.payload[1];
     },
     // 섹션 4
     setOtherSpecifics(state, action: PayloadAction<string>) {

@@ -17,13 +17,13 @@ import { fileDownload } from 'bridge/appToWeb';
 import { useMediaQuery } from 'react-responsive';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 import arrow_icon from 'public/images/gray_arraow_icon.svg';
-import { PreQuotations } from 'pages/mypage/request';
+import { PreQuotations, QuotationRequestsResponse } from 'pages/mypage/request';
 
 interface Props {
   pb?: number;
   data?: PreQuotationResponse;
   isSpot?: boolean;
-  preQuotations?: PreQuotations[];
+  quotationsData?: QuotationRequestsResponse;
   onClcikModal?: () => void;
 }
 
@@ -32,7 +32,7 @@ const BiddingQuote = ({
   data,
   isSpot,
   onClcikModal,
-  preQuotations,
+  quotationsData,
 }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
@@ -84,7 +84,7 @@ const BiddingQuote = ({
     .flat()
     .reverse();
 
-  console.log('🔥 preQuotations : ', preQuotations);
+  // console.log('🔥 preQuotations : ', preQuotations);
 
   return (
     <Wrap>
@@ -93,8 +93,11 @@ const BiddingQuote = ({
         <LeftSection>
           <ProductList>
             <h1>
-              총 <span className="emphasis">{preQuotations?.length}</span>개의
-              구독상품이
+              총{' '}
+              <span className="emphasis">
+                {quotationsData?.preQuotations?.length}
+              </span>
+              개의 구독상품이
               <br />
               도착했습니다.
             </h1>
@@ -104,7 +107,7 @@ const BiddingQuote = ({
               나에게 맞는 상품을 선택해보세요!
             </p>
             <ul>
-              {preQuotations?.map((data, index) => (
+              {quotationsData?.preQuotations?.map((data, index) => (
                 <li key={index}>
                   <div className="leftBox">
                     {data?.member?.companyMemberAdditionalInfo
@@ -696,7 +699,7 @@ const ProductList = styled.div`
     top: 0;
     width: 100%;
     background-color: ${colors.lightWhite};
-    z-index: 999;
+    z-index: 10;
   }
   p {
     padding-left: 28.5pt;
@@ -713,7 +716,7 @@ const ProductList = styled.div`
     position: sticky;
     top: 96pt;
     background-color: ${colors.lightWhite};
-    z-index: 999;
+    z-index: 10;
   }
   ul {
     margin-top: 30pt;

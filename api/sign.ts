@@ -1,9 +1,10 @@
-import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { ModuSignResponse } from 'QueryComponents/ModuSignQuery';
-import { convertKo, moduSignDate } from 'utils/calculatePackage';
 import {
-  InstallationPurposeType,
-  InstallationPurposeTypeEn,
+  convertKo,
+  moduSignDate,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
+import {
   location,
   locationEn,
   M5_LIST,
@@ -15,61 +16,38 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import { ContractState } from 'storeCompany/contract';
 
-export const modusign = (data: ModuSignResponse) => {
-  // console.log('data===>>');
-  // console.log(data);
+type Props = {
+  data: ModuSignResponse;
+  newContractData: ContractState;
+};
+
+export const moduSign = ({
+  data: data,
+  newContractData: newContractData,
+}: Props) => {
+  console.log('data===>>');
+  console.log(data);
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
   const projectInProgress = data?.project;
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
-  // console.log('projectInProgress=>', projectInProgress);
-  // // 계약하는 날짜 당일
+  // 계약하는 날짜 당일
   const today = new Date();
-
-  // 오늘 날짜 가지고 오는 함수
-  // dataLabel: contractPeriod 여기에 넣어주면 됨
-  // 돈 들어가는건 3자리마다 ,찍어주기
-  // 충전기 부분  나열하는거 주석 해놓은거 참고해서 , 찍어주고 나열
-  //   <span className="text">
-  //   {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-  //   <br />
-  //   {item.standType
-  //     ? //  standType 있으면
-  //       `: ${convertKo(
-  //         M6_LIST,
-  //         M6_LIST_EN,
-  //         item.standType,
-  //       )}, ${convertKo(
-  //         M7_LIST,
-  //         M7_LIST_EN,
-  //         item.channel,
-  //       )}, ${item.count} 대`
-  //     : // standType 없으면
-  //       `: ${convertKo(
-  //         M7_LIST,
-  //         M7_LIST_EN,
-  //         item.channel,
-  //       )}, ${item.count} 대`}
-  // 설치 위치 및 구독 상품? 그거 영한 변한 주의
-  // </span>
-  // afterCharger는 아예 데이터 x, 그래서 나중에 백엔드 만들어지면 마찬가지로 grapql, 타입스크립트, value 수정해야함!
-  // chargePrice는 월구독료임 아직 백엔드에 추가 안돼서 추가되면 grapql 및 타입스크립트 수정해야함, value 값도!
 
   const options = {
     method: 'POST',
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      // authorization: process.env.MODUSIGN_KEY,
-      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
+      authorization:
+        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
     },
     body: JSON.stringify({
-      templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',
       document: {
-        title: '엔티즌계약서',
         participantMappings: [
           // 유저
           {
@@ -81,6 +59,8 @@ export const modusign = (data: ModuSignResponse) => {
             signingMethod: {
               type: 'KAKAO',
               value: projectInProgress?.userMember?.phone,
+              // type: 'EMAIL',
+              // value: 'whljm1003@stevelabs.co',
             },
           },
           // 기업
@@ -96,31 +76,30 @@ export const modusign = (data: ModuSignResponse) => {
               value: projectInProgress?.companyMember?.phone,
             },
           },
-          // 엔티즌
-          // {
-          //   excluded: false,
-          //   signingMethod: { type: 'EMAIL', value: 'entizen@entizen.kr' },
-          //   signingDuration: 20160,
-          //   locale: 'ko',
-          //   role: '관리자',
-          //   name: '엔티즌',
-          // },
         ],
         requesterInputMappings: [
+          // 유저 이름
           {
             dataLabel: 'userName',
             value: projectInProgress?.userMember?.name,
           },
+          // 기업 이름
           {
             dataLabel: 'companyName',
             value: projectInProgress?.companyMember?.name,
           },
-          // LS 카폐 신림점
+          // ============================ 제2조 [상품에 관한 사항] =================================
+          // 충전기 설치 목적
           {
             dataLabel: 'projectName',
             value: projectInProgress?.projectName,
           },
-          // 전체구독
+          // 프로젝트 번호
+          {
+            dataLabel: 'projectNumber',
+            value: projectInProgress?.projectNumber,
+          },
+          // 구독상품
           {
             dataLabel: 'subscribeProduct',
             value: convertKo(
@@ -129,26 +108,31 @@ export const modusign = (data: ModuSignResponse) => {
               projectInProgress?.finalQuotation?.subscribeProduct,
             ),
           },
+          // 구독 기간
           {
             dataLabel: 'subscribePeriod',
-            value: String(
-              projectInProgress?.finalQuotation?.constructionPeriod,
-            ),
+            value:
+              projectInProgress?.finalQuotation?.constructionPeriod + '개월',
           },
+          // 수익지분
           {
             dataLabel: 'userInvestRate',
-            value: String(
+            value:
               Math.floor(
                 Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
-              ),
-            ),
+              ) + '% (구매자)',
           },
+          // 전기차 충전기 종류 및 수량
           {
             dataLabel: 'charger1',
             // value: '7kw 충전기(공용), 벽걸이, 싱글, 2대',
             value: chargerString[0]
               ? chargerString[0]?.standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[0]?.standType,
@@ -157,7 +141,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[0]?.channel,
                   )}, ${chargerString[0]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
@@ -168,7 +156,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger2',
             value: chargerString[1]
               ? chargerString[1].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[1]?.standType,
@@ -177,7 +169,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[1]?.channel,
                   )}, ${chargerString[1]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
@@ -188,7 +184,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger3',
             value: chargerString[2]
               ? chargerString[2].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[2]?.standType,
@@ -197,7 +197,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[2]?.channel,
                   )}, ${chargerString[2]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
@@ -208,7 +212,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger4',
             value: chargerString[3]
               ? chargerString[3].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[3]?.standType,
@@ -217,7 +225,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[3]?.channel,
                   )}, ${chargerString[3]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
@@ -228,7 +240,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger5',
             value: chargerString[4]
               ? chargerString[4].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[4]?.standType,
@@ -237,13 +253,18 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
               : '',
           },
+          // 충전기 설치 위치
           {
             dataLabel: 'installationLocation',
             value: convertKo(
@@ -252,33 +273,46 @@ export const modusign = (data: ModuSignResponse) => {
               chargerString[0]?.installationLocation,
             ),
           },
+          // 기타 사항
           {
             dataLabel: 'etcRequest',
-            value: projectInProgress?.finalQuotation?.quotationRequest
-              ?.etcRequest
-              ? projectInProgress?.finalQuotation?.quotationRequest?.etcRequest
+            value: newContractData.otherSpecifics
+              ? newContractData.otherSpecifics
               : '없음',
           },
+
+          // ========================== 제 3조 [구독에 관한 사항] ==========================
+          // 기간
           {
             dataLabel: 'period',
-            value: String(
+            value:
               projectInProgress?.finalQuotation?.quotationRequest
                 ?.subscribePeriod,
+          },
+          // 구독 제품
+          {
+            dataLabel: 'product',
+            value: convertKo(
+              subscribeType,
+              subscribeTypeEn,
+              projectInProgress?.finalQuotation?.subscribeProduct,
             ),
           },
-          // { dataLabel: 'constructionPeriod', value: '1,000,000,000' },
+          // 구독 설명
           {
-            dataLabel: 'chargingStationInstallationPrice',
-            value: projectInProgress?.finalQuotation
-              ?.chargingStationInstallationPrice
-              ? `${projectInProgress?.finalQuotation?.chargingStationInstallationPrice.toLocaleString()}`
-              : '',
+            dataLabel: 'productDescription',
+            value: newContractData.productExplanation,
           },
+          // 충전 인프라 설치비 - 항목
           {
             dataLabel: 'charger2_1',
             value: chargerString[0]
               ? chargerString[0]?.standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[0]?.standType,
@@ -287,7 +321,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[0]?.channel,
                   )}, ${chargerString[0]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
@@ -298,7 +336,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger2_2',
             value: chargerString[1]
               ? chargerString[1].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[1]?.standType,
@@ -307,7 +349,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[1]?.channel,
                   )}, ${chargerString[1]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
@@ -318,7 +364,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger2_3',
             value: chargerString[2]
               ? chargerString[2].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[2]?.standType,
@@ -327,7 +377,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[2]?.channel,
                   )}, ${chargerString[2]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
@@ -338,7 +392,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger2_4',
             value: chargerString[3]
               ? chargerString[3].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[3]?.standType,
@@ -347,7 +405,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[3]?.channel,
                   )}, ${chargerString[3]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
@@ -358,7 +420,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'charger2_5',
             value: chargerString[4]
               ? chargerString[4].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[4]?.standType,
@@ -367,150 +433,100 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
               : '',
           },
-          // chargePrice는 월구독료임 아직 백엔드에 추가 안돼서 추가되면 grapql 및 타입스크립트 수정해야함, value 값도!
+          // 충전 인프라 설치비 - 충전기 구입
           {
-            dataLabel: 'chargePrice2_1',
-            value: `${
-              chargerString[0]
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
-            dataLabel: 'chargePrice2_2',
-            value: `${
-              chargerString[1]
-                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
-            dataLabel: 'chargePrice2_3',
-            value: `${
-              chargerString[2]
-                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
-            dataLabel: 'chargePrice2_4',
-            value: `${
-              chargerString[3]
-                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
-            dataLabel: 'chargePrice2_5',
-            value: `${
-              chargerString[4]
-                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
-            dataLabel: 'count2_1',
-            value: `${chargerString[0] ? `${chargerString[0]?.count}대` : ''}`,
-          },
-          {
-            dataLabel: 'count2_2',
-            value: `${chargerString[1] ? `${chargerString[1]?.count}대` : ''}`,
-          },
-          {
-            dataLabel: 'count2_3',
-            value: `${chargerString[2] ? `${chargerString[2]?.count}대` : ''}`,
-          },
-          {
-            dataLabel: 'count2_4',
-            value: `${chargerString[3] ? `${chargerString[3]?.count}대` : ''}`,
-          },
-          {
-            dataLabel: 'count2_5',
-            value: `${chargerString[4] ? `${chargerString[4]?.count}대` : ''}`,
-          },
-          {
-            dataLabel: 'subscribePeriod2_1',
-            value: chargerString[0]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+            dataLabel: 'chargerPrice2_1',
+            value: newContractData.productPrice[0]
+              ? newContractData.productPrice[0]
               : '',
           },
           {
-            dataLabel: 'subscribePeriod2_2',
-            value: chargerString[1]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+            dataLabel: 'chargerPrice2_2',
+            value: newContractData.productPrice[1]
+              ? newContractData.productPrice[1]
               : '',
           },
           {
-            dataLabel: 'subscribePeriod2_3',
-            value: chargerString[2]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+            dataLabel: 'chargerPrice2_3',
+            value: newContractData.productPrice[2]
+              ? newContractData.productPrice[2]
               : '',
           },
           {
-            dataLabel: 'subscribePeriod2_4',
-            value: chargerString[3]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+            dataLabel: 'chargerPrice2_4',
+            value: newContractData.productPrice[3]
+              ? newContractData.productPrice[3]
               : '',
           },
           {
-            dataLabel: 'subscribePeriod2_5',
-            value: chargerString[4]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+            dataLabel: 'chargerPrice2_5',
+            value: newContractData.productPrice[4]
+              ? newContractData.productPrice[4]
+              : '',
+          },
+          // 충전 인프라 설치비 - 설치 공사
+          {
+            dataLabel: 'chargerInstall2_1',
+            value: newContractData.installationCost[0]
+              ? newContractData.installationCost[0]
               : '',
           },
           {
-            dataLabel: 'chargeSum2_1',
-            value: `${
-              chargerString[0]
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            dataLabel: 'chargerInstall2_2',
+            value: newContractData.installationCost[1]
+              ? newContractData.installationCost[1]
+              : '',
           },
           {
-            dataLabel: 'chargeSum2_2',
-            value: `${
-              chargerString[1]
-                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            dataLabel: 'chargerInstall2_3',
+            value: newContractData.installationCost[2]
+              ? newContractData.installationCost[2]
+              : '',
           },
           {
-            dataLabel: 'chargeSum2_3',
-            value: `${
-              chargerString[2]
-                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            dataLabel: 'chargerInstall2_4',
+            value: newContractData.installationCost[3]
+              ? newContractData.installationCost[3]
+              : '',
           },
           {
-            dataLabel: 'chargeSum2_4',
-            value: `${
-              chargerString[3]
-                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            dataLabel: 'chargerInstall2_5',
+            value: newContractData.installationCost[4]
+              ? newContractData.installationCost[4]
+              : '',
           },
+          // 구독 지급 시간 이전
           {
-            dataLabel: 'chargeSum2_5',
-            value: `${
-              chargerString[4]
-                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            dataLabel: 'beforeFeeMonth',
+            value: newContractData.invoiceDeliveryDate,
           },
-          // afterCharger는 아예 데이터 x, 그래서 나중에 백엔드 만들어지면 마찬가지로 grapql, 타입스크립트, value 수정해야함!
+          // 구독 지급 시간 이후
           {
-            dataLabel: 'afterCharger1',
+            dataLabel: 'afterFeeMonth',
+            value: newContractData.subscriptionPaymentDate,
+          },
+
+          // 구독 설치 - 항목
+          {
+            dataLabel: 'charger3_1',
             value: chargerString[0]
               ? chargerString[0]?.standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[0]?.standType,
@@ -519,7 +535,330 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[0]?.channel,
                   )}, ${chargerString[0]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count}대`
+              : '',
+          },
+          {
+            dataLabel: 'charger3_2',
+            value: chargerString[1]
+              ? chargerString[1].standType
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[1]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[1]?.channel,
+                  )}, ${chargerString[1]?.count}대`
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[1]?.channel,
+                  )}, ${chargerString[1]?.count}대`
+              : '',
+          },
+          {
+            dataLabel: 'charger3_3',
+            value: chargerString[2]
+              ? chargerString[2].standType
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[2]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[2]?.channel,
+                  )}, ${chargerString[2]?.count}대`
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[2]?.channel,
+                  )}, ${chargerString[2]?.count}대`
+              : '',
+          },
+          {
+            dataLabel: 'charger3_4',
+            value: chargerString[3]
+              ? chargerString[3].standType
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[3]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[3]?.channel,
+                  )}, ${chargerString[3]?.count}대`
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[3]?.channel,
+                  )}, ${chargerString[3]?.count}대`
+              : '',
+          },
+          {
+            dataLabel: 'charger3_5',
+            value: chargerString[4]
+              ? chargerString[4].standType
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[4]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[4]?.channel,
+                  )}, ${chargerString[4]?.count}대`
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[4]?.channel,
+                  )}, ${chargerString[4]?.count}대`
+              : '',
+          },
+          // 구독 설치 - 구독료
+          {
+            dataLabel: 'chargerPrice3_1',
+            value: PriceBasicCalculation(
+              Number(newContractData.subscriptionFee[0]),
+            ),
+          },
+          {
+            dataLabel: 'chargerPrice3_2',
+            value: PriceBasicCalculation(
+              Number(newContractData.subscriptionFee[1]),
+            ),
+          },
+          {
+            dataLabel: 'chargerPrice3_3',
+            value: PriceBasicCalculation(
+              Number(newContractData.subscriptionFee[2]),
+            ),
+          },
+          {
+            dataLabel: 'chargerPrice3_4',
+            value: PriceBasicCalculation(
+              Number(newContractData.subscriptionFee[3]),
+            ),
+          },
+          {
+            dataLabel: 'chargerPrice3_5',
+            value: PriceBasicCalculation(
+              Number(newContractData.subscriptionFee[4]),
+            ),
+          },
+          // 구독 설치 - 수량
+          {
+            dataLabel: 'chargerCount3_1',
+            value: `${chargerString[0] ? `${chargerString[0]?.count}` : ''}`,
+          },
+          {
+            dataLabel: 'chargerCount3_2',
+            value: `${chargerString[1] ? `${chargerString[1]?.count}` : ''}`,
+          },
+          {
+            dataLabel: 'chargerCount3_3',
+            value: `${chargerString[2] ? `${chargerString[2]?.count}` : ''}`,
+          },
+          {
+            dataLabel: 'chargerCount3_4',
+            value: `${chargerString[3] ? `${chargerString[3]?.count}` : ''}`,
+          },
+          {
+            dataLabel: 'chargerCount3_5',
+            value: `${chargerString[4] ? `${chargerString[4]?.count}` : ''}`,
+          },
+          // 구독 설치 - 구독 기간
+          {
+            dataLabel: 'chargerPeriod3_1',
+            value: chargerString[0]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          {
+            dataLabel: 'chargerPeriod3_2',
+            value: chargerString[1]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          {
+            dataLabel: 'chargerPeriod3_3',
+            value: chargerString[2]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          {
+            dataLabel: 'chargerPeriod3_4',
+            value: chargerString[3]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          {
+            dataLabel: 'chargerPeriod3_5',
+            value: chargerString[4]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          // 구독 설치 - 충 구독금액
+          {
+            dataLabel: 'chargerSum3_1',
+            value: chargerString[0]
+              ? PriceBasicCalculation(
+                  Number(newContractData.subscriptionFee[0]) *
+                    Number(chargerString[0]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
+          },
+          {
+            dataLabel: 'chargerSum3_2',
+            value: chargerString[1]
+              ? PriceBasicCalculation(
+                  Number(newContractData.subscriptionFee[1]) *
+                    Number(chargerString[1]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
+          },
+          {
+            dataLabel: 'chargerSum3_3',
+            value: chargerString[2]
+              ? PriceBasicCalculation(
+                  Number(newContractData.subscriptionFee[2]) *
+                    Number(chargerString[2]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
+          },
+          {
+            dataLabel: 'chargerSum3_4',
+            value: chargerString[3]
+              ? PriceBasicCalculation(
+                  Number(newContractData.subscriptionFee[3]) *
+                    Number(chargerString[3]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
+          },
+          {
+            dataLabel: 'chargerSum3_5',
+            value: chargerString[4]
+              ? PriceBasicCalculation(
+                  Number(newContractData.subscriptionFee[4]) *
+                    Number(chargerString[4]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
+          },
+          // 구매자 투자 비율
+          {
+            dataLabel: 'userInvestRate2',
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
+              ),
+            ),
+          },
+          // 판매자 투자 비율
+          {
+            dataLabel: 'chargingPointRate',
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.chargingPointRate) *
+                  100,
+              ),
+            ),
+          },
+          // 마감일
+          {
+            dataLabel: 'deadlineDate',
+            value: newContractData.deadlineDate,
+          },
+          // 정산일
+          {
+            dataLabel: 'paymentDeadlineDate',
+            value: newContractData.paymentDeadlineDate,
+          },
+          // 취급 수수료
+          {
+            dataLabel: 'handlingFee',
+            value: newContractData.handlingFee,
+          },
+          // 구독 기간 자동 연장 - 항목
+          {
+            dataLabel: 'afterCharger1',
+            value: chargerString[0]
+              ? chargerString[0]?.standType
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[0]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count}대`
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[0].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
@@ -530,7 +869,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCharger2',
             value: chargerString[1]
               ? chargerString[1].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[1]?.standType,
@@ -539,7 +882,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[1]?.channel,
                   )}, ${chargerString[1]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[1].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
@@ -550,7 +897,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCharger3',
             value: chargerString[2]
               ? chargerString[2].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[2]?.standType,
@@ -559,7 +910,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[2]?.channel,
                   )}, ${chargerString[2]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[2].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
@@ -570,7 +925,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCharger4',
             value: chargerString[3]
               ? chargerString[3].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[3]?.standType,
@@ -579,7 +938,11 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[3]?.channel,
                   )}, ${chargerString[3]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[3].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
@@ -590,7 +953,11 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCharger5',
             value: chargerString[4]
               ? chargerString[4].standType
-                ? ` ${convertKo(
+                ? `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M6_LIST,
                     M6_LIST_EN,
                     chargerString[4]?.standType,
@@ -599,209 +966,226 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
-                : ` ${convertKo(
+                : `${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    chargerString[4].kind,
+                  )}, ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
                   )}, ${chargerString[4]?.count}대`
               : '',
           },
+          // 구독 기간 자동 연장 - 구독료
           {
             dataLabel: 'afterChargePrice1',
-            value: `${
-              chargerString[0]
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: PriceBasicCalculation(
+              Number(newContractData.extensionSubscriptionFee[0]),
+            ),
           },
           {
             dataLabel: 'afterChargePrice2',
-            value: `${
-              chargerString[1]
-                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: PriceBasicCalculation(
+              Number(newContractData.extensionSubscriptionFee[1]),
+            ),
           },
           {
             dataLabel: 'afterChargePrice3',
-            value: `${
-              chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: PriceBasicCalculation(
+              Number(newContractData.extensionSubscriptionFee[2]),
+            ),
           },
           {
             dataLabel: 'afterChargePrice4',
-            value: `${
-              chargerString[3]
-                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: PriceBasicCalculation(
+              Number(newContractData.extensionSubscriptionFee[3]),
+            ),
           },
           {
             dataLabel: 'afterChargePrice5',
-            value: `${
-              chargerString[4]
-                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: PriceBasicCalculation(
+              Number(newContractData.extensionSubscriptionFee[4]),
+            ),
           },
+          // 구독 기간 자동 연장 - 수량
           {
             dataLabel: 'afterCount1',
-            value: `${chargerString[0] ? `${chargerString[0]?.count}대` : ''}`,
+            value: `${chargerString[0] ? `${chargerString[0]?.count}` : ''}`,
           },
           {
             dataLabel: 'afterCount2',
-            value: `${chargerString[1] ? `${chargerString[1]?.count}대` : ''}`,
+            value: `${chargerString[1] ? `${chargerString[1]?.count}` : ''}`,
           },
           {
             dataLabel: 'afterCount3',
-            value: `${chargerString[2] ? `${chargerString[2]?.count}대` : ''}`,
+            value: `${chargerString[2] ? `${chargerString[2]?.count}` : ''}`,
           },
           {
             dataLabel: 'afterCount4',
-            value: `${chargerString[3] ? `${chargerString[3]?.count}대` : ''}`,
+            value: `${chargerString[3] ? `${chargerString[3]?.count}` : ''}`,
           },
           {
             dataLabel: 'afterCount5',
-            value: `${chargerString[4] ? `${chargerString[4]?.count}대` : ''}`,
+            value: `${chargerString[4] ? `${chargerString[4]?.count}` : ''}`,
           },
           {
             dataLabel: 'afterSubscribePeriod1',
             value: chargerString[0]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
               : '',
           },
+          // 구독 기간 자동 연장 - 구독기간
           {
             dataLabel: 'afterSubscribePeriod2',
             value: chargerString[1]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod3',
             value: chargerString[2]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod4',
             value: chargerString[3]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod5',
             value: chargerString[4]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              : '',
+          },
+          // 구독 기간 자동 연장 - 총 구독금액
+          {
+            dataLabel: 'afterChargeSum1',
+            value: chargerString[0]
+              ? PriceBasicCalculation(
+                  Number(newContractData.extensionSubscriptionFee[0]) *
+                    Number(chargerString[0]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
               : '',
           },
           {
-            dataLabel: 'afterChargeSum1',
-            value: `${
-              chargerString[0]
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
-          },
-          {
             dataLabel: 'afterChargeSum2',
-            value: `${
-              chargerString[1]
-                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: chargerString[1]
+              ? PriceBasicCalculation(
+                  Number(newContractData.extensionSubscriptionFee[1]) *
+                    Number(chargerString[1]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargeSum3',
-            value: `${
-              chargerString[2]
-                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: chargerString[2]
+              ? PriceBasicCalculation(
+                  Number(newContractData.extensionSubscriptionFee[2]) *
+                    Number(chargerString[2]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargeSum4',
-            value: `${
-              chargerString[3]
-                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: chargerString[3]
+              ? PriceBasicCalculation(
+                  Number(newContractData.extensionSubscriptionFee[3]) *
+                    Number(chargerString[3]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargeSum5',
-            value: `${
-              chargerString[4]
-                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
-                : ''
-            }`,
+            value: chargerString[4]
+              ? PriceBasicCalculation(
+                  Number(newContractData.extensionSubscriptionFee[4]) *
+                    Number(chargerString[4]?.count) *
+                    Number(
+                      projectInProgress?.finalQuotation?.constructionPeriod,
+                    ),
+                )
+              : '',
           },
+          // 구독 상품
           {
-            dataLabel: 'userInvestRate2',
-            value: String(
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
-              ),
+            dataLabel: 'subscriptionType',
+            value: convertKo(
+              subscribeType,
+              subscribeTypeEn,
+              projectInProgress?.finalQuotation?.subscribeProduct,
             ),
           },
+          // 구독 상품 설명
           {
-            dataLabel: 'chargingPointRate',
-            value: String(
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.chargingPointRate) *
-                  100,
-              ),
-            ),
+            dataLabel: 'subscriptionContents',
+            value: newContractData.penalty,
           },
+          //날짜 - 년
           {
-            dataLabel: 'subscribePeriod2',
-            value: String(
-              projectInProgress?.finalQuotation?.constructionPeriod,
-            ),
+            dataLabel: 'contractYear',
+            value: `${today.getFullYear().toString()}`,
           },
+          //날짜 - 월
           {
-            dataLabel: 'userInvestRate3',
-            value: String(
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
-              ),
-            ),
+            dataLabel: 'contractMonth',
+            value: `${today.getMonth().toString()}`,
           },
-          //날짜
+          //날짜 - 일
           {
-            dataLabel: 'contractPeriod',
-            value: `${moduSignDate(String(today))}`,
+            dataLabel: 'contractDay',
+            value: `${today.getDate().toString()}`,
           },
-          // 서명
+          // 구매자 - 서명
           {
             dataLabel: 'signUserName',
             value: projectInProgress?.userMember?.name,
           },
-          {
-            dataLabel: 'signUserAddress',
-            value: projectInProgress?.projectName,
-          },
-          {
-            dataLabel: 'signUserName2',
-            value: projectInProgress?.userMember?.name,
-          },
+          // 판매자 - 상호명
           {
             dataLabel: 'signCompanyName',
-            value: projectInProgress?.companyMember?.name,
+            value:
+              projectInProgress?.companyMember?.companyMemberAdditionalInfo
+                .companyName,
           },
+          // 판매자 - 사업자등록번호
+          {
+            dataLabel: 'signBusinessLicense',
+            value: newContractData.companyRegistrationNumber,
+          },
+          // 판매자 - 주소
           {
             dataLabel: 'signCompanyAddress',
             value:
               projectInProgress?.companyMember?.companyMemberAdditionalInfo
                 ?.companyAddress,
           },
+          // 판매자 - 대표이사 이름
           {
-            dataLabel: 'signCompanyName2',
-            value: projectInProgress?.companyMember?.name,
+            dataLabel: 'signCEO',
+            value: newContractData.representativeName,
           },
         ],
+        title: '엔티즌계약서',
       },
+
+      templateId: 'f63edf40-e314-11ed-9853-33cb678807c6',
     }),
   };
+
   return fetch(url, options).then((res: Response) => res.json());
 };

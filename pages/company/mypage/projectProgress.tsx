@@ -72,7 +72,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
       )}
-      {/* 기본    -1 */}
+      {/* 기본 -1 */}
       <Wrapper>
         {progressNum !== -1 ? (
           <HeaderWrap>

@@ -263,6 +263,9 @@ const ProgressBody = ({
     () => getDocument(contractData?.project?.contract?.documentId!),
     {
       enabled: contractData?.project?.contract?.documentId ? true : false,
+      onSuccess(data) {
+        console.log('🔥 data.embeddedUrl : ', data.embeddedUrl);
+      },
     },
   );
 

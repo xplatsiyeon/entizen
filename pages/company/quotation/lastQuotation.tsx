@@ -56,30 +56,31 @@ const LastQuotation = ({ setComponentId, componentId, send }: Props) => {
       <MypageHeader
         exitBtn={true}
         title={'최종 견적 작성'}
-        handleOnClick={() =>setModalOpen(true)
-        }
+        handleOnClick={() => setModalOpen(true)}
       />
-         {modalOpen && (
-            <TwoBtnModal
-              text={
-                '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
-              }
-              leftBtnText={'그만하기'}
-              rightBtnText={'계속 작성하기'}
-              leftBtnColor={'#A6A9B0'}
-              rightBtnColor={'#5221CB'}
-              leftBtnControl={() => 
-                router.push({
-                  pathname: '/company/sentProvisionalQuotation',
-                  query: {
-                    preQuotationIdx: routerId,
-                  },
-                })
-              }
-              rightBtnControl={() => setModalOpen(false)}
-              exit={() => setModalOpen(false)}
-            />
-          )}
+      {modalOpen && (
+        <TwoBtnModal
+          text={
+            '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
+          }
+          leftBtnText={'그만하기'}
+          rightBtnText={'계속 작성하기'}
+          leftBtnColor={'#A6A9B0'}
+          rightBtnColor={'#5221CB'}
+          leftBtnControl={() =>
+            router.push({
+              pathname: '/company/sentProvisionalQuotation',
+              query: {
+                preQuotationIdx: routerId,
+              },
+            })
+          }
+          rightBtnControl={() => setModalOpen(false)}
+          exit={() => setModalOpen(false)}
+        />
+      )}
+
+      {/* 최종 견적 작성란 */}
       <LastWrite />
     </>
   );

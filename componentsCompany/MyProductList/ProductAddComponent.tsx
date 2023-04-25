@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Select, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -23,15 +23,8 @@ import {
 import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
-// import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation, useQuery } from 'react-query';
-import {
-  isTokenGetApi,
-  isTokenPatchApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  multerApi,
-} from 'api';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { AxiosError } from 'axios';
 import { convertEn, convertKo, getByteSize } from 'utils/calculatePackage';
@@ -41,10 +34,7 @@ import Loader from 'components/Loader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
-import ReactLoading from 'react-loading';
 import { requestPermissionCheck } from 'bridge/appToWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { BusinessRegistrationType } from 'componentsCompany/CompanyQuotation/LastQuotation/ThirdStep';
 export interface ImgFile {
   originalName: string;
@@ -62,7 +52,7 @@ export interface MulterResponse {
 }
 
 type Props = {};
-const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
+
 const ProductAddComponent = (props: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
@@ -264,42 +254,42 @@ const ProductAddComponent = (props: Props) => {
     copy.splice(index, 1);
     setChargingMethod(copy);
   };
-  // 수정하기 버튼
-  const onClickPutBtn = () => {
+
+  // 수정 / 등록 버튼
+  const onClickButton = (type: 'POST' | 'PUT') => {
+    console.log('🔥 chargerStandType : ', chargerStandType);
+    const data = {
+      modelName: modelName,
+      chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+      chargerStandType:
+        chargerStandType === '-'
+          ? ''
+          : convertEn(M6_LIST, M6_LIST_EN, chargerStandType), // 변환
+      chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+      chargerMethods: chargingMethod,
+      manufacturer: manufacturer,
+      feature: advantages,
+      chargerImageFiles: imgArr,
+      catalogFiles: fileArr,
+    };
+    // console.log('🔥 data : ', data);
+    // return;
+
     if (isValid) {
-      putMutate({
-        url: `/products/${routerId}`,
-        data: {
-          modelName: modelName,
-          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
-          chargerStandType: convertEn(M6_LIST, M6_LIST_EN, chargerStandType), // 변환
-          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
-          chargerMethods: chargingMethod,
-          manufacturer: manufacturer,
-          feature: advantages,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
-        },
-      });
-    }
-  };
-  // 등록 버튼
-  const buttonOnClick = () => {
-    if (isValid) {
-      addProduct({
-        url: '/products',
-        data: {
-          modelName: modelName,
-          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
-          chargerStandType: convertEn(M6_LIST, M6_LIST_EN, chargerStandType), // 변환
-          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
-          chargerMethods: chargingMethod,
-          manufacturer: manufacturer,
-          feature: advantages,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
-        },
-      });
+      switch (type) {
+        case 'POST':
+          addProduct({
+            url: '/products',
+            data: data,
+          });
+          break;
+        case 'PUT':
+          putMutate({
+            url: `/products/${routerId}`,
+            data: data,
+          });
+          break;
+      }
     }
   };
   // 사진 온클릭
@@ -417,7 +407,9 @@ const ProductAddComponent = (props: Props) => {
       setModelName(preProduct?.modelName);
       setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
       setChargerStandType(
-        convertKo(M6_LIST, M6_LIST_EN, preProduct?.standType),
+        preProduct?.standType === null
+          ? '-'
+          : convertKo(M6_LIST, M6_LIST_EN, preProduct?.standType),
       );
       setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
       setChargingMethod(preProduct?.method);
@@ -716,7 +708,7 @@ const ProductAddComponent = (props: Props) => {
                     <WebBtn
                       buttonActivate={isValid}
                       tabNumber={0}
-                      onClick={onClickPutBtn}
+                      onClick={() => onClickButton('PUT')}
                     >
                       정보 수정하기
                     </WebBtn>
@@ -724,7 +716,7 @@ const ProductAddComponent = (props: Props) => {
                     <WebBtn
                       buttonActivate={isValid}
                       tabNumber={0}
-                      onClick={buttonOnClick}
+                      onClick={() => onClickButton('POST')}
                     >
                       제품 등록하기
                     </WebBtn>
@@ -738,7 +730,7 @@ const ProductAddComponent = (props: Props) => {
               <Btn
                 buttonActivate={isValid}
                 tabNumber={0}
-                onClick={onClickPutBtn}
+                onClick={() => onClickButton('PUT')}
               >
                 정보 수정하기
               </Btn>
@@ -746,7 +738,7 @@ const ProductAddComponent = (props: Props) => {
               <Btn
                 buttonActivate={isValid}
                 tabNumber={0}
-                onClick={buttonOnClick}
+                onClick={() => onClickButton('POST')}
               >
                 제품 등록하기
               </Btn>

@@ -22,6 +22,7 @@ export const requestPermissionCheck = (
  * @param url : 외부 링크 주소
  */
 export const openExternalBrowser = (userAgent: string, url: string) => {
+  console.log('🔥 url : ', url);
   if (userAgent === 'Android_App') {
     window.entizen!.openExternalBrowser(url);
   } else if (userAgent === 'iOS_App') {
