@@ -29,8 +29,12 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import LogContainer from 'componentsAdmin/LogContainer';
+import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import { Axios, AxiosError } from 'axios';
 
 type Props = {
+  detatilId: string;
   finalQuotationIdx: number;
 };
 
@@ -85,9 +89,8 @@ interface FinalQuotationResponse {
     };
   };
 }
-
-const TAG = 'components/Admin/RverseAuction/FinalQuotation.tsx';
-const FinalQuotation = ({ finalQuotationIdx }: Props) => {
+const FinalQuotation = ({ finalQuotationIdx, detatilId }: Props) => {
+  // console.log('🔥 finalQuotationIdx : ', finalQuotationIdx);
   const queryClinet = useQueryClient();
   const [constructionPeriod, setConstructionPeriod] = useState<number>();
   // 수정 등록 버튼 누를때 나오는 모달창
@@ -107,6 +110,27 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
       isTokenAdminGetApi(
         `/admin/quotations/final-quotations/${finalQuotationIdx}`,
       ),
+  );
+
+  // 견적서 데이터 확인
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () =>
+      isTokenAdminGetApi(
+        `/admin/quotations/quotation-requests/${detatilId}/histories`,
+      ),
+    {
+      onSuccess(data) {
+        console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
   );
 
   const onChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -429,6 +453,8 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
               )}
             </div>
           </BusinessList>
+
+          <LogContainer type="quotation" data={LogData!} title={'상태 기록'} />
         </Contatiner>
       )}
     </>
@@ -464,7 +490,7 @@ const Item = styled.li`
   line-height: 150%;
   color: ${colors.dark2};
   .label {
-    width: 129px;
+    min-width: 129px;
     margin-right: 45px;
   }
   .text {
@@ -497,8 +523,8 @@ const ImgList = styled.div`
   }
   .imgBox {
     position: relative;
-    width: 173px;
-    height: 130px;
+    min-width: 173px;
+    min-height: 130px;
     background-color: gray;
     margin-top: 10px;
     border-radius: 4px;

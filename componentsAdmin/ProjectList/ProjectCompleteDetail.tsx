@@ -42,23 +42,18 @@ import CompleteRating from './CompleteRating';
 import ProjectAlertModal from './ProjectAlertModal';
 import { Contract, GET_contract } from 'QueryComponents/CompanyQuery';
 import jwt_decode from 'jwt-decode';
-import {
-  ApolloQueryResult,
-  OperationVariables,
-  useQuery,
-} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import {
-  getDocument,
   modusignPdfDown,
   modusignPdfResponse,
   downloadModusignPdf,
 } from 'api/getDocument';
-import {
-  GET_ModuSignResponse,
-  ModuSignResponse,
-} from 'QueryComponents/ModuSignQuery';
+
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
+import LogContainer from 'componentsAdmin/LogContainer';
+import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import { AxiosError } from 'axios';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -282,41 +277,24 @@ const ProjectCompleteDetail = ({
     URL.revokeObjectURL(a.href);
   };
 
-  // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  // const {
-  //   loading: contractLoading,
-  //   error: contractError,
-  //   data: contractData,
-  // } = useQuery<Contract>(GET_contract, {
-  //   variables: {
-  //     projectIdx: projectIdx,
-  //   },
-  //   context: {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       ContentType: 'application/json',
-  //     },
-  //   },
-  // });
-
-  /// graphQl
-  // const {
-  //   loading: inModuSignLoading,
-  //   error: inModuSignErroe,
-  //   data: inModuSignData,
-  //   refetch: inModuSignRefetch,
-  // } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
-  //   variables: {
-  //     projectIdx: projectIdx,
-  //   },
-  //   context: {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       ContentType: 'application/json',
-  //     },
-  //   },
-  // });
+  // 프로젝트 진행 상황 데이터 확인
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = reactQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () => isTokenAdminGetApi(`admin/projects/${projectIdx}/histories`),
+    {
+      onSuccess(data) {
+        // console.log('🔥 projectIdx : ', projectIdx);
+        // console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
+  );
 
   const {
     data: modusignPdfDownData,
@@ -1026,34 +1004,6 @@ const ProjectCompleteDetail = ({
                         </DisplayBox>
                       )),
                 )}
-                {/* {data?.data?.project?.projectCompletionFiles?.map(
-                  (item, index) => (
-                    <DisplayBox>
-                      <a
-                        className="fileBox"
-                        key={index}
-                        download={item?.url}
-                        href={item?.url}
-                      >
-                        <div className="businessName">
-                          <p className="businessNameText">
-                            {item?.originalName}
-                          </p>
-                        </div>
-                      </a>
-                      <button
-                        className="businessBtn"
-                        onClick={() => {
-                          setProjectCompletionFileIdx(
-                            item?.projectCompletionFileIdx,
-                          );
-                        }}
-                      >
-                        삭제
-                      </button>
-                    </DisplayBox>
-                  ),
-                )} */}
                 {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
                   (item, index) => (
                     <DisplayBox>
@@ -1132,6 +1082,12 @@ const ProjectCompleteDetail = ({
                 {adminDateFomat(data?.data?.project?.createdAt!)}
               </Contents>
             </List>
+            <Line />
+            <LogContainer
+              type={'project'}
+              data={LogData!}
+              title={'상태 기록'}
+            />
           </ProjectInfoContainer>
         </Main>
       </Wrapper>
@@ -1419,4 +1375,9 @@ const ImgList = styled.div<{ dataLength?: number }>`
 const DisplayBox = styled.div`
   display: flex;
   align-items: center;
+`;
+const Line = styled.div`
+  margin-top: 16px;
+  border-bottom: 1px solid #d9d9d9;
+  width: 100%;
 `;

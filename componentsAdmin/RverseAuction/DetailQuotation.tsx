@@ -69,7 +69,11 @@ const DetailQuotation = ({
         />
         {/* 기업 디테일 페이지 */}
         {isCompanyDetail && (
-          <Qutation showSubMenu={showSubMenu} setNowHeight={setNowHeight} />
+          <Qutation
+            showSubMenu={showSubMenu}
+            setNowHeight={setNowHeight}
+            detatilId={detatilId!}
+          />
         )}
         {/* 유저 가견적 */}
         <UserPreQuotation detatilId={detatilId} setIsDetail={setIsDetail} />

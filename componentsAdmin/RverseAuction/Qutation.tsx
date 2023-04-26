@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import ExitBtn from 'public/adminImages/Group.png';
 import FinalQuotaion from './FinalQuotation';
 import Prequotion from './PreQuotation';
 import { useSelector } from 'react-redux';
@@ -12,27 +10,22 @@ import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import AdminHeader from 'componentsAdmin/Header';
 
 type Props = {
+  detatilId: string;
   showSubMenu?: boolean;
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
+const Qutation = ({ detatilId, showSubMenu, setNowHeight }: Props) => {
   const [optionValue, setOptionValue] = useState<string>('가견적서');
   const dispatch = useDispatch();
+  const now = window.document.documentElement.scrollHeight;
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
     (state: RootState) => state.adminReverseData,
   );
-  const onChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    event.preventDefault();
-    // console.log(event);
-    setOptionValue(event?.target?.value);
-  };
 
   const backBtn = () => {
     dispatch(adminReverseAction.setIsCompanyDetail(false));
   };
-
-  const now = window.document.documentElement.scrollHeight;
 
   useEffect(() => {
     if (setNowHeight && quotationRequestIdx) {
@@ -50,14 +43,6 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
           WriteModalHandle={backBtn}
         />
         <Menu showSubMenu={showSubMenu}>
-          {/* <select className="selectBox" onChange={onChangeSelect}>
-           //  <option value="가견적서">가견적서</option>
-            {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
-              <option value="최종견적서">최종견적서</option>
-            ) : (
-              <option value="가견적서">가견적서</option>
-            )}
-          </select> */}
           {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
             <QutationText>최종견적서</QutationText>
           ) : (
@@ -71,31 +56,20 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
             >
               수정
             </Btn>
-            {/* <Btn
-              onClick={() => {
-                alert('개발중입니다.');
-              }}
-            >
-              삭제
-            </Btn> */}
           </TwoBtn>
         </Menu>
-        {/* 가견적 */}
-        {/* {optionValue === '가견적서' && (
-          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
-        )} */}
-        {/* 최종견적 */}
-        {/* {optionValue === '최종견적서' && (
-          <FinalQuotaion
-            finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
-          />
-        )} */}
         {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
+          // 최종 견적
           <FinalQuotaion
+            detatilId={detatilId}
             finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
           />
         ) : (
-          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
+          // 가견적
+          <Prequotion
+            detatilId={detatilId}
+            preQuotationIdx={quotationRequestIdx?.preQuotationIdx}
+          />
         )}
       </Wrapper>
     </Background>

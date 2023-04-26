@@ -118,8 +118,6 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
     onSettled: () => {},
   });
 
-  console.log('data', detatilId);
-
   const prequotationCancel = () => {
     patchCancelMutate({
       url: `/admin/quotations/quotation-requests/${detatilId}/cancel`,

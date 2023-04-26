@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import {
-  isTokenDeleteApi,
-  isTokenPatchApi,
   isTokenAdminGetApi,
   isTokenAdminPatchApi,
   isTokenAdminDeleteApi,
@@ -25,42 +23,28 @@ import {
 } from 'assets/selectList';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import AdminHeader from 'componentsAdmin/Header';
-import React, {
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   useMutation,
   useQuery as reactQuery,
+  useQuery,
   useQueryClient,
 } from 'react-query';
 import colors from 'styles/colors';
 import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
 import CompleteRating from './CompleteRating';
 import ProjectAlertModal from './ProjectAlertModal';
-import { Contract, GET_contract } from 'QueryComponents/CompanyQuery';
-import jwt_decode from 'jwt-decode';
-import {
-  ApolloQueryResult,
-  OperationVariables,
-  useQuery,
-} from '@apollo/client';
 import { useRouter } from 'next/router';
 import {
   downloadModusignPdf,
-  getDocument,
   modusignPdfDown,
   modusignPdfResponse,
 } from 'api/getDocument';
-import {
-  GET_ModuSignResponse,
-  ModuSignResponse,
-} from 'QueryComponents/ModuSignQuery';
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 import ProjectCancelModal from './ProjectCancelModal';
+import LogContainer from 'componentsAdmin/LogContainer';
+import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import { AxiosError } from 'axios';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -275,41 +259,23 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     URL.revokeObjectURL(a.href);
   };
 
-  // -----진행중인 프로젝트 상세 리스트 api-----
-  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  // const {
-  //   loading: contractLoading,
-  //   error: contractError,
-  //   data: contractData,
-  // } = useQuery<Contract>(GET_contract, {
-  //   variables: {
-  //     projectIdx: projectIdx,
-  //   },
-  //   context: {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       ContentType: 'application/json',
-  //     },
-  //   },
-  // });
-
-  /// graphQl
-  // const {
-  //   loading: inModuSignLoading,
-  //   error: inModuSignErroe,
-  //   data: inModuSignData,
-  //   refetch: inModuSignRefetch,
-  // } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
-  //   variables: {
-  //     projectIdx: projectIdx,
-  //   },
-  //   context: {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       ContentType: 'application/json',
-  //     },
-  //   },
-  // });
+  // 프로젝트 진행 상황 데이터 확인
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () => isTokenAdminGetApi(`admin/projects/${projectIdx}/histories`),
+    {
+      onSuccess(data) {
+        // console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
+  );
 
   const {
     data: modusignPdfDownData,
@@ -339,17 +305,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
       setMessageModal(true);
       setMessage('계약서가 없습니다.');
     }
-
-    // 임베디드 방식
-    // if (contractData) {
-    //   router.push({
-    //     pathname: '/contract',
-    //     query: {
-    //       id: router?.query?.projectIdx,
-    //       documentId: contractData?.project?.contract?.documentId,
-    //     },
-    //   });
-    // }
   };
 
   // 리뷰데이터
@@ -1155,6 +1110,13 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                 {adminDateFomat(data?.data?.project?.createdAt!)}
               </Contents>
             </List>
+
+            <Line />
+            <LogContainer
+              type={'project'}
+              data={LogData!}
+              title={'상태 기록'}
+            />
           </ProjectInfoContainer>
         </Main>
       </Wrapper>
@@ -1212,7 +1174,7 @@ const Label = styled.label`
   font-size: 16px;
   line-height: 150%;
   color: ${colors.main2};
-  width: 129px;
+  min-width: 129px;
   margin-right: 37px;
 `;
 const Contents = styled.span<{ approve?: boolean }>`
@@ -1240,6 +1202,7 @@ const TextP = styled.p`
 
 const List = styled.li`
   display: flex;
+
   :not(:nth-last-of-type(1)) {
     margin-bottom: 14px;
   }
@@ -1442,4 +1405,10 @@ const TwoButton = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+
+const Line = styled.div`
+  margin-top: 16px;
+  border-bottom: 1px solid #d9d9d9;
+  width: 100%;
 `;

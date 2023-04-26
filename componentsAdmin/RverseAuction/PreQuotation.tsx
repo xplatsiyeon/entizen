@@ -27,8 +27,12 @@ import {
   M8_LIST_EN,
 } from 'assets/selectList';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import { AxiosError } from 'axios';
+import LogContainer from 'componentsAdmin/LogContainer';
 
 type Props = {
+  detatilId: string;
   preQuotationIdx: number;
 };
 
@@ -82,8 +86,9 @@ interface PreQuotationRespnse {
     };
   };
 }
-const TAG = 'components/Admin/RverseAuction/PreQuotation.tsx';
-const PreQuotation = ({ preQuotationIdx }: Props) => {
+
+const PreQuotation = ({ preQuotationIdx, detatilId }: Props) => {
+  console.log('🔥 detatilId : ', detatilId);
   const queryClinet = useQueryClient();
   const [constructionPeriod, setConstructionPeriod] = useState<number>();
   // 수정 등록 버튼 누를때 나오는 모달창
@@ -93,6 +98,27 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
 
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
+
+  // 견적서 데이터 확인
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () =>
+      isTokenAdminGetApi(
+        `/admin/quotations/quotation-requests/${detatilId}/histories`,
+      ),
+    {
+      onSuccess(data) {
+        // console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
+  );
 
   const { data, isLoading, isError } = useQuery<PreQuotationRespnse>(
     'preQuotaion',
@@ -364,6 +390,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
               ),
             )}
           </BusinessList>
+          <LogContainer type="quotation" data={LogData!} title={'상태 기록'} />
         </Contatiner>
       )}
     </>

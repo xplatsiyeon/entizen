@@ -24,7 +24,6 @@ const slice = createSlice({
       // console.log(action.payload);
       state.quotationRequestIdx = action.payload;
     },
-
     setIsCompanyDetail(state, action: PayloadAction<boolean>) {
       // console.log(action.payload);
       state.isCompanyDetail = action.payload;
