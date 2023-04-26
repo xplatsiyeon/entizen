@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import useNice from 'hooks/useNice';
-
+import TermsModal from 'components/Modal/TermsModal';
 type Props = {
   // level: number;
   // setLevel: Dispatch<SetStateAction<number>>;
@@ -36,6 +36,8 @@ type Props = {
   userType?: number;
   setBirthday: Dispatch<SetStateAction<string>>;
 };
+
+export type termsType = 'terms' | 'privacyPolicy';
 
 const TermContent = ({
   setName,
@@ -62,6 +64,8 @@ const TermContent = ({
   const [data, setData] = useState<any>();
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState<string>('');
+  const [isTermsModal, setIsTermsModal] = useState<boolean>(false);
+  const [termsModalType, setTermsModalType] = useState<termsType>('terms');
 
   const LoginType = useSelector((state: RootState) => state.LoginType);
   const signUpLevel = useSelector(
@@ -184,6 +188,22 @@ const TermContent = ({
     }
   };
 
+  // 보기 보튼
+  const onClickView = (
+    e: React.MouseEvent<HTMLSpanElement>,
+    type: termsType,
+  ) => {
+    e.stopPropagation();
+    if (mobile) {
+      setIsTermsModal(true);
+      setTermsModalType(type);
+    } else {
+      type === 'terms'
+        ? TermsofServiceHandler(e, 3)
+        : TermsofServiceHandler(e, 4);
+    }
+  };
+
   // 데이터 GET
   useEffect(() => {
     setFullTerms(LoginType.fullTerms);
@@ -242,6 +262,13 @@ const TermContent = ({
     <>
       {isModal && <Modal text={modalMessage} click={onClickModal} />}
       {!mobile && <Notice variant="h3">엔티즌 약관에 동의해주세요</Notice>}
+      {mobile && isTermsModal && (
+        <TermsModal
+          termsModalType={termsModalType}
+          setIsTermsModal={setIsTermsModal}
+        />
+      )}
+
       {mobile && (
         <Notice variant="h3">
           엔티즌 약관에
@@ -260,30 +287,7 @@ const TermContent = ({
           </span>
           <p>필수 약관에 동의합니다.</p>
         </Box>
-        <Check>
-          <Item id="first" onClick={onClickRequiredCheckBox}>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={requiredCheck[0] ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[필수]사용자 이용약관</p>
-            </div>
-            <span onClick={(e) => TermsofServiceHandler(e, 3)}>보기</span>
-          </Item>
-        </Check>
-        <Check>
-          <Item id="second" onClick={onClickRequiredCheckBox}>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={requiredCheck[1] ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[필수] 만 14세 이상</p>
-            </div>
-            <span></span>
-          </Item>
-        </Check>
+        {/* [필수] 개인정보 처리방침 */}
         <Check>
           <Item id="third" onClick={onClickRequiredCheckBox}>
             <div>
@@ -295,10 +299,36 @@ const TermContent = ({
             </div>
             <span
               id="privacyPolicy"
-              onClick={(e) => TermsofServiceHandler(e, 4)}
+              onClick={(e) => onClickView(e, 'privacyPolicy')}
             >
               보기
             </span>
+          </Item>
+        </Check>
+        {/* [필수] 사용자 이용약관 | 판매자 이용약관 */}
+        <Check>
+          <Item id="first" onClick={onClickRequiredCheckBox}>
+            <div>
+              <Image
+                alt="smallCheck"
+                src={requiredCheck[0] ? SmallCheckOnImg : SmallCheckImg}
+              />
+              <p>{`[필수]${userType === 0 ? '고객' : '파트너'} 이용약관`}</p>
+            </div>
+            <span onClick={(e) => onClickView(e, 'terms')}>보기</span>
+          </Item>
+        </Check>
+        {/* [필수] 만 14세 이상 */}
+        <Check>
+          <Item id="second" onClick={onClickRequiredCheckBox}>
+            <div>
+              <Image
+                alt="smallCheck"
+                src={requiredCheck[1] ? SmallCheckOnImg : SmallCheckImg}
+              />
+              <p>[필수] 만 14세 이상</p>
+            </div>
+            <span></span>
           </Item>
         </Check>
       </Form>

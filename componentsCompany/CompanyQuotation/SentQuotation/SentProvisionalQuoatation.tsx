@@ -21,6 +21,7 @@ import Loader from 'components/Loader';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import RequestHeader from '../RecievedQuotation/RequestHeader';
+import { useMediaQuery } from 'react-responsive';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -219,16 +220,14 @@ const SentQuoatationFirst = () => {
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
-  // 실시간으로 width 받아옴
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
-  // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error, refetch, remove } =
@@ -310,13 +309,6 @@ const SentQuoatationFirst = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
-  useEffect(() => {
     if (router.query.preQuotationIdx) {
       const num = Number(router.query.preQuotationIdx);
       setComponentId(num);
@@ -380,7 +372,7 @@ const SentQuoatationFirst = () => {
           setOpenSubLink={setOpenSubLink}
         />
         <Wrapper>
-          {nowWidth < 1200 && (
+          {mobile && (
             <RequestHeader
               back={true}
               title={'보낸 견적'}
@@ -403,11 +395,8 @@ const SentQuoatationFirst = () => {
           {/* 에러 모달 */}
           {isModal && <Modal click={onClickModal} text={errorMessage} />}
           <CompanyRightMenu />
-          {nowWidth < 1200 && (
-            <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-          )}
           <WebRapper>
-            {nowWidth >= 1200 && (
+            {!mobile && (
               <LeftProjectQuotationBox
                 underNum={underNum}
                 setUnderNum={setUnderNum}
@@ -417,7 +406,7 @@ const SentQuoatationFirst = () => {
             )}
             {/* 구매자 견적 정보 */}
             <WebColumnContainer>
-              {nowWidth >= 1200 && (
+              {!mobile && (
                 <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
               )}
               {/* 상단 상세 정보 */}

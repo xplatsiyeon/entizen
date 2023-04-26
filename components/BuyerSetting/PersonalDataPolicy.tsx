@@ -53,7 +53,7 @@ const PersonalDataPolicy = ({ setTabNumber }: Props) => {
     isLoading: termLoading,
     isError: termError,
     refetch: termRefetch,
-  } = useQuery<any>('faq-list', () => getApi(`/terms/personal-info`));
+  } = useQuery<any>('privacyPolicy', () => getApi(`/terms/personal-info`));
 
   console.log('term', term);
 

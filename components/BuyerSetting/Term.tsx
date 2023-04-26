@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import BackImg from 'public/images/back-btn.svg';
-import { Box, Switch } from '@mui/material';
-import { getApi, isTokenGetApi } from 'api';
-import ReactQuill from 'react-quill';
+import { Box } from '@mui/material';
+import { getApi } from 'api';
 import 'react-quill/dist/quill.snow.css';
-import term1 from 'public/images/term1.png';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { useMediaQuery } from 'react-responsive';
@@ -52,7 +50,7 @@ const Term = ({ setTabNumber }: Props) => {
     isLoading: termLoading,
     isError: termError,
     refetch: termRefetch,
-  } = useQuery<any>('faq-list', () => getApi(`/terms/service`));
+  } = useQuery<any>('term', () => getApi(`/terms/service`));
 
   console.log('term', term);
 

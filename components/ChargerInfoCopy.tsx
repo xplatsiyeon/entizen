@@ -40,25 +40,6 @@ const ChargerInfo2 = ({
   });
   return (
     <Wrap className="resize-wrapper">
-      {/* <>
-           <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
-             <RndWraper
-               className="draggable"
-               isMobile={mobile}
-               default={{
-                 x: 0,
-                 y: 0,
-                 width: '100%',
-                 height: '100%',
-               }}
-               disableDragging={true}
-               maxHeight={window.innerHeight - 130}
-               minHeight={checkHeight.toString()}
-               allowAnyClick={true}
-             >
-               <GoUpBox>
-                 <GoUp />
-             </GoUpBox>*/}
       <Resizable
         className="target"
         defaultSize={{

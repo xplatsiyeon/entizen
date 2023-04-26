@@ -20,11 +20,9 @@ type NoticeResponse = {
   };
 };
 
-type Props = {
-  noticesIdx: string | string[];
-};
+type Props = {};
 
-export default function AlarmDetail({ noticesIdx }: Props) {
+export default function AlarmDetail({}: Props) {
   const router = useRouter();
   const dispatch = useDispatch();
   const mobile = useMediaQuery({

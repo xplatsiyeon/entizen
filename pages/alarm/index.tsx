@@ -7,8 +7,8 @@ import BackImg from 'public/images/back-btn.svg';
 import Nut from 'public/images/Nut.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
@@ -17,7 +17,6 @@ import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
-import { useMediaQuery } from 'react-responsive';
 import AlarmDetail from 'components/alarmDetail';
 import { HistoryAlertTypeV1, HistoryAlertTypeV1Response } from 'types/alarm';
 import { AxiosError } from 'axios';
@@ -35,18 +34,6 @@ type NoticeListResponse = {
   };
 };
 
-type HistoryAlertType = {
-  isSuccess: boolean;
-  data: {
-    alertHistories: {
-      alertHistoryIdx: number;
-      title: string;
-      body: string;
-      link: string;
-      createdAt: string;
-    }[];
-  };
-};
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -56,9 +43,6 @@ const Alam = () => {
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
   const dispatch = useDispatch();
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
-  });
 
   const [isScroll, setIsScroll] = useState(false);
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -66,9 +50,6 @@ const Alam = () => {
   const loadRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const tabHandler = (num: number) => setTab(num);
-  const onClicklist1 = () => {
-    router.push('/alarm/1-2');
-  };
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
@@ -103,29 +84,41 @@ const Alam = () => {
     },
   );
 
-  const [list, setList] = useState(noticeList?.data?.notices?.slice(0, 5));
-
-  // 무한 스크롤
-  const onIntersect = useCallback(
-    async (entry: any, observer: any) => {
-      if (entry[0].isIntersecting) {
-        observer.unobserve(entry[0].target);
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        setList((list: any) =>
-          list?.concat(
-            noticeList?.data?.notices?.slice(list.length, list.length + 5),
-          ),
-        );
-        observer.observe(entry[0].target);
-      }
+  const { mutate, isLoading, isError } = useMutation(isTokenPatchApi, {
+    onSuccess(data, variables, context) {},
+    onError(error, variables, context) {
+      console.log('🔥 알림 읽음 처리 error 발생 ~92 : ', error);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [arr],
-  );
+  });
 
-  useEffect(() => {
-    setTab(alarmNumberSlice);
-  }, [alarmNumberSlice]);
+  const onClickRouter = async (item: HistoryAlertTypeV1) => {
+    await mutate({
+      url: `/v1/alerts/histories/${item.alertHistoryIdx}`,
+    });
+    // 수정 필요
+    const newLink = item.link.replace('https://test-api.entizen.kr', '');
+    router.replace(newLink);
+  };
+
+  // const [list, setList] = useState(noticeList?.data?.notices?.slice(0, 5));
+
+  // // 무한 스크롤
+  // const onIntersect = useCallback(
+  //   async (entry: any, observer: any) => {
+  //     if (entry[0].isIntersecting) {
+  //       observer.unobserve(entry[0].target);
+  //       await new Promise((resolve) => setTimeout(resolve, 500));
+  //       setList((list: any) =>
+  //         list?.concat(
+  //           noticeList?.data?.notices?.slice(list.length, list.length + 5),
+  //         ),
+  //       );
+  //       observer.observe(entry[0].target);
+  //     }
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [arr],
+  // );
 
   // 무한 스크롤
   // useEffect(() => {
@@ -163,6 +156,10 @@ const Alam = () => {
   //     },
   //   });
   // }, [noticeIdx]);
+
+  useEffect(() => {
+    setTab(alarmNumberSlice);
+  }, [alarmNumberSlice]);
 
   return (
     <WebBody>
@@ -236,17 +233,22 @@ const Alam = () => {
           </Tab>
           {/* 공지사항 디테일 */}
           {router.query.noticesIdx ? (
-            <AlarmDetail noticesIdx={router?.query.noticesIdx} />
+            <AlarmDetail />
           ) : (
             <>
               {/* 전체 알림 데이터 */}
               {tab === 0 && (
                 <Main>
                   {historyList?.map((item, index) => (
-                    <ContensBox key={index} cursor={false}>
+                    <ContensBox
+                      key={index}
+                      cursor={false}
+                      wasRead={item?.wasRead}
+                      onClick={() => onClickRouter(item)}
+                    >
                       <DisplayBox>
                         <DisplaySubBox>
-                          <HistoryBodyText>{item?.body}</HistoryBodyText>
+                          <p className="address">{item?.body}</p>
                           <p className="contents">{item.title}</p>
                         </DisplaySubBox>
                         <div className="period">
@@ -421,10 +423,11 @@ const Main = styled.div`
   padding-top: 30pt;
   /* cursor: pointer; */
 `;
-const ContensBox = styled(Box)<{ cursor: boolean }>`
+const ContensBox = styled.div<{ cursor: boolean; wasRead?: boolean }>`
   position: relative;
   padding-left: 15pt;
   margin-top: 12pt;
+  cursor: pointer;
 
   ${({ cursor }) =>
     cursor &&
@@ -437,22 +440,42 @@ const ContensBox = styled(Box)<{ cursor: boolean }>`
     font-size: 10.5pt;
     line-height: 15pt;
     letter-spacing: -0.02em;
+
     color: ${colors.main2};
+  }
+  .address {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: ${({ wasRead }) => (wasRead === true ? '600' : '400')};
+    color: ${({ wasRead }) =>
+      wasRead === true ? colors.lightGray3 : colors.main2};
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+
+    @media (max-width: 899.25pt) {
+      padding-bottom: 3pt;
+    }
+    @media (min-width: 900pt) {
+      width: 225pt;
+    }
   }
   .contents {
     /* padding-top: 3pt; */
-    font-weight: 500;
+    font-weight: ${({ wasRead }) => (wasRead === true ? '700' : '500')};
+    color: ${({ wasRead }) =>
+      wasRead === true ? colors.lightGray3 : colors.main2};
     font-size: 12pt;
     line-height: 15pt;
     letter-spacing: -0.02em;
-    color: ${colors.main2};
   }
   .period {
-    font-weight: 400;
+    font-weight: ${({ wasRead }) => (wasRead === true ? '600' : '400')};
+    color: ${({ wasRead }) =>
+      wasRead === true ? colors.lightGray3 : colors.main2};
     font-size: 9pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
-    color: #caccd1;
     padding-bottom: 12pt;
     padding-top: 6pt;
   }
@@ -479,21 +502,5 @@ const DisplaySubBox = styled.div`
   @media (max-width: 900pt) {
     flex-direction: column;
     gap: 0;
-  }
-`;
-
-const HistoryBodyText = styled.span`
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 10.5pt;
-  font-weight: 400;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #222222;
-  @media (max-width: 899.25pt) {
-    padding-bottom: 3pt;
-  }
-  @media (min-width: 900pt) {
-    width: 225pt;
   }
 `;

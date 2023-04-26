@@ -9,20 +9,13 @@ import {
   MyprojectListResponse,
 } from 'QueryComponents/UserQuery';
 import Loader from 'components/Loader';
-import {
-  GET_InProgressProjectsDetail,
-  InProgressProjectsDetailResponse,
-} from 'QueryComponents/CompanyQuery';
-import { useEffect, useRef, useState } from 'react';
-
-const TAG = 'components/mpage/projects/MyProjects.tsx';
 
 type Props = {
   listUp?: boolean;
 };
 const MyProjects = ({ listUp }: Props) => {
   const router = useRouter();
-  const [id, setId] = useState<string>();
+
   // -----진행중인 프로젝트 목록 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -65,10 +58,7 @@ const MyProjects = ({ listUp }: Props) => {
   if (projectListLoading) {
     return <Loader />;
   }
-  if (projectListError) {
-    // console.log('🔥 ~line 98 ~프로젝트 에러 발생 ' + TAG);
-    // console.log(projectListError);
-  }
+
   // 아무런 데이터가 없을 때
   if (projectListData?.uncompletedProjects?.length === 0) {
     return <NoHistory type="project" />;
@@ -76,6 +66,8 @@ const MyProjects = ({ listUp }: Props) => {
 
   // console.log('🔥 ~프로젝트 리스트 데이터 확인 ~라인 51 ->  ' + TAG);
   // console.log(projectListData);
+
+  console.log('🔥 projectListData : ', projectListData);
 
   return (
     <>
