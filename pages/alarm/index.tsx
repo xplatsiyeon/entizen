@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 import Nut from 'public/images/Nut.svg';
-import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -14,13 +13,14 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { CalcDate } from 'utils/calculatePackage';
-import { subYears } from 'date-fns';
 import { css } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { useMediaQuery } from 'react-responsive';
-import Notices from './Notices';
+import AlarmDetail from 'components/alarmDetail';
+import { HistoryAlertTypeV1, HistoryAlertTypeV1Response } from 'types/alarm';
+import { AxiosError } from 'axios';
 
 type NoticeListResponse = {
   isSuccess: boolean;
@@ -87,15 +87,20 @@ const Alam = () => {
     isTokenGetApi(`/notices?page=1&limit=10`),
   );
 
-  // 전체 알림
-  // /alerts/histories
+  // 전체 알림 - '/v1/alerts/histories'
   const {
     data: historyList,
     isLoading: historyIsLoading,
     isError: historyIsError,
     refetch: historyIsRefetch,
-  } = useQuery<HistoryAlertType>('historyAlertList', () =>
-    isTokenGetApi(`/alerts/histories`),
+  } = useQuery<HistoryAlertTypeV1Response, AxiosError, HistoryAlertTypeV1[]>(
+    '/v1/alerts/histories',
+    () => isTokenGetApi(`/v1/alerts/histories`),
+    {
+      select(data) {
+        return data.data.alertHistories;
+      },
+    },
   );
 
   const [list, setList] = useState(noticeList?.data?.notices?.slice(0, 5));
@@ -117,10 +122,6 @@ const Alam = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [arr],
   );
-
-  // useEffect(() => {
-  //   setTab(Number(router.query.id));
-  // }, [router]);
 
   useEffect(() => {
     setTab(alarmNumberSlice);
@@ -163,8 +164,6 @@ const Alam = () => {
   //   });
   // }, [noticeIdx]);
 
-  console.log('tab🍎', tab);
-
   return (
     <WebBody>
       {memberType === 'COMPANY' ? (
@@ -180,6 +179,7 @@ const Alam = () => {
 
       <Inner>
         <Wrapper>
+          {/* 헤더 */}
           <Header>
             <div className="back-img" onClick={() => router.back()}>
               <Image
@@ -216,7 +216,7 @@ const Alam = () => {
               />
             </div>
           </Header>
-
+          {/* 탭 */}
           <Tab>
             {tabList.map((text, index) => (
               <Text
@@ -224,6 +224,7 @@ const Alam = () => {
                 idx={index}
                 key={index}
                 onClick={() => {
+                  router.push('/alarm');
                   tabHandler(index);
                   dispatch(alarmNumberSliceAction.setalarmNumberSlice(index));
                 }}
@@ -233,50 +234,63 @@ const Alam = () => {
               </Text>
             ))}
           </Tab>
-          {/* 전체 알림 데이터 */}
-          {tab === 0 && (
-            <Main>
-              {historyList?.data?.alertHistories?.map((item, index) => (
-                <ContensBox key={index} cursor={false}>
-                  <DisplayBox>
-                    <DisplaySubBox>
-                      <HistoryBodyText>{item?.body}</HistoryBodyText>
-                      <p className="contents">{item.title}</p>
-                    </DisplaySubBox>
-                    <div className="period">{CalcDate(item?.createdAt)}</div>
-                  </DisplayBox>
+          {/* 공지사항 디테일 */}
+          {router.query.noticesIdx ? (
+            <AlarmDetail noticesIdx={router?.query.noticesIdx} />
+          ) : (
+            <>
+              {/* 전체 알림 데이터 */}
+              {tab === 0 && (
+                <Main>
+                  {historyList?.map((item, index) => (
+                    <ContensBox key={index} cursor={false}>
+                      <DisplayBox>
+                        <DisplaySubBox>
+                          <HistoryBodyText>{item?.body}</HistoryBodyText>
+                          <p className="contents">{item.title}</p>
+                        </DisplaySubBox>
+                        <div className="period">
+                          {CalcDate(item?.createdAt)}
+                        </div>
+                      </DisplayBox>
 
-                  <div className="line"></div>
-                </ContensBox>
-              ))}
-            </Main>
-          )}
-          {/*  공지사항 리스트 여기에 연결 */}
-          {tab === 1 && (
-            <Main>
-              {noticeList?.data?.notices?.map((item, index) => (
-                <ContensBox
-                  cursor={true}
-                  key={index}
-                  onClick={() => {
-                    router.push({
-                      pathname: '/alarm/Notices',
-                      query: {
-                        noticesIdx: item?.noticeIdx,
-                      },
-                    });
-                  }}
-                >
-                  <DisplayBox>
-                    <p className="contents">{item?.title}</p>
-                    <div className="period">{CalcDate(item?.createdAt)}</div>
-                  </DisplayBox>
-                  <div className="line"></div>
-                </ContensBox>
-              ))}
-            </Main>
+                      <div className="line"></div>
+                    </ContensBox>
+                  ))}
+                </Main>
+              )}
+
+              {/*  공지사항 리스트 여기에 연결 */}
+              {tab === 1 && (
+                <Main>
+                  {noticeList?.data?.notices?.map((item, index) => (
+                    <ContensBox
+                      cursor={true}
+                      key={index}
+                      onClick={() => {
+                        router.push({
+                          pathname: '/alarm',
+                          query: {
+                            noticesIdx: item?.noticeIdx,
+                          },
+                        });
+                      }}
+                    >
+                      <DisplayBox>
+                        <p className="contents">{item?.title}</p>
+                        <div className="period">
+                          {CalcDate(item?.createdAt)}
+                        </div>
+                      </DisplayBox>
+                      <div className="line"></div>
+                    </ContensBox>
+                  ))}
+                </Main>
+              )}
+            </>
           )}
 
+          {/* 무한 스크롤 옵저버 감지 태그 */}
           <div ref={loadRef}>{isScroll && !noticeIsLoading && <Loader />}</div>
         </Wrapper>
       </Inner>
@@ -287,9 +301,6 @@ const Alam = () => {
 
 export default Alam;
 
-const Buttons = styled.button`
-  display: none;
-`;
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -376,19 +387,6 @@ const Tab = styled(Box)`
   }
 `;
 
-// const Tab = styled.div`
-//   display: flex;
-//   border-bottom: 0.75pt solid #f3f4f7;
-//   cursor: pointer;
-//   @media (min-width: 899.25pt) {
-//     justify-content: center;
-//   }
-// `;
-const TextDiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
 const Text = styled.div<{ tab: number; idx: number }>`
   font-family: 'Spoqa Han Sans Neo';
   /* width: 30vw; */
@@ -418,22 +416,7 @@ const Line = styled.div`
   border-bottom: 3pt solid ${colors.main};
   border-radius: 3.75pt;
 `;
-const Body = styled.div`
-  padding-top: 132pt;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .text {
-    padding-top: 12pt;
-    font-weight: 500;
-    font-size: 12pt;
-    line-height: 12pt;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray2};
-  }
-`;
+
 const Main = styled.div`
   padding-top: 30pt;
   /* cursor: pointer; */
@@ -511,9 +494,6 @@ const HistoryBodyText = styled.span`
     padding-bottom: 3pt;
   }
   @media (min-width: 900pt) {
-    /* padding-right: 42pt; */
-    /* padding-right: 20pt; */
     width: 225pt;
-    /* margin-right: 42pt; */
   }
 `;
