@@ -89,7 +89,7 @@ const BiddingQuote = ({
   return (
     <Wrap>
       {/* ================= 웹 왼쪽 영역 ================= */}
-      {desktop && (
+      {desktop && isSpot === undefined && (
         <LeftSection>
           <ProductList>
             <h1>
