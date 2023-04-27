@@ -278,7 +278,9 @@ const TabContainer = styled.div`
   }
 `;
 
-const Wrap = styled.div``;
+const Wrap = styled.div`
+  width: 100%;
+`;
 
 const TabItem = styled.span<{ tab: string; index: string }>`
   padding-top: 18pt;

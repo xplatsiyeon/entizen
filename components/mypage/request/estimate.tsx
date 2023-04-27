@@ -46,7 +46,6 @@ export interface Response {
   inProgressQuotationRequests: QuotationRequests[];
   historyQuotationRequests: HistoryQuotationRequests[];
 }
-const TAG = 'componets/mypage/request/estimate.tsx';
 
 type Props = {
   listUp?: boolean;
@@ -74,7 +73,7 @@ const Estimate = ({ listUp }: Props) => {
     data?.inProgressQuotationRequests.length === 0 &&
     data?.historyQuotationRequests.length === 0
   ) {
-    return <NoHistory />;
+    return <NoHistory type="quotation" />;
   }
 
   interface routerData {
