@@ -44,7 +44,6 @@ const Alam = () => {
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [tabNumber, setTabNumber] = useState<number>(7);
   const loadRef = useRef(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
   const tabHandler = (num: number) => setTab(num);
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
@@ -263,6 +262,7 @@ const Alam = () => {
                 <Main>
                   {noticeList?.data?.notices?.map((item, index) => (
                     <ContensBox
+                      wasRead={false}
                       cursor={true}
                       key={index}
                       onClick={() => {
@@ -419,7 +419,7 @@ const Main = styled.div`
   padding-top: 30pt;
   /* cursor: pointer; */
 `;
-const ContensBox = styled.div<{ cursor: boolean; wasRead?: boolean }>`
+const ContensBox = styled.div<{ cursor: boolean; wasRead: boolean }>`
   position: relative;
   padding-left: 15pt;
   margin-top: 12pt;
@@ -442,13 +442,11 @@ const ContensBox = styled.div<{ cursor: boolean; wasRead?: boolean }>`
   .address {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
-    font-weight: ${({ wasRead }) => (wasRead === true ? '600' : '400')};
-    color: ${({ wasRead }) =>
-      wasRead === true ? colors.lightGray3 : colors.main2};
+    font-weight: ${({ wasRead }) => (wasRead === true ? '400' : '500')};
+    color: ${({ wasRead }) => (wasRead === true ? colors.gray6 : colors.main2)};
     line-height: 15pt;
     letter-spacing: -0.02em;
     text-align: left;
-
     @media (max-width: 899.25pt) {
       padding-bottom: 3pt;
     }
@@ -457,18 +455,15 @@ const ContensBox = styled.div<{ cursor: boolean; wasRead?: boolean }>`
     }
   }
   .contents {
-    /* padding-top: 3pt; */
-    font-weight: ${({ wasRead }) => (wasRead === true ? '700' : '500')};
-    color: ${({ wasRead }) =>
-      wasRead === true ? colors.lightGray3 : colors.main2};
+    font-weight: ${({ wasRead }) => (wasRead === true ? '400' : '500')};
+    color: ${({ wasRead }) => (wasRead === true ? colors.gray6 : colors.main2)};
     font-size: 12pt;
     line-height: 15pt;
     letter-spacing: -0.02em;
   }
   .period {
-    font-weight: ${({ wasRead }) => (wasRead === true ? '600' : '400')};
-    color: ${({ wasRead }) =>
-      wasRead === true ? colors.lightGray3 : colors.main2};
+    font-weight: 400;
+    color: ${({ wasRead }) => (wasRead === true ? colors.gray6 : colors.main2)};
     font-size: 9pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
