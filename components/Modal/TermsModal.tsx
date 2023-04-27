@@ -11,9 +11,14 @@ import { termsType } from 'components/SignUp/TermContent';
 interface Props {
   setIsTermsModal: React.Dispatch<React.SetStateAction<boolean>>;
   termsModalType: termsType;
+  userType: number | undefined; // 0: 유저 , 1: 파트너
 }
 
-export default function TermsModal({ termsModalType, setIsTermsModal }: Props) {
+export default function TermsModal({
+  termsModalType,
+  setIsTermsModal,
+  userType,
+}: Props) {
   const outside = useRef();
 
   const handleModalClose = (
@@ -26,9 +31,14 @@ export default function TermsModal({ termsModalType, setIsTermsModal }: Props) {
     }
   };
 
-  // 약관동의
-  const { data: term } = useQuery<any>('term', () => getApi(`/terms/service`));
-
+  // 유저 약관동의
+  const { data: userTerm } = useQuery<any>('user-term', () =>
+    getApi(`/terms/service-for-user`),
+  );
+  // 파트너 약관동의
+  const { data: companyTerm } = useQuery<any>('company-term', () =>
+    getApi(`/terms/service-for-company`),
+  );
   // 개인정보 처리방침
   const { data: personalInfo } = useQuery<any>('personal-info', () =>
     getApi(`/terms/personal-info`),
@@ -57,8 +67,13 @@ export default function TermsModal({ termsModalType, setIsTermsModal }: Props) {
         </ModalHeader>
         <Wrapper>
           {termsModalType === 'terms' ? (
-            <div dangerouslySetInnerHTML={{ __html: term }} />
+            userType && userType === 1 ? (
+              <div dangerouslySetInnerHTML={{ __html: companyTerm }} />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: userTerm }} />
+            )
           ) : (
+            // <div dangerouslySetInnerHTML={{ __html: userTerm }} />
             <div dangerouslySetInnerHTML={{ __html: personalInfo }} />
           )}
         </Wrapper>

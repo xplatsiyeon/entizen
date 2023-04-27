@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
-import { getApi, isTokenAdminGetApi } from 'api';
+import { isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { AdminTermsListResponse } from 'types/tableDataType';
 import { dateFomat } from 'utils/calculatePackage';
@@ -29,19 +29,15 @@ const AdminNotifyTable = ({
   handleCommon,
   hide,
   userType,
-  onClickToggle,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-  let test = [];
+
   // 오늘 날짜.
-  const today = new Date();
   // console.log(adminDateFomat(String(today)));
-
   // 역경매 견적서 보기에 넘겨줄 아이디값
-
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
 
@@ -66,6 +62,7 @@ const AdminNotifyTable = ({
     {
       enabled: false,
       onSuccess: (termsList) => {
+        console.log('🔥 termsList : ', termsList);
         if (tableType === 'termsList') {
           const temp: any = [];
           termsList?.data?.terms?.forEach((ele, idx) => {

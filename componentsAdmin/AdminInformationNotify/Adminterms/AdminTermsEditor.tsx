@@ -49,11 +49,18 @@ type Props = {
   setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const dropDownValueEn = ['LOCATION', 'PERSONAL_INFO', 'SERVICE'];
+// service-for-user | service-for-company | personal-info | location
+export const dropDownValueEn = [
+  'SERVICE_FOR_USER',
+  'SERVICE_FOR_COMPANY',
+  'PERSONAL_INFO',
+  'LOCATION',
+];
 export const dropDownValue = [
+  '고객 이용 약관',
+  '파트너 이용 약관',
   '위치 정보 동의 약관',
   '개인 정보 동의 약관',
-  '서비스 이용 약관',
 ];
 
 export interface TermsUpdate {

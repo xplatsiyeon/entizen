@@ -1,21 +1,9 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import {
-  isTokenGetApi,
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
   isTokenAdminGetApi,
   isTokenAdminDeleteApi,
   isTokenAdminPutApi,
@@ -31,9 +19,6 @@ import {
   ImgFile,
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
-import { getApi } from 'api';
-import Image from 'next/image';
-import CloseImg from 'public/images/XCircle.svg';
 import { AdminNoticeListResponse } from 'types/tableDataType';
 
 type Props = {
@@ -70,22 +55,16 @@ const AdminNoticeEditor = ({
     'adminNoticeDetail',
     () => isTokenAdminGetApi(`/admin/notices/${detatilId}`),
   );
-
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
-
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
-
   // 수정된 value가 있는지 없는지
   const [checkAll, setCheckAll] = useState<boolean>(false);
-
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
-
   // 제목
   const [title, setTitle] = useState<string | undefined>('');
-
   // 본문
   const [bodyText, setBodyText] = useState<string | undefined>('');
 
@@ -331,45 +310,6 @@ const AdminNoticeEditor = ({
             setBodyText(e.target.value);
           }}
         />
-        {/* <ImgWrapper>
-          <AddImg>
-            <AddImgText>이미지 첨부</AddImgText>
-            <AdminBtn>사진첨부</AdminBtn>
-          </AddImg>
-          <input
-            style={{ display: 'none' }}
-            ref={imgRef}
-            type="file"
-            accept="image/*"
-            onChange={saveFileImage}
-            multiple
-          /> */}
-        {/* <Preview> */}
-        {/* <ImgSpanBox>
-            {imgArr?.map((img, index) => (
-              <ImgSpan>
-                <Image
-                  layout="fill"
-                  alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={img.url}
-                  priority={true}
-                  unoptimized={true}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
-                  <Image
-                    src={CloseImg}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
-                  />
-                </Xbox>
-              </ImgSpan>
-            ))}
-          </ImgSpanBox>
-        </ImgWrapper> */}
         <BtnBox>
           {detatilId !== '' ? (
             <>

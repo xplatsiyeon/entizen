@@ -264,6 +264,7 @@ const TermContent = ({
       {!mobile && <Notice variant="h3">엔티즌 약관에 동의해주세요</Notice>}
       {mobile && isTermsModal && (
         <TermsModal
+          userType={userType}
           termsModalType={termsModalType}
           setIsTermsModal={setIsTermsModal}
         />

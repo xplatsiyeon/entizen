@@ -45,14 +45,14 @@ const Term = ({ setTabNumber }: Props) => {
     }
   };
 
-  const {
-    data: term,
-    isLoading: termLoading,
-    isError: termError,
-    refetch: termRefetch,
-  } = useQuery<any>('term', () => getApi(`/terms/service`));
-
-  console.log('term', term);
+  // 유저 약관동의
+  const { data: userTerm } = useQuery<any>('user-term', () =>
+    getApi(`/terms/service-for-user`),
+  );
+  // 파트너 약관동의
+  const { data: companyTerm } = useQuery<any>('company-term', () =>
+    getApi(`/terms/service-for-company`),
+  );
 
   useLayoutEffect(() => {
     window.scrollBy(0, -window.innerHeight);
@@ -718,7 +718,11 @@ const Term = ({ setTabNumber }: Props) => {
       <Wrapper>
         {/* <Contents wrap="hard" readOnly value={data} />
         {data} */}
-        <div dangerouslySetInnerHTML={{ __html: term }} />
+        {router.query.userType === '0' ? (
+          <div dangerouslySetInnerHTML={{ __html: userTerm }} />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: companyTerm }} />
+        )}
       </Wrapper>
     </WebRapper>
   );
