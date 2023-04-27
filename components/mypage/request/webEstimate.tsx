@@ -80,7 +80,7 @@ const WebEstimate = () => {
 
   // 견적서가 없는 경우
   if (tempProceeding.length === 0 && temphisTory.length === 0) {
-    return <NoHistory />;
+    return <NoHistory type="quotation" />;
   }
 
   return (
