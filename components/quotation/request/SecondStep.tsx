@@ -24,12 +24,14 @@ const SecondStep = ({ tabNumber }: Props) => {
   const { subscribeProduct, investRate, chargersKo, chargers } = useSelector(
     (state: RootState) => state.quotationData,
   );
+  const homeType = chargers.every((e) => e.kind === '7-HOME'); // 홈 충전기인지 확인 true / false
 
-  const [value, setValue] = useState(50);
-  const [disabled, setDisabled] = useState(true);
-  const [unavailableGraph, setUnavailableGraph] = useState(false);
-  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
-  const [subscribeNumber, setSubscribeNumber] = useState(-1);
+  const [value, setValue] = useState(50); // 그래프 값
+  const [disabled, setDisabled] = useState(true); // 그래프 사용여부
+  const [unavailableGraph, setUnavailableGraph] = useState(false); // 홈 충전기
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false); // 버튼 유효성 검사
+  const [subscribeNumber, setSubscribeNumber] = useState(-1); // -1: 초기값, 0: 전체구독, 1: 부분 구독
+  const [thisStepTypeChange, setThisStepTypeChange] = useState(false); // 해당 컴포넌트에서 타입을 선택 했는 지 확인
   const subscribeType: string[] = ['전체구독', '부분구독'];
   const subscribeTypeEn: string[] = ['ENTIRETY', 'PART'];
 
@@ -94,15 +96,16 @@ const SecondStep = ({ tabNumber }: Props) => {
   };
   // 버튼 유효성 검사
   useEffect(() => {
+    // 초기 false
     setButtonActivate(false);
-    // 그래프 선택 불가 일 경우
+    // 홈 충전기 O
     if (unavailableGraph) {
-      if (subscribeNumber !== -1) {
-        setButtonActivate(true);
-      }
-      // 그래프 선택 가능 일 경우
+      setButtonActivate(true);
+      // 홈 충전기 X
     } else {
-      if (subscribeNumber !== -1 && disabled === false) {
+      if (subscribeNumber === 1) {
+        setButtonActivate(true);
+      } else if (subscribeNumber !== -1 && disabled === false) {
         setButtonActivate(true);
       }
     }
@@ -110,9 +113,11 @@ const SecondStep = ({ tabNumber }: Props) => {
 
   // 컴포넌트 이동 시에도 데이터 기억하기
   useEffect(() => {
+    console.log('🔥 investRate : ', investRate);
     const newValue = Math.floor(Number(investRate) * 100);
     const homeType = chargers.every((e) => e.kind === '7-HOME');
     if (subscribeProduct === 'ENTIRETY') {
+      // 전체 구독
       if (homeType) {
         setSubscribeNumber(0);
       } else {
@@ -122,7 +127,9 @@ const SecondStep = ({ tabNumber }: Props) => {
       }
     }
     if (subscribeProduct === 'PART') {
+      // 부분 구독
       if (homeType) {
+        // 홈 충전기
         setSubscribeNumber(1);
       } else {
         setSubscribeNumber(1);
@@ -156,46 +163,44 @@ const SecondStep = ({ tabNumber }: Props) => {
             key={index}
             idx={index.toString()}
             subscribeNumber={subscribeNumber.toString()}
-            onClick={() => setSubscribeNumber(index)}
+            onClick={() => {
+              setSubscribeNumber(index), setThisStepTypeChange(true);
+            }}
           >
             {type}
           </Tab>
         ))}
       </TypeBox>
-      {unavailableGraph ? (
-        <Notice pt={15}>
-          전체구독: 충전기 렌탈 구매 (구독기간 종료 후 본인 소유) <br />
-          부분구독: 충전기 일시불 구매
-        </Notice>
-      ) : (
-        <Notice pt={15}>
-          전체구독: 충전기 + 운영서비스 구독 <br />
-          부분구독: 운영서비스 구독 (충전기는 일시불 구매)
-        </Notice>
-      )}
+
+      <Notice pt={15}>
+        전체구독: 충전기 렌탈 구매 (구독기간 종료 후 본인 소유) <br />
+        부분구독: 충전기 일시불 구매
+      </Notice>
 
       <SubTitle>희망하는 수익지분을 선택해주세요.</SubTitle>
       <Notice pt={6}>* 선택하신 수익지분에 따라 구독료가 상승해요.</Notice>
 
-      <SubTitleBox disabled={disabled}>
+      <SubTitleBox
+        isHome={homeType}
+        disabled={disabled}
+        subscribeNumber={subscribeNumber}
+      >
         <SubTitle className="slider-bar-user">내 수익/투자</SubTitle>
         <SubTitle className="slider-bar-company">판매자</SubTitle>
       </SubTitleBox>
-      {/* slider (수익/투자 그래프)  */}
-      {/* 홈충전기 부분구독 일경우 사용 X*/}
-      {unavailableGraph ? (
-        <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
-      ) : (
-        <SliderBox>
-          <SliderSizes
-            subscribeNumber={subscribeNumber}
-            value={value}
-            setValue={setValue}
-            disabled={disabled}
-            setDisabled={setDisabled}
-          />
-        </SliderBox>
-      )}
+      {/* 슬라이드  */}
+      <SliderBox>
+        <SliderSizes
+          isHome={homeType} // 홈충전기
+          subscribeProduct={subscribeTypeEn[subscribeNumber]}
+          sliderDisable={subscribeNumber === 0 ? false : true}
+          value={value} // 슬라이더 기본값. 기본은 50 : 50
+          setValue={setValue} //슬라이더 값 변경하는 기능.
+          disabled={disabled} //안내메세지 유&무
+          setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
+          thisStepTypeChange={thisStepTypeChange} // 스탭 변경 유무 (스텝2)
+        />
+      </SliderBox>
       <ChargeGuide>
         <span className="text" onClick={goToGuide}>
           구독 가이드
@@ -286,14 +291,23 @@ const Notice = styled.p<{ pt: number }>`
   color: ${colors.gray2};
   padding-top: ${({ pt }) => pt + 'pt'};
 `;
-const SubTitleBox = styled.div<{ disabled: boolean }>`
+const SubTitleBox = styled.div<{
+  disabled: boolean;
+  isHome: boolean;
+  subscribeNumber: number;
+}>`
   display: flex;
   justify-content: space-between;
   .slider-bar-user {
-    color: ${({ disabled }) => (disabled ? colors.lightGray2 : colors.main)};
+    color: ${({ disabled, isHome, subscribeNumber }) =>
+      isHome === true // 홈충전기
+        ? colors.main2
+        : !disabled || subscribeNumber === 1
+        ? colors.main
+        : colors.lightGray2};
   }
   .slider-bar-company {
-    color: ${colors.lightGray2};
+    color: ${({ isHome }) => (isHome ? colors.main2 : colors.lightGray2)};
   }
 `;
 const ChargeGuide = styled.div`

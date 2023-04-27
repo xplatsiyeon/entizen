@@ -22,13 +22,15 @@ interface Ret {
   investRate: number;
 }
 interface Props {
+  isHome: boolean;
+  subscribeProduct: string;
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
-  sliderDisable?: boolean;
+  sliderDisable: boolean;
+  thisStepTypeChange?: boolean;
   difaultValue?: number;
-  subscribeNumber?: number;
   unavailableGraph?: boolean;
   setCalculatedValue?: Dispatch<
     SetStateAction<{
@@ -41,7 +43,6 @@ interface Props {
     }>
   >;
 }
-const TAG = '🔥 components/quotation/request/slider.tsx';
 const SliderSizes = ({
   value,
   setValue,
@@ -50,12 +51,17 @@ const SliderSizes = ({
   sliderDisable,
   difaultValue,
   setCalculatedValue,
-  subscribeNumber,
   unavailableGraph,
+  thisStepTypeChange,
+  isHome,
+  subscribeProduct,
 }: Props) => {
-  const { requestData } = useSelector(
+  const { requestData, investRate } = useSelector(
     (state: RootState) => state.quotationData,
   );
+
+  console.log('🔥 subscribeProduct : ', subscribeProduct);
+  console.log('🔥 isHome : ', isHome);
 
   const setPriceByRate = (
     target: number | undefined,
@@ -65,6 +71,7 @@ const SliderSizes = ({
     return Math.round((target! * rate!) / standardRate!);
   };
 
+  // 수익 예측 계산
   useLayoutEffect(() => {
     const investRate = Math.floor(Number(requestData?.investRate) * 100);
 
@@ -175,8 +182,9 @@ const SliderSizes = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
+  // 프로그래스바 값 변경
   const handleChange = (event: Event, newValue: number | number[]) => {
-    if (subscribeNumber !== -1 && value !== newValue) {
+    if (value !== newValue && subscribeProduct === 'ENTIRETY') {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
       setValue(newValue as number);
     }
@@ -188,52 +196,70 @@ const SliderSizes = ({
     }
   }, [unavailableGraph]);
 
+  useEffect(() => {
+    if (!isHome && subscribeProduct === 'PART') {
+      setValue(100);
+    } else if (
+      !isHome &&
+      subscribeProduct === 'ENTIRETY' &&
+      thisStepTypeChange
+    ) {
+      setDisabled(true);
+      setValue(50);
+    }
+  }, [subscribeProduct, isHome]);
+
   return (
     <SliderCustom
       width={'97%'}
       disabled={disabled}
-      client={true.toString()}
-      sliderDisable={sliderDisable!}
+      subscribeProduct={subscribeProduct}
+      sliderDisable={sliderDisable}
+      isHome={isHome}
     >
       {/* 안내 메시지 */}
-      {/* {subscribeNumber === 0 && disabled && (
-        <BubbleMessage>바를 움직여 주세요</BubbleMessage>
-      )} */}
-      {(unavailableGraph === false || disabled) && (
+      {disabled && !isHome && subscribeProduct === 'ENTIRETY' && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
       )}
-
       {/* 슬라이더 */}
       <Slider
         step={5} //슬라이더 증감량. => 5씩 증감
-        value={value}
-        onChange={handleChange}
-        disabled={sliderDisable! === true ? true : false}
-        defaultValue={difaultValue ? difaultValue : 50}
-        // valueLabelDisplay="auto"
+        value={value} // 슬라이더 값
+        onChange={handleChange} // 슬라이더 체인지 이벤트
+        disabled={isHome ? true : false} // 그래프 사용 유무
+        defaultValue={difaultValue ? difaultValue : 50} // 초기값
       />
-      {sliderDisable! === true && (
+      {/* 홈 충전기 안내 메시지 */}
+      {isHome && (
         <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
       )}
 
-      {/* 하단 뱃지 */}
-      {!sliderDisable! && (
+      {/* 하단 퍼센트 뱃지 */}
+      {!isHome && (
         <BadgeBox>
           <PersentBadge
-            disabled={disabled}
-            client={true.toString()}
+            className="user"
+            init={subscribeProduct ? false : true}
+            disabled={isHome ? true : false}
             persent={value / 2}
           >
             {`${value}%`}
           </PersentBadge>
           <PersentBadge
-            disabled={disabled}
-            client={false.toString()}
+            init={subscribeProduct ? false : true}
+            disabled={isHome ? true : false}
             persent={value + (100 - value) / 2}
           >
             {`${100 - value}%`}
           </PersentBadge>
         </BadgeBox>
+      )}
+
+      {/* 부분 구독 안내 메시지 */}
+      {!isHome && subscribeProduct === 'PART' && (
+        <AlertMessage2>
+          <p>부분구독을 선택하면 수익지분은 100%로 고정됩니다.</p>
+        </AlertMessage2>
       )}
     </SliderCustom>
   );
@@ -243,8 +269,9 @@ export default SliderSizes;
 
 const SliderCustom = styled(Box)<{
   disabled: boolean;
-  client: string;
+  subscribeProduct?: string;
   sliderDisable?: boolean;
+  isHome: boolean;
 }>`
   position: relative;
   padding-top: 6pt;
@@ -258,8 +285,9 @@ const SliderCustom = styled(Box)<{
     width: calc(100% - 36pt);
     box-sizing: border-box;
   }
+  /* 왼쪽 그래프바 */
   .MuiSlider-track {
-    color: ${({ client }) => (client ? colors.main : colors.gray)};
+    color: ${colors.main};
     border: 0;
     right: 0;
     /* 초기값 */
@@ -276,15 +304,17 @@ const SliderCustom = styled(Box)<{
     height: 15pt;
   }
 
-  ${({ sliderDisable }) =>
-    sliderDisable &&
+  ${({ sliderDisable, isHome, subscribeProduct }) =>
+    (sliderDisable || isHome) &&
     css`
       .MuiSlider-rail {
         color: ${colors.gray};
         opacity: 1;
       }
       .MuiSlider-track {
-        display: none;
+        color: ${subscribeProduct === 'PART' && !isHome
+          ? colors.main
+          : colors.gray6};
       }
     `}
 `;
@@ -297,14 +327,13 @@ const BadgeBox = styled.div`
 const PersentBadge = styled.span<{
   persent: number;
   disabled: boolean;
-  client: string;
+  init: boolean;
 }>`
   position: absolute;
   left: ${({ persent }) => `calc(${persent}% - 16.725pt)`};
   bottom: -11.5pt; // 웹 화면에서 뱃지 간격
   color: ${colors.lightWhite};
-  background-color: ${({ client }) =>
-    client === 'true' ? colors.main : colors.gray};
+  background-color: ${colors.gray};
   border-radius: 6pt;
   padding: 4.5pt 7.5pt;
   font-size: 9pt;
@@ -319,20 +348,14 @@ const PersentBadge = styled.span<{
     transform: translate(-50%);
     border: solid transparent;
     border-width: 9pt 6pt;
-    border-bottom-color: ${({ client }) =>
-      client === 'true' ? colors.main : colors.gray};
+    border-bottom-color: ${colors.gray};
   }
-  /* 초기값 */
-  ${({ disabled, client }) =>
-    disabled &&
-    css`
-      background-color: ${client === 'true' ? colors.lightGray2 : colors.gray};
-      &:after {
-        border-bottom-color: ${client === 'true'
-          ? colors.lightGray2
-          : colors.gray};
-      }
-    `}
+  &.user {
+    background-color: ${({ init }) => (init ? colors.gray6 : colors.main)};
+    &:after {
+      border-bottom-color: ${({ init }) => (init ? colors.gray6 : colors.main)};
+    }
+  }
 
   @media (max-width: 500pt) {
     bottom: -7px;
@@ -376,4 +399,25 @@ const AlertMessage = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   padding-top: 12pt;
+`;
+
+const AlertMessage2 = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 10.5pt;
+  letter-spacing: -0.24px;
+  color: ${colors.lightGray2};
+  background-color: ${colors.gray3};
+  padding-top: 9pt;
+  padding-bottom: 9pt;
+  margin-top: 26pt;
+  border-radius: 6pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    max-width: 309px;
+  }
 `;

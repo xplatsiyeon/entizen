@@ -24,6 +24,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import userAddressHooks from 'hooks/userAddressHooks';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
+import { quotationAction } from 'store/quotationSlice';
 
 type Props = {
   num?: number;
@@ -141,7 +142,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
                   />
                 </div>
               </LogoBox>
-              <DivBox onClick={() => handleLink('/quotation/request')}>
+              <DivBox
+                onClick={() => {
+                  dispatch(quotationAction.init());
+                  handleLink('/quotation/request');
+                }}
+              >
                 간편견적
               </DivBox>
               <DivBox

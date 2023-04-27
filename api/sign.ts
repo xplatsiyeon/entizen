@@ -38,6 +38,12 @@ export const moduSign = ({
   // 계약하는 날짜 당일
   const today = new Date();
 
+  const test = PriceBasicCalculation(
+    Number(newContractData.subscriptionFee[0].replaceAll(',', '')) *
+      Number(chargerString[0]?.count) *
+      Number(projectInProgress?.finalQuotation?.constructionPeriod),
+  );
+
   const options = {
     method: 'POST',
     headers: {
@@ -118,9 +124,12 @@ export const moduSign = ({
           {
             dataLabel: 'userInvestRate',
             value:
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
-              ) + '% (구매자)',
+              projectInProgress?.finalQuotation?.userInvestRate === '-'
+                ? '-'
+                : Math.floor(
+                    Number(projectInProgress?.finalQuotation?.userInvestRate) *
+                      100,
+                  ) + '% (구매자)',
           },
           // 전기차 충전기 종류 및 수량
           {
@@ -661,33 +670,53 @@ export const moduSign = ({
           // 구독 설치 - 구독료
           {
             dataLabel: 'chargerPrice3_1',
-            value: PriceBasicCalculation(
-              Number(newContractData.subscriptionFee[0]),
-            ),
+            value: newContractData.subscriptionFee[0]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.subscriptionFee[0].replaceAll(',', ''),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'chargerPrice3_2',
-            value: PriceBasicCalculation(
-              Number(newContractData.subscriptionFee[1]),
-            ),
+            value: newContractData.subscriptionFee[1]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.subscriptionFee[1].replaceAll(',', ''),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'chargerPrice3_3',
-            value: PriceBasicCalculation(
-              Number(newContractData.subscriptionFee[2]),
-            ),
+            value: newContractData.subscriptionFee[2]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.subscriptionFee[2].replaceAll(',', ''),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'chargerPrice3_4',
-            value: PriceBasicCalculation(
-              Number(newContractData.subscriptionFee[3]),
-            ),
+            value: newContractData.subscriptionFee[3]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.subscriptionFee[3].replaceAll(',', ''),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'chargerPrice3_5',
-            value: PriceBasicCalculation(
-              Number(newContractData.subscriptionFee[4]),
-            ),
+            value: newContractData.subscriptionFee[4]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.subscriptionFee[4].replaceAll(',', ''),
+                  ),
+                )
+              : '',
           },
           // 구독 설치 - 수량
           {
@@ -746,7 +775,9 @@ export const moduSign = ({
             dataLabel: 'chargerSum3_1',
             value: chargerString[0]
               ? PriceBasicCalculation(
-                  Number(newContractData.subscriptionFee[0]) *
+                  Number(
+                    newContractData.subscriptionFee[0].replaceAll(',', ''),
+                  ) *
                     Number(chargerString[0]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -758,7 +789,9 @@ export const moduSign = ({
             dataLabel: 'chargerSum3_2',
             value: chargerString[1]
               ? PriceBasicCalculation(
-                  Number(newContractData.subscriptionFee[1]) *
+                  Number(
+                    newContractData.subscriptionFee[1].replaceAll(',', ''),
+                  ) *
                     Number(chargerString[1]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -770,7 +803,9 @@ export const moduSign = ({
             dataLabel: 'chargerSum3_3',
             value: chargerString[2]
               ? PriceBasicCalculation(
-                  Number(newContractData.subscriptionFee[2]) *
+                  Number(
+                    newContractData.subscriptionFee[2].replaceAll(',', ''),
+                  ) *
                     Number(chargerString[2]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -782,7 +817,9 @@ export const moduSign = ({
             dataLabel: 'chargerSum3_4',
             value: chargerString[3]
               ? PriceBasicCalculation(
-                  Number(newContractData.subscriptionFee[3]) *
+                  Number(
+                    newContractData.subscriptionFee[3].replaceAll(',', ''),
+                  ) *
                     Number(chargerString[3]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -794,7 +831,9 @@ export const moduSign = ({
             dataLabel: 'chargerSum3_5',
             value: chargerString[4]
               ? PriceBasicCalculation(
-                  Number(newContractData.subscriptionFee[4]) *
+                  Number(
+                    newContractData.subscriptionFee[4].replaceAll(',', ''),
+                  ) *
                     Number(chargerString[4]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -805,21 +844,25 @@ export const moduSign = ({
           // 구매자 투자 비율
           {
             dataLabel: 'userInvestRate2',
-            value: String(
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
-              ),
-            ),
+            value:
+              projectInProgress?.finalQuotation?.userInvestRate === '-'
+                ? '-'
+                : Math.floor(
+                    Number(projectInProgress?.finalQuotation?.userInvestRate) *
+                      100,
+                  ) + '',
           },
           // 판매자 투자 비율
           {
             dataLabel: 'chargingPointRate',
-            value: String(
-              Math.floor(
-                Number(projectInProgress?.finalQuotation?.chargingPointRate) *
-                  100,
-              ),
-            ),
+            value:
+              projectInProgress?.finalQuotation?.chargingPointRate === '-'
+                ? '-'
+                : Math.floor(
+                    Number(
+                      projectInProgress?.finalQuotation?.chargingPointRate,
+                    ) * 100,
+                  ) + '',
           },
           // 마감일
           {
@@ -980,33 +1023,68 @@ export const moduSign = ({
           // 구독 기간 자동 연장 - 구독료
           {
             dataLabel: 'afterChargePrice1',
-            value: PriceBasicCalculation(
-              Number(newContractData.extensionSubscriptionFee[0]),
-            ),
+            value: newContractData.extensionSubscriptionFee[0]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.extensionSubscriptionFee[0].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargePrice2',
-            value: PriceBasicCalculation(
-              Number(newContractData.extensionSubscriptionFee[1]),
-            ),
+            value: newContractData.extensionSubscriptionFee[1]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.extensionSubscriptionFee[1].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargePrice3',
-            value: PriceBasicCalculation(
-              Number(newContractData.extensionSubscriptionFee[2]),
-            ),
+            value: newContractData.extensionSubscriptionFee[2]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.extensionSubscriptionFee[2].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargePrice4',
-            value: PriceBasicCalculation(
-              Number(newContractData.extensionSubscriptionFee[3]),
-            ),
+            value: newContractData.extensionSubscriptionFee[3]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.extensionSubscriptionFee[3].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ),
+                )
+              : '',
           },
           {
             dataLabel: 'afterChargePrice5',
-            value: PriceBasicCalculation(
-              Number(newContractData.extensionSubscriptionFee[4]),
-            ),
+            value: newContractData.extensionSubscriptionFee[4]
+              ? PriceBasicCalculation(
+                  Number(
+                    newContractData.extensionSubscriptionFee[4].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ),
+                )
+              : '',
           },
           // 구독 기간 자동 연장 - 수량
           {
@@ -1065,7 +1143,12 @@ export const moduSign = ({
             dataLabel: 'afterChargeSum1',
             value: chargerString[0]
               ? PriceBasicCalculation(
-                  Number(newContractData.extensionSubscriptionFee[0]) *
+                  Number(
+                    newContractData.extensionSubscriptionFee[0].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ) *
                     Number(chargerString[0]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -1077,7 +1160,12 @@ export const moduSign = ({
             dataLabel: 'afterChargeSum2',
             value: chargerString[1]
               ? PriceBasicCalculation(
-                  Number(newContractData.extensionSubscriptionFee[1]) *
+                  Number(
+                    newContractData.extensionSubscriptionFee[1].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ) *
                     Number(chargerString[1]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -1089,7 +1177,12 @@ export const moduSign = ({
             dataLabel: 'afterChargeSum3',
             value: chargerString[2]
               ? PriceBasicCalculation(
-                  Number(newContractData.extensionSubscriptionFee[2]) *
+                  Number(
+                    newContractData.extensionSubscriptionFee[2].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ) *
                     Number(chargerString[2]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -1101,7 +1194,12 @@ export const moduSign = ({
             dataLabel: 'afterChargeSum4',
             value: chargerString[3]
               ? PriceBasicCalculation(
-                  Number(newContractData.extensionSubscriptionFee[3]) *
+                  Number(
+                    newContractData.extensionSubscriptionFee[3].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ) *
                     Number(chargerString[3]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,
@@ -1113,7 +1211,12 @@ export const moduSign = ({
             dataLabel: 'afterChargeSum5',
             value: chargerString[4]
               ? PriceBasicCalculation(
-                  Number(newContractData.extensionSubscriptionFee[4]) *
+                  Number(
+                    newContractData.extensionSubscriptionFee[4].replaceAll(
+                      ',',
+                      '',
+                    ),
+                  ) *
                     Number(chargerString[4]?.count) *
                     Number(
                       projectInProgress?.finalQuotation?.constructionPeriod,

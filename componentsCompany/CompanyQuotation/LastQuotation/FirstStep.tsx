@@ -222,6 +222,10 @@ const FirstStep = ({
   };
   // 구독상품 온체인지
   const handleChangeProduct = (value: string) => {
+    if (value === '부분구독') {
+      setUserInvestRate('100');
+      setCompanyInvestRate('0');
+    }
     setSubscribeProduct(value);
   };
   // 구독기간 온체인지
@@ -389,7 +393,7 @@ const FirstStep = ({
                   placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
                   InputProps={{
-                    readOnly: isHomePercent,
+                    readOnly: isHomePercent || subscribeProduct === '부분구독',
                   }}
                 />
                 <Percent>%</Percent>
@@ -425,7 +429,7 @@ const FirstStep = ({
                   placeholder={isHomePercent ? '-' : '0'}
                   name="subscribeMoney"
                   InputProps={{
-                    readOnly: isHomePercent,
+                    readOnly: isHomePercent || subscribeProduct === '부분구독',
                   }}
                 />
                 <Percent>%</Percent>

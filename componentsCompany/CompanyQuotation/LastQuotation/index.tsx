@@ -162,6 +162,10 @@ const LastWrite = (props: Props) => {
   useEffect(() => {
     // console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
     // console.log(data);
+    console.log(
+      '🔥 quotationRequest?.subscribeProduct : ',
+      quotationRequest?.subscribeProduct,
+    );
     if (data && !finalQuotationIdx) {
       // console.log('수정 데이터 없다');
       setChargingStationInstallationPrice(
@@ -175,11 +179,19 @@ const LastWrite = (props: Props) => {
         ),
       );
       setSubscribePeriod(quotationRequest?.subscribePeriod?.toString());
+      // 구매자 수익지분
       setUserInvestRate(
-        Math.floor(Number(quotationRequest.investRate) * 100).toString(),
+        quotationRequest?.subscribeProduct === 'ENTIRETY'
+          ? Math.floor(Number(quotationRequest.investRate) * 100).toString()
+          : '100',
       );
+      // 판매자 수익지분
       setCompanyInvestRate(
-        Math.floor(100 - Number(quotationRequest.investRate) * 100).toString(),
+        quotationRequest?.subscribeProduct === 'ENTIRETY'
+          ? Math.floor(
+              100 - Number(quotationRequest.investRate) * 100,
+            ).toString()
+          : '0',
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
         preQuotation?.subscribePricePerMonth.toString(),

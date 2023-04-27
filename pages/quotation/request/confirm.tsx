@@ -41,13 +41,12 @@ interface PredictedProfitTime {
   year?: number;
   month?: number;
 }
-const TAG = '1-7.tsx';
+
 const Confirm = (props: Props) => {
   const router = useRouter();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -72,13 +71,9 @@ const Confirm = (props: Props) => {
   // react-query // api 호출
   const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
-      // console.log(TAG + 'api/quotations/request' + 'success');
-      // console.log(res);
       router.push('/quotation/request/complete');
     },
     onError: (error) => {
-      // console.log(TAG + '🔥 api/quotations/request' + 'fail');
-      // console.log(error);
       alert('다시 시도해주세요.');
       router.push('/');
     },
@@ -91,17 +86,14 @@ const Confirm = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
 
-  const { chargersKo, subscribePeriod } = useSelector(
-    (state: RootState) => state.quotationData,
-  );
-
-  const { unavailableGraph } = useSelector(
-    (state: RootState) => state.unavailableGraphBoolean,
-  );
-  // console.log('post 후 받은 request 데이터', requestData);
-  // console.log('리덕스 post 데이터', quotationData);
-  // 홈충전기인지 아닌지
-  // console.log('unavailableGraph', unavailableGraph);
+  const {
+    subscribeProduct,
+    investRate,
+    chargersKo,
+    chargers,
+    subscribePeriod,
+  } = useSelector((state: RootState) => state.quotationData);
+  const homeType = chargers.every((e) => e.kind === '7-HOME');
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -334,14 +326,16 @@ const Confirm = (props: Props) => {
                 <span className="name">판매자</span>
               </NameBox>
               <SliderSizes
-                sliderDisable={sliderDisable}
-                difaultValue={Number(requestData?.investRate!)}
+                isHome={homeType} // 홈충전기
+                subscribeProduct={subscribeProduct} // 구독상품
+                sliderDisable={sliderDisable} // 슬라이더 view 출력 유무
                 value={value} // 슬라이더 기본값. 기본은 50 : 50
                 setValue={setValue} //슬라이더 값 변경하는 기능.
                 disabled={disabled} //안내메세지 유&무
                 setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
-                setCalculatedValue={setCalculatedValue}
-                unavailableGraph={true}
+                setCalculatedValue={setCalculatedValue} // 계산 금액
+                difaultValue={Number(requestData?.investRate!)} // 초기값
+                unavailableGraph={true} // 수정 가능 유무
               />
               <ContentsWrapper>
                 <div className="contents-box">
