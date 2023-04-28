@@ -116,6 +116,22 @@ export interface QuotationRequestChargers {
   count: number;
   quotationRequestIdx: number;
 }
+// 가견적 타입
+export interface PreQuotation {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: null;
+  preQuotationIdx: number;
+  chargingStationInstallationPrice: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  finalQuotation: FinalQuotation;
+  member: CompanyMember;
+}
 // 간편 견적 히스토리 , 데이터 메인
 export interface QuotationStatusHistories {
   createdAt: string;
@@ -127,21 +143,7 @@ export interface QuotationStatusHistories {
   completeEnteringFinalQuotation: string;
   quotationRequestIdx: number;
   preQuotationIdx: number;
-  preQuotation: {
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: null;
-    preQuotationIdx: number;
-    chargingStationInstallationPrice: number;
-    subscribePricePerMonth: number;
-    constructionPeriod: number;
-    subscribeProductFeature: string;
-    changedDate: string;
-    quotationRequestIdx: number;
-    memberIdx: number;
-    finalQuotation: FinalQuotation;
-    member: CompanyMember;
-  };
+  preQuotation: PreQuotation;
 }
 // 간편 견적
 export interface QuotationRequest {
@@ -177,4 +179,44 @@ export interface QuotationRequest {
 export interface QuotationDataV1 {
   isSuccess: true;
   quotationRequest: QuotationRequest;
+}
+
+export interface QuotationRequests {
+  createdAt: string;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
+  installationAddress: string;
+  installationAddressWithPoundSign: null | boolean;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  currentInProgressPreQuotationIdx: null | number;
+  closedStatusAtForCancel: null;
+  spotInspectionReceivedAtForCancel: null | boolean;
+  finalQuotationReceivedAtForCancel: null | boolean;
+  memberIdx: number;
+  quotationStatusHistories: QuotationStatusHistories[];
+  badge: string;
+}
+// 진행 중인 간편견적 리스트 조회
+
+export interface InProgressQuotationRequestsResponse {
+  isSuccess: true;
+  data: {
+    inProgressQuotationRequests: QuotationRequests[];
+    totalCount: number;
+  };
+}
+// 간편견적 히스토리 리스트 조회
+export interface QuotationRequestHistoriesResponse {
+  isSuccess: true;
+  data: {
+    quotationRequestHistories: QuotationRequests[];
+    totalCount: number;
+  };
 }

@@ -15,23 +15,30 @@ export interface MyprojectList {
 }
 
 export interface MyprojectListResponse {
-  uncompletedProjects: MyprojectList[];
+  uncompletedProjects: {
+    projects: MyprojectList[];
+    totalCount: number;
+  };
 }
 
+// 프로젝트 리스트
 export const myprojectList = gql`
-  query Query {
-    uncompletedProjects {
-      projectIdx
-      badge
-      projectName
-      companyMember {
-        memberIdx
-        companyMemberAdditionalInfo {
-          companyName
+  query Query($page: Int, $limit: Int) {
+    uncompletedProjects(page: $page, limit: $limit) {
+      totalCount
+      projects {
+        projectIdx
+        badge
+        projectName
+        companyMember {
+          memberIdx
+          companyMemberAdditionalInfo {
+            companyName
+          }
         }
+        projectCompletionAgreementDate
+        isApprovedByAdmin
       }
-      projectCompletionAgreementDate
-      isApprovedByAdmin
     }
   }
 `;

@@ -9,12 +9,20 @@ import {
   MyprojectListResponse,
 } from 'QueryComponents/UserQuery';
 import Loader from 'components/Loader';
+import PaginationCompo from 'components/PaginationCompo';
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   listUp?: boolean;
 };
 const MyProjects = ({ listUp }: Props) => {
   const router = useRouter();
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [projectPage, setProjectPage] = useState(1);
 
   // -----진행중인 프로젝트 목록 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -22,12 +30,17 @@ const MyProjects = ({ listUp }: Props) => {
     data: projectListData,
     loading: projectListLoading,
     error: projectListError,
+    refetch: projectListRefetch,
   } = useQuery<MyprojectListResponse>(myprojectList, {
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
       },
+    },
+    variables: {
+      page: projectPage,
+      limit: 20,
     },
   });
 
@@ -36,8 +49,9 @@ const MyProjects = ({ listUp }: Props) => {
     // console.log(projectListData?.uncompletedProjects[idx]);
 
     if (
-      !projectListData?.uncompletedProjects[idx]?.isApprovedByAdmin &&
-      projectListData?.uncompletedProjects[idx].projectCompletionAgreementDate
+      !projectListData?.uncompletedProjects.projects[idx]?.isApprovedByAdmin &&
+      projectListData?.uncompletedProjects.projects[idx]
+        .projectCompletionAgreementDate
     ) {
       router.push({
         pathname: '/mypage/project/finish',
@@ -55,12 +69,17 @@ const MyProjects = ({ listUp }: Props) => {
     }
   };
 
+  // 진행 중인 프로젝트 리스트 조회
+  useEffect(() => {
+    projectListRefetch();
+  }, [projectPage]);
+
   if (projectListLoading) {
     return <Loader />;
   }
 
   // 아무런 데이터가 없을 때
-  if (projectListData?.uncompletedProjects?.length === 0) {
+  if (projectListData?.uncompletedProjects.projects.length === 0) {
     return <NoHistory type="project" />;
   }
 
@@ -70,9 +89,9 @@ const MyProjects = ({ listUp }: Props) => {
   console.log('🔥 projectListData : ', projectListData);
 
   return (
-    <>
+    <Wrap>
       <List listUp={Boolean(listUp)}>
-        {projectListData?.uncompletedProjects?.map((item, idx) => {
+        {projectListData?.uncompletedProjects.projects?.map((item, idx) => {
           return (
             <ProjectBox
               key={item?.projectIdx}
@@ -93,11 +112,27 @@ const MyProjects = ({ listUp }: Props) => {
           );
         })}
       </List>
-    </>
+      {desktop && (
+        <PaginationCompo
+          setPage={setProjectPage}
+          page={projectPage}
+          list={projectListData?.uncompletedProjects.projects!}
+          limit={limit}
+          total={projectListData?.uncompletedProjects.totalCount!}
+        />
+      )}
+    </Wrap>
   );
 };
 
 export default MyProjects;
+
+const Wrap = styled.div`
+  width: 580.5pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+  }
+`;
 
 const List = styled.ul<{ listUp: boolean }>`
   display: flex;
@@ -109,7 +144,7 @@ const List = styled.ul<{ listUp: boolean }>`
   @media (min-width: 900pt) {
     width: 580.5pt;
     margin: 0;
-    padding: 0 0 15pt 0;
+    padding: 0 0 60pt 0;
     gap: 22.5pt;
   }
 `;

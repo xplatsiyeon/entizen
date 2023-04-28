@@ -8,6 +8,14 @@ import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
 import moment from 'moment';
+import PaginationCompo from 'components/PaginationCompo';
+import { useEffect, useState } from 'react';
+import {
+  InProgressQuotationRequestsResponse,
+  QuotationRequestHistoriesResponse,
+} from 'types/quotation';
+import { useMediaQuery } from 'react-responsive';
+
 interface QuotationRequests {
   createdAt: string;
   quotationRequestIdx: number;
@@ -46,35 +54,50 @@ export interface Response {
   inProgressQuotationRequests: QuotationRequests[];
   historyQuotationRequests: HistoryQuotationRequests[];
 }
-
 type Props = {
   listUp?: boolean;
 };
 
 const Estimate = ({ listUp }: Props) => {
-  const router = useRouter();
+  const [inProgressPage, setInProgressPage] = useState(1);
+  const [historyPage, setHistoryPage] = useState(1);
 
-  // 내견적 목록 API
-  const { data, isError, isLoading } = useQuery<Response>('user-mypage', () =>
-    isTokenGetApi('/quotations/request'),
+  const router = useRouter();
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+
+  // 진행 중인 리스트
+  const {
+    data: inProgressData,
+    isError: inProgressError,
+    isLoading: inProgressLoading,
+    refetch: inProgressRefetch,
+  } = useQuery<InProgressQuotationRequestsResponse>(
+    'v1/quotation-requests/in-progress',
+    () =>
+      isTokenGetApi(
+        `v1/quotation-requests/in-progress?limit=${limit}&page=${inProgressPage}`,
+      ),
+  );
+  // 히스토리 리스트
+  const {
+    data: historyData,
+    isError: historyError,
+    isLoading: historyLoading,
+    refetch: historyRefetch,
+  } = useQuery<QuotationRequestHistoriesResponse>(
+    'v1/quotation-requests/histories',
+    () =>
+      isTokenGetApi(
+        `v1/quotation-requests/histories?limit=${20}&page=${historyPage}`,
+      ),
   );
 
-  if (isError) {
-    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
-  }
-
-  if (isLoading) {
-    return <Loader />;
-  }
   // console.log(TAG + '⭐️ ~line 58 ~ 구매자 내견적 리스트 데이터 확인');
   // console.log(data);
   // 견적서가 없는 경우
-  if (
-    data?.inProgressQuotationRequests.length === 0 &&
-    data?.historyQuotationRequests.length === 0
-  ) {
-    return <NoHistory type="quotation" />;
-  }
 
   interface routerData {
     quotationRequestIdx: number;
@@ -98,70 +121,108 @@ const Estimate = ({ listUp }: Props) => {
       query: { ...date },
     });
   };
+  // 진행 중인 간편견적 리스트 조회
+  useEffect(() => {
+    inProgressRefetch();
+  }, [inProgressPage]);
+  // 간편견적 히스토리 리스트 조회
+  useEffect(() => {
+    historyRefetch();
+  }, [historyPage]);
 
+  if (inProgressError || historyError) {
+    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
+  }
+
+  if (inProgressLoading || historyLoading) {
+    return <Loader />;
+  }
+  if (
+    inProgressData?.data.inProgressQuotationRequests?.length === 0 &&
+    historyData?.data?.quotationRequestHistories?.length === 0
+  ) {
+    return <NoHistory type="quotation" />;
+  }
   return (
     <Wrapper>
       {/* 진행중 */}
-      {data?.inProgressQuotationRequests.length! > 0 && (
+      {inProgressData?.data.inProgressQuotationRequests.length! > 0 && (
         <Proceeding listUp={listUp}>
           <Label listUp={listUp}>
             진행 중&nbsp;&nbsp;
-            <span className="num">
-              {data?.inProgressQuotationRequests.length}
-            </span>
+            <span className="num">{inProgressData?.data.totalCount}</span>
           </Label>
           <Carousel
-            length={data?.inProgressQuotationRequests.length!}
+            length={inProgressData?.data.inProgressQuotationRequests.length!}
             listUp={Boolean(listUp)}
           >
-            {data?.inProgressQuotationRequests.map((data, index) => (
-              <CarouselItem
-                listUp={Boolean(listUp)}
-                key={index}
-                onClick={() => handleRoute(data.quotationRequestIdx)}
-              >
-                <Badge className="badge" color={HandleUserColor(data?.badge)}>
-                  {data.badge}
-                </Badge>
-                <div className="store-name">{data?.installationAddress}</div>
-                <span className="date">
-                  {moment(data?.createdAt).format('YYYY.MM.DD')}
-                </span>
-              </CarouselItem>
-            ))}
+            {inProgressData?.data.inProgressQuotationRequests.map(
+              (item, index) => (
+                <CarouselItem
+                  listUp={Boolean(listUp)}
+                  key={index}
+                  onClick={() => handleRoute(item.quotationRequestIdx)}
+                >
+                  <Badge className="badge" color={HandleUserColor(item?.badge)}>
+                    {item.badge}
+                  </Badge>
+                  <div className="store-name">{item?.installationAddress}</div>
+                  <span className="date">
+                    {moment(item?.createdAt).format('YYYY.MM.DD')}
+                  </span>
+                </CarouselItem>
+              ),
+            )}
           </Carousel>
+          {desktop && (
+            <PaginationCompo
+              setPage={setInProgressPage}
+              page={inProgressPage}
+              list={inProgressData?.data.inProgressQuotationRequests!}
+              limit={20}
+              total={inProgressData?.data?.totalCount!}
+            />
+          )}
         </Proceeding>
       )}
+
       {/* 히스토리 */}
-      {data?.historyQuotationRequests.length! > 0 && (
+      {historyData?.data.quotationRequestHistories.length! > 0 && (
         <History listUp={Boolean(listUp)}>
           <Label>
             히스토리&nbsp;&nbsp;
-            <span className="num">
-              {data?.historyQuotationRequests.length!}
-            </span>
+            <span className="num">{historyData?.data.totalCount}</span>
           </Label>
           <Carousel
-            length={data?.historyQuotationRequests?.length!}
+            length={historyData?.data.quotationRequestHistories?.length!}
             listUp={Boolean(listUp)}
           >
-            {data?.historyQuotationRequests?.map((data, index) => (
+            {historyData?.data.quotationRequestHistories?.map((item, index) => (
               // 히스토리 부분 수정 필요
               <CarouselItem
                 listUp={Boolean(listUp)}
                 key={index}
-                onClick={() => handleRoute(data?.quotationRequestIdx, true)}
+                onClick={() => handleRoute(item?.quotationRequestIdx, true)}
               >
-                <Badge className="badge" color={HandleUserColor(data.badge)}>
-                  {data.badge}
+                <Badge className="badge" color={HandleUserColor(item.badge)}>
+                  {item.badge}
                 </Badge>
-                <div className="store-name">{data.installationAddress}</div>
+                <div className="store-name">{item.installationAddress}</div>
                 <span className="date">
-                  {moment(data.changedDate).format('YYYY.MM.DD')}
+                  {moment(item.changedDate).format('YYYY.MM.DD')}
                 </span>
               </CarouselItem>
             ))}
           </Carousel>
+          {desktop && (
+            <PaginationCompo
+              setPage={setHistoryPage}
+              page={historyPage}
+              list={historyData?.data.quotationRequestHistories!}
+              limit={20}
+              total={historyData?.data.totalCount!}
+            />
+          )}
         </History>
       )}
     </Wrapper>
@@ -201,7 +262,6 @@ const Proceeding = styled.section<{ listUp?: boolean }>`
   padding-top: 21pt;
   margin-bottom: 0;
   @media (min-width: 900pt) {
-    //padding-right: 5pt;
     padding-top: 0;
     margin-bottom: ${({ listUp }) => (Boolean(listUp) ? '18pt' : '60pt')};
     margin-top: ${({ listUp }) => (Boolean(listUp) ? '6pt' : 'none')};
@@ -223,7 +283,7 @@ const Carousel = styled.div<{ length: number; listUp: boolean }>`
     flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
     grid-template-columns: 1fr 1fr 1fr;
     gap: ${({ listUp }) => (listUp ? '9pt' : '22.5pt')};
-    padding: ${({ listUp }) => (listUp ? '6pt 4pt 10pt' : '6pt 2pt 30pt')};
+    padding: ${({ listUp }) => (listUp ? '6pt 4pt 10pt' : '6pt 2pt 60pt')};
     /* width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')}; */
     width: 100%;
     //padding-right: 5pt;

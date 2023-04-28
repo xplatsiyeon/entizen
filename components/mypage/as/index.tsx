@@ -32,6 +32,8 @@ import {
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
 import { useQuery } from '@apollo/client';
+import PaginationCompo from 'components/PaginationCompo';
+import { useMediaQuery } from 'react-responsive';
 
 interface AfterSalesService {
   afterSalesService: {
@@ -61,10 +63,9 @@ export interface AsResposne {
   isSuccess: boolean;
   data: {
     afterSalesServices: AfterSalesService[];
+    totalCount: number;
   };
 }
-
-const TAG = 'components/mypage/as/index.tsx';
 
 type Props = {
   listUp?: boolean;
@@ -72,7 +73,6 @@ type Props = {
 
 const AsIndex = ({ listUp }: Props) => {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const menuList: {} = [];
   const ul = useRef<HTMLUListElement>(null);
   const select = useRef<HTMLDivElement>(null);
@@ -85,6 +85,13 @@ const AsIndex = ({ listUp }: Props) => {
   const filterList: string[] = ['등록일순 보기', '현장별 보기', '상태순 보기'];
   const filterListEn: string[] = ['register', 'site', 'status'];
   const keyword = useDebounce(keywordSearch, 2000);
+
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const [asPage, setAsPage] = useState(1);
+  const limit = desktop ? 20 : 100000000;
   // ------------모달------------
   const [isModal, setIsModal] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState('');
@@ -109,7 +116,7 @@ const AsIndex = ({ listUp }: Props) => {
       'asList',
       () =>
         isTokenGetApi(
-          `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
+          `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}&limit=${limit}&page=${asPage}`,
         ),
       {
         onSuccess: (res) => {
@@ -220,12 +227,7 @@ const AsIndex = ({ listUp }: Props) => {
   }, [checkedFilterIndex]);
   useEffect(() => {
     refetch();
-    // return () => {
-    //   setKeywordSearch('');
-    //   remove();
-    // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedFilterIndex, keyword]);
+  }, [checkedFilterIndex, keyword, asPage]);
 
   if (isLoading) {
     return <Loader />;
@@ -346,6 +348,15 @@ const AsIndex = ({ listUp }: Props) => {
           <NoAs />
         )}
       </ContentsContainer>
+      {desktop && (
+        <PaginationCompo
+          setPage={setAsPage}
+          page={asPage}
+          list={data?.data.afterSalesServices!}
+          limit={20}
+          total={data?.data.totalCount!}
+        />
+      )}
       {menuList && (
         <BtnBox listUp={Boolean(listUp)}>
           <Btn onClick={handlerBtn}>A/S 요청하기</Btn>
@@ -471,6 +482,7 @@ const FilterBtn = styled.div`
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  margin-bottom: 60pt;
 `;
 
 const ContentsWrapper = styled.div`
