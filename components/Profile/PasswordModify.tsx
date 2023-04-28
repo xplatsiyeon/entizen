@@ -219,7 +219,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
             <Wrap>
               <WebHidden>
                 <Header>
-                  <div className="img-item" onClick={() => setTabNumber(2)}>
+                  <div className="img-item" onClick={() => setTabNumber(-1)}>
                     <Image
                       style={{
                         cursor: 'pointer',

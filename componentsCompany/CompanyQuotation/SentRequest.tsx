@@ -2,12 +2,11 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
-import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
 import { filterType } from 'pages/company/quotation';
 import Sort from './Sort';
@@ -16,6 +15,8 @@ import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
 import useDebounce from 'hooks/useDebounce';
+import { useMediaQuery } from 'react-responsive';
+import PaginationCompo from 'components/PaginationCompo';
 
 type Props = {};
 export interface QuotationRequest {
@@ -52,12 +53,22 @@ export interface SendQuotationRequests {
 }
 export interface SentrequestResponse {
   isSuccess: boolean;
-  sendQuotationRequests: SendQuotationRequests[];
+  data: {
+    sendQuotationRequests: SendQuotationRequests[];
+    totalCount: number;
+  };
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const filterTypeEn = ['deadline', 'status', 'date'];
 const SentRequest = ({}: Props) => {
   const router = useRouter();
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [sendPage, setSendPage] = useState(1);
+
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
 
@@ -70,7 +81,7 @@ const SentRequest = ({}: Props) => {
       'sent-request',
       () =>
         isTokenGetApi(
-          `/quotations/sent-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+          `/quotations/sent-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}&limit=${limit}&page=${sendPage}`,
         ),
       {
         enabled: false,
@@ -80,7 +91,7 @@ const SentRequest = ({}: Props) => {
 
   useEffect(() => {
     refetch();
-  }, [checkedFilterIndex, keyword]);
+  }, [checkedFilterIndex, keyword, sendPage]);
 
   if (isError) {
     // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
@@ -115,7 +126,7 @@ const SentRequest = ({}: Props) => {
       </TopContainer>
       {data !== undefined ? (
         <ContentsContainer>
-          {data?.sendQuotationRequests?.map((el, index) => (
+          {data?.data.sendQuotationRequests?.map((el, index) => (
             <Contents
               key={index}
               onClick={() =>
@@ -152,6 +163,17 @@ const SentRequest = ({}: Props) => {
               </IconBox>
             </Contents>
           ))}
+          {desktop && (
+            <PaginationWrap>
+              <PaginationCompo
+                setPage={setSendPage}
+                page={sendPage}
+                list={data.data.sendQuotationRequests!}
+                limit={limit}
+                total={data.data.totalCount!}
+              />
+            </PaginationWrap>
+          )}
         </ContentsContainer>
       ) : (
         <NoEstimate type={'보낸 견적이 없습니다.'} />
@@ -220,6 +242,10 @@ const IconBox = styled.div`
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
 `;
 
 export default SentRequest;

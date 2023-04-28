@@ -18,10 +18,9 @@ export interface RecivedCountResponse {
 }
 
 type Props = {};
-const TAG = 'commponents/Main/companyMain/QuotationCenter';
+
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
-
   const [total, setTotal] = useState(18);
 
   // 실제 새롭게 받은 요청 개수
@@ -34,17 +33,15 @@ const QuotationCenter = ({}: Props) => {
     isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
   );
 
-  // console.log(total, 'total');
-
   useEffect(() => {
-    if (newReceived?.receivedQuotationRequests.length! < 10) {
+    if (newReceived?.data.receivedQuotationRequests.length! < 10) {
       setTotal(18);
     } else if (
-      newReceived?.receivedQuotationRequests.length! > 9 &&
-      newReceived?.receivedQuotationRequests.length! < 100
+      newReceived?.data.receivedQuotationRequests.length! > 9 &&
+      newReceived?.data.receivedQuotationRequests.length! < 100
     ) {
       setTotal(21);
-    } else if (newReceived?.receivedQuotationRequests.length! > 99) {
+    } else if (newReceived?.data.receivedQuotationRequests.length! > 99) {
       setTotal(23);
     } else {
       setTotal(18);
@@ -65,30 +62,26 @@ const QuotationCenter = ({}: Props) => {
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {newReceived?.receivedQuotationRequests.length! === 0 ? (
+      {newReceived?.data.totalCount === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle
-            total={total}
-            length={newReceived?.receivedQuotationRequests.length!}
-          >
-            {newReceived?.receivedQuotationRequests.length! > 300
+          <CountCircle total={total} length={newReceived?.data.totalCount!}>
+            {newReceived?.data.totalCount! > 300
               ? '300+'
-              : newReceived?.receivedQuotationRequests.length!}
+              : newReceived?.data.totalCount}
           </CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
-      {newReceived?.receivedQuotationRequests.length! >= 1 ? (
+      {newReceived?.data.totalCount! >= 1 ? (
         <>
           <Reqeusts>
-            {newReceived?.receivedQuotationRequests.length!}건의 견적 요청이
-            있습니다!
+            {newReceived?.data.totalCount}건의 견적 요청이 있습니다!
           </Reqeusts>
           <RequestInfo>
             요청서를 확인하고 가견적서를 작성해

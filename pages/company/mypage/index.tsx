@@ -1,16 +1,12 @@
 import styled from '@emotion/styled';
 import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
 import React, { useEffect, useState } from 'react';
-import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-import NoProject from 'componentsCompany/Mypage/NoProject';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
-import { useQuery } from 'react-query';
 import useProfile from 'hooks/useProfile';
-import RightNoProject from 'componentsCompany/Mypage/RightNoProject';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 type Props = { num?: number; now?: string };
@@ -19,7 +15,6 @@ interface Components {
 }
 
 const Mypage = ({ num, now }: Props) => {
-  const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 

@@ -16,18 +16,16 @@ import {
 import Loader from 'components/Loader';
 import { changeDataFn } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
+import { useMediaQuery } from 'react-responsive';
+import PaginationCompo from 'components/PaginationCompo';
 
 type Props = {
   tabNumber: number;
   componentId?: number;
   setComponentId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
-const TAG = 'components/Company/Mypage/FinishedProjects.tsx';
-const FinishedProjects = ({
-  tabNumber,
-  setComponentId,
-  componentId,
-}: Props) => {
+
+export default function FinishedProjects({ tabNumber, componentId }: Props) {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -37,14 +35,24 @@ const FinishedProjects = ({
   const excelUrl =
     '/projects/completion/download?searchKeyword&sort=SUBSCRIBE_START';
 
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [completedProjectPage, setCompletedProjectPage] = useState(1);
+
   const {
     loading: historyLoading,
     error: historyError,
     data: historyData,
+    refetch: historyRefetch,
   } = useQuery<ResponseHistoryProjectsDetail>(GET_historyProjectsDetail, {
     variables: {
       searchKeyword: keyword,
       sort: sortType[selectedFilter],
+      page: completedProjectPage,
+      limit: limit,
     },
     context: {
       headers: {
@@ -54,6 +62,11 @@ const FinishedProjects = ({
     },
   });
 
+  // 페이지 네이션 갱신
+  useEffect(() => {
+    historyRefetch();
+  }, [completedProjectPage]);
+
   if (historyLoading) {
     return <Loader />;
   }
@@ -61,17 +74,10 @@ const FinishedProjects = ({
     // console.log('??', historyError);
   }
 
-  if (!historyData?.completedProjects?.length!) {
-    // console.log('no', historyData);
+  if (!historyData?.completedProjects?.projects.length!) {
     return <NoProject />;
   } else {
-    // console.log('whyNo', historyData);
   }
-
-  // console.log('🔥 ~line 69 완료 프로젝트 데이터 확인 ' + TAG);
-  // console.log(TAG);
-  // console.log('69', historyData);
-
   return (
     <Wrapper>
       {componentId === undefined && (
@@ -113,38 +119,50 @@ const FinishedProjects = ({
               ),
             }}
           />
-          {tabNumber === 1 && historyData?.completedProjects?.length! > 0 && (
-            <ListContainer>
-              {historyData?.completedProjects?.map((el, index) => (
-                <div key={el.projectIdx}>
-                  <List
-                    onClick={() => {
-                      // setComponentId 수정필요!
-                      // setComponentId(index);
-                      router.push({
-                        pathname: '/company/mypage/successedProject/',
-                        query: {
-                          projectIdx: el?.projectIdx,
-                        },
-                      });
-                    }}
-                  >
-                    <ListTextBox>
-                      {/* <ListTitle>{el.storeName}</ListTitle> */}
-                      <ListTitle>{el?.projectName}</ListTitle>
-                      <ListRight>
-                        <ListDate>{changeDataFn(el.subscribeEndDate)}</ListDate>
-                        <ListIconBox>
-                          <Image src={CaretDown24} alt="RightArrow" />
-                        </ListIconBox>
-                      </ListRight>
-                    </ListTextBox>
-                  </List>
-                </div>
-              ))}
-            </ListContainer>
-          )}
+          {tabNumber === 1 &&
+            historyData?.completedProjects?.projects?.length! > 0 && (
+              <ListContainer>
+                {historyData?.completedProjects?.projects?.map((el, index) => (
+                  <div key={el.projectIdx}>
+                    <List
+                      onClick={() => {
+                        router.push({
+                          pathname: '/company/mypage/successedProject/',
+                          query: {
+                            projectIdx: el?.projectIdx,
+                          },
+                        });
+                      }}
+                    >
+                      <ListTextBox>
+                        <ListTitle>{el?.projectName}</ListTitle>
+                        <ListRight>
+                          <ListDate>
+                            {changeDataFn(el.subscribeEndDate)}
+                          </ListDate>
+                          <ListIconBox>
+                            <Image src={CaretDown24} alt="RightArrow" />
+                          </ListIconBox>
+                        </ListRight>
+                      </ListTextBox>
+                    </List>
+                  </div>
+                ))}
+              </ListContainer>
+            )}
         </>
+      )}
+
+      {desktop && (
+        <PaginationWrap>
+          <PaginationCompo
+            setPage={setCompletedProjectPage}
+            page={completedProjectPage}
+            list={historyData?.completedProjects?.projects!}
+            limit={limit}
+            total={historyData?.completedProjects?.totalCount!}
+          />
+        </PaginationWrap>
       )}
       <Button
         onClick={() => {
@@ -155,7 +173,7 @@ const FinishedProjects = ({
       </Button>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   position: relative;
@@ -378,4 +396,6 @@ const Button = styled.div`
   }
 `;
 
-export default FinishedProjects;
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
+`;

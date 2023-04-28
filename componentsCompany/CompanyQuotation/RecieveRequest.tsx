@@ -1,16 +1,25 @@
 import styled from '@emotion/styled';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { filterType, ReceivedRequest } from 'pages/company/quotation';
+import {
+  filterType,
+  filterTypeEn,
+  ReceivedRequest,
+} from 'pages/company/quotation';
 import Sort from './Sort';
 import Search from './Search';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
+import { useMediaQuery } from 'react-responsive';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Modal from 'components/Modal/Modal';
+import PaginationCompo from 'components/PaginationCompo';
 
 type Props = {
   searchWord: string;
@@ -20,10 +29,8 @@ type Props = {
   checkedFilter: filterType;
   setCheckedFilter: Dispatch<SetStateAction<filterType>>;
   keyword: string;
-  data: ReceivedRequest;
 };
 
-const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({
   searchWord,
   setSearchWord,
@@ -32,9 +39,43 @@ const RecieveRequest = ({
   checkedFilter,
   setCheckedFilter,
   keyword,
-  data,
 }: Props) => {
   const router = useRouter();
+
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [receivedPage, setReceivedPage] = useState(1);
+
+  // api 호출
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<ReceivedRequest>(
+      'received-request',
+      () =>
+        isTokenGetApi(
+          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}&limit=${limit}&page=${receivedPage}`,
+        ),
+      {
+        enabled: false,
+      },
+    );
+
+  useEffect(() => {
+    refetch();
+  }, [checkedFilterIndex, keyword, receivedPage]);
+
+  if (isError) {
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
 
   return (
     <>
@@ -55,7 +96,7 @@ const RecieveRequest = ({
       </TopContainer>
       {data !== undefined ? (
         <ContentsContainer>
-          {data?.receivedQuotationRequests?.map((el, idx) => (
+          {data?.data.receivedQuotationRequests?.map((el, idx) => (
             <Contents
               key={el?.quotationRequest?.quotationRequestIdx}
               onClick={() =>
@@ -87,6 +128,17 @@ const RecieveRequest = ({
               </IconBox>
             </Contents>
           ))}
+          {desktop && (
+            <PaginationWrap>
+              <PaginationCompo
+                setPage={setReceivedPage}
+                page={receivedPage}
+                list={data?.data.receivedQuotationRequests!}
+                limit={limit}
+                total={data?.data.totalCount!}
+              />
+            </PaginationWrap>
+          )}
         </ContentsContainer>
       ) : (
         <NoEstimate type={'받은 요청이 없습니다'} />
@@ -158,6 +210,10 @@ const IconBox = styled.div`
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
 `;
 
 export default RecieveRequest;

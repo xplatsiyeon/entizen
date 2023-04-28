@@ -18,6 +18,7 @@ type Props = {
 };
 const MyProjects = ({ listUp }: Props) => {
   const router = useRouter();
+  // 페이지 네이션
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
   });

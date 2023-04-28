@@ -21,12 +21,7 @@ interface Key {
   name: string;
   phone: string;
 }
-interface UserInfo {
-  isSuccess: boolean;
-  id: string;
-  name: string;
-  phone: string;
-}
+
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -108,10 +103,18 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
 
   // 비밀번호 검사
+  // useEffect(() => {
+  //   setIsValid(checkedPassword(value));
+  //   setIsFailedPassword(false);
+  // }, [value]);
+  // 비밀번호 검사
   useEffect(() => {
-    setIsValid(checkedPassword(value));
-    setIsFailedPassword(false);
-  }, [value]);
+    if (existingPassword.length > 3) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [existingPassword]);
 
   const onClickBtn = () => {
     const key: Key = JSON.parse(sessionStorage.getItem('key')!);
@@ -187,7 +190,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
           <Wrapper>
             <WebHidden>
               <Header>
-                <div className="img-item" onClick={() => setTabNumber(2)}>
+                <div className="img-item" onClick={() => setTabNumber(-1)}>
                   <Image
                     style={{
                       cursor: 'pointer',
@@ -210,11 +213,11 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
                 onChange={(e) => setExistingPassword(e.currentTarget.value)}
               />
             </InputBox>
-            {!isValid && value.length > 0 && (
+            {/* {!isValid && value.length > 0 && (
               <AlertMessage color={colors.sub4}>
                 영문,숫자,특수문자 조합 8자 이상
               </AlertMessage>
-            )}
+            )} */}
             {isFailedPassword && (
               <AlertMessage color={colors.sub4}>
                 비밀번호가 일치하지 않습니다.

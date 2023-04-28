@@ -101,12 +101,6 @@ const EmailModify = ({ setTabNumber }: Props) => {
     }
   };
 
-  // 비밀번호 검사
-  useEffect(() => {
-    setIsValid(checkedPassword(value));
-    setIsFailedPassword(false);
-  }, [value]);
-
   return (
     <React.Fragment>
       {isModal && (
@@ -124,7 +118,7 @@ const EmailModify = ({ setTabNumber }: Props) => {
           <Wrapper>
             <WebHidden>
               <Header>
-                <div className="img-item" onClick={() => setTabNumber(2)}>
+                <div className="img-item" onClick={() => setTabNumber(-1)}>
                   <Image
                     style={{
                       cursor: 'pointer',
@@ -144,17 +138,19 @@ const EmailModify = ({ setTabNumber }: Props) => {
               <>
                 <Title>비밀번호</Title>
                 {/* 비밀번호 컴포넌트  */}
-                <PasswordInputBox
-                  value={existingPassword}
-                  setValue={setExistingPassword}
-                  placeholder={'비밀번호 입력'}
-                  name={existingPassword}
-                  handleIdChange={(e) =>
-                    setExistingPassword(e.currentTarget.value)
-                  }
-                  isValid={isValid}
-                  setIsValid={setIsValid}
-                />
+                <PasswordInputWrap>
+                  <PasswordInputBox
+                    value={existingPassword}
+                    setValue={setExistingPassword}
+                    placeholder={'비밀번호 입력'}
+                    name={existingPassword}
+                    handleIdChange={(e) =>
+                      setExistingPassword(e.currentTarget.value)
+                    }
+                    isValid={isValid}
+                    setIsValid={setIsValid}
+                  />
+                </PasswordInputWrap>
                 {/*  비밀번호 일치 여부 확인  */}
                 {isFailedPassword && (
                   <AlertMessage color={colors.sub4}>
@@ -330,6 +326,9 @@ const Input = styled.input`
     color: ${colors.lightGray4};
   }
 `;
+const PasswordInputWrap = styled.div`
+  padding: 0 15pt;
+`;
 const BtnBox = styled.div`
   position: fixed;
   box-sizing: border-box;
@@ -362,7 +361,7 @@ const ConfirmButton = styled.button`
   position: absolute;
   right: 23pt;
   top: 15pt;
-  width: 27pt;
+  width: 37.5pt;
   height: 27pt;
   background: ${colors.main1};
   border-radius: 6pt;

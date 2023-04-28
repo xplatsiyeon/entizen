@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
-import Modal from 'components/Modal/Modal';
 import History from 'componentsCompany/CompanyQuotation/History';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
@@ -10,7 +8,6 @@ import WebFooter from 'componentsWeb/WebFooter';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 import { redirectAction } from 'store/redirectUrlSlice';
@@ -43,14 +40,15 @@ export interface ReceivedQuotationRequests {
 }
 export interface ReceivedRequest {
   isSuccess: boolean;
-  receivedQuotationRequests: ReceivedQuotationRequests[];
+  data: {
+    receivedQuotationRequests: ReceivedQuotationRequests[];
+    totalCount: number;
+  };
 }
 
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
-// deadline: 마감일 | status: 상태순 | date: 날짜순
 export const filterTypeEn = ['deadline', 'status', 'date'];
 
-const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -78,23 +76,9 @@ const CompanyQuotations = ({ num, now }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
-  // api 호출
-  const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedRequest>(
-      'received-request',
-      () =>
-        isTokenGetApi(
-          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-        ),
-      {
-        enabled: false,
-      },
-    );
-
   const components: Components = {
     0: (
       <RecieveRequest
-        data={data!}
         searchWord={searchWord}
         setSearchWord={setSearchWord}
         checkedFilterIndex={checkedFilterIndex}
@@ -125,9 +109,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
     };
   }, [nowWidth]);
 
-  useEffect(() => {
-    refetch();
-  }, [checkedFilterIndex, keyword]);
   // 현재 페이지
   useEffect(() => {
     const now = router.route;
@@ -135,17 +116,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
       setNowUrl(!nowUrl);
     }
   }, []);
-
-  if (isError) {
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
 
   // console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
   // console.log(data);

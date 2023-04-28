@@ -5,11 +5,12 @@ import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import NoProject from './NoProject';
 import { useQuery } from '@apollo/client';
 import Loader from 'components/Loader';
 import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 import RightNoProject from './RightNoProject';
+import { useMediaQuery } from 'react-responsive';
+import PaginationCompo from 'components/PaginationCompo';
 
 type Props = {
   tabNumber: number;
@@ -17,22 +18,32 @@ type Props = {
   setComponentId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const TAG = 'componentsCompany/Mypage/ProjectInProgress.tsx';
-const ProjectInProgress = ({
-  tabNumber,
-  setComponentId,
-  componentId,
-}: Props) => {
+export default function ProjectInProgress({ tabNumber, componentId }: Props) {
   const router = useRouter();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
+
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [inProgressProjectPage, setInProgressProjectPage] = useState(1);
+
+  const { loading, error, data, refetch } = useQuery<Response>(
+    GET_InProgressProjects,
+    {
+      context: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+      },
+      variables: {
+        page: inProgressProjectPage,
+        limit: limit,
       },
     },
-  });
+  );
   // 실시간으로 width 받아오는 함수
 
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -40,6 +51,11 @@ const ProjectInProgress = ({
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+
+  // 페이지 네이션 갱신
+  useEffect(() => {
+    refetch();
+  }, [inProgressProjectPage]);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -55,9 +71,6 @@ const ProjectInProgress = ({
     // console.log(error);
   }
 
-  // if (data?.inProgressProjects.length === 0 && nowWidth >= 1200) {
-  //   return <RightNoProject />;
-  // }
   // 회사 뱃지 변환
   const handleColor = (badge: string | undefined): string => {
     if (badge) {
@@ -125,17 +138,28 @@ const ProjectInProgress = ({
           {data?.inProgressProjects.length === 0 && nowWidth >= 1200 && (
             <RightNoProject />
           )}
+          {desktop && (
+            <PaginationWrap>
+              <PaginationCompo
+                setPage={setInProgressProjectPage}
+                page={inProgressProjectPage}
+                list={data?.inProgressProjects!}
+                limit={limit}
+                total={1}
+              />
+            </PaginationWrap>
+          )}
         </div>
       )}
     </>
   );
-};
+}
 
 const ContentsContainer = styled.div`
   margin-top: 21pt;
   padding-left: 15pt;
   padding-right: 15pt;
-  padding-bottom: 75pt;
+  /* padding-bottom: 75pt; */
   @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
@@ -175,7 +199,6 @@ const DdayNAddress = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
   }
 `;
 
@@ -217,4 +240,6 @@ const ArrowIconBox = styled.div`
   height: 18pt;
 `;
 
-export default ProjectInProgress;
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
+`;

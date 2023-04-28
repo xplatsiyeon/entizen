@@ -25,11 +25,9 @@ export interface Data {
   address: string;
 }
 
-const TAG = 'pages/compnay/as/receivedAS.tsx';
 const ReceivedAS = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
-  const queryClient = useQueryClient();
 
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);

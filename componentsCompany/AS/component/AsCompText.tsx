@@ -236,32 +236,6 @@ const AsCompText = ({ data }: Props) => {
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
-        {/* 유저 정보 */}
-        {/* {data?.data?.afterSalesService?.badge.includes('접수 요청') && (
-          <Contents>
-            <Customer>고객 정보</Customer>
-            <div className="text-box">
-              <span className="name">이름</span>
-              <span className="text">
-                {
-                  data?.data?.afterSalesService?.afterSalesService?.project
-                    ?.finalQuotation?.preQuotation?.quotationRequest?.member
-                    ?.name
-                }
-              </span>
-            </div>
-            <div className="text-box">
-              <span className="name">연락처</span>
-              <span className="text phone">
-                {hyphenFn(
-                  data?.data?.afterSalesService?.afterSalesService?.project
-                    ?.finalQuotation?.preQuotation?.quotationRequest?.member
-                    ?.phone!,
-                )}
-              </span>
-            </div>
-          </Contents>
-        )} */}
 
         <Contents>
           <Customer>고객 정보</Customer>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
@@ -12,6 +12,10 @@ import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import { excelDownloadFile } from 'hooks/excelDown';
 import { useMediaQuery } from 'react-responsive';
+import useDebounce from 'hooks/useDebounce';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import PaginationCompo from 'components/PaginationCompo';
 
 export interface AfterSalesServices {
   requestTitle: string;
@@ -24,6 +28,7 @@ export interface AfterSalesServices {
 export interface HistoryResponse {
   isSuccess: true;
   data: {
+    totalCount: number;
     afterSalesServiceHistories: {
       finalQuotation: {
         finalQuotationIdx: number;
@@ -40,28 +45,9 @@ export interface HistoryResponse {
   };
 }
 
-interface Props {
-  data: HistoryResponse;
-  isLoading: boolean;
-  newSearchWord: string;
-  setHistoryFilterTypeEn: Dispatch<SetStateAction<string>>;
-  setHistorySearchWord: Dispatch<SetStateAction<string>>;
-  historySelected: string;
-  setHistorySelected: Dispatch<SetStateAction<string>>;
-}
+interface Props {}
 
-const AsHistory = ({
-  data,
-  isLoading,
-  newSearchWord,
-  setHistoryFilterTypeEn,
-  setHistorySearchWord,
-  historySelected,
-  setHistorySelected,
-}: Props) => {
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
-  });
+const AsHistory = ({}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -69,6 +55,39 @@ const AsHistory = ({
   const [modal, setModal] = useState<boolean>(false);
   const excelUrl =
     '/after-sales-services/histories/download?sort=lowRate&searchKeyword=';
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [historyAsPage, setHistoryAsPage] = useState(1);
+  // HISTORY AS 리스트 보기
+  const [historySearchWord, setHistorySearchWord] = useState<string>('');
+  const [historyFilterTypeEn, setHistoryFilterTypeEn] = useState('site');
+  const [historySelected, setHistorySelected] = useState<string>('현장별 보기');
+  const historyKeyword = useDebounce(historySearchWord, 2000);
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: historyRefetch,
+  } = useQuery<HistoryResponse>(
+    'company-history-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/histories?sort=${historyFilterTypeEn}&searchKeyword=${historyKeyword}&limit=${limit}&page=${historyAsPage}`,
+      ),
+    {
+      enabled: router?.isReady && accessToken ? true : false,
+    },
+  );
+
+  // history 키워드, 필터 업데이트
+  useEffect(() => {
+    historyRefetch();
+  }, [historyFilterTypeEn, historyKeyword, historySelected, historyAsPage]);
 
   const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
@@ -109,55 +128,70 @@ const AsHistory = ({
           />
           <InputWrap>
             <Search
-              searchWord={newSearchWord}
+              searchWord={historyKeyword}
               setSearchWord={setHistorySearchWord}
             />
           </InputWrap>
         </Wrap>
-        {isLoading ? (
+        {historyLoading ? (
           <Loader />
         ) : (
           <List>
-            {data && data?.data?.afterSalesServiceHistories?.length > 0 ? (
+            {historyData &&
+            historyData?.data?.afterSalesServiceHistories?.length > 0 ? (
               <ListWrap>
-                {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
-                  <React.Fragment key={idx}>
-                    <ListBox key={idx}>
-                      <StoreName>
-                        {
-                          el?.finalQuotation?.preQuotation?.quotationRequest
-                            ?.installationAddress
-                        }
-                      </StoreName>
-                      {el?.afterSalesServices?.map(
-                        (afterSalesService, afterSalesServiceIdx) => (
-                          <FlexWrap
-                            key={afterSalesServiceIdx}
-                            onClick={() =>
-                              handleRoute(
-                                el?.afterSalesServices[afterSalesServiceIdx]
-                                  ?.afterSalesServiceIdx,
-                              )
-                            }
-                            afterSalesService={
-                              data?.data?.afterSalesServiceHistories[idx]
-                                ?.afterSalesServices.length
-                            }
-                            mobile={mobile}
-                          >
-                            <Text>{afterSalesService.requestTitle}</Text>
-                            <Score>
-                              {afterSalesService.afterSalesServiceReview
-                                ?.averagePoint
-                                ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
-                                : null}
-                            </Score>
-                          </FlexWrap>
-                        ),
-                      )}
-                    </ListBox>
-                  </React.Fragment>
-                ))}
+                {historyData?.data?.afterSalesServiceHistories?.map(
+                  (el, idx) => (
+                    <React.Fragment key={idx}>
+                      <ListBox key={idx}>
+                        <StoreName>
+                          {
+                            el?.finalQuotation?.preQuotation?.quotationRequest
+                              ?.installationAddress
+                          }
+                        </StoreName>
+                        {el?.afterSalesServices?.map(
+                          (afterSalesService, afterSalesServiceIdx) => (
+                            <FlexWrap
+                              key={afterSalesServiceIdx}
+                              onClick={() =>
+                                handleRoute(
+                                  el?.afterSalesServices[afterSalesServiceIdx]
+                                    ?.afterSalesServiceIdx,
+                                )
+                              }
+                              afterSalesService={
+                                historyData?.data?.afterSalesServiceHistories[
+                                  idx
+                                ]?.afterSalesServices.length
+                              }
+                              mobile={mobile}
+                            >
+                              <Text>{afterSalesService.requestTitle}</Text>
+                              <Score>
+                                {afterSalesService.afterSalesServiceReview
+                                  ?.averagePoint
+                                  ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
+                                  : null}
+                              </Score>
+                            </FlexWrap>
+                          ),
+                        )}
+                      </ListBox>
+                    </React.Fragment>
+                  ),
+                )}
+                {desktop && (
+                  <PaginationWrap>
+                    <PaginationCompo
+                      setPage={setHistoryAsPage}
+                      page={historyAsPage}
+                      list={historyData.data.afterSalesServiceHistories!}
+                      limit={limit}
+                      total={historyData.data.totalCount!}
+                    />
+                  </PaginationWrap>
+                )}
                 {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
                 <BtnBox
                   onClick={() => {
@@ -347,4 +381,8 @@ const BtnBox = styled.div`
     letter-spacing: -0.02em;
     text-align: center;
   }
+`;
+
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
 `;

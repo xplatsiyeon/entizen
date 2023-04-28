@@ -42,7 +42,6 @@ export const KakaoLogout = () => {
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   // console.log('=============== 로그아웃 =================');
-  const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
 
   await axios({
@@ -54,19 +53,13 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     },
     withCredentials: true,
   }).then((res) => {
-    appLogout(userAgent as string);
     sessionStorage.removeItem('SNS_MEMBER');
     sessionStorage.removeItem('ACCESS_TOKEN');
     sessionStorage.removeItem('REFRESH_TOKEN');
     sessionStorage.removeItem('USER_ID');
     sessionStorage.removeItem('MEMBER_TYPE');
     // 로그아웃 브릿지 연결
-
-    // if (isSns) {
-    //   NaverLogout();
-    //   KakaoLogout();
-    //   googleLogout();
-    // }
+    appLogout(userAgent as string);
   });
 };
 

@@ -13,8 +13,8 @@ export interface Response {
  * 판매자 - 프로젝트 리스트
  */
 export const GET_InProgressProjects = gql`
-  query Query {
-    inProgressProjects {
+  query Query($page: Int, $limit: Int) {
+    inProgressProjects(page: $page, limit: $limit) {
       projectIdx
       projectName
       badge
@@ -234,163 +234,178 @@ export interface FinalQuotationChargerFiles {
   size: number;
 }
 export interface HistoryProjectsDetail {
-  badge: string;
-  projectIdx: string;
-  projectName: string;
-  projectNumber: string;
-  subscribeStartDate: string;
-  subscribeEndDate: string;
-  projectCompletionFiles: {
-    url: string;
-    projectCompletionFileIdx: string;
-    originalName: string;
-    size: number;
-    projectIdx: number;
-  }[];
-  projectReview: {
-    projectReviewIdx: string;
-    attentivenessPoint: number;
-    quicknessPoint: number;
-    professionalismPoint: number;
-    satisfactionPoint: number;
-    averagePoint: string;
-    opinion: string;
-    projectIdx: number;
-  };
-  finalQuotation: {
-    finalQuotationIdx: string;
-    subscribeProduct: string;
-    subscribePeriod: string;
-    chargingPointRate: string;
-    userInvestRate: string;
-    subscribePricePerMonth: string;
-    constructionPeriod: string;
-    subscribeProductFeature: string;
-    spotInspectionResult: string;
-    finalQuotationChargers: [
-      {
-        finalQuotationChargerIdx: string;
-        kind: string;
-        standType: string;
-        channel: string;
-        count: number;
-        chargePriceType: string;
-        chargePrice: number;
-        installationLocation: string;
-        modelName: string;
-        manufacturer: string;
-        productFeature: string;
-        finalQuotationChargerFiles: FinalQuotationChargerFiles[];
-      },
-    ];
-    finalQuotationDetailFiles: [
-      {
-        finalQuotationDetailFileIdx: string;
-        originalName: string;
-        url: string;
-        size: number;
-      },
-    ];
-    quotationRequest: {
-      installationPurpose: string;
+  totalCount: number;
+  projects: {
+    badge: string;
+    projectIdx: string;
+    projectName: string;
+    projectNumber: string;
+    subscribeStartDate: string;
+    subscribeEndDate: string;
+    projectCompletionFiles: {
+      url: string;
+      projectCompletionFileIdx: string;
+      originalName: string;
+      size: number;
+      projectIdx: number;
+    }[];
+    projectReview: {
+      projectReviewIdx: string;
+      attentivenessPoint: number;
+      quicknessPoint: number;
+      professionalismPoint: number;
+      satisfactionPoint: number;
+      averagePoint: string;
+      opinion: string;
+      projectIdx: number;
     };
-  };
+    finalQuotation: {
+      finalQuotationIdx: string;
+      subscribeProduct: string;
+      subscribePeriod: string;
+      chargingPointRate: string;
+      userInvestRate: string;
+      subscribePricePerMonth: string;
+      constructionPeriod: string;
+      subscribeProductFeature: string;
+      spotInspectionResult: string;
+      finalQuotationChargers: [
+        {
+          finalQuotationChargerIdx: string;
+          kind: string;
+          standType: string;
+          channel: string;
+          count: number;
+          chargePriceType: string;
+          chargePrice: number;
+          installationLocation: string;
+          modelName: string;
+          manufacturer: string;
+          productFeature: string;
+          finalQuotationChargerFiles: FinalQuotationChargerFiles[];
+        },
+      ];
+      finalQuotationDetailFiles: [
+        {
+          finalQuotationDetailFileIdx: string;
+          originalName: string;
+          url: string;
+          size: number;
+        },
+      ];
+      quotationRequest: {
+        installationPurpose: string;
+      };
+    };
 
-  userMember: {
-    memberIdx: number;
-    name: number;
-    phone: number;
-  };
-  contract: {
-    documentId: string;
-    contractContent: string;
-  };
+    userMember: {
+      memberIdx: number;
+      name: number;
+      phone: number;
+    };
+    contract: {
+      documentId: string;
+      contractContent: string;
+    };
+  }[];
 }
 export interface ResponseHistoryProjectsDetail {
-  completedProjects: HistoryProjectsDetail[];
+  completedProjects: HistoryProjectsDetail;
 }
 //  완료 프로젝트
 export const GET_historyProjectsDetail = gql`
-  query Query($searchKeyword: String!, $sort: CompletedProjectsSort!) {
-    completedProjects(searchKeyword: $searchKeyword, sort: $sort) {
-      badge
-      projectIdx
-      projectName
-      projectNumber
-      subscribeStartDate
-      subscribeEndDate
-      projectCompletionFiles {
-        url
-        projectCompletionFileIdx
-        originalName
-        size
+  query Query(
+    $searchKeyword: String!
+    $sort: CompletedProjectsSort!
+    $page: Int
+    $limit: Int
+  ) {
+    completedProjects(
+      searchKeyword: $searchKeyword
+      sort: $sort
+      page: $page
+      limit: $limit
+    ) {
+      totalCount
+      projects {
+        badge
         projectIdx
-      }
-      projectReview {
-        projectReviewIdx
-        attentivenessPoint
-        quicknessPoint
-        professionalismPoint
-        satisfactionPoint
-        averagePoint
-        opinion
-        projectIdx
-      }
-      finalQuotation {
-        finalQuotationIdx
-        subscribeProduct
-        subscribePeriod
-        chargingPointRate
-        userInvestRate
-        subscribePricePerMonth
-        constructionPeriod
-        subscribeProductFeature
-        spotInspectionResult
-        finalQuotationChargers {
-          finalQuotationChargerIdx
-          kind
-          standType
-          channel
-          count
-          chargePriceType
-          chargePrice
-          installationLocation
-          modelName
-          manufacturer
-          productFeature
-          finalQuotationChargerFiles {
-            finalQuotationChargerFileIdx
-            productFileType
+        projectName
+        projectNumber
+        subscribeStartDate
+        subscribeEndDate
+        projectCompletionFiles {
+          url
+          projectCompletionFileIdx
+          originalName
+          size
+          projectIdx
+        }
+        projectReview {
+          projectReviewIdx
+          attentivenessPoint
+          quicknessPoint
+          professionalismPoint
+          satisfactionPoint
+          averagePoint
+          opinion
+          projectIdx
+        }
+        finalQuotation {
+          finalQuotationIdx
+          subscribeProduct
+          subscribePeriod
+          chargingPointRate
+          userInvestRate
+          subscribePricePerMonth
+          constructionPeriod
+          subscribeProductFeature
+          spotInspectionResult
+          finalQuotationChargers {
+            finalQuotationChargerIdx
+            kind
+            standType
+            channel
+            count
+            chargePriceType
+            chargePrice
+            installationLocation
+            modelName
+            manufacturer
+            productFeature
+            finalQuotationChargerFiles {
+              finalQuotationChargerFileIdx
+              productFileType
+              originalName
+              url
+              size
+            }
+          }
+          finalQuotationDetailFiles {
+            finalQuotationDetailFileIdx
             originalName
             url
             size
           }
+          # 설치 목적
+          quotationRequest {
+            installationPurpose
+          }
         }
-        finalQuotationDetailFiles {
-          finalQuotationDetailFileIdx
-          originalName
-          url
-          size
+        # 유저 정보
+        userMember {
+          memberIdx
+          name
+          phone
         }
-        # 설치 목적
-        quotationRequest {
-          installationPurpose
+        contract {
+          documentId
+          contractContent
         }
-      }
-      # 유저 정보
-      userMember {
-        memberIdx
-        name
-        phone
-      }
-      contract {
-        documentId
-        contractContent
       }
     }
   }
 `;
-
 // 계약서 정보 조회
 
 export interface Contract {

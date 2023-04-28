@@ -16,6 +16,8 @@ import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
+import { useMediaQuery } from 'react-responsive';
+import PaginationCompo from 'components/PaginationCompo';
 
 type Props = {};
 
@@ -37,11 +39,21 @@ interface Data {
 }
 export interface HistoryResponse {
   isSuccess: boolean;
-  data: Data[];
+  data: {
+    quotationHistories: Data[];
+    totalCount: number;
+  };
 }
 const TAG = 'componentsCOmpany/CompanyQuotation/History';
 const History = ({}: Props) => {
   const router = useRouter();
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [historyPage, setHistoryPage] = useState(1);
+
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
@@ -53,7 +65,7 @@ const History = ({}: Props) => {
       'history',
       () =>
         isTokenGetApi(
-          `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+          `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}&limit=${limit}&page=${historyPage}`,
         ),
       {
         enabled: false,
@@ -64,7 +76,7 @@ const History = ({}: Props) => {
     // console.log(`🔥 리페치 테스트 ~line 63 -> ${TAG}`);
     // console.log(error);
     refetch();
-  }, [checkedFilterIndex, keyword]);
+  }, [checkedFilterIndex, keyword, historyPage]);
 
   if (isError) {
     // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
@@ -105,7 +117,7 @@ const History = ({}: Props) => {
 
       {data !== undefined ? (
         <ContentsContainer>
-          {data?.data?.map((data, index) => (
+          {data?.data?.quotationHistories?.map((data, index) => (
             <div key={index}>
               <Contents
                 key={index}
@@ -138,6 +150,17 @@ const History = ({}: Props) => {
               </Contents>
             </div>
           ))}
+          {desktop && (
+            <PaginationWrap>
+              <PaginationCompo
+                setPage={setHistoryPage}
+                page={historyPage}
+                list={data?.data.quotationHistories!}
+                limit={limit}
+                total={data?.data.totalCount!}
+              />
+            </PaginationWrap>
+          )}
         </ContentsContainer>
       ) : (
         <NoEstimate type={'받은 요청이 없습니다.'} />
@@ -207,6 +230,10 @@ const IconBox = styled.div`
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
 `;
 
 export default History;

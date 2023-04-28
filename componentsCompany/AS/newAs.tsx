@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
@@ -12,6 +12,11 @@ import Loader from 'components/Loader';
 import { dateFomat } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import useDebounce from 'hooks/useDebounce';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import { useMediaQuery } from 'react-responsive';
+import PaginationCompo from 'components/PaginationCompo';
 
 export interface NewReceivedAfterSalesServices {
   afterSalesService: {
@@ -41,34 +46,50 @@ export interface CompanyAsListResposne {
   isSuccess: true;
   data: {
     newReceivedAfterSalesServices: NewReceivedAfterSalesServices[];
+    totalCount: number;
   };
 }
 
-interface Props {
-  data: CompanyAsListResposne;
-  isLoading: boolean;
-  newSearchWord: string;
-  setNewFilterTypeEn: Dispatch<SetStateAction<string>>;
-  setNewSearchWord: Dispatch<SetStateAction<string>>;
-  newSelected: string;
-  setNewSelected: Dispatch<SetStateAction<string>>;
-}
+interface Props {}
 
-const NewAs = ({
-  data,
-  isLoading,
-  newSearchWord,
-  setNewFilterTypeEn,
-  setNewSearchWord,
-  newSelected,
-  setNewSelected,
-}: Props) => {
+const NewAs = ({}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const [modal, setModal] = useState<boolean>(false);
+
+  // 페이지 네이션
+  const desktop = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
+  const limit = desktop ? 20 : 100000000;
+  const [newAsPage, setNewAsPage] = useState(1);
+  // NEW AS 리스트 보기
+  const [newSearchWord, setNewSearchWord] = useState<string>('');
+  const [newFilterTypeEn, setNewFilterTypeEn] = useState('date');
+  const [newSelected, setNewSelected] = useState<string>('등록일순 보기');
+  const newKeyword = useDebounce(newSearchWord, 2000);
+  const {
+    data: newData,
+    isLoading: newLoading,
+    refetch: newRefetch,
+  } = useQuery<CompanyAsListResposne>(
+    'company-new-as',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services/new?sort=${newFilterTypeEn}&searchKeyword=${newKeyword}&limit=${limit}&page=${newAsPage}`,
+      ),
+    {
+      enabled: router.isReady && accessToken ? true : false,
+    },
+  );
+
+  // new 키워드, 필터 업데이트
+  useEffect(() => {
+    newRefetch();
+  }, [newFilterTypeEn, newKeyword, newSelected, newAsPage]);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
@@ -104,41 +125,59 @@ const NewAs = ({
             />
           </InputWrap>
         </Wrap>
-        {isLoading ? (
+        {newLoading ? (
           <Loader />
         ) : (
           <List>
-            {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
-              data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
-                return (
-                  <ListBox
-                    key={idx}
-                    onClick={() =>
-                      router.push({
-                        pathname: '/company/as/receivedAS/',
-                        query: {
-                          afterSalesServiceIdx:
-                            el?.afterSalesService?.afterSalesServiceIdx,
-                        },
-                      })
-                    }
-                  >
-                    <StoreName>
-                      {
-                        el?.afterSalesService?.project?.finalQuotation
-                          ?.preQuotation?.quotationRequest?.installationAddress
-                      }
-                    </StoreName>
-                    <Text>{el?.afterSalesService?.requestTitle}</Text>
-                    <FlexWrap>
-                      <Badge bgColor={handleColorAS(el?.badge)}>
-                        {el?.badge}
-                      </Badge>
-                      <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
-                    </FlexWrap>
-                  </ListBox>
-                );
-              })
+            {newData?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
+              <>
+                {newData?.data?.newReceivedAfterSalesServices?.map(
+                  (el, idx) => {
+                    return (
+                      <ListBox
+                        key={idx}
+                        onClick={() =>
+                          router.push({
+                            pathname: '/company/as/receivedAS/',
+                            query: {
+                              afterSalesServiceIdx:
+                                el?.afterSalesService?.afterSalesServiceIdx,
+                            },
+                          })
+                        }
+                      >
+                        <StoreName>
+                          {
+                            el?.afterSalesService?.project?.finalQuotation
+                              ?.preQuotation?.quotationRequest
+                              ?.installationAddress
+                          }
+                        </StoreName>
+                        <Text>{el?.afterSalesService?.requestTitle}</Text>
+                        <FlexWrap>
+                          <Badge bgColor={handleColorAS(el?.badge)}>
+                            {el?.badge}
+                          </Badge>
+                          <Date>
+                            {dateFomat(el?.afterSalesService?.createdAt)}
+                          </Date>
+                        </FlexWrap>
+                      </ListBox>
+                    );
+                  },
+                )}
+                {desktop && (
+                  <PaginationWrap>
+                    <PaginationCompo
+                      setPage={setNewAsPage}
+                      page={newAsPage}
+                      list={newData?.data.newReceivedAfterSalesServices!}
+                      limit={limit}
+                      total={newData?.data.totalCount!}
+                    />
+                  </PaginationWrap>
+                )}
+              </>
             ) : (
               <NoAsHistyory />
             )}
@@ -287,4 +326,8 @@ const Date = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: #caccd1;
+`;
+
+const PaginationWrap = styled.div`
+  padding-top: 30pt;
 `;
