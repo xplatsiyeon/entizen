@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import colors from 'styles/colors';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
+import { HistoryProjectsDetail, Projects } from 'QueryComponents/CompanyQuery';
 import { convertKo } from 'utils/calculatePackage';
 import {
   InstallationPurposeType,
@@ -22,7 +22,7 @@ import {
 import { handleColor } from 'utils/changeValue';
 
 type Props = {
-  data: HistoryProjectsDetail;
+  data: Projects;
 };
 
 const FinishedTopBox = ({ data }: Props) => {

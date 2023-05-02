@@ -239,81 +239,82 @@ export interface FinalQuotationChargerFiles {
   url: string;
   size: number;
 }
+export interface Projects {
+  badge: string;
+  projectIdx: string;
+  projectName: string;
+  projectNumber: string;
+  subscribeStartDate: string;
+  subscribeEndDate: string;
+  projectCompletionFiles: {
+    url: string;
+    projectCompletionFileIdx: string;
+    originalName: string;
+    size: number;
+    projectIdx: number;
+  }[];
+  projectReview: {
+    projectReviewIdx: string;
+    attentivenessPoint: number;
+    quicknessPoint: number;
+    professionalismPoint: number;
+    satisfactionPoint: number;
+    averagePoint: string;
+    opinion: string;
+    projectIdx: number;
+  };
+  finalQuotation: {
+    finalQuotationIdx: string;
+    subscribeProduct: string;
+    subscribePeriod: string;
+    chargingPointRate: string;
+    userInvestRate: string;
+    subscribePricePerMonth: string;
+    constructionPeriod: string;
+    subscribeProductFeature: string;
+    spotInspectionResult: string;
+    finalQuotationChargers: [
+      {
+        finalQuotationChargerIdx: string;
+        kind: string;
+        standType: string;
+        channel: string;
+        count: number;
+        chargePriceType: string;
+        chargePrice: number;
+        installationLocation: string;
+        modelName: string;
+        manufacturer: string;
+        productFeature: string;
+        finalQuotationChargerFiles: FinalQuotationChargerFiles[];
+      },
+    ];
+    finalQuotationDetailFiles: [
+      {
+        finalQuotationDetailFileIdx: string;
+        originalName: string;
+        url: string;
+        size: number;
+      },
+    ];
+    quotationRequest: {
+      installationPurpose: string;
+    };
+  };
+
+  userMember: {
+    memberIdx: number;
+    name: number;
+    phone: number;
+  };
+  contract: {
+    documentId: string;
+    contractContent: string;
+  };
+}
 export interface HistoryProjectsDetail {
   totalCount: number;
-  projects: {
-    badge: string;
-    projectIdx: string;
-    projectName: string;
-    projectNumber: string;
-    subscribeStartDate: string;
-    subscribeEndDate: string;
-    projectCompletionFiles: {
-      url: string;
-      projectCompletionFileIdx: string;
-      originalName: string;
-      size: number;
-      projectIdx: number;
-    }[];
-    projectReview: {
-      projectReviewIdx: string;
-      attentivenessPoint: number;
-      quicknessPoint: number;
-      professionalismPoint: number;
-      satisfactionPoint: number;
-      averagePoint: string;
-      opinion: string;
-      projectIdx: number;
-    };
-    finalQuotation: {
-      finalQuotationIdx: string;
-      subscribeProduct: string;
-      subscribePeriod: string;
-      chargingPointRate: string;
-      userInvestRate: string;
-      subscribePricePerMonth: string;
-      constructionPeriod: string;
-      subscribeProductFeature: string;
-      spotInspectionResult: string;
-      finalQuotationChargers: [
-        {
-          finalQuotationChargerIdx: string;
-          kind: string;
-          standType: string;
-          channel: string;
-          count: number;
-          chargePriceType: string;
-          chargePrice: number;
-          installationLocation: string;
-          modelName: string;
-          manufacturer: string;
-          productFeature: string;
-          finalQuotationChargerFiles: FinalQuotationChargerFiles[];
-        },
-      ];
-      finalQuotationDetailFiles: [
-        {
-          finalQuotationDetailFileIdx: string;
-          originalName: string;
-          url: string;
-          size: number;
-        },
-      ];
-      quotationRequest: {
-        installationPurpose: string;
-      };
-    };
-
-    userMember: {
-      memberIdx: number;
-      name: number;
-      phone: number;
-    };
-    contract: {
-      documentId: string;
-      contractContent: string;
-    };
-  }[];
+  projects: Projects[];
 }
 export interface ResponseHistoryProjectsDetail {
   completedProjects: HistoryProjectsDetail;

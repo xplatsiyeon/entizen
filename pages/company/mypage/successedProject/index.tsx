@@ -11,6 +11,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import {
   GET_historyProjectsDetail,
   HistoryProjectsDetail,
+  Projects,
   ResponseHistoryProjectsDetail,
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
@@ -30,8 +31,7 @@ const successedProject = (props: Props) => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-  const [historyDetailData, setHistoryDetailData] =
-    useState<HistoryProjectsDetail>();
+  const [historyDetailData, setHistoryDetailData] = useState<Projects>();
 
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -50,10 +50,10 @@ const successedProject = (props: Props) => {
         },
       },
       onCompleted(data) {
-        const historyDetatilData = data?.completedProjects.filter(
+        const historyDetatilData = data?.completedProjects?.projects?.filter(
           (e) => e.projectIdx === routerId,
         );
-        setHistoryDetailData(historyDetatilData[0]);
+        setHistoryDetailData(historyDetatilData[0]!);
       },
     },
   );

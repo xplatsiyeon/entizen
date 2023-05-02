@@ -1,12 +1,5 @@
 import styled from '@emotion/styled';
-import React, { Fragment, useState } from 'react';
-import colors from 'styles/colors';
-import Toggle from 'rsuite/Toggle';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
-import { AdminBannerListResponse } from 'types/tableDataType';
-import { adminDateFomat } from 'utils/calculatePackage';
-import { Pagination } from 'rsuite';
+import React from 'react';
 import { css } from '@emotion/react';
 import { SubsidyDataResponse } from './Subsidy';
 
@@ -23,17 +16,6 @@ const SubsidyTable = ({
   handleCommon,
   subsidyData,
 }: Props) => {
-  const queryClient = useQueryClient();
-  const limit = 10;
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
-
-  const [siDoNumber, setSidoNumber] = useState<number | undefined>();
-  const [siGunGuNumber, setSiGunGuNumber] = useState<number | undefined>();
-  // const [siGunGuBoolean, setSiGunGuBoolean] = useState<boolean>(false);
-  const [valueNumber, setValueNumber] = useState<number | undefined>();
-  // const [valueBoolean, setValueBoolean] = useState<boolean>(false);
-
   const Row = [
     'A',
     'B',
@@ -112,6 +94,12 @@ const SubsidyTable = ({
     ['17.6 kW', '공용,', '스탠드', '싱글'],
     ['20 kW', '공용,', '벽걸이', '싱글'],
     ['20 kW', '공용,', '스탠드', '싱글'],
+    //
+    ['30 kW', '공용,', '벽걸이', '싱글'],
+    ['30 kW', '공용,', '스탠드', '싱글'],
+    ['30 kW', '공용,', '벽걸이', '듀얼'],
+    ['30 kW', '공용,', '스탠드', '듀얼'],
+    //
     ['50 kW', '공용,', '스탠드', '싱글'],
     ['50 kW', '공용,', '스탠드', '듀얼'],
     ['50 kW', '공용,', '스탠드', '3mode'],

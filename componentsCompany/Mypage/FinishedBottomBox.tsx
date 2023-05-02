@@ -5,7 +5,7 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { Button } from '@mui/material';
-import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
+import { HistoryProjectsDetail, Projects } from 'QueryComponents/CompanyQuery';
 import { hyphenFn } from 'utils/calculatePackage';
 import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
 import { fileDownload } from 'bridge/appToWeb';
@@ -22,7 +22,7 @@ import { useMediaQuery } from 'react-responsive';
 import Carousel from 'components/mypage/projects/Carousel';
 
 type Props = {
-  data: HistoryProjectsDetail;
+  data: Projects;
 };
 
 const FinishedBottomBox = ({ data }: Props) => {
