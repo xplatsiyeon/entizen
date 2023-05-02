@@ -35,6 +35,14 @@ const SecondStep = ({ tabNumber }: Props) => {
   const subscribeType: string[] = ['전체구독', '부분구독'];
   const subscribeTypeEn: string[] = ['ENTIRETY', 'PART'];
 
+  const onClickTabButton = (index: number) => {
+    if (index === 1) {
+      // 부분 구독
+      setDisabled(false);
+    }
+    setSubscribeNumber(index);
+    setThisStepTypeChange(true);
+  };
   // 이전
   const HandlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -156,16 +164,14 @@ const SecondStep = ({ tabNumber }: Props) => {
   return (
     <Wrraper>
       <Title>구독상품을 선택해주세요</Title>
-      <SubTitle>구독상품 선택</SubTitle>
+      <div className="title">구독상품 선택</div>
       <TypeBox>
         {subscribeType.map((type, index) => (
           <Tab
             key={index}
             idx={index.toString()}
             subscribeNumber={subscribeNumber.toString()}
-            onClick={() => {
-              setSubscribeNumber(index), setThisStepTypeChange(true);
-            }}
+            onClick={() => onClickTabButton(index)}
           >
             {type}
           </Tab>
@@ -177,7 +183,7 @@ const SecondStep = ({ tabNumber }: Props) => {
         부분구독: 충전기 일시불 구매
       </Notice>
 
-      <SubTitle>희망하는 수익지분을 선택해주세요.</SubTitle>
+      <div className="title">희망하는 수익지분을 선택해주세요.</div>
       <Notice pt={6}>* 선택하신 수익지분에 따라 구독료가 상승해요.</Notice>
 
       <SubTitleBox
@@ -185,13 +191,13 @@ const SecondStep = ({ tabNumber }: Props) => {
         disabled={disabled}
         subscribeNumber={subscribeNumber}
       >
-        <SubTitle className="slider-bar-user">내 수익/투자</SubTitle>
-        <SubTitle className="slider-bar-company">판매자</SubTitle>
+        <div className="title slider-bar-user">내 수익/투자</div>
+        <div className="title slider-bar-company">판매자</div>
       </SubTitleBox>
       {/* 슬라이드  */}
       <SliderBox>
         <SliderSizes
-          isHome={homeType} // 홈충전기
+          homeCharger={homeType} // 홈충전기
           subscribeProduct={subscribeTypeEn[subscribeNumber]}
           sliderDisable={subscribeNumber === 0 ? false : true}
           value={value} // 슬라이더 기본값. 기본은 50 : 50
@@ -241,18 +247,7 @@ const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
-const SubTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'Spoqa Han Sans Neo';
-  padding-top: 45pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-`;
+
 const TypeBox = styled.div`
   display: flex;
   justify-content: space-between;
@@ -298,6 +293,18 @@ const SubTitleBox = styled.div<{
 }>`
   display: flex;
   justify-content: space-between;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Spoqa Han Sans Neo';
+    padding-top: 45pt;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
   .slider-bar-user {
     color: ${({ disabled, isHome, subscribeNumber }) =>
       isHome === true // 홈충전기

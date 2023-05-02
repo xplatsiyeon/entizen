@@ -52,7 +52,7 @@ export default function Step3(props: Props) {
         prevOnClick={() => dispatch(contractAction.setStep(3))}
         value={'다음'}
         isValid={true}
-        onClick={() => isValid && dispatch(contractAction.setStep(5))}
+        onClick={() => dispatch(contractAction.setStep(5))}
       />
     </Wrap>
   );

@@ -6,31 +6,18 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import {
-  filterType,
-  filterTypeEn,
-  ReceivedQuotationRequests,
-  ReceivedRequest,
-} from 'pages/company/quotation';
-import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
-import useDebounce from 'hooks/useDebounce';
-import Loader from 'components/Loader';
-import Sort from './Sort';
-import Search from './Search';
-import Modal from 'components/Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import { RootState } from 'store/store';
+import { ReceivedQuotationRequests } from 'pages/company/quotation';
 
 type Props = {
-  data?: ReceivedRequest;
+  data?: ReceivedQuotationRequests[];
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
   componentId?: number;
   setTabNumber?: Dispatch<SetStateAction<number>>;
 };
 
-const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequestUnder = ({
   data,
   setComponentId,
@@ -71,7 +58,7 @@ const RecieveRequestUnder = ({
   return (
     <>
       <ContentsContainer>
-        {data?.receivedQuotationRequests?.map((el, idx) => (
+        {data?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
             onClick={() => onClick(el)}

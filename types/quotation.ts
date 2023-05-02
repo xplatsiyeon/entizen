@@ -220,3 +220,78 @@ export interface QuotationRequestHistoriesResponse {
     totalCount: number;
   };
 }
+// 충전소 히스토리
+export interface QuotationStatusHistory {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  quotationStatusHistoryIdx: number;
+  quotationRequestStatus: string;
+  preQuotationStatus: string;
+  completeEnteringFinalQuotation: string;
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+}
+
+// 가견적 충전기
+export interface PreQuotationChargers {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  preQuotationChargerIdx: number;
+  chargePriceType: string;
+  chargePrice: number;
+  modelName: string | null;
+  manufacturer: string;
+  productFeature: string | null;
+  preQuotationIdx: number;
+  preQuotationFiles: []; // 어떤 값 들어오는 지 확인 필요
+}
+// 가견적 상세 조회
+export interface preQuotation {
+  isSuccess: true;
+  preQuotation: {
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    preQuotationIdx: number;
+    chargingStationInstallationPrice: number;
+    subscribePricePerMonth: number;
+    constructionPeriod: number;
+    subscribeProductFeature: string | null;
+    changedDate: string;
+    quotationRequestIdx: number;
+    memberIdx: number;
+    quotationRequest: {
+      createdAt: string;
+      updatedAt: string;
+      deletedAt: null;
+      quotationRequestIdx: number;
+      quotationStatus: string;
+      changedDate: string;
+      subscribeProduct: string;
+      investRate: string;
+      subscribePeriod: number;
+      installationAddress: string;
+      installationAddressWithPoundSign: null | boolean;
+      installationLocation: string;
+      installationPurpose: string;
+      expiredAt: string;
+      etcRequest: string;
+      currentInProgressPreQuotationIdx: null | number;
+      closedStatusAtForCancel: null | boolean;
+      spotInspectionReceivedAtForCancel: null | boolean;
+      finalQuotationReceivedAtForCancel: null | boolean;
+      memberIdx: number;
+      quotationRequestChargers: QuotationRequestChargers[];
+      member: UserMember;
+      quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
+    };
+    quotationStatusHistory: QuotationStatusHistory;
+    finalQuotation: FinalQuotation;
+    member: CompanyMember;
+    preQuotationChargers: PreQuotationChargers[];
+    badge: string;
+    maskingInstallationAddress: string;
+  };
+}

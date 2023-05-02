@@ -4,6 +4,9 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import arrowDropnDown from 'public/images/alramDown.svg';
 import arrowDropnDownUp from 'public/images/alramUp.svg';
+import QuotationModal from 'components/Modal/QuotationModal';
+import AlarmModal from 'components/Modal/AlarmModal';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   DropDownTimeValue: DropDownTime | undefined;
@@ -65,6 +68,9 @@ const AlarmDropDown = ({
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
   const outside = useRef<HTMLInputElement>(null);
+  const mobile = useMediaQuery({
+    query: '(max-width:810pt)',
+  });
 
   const handleCloseModal = ({ target }: MouseEvent) => {
     if (!outside.current || !outside.current.contains(target as Node)) {
@@ -73,6 +79,7 @@ const AlarmDropDown = ({
   };
 
   const onClickDropDownText = (item: DropDownTime) => {
+    console.log('item : ', item);
     setDropDown(false);
     setDropDownTimeValue(item);
     onClickTime(type, item.send);
@@ -116,15 +123,18 @@ const AlarmDropDown = ({
       </MainText>
 
       {/* 하단 드랍 다운 */}
-      {dropDown && (
-        <DropDownBox>
-          {DropDownTime.map((item, idx) => (
-            <DropDownText key={idx} onClick={() => onClickDropDownText(item)}>
-              {item?.time}
-            </DropDownText>
-          ))}
-        </DropDownBox>
-      )}
+      {dropDown &&
+        (mobile ? (
+          <AlarmModal setIsModal={setDropDown} onClick={onClickDropDownText} />
+        ) : (
+          <DropDownBox>
+            {DropDownTime.map((item, idx) => (
+              <DropDownText key={idx} onClick={() => onClickDropDownText(item)}>
+                {item?.time}
+              </DropDownText>
+            ))}
+          </DropDownBox>
+        ))}
     </DropDownWrapper>
   );
 };
@@ -174,6 +184,12 @@ const DropDownBox = styled.div`
   height: 180pt;
   overflow-y: scroll;
   @media (max-width: 899.25pt) {
+    border: 1px solid red;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 50vh;
   }
 `;
 

@@ -672,6 +672,9 @@ const OptionBox = styled(Box)`
   .time {
     color: ${colors.main};
   }
+  @media (max-width: 899.25pt) {
+    position: relative;
+  }
 `;
 const CustomSwitch = styled(Switch)`
   .MuiSwitch-root {

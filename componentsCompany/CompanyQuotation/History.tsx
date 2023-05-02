@@ -24,7 +24,7 @@ type Props = {};
 interface QuotationRequestChargers {
   kind: number;
 }
-interface Data {
+export interface HistoryQuotation {
   preQuotation: {
     preQuotationIdx: number;
   };
@@ -40,7 +40,7 @@ interface Data {
 export interface HistoryResponse {
   isSuccess: boolean;
   data: {
-    quotationHistories: Data[];
+    quotationHistories: HistoryQuotation[];
     totalCount: number;
   };
 }
@@ -62,7 +62,7 @@ const History = ({}: Props) => {
   // api 호출
   const { data, isLoading, isError, error, refetch } =
     useQuery<HistoryResponse>(
-      'history',
+      'history-request',
       () =>
         isTokenGetApi(
           `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}&limit=${limit}&page=${historyPage}`,

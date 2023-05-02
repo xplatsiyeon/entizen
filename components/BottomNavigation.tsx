@@ -132,7 +132,7 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {data?.receivedQuotationRequests?.length! === 0 && (
+              {data?.data?.receivedQuotationRequests?.length! === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -145,7 +145,7 @@ const BottomNavigation = ({}: Props) => {
                   />
                 </ImgBox>
               )}
-              {data?.receivedQuotationRequests?.length! > 0 && (
+              {data?.data?.receivedQuotationRequests?.length! > 0 && (
                 <ImgBox>
                   <Image
                     src={

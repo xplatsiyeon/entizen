@@ -21,7 +21,7 @@ export default function PaginationCompo({
   setPage,
   total,
 }: Props) {
-  console.log(total);
+  console.log('total : ', total / 2);
   return (
     <Wrap>
       {/* 0~9, 10~19, 20~29 이런식으로 짤라줌 */}
@@ -32,12 +32,12 @@ export default function PaginationCompo({
         // first
         // last
         prev={
-          <Arrow>
+          <Arrow className={page === 1 ? 'first' : ''}>
             <Image src={left_pagnation_icon} />
           </Arrow>
         }
         next={
-          <Arrow>
+          <Arrow className={total <= 20 ? 'last' : ''}>
             <Image src={right_pagnation_icon} />
           </Arrow>
         }
@@ -59,10 +59,16 @@ const Wrap = styled.div`
 `;
 
 const PagenationStyle = styled(Pagination)`
+  /* 전체 */
+  .rs-pagination {
+    display: flex;
+    align-items: center;
+  }
   /* 화살표 */
   .rs-pagination-symbol {
     color: red;
   }
+
   /* 버튼 */
   .rs-pagination-btn {
     font-family: 'Spoqa Han Sans Neo';
@@ -75,6 +81,16 @@ const PagenationStyle = styled(Pagination)`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    max-width: 21pt;
+    max-height: 21pt;
+    min-width: 21pt;
+    min-height: 21pt;
+    &:nth-of-type(1) {
+      margin-right: 15pt;
+    }
+    &:nth-last-of-type(1) {
+      margin-left: 15pt;
+    }
   }
   /* 선택 */
   .rs-pagination-btn-active {
@@ -100,6 +116,10 @@ const Arrow = styled.div`
   background: #ffffff;
   /* Sub2 */
 
-  border: 1px solid #e2e5ed;
-  border-radius: 4px;
+  border: 0.75pt solid ${colors.lightWhite3};
+  border-radius: 3pt;
+  &.first,
+  &.last {
+    visibility: hidden;
+  }
 `;

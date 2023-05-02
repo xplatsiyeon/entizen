@@ -22,7 +22,7 @@ interface Ret {
   investRate: number;
 }
 interface Props {
-  isHome: boolean;
+  homeCharger: boolean;
   subscribeProduct: string;
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
@@ -53,7 +53,7 @@ const SliderSizes = ({
   setCalculatedValue,
   unavailableGraph,
   thisStepTypeChange,
-  isHome,
+  homeCharger,
   subscribeProduct,
 }: Props) => {
   const { requestData, investRate } = useSelector(
@@ -61,7 +61,7 @@ const SliderSizes = ({
   );
 
   console.log('🔥 subscribeProduct : ', subscribeProduct);
-  console.log('🔥 isHome : ', isHome);
+  console.log('🔥 homeCharger : ', homeCharger);
 
   const setPriceByRate = (
     target: number | undefined,
@@ -197,17 +197,17 @@ const SliderSizes = ({
   }, [unavailableGraph]);
 
   useEffect(() => {
-    if (!isHome && subscribeProduct === 'PART') {
+    if (!homeCharger && subscribeProduct === 'PART') {
       setValue(100);
     } else if (
-      !isHome &&
+      !homeCharger &&
       subscribeProduct === 'ENTIRETY' &&
       thisStepTypeChange
     ) {
       setDisabled(true);
       setValue(50);
     }
-  }, [subscribeProduct, isHome]);
+  }, [subscribeProduct, homeCharger]);
 
   return (
     <SliderCustom
@@ -215,10 +215,10 @@ const SliderSizes = ({
       disabled={disabled}
       subscribeProduct={subscribeProduct}
       sliderDisable={sliderDisable}
-      isHome={isHome}
+      homeCharger={homeCharger}
     >
       {/* 안내 메시지 */}
-      {disabled && !isHome && subscribeProduct === 'ENTIRETY' && (
+      {disabled && !homeCharger && subscribeProduct === 'ENTIRETY' && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
       )}
       {/* 슬라이더 */}
@@ -226,28 +226,28 @@ const SliderSizes = ({
         step={5} //슬라이더 증감량. => 5씩 증감
         value={value} // 슬라이더 값
         onChange={handleChange} // 슬라이더 체인지 이벤트
-        disabled={isHome ? true : false} // 그래프 사용 유무
+        disabled={homeCharger ? true : false} // 그래프 사용 유무
         defaultValue={difaultValue ? difaultValue : 50} // 초기값
       />
       {/* 홈 충전기 안내 메시지 */}
-      {isHome && (
+      {homeCharger && (
         <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
       )}
 
       {/* 하단 퍼센트 뱃지 */}
-      {!isHome && (
+      {!homeCharger && (
         <BadgeBox>
           <PersentBadge
             className="user"
-            init={subscribeProduct ? false : true}
-            disabled={isHome ? true : false}
+            init={disabled ? false : true}
+            disabled={homeCharger ? true : false}
             persent={value / 2}
           >
             {`${value}%`}
           </PersentBadge>
           <PersentBadge
-            init={subscribeProduct ? false : true}
-            disabled={isHome ? true : false}
+            init={disabled ? false : true}
+            disabled={homeCharger ? true : false}
             persent={value + (100 - value) / 2}
           >
             {`${100 - value}%`}
@@ -256,7 +256,7 @@ const SliderSizes = ({
       )}
 
       {/* 부분 구독 안내 메시지 */}
-      {!isHome && subscribeProduct === 'PART' && (
+      {!homeCharger && subscribeProduct === 'PART' && (
         <AlertMessage2>
           <p>부분구독을 선택하면 수익지분은 100%로 고정됩니다.</p>
         </AlertMessage2>
@@ -271,7 +271,7 @@ const SliderCustom = styled(Box)<{
   disabled: boolean;
   subscribeProduct?: string;
   sliderDisable?: boolean;
-  isHome: boolean;
+  homeCharger: boolean;
 }>`
   position: relative;
   padding-top: 6pt;
@@ -304,16 +304,19 @@ const SliderCustom = styled(Box)<{
     height: 15pt;
   }
 
-  ${({ sliderDisable, isHome, subscribeProduct }) =>
-    (sliderDisable || isHome) &&
+  ${({ sliderDisable, homeCharger, subscribeProduct }) =>
+    (sliderDisable || homeCharger) &&
     css`
+      /* 오른쪽 그래프 */
       .MuiSlider-rail {
         color: ${colors.gray};
         opacity: 1;
       }
       .MuiSlider-track {
-        color: ${subscribeProduct === 'PART' && !isHome
+        color: ${subscribeProduct === 'PART' && !homeCharger
           ? colors.main
+          : homeCharger
+          ? colors.gray
           : colors.gray6};
       }
     `}
@@ -351,9 +354,9 @@ const PersentBadge = styled.span<{
     border-bottom-color: ${colors.gray};
   }
   &.user {
-    background-color: ${({ init }) => (init ? colors.gray6 : colors.main)};
+    background-color: ${({ init }) => (init ? colors.main : colors.gray6)};
     &:after {
-      border-bottom-color: ${({ init }) => (init ? colors.gray6 : colors.main)};
+      border-bottom-color: ${({ init }) => (init ? colors.main : colors.gray6)};
     }
   }
 

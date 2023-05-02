@@ -2,23 +2,15 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
-import Modal from 'components/Modal/Modal';
-import Loader from 'components/Loader';
-import { filterType } from 'pages/company/quotation';
-import Sort from './Sort';
-import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
-import WebSort from './WebSort';
 
 type Props = {
   componentId?: number;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  send?: SentrequestResponse;
+  send?: SendQuotationRequests[];
 };
 export interface QuotationRequest {
   changedDate: string;
@@ -64,7 +56,7 @@ const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
   return (
     <>
       <ContentsContainer>
-        {send?.sendQuotationRequests?.map((el, index) => (
+        {send?.map((el, index) => (
           <Contents
             key={index}
             onClick={() => {

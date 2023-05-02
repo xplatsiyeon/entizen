@@ -1,12 +1,15 @@
 import { gql } from '@apollo/client';
 
 export interface InProgressProjects {
-  badge: string;
-  projectIdx: string;
-  projectName: string;
+  totalCount: number;
+  projects: {
+    badge: string;
+    projectIdx: string;
+    projectName: string;
+  }[];
 }
 export interface Response {
-  inProgressProjects: InProgressProjects[];
+  inProgressProjects: InProgressProjects;
 }
 
 /**
@@ -15,9 +18,12 @@ export interface Response {
 export const GET_InProgressProjects = gql`
   query Query($page: Int, $limit: Int) {
     inProgressProjects(page: $page, limit: $limit) {
-      projectIdx
-      projectName
-      badge
+      totalCount
+      projects {
+        projectIdx
+        projectName
+        badge
+      }
     }
   }
 `;

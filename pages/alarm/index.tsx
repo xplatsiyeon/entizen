@@ -173,7 +173,7 @@ const Alam = () => {
         <Wrapper>
           {/* 헤더 */}
           <Header>
-            <div className="back-img" onClick={() => router.back()}>
+            <div className="back-img" onClick={() => router.replace('/')}>
               <Image
                 style={{
                   cursor: 'pointer',

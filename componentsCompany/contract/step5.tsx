@@ -150,8 +150,7 @@ const Contents = styled.textarea`
   margin-top: 9pt;
   outline: none;
   resize: none;
-  :placeholder {
-  }
-  :placeholder:after {
+  ::placeholder {
+    color: ${colors.lightGray3};
   }
 `;

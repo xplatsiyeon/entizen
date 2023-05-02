@@ -1,5 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
+import React, { useLayoutEffect, useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -15,16 +14,12 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
-import { quotationAction, SubscribePrice } from 'store/quotationSlice';
+import { SubscribePrice } from 'store/quotationSlice';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import { stat } from 'fs';
 import { useMediaQuery } from 'react-responsive';
 import DoubleArrow from 'public/images/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { useDispatch } from 'react-redux';
-import { locationAction } from 'store/locationSlice';
-import { addressSliceAction } from 'store/addressSlice';
 
 type Props = {};
 
@@ -293,7 +288,7 @@ const Confirm = (props: Props) => {
               {!mobile && (
                 <TopInfoBox>
                   {chargersKo?.map((item, index) => (
-                    <TextBox>
+                    <TextBox key={index}>
                       {index === 0 ? (
                         <Name>충전기 종류 및 수량</Name>
                       ) : (
@@ -326,7 +321,7 @@ const Confirm = (props: Props) => {
                 <span className="name">판매자</span>
               </NameBox>
               <SliderSizes
-                isHome={homeType} // 홈충전기
+                homeCharger={homeType} // 홈충전기
                 subscribeProduct={subscribeProduct} // 구독상품
                 sliderDisable={sliderDisable} // 슬라이더 view 출력 유무
                 value={value} // 슬라이더 기본값. 기본은 50 : 50

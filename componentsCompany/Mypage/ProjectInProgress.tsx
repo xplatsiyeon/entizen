@@ -52,25 +52,6 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
     setNowWidth(window.innerWidth);
   };
 
-  // 페이지 네이션 갱신
-  useEffect(() => {
-    refetch();
-  }, [inProgressProjectPage]);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
-  if (loading) {
-    return <Loader />;
-  }
-  if (error) {
-    // console.log(error);
-  }
-
   // 회사 뱃지 변환
   const handleColor = (badge: string | undefined): string => {
     if (badge) {
@@ -91,6 +72,28 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
       return '';
     }
   };
+  // 페이지 네이션 갱신
+  useEffect(() => {
+    refetch();
+  }, [inProgressProjectPage]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  useEffect(() => {
+    console.log('data : ', data);
+  }, [data]);
+
+  if (loading) {
+    return <Loader />;
+  }
+  if (error) {
+    // console.log(error);
+  }
 
   // console.log('🔥 데이터 확인 ~line 87 ' + TAG);
 
@@ -100,9 +103,9 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
     <>
       {componentId === undefined && (
         <div>
-          {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
+          {tabNumber === 0 && data?.inProgressProjects.projects?.length! > 0 && (
             <ContentsContainer className="???">
-              {data?.inProgressProjects?.map((el, index) => (
+              {data?.inProgressProjects?.projects.map((el, index) => (
                 <div key={index}>
                   <Contents
                     key={el.projectIdx}
@@ -135,17 +138,16 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
               ))}
             </ContentsContainer>
           )}
-          {data?.inProgressProjects.length === 0 && nowWidth >= 1200 && (
-            <RightNoProject />
-          )}
+          {data?.inProgressProjects.projects.length === 0 &&
+            nowWidth >= 1200 && <RightNoProject />}
           {desktop && (
             <PaginationWrap>
               <PaginationCompo
                 setPage={setInProgressProjectPage}
                 page={inProgressProjectPage}
-                list={data?.inProgressProjects!}
+                list={data?.inProgressProjects.projects!}
                 limit={limit}
-                total={1}
+                total={data?.inProgressProjects?.totalCount!}
               />
             </PaginationWrap>
           )}

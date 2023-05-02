@@ -14,11 +14,12 @@ import Sort from './Sort';
 import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
+import { HistoryQuotation } from './History';
 
 type Props = {
   componentId?: number;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  historyData?: HistoryResponse;
+  historyData?: HistoryQuotation[];
 };
 interface QuotationRequestChargers {
   kind: number;
@@ -48,7 +49,7 @@ const HistoryUnder = ({ componentId, setComponentId, historyData }: Props) => {
   return (
     <>
       <ContentsContainer>
-        {historyData?.data?.map((el, index) => (
+        {historyData?.map((el, index) => (
           <Contents
             key={index}
             onClick={() => {

@@ -82,7 +82,7 @@ const ThirdStep = ({ tabNumber }: Props) => {
   }, []);
 
   return (
-    <Wrraper>
+    <Wrap>
       {/* 선택불가 메세지 */}
       {isMessage && (
         <ImpossibleMessage>
@@ -120,13 +120,13 @@ const ThirdStep = ({ tabNumber }: Props) => {
           다음
         </NextBtn>
       </TwoBtn>
-    </Wrraper>
+    </Wrap>
   );
 };
 
 export default ThirdStep;
 
-const Wrraper = styled.div`
+const Wrap = styled.div`
   position: relative;
   @media (max-width: 899.25pt) {
     margin-bottom: 96pt;
@@ -237,7 +237,7 @@ const ImpossibleMessage = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(34, 34, 34, 0.4);
-  z-index: 999;
+  z-index: 9999;
 `;
 const Contents = styled.p`
   font-weight: 500;
