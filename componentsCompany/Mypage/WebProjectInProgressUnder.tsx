@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
 import NoProject from './NoProject';
-import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
+import { Response } from 'QueryComponents/CompanyQuery';
 import { handleColor } from 'utils/changeValue';
 
 type Props = {
@@ -33,7 +33,7 @@ const WebProjectInProgressUnder = ({
   componentId,
   data,
 }: Props) => {
-  if (data?.inProgressProjects?.length === 0) {
+  if (data?.inProgressProjects?.projects?.length === 0) {
     return <NoProject />;
   }
 
@@ -48,9 +48,9 @@ const WebProjectInProgressUnder = ({
   return (
     <>
       <div>
-        {data?.inProgressProjects?.length > 0 && (
+        {data?.inProgressProjects?.projects?.length > 0 && (
           <ContentsContainer>
-            {data?.inProgressProjects?.map((el, index) => (
+            {data?.inProgressProjects?.projects?.map((el, index) => (
               <div key={index}>
                 <Contents
                   componentId={componentId!}
