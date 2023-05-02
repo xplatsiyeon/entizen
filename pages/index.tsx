@@ -16,7 +16,9 @@ interface Props {
 }
 const Home: NextPage<Props> = ({}: Props) => {
   const dispatch = useDispatch();
-  const landingPage = window.location.href === 'https://entizen.kr/';
+  const landingPage =
+    window.location.href === 'https://entizen.kr/' ||
+    window.location.href === 'https://entizen.com/';
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
 
   // 초기화
