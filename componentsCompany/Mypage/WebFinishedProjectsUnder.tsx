@@ -28,7 +28,7 @@ const WebFinishedProjectsUnder = ({
   componentId,
   historyData,
 }: Props) => {
-  if (historyData?.completedProjects?.length === 0) {
+  if (historyData?.completedProjects?.projects?.length === 0) {
     return <NoProject />;
   }
 
@@ -43,9 +43,9 @@ const WebFinishedProjectsUnder = ({
   return (
     <>
       <div>
-        {historyData?.completedProjects?.length > 0 && (
+        {historyData?.completedProjects?.projects?.length > 0 && (
           <ListContainer>
-            {historyData?.completedProjects?.map((el, index) => (
+            {historyData?.completedProjects?.projects?.map((el, index) => (
               <div key={index}>
                 <List
                   componentId={componentId}
