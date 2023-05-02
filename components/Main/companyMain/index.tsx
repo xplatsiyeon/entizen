@@ -132,7 +132,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                 <Image src={BellOff} alt="alarmIcon" />
               </FirstIconBox>
             )}
-            {userID && historyUnread?.wasReadAlert === true && (
+            {userID && historyUnread?.wasReadAlertBell === true && (
               <FirstIconBox
                 onClick={() => {
                   router.push('/alarm');
@@ -142,7 +142,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                 <Image src={BellOff} alt="alarmIcon" />
               </FirstIconBox>
             )}
-            {userID && historyUnread?.wasReadAlert === false && (
+            {userID && historyUnread?.wasReadAlertBell === false && (
               <FirstIconBox
                 onClick={() => {
                   router.push('/alarm');

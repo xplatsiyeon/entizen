@@ -7,9 +7,9 @@ import colors from 'styles/colors';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Chat from 'public/images/chat.png';
 //알람 꺼짐
-import Bell from 'public/images/bell.png';
+import BellOff from 'public/images/bell.png';
 // 알람 켜짐
-import BellOutline from 'public/images/Bell_outline.png';
+import BellOn from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
 import SubMenuBar from 'components/SubMenuBar';
 import ProfileUp from 'public/images/profile-up.png';
@@ -46,7 +46,7 @@ type GetUnread = {
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const isUser = sessionStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
@@ -65,7 +65,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
     'historyUnread',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
-      enabled: isUser !== null ? true : false,
+      enabled: userID !== null ? true : false,
       select(res) {
         return res.data;
       },
@@ -80,7 +80,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
       .catch((error) => alert(error));
   };
   const handleLink = (st: string) => {
-    if (isUser) {
+    if (userID) {
       router.push(`${st}`);
     } else {
       router.push('/signin');
@@ -122,6 +122,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
 
   useEffect(() => {}, [linklist]);
 
+  // console.log('🔥 historyUnread : ', historyUnread);
+
   return (
     <>
       <Wrapper>
@@ -160,7 +162,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
               </DivBox>
               <DivBox onClick={() => handleLink('/chatting')}>
                 소통하기
-                {isUser && historyUnread?.wasReadChatting === false && (
+                {userID && historyUnread?.wasReadChatting === false && (
                   <BellOnText />
                 )}
               </DivBox>
@@ -173,13 +175,13 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 }}
               >
                 마이페이지
-                {isUser && allAlert('mypage') === false && <BellOnText />}
+                {userID && allAlert('mypage') === false && <BellOnText />}
               </DivBox>
             </Box1>
             <Box2>
               {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
 
-              {isUser ? (
+              {userID ? (
                 <>
                   <DivBox2>
                     <IconBox>
@@ -195,11 +197,10 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       />
                     </IconBox>
                     <IconBox>
-                      {historyUnread?.wasReadAlert === true ? (
+                      {userID && historyUnread?.wasReadAlertBell === true ? (
                         <Image
-                          src={Bell}
-                          alt="bell off"
-                          // onClick={() => router.push('/alarm?id=0')}
+                          src={BellOff}
+                          alt="alarmIcon"
                           onClick={() => {
                             router.push('/alarm');
                             dispatch(
@@ -209,9 +210,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
                         />
                       ) : (
                         <Image
-                          src={BellOutline}
-                          alt="bell on"
-                          // onClick={() => router.push('/alarm?id=0')}
+                          src={BellOn}
+                          alt="alarmIcon"
                           onClick={() => {
                             router.push('/alarm');
                             dispatch(
@@ -266,7 +266,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     </IconBox>
                     <IconBox>
                       <Image
-                        src={Bell}
+                        src={BellOff}
                         alt="alram"
                         onClick={() => router.push('/signin')}
                       />

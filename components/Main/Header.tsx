@@ -8,22 +8,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
-import { TroubleshootOutlined } from '@mui/icons-material';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
 
 type Props = {};
-
-type GetUnread = {
-  isSuccess: boolean;
-  data: {
-    wasReadQuotation: boolean;
-    wasReadAfterSalesService: boolean;
-    wasReadProject: boolean;
-    wasReadChatting: boolean;
-    wasReadAlert: boolean;
-  };
-};
 
 const Header = (props: Props) => {
   const router = useRouter();
@@ -63,7 +51,7 @@ const Header = (props: Props) => {
       </LogoBox>
       <IconWrapper>
         <IconBox>
-          {historyUnread?.wasReadAlert === true ? (
+          {historyUnread?.wasReadAlertBell === false ? (
             <Image src={Ring} alt="alarmOff" />
           ) : (
             <Image src={OnRing} alt="alarmOn" />
@@ -74,7 +62,6 @@ const Header = (props: Props) => {
         </IconBox>
       </IconWrapper>
     </HeadWrapper>
-    //  onClick={() => router.push("/")}
   );
 };
 

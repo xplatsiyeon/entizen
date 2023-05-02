@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { Box } from '@mui/material';
 import colors from 'styles/colors';
 import xBtn from 'public/images/HAMBURGERX.svg';
@@ -15,15 +15,19 @@ import { myEstimateAction } from 'storeCompany/myQuotation';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
-import BellNormal from 'public/images/BellNormal.svg';
+import BellOff from 'public/images/BellNormal.svg';
+// import BellOn from 'public/images/BellOnSvg.svg';
+import BellOn from 'public/images/HamburgerBarAlarmOn.svg';
 import { openExternalBrowser } from 'bridge/appToWeb';
 import CompanyASSVG from 'public/images/CompanyASSVG.svg';
 import CompanyQuotationAndGuideSVG from 'public/images/CompanyQuotationAndGuideSVG.svg';
 import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
 import mypageIconSVG from 'public/images/mypageIconSVG.svg';
 import MyProductListSVG from 'public/images/MyProductListSVG.svg';
-import { useMediaQuery } from 'react-responsive';
+
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 type Props = {
   anchor: string;
@@ -48,7 +52,24 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const dispatch = useDispatch();
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-
+  const queryClient = useQueryClient();
+  // 알람 조회
+  // /v1/alerts/unread-points
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
+    'historyUnread',
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
+    {
+      enabled: userID !== null ? true : false,
+      select(res) {
+        return res.data;
+      },
+    },
+  );
   const [isLogin, setIsLogin] = useState(false);
 
   // 제휴문의 채팅방 보내기
@@ -143,12 +164,27 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
         <XBtnWrapper>
           {userID && (
             <Imagewrap
-              onClick={() =>
-                // userID ? router.push('/alarm') : router.push('/signin')}>
-                userID ? moveAlarm() : router.push('/signin')
-              }
+              onClick={() => (userID ? moveAlarm() : router.push('/signin'))}
             >
-              <Image src={BellNormal} alt="BellNormal" />
+              {userID && historyUnread?.wasReadAlertBell === true ? (
+                <Image
+                  src={BellOff}
+                  alt="alarmIcon"
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                />
+              ) : (
+                <Image
+                  src={BellOn}
+                  alt="alarmIcon"
+                  onClick={() => {
+                    router.push('/alarm');
+                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                  }}
+                />
+              )}
             </Imagewrap>
           )}
           {userID && (

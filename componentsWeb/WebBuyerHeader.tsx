@@ -5,10 +5,10 @@ import Link from 'next/link';
 import colors from 'styles/colors';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import Chat from 'public/images/chat.png';
-// 알림 0
-import Bell from 'public/images/bell.png';
-// 알림 0이상
-import BellOutline from 'public/images/Bell_outline.png';
+// 알림 꺼짐
+import BellOff from 'public/images/bell.png';
+// 알림 켜짐
+import BellOn from 'public/images/Bell_outline.png';
 import CompanySubMenuBar from 'componentsWeb/CompanySubMenuBar';
 import Frame from 'public/images/Frame.png';
 import ProfileUp from 'public/images/profile-up.png';
@@ -275,10 +275,10 @@ const WebBuyerHeader = ({
                       />
                     </IconBox>
                     <IconBox>
-                      {historyUnread?.wasReadAlert === true ? (
+                      {historyUnread?.wasReadAlertBell === true ? (
                         <Image
-                          src={Bell}
-                          alt="bell off"
+                          src={BellOff}
+                          alt="alarmIcon"
                           onClick={() => {
                             router.push('/alarm');
                             dispatch(
@@ -288,8 +288,8 @@ const WebBuyerHeader = ({
                         />
                       ) : (
                         <Image
-                          src={BellOutline}
-                          alt="bell on"
+                          src={BellOn}
+                          alt="alarmIcon"
                           onClick={() => {
                             router.push('/alarm');
                             dispatch(
@@ -344,8 +344,8 @@ const WebBuyerHeader = ({
                     </IconBox>
                     <IconBox>
                       <Image
-                        src={Bell}
-                        alt="alram"
+                        src={BellOn}
+                        alt="alarmIcon"
                         onClick={() => router.push('/signin')}
                       />
                     </IconBox>

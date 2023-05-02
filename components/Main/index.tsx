@@ -112,25 +112,14 @@ const MainPage = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
-  const onClickTest = () => {
-    googleUnlink(userAgent);
-  };
-
-  // 초기화
-  // useEffect(() => {
-  //   sessionStorage.removeItem('key');
-  //   dispatch(quotationAction.init());
-  //   dispatch(subsidyGuideAction.reset());
-  //   dispatch(locationAction.reset());
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   if (quotationIsLoading || projectIsLoading) {
     return <Loader />;
   }
   if (quotationIsError || projectIsError) {
     // console.log('에러 발생');
   }
+
+  // console.log('🔥 historyUnread : ', historyUnread);
 
   return (
     <>
@@ -164,7 +153,7 @@ const MainPage = (props: Props) => {
                   }}
                 />
               )}
-              {userID && historyUnread?.wasReadAlert === true && (
+              {userID && historyUnread?.wasReadAlertBell === true ? (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
@@ -173,8 +162,7 @@ const MainPage = (props: Props) => {
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
                   }}
                 />
-              )}
-              {userID && historyUnread?.wasReadAlert === false && (
+              ) : (
                 <Image
                   src={BellOn}
                   alt="alarmIcon"
