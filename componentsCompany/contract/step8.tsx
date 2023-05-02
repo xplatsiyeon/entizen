@@ -75,7 +75,7 @@ export default function Step8({ subscribeProduct }: Props) {
         prevValue={'이전'}
         prevOnClick={() => dispatch(contractAction.setStep(7))}
         value={'다음'}
-        isValid={true}
+        isValid={isValid}
         onClick={() => isValid && dispatch(contractAction.setStep(9))}
       />
     </Wrap>

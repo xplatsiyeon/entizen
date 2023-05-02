@@ -19,6 +19,7 @@ import { isTokenPostApi } from 'api';
 import { modusignCancel } from 'api/cancelSign';
 import { useQuery } from '@apollo/client';
 import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader';
 
 type Props = {};
 
@@ -65,7 +66,7 @@ export default function Step9(props: Props) {
     isLoading: modusignIsLoading,
     data: modusignData,
   } = useMutation(moduSign, {
-    onSuccess: (modusignData: any) => {
+    onSuccess: async (modusignData: any) => {
       // 백엔드에 보내줄 API 연결
 
       console.log('성공');
@@ -75,14 +76,17 @@ export default function Step9(props: Props) {
         projectIdx: router?.query?.projectIdx,
       };
 
-      contractsMutate({
+      await contractsMutate({
         url: '/contracts',
         data: {
           contract: JSON.stringify(apiData),
           additionalInfo: JSON.stringify(contractSlice),
         },
       });
+      setModalMessage('계약서가 전송되었습니다');
+      return setIsModal(true);
     },
+
     onError: (error) => {
       console.log(error);
       setIsModal(true);
@@ -96,8 +100,8 @@ export default function Step9(props: Props) {
     isLoading: contractsIsLoading,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      setIsModal(true);
-      setModalMessage('계약서가 전송되었습니다');
+      // setIsModal(true);
+      // setModalMessage('계약서가 전송되었습니다');
     },
     onError: (error) => {
       destroyMutate(modusignData?.id);
@@ -155,41 +159,54 @@ export default function Step9(props: Props) {
   return (
     <Wrap>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
-      <Tab />
-      <Notice>
-        <h2>계약서 서명을 위해 아래에 운영사업자 정보를 입력해주세요.</h2>
-      </Notice>
+      {modusignIsLoading ? (
+        <LoaderWrap>
+          <Loader />
+        </LoaderWrap>
+      ) : (
+        <>
+          <Tab />
+          <Notice>
+            <h2>계약서 서명을 위해 아래에 운영사업자 정보를 입력해주세요.</h2>
+          </Notice>
 
-      {/* 내용 */}
-      <Label pt={24}>사업자 등록번호</Label>
-      <Input
-        value={BuisnessHyphenFn(companyRegistrationNumber)}
-        placeholder="예) 123-45-67890"
-        onChange={(e) =>
-          dispatch(
-            contractAction.setCompanyRegistrationNumber(e.currentTarget.value),
-          )
-        }
-      />
-      <P>사업자 등록번호에는 숫자만 입력해주세요.</P>
+          {/* 내용 */}
+          <Label pt={24}>사업자 등록번호</Label>
+          <Input
+            value={BuisnessHyphenFn(companyRegistrationNumber)}
+            placeholder="예) 123-45-67890"
+            maxLength={12}
+            onChange={(e) =>
+              dispatch(
+                contractAction.setCompanyRegistrationNumber(
+                  e.currentTarget.value,
+                ),
+              )
+            }
+          />
+          <P>사업자 등록번호에는 숫자만 입력해주세요.</P>
 
-      <Label pt={30}>대표자 이름</Label>
-      <Input
-        value={representativeName}
-        placeholder="예) 홍길동"
-        onChange={(e) =>
-          dispatch(contractAction.setRepresentativeName(e.currentTarget.value))
-        }
-      />
+          <Label pt={30}>대표자 이름</Label>
+          <Input
+            value={representativeName}
+            placeholder="예) 홍길동"
+            onChange={(e) =>
+              dispatch(
+                contractAction.setRepresentativeName(e.currentTarget.value),
+              )
+            }
+          />
 
-      <ContractButton
-        prev={true}
-        prevValue={'이전'}
-        prevOnClick={() => dispatch(contractAction.setStep(8))}
-        value={'계약서 요청'}
-        isValid={isValid}
-        onClick={onClickContractRequest}
-      />
+          <ContractButton
+            prev={true}
+            prevValue={'이전'}
+            prevOnClick={() => dispatch(contractAction.setStep(8))}
+            value={'계약서 요청'}
+            isValid={isValid}
+            onClick={onClickContractRequest}
+          />
+        </>
+      )}
     </Wrap>
   );
 }
@@ -274,5 +291,9 @@ const P = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   margin-top: 6pt;
+  width: 100%;
+`;
+const LoaderWrap = styled.div`
+  height: 600px;
   width: 100%;
 `;

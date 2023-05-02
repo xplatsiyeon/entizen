@@ -287,7 +287,7 @@ export const moduSign = ({
             dataLabel: 'etcRequest',
             value: newContractData.otherSpecifics
               ? newContractData.otherSpecifics
-              : '없음',
+              : '-',
           },
 
           // ========================== 제 3조 [구독에 관한 사항] ==========================
