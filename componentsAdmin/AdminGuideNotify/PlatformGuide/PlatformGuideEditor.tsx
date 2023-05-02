@@ -215,7 +215,7 @@ const PlatformGuideEditor = ({
         data: {
           guideKind: 'PLATFORM',
           title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
+          content: bodyText ? bodyText : '',
           images: getImges(),
         },
       });
@@ -227,7 +227,7 @@ const PlatformGuideEditor = ({
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        content: bodyText,
+        content: bodyText ? bodyText : '',
         images: getImges(),
       },
     });

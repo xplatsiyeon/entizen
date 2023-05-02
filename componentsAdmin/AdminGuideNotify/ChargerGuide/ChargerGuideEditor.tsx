@@ -246,7 +246,7 @@ const ChargerGuideEditor = ({
         data: {
           guideKind: 'CHARGER',
           title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
+          content: bodyText ? bodyText : '',
           images: getImges(),
         },
       });
@@ -258,7 +258,7 @@ const ChargerGuideEditor = ({
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        content: bodyText,
+        content: bodyText ? bodyText : '',
         images: getImges(),
       },
     });

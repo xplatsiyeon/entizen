@@ -224,7 +224,7 @@ const SubscribeGuideEidtor = ({
         data: {
           guideKind: 'SUBSCRIPTION',
           title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
-          content: bodyText,
+          content: bodyText ? bodyText : '',
           images: getImges(),
         },
       });
@@ -237,7 +237,7 @@ const SubscribeGuideEidtor = ({
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        content: bodyText,
+        content: bodyText ? bodyText : '',
         images: getImges(),
       },
     });

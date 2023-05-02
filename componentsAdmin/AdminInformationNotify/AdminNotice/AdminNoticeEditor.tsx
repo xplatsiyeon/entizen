@@ -179,14 +179,19 @@ const AdminNoticeEditor = ({
   });
 
   const modalPostBtnControll = () => {
-    if (detatilId === '') {
-      postMutate({
-        url: `/admin/notices`,
-        data: {
-          title: title,
-          content: bodyText,
-        },
-      });
+    if (bodyText && title) {
+      if (detatilId === '') {
+        postMutate({
+          url: `/admin/notices`,
+          data: {
+            title: title,
+            content: bodyText,
+          },
+        });
+      }
+    } else {
+      setMessageModal(true);
+      setMessage('제목과 내용은 필수 항목입니다');
     }
   };
 
@@ -264,7 +269,7 @@ const AdminNoticeEditor = ({
       <Wrapper>
         {messageModal && (
           <AlertModal
-            setIsModal={setIsModal}
+            setIsModal={setMessageModal}
             message={message}
             setIsDetail={setIsDetail}
             setChangeNumber={setChangeNumber}

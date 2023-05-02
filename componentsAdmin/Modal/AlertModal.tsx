@@ -20,6 +20,53 @@ const AlertModal = ({
   isModal,
   size = 'md',
 }: Props) => {
+  // 모달 확인 버튼 클릭
+  const onClickButton = () => {
+    console.log('모달 확인 버튼 클릭');
+    if (setChangeNumber) {
+      setChangeNumber(true);
+    }
+    if (message === '추가가 완료 됐습니다.' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (message === '수정이 완료됐습니다!' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (message === '삭제가 완료 됐습니다.' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (message === '승인이 변경 됐습니다.' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (
+      message === '수정 요청을 실패했습니다.\n다시 시도해주세요.' &&
+      setIsDetail
+    ) {
+      setIsModal(false);
+    } else if (message === '프로젝트 삭제가 완료됐습니다.' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (message === '간편견적 삭제가 완료됐습니다.' && setIsDetail) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (
+      message === '추가 요청을 실패했습니다.\n다시 시도해주세요.' &&
+      setIsDetail
+    ) {
+      setIsModal(false);
+      setIsDetail(false);
+    } else if (
+      message === '삭제 요청을 실패했습니다.\n다시 시도해주세요.' &&
+      setIsDetail
+    ) {
+      setIsDetail(false);
+      setIsModal(false);
+    } else {
+      console.log('else');
+      setIsModal(false);
+    }
+  };
+
   return (
     <Modal
       onClick={() => {
@@ -28,59 +75,7 @@ const AlertModal = ({
     >
       <ModalBox size={size}>
         <MessageText>{message}</MessageText>
-        <AdminBtn
-          onClick={() => {
-            setIsModal(false);
-
-            if (setChangeNumber) {
-              setChangeNumber(true);
-            }
-            if (message === '추가가 완료 됐습니다.' && setIsDetail) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (message === '수정이 완료됐습니다!' && setIsDetail) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (message === '삭제가 완료 됐습니다.' && setIsDetail) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (message === '승인이 변경 됐습니다.' && setIsDetail) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (
-              message === '수정 요청을 실패했습니다.\n다시 시도해주세요.' &&
-              setIsDetail
-            ) {
-              setIsModal(false);
-            } else if (
-              message === '프로젝트 삭제가 완료됐습니다.' &&
-              setIsDetail
-            ) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (
-              message === '간편견적 삭제가 완료됐습니다.' &&
-              setIsDetail
-            ) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (
-              message === '추가 요청을 실패했습니다.\n다시 시도해주세요.' &&
-              setIsDetail
-            ) {
-              setIsModal(false);
-              setIsDetail(false);
-            } else if (
-              message === '삭제 요청을 실패했습니다.\n다시 시도해주세요.' &&
-              setIsDetail
-            ) {
-              setIsDetail(false);
-              setIsModal(false);
-            }
-          }}
-        >
-          확인
-        </AdminBtn>
+        <AdminBtn onClick={onClickButton}>확인</AdminBtn>
       </ModalBox>
     </Modal>
   );

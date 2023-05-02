@@ -1,16 +1,8 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import AdminTermsQuill from './AdminTermsQuill';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi } from 'api';
 import {
   isTokenAdminGetApi,
   isTokenAdminPostApi,
@@ -22,26 +14,11 @@ import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import { AdminTermsListResponse } from 'types/tableDataType';
-import AdminTermDraft from './AdminTermDraft';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import dynamic from 'next/dynamic';
-import htmlToDraft from 'html-to-draftjs';
-import AdminTermsJodit from './AdminTermsJodit';
+import { EditorState } from 'draft-js';
 import AdminTibtapEditor from './AdminTibtapEditor';
 import { multerAdminApi } from 'api';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-
-type IMG = {
-  originalName: string;
-  size: number;
-  url: string;
-  createdAt?: string | undefined;
-  bannerImageIdx?: number | undefined;
-};
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -80,13 +57,6 @@ const AdminTermsEditor = ({
     useQuery<AdminTermsListResponse>('termsList', () =>
       isTokenAdminGetApi(`/admin/terms`),
     );
-
-  // 제목
-  const [title, setTitle] = useState<string>('');
-
-  // 수정된 value가 있는지 없는지
-  const [checkAll, setCheckAll] = useState<boolean>(false);
-
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
 
@@ -94,9 +64,6 @@ const AdminTermsEditor = ({
   const [messageModal, setMessageModal] = useState<boolean>(false);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
-
-  // 페이지 전체 렌더링
-  const [open, setOpen] = useState(false);
   const { data, isLoading, isError, refetch } = useQuery<TermsUpdate>(
     'adminTermsDetail',
     () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
@@ -108,16 +75,12 @@ const AdminTermsEditor = ({
   );
 
   const editorImgRef = useRef<any>(null);
-
   // 이미지 set
   const [editorImg, setEditorImg] = useState<any>();
-
   // 본문 초기값
   const firstContent = data?.data?.content;
-
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
-
   // 약관 타입
   const [selectValue, setSelectValue] = useState<string>('');
   const [selctValueEn, setSelctValueEn] = useState<number>(0);
@@ -127,14 +90,6 @@ const AdminTermsEditor = ({
   // useState로 상태관리하기 초기값은 EditorState.createEmpty()
   // EditorState의 비어있는 ContentState 기본 구성으로 새 개체를 반환 => 이렇게 안하면 상태 값을 나중에 변경할 수 없음.
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-  const onEditorStateChange = (editorState: EditorState) => {
-    // editorState에 값 설정
-    setEditorState(editorState);
-  };
-
-  const rendered = useRef(false);
-
   const WriteModalHandle = () => {
     setIsModal(true);
   };
@@ -167,46 +122,56 @@ const AdminTermsEditor = ({
     onSettled: () => {},
   });
 
-  const modalPostBtnControll = () => {
-    if (detatilId === '') {
-      postMutate({
-        url: `/admin/terms`,
-        data: {
-          type: dropDownValueEn[selctValueEn],
-          content: bodyText,
-          // content: editorState,
-        },
-      });
-    }
-  };
-
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
     isTokenAdminPutApi,
     {
       onSuccess: () => {
-        setMessageModal(true);
         termsListRefetch();
+        setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
       onError: (error: any) => {
         setMessageModal(true);
         setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
-        // router.back();
       },
     },
   );
 
+  // 등록 버튼
+  const modalPostBtnControll = () => {
+    const type = dropDownValueEn[selctValueEn];
+
+    if (bodyText && type) {
+      if (detatilId === '') {
+        postMutate({
+          url: `/admin/terms`,
+          data: {
+            type: type,
+            content: bodyText,
+          },
+        });
+      }
+    } else {
+      setMessageModal(true);
+      setMessage('타입과 내용은 필수 항목입니다.');
+    }
+  };
+  // 수정 버튼
   const onClickModifiedBtn = () => {
-    modifiedMutate({
-      url: `/admin/terms/${detatilId}`,
-      data: {
-        type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
-        // content: bodyText,
-        content: bodyText,
-      },
-    });
+    if (bodyText) {
+      modifiedMutate({
+        url: `/admin/terms/${detatilId}`,
+        data: {
+          type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
+          content: bodyText,
+        },
+      });
+    } else {
+      setMessageModal(true);
+      setMessage('타입과 내용은 필수 항목입니다.');
+    }
   };
 
   // 삭제 api
@@ -239,10 +204,6 @@ const AdminTermsEditor = ({
         // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
         // console.log(res);
         const newFile = editorImg;
-        // const newFile = preFile.map((e) => {
-        //   const { createdAt, bannerImageIdx, ...rest } = e;
-        //   return { ...rest };
-        // });
         res?.uploadedFiles.forEach((img) => {
           newFile.push({
             url: img.url,
@@ -255,19 +216,10 @@ const AdminTermsEditor = ({
       onError: (error: any) => {
         if (error.response.data.message) {
           console.log(`첫번째 에러:${error.response.data.message}`);
-
-          //   setMessage(`첫번째 에러:${error.response.data.message}`);
-          //   setMessageModal(true);
         } else if (error.response.status === 413) {
           console.log('용량이 너무 큽니다.');
-
-          //   setMessage('용량이 너무 큽니다.');
-          //   setMessageModal(true);
         } else {
           console.log('다시 시도해주세요');
-
-          //   setMessage('다시 시도해주세요');
-          //   setMessageModal(true);
         }
       },
     });
@@ -286,31 +238,7 @@ const AdminTermsEditor = ({
     e.target.value = '';
   };
 
-  const editorImgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    editorImgRef?.current?.click();
-  };
-  // const DynamicComponent = dynamic(() => import('./AdminTermsJodit'), {
-  //   ssr: false,
-  // });
-
-  // const DynamicComponent = dynamic(() => import('./AdminTermDraft'), {
-  //   ssr: false,
-  // });
-  // const DynamicComponent = dynamic(() => import('./AdminTipTap'), {
-  //   ssr: false,
-  // });
-  const DynamicComponent = dynamic(() => import('./AdminTermsQuill'), {
-    ssr: false,
-  });
-
-  useEffect(() => {
-    // setBodyText(data?.data?.content!);
-    // const res = document.querySelector('.ProseMirror') as HTMLElement;
-    // if (res) {
-    //   console.log('res', res);
-    //   res.innerHTML = bodyText;
-    // }
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   useEffect(() => {
     setSelctValueEn(dropDownValue.indexOf(selectValue));
@@ -321,30 +249,6 @@ const AdminTermsEditor = ({
     }
   }, [selctValueEn, selctValueKr, selectValue, data]);
 
-  // useEffect(() => {
-  //   if (rendered.current) return;
-  //   rendered.current = true;
-  //   const blocksFromHtml =
-  //     firstContent !== undefined && htmlToDraft(firstContent);
-  //   if (blocksFromHtml) {
-  //     const { contentBlocks, entityMap } = blocksFromHtml;
-  //     const contentState = ContentState.createFromBlockArray(
-  //       contentBlocks,
-  //       entityMap,
-  //     );
-  //     const editorState = EditorState.createWithContent(contentState);
-  //     setEditorState(editorState);
-  //   }
-  // }, [firstContent]);
-
-  // 데이터 보내는 버튼 활성화 여부
-  // useEffect(() => {
-  //   if (bodyText !== firstContent) {
-  //     setCheckAll(true);
-  //   }
-
-  // }, [bodyText]);
-
   console.log('bodyText🖤💔💖💝', bodyText);
 
   return (
@@ -353,7 +257,7 @@ const AdminTermsEditor = ({
         <Wrapper>
           {messageModal && (
             <AlertModal
-              setIsModal={setIsModal}
+              setIsModal={setMessageModal}
               message={message}
               setIsDetail={setIsDetail}
               setChangeNumber={setChangeNumber}
@@ -391,37 +295,7 @@ const AdminTermsEditor = ({
               background={'#E2E5ED'}
               border={'#747780'}
             />
-            {/* <TitleBox>
-              <TitleText>제목</TitleText>
-              <TitleArea
-                type="text"
-                value={title}
-                placeholder="제목을 입력해주세요"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-            </TitleBox> */}
           </TitleContainer>
-          {/* <MainTextArea
-            placeholder="내용을 입력해주세요"
-            value={bodyText}
-            onChange={(e) => {
-              setBodyText(e.target.value);
-            }}
-          /> */}
-          {/* <AdminTermsQuill
-            setBodyText={setBodyText}
-            bodyText={bodyText}
-            firstContent={firstContent!}
-          /> */}
-
-          {/* <DynamicComponent
-            setBodyText={setBodyText}
-            bodyText={bodyText}
-            firstContent={firstContent!}
-          /> */}
-
           <AdminTibtapEditor
             setBodyText={setBodyText}
             bodyText={bodyText}
@@ -430,27 +304,6 @@ const AdminTermsEditor = ({
             editorImg={editorImg}
             detatilId={detatilId}
           />
-
-          {/* <DynamicComponent
-            setEditorState={setEditorState}
-            editorState={editorState}
-            onEditorStateChange={onEditorStateChange}
-          /> */}
-          {/* <AdminTermsJodit
-            setBodyText={setBodyText}
-            bodyText={bodyText}
-            firstContent={firstContent!}
-          /> */}
-          {/* <DynamicComponent
-            setBodyText={setBodyText}
-            bodyText={bodyText}
-            firstContent={firstContent!}
-          /> */}
-          {/* <AdminTermDraft
-            setEditorState={setEditorState}
-            editorState={editorState}
-            onEditorStateChange={onEditorStateChange}
-          /> */}
           <BtnBox>
             {detatilId !== '' ? (
               <>
@@ -473,9 +326,7 @@ const AdminTermsEditor = ({
                   <AdminBtn
                     onClick={() => {
                       onClickModifiedBtn();
-                      // editorImgHandler;
                     }}
-                    // onClick={editorImgHandler}
                   >
                     수정
                   </AdminBtn>

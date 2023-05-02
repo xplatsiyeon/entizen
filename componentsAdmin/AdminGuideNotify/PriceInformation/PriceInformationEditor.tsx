@@ -243,7 +243,7 @@ const PriceInformationEditor = ({
           guideKind: 'FEE',
           // title: newDropDown(dropDownValue, secondArray!)[selctValueKr],
           title: selectValue,
-          content: bodyText,
+          content: bodyText ? bodyText : '',
           images: getImges(),
         },
       });
@@ -256,7 +256,7 @@ const PriceInformationEditor = ({
     modifiedMutate({
       url: `/admin/guides/${detatilId}`,
       data: {
-        content: bodyText,
+        content: bodyText ? bodyText : '',
         images: getImges(),
       },
     });
