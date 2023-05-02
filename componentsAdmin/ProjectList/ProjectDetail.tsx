@@ -43,7 +43,12 @@ import {
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 import ProjectCancelModal from './ProjectCancelModal';
 import LogContainer from 'componentsAdmin/LogContainer';
-import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import {
+  ProjectLog,
+  ProjectLogResponse,
+  QuotationsLog,
+  QuotationsLogResponse,
+} from 'types/admin';
 import { AxiosError } from 'axios';
 
 type Props = {
@@ -264,7 +269,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     data: LogData,
     isLoading: LogLoading,
     isError: logError,
-  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+  } = useQuery<ProjectLogResponse, AxiosError, ProjectLog[]>(
     ',',
     () => isTokenAdminGetApi(`admin/projects/${projectIdx}/histories`),
     {
@@ -1114,7 +1119,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             <Line />
             <LogContainer
               type={'project'}
-              data={LogData!}
+              projectData={LogData!}
               title={'상태 기록'}
             />
           </ProjectInfoContainer>

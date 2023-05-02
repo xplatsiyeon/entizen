@@ -454,7 +454,11 @@ const FinalQuotation = ({ finalQuotationIdx, detatilId }: Props) => {
             </div>
           </BusinessList>
 
-          <LogContainer type="quotation" data={LogData!} title={'상태 기록'} />
+          <LogContainer
+            type="quotation"
+            quotationData={LogData!}
+            title={'상태 기록'}
+          />
         </Contatiner>
       )}
     </>

@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import {
-  isTokenDeleteApi,
-  isTokenPatchApi,
   isTokenAdminGetApi,
   isTokenAdminPatchApi,
   isTokenAdminDeleteApi,
@@ -40,9 +38,6 @@ import {
 } from 'utils/calculatePackage';
 import CompleteRating from './CompleteRating';
 import ProjectAlertModal from './ProjectAlertModal';
-import { Contract, GET_contract } from 'QueryComponents/CompanyQuery';
-import jwt_decode from 'jwt-decode';
-import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import {
   modusignPdfDown,
@@ -52,7 +47,7 @@ import {
 
 import { fileDownLoad } from 'componentsCompany/Mypage/ProgressBody';
 import LogContainer from 'componentsAdmin/LogContainer';
-import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import { ProjectLog, ProjectLogResponse } from 'types/admin';
 import { AxiosError } from 'axios';
 
 type Props = {
@@ -282,7 +277,7 @@ const ProjectCompleteDetail = ({
     data: LogData,
     isLoading: LogLoading,
     isError: logError,
-  } = reactQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+  } = reactQuery<ProjectLogResponse, AxiosError, ProjectLog[]>(
     ',',
     () => isTokenAdminGetApi(`admin/projects/${projectIdx}/histories`),
     {
@@ -1085,7 +1080,7 @@ const ProjectCompleteDetail = ({
             <Line />
             <LogContainer
               type={'project'}
-              data={LogData!}
+              projectData={LogData!}
               title={'상태 기록'}
             />
           </ProjectInfoContainer>

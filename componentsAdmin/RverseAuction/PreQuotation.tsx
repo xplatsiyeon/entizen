@@ -390,7 +390,11 @@ const PreQuotation = ({ preQuotationIdx, detatilId }: Props) => {
               ),
             )}
           </BusinessList>
-          <LogContainer type="quotation" data={LogData!} title={'상태 기록'} />
+          <LogContainer
+            type="quotation"
+            quotationData={LogData!}
+            title={'상태 기록'}
+          />
         </Contatiner>
       )}
     </>

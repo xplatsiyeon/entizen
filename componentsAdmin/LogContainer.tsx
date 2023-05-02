@@ -1,16 +1,24 @@
 import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
 import colors from 'styles/colors';
-import { QuotationsLog } from 'types/admin';
+import { ProjectLog, QuotationsLog } from 'types/admin';
 import { originDateFomat } from 'utils/calculatePackage';
 
 type Props = {
-  data: QuotationsLog[];
+  projectData?: ProjectLog[];
+  quotationData?: QuotationsLog[];
   title: string;
   type: 'project' | 'quotation';
 };
 
-export default function LogContainer({ type, data, title }: Props) {
+export default function LogContainer({
+  type,
+  projectData,
+  quotationData,
+  title,
+}: Props) {
+  console.log('🔥 quotationData : ', quotationData);
+  console.log('🔥 projectData : ', projectData);
   // 스크롤 제일 하단으로 배치
   useEffect(() => {
     const scrollBox: HTMLUListElement | null =
@@ -30,17 +38,30 @@ export default function LogContainer({ type, data, title }: Props) {
           <span className="after">변경 후 상태</span>
           <span className="projectId">프로젝트 아이디</span>
         </li>
-        {data?.map((item) => (
-          <li className="contents">
-            <span className="id">{item.quotationRequestIdx}</span>
-            <span className="date">{originDateFomat(item.updatedAt)}</span>
-            <span className="before">{item.beforeQuotationRequestStatus}</span>
-            <span className="after">{item.afterQuotationRequestStatus}</span>
-            <span className="projectId">
-              {item.quotationStatusHistoryLogIdx}
-            </span>
-          </li>
-        ))}
+        {quotationData &&
+          quotationData?.map((item) => (
+            <li className="contents">
+              <span className="id">{item.quotationRequestIdx}</span>
+              <span className="date">{originDateFomat(item.updatedAt)}</span>
+              <span className="before">
+                {item.beforeQuotationRequestStatus}
+              </span>
+              <span className="after">{item.afterQuotationRequestStatus}</span>
+              <span className="projectId">
+                {item.quotationStatusHistoryLogIdx}
+              </span>
+            </li>
+          ))}
+        {projectData &&
+          projectData?.map((item) => (
+            <li className="contents">
+              <span className="id">{item.projectIdx}</span>
+              <span className="date">{originDateFomat(item.updatedAt)}</span>
+              <span className="before">{item.beforeProjectStatus}</span>
+              <span className="after">{item.afterProjectStatus}</span>
+              <span className="projectId">{item.projectHistoryLogIdx}</span>
+            </li>
+          ))}
       </Container>
     </Wrap>
   );
