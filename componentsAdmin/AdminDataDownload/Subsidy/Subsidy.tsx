@@ -64,6 +64,11 @@ export type SubsidyDataResponse = {
       price_17_6_common_stand_single: number;
       price_20_common_wall_single: number;
       price_20_common_stand_single: number;
+      price_30_common_stand_dual: number;
+      price_30_common_stand_single: number;
+      price_30_common_wall_dual: number;
+      price_30_common_wall_single: number;
+
       price_50_common_stand_single: number;
       price_50_common_stand_dual: number;
       price_50_common_stand_3_mode: number;

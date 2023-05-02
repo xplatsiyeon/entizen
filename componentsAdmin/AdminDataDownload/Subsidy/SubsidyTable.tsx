@@ -73,63 +73,66 @@ const SubsidyTable = ({
     'BB',
     'BC',
     'BD',
+    'BE',
+    'BF',
+    'BG',
+    'BH',
   ];
 
   const ChargeType = [
-    ['7 kW', '비공용', '벽걸이', '싱글'],
-    ['7 kW', '비공용', '스탠드', '싱글'],
-    ['7 kW', '공용, 경제형', '벽걸이', '싱글'],
-    ['7 kW', '공용, 경제형', '스탠드', '싱글'],
-    ['7 kW', '공용, 경제형', '키오스크', '싱글'],
-    ['7 kW', '공용,', '벽걸이', '싱글'],
-    ['7 kW', '공용,', '스탠드', '싱글'],
-    ['7 kW', '공용,', '키오스크', '싱글'],
-    ['11 kW', '공용,', '벽걸이', '싱글'],
-    ['11 kW', '공용,', '스탠드', '싱글'],
-    ['11 kW', '공용,', '벽걸이', '듀얼'],
-    ['11 kW', '공용,', '스탠드', '듀얼'],
-    ['14 kW', '공용,', '벽걸이', '듀얼'],
-    ['14 kW', '공용,', '스탠드', '듀얼'],
-    ['17.6 kW', '공용,', '벽걸이', '싱글'],
-    ['17.6 kW', '공용,', '스탠드', '싱글'],
-    ['20 kW', '공용,', '벽걸이', '싱글'],
-    ['20 kW', '공용,', '스탠드', '싱글'],
-    //
-    ['30 kW', '공용,', '벽걸이', '싱글'],
-    ['30 kW', '공용,', '스탠드', '싱글'],
-    ['30 kW', '공용,', '벽걸이', '듀얼'],
-    ['30 kW', '공용,', '스탠드', '듀얼'],
-    //
-    ['50 kW', '공용,', '스탠드', '싱글'],
-    ['50 kW', '공용,', '스탠드', '듀얼'],
-    ['50 kW', '공용,', '스탠드', '3mode'],
-    ['100 kW', '공용,', '스탠드', '싱글'],
-    ['100 kW', '공용,', '스탠드', '듀얼'],
-    ['200 kW', '공용,', '스탠드', '싱글'],
-    ['200 kW', '공용,', '스탠드', '듀얼'],
-    ['200 kW', '공용,', '파워뱅크 분리형', '싱글'],
-    ['200 kW', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['300 kW', '공용,', '스탠드', '싱글'],
-    ['300 kW', '공용,', '스탠드', '듀얼'],
-    ['300 kW', '공용,', '파워뱅크 분리형', '싱글'],
-    ['300 kW', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['300 kW 버스', '공용,', '스탠드', '듀얼'],
-    ['300 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['350 kW', '공용,', '스탠드', '싱글'],
-    ['350 kW', '공용,', '스탠드', '듀얼'],
-    ['350 kW', '공용,', '파워뱅크 분리형', '싱글'],
-    ['350 kW', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['350 kW 버스', '공용,', '스탠드', '듀얼'],
-    ['350 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['400 kW', '공용,', '스탠드', '싱글'],
-    ['400 kW', '공용,', '스탠드', '듀얼'],
-    ['400 kW', '공용,', '파워뱅크 분리형', '싱글'],
-    ['400 kW', '공용,', '파워뱅크 분리형', '듀얼'],
-    ['400 kW 버스', '공용,', '스탠드', '듀얼'],
-    ['400 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'],
+    ['7 kW', '비공용', '벽걸이', '싱글'], //1
+    ['7 kW', '비공용', '스탠드', '싱글'], //2
+    ['7 kW', '공용, 경제형', '벽걸이', '싱글'], //3
+    ['7 kW', '공용, 경제형', '스탠드', '싱글'], // 4
+    ['7 kW', '공용, 경제형', '키오스크', '싱글'], // 5
+    ['7 kW', '공용,', '벽걸이', '싱글'], // 6
+    ['7 kW', '공용,', '스탠드', '싱글'], // 7
+    ['7 kW', '공용,', '키오스크', '싱글'], // 8
+    ['11 kW', '공용,', '벽걸이', '싱글'], // 9
+    ['11 kW', '공용,', '스탠드', '싱글'], // 10
+    ['11 kW', '공용,', '벽걸이', '듀얼'], // 11
+    ['11 kW', '공용,', '스탠드', '듀얼'], // 12
+    ['14 kW', '공용,', '벽걸이', '듀얼'], // 13
+    ['14 kW', '공용,', '스탠드', '듀얼'], // 14
+    ['17.6 kW', '공용,', '벽걸이', '싱글'], // 15
+    ['17.6 kW', '공용,', '스탠드', '싱글'], // 16
+    ['20 kW', '공용,', '벽걸이', '싱글'], // 17
+    ['20 kW', '공용,', '스탠드', '싱글'], // 18
+    ['30 kW', '공용,', '벽걸이', '싱글'], // 19
+    ['30 kW', '공용,', '스탠드', '싱글'], // 20
+    ['30 kW', '공용,', '벽걸이', '듀얼'], // 21
+    ['30 kW', '공용,', '스탠드', '듀얼'], // 22
+    ['50 kW', '공용,', '스탠드', '싱글'], //23
+    ['50 kW', '공용,', '스탠드', '듀얼'], // 24
+    ['50 kW', '공용,', '스탠드', '3mode'], // 25
+    ['100 kW', '공용,', '스탠드', '싱글'], // 26
+    ['100 kW', '공용,', '스탠드', '듀얼'], // 27
+    ['200 kW', '공용,', '스탠드', '싱글'], // 28
+    ['200 kW', '공용,', '스탠드', '듀얼'], // 29
+    ['200 kW', '공용,', '파워뱅크 분리형', '싱글'], // 30
+    ['200 kW', '공용,', '파워뱅크 분리형', '듀얼'], // 31
+    ['300 kW', '공용,', '스탠드', '싱글'], // 32
+    ['300 kW', '공용,', '스탠드', '듀얼'], // 33
+    ['300 kW', '공용,', '파워뱅크 분리형', '싱글'], // 34
+    ['300 kW', '공용,', '파워뱅크 분리형', '듀얼'], // 35
+    ['300 kW 버스', '공용,', '스탠드', '듀얼'], // 36
+    ['300 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'], // 37
+    ['350 kW', '공용,', '스탠드', '싱글'], // 38
+    ['350 kW', '공용,', '스탠드', '듀얼'], // 39
+    ['350 kW', '공용,', '파워뱅크 분리형', '싱글'], // 40
+    ['350 kW', '공용,', '파워뱅크 분리형', '듀얼'], // 41
+    ['350 kW 버스', '공용,', '스탠드', '듀얼'], // 42
+    ['350 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'], // 43
+    ['400 kW', '공용,', '스탠드', '싱글'], // 44
+    ['400 kW', '공용,', '스탠드', '듀얼'], // 45
+    ['400 kW', '공용,', '파워뱅크 분리형', '싱글'], // 46
+    ['400 kW', '공용,', '파워뱅크 분리형', '듀얼'], // 47
+    ['400 kW 버스', '공용,', '스탠드', '듀얼'], // 48
+    ['400 kW 버스', '공용,', '파워뱅크 분리형', '듀얼'], // 49
   ];
 
   const StandComponent = (rowNumber: number) => {
+    console.log('🔥 subsidyData : ', subsidyData);
     return (
       <StandWrapper>
         {ChargeType[rowNumber].map((item, id) => (
@@ -171,6 +174,7 @@ const SubsidyTable = ({
     StandComponent(17),
     StandComponent(18),
     StandComponent(19),
+    StandComponent(20),
     StandComponent(21),
     StandComponent(22),
     StandComponent(23),
@@ -196,6 +200,9 @@ const SubsidyTable = ({
     StandComponent(42),
     StandComponent(43),
     StandComponent(44),
+    StandComponent(45),
+    StandComponent(46),
+    StandComponent(47),
   ];
 
   const UnderRow = ['보조금_n', '보조금_n-1'];
@@ -257,30 +264,37 @@ const SubsidyTable = ({
           ?.map((item, idx) => (
             <TableTR key={idx}>
               <TableTH>{`${idx + 1}`}</TableTH>
+              {/* 1 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.applicationAgency === null
                   ? '-'
                   : item?.applicationAgency}
               </TableTD>
+              {/* 2 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.installationLocationSiGunGu === null
                   ? '-'
                   : item?.installationLocationSiGunGu}
               </TableTD>
+              {/* 3 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.canApply === true ? 'O' : 'X'}
               </TableTD>
+              {/* 4 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.applyStartDate === null ? '-' : item?.applyStartDate}
               </TableTD>
+              {/* 5 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.applyEndDate === null ? '-' : item?.applyEndDate}
               </TableTD>
+              {/* 6 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.duplicateApplyGroup === null
                   ? '-'
                   : item?.duplicateApplyGroup}
               </TableTD>
+              {/* 7 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.totalApplyCount === null
                   ? '-'
@@ -288,6 +302,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 8 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.siteApplyCount === null
                   ? '-'
@@ -295,6 +310,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 9 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.minInstallationCount === null
                   ? '-'
@@ -302,6 +318,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 10 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.maxInstallationCount === null
                   ? '-'
@@ -309,6 +326,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 11 */}
               {/* // 과금형 콘센트 추가되면 여기에 키 추가 해용 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_charging_consent === null
@@ -318,7 +336,7 @@ const SubsidyTable = ({
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
               {/* ------------------------------ */}
-
+              {/* 12 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_home_wall_single === null
                   ? '-'
@@ -326,6 +344,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 13 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_home_stand_single === null
                   ? '-'
@@ -333,6 +352,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 14 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_economy_wall_single === null
                   ? '-'
@@ -340,6 +360,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 15 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_economy_stand_single === null
                   ? '-'
@@ -347,6 +368,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 16 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_economy_kiosk_single === null
                   ? '-'
@@ -354,6 +376,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 17 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_wall_single === null
                   ? '-'
@@ -361,6 +384,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 18 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_stand_single === null
                   ? '-'
@@ -368,6 +392,41 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/*  */}
+              {/* 19 */}
+              <TableTD siGunGuBoolean={false}>
+                {item?.price_30_common_wall_single === null
+                  ? '-'
+                  : item?.price_30_common_wall_single
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </TableTD>
+              {/* 20 */}
+              <TableTD siGunGuBoolean={false}>
+                {item?.price_30_common_stand_dual === null
+                  ? '-'
+                  : item?.price_30_common_stand_dual
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </TableTD>
+              {/* 21 */}
+              <TableTD siGunGuBoolean={false}>
+                {item?.price_30_common_wall_dual === null
+                  ? '-'
+                  : item?.price_30_common_wall_dual
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </TableTD>
+              {/* 22 */}
+              <TableTD siGunGuBoolean={false}>
+                {item?.price_30_common_stand_dual === null
+                  ? '-'
+                  : item?.price_30_common_stand_dual
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </TableTD>
+              {/*  */}
+              {/* 23 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_7_common_economy_kiosk_single === null
                   ? '-'
@@ -375,6 +434,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 24 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_11_common_wall_single === null
                   ? '-'
@@ -382,6 +442,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 25 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_11_common_stand_single === null
                   ? '-'
@@ -389,6 +450,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 26 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_11_common_wall_dual === null
                   ? '-'
@@ -396,6 +458,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 27 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_11_common_stand_dual === null
                   ? '-'
@@ -403,6 +466,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 28 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_14_common_wall_dual === null
                   ? '-'
@@ -410,6 +474,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 29 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_14_common_stand_dual === null
                   ? '-'
@@ -417,6 +482,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 30 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_17_6_common_wall_single === null
                   ? '-'
@@ -424,6 +490,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 31 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_17_6_common_stand_single === null
                   ? '-'
@@ -431,6 +498,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 32 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_20_common_wall_single === null
                   ? '-'
@@ -438,6 +506,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 33 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_20_common_stand_single === null
                   ? '-'
@@ -445,6 +514,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 34 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_50_common_stand_single === null
                   ? '-'
@@ -452,6 +522,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 35 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_50_common_stand_dual === null
                   ? '-'
@@ -459,6 +530,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 36 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_50_common_stand_3_mode === null
                   ? '-'
@@ -466,6 +538,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 37 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_100_common_stand_single === null
                   ? '-'
@@ -473,6 +546,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 38 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_100_common_stand_dual === null
                   ? '-'
@@ -480,6 +554,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 39 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_200_common_stand_single === null
                   ? '-'
@@ -487,6 +562,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 40 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_200_common_stand_dual === null
                   ? '-'
@@ -494,6 +570,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 41 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_200_common_detachable_power_bank_single === null
                   ? '-'
@@ -501,6 +578,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 42 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_200_common_detachable_power_bank_dual === null
                   ? '-'
@@ -508,6 +586,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 43 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_stand_single === null
                   ? '-'
@@ -515,6 +594,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 44 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_stand_dual === null
                   ? '-'
@@ -522,6 +602,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 45 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_detachable_power_bank_single === null
                   ? '-'
@@ -529,6 +610,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 46 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_detachable_power_bank_dual === null
                   ? '-'
@@ -536,6 +618,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 47 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_bus_stand_dual === null
                   ? '-'
@@ -543,6 +626,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 48 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_300_common_bus_detachable_power_bank_dual === null
                   ? '-'
@@ -550,6 +634,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 49 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_stand_single === null
                   ? '-'
@@ -557,6 +642,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 50 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_stand_dual === null
                   ? '-'
@@ -564,6 +650,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 51 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_detachable_power_bank_single === null
                   ? '-'
@@ -571,6 +658,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 52 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_detachable_power_bank_dual === null
                   ? '-'
@@ -578,6 +666,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 53 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_bus_stand_dual === null
                   ? '-'
@@ -585,6 +674,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 54 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_350_common_bus_detachable_power_bank_dual === null
                   ? '-'
@@ -592,6 +682,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 55 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_stand_single === null
                   ? '-'
@@ -599,6 +690,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 56 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_stand_dual === null
                   ? '-'
@@ -606,6 +698,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 57 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_detachable_power_bank_single === null
                   ? '-'
@@ -613,6 +706,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 58 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_detachable_power_bank_dual === null
                   ? '-'
@@ -620,6 +714,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 59 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_bus_stand_dual === null
                   ? '-'
@@ -627,6 +722,7 @@ const SubsidyTable = ({
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
+              {/* 60 */}
               <TableTD siGunGuBoolean={false}>
                 {item?.price_400_common_bus_detachable_power_bank_dual === null
                   ? '-'
