@@ -56,9 +56,10 @@ export interface Response {
 }
 type Props = {
   listUp?: boolean;
+  isSubMenu: boolean;
 };
 
-const Estimate = ({ listUp }: Props) => {
+const Estimate = ({ listUp, isSubMenu }: Props) => {
   const [inProgressPage, setInProgressPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
 
@@ -174,7 +175,7 @@ const Estimate = ({ listUp }: Props) => {
               ),
             )}
           </Carousel>
-          {desktop && (
+          {!isSubMenu && desktop && (
             <PaginationCompo
               setPage={setInProgressPage}
               page={inProgressPage}
@@ -214,7 +215,7 @@ const Estimate = ({ listUp }: Props) => {
               </CarouselItem>
             ))}
           </Carousel>
-          {desktop && (
+          {!isSubMenu && desktop && (
             <PaginationCompo
               setPage={setHistoryPage}
               page={historyPage}

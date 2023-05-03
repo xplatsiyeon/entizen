@@ -42,7 +42,7 @@ const RequestMain = (props: props) => {
 
   const myPageIndex = useRef<HTMLDivElement>(null);
   const components: Components = {
-    0: <Estimate listUp={true} />,
+    0: <Estimate listUp={true} isSubMenu={true} />,
     //  1: <MyProjects listUp={true} />,
     //  2: <AsIndex listUp={true} />,
     //  3: <Charging listUp={true} />,

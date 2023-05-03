@@ -397,6 +397,7 @@ const Mypage1_3 = ({}: any) => {
           <UserRightMenu />
           <Inner>
             <FlexBox>
+              {/* ================ 웹 왼쪽 리스트 박스 ======================= */}
               <Wrap1>
                 <RequestMain page={0} />
               </Wrap1>
@@ -533,7 +534,6 @@ const Mypage1_3 = ({}: any) => {
                         {/* ----------------------가견적------------------------- */}
                         <SendTextTitle>보낸 가견적서</SendTextTitle>
                         <BiddingQuote
-                          // preQuotations={data?.preQuotations!}
                           data={quotationData!}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
@@ -664,18 +664,6 @@ const SendTextTitle = styled.div`
   padding-top: 60pt;
   padding-bottom: 21pt;
   margin: 0 auto;
-`;
-
-const ChoiceText = styled.div`
-  font-weight: 500;
-  font-size: 12pt;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  font-family: 'Spoqa Han Sans Neo';
-  color: ${colors.lightGray3};
-  @media (min-width: 900pt) {
-    margin-bottom: 5pt;
-  }
 `;
 
 const ButtonBox = styled.div`
