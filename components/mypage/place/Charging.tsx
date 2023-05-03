@@ -1,11 +1,13 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import Loader from 'components/Loader';
+import PaginationCompo from 'components/PaginationCompo';
 import { useRouter } from 'next/router';
 import {
   chargingStations,
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { handleColor2 } from 'utils/changeValue';
 import CommonBtn from '../as/CommonBtn';
@@ -29,6 +31,8 @@ type Props = {
 };
 
 const Charging = ({ listUp }: Props) => {
+  const [myChargingPage, setMyChargingPage] = useState(1);
+
   const router = useRouter();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -42,7 +46,13 @@ const Charging = ({ listUp }: Props) => {
         ContentType: 'application/json',
       },
     },
+    variables: {
+      page: myChargingPage,
+      limit: 20,
+    },
   });
+
+  console.log('🔥 chargingData : ', chargingData);
 
   const handleRoute = (idx: string) => {
     //mob일 때 router.push();
@@ -53,36 +63,45 @@ const Charging = ({ listUp }: Props) => {
       },
     });
   };
-
+  useEffect(() => {}, [chargingData]);
   if (chargingLoading) {
     return <Loader />;
   }
 
   return (
     <>
-      {chargingData?.chargingStations?.length! > 0 ? (
-        chargingData?.chargingStations?.map((el, idx) => {
-          <List listUp={Boolean(listUp)}>
-            // console.log(el?.badge.split('D-')[1]); return (
-            <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
-              <CommonBtn
-                /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
-                text={el?.badge}
-                // 뱃지 관련 컬러는 나중에 수정
-                // backgroundColor={handleColor2(el?.badge)}
-                backgroundColor={handleColor2(Number(el?.badge.split('D-')[1]))}
-                bottom={'12pt'}
-                top={'15pt'}
-                left={'12pt'}
-              />
-              <P>{el?.projectName}</P>
-              <P2>
-                {el?.companyMember?.companyMemberAdditionalInfo?.companyName}
-              </P2>
-            </ProjectBox>
-            );
-          </List>;
-        })
+      {chargingData?.chargingStations?.projects?.length! > 0 ? (
+        <div>
+          {chargingData?.chargingStations?.projects?.map((el, idx) => (
+            <List listUp={Boolean(listUp)}>
+              <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
+                <CommonBtn
+                  /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
+                  text={el?.badge}
+                  // 뱃지 관련 컬러는 나중에 수정
+                  // backgroundColor={handleColor2(el?.badge)}
+                  backgroundColor={handleColor2(
+                    Number(el?.badge.split('D-')[1]),
+                  )}
+                  bottom={'12pt'}
+                  top={'15pt'}
+                  left={'12pt'}
+                />
+                <P>{el?.projectName}</P>
+                <P2>
+                  {el?.companyMember?.companyMemberAdditionalInfo?.companyName}
+                </P2>
+              </ProjectBox>
+            </List>
+          ))}
+          <PaginationCompo
+            setPage={setMyChargingPage}
+            page={myChargingPage}
+            list={chargingData?.chargingStations?.projects!}
+            limit={20}
+            total={chargingData?.chargingStations?.totalCount!}
+          />
+        </div>
       ) : (
         // 내 충전소가 1개도 없을 때
         <NoChargingSection>
@@ -105,7 +124,7 @@ const List = styled.ul<{ listUp: boolean }>`
   @media (min-width: 900pt) {
     width: 580.5pt;
     margin: 0;
-    padding: 0 0 15pt 0;
+    padding: 0 0 60pt 0;
     gap: 22.5pt;
   }
 `;

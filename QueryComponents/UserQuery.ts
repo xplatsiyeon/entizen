@@ -129,94 +129,99 @@ export interface ChargingStations {
   };
 }
 export interface ChargingStationsResponse {
-  chargingStations: ChargingStations[];
+  chargingStations: {
+    totalCount: number;
+    projects: ChargingStations[];
+  };
 }
 
 export const chargingStations = gql`
-  query Query {
-    chargingStations {
-      projectIdx
-      projectName
-      badge
-      projectNumber
-      subscribeStartDate
-      subscribeEndDate
-      # 최종견적 내용
-      finalQuotation {
-        finalQuotationIdx
-        subscribeProduct
-        userInvestRate
-        subscribePricePerMonth
-        chargingStationInstallationPrice
-        # 최종견적 충전기
-        finalQuotationChargers {
-          finalQuotationChargerIdx
-          kind
-          standType
-          channel
-          count
-          chargePrice
-          manufacturer
-          installationLocation
-          finalQuotationChargerFiles {
-            finalQuotationChargerFileIdx
-            productFileType
+  query Query($page: Int, $limit: Int) {
+    chargingStations(page: $page, limit: $limit) {
+      totalCount
+      projects {
+        projectIdx
+        projectName
+        badge
+        projectNumber
+        subscribeStartDate
+        subscribeEndDate
+        # 최종견적 내용
+        finalQuotation {
+          finalQuotationIdx
+          subscribeProduct
+          userInvestRate
+          subscribePricePerMonth
+          chargingStationInstallationPrice
+          # 최종견적 충전기
+          finalQuotationChargers {
+            finalQuotationChargerIdx
+            kind
+            standType
+            channel
+            count
+            chargePrice
+            manufacturer
+            installationLocation
+            finalQuotationChargerFiles {
+              finalQuotationChargerFileIdx
+              productFileType
+              originalName
+              url
+              size
+            }
+          }
+          # 설치 목적
+          quotationRequest {
+            installationPurpose
+          }
+          # 사업자 등록증, 상세 견적서
+          finalQuotationDetailFiles {
+            finalQuotationDetailFileIdx
             originalName
-            url
             size
+            url
           }
         }
-        # 설치 목적
-        quotationRequest {
-          installationPurpose
-        }
-        # 사업자 등록증, 상세 견적서
-        finalQuotationDetailFiles {
-          finalQuotationDetailFileIdx
+        # 완료 사진 리스트
+        projectCompletionFiles {
+          projectCompletionFileIdx
           originalName
-          size
           url
+          size
+          projectIdx
         }
-      }
-      # 완료 사진 리스트
-      projectCompletionFiles {
-        projectCompletionFileIdx
-        originalName
-        url
-        size
-        projectIdx
-      }
-      # 기업 정보
-      companyMember {
-        memberIdx
-        name
-        phone
-        companyMemberAdditionalInfo {
-          companyName
-          managerEmail
+        # 기업 정보
+        companyMember {
+          memberIdx
+          name
+          phone
+          companyMemberAdditionalInfo {
+            companyName
+            managerEmail
+          }
         }
-      }
-      # 프로젝트 리뷰
-      projectReview {
-        projectReviewIdx
-        attentivenessPoint
-        quicknessPoint
-        professionalismPoint
-        satisfactionPoint
-        averagePoint
-        opinion
-        projectIdx
-      }
-      contract {
-        contractContent
-        documentId
+        # 프로젝트 리뷰
+        projectReview {
+          projectReviewIdx
+          attentivenessPoint
+          quicknessPoint
+          professionalismPoint
+          satisfactionPoint
+          averagePoint
+          opinion
+          projectIdx
+        }
+        contract {
+          contractContent
+          documentId
+        }
       }
     }
   }
 `;
 
 // AS 상단 부분 조회
-
 export interface AsRequest {
   project: {
     projectIdx: string;

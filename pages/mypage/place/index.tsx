@@ -44,6 +44,10 @@ const ChargingPlace = () => {
         ContentType: 'application/json',
       },
     },
+    variables: {
+      page: 1,
+      limit: 100000000,
+    },
   });
 
   if (chargingLoading) {
@@ -59,7 +63,7 @@ const ChargingPlace = () => {
   // console.log(chargingData?.chargingStations[index]);
 
   // const index =  Number(routerId);
-  const target = chargingData?.chargingStations.filter(
+  const target = chargingData?.chargingStations?.projects?.filter(
     (e) => e.projectIdx === routerId,
   );
 
@@ -146,8 +150,8 @@ const ChargingPlace = () => {
                     <CommunicationBox
                       text="파트너와 소통하기"
                       id={
-                        chargingData?.chargingStations[0]?.companyMember
-                          ?.memberIdx
+                        chargingData?.chargingStations?.projects[0]
+                          ?.companyMember?.memberIdx
                       }
                     />
                   </CommuWrap>
