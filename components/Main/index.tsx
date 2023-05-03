@@ -144,7 +144,7 @@ const MainPage = (props: Props) => {
                 dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
               }}
             >
-              {!userID && (
+              {!userID ? (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
@@ -152,8 +152,7 @@ const MainPage = (props: Props) => {
                     router.push('/signin');
                   }}
                 />
-              )}
-              {userID && historyUnread?.wasReadAlertBell === true ? (
+              ) : historyUnread?.wasReadAlertBell === true ? (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"

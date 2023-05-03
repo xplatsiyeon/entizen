@@ -502,4 +502,18 @@ const SearchBar = styled.ul`
     margin-bottom: 15pt;
     padding-right: 15pt;
   }
+
+  ::-webkit-scrollbar {
+    display: initial;
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    // 뒷배경
+  }
+  ::-webkit-scrollbar-thumb {
+    // 막대
+    background: ${colors.lightGray3};
+    border-radius: 100px;
+  }
 `;
