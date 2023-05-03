@@ -146,6 +146,8 @@ const WebBuyerHeader = ({
     linkUrl: string;
     alert?: boolean;
   };
+
+  // false : on / true : off
   const allAlert = (type: string) => {
     if (historyUnread) {
       const {
@@ -182,7 +184,7 @@ const WebBuyerHeader = ({
           return projectAlert;
         case 'chatting':
           return wasReadChatting;
-        case 'as':
+        case 'asAlert':
           return asAlert;
       }
     } else {

@@ -54,20 +54,11 @@ const ChargingPlace = () => {
     return <Loader />;
   }
   if (chargingError) {
-    // console.log('🔥 ~line 106 ~내 충전소 상세페이지 에러 발생 ' + TAG);
-    // console.log(chargingError);
   }
 
-  // console.log('🔥 ~line 110 ~내 충전소 상세페이지 데이터 확인 ' + TAG);
-  // console.log(chargingData);
-  // console.log(chargingData?.chargingStations[index]);
-
-  // const index =  Number(routerId);
   const target = chargingData?.chargingStations?.projects?.filter(
     (e) => e.projectIdx === routerId,
   );
-
-  // console.log('🍎 target![0]', target![0]);
 
   return (
     <>
