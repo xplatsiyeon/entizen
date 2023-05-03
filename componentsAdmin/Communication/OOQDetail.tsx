@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
@@ -15,21 +15,6 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenAdminGetApi, isTokenAdminPostApi, multerApi } from 'api';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
-import { excelDownloadFile } from 'hooks/excelDown';
-import UserProfile from './UserProfile';
-
-// type ChattingLogs = {
-//   createdAt: string;
-//   chattingLogIdx: number;
-//   fromMemberIdx: number;
-//   fromMemberType: string;
-//   content: string | null;
-//   messageType: string;
-//   fileUrl: string | null;
-//   fileSize: null | number;
-//   fileOriginalName: null | string;
-//   wasRead: boolean;
-// };
 
 type ChattingLogs = {
   createdAt: string;
@@ -87,17 +72,9 @@ const OOQDetail = ({
 }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  //const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
-
-  // 엑셀 다운로드
-  // /api/admin/chatting/consultations/:chattingRoomIdx/excel
-  // const { data: chattingExcel } = useQuery<any>('chattingExcel', () =>
-  //   isTokenAdminGetApi(`/admin/chatting/consultations/${detatilId}/excel`),
-  // );
-  // console.log('chattingExcel', chattingExcel);
 
   const chattingExcel = `/admin/chatting/consultations/${detatilId}/excel`;
 
@@ -121,28 +98,8 @@ const OOQDetail = ({
     },
   );
 
-  const chat = OOQDetailData?.data?.chattingLogs?.chattingLogs!;
-
-  // console.log('chat', chat);
-
-  // const endChatLogic = chat
-  //   ?.map((item, idx) => item?.content?.includes('상담이 종료되었습니다.'))
-  //   .some((el) => {
-  //     return el === true;
-  //   });
-
   const [endChat, setEndChat] = useState(false);
   // 채팅 내용 중에 상담종료 있는지 없는지 판단
-
-  useEffect(() => {
-    if (detatilId) {
-      OOQDetailRefetch();
-    }
-  }, [detatilId]);
-
-  //나가기 모달
-  const [moreModal, setMoreModal] = useState<boolean>(false);
-  const [quitModal, setQuitModal] = useState<boolean>(false);
 
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -270,13 +227,15 @@ const OOQDetail = ({
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    chattingPostMutate({
-      url: `/chatting/${detatilId}`,
-      data: {
-        content: text,
-        files: null,
-      },
-    });
+    if (text) {
+      chattingPostMutate({
+        url: `/chatting/${detatilId}`,
+        data: {
+          content: text,
+          files: null,
+        },
+      });
+    }
   };
 
   // 채팅종료
@@ -356,30 +315,12 @@ const OOQDetail = ({
     setIsRefetch(true);
   };
 
-  // const handleImg = () => {
-  //   if (OOQDetailData?.data?.chattingLogs?.chattingLogs) {
-  //     return '/images/newChatEntizen.png';
-  //   } else {
-  //     if (userChatting) {
-  //       //// console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
-  //       return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
-  //         ?.companyLogoImageUrl!;
-  //     } else {
-  //       //// console.log(chattingData?.data?.userMember?.profileImageUrl!)
-  //       return chattingData?.data?.userMember?.profileImageUrl!;
-  //     }
-  //   }
-
-  // };
-
   // 윈도우 팝업
   const getProfile = (memberIdx: string) => {
     const popupX = document.body.offsetWidth / 2;
     const popupY = window.screen.height;
-    // console.log(popupX, popupY);
 
     const style = `left: ${popupX - 200},top: ${popupY - 250},`;
-    // console.log(style);
 
     window.open(
       `/admin/getUserProfile?${userType}=${memberIdx}`,
@@ -402,13 +343,14 @@ const OOQDetail = ({
     }
   }, [loading]);
 
+  useEffect(() => {
+    if (detatilId) {
+      OOQDetailRefetch();
+    }
+  }, [detatilId]);
+
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
-    // console.log('쿼리아이디, 데이타 변경됨');
-    // if (endChatLogic !== undefined) {
-    //   setEndChat(endChatLogic);
-    // }
-
     if (!OOQDetailIsLoading && OOQDetailData?.isSuccess === true) {
       const sortArr = Array.from(
         OOQDetailData?.data?.chattingLogs?.chattingLogs!,
@@ -424,7 +366,6 @@ const OOQDetail = ({
         }
         return 0;
       });
-      //// console.log(sortArr)
 
       /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
             순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
@@ -477,7 +418,6 @@ const OOQDetail = ({
           }
         }, 300);
       } else {
-        // console.log('chat');
         setTimeout(() => {
           if (inner)
             inner.scroll({
@@ -531,7 +471,6 @@ const OOQDetail = ({
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
-          {/* <button onClick={() => getProfile(memberIdx!)}>test</button> */}
           <QuitBtn
             onClick={() => {
               if (endChat === false) {
@@ -608,16 +547,8 @@ const OOQDetail = ({
                               {item.messageType === 'FILE' && (
                                 <File>
                                   <FileDownload
-                                    // onClick={DownloadFile}
                                     href={item?.fileUrl!}
                                     download={item?.fileOriginalName!}
-                                    // onClick={() => {
-                                    //   fileDownload(
-                                    //     userAgent,
-                                    //     item?.fileOriginalName!,
-                                    //     item?.fileUrl!,
-                                    //   );
-                                    // }}
                                     type={'blob'}
                                   >
                                     <Image
@@ -636,13 +567,6 @@ const OOQDetail = ({
                                     href={item?.fileUrl!}
                                     download={item?.fileOriginalName!}
                                     type={'blob'}
-                                    // onClick={() => {
-                                    //   fileDownload(
-                                    //     userAgent,
-                                    //     item?.fileOriginalName!,
-                                    //     item?.fileUrl!,
-                                    //   );
-                                    // }}
                                   >
                                     <img
                                       src={item?.fileUrl!}
@@ -710,12 +634,12 @@ const OOQDetail = ({
                 ref={webInputRef}
               />
             </InputWrap>
-            <button className="typing off">
-              <Image src={send} layout="fill" />
-            </button>
-
-            <button className="typing on">
-              <Image src={sendBlue} layout="fill" />
+            <button className="typing">
+              {text.length > 0 ? (
+                <Image src={sendBlue} layout="fill" />
+              ) : (
+                <Image src={send} layout="fill" />
+              )}
             </button>
           </FlexBox2>
         </WebBottomBox>
@@ -903,12 +827,6 @@ const WebBottomBox = styled.div`
     position: relative;
     background: none;
     cursor: pointer;
-    &.on {
-      display: none;
-    }
-    &.off {
-      display: block;
-    }
   }
 `;
 
@@ -945,18 +863,6 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
-  /* &.target-p {
-    .admin-p {
-      &.p-target {
-        display: block;
-      }
-    }
-    .user-p {
-      &.p-target {
-        display: block;
-      }
-    }
-  } */
 `;
 const Date = styled.span`
   display: inline-block;
@@ -1071,7 +977,7 @@ const MessageDate = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #caccd1;
-  margin-top: 0!important;
+  margin-top: 0 !important;
 `;
 
 const IconWrap2 = styled.button`
@@ -1079,10 +985,6 @@ const IconWrap2 = styled.button`
   min-width: 18.75pt;
   width: 18.75pt;
   height: 20.7pt;
-`;
-
-const IconWrap3 = styled(IconWrap2)`
-  background: transparent;
 `;
 
 const WrapDate = styled.div<{ userChatting: string }>`

@@ -27,10 +27,6 @@ type Props = {
   openSubLink?: boolean;
 };
 
-interface Components {
-  [key: number]: JSX.Element;
-}
-
 const CompanySubMenuBar = ({
   setTabNumber,
   tabNumber,
