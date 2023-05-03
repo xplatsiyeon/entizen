@@ -82,12 +82,14 @@ const SubMenuBar = ({ type, num, now }: Props) => {
   const onClickLink = (idx: number) => {
     handleLink(idx);
     const key = userAlertsEn[idx];
-    updateAlertMutate({
-      url: '/v1/alerts/unread-points',
-      data: {
-        [key]: true,
-      },
-    });
+    if (key) {
+      updateAlertMutate({
+        url: '/v1/alerts/unread-points',
+        data: {
+          [key]: true,
+        },
+      });
+    }
   };
 
   // 불 들어오는 확인
@@ -112,7 +114,7 @@ const SubMenuBar = ({ type, num, now }: Props) => {
           >
             <Text>
               {i}
-              {type === 'mypage' && !getBell(idx) && <BellOnText />}
+              {userID && type === 'mypage' && !getBell(idx) && <BellOnText />}
             </Text>
           </StyledLink>
         );

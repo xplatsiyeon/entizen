@@ -25,8 +25,6 @@ export const NaverLogout = async () => {
 // 카카오 로그아웃
 export const KakaoLogout = () => {
   const kakao = kakaoInit();
-  // console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
-  // 카카오 로그인 링크 해제
   kakao.API.request({
     url: '/v1/user/unlink',
     success: (res: any) => {
@@ -43,24 +41,25 @@ export const KakaoLogout = () => {
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   // console.log('=============== 로그아웃 =================');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-
-  await axios({
-    method: 'post',
-    url: LOG_OUT_API,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => {
-    sessionStorage.removeItem('SNS_MEMBER');
-    sessionStorage.removeItem('ACCESS_TOKEN');
-    sessionStorage.removeItem('REFRESH_TOKEN');
-    sessionStorage.removeItem('USER_ID');
-    sessionStorage.removeItem('MEMBER_TYPE');
-    // 로그아웃 브릿지 연결
-    appLogout(userAgent as string);
-  });
+  if (accessToken) {
+    await axios({
+      method: 'post',
+      url: LOG_OUT_API,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => {
+      sessionStorage.removeItem('SNS_MEMBER');
+      sessionStorage.removeItem('ACCESS_TOKEN');
+      sessionStorage.removeItem('REFRESH_TOKEN');
+      sessionStorage.removeItem('USER_ID');
+      sessionStorage.removeItem('MEMBER_TYPE');
+      // 로그아웃 브릿지 연결
+      appLogout(userAgent as string);
+    });
+  }
 };
 
 // 관리자 로그아웃

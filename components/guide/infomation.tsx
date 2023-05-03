@@ -54,7 +54,6 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* padding: 45pt 15pt 0 15pt; */
   padding: 45pt 200pt 0 200pt;
 
   @media (max-width: 899.25pt) {

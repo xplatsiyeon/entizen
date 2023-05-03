@@ -95,6 +95,14 @@ const Alam = () => {
     router.replace(newLink);
   };
 
+  const onClickBack = () => {
+    const idx = router.query.noticesIdx;
+    if (idx) {
+      router.back();
+    } else {
+      router.replace('/');
+    }
+  };
   // const [list, setList] = useState(noticeList?.data?.notices?.slice(0, 5));
 
   // // 무한 스크롤
@@ -173,7 +181,7 @@ const Alam = () => {
         <Wrapper>
           {/* 헤더 */}
           <Header>
-            <div className="back-img" onClick={() => router.replace('/')}>
+            <div className="back-img" onClick={onClickBack}>
               <Image
                 style={{
                   cursor: 'pointer',

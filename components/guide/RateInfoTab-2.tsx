@@ -41,12 +41,12 @@ const Tab2 = ({ data, getImg, device }: Props) => {
       )}
       <Label pt={device === 'pc' ? 36 : 33}>계절별 시간대별 구분</Label>
       {imgUrl3 && (
-        <ImageWrapper>
+        <ImageWrapper className="last">
           <PosterImage src={imgUrl3} />
         </ImageWrapper>
       )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data[0]?.content }} />
+        <BodyText dangerouslySetInnerHTML={{ __html: data[0]?.content }} />
       ) : (
         <></>
       )}
@@ -118,8 +118,14 @@ const Label = styled.label<{ pt: number }>`
 const ImageWrapper = styled.div`
   width: 100%;
   position: relative;
-
   & > span {
     position: unset !important;
+  }
+`;
+
+const BodyText = styled.div`
+  margin-top: 45pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 27pt;
   }
 `;

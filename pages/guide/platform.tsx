@@ -246,7 +246,7 @@ const PlatformGuide = () => {
             {TabType.map((tab, index) => (
               <Item
                 idx={index.toString()}
-                num={tabNumber.toString()}
+                tab={tabNumber.toString()}
                 key={tab}
                 onClick={() => tabHandler(index)}
               >
@@ -321,39 +321,37 @@ const ModalBox = styled(Box)`
 `;
 const TabBox = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  padding: 0 200pt 12pt 200pt;
   width: 105%;
-  padding-bottom: 12pt;
+
   border-bottom: 0.75pt solid #f3f4f7;
   font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899.25pt) {
-    padding-left: 15pt;
-    justify-content: start;
+    padding: 0 0 15pt 12pt;
   }
 `;
-const Item = styled.div<{ idx: string; num: string }>`
-  font-weight: ${({ idx, num }) => (idx === num ? '700' : '500')};
+const Item = styled.div<{ idx: string; tab: string }>`
+  position: relative;
+  cursor: pointer;
   font-size: 12pt;
   line-height: 15pt;
   text-align: center;
   letter-spacing: -0.02em;
-  padding: 0 30pt;
-  color: ${({ idx, num }) => (idx === num ? colors.main : '#caccd1')};
-  position: relative;
-  cursor: pointer;
-
-  .line {
-    position: absolute;
-    left: 0;
-    bottom: -12pt;
-    width: 100%;
-    border-bottom: ${({ idx, num }) =>
-      idx === num && `  3pt solid ${colors.main};`};
-    border-radius: 10pt;
-  }
+  padding: 9pt 15pt;
+  margin-right: 12pt;
+  border-radius: 21.75pt;
+  font-weight: ${({ idx, tab }) => (idx === tab ? '700' : '500')};
+  color: ${({ idx, tab }) => (idx === tab ? colors.white : colors.gray6)};
+  background: ${({ idx, tab }) => (idx === tab ? colors.main1 : colors.gray3)};
 
   @media (max-width: 899.25pt) {
+    color: ${({ idx, tab }) => (idx === tab ? colors.main : '#caccd1')};
+    width: 100%;
+    background: none;
+    border-radius: 0;
+    margin-right: 0;
     padding: 0 11.25pt;
     font-size: 12pt;
     font-weight: 500;
@@ -361,6 +359,16 @@ const Item = styled.div<{ idx: string; num: string }>`
     letter-spacing: -0.02em;
     text-align: center;
     white-space: pre;
+
+    .line {
+      position: absolute;
+      left: 0;
+      bottom: -12pt;
+      width: 100%;
+      border-bottom: ${({ idx, tab }) =>
+        idx === tab && `  3pt solid ${colors.main};`};
+      border-radius: 10pt;
+    }
   }
 `;
 

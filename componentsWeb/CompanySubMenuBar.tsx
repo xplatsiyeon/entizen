@@ -142,12 +142,14 @@ const CompanySubMenuBar = ({
     dispatch(headerAction.setTabIdx(idx));
 
     const key = linkNameEn[idx];
-    updateAlertMutate({
-      url: '/v1/alerts/unread-points',
-      data: {
-        [key]: true,
-      },
-    });
+    if (key) {
+      updateAlertMutate({
+        url: '/v1/alerts/unread-points',
+        data: {
+          [key]: true,
+        },
+      });
+    }
   };
 
   // 불 들어오는 확인

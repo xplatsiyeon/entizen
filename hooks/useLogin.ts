@@ -43,7 +43,7 @@ function useLogin(
 
       dispatch(originUserAction.set(userId));
 
-      // ================브릿지 연결=====================
+      // ======================== 브릿지 연결 ================================
       const userInfo = {
         SNS_MEMBER: token.isSnsMember,
         MEMBER_TYPE: token.memberType,
@@ -85,12 +85,13 @@ function useLogin(
       } else if (message === '올바르지 않는 비밀번호입니다.') {
         setErrorModal(true);
         setErrorMessage('올바르지 않은 비밀번호 입니다.');
-      } else if (message === '"id" is not allowed to be empty') {
+      } else if (message === '아이디가 존재하지 않습니다.') {
+        const text =
+          memberType === 'USER'
+            ? '이메일이 존재하지 않습니다.'
+            : '아이디가 존재하지 않습니다.';
         setErrorModal(true);
-        setErrorMessage('이메일를 입력해주세요.');
-      } else if (message === '"password" is not allowed to be empty') {
-        setErrorModal(true);
-        setErrorMessage('비밀번호를 입력해주세요.');
+        setErrorMessage(text);
       } else {
         setErrorModal(true);
         setErrorMessage(message);

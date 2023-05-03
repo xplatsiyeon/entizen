@@ -32,7 +32,7 @@ const Tab1 = ({ data, getImg, device }: Props) => {
         </ImageWrapper>
       )}
       {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
+        <BodyText dangerouslySetInnerHTML={{ __html: data?.content }} />
       ) : (
         <></>
       )}
@@ -95,8 +95,13 @@ const Container = styled.div`
 const ImageWrapper = styled.div`
   width: 100%;
   position: relative;
-
   & > span {
     position: unset !important;
+  }
+`;
+const BodyText = styled.div`
+  margin-top: 45pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 27pt;
   }
 `;

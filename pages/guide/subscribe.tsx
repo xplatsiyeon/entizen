@@ -136,31 +136,26 @@ const SubscribeGuide = () => {
       <WebHeader num={1} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
-        <Wrapper>
-          <GuideHeader
-            title={'구독 가이드'}
-            leftOnClick={handleRouterBack}
-            rightOnClick={() => router.push('/')}
-          />
-          <TabContainer>
-            {TabType.map((tab, index) => (
-              <TabItem
-                key={index}
-                tab={tabNumber.toString()}
-                index={index.toString()}
-                onClick={() => handleTab(index)}
-              >
-                {tab}
-                <Line
-                  tab={tabNumber.toString()}
-                  index={index.toString()}
-                ></Line>
-              </TabItem>
-            ))}
-          </TabContainer>
-          {/* 메인 */}
-          <Main>{components[tabNumber]}</Main>
-        </Wrapper>
+        <GuideHeader
+          title={'구독 가이드'}
+          leftOnClick={handleRouterBack}
+          rightOnClick={() => router.push('/')}
+        />
+        <TabContainer>
+          {TabType.map((tab, index) => (
+            <TabItem
+              key={index}
+              tab={tabNumber.toString()}
+              idx={index.toString()}
+              onClick={() => handleTab(index)}
+            >
+              {tab}
+              <Line tab={tabNumber.toString()} index={index.toString()}></Line>
+            </TabItem>
+          ))}
+        </TabContainer>
+        {/* 메인 */}
+        <Main>{components[tabNumber]}</Main>
       </Inner>
       <WebFooter />
     </Body>
@@ -188,9 +183,8 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 645pt;
-  height: 100%; //
-  margin: 100pt auto; //
-
+  height: 100%;
+  margin: 24pt auto;
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
@@ -200,38 +194,51 @@ const Inner = styled.div`
   }
 `;
 
-const Wrapper = styled.div``;
-
 const TabContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-  border-bottom: 0.75pt solid #e2e5ed;
+
+  @media (max-width: 899.25pt) {
+    border-bottom: 0.75pt solid #e2e5ed;
+  }
 `;
-const TabItem = styled.div<{ tab: string; index: string }>`
+const TabItem = styled.div<{ tab: string; idx: string }>`
+  position: relative;
+  cursor: pointer;
   text-align: center;
-  width: 100%;
-  padding: 12pt 0;
-  font-weight: ${({ tab, index }) => (tab === index ? '700' : '500')};
+  padding: 9pt 15pt;
+  margin-right: 12pt;
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  border-radius: 21.75pt;
   font-family: 'Spoqa Han Sans Neo';
-  position: relative;
-  cursor: pointer;
-  color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
+  font-weight: ${({ idx, tab }) => (idx === tab ? '700' : '500')};
+  color: ${({ idx, tab }) => (idx === tab ? colors.white : colors.gray6)};
+  background: ${({ idx, tab }) => (idx === tab ? colors.main1 : colors.gray3)};
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    padding: 12pt 0;
+    color: ${({ tab, idx }) => (tab === idx ? colors.main : '#CACCD1')};
+    background: none;
+    border-radius: 0;
+    margin-right: 0;
+  }
 `;
 const Line = styled.div<{ tab: string; index: string }>`
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  border-radius: 3pt;
-  border-bottom: ${({ tab, index }) =>
-    tab === index && `3pt solid ${colors.main}`};
+  @media (max-width: 899.25pt) {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    border-radius: 3pt;
+    border-bottom: ${({ tab, index }) =>
+      tab === index && `3pt solid ${colors.main}`};
+  }
 `;
 const Main = styled.div`
   padding-top: 27pt;

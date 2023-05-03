@@ -222,7 +222,7 @@ const FourthStep = ({
               }}
             />
           )}
-
+          {/* 검색 리스트 목록 */}
           {isSearch && !mobile && (
             <SearchBar>
               {results.map((result) => (
@@ -466,7 +466,7 @@ const SearchBar = styled.ul`
   overflow: scroll;
   & > li {
     position: relative;
-    padding-top: 16.5pt;
+    padding-top: 24pt;
     cursor: pointer;
     border-bottom: 0.75pt solid #e9eaee;
   }
@@ -477,15 +477,15 @@ const SearchBar = styled.ul`
   }
   .imgWrap {
     position: absolute;
-    left: 15.375pt;
-    top: 15.7pt;
+    left: 13pt;
+    top: 25pt;
   }
   .name {
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 500;
     font-size: 13.5pt;
-    line-height: 15pt;
+    line-height: 20.25pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
     padding-right: 15pt;
@@ -498,7 +498,8 @@ const SearchBar = styled.ul`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
-    margin-top: 7.5pt;
+    margin-top: 6pt;
+    margin-bottom: 15pt;
     padding-right: 15pt;
   }
 `;

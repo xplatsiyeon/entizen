@@ -147,7 +147,7 @@ const ChargerGuide = () => {
             <TabItem
               key={index}
               tab={tabNum.toString()}
-              index={index.toString()}
+              idx={index.toString()}
               onClick={() => handleTab(index)}
             >
               {tab}
@@ -185,7 +185,7 @@ const Inner = styled.div`
   position: relative;
   width: 645pt;
   height: 100%;
-  margin: 100pt auto;
+  margin: 24pt auto;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -198,34 +198,49 @@ const Inner = styled.div`
 
 const TabContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-  border-bottom: 0.75pt solid #f3f4f7;
+  @media (max-width: 899.25pt) {
+    border-bottom: 0.75pt solid #f3f4f7;
+  }
 `;
-const TabItem = styled.div<{ tab: string; index: string }>`
+const TabItem = styled.div<{ tab: string; idx: string }>`
   text-align: center;
-  width: 100%;
-  padding: 12pt 0;
-  font-weight: ${({ tab, index }) => (tab === index ? '700' : '500')};
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   position: relative;
   cursor: pointer;
-  color: ${({ tab, index }) => (tab === index ? colors.main : '#CACCD1')};
+  padding: 9pt 15pt;
+  margin-right: 12pt;
+  border-radius: 21.75pt;
+  font-weight: ${({ idx, tab }) => (idx === tab ? '700' : '500')};
+  color: ${({ idx, tab }) => (idx === tab ? colors.white : colors.gray6)};
+  background: ${({ idx, tab }) => (idx === tab ? colors.main1 : colors.gray3)};
+
+  @media (max-width: 899.25pt) {
+    color: ${({ idx, tab }) => (idx === tab ? colors.main : '#caccd1')};
+    width: 100%;
+    background: none;
+    border-radius: 0;
+    margin-right: 0;
+    padding: 12pt 0;
+  }
 `;
 const Line = styled.div<{ tab: string; index: string }>`
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  border-radius: 3pt;
-  border-bottom: ${({ tab, index }) =>
-    tab === index && `3pt solid ${colors.main}`};
+  @media (max-width: 899.25pt) {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    border-radius: 3pt;
+    border-bottom: ${({ tab, index }) =>
+      tab === index && `3pt solid ${colors.main}`};
+  }
 `;
 const Main = styled.div`
   padding: 0 15pt;

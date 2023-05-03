@@ -34,6 +34,7 @@ import FindIdModal from 'components/Modal/findIdModal';
 import SignUpHeader from 'components/SignUp/header';
 import { useNaverAuthHook } from 'hooks/useNaverAuthHook';
 import FindIdComponents from 'components/FindId';
+import { reg_password } from 'utils/user';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -109,6 +110,8 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
+  // 비밀번호 유효성 검사
+  const [isValid, setIsValid] = useState(false);
   // 네이버 로그인 훅
   const { login } = useNaverAuthHook();
 
@@ -222,7 +225,18 @@ const Signin = () => {
   );
   // 기본 로그인
   const originLogin = async () => {
-    await signin(password);
+    if (!userId && !password) {
+      setErrorModal(true);
+      setErrorMessage('이메일를 입력해주세요.');
+    } else if (!userId) {
+      setErrorModal(true);
+      setErrorMessage('이메일를 입력해주세요.');
+    } else if (!password) {
+      setErrorModal(true);
+      setErrorMessage('비밀번호를 입력해 주세요.');
+    } else {
+      await signin(password);
+    }
   };
   // 구글 로그인 후 서버로 회원가입 처리 (1)
   const handleGoogleSignUp = async (data: GoogleSignUpData) => {
@@ -470,6 +484,15 @@ const Signin = () => {
     dispatch(selectAction.reset());
   }, []);
 
+  useEffect(() => {
+    console.log('🔥 isValid : ', isValid);
+    if (reg_password(password)) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [password]);
+
   return (
     <React.Fragment>
       <Head>
@@ -633,7 +656,6 @@ const Signin = () => {
                         setUserId(e.target.value);
                       }}
                     />
-
                     <TextFields
                       value={password}
                       id="outlined-basic"
@@ -651,23 +673,16 @@ const Signin = () => {
                       }}
                       onKeyDown={onKeyPress}
                     />
-                    {/* </Box> */}
+                    {password.length > 0 && isValid === false && (
+                      <AlertMessage>
+                        영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
+                      </AlertMessage>
+                    )}
+
+                    {/* 로그인 버튼 */}
                     <LoginBtn onClick={originLogin}>
                       <BtnSpan>로그인</BtnSpan>
                     </LoginBtn>
-
-                    {/* <TestWrap>
-                      <div
-                        ref={appleRef}
-                        id="appleid-signin"
-                        data-color="black"
-                        data-border="true"
-                        data-type="sign in"
-                        data-width="100"
-                        data-height="32"
-                        data-mode="center-align"
-                      ></div>
-                    </TestWrap> */}
                   </ContainerBox>
                 </div>
               )}
@@ -999,4 +1014,14 @@ const BottomSection = styled.div<{ display: boolean }>`
 export const Line = styled.div`
   width: 35%;
   border: 0.375pt solid #caccd1;
+`;
+const AlertMessage = styled.p`
+  margin-top: 9pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.orange};
 `;
