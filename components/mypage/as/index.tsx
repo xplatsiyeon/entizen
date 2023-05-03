@@ -179,7 +179,7 @@ const AsIndex = ({ listUp }: Props) => {
     };
   // as 요청하기 버튼
   const handlerBtn = () => {
-    if (chargingData?.chargingStations.length! > 0) {
+    if (chargingData?.chargingStations?.projects.length! > 0) {
       router.push('/mypage/as/requestAS');
     } else {
       setIsModal(true);
