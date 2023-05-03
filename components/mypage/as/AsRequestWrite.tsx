@@ -278,7 +278,7 @@ const AsRequestWrite = ({ rewrite }: Props) => {
   useEffect(() => {
     if (!chargingLoading && !chargingError && chargingData?.chargingStations) {
       const tempArr: Charger[] = [];
-      chargingData?.chargingStations.forEach((e) => {
+      chargingData?.chargingStations?.projects?.forEach((e) => {
         tempArr.push({
           projectName: e.projectName,
           projectIdx: e.projectIdx,
