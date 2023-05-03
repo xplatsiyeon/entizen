@@ -325,10 +325,10 @@ const TabBox = styled.div`
   padding: 0 200pt 12pt 200pt;
   width: 105%;
 
-  border-bottom: 0.75pt solid #f3f4f7;
   font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899.25pt) {
+    border-bottom: 0.75pt solid #f3f4f7;
     padding: 0 0 15pt 12pt;
   }
 `;
