@@ -22,9 +22,11 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { HandleUserColor } from 'utils/changeValue';
+import { QuotationRequestV1 } from 'types/quotation';
 
 type Props = {
-  data: QuotationRequestsResponse;
+  // data: QuotationRequestsResponse;
+  data: QuotationRequestV1;
 };
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
@@ -33,7 +35,7 @@ const EstimateContainer = ({ data }: Props) => {
   // console.log('🔥 상단 상세 내용 Data 확인 -> ' + TAG);
   // console.log(data);
 
-  const homeSelect = data?.quotationRequest?.quotationRequestChargers?.filter(
+  const homeSelect = data?.quotationRequestChargers?.filter(
     (el) => el.kind === '7-HOME',
   );
 
@@ -43,7 +45,7 @@ const EstimateContainer = ({ data }: Props) => {
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <h1>{data?.quotationRequest?.installationAddress}</h1>
+          <h1>{data?.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -68,61 +70,55 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   subscribeType,
                   subscribeTypeEn,
-                  data?.quotationRequest?.subscribeProduct,
+                  data?.subscribeProduct,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data?.quotationRequest?.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              {data?.quotationRequest?.quotationRequestChargers?.length! ===
+              {data?.quotationRequestChargers?.length! ===
               homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
                 <span className="text">{`${Math.floor(
-                  Number(data?.quotationRequest?.investRate) * 100,
+                  Number(data?.investRate) * 100,
                 )} %`}</span>
               )}
             </div>
 
-            {data?.quotationRequest?.quotationRequestChargers?.map(
-              (item, index) => (
-                <div className="text-box" key={index}>
-                  {index === 0 ? (
-                    <span className="name">충전기 종류 및 수량</span>
-                  ) : (
-                    <span className="name" />
-                  )}
-                  <span className="text2">
-                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                    <br />
-                    {item.standType
-                      ? `: ${convertKo(
-                          M6_LIST,
-                          M6_LIST_EN,
-                          item.standType,
-                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`
-                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`}
-                  </span>
-                </div>
-              ),
-            )}
+            {data?.quotationRequestChargers?.map((item, index) => (
+              <div className="text-box" key={index}>
+                {index === 0 ? (
+                  <span className="name">충전기 종류 및 수량</span>
+                ) : (
+                  <span className="name" />
+                )}
+                <span className="text2">
+                  {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                  <br />
+                  {item.standType
+                    ? `: ${convertKo(
+                        M6_LIST,
+                        M6_LIST_EN,
+                        item.standType,
+                      )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                        item.count
+                      } 대`
+                    : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                        item.count
+                      } 대`}
+                </span>
+              </div>
+            ))}
 
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
               <span className="text">
-                {convertKo(
-                  location,
-                  locationEn,
-                  data?.quotationRequest?.installationLocation,
-                )}
+                {convertKo(location, locationEn, data?.installationLocation)}
               </span>
             </div>
             <div className="text-box">
@@ -131,15 +127,15 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data?.quotationRequest?.installationPurpose,
+                  data?.installationPurpose,
                 )}
               </span>
             </div>
 
-            {data?.quotationRequest?.etcRequest.length !== 0 ? (
+            {data?.etcRequest.length !== 0 ? (
               <ElseTextBox>
                 <span className="name">기타 요청사항</span>
-                <ElseText>{data?.quotationRequest?.etcRequest}</ElseText>
+                <ElseText>{data?.etcRequest}</ElseText>
               </ElseTextBox>
             ) : (
               <div className="text-box">

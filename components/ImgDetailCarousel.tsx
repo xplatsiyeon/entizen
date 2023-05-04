@@ -6,15 +6,13 @@ import 'swiper/css/navigation';
 import { Pagination } from 'swiper';
 import SwipeCore, { Navigation } from 'swiper';
 import Image from 'next/image';
-import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
-import { set } from 'immer/dist/internal';
 import ExitBtn from 'public/images/ImgModalX.svg';
 import { useMediaQuery } from 'react-responsive';
 
-interface ImgType {
+export interface ImgType {
   preQuotationChargerIdx?: number;
   preQuotationFileIdx?: number;
   finalQuotationChargerFileIdx?: number;
@@ -36,27 +34,16 @@ const ImgDetailCarousel = ({ file, setOpenImgModal, idxRef }: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const [swiper, setSwiper] = useState(null);
+
   const [fileArr, setFileArr] = useState<ImgType[]>([]);
-  const [nowInd, setNowIdx] = useState(-1);
-  const [mainImageIndex, setMainImageIndex] = useState(0);
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
 
   useEffect(() => {
-    // console.log('캐러쉘', file);
     if (file) {
       const copy = [...file!].reverse();
       setFileArr(copy);
-      // console.log('new', copy);
     }
   }, []);
   SwipeCore.use([Navigation]);
-  // const swiperParams = {
-  //   navigation: true,
-  //   onSwiper: setSwiper,
-  //   onSlideChange: (e)=> set(e.activeIndex)
-  // }
 
   return (
     <TopWrapper>
@@ -90,13 +77,6 @@ const ImgDetailCarousel = ({ file, setOpenImgModal, idxRef }: Props) => {
           return (
             <Slider key={idx}>
               <div className="imgBox">
-                {/* <Image
-              src={el?.url}
-              alt={el?.originalName}
-              layout="fill"
-              priority={true}
-              unoptimized={true}
-            /> */}
                 <SliderImg src={el?.url} alt={el?.originalName} />
               </div>
             </Slider>

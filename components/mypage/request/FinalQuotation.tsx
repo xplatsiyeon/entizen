@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   convertKo,
   hyphenFn,
@@ -22,13 +22,14 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import { PreQuotations } from 'pages/mypage/request';
 import { fileDownload } from 'bridge/appToWeb';
-import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
+import { QuotationStatusHistories } from 'types/quotation';
 
 interface Props {
   pb?: number;
-  data?: PreQuotations;
+  // data?: PreQuotations;
+  data?: QuotationStatusHistories;
   isSpot?: boolean;
   isFinalItmeIndex?: number;
 }
@@ -36,6 +37,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
+  const [chargerFile, setChargerFile] = useState<ImgType[] | undefined>();
   // 충전기 이미지 클릭시 뭐 눌렀는지 확인
   const idxRef = useRef(-1);
 
@@ -44,25 +46,28 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
   };
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
-  const chargerFile = data?.finalQuotation?.finalQuotationChargers?.map(
-    (item) => item?.chargerImageFiles.reverse(),
-  );
+  const callPhone = hyphenFn(data?.preQuotation?.member?.phone!);
+  const finalQuotation = data?.preQuotation?.finalQuotation;
 
-  const chargerFile2 = { ...chargerFile };
-  const callPhone = hyphenFn(data?.member?.phone!);
-  const finalQuotation = data?.finalQuotation;
-  const homeSelect = data?.finalQuotation?.finalQuotationChargers.filter(
-    (el) => el.kind === '7-HOME',
-  );
+  useEffect(() => {
+    let temp: ImgType[] = [];
+    finalQuotation?.finalQuotationChargers?.map((item, index) =>
+      item.finalQuotationChargerFiles
+        ?.filter((e) => e.productFileType === 'IMAGE')
+        .map((img, index) => temp.push(img)),
+    );
+    setChargerFile(temp);
+  }, []);
 
   return (
     <Wrapper>
-      {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl! !==
-      '' ? (
+      {data?.preQuotation?.member?.companyMemberAdditionalInfo
+        ?.companyLogoImageUrl! !== null ? (
         <ImageBox>
           <Image
             src={
-              data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl!
+              data?.preQuotation?.member?.companyMemberAdditionalInfo
+                ?.companyLogoImageUrl!
             }
             alt="logo-img"
             layout="fill"
@@ -76,7 +81,9 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <NoImage />
       )}
 
-      <Title>{data?.member?.companyMemberAdditionalInfo?.companyName}</Title>
+      <Title>
+        {data?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName}
+      </Title>
       <List>
         <Item>
           <span className="name">구독상품</span>
@@ -93,12 +100,12 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
           <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
         {/* 부분 구독일 경우 충전소 설치비 나와야함 */}
-        {data?.finalQuotation?.subscribeProduct === 'PART' && (
+        {finalQuotation?.subscribeProduct === 'PART' && (
           <Item>
             <span className="name">충전소 설치비</span>
             <span className="value">
               {`${PriceBasicCalculation(
-                data?.finalQuotation?.chargingStationInstallationPrice,
+                finalQuotation?.chargingStationInstallationPrice,
               )} 원`}
             </span>
           </Item>
@@ -290,26 +297,28 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <GridImg>
           {finalQuotation?.finalQuotationChargers?.map((item, index) => (
             <React.Fragment key={item.finalQuotationChargerIdx}>
-              {item.chargerImageFiles.map((img, index) => (
-                <GridItem
-                  key={img.finalQuotationChargerFileIdx}
-                  onClick={() => {
-                    initialSlideOnChange(index);
-                  }}
-                >
-                  <Image
-                    src={img.url}
-                    alt="img-icon"
-                    layout="fill"
-                    priority={true}
-                    unoptimized={true}
-                    objectFit="cover"
+              {item.finalQuotationChargerFiles
+                ?.filter((e) => e.productFileType === 'IMAGE')
+                .map((img, index) => (
+                  <GridItem
+                    key={img.finalQuotationIdx}
                     onClick={() => {
-                      setOpenImgModal(!openImgModal);
+                      initialSlideOnChange(index);
                     }}
-                  />
-                </GridItem>
-              ))}
+                  >
+                    <Image
+                      src={img.url}
+                      alt="img-icon"
+                      layout="fill"
+                      priority={true}
+                      unoptimized={true}
+                      objectFit="cover"
+                      onClick={() => {
+                        setOpenImgModal(!openImgModal);
+                      }}
+                    />
+                  </GridItem>
+                ))}
             </React.Fragment>
           ))}
         </GridImg>
@@ -317,7 +326,7 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
       {/* 이미지 자세히 보기 기능 */}
       {openImgModal && (
         <ImgDetailCarousel
-          file={chargerFile2[0]!}
+          file={chargerFile!}
           setOpenImgModal={setOpenImgModal}
           idxRef={idxRef}
         />
@@ -328,20 +337,22 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <FileWrapper>
           {finalQuotation?.finalQuotationChargers?.map((item, index) => (
             <React.Fragment key={item.finalQuotationChargerIdx}>
-              {item.catalogFiles.map((file, index) => (
-                <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
-                  <FileDownload
-                    download={file.originalName}
-                    // href={file.url}
-                    onClick={() => {
-                      fileDownload(userAgent, file.originalName, file.url);
-                    }}
-                  >
-                    <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                    <FileName>{file.originalName}</FileName>
-                  </FileDownload>
-                </FileDownloadBtn>
-              ))}
+              {item.finalQuotationChargerFiles
+                ?.filter((e) => e.productFileType === 'CATALOG')
+                .map((file, index) => (
+                  <FileDownloadBtn key={file.finalQuotationIdx}>
+                    <FileDownload
+                      download={file.originalName}
+                      // href={file.url}
+                      onClick={() => {
+                        fileDownload(userAgent, file.originalName, file.url);
+                      }}
+                    >
+                      <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                      <FileName>{file.originalName}</FileName>
+                    </FileDownload>
+                  </FileDownloadBtn>
+                ))}
             </React.Fragment>
           ))}
           {finalQuotation?.finalQuotationDetailFiles?.map((item, index) => (
@@ -364,12 +375,15 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
         <Subtitle>담당자 정보</Subtitle>
         <div className="text-box">
           <span className="name">담당자</span>
-          <span className="text">{data?.member?.name}</span>
+          <span className="text">{data?.preQuotation?.member?.name}</span>
         </div>
         <div className="text-box">
           <span className="name">이메일</span>
           <span className="text">
-            {data?.member?.companyMemberAdditionalInfo?.managerEmail}
+            {
+              data?.preQuotation?.member?.companyMemberAdditionalInfo
+                ?.managerEmail
+            }
           </span>
         </div>
         <div className="text-box">

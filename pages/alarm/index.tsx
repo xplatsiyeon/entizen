@@ -161,6 +161,12 @@ const Alam = () => {
   // }, [noticeIdx]);
 
   useEffect(() => {
+    if (router.isReady && router.query.noticesIdx) {
+      setTab(1);
+    }
+  }, [router]);
+
+  useEffect(() => {
     setTab(alarmNumberSlice);
   }, [alarmNumberSlice]);
 

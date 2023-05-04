@@ -4,11 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useRef, useState } from 'react';
-import {
-  PreQuotationChargers,
-  PreQuotationResponse,
-} from 'pages/mypage/request/detail';
+import React, { useEffect, useRef, useState } from 'react';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
@@ -17,13 +13,18 @@ import { fileDownload } from 'bridge/appToWeb';
 import { useMediaQuery } from 'react-responsive';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 import arrow_icon from 'public/images/gray_arraow_icon.svg';
-import { PreQuotations, QuotationRequestsResponse } from 'pages/mypage/request';
+import { useRouter } from 'next/router';
+import {
+  preQuotationFiles,
+  PreQuotationsV1,
+  QuotationRequestV1,
+} from 'types/quotation';
 
 interface Props {
   pb?: number;
-  data?: PreQuotationResponse;
+  data?: PreQuotationsV1;
   isSpot?: boolean;
-  quotationsData?: QuotationRequestsResponse;
+  quotationNewData?: QuotationRequestV1;
   onClcikModal?: () => void;
 }
 
@@ -32,8 +33,9 @@ const BiddingQuote = ({
   data,
   isSpot,
   onClcikModal,
-  quotationsData,
+  quotationNewData,
 }: Props) => {
+  const router = useRouter();
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
@@ -43,7 +45,7 @@ const BiddingQuote = ({
 
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
-
+  const [newChargerImageFiles, setNewChargerImageFiles] = useState<string[]>();
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
 
@@ -60,31 +62,34 @@ const BiddingQuote = ({
 
   // 부분 구독 판별
   const partSubscribe = data?.quotationRequest?.subscribeProduct;
-
-  // 데이터 역순으로 나오는거 reverse
-  const preQuotationChargers = data?.preQuotation?.preQuotationChargers!;
-  const reverseNewArr: PreQuotationChargers[] = [];
-  preQuotationChargers?.forEach((el, idx) => reverseNewArr.unshift(el));
-
-  // chargerImageFiles 하나의 배열로 만들기
-  const newChargerImageFiles = data?.preQuotation?.preQuotationChargers
-    ?.map((item) => item.chargerImageFiles.map((el) => el.url))
-    .flat();
-
   const homeSelect = data?.quotationRequest?.quotationRequestChargers?.filter(
     (el) => el.kind === '7-HOME',
   );
 
-  // 오른쪽 큰 사진
-  const DataFilter = newChargerImageFiles ? newChargerImageFiles![webIdx] : '';
-
   // 이건 캐러셀에 내려줄 이미지 파일 합친 데이터
-  const newChargerImageFiles2 = data?.preQuotation?.preQuotationChargers
-    ?.map((item) => item.chargerImageFiles.map((el) => el))
-    .flat()
-    .reverse();
+  const newChargerImageFiles2 = data?.preQuotationChargers
+    ?.map((item) =>
+      item.preQuotationFiles.filter((el) => el.productFileType === 'IMAGE'),
+    )
+    .flat();
+  // .reverse();
 
-  // console.log('🔥 preQuotations : ', preQuotations);
+  // 충전기 이미지 상태 관리
+  useEffect(() => {
+    if (data) {
+      let temp: preQuotationFiles[] = [];
+      data?.preQuotationChargers.forEach((e) => {
+        const result = e.preQuotationFiles.filter(
+          (e) => e.productFileType === 'IMAGE',
+        );
+        temp = temp.concat(result);
+      });
+      const url = temp.map((e) => e.url);
+      setNewChargerImageFiles(url);
+    }
+  }, [data]);
+
+  console.log('🔥 quotationNewData : ', quotationNewData);
 
   return (
     <Wrap>
@@ -95,7 +100,7 @@ const BiddingQuote = ({
             <h1>
               총{' '}
               <span className="emphasis">
-                {quotationsData?.preQuotations?.length}
+                {quotationNewData?.quotationStatusHistories?.length}
               </span>
               개의 구독상품이
               <br />
@@ -107,47 +112,68 @@ const BiddingQuote = ({
               나에게 맞는 상품을 선택해보세요!
             </p>
             <ul>
-              {quotationsData?.preQuotations?.map((data, index) => (
-                <li key={index}>
-                  <div className="leftBox">
-                    {data?.member?.companyMemberAdditionalInfo
-                      ?.companyLogoImageUrl ? (
-                      <div className="imgBox">
-                        <Image
-                          src={
-                            data?.member?.companyMemberAdditionalInfo
-                              ?.companyLogoImageUrl
+              {quotationNewData?.quotationStatusHistories?.map(
+                (data, index) => (
+                  <li
+                    key={index}
+                    className={
+                      data?.preQuotationIdx ===
+                      Number(router?.query?.preQuotationIdx)
+                        ? 'target'
+                        : ''
+                    }
+                    onClick={() => {
+                      router.push(
+                        `/mypage/request/detail?preQuotationIdx=${router?.query?.preQuotationIdx}`,
+                      );
+                    }}
+                  >
+                    <div className="leftBox">
+                      {data?.preQuotation?.member?.companyMemberAdditionalInfo
+                        ?.companyLogoImageUrl ? (
+                        <div className="imgBox">
+                          <Image
+                            src={
+                              data?.preQuotation?.member
+                                ?.companyMemberAdditionalInfo
+                                ?.companyLogoImageUrl
+                            }
+                            alt="logo"
+                            layout="fill"
+                          />
+                        </div>
+                      ) : (
+                        <NoImage2 />
+                      )}
+                      <span>
+                        <div className="companyName">
+                          {
+                            data?.preQuotation?.member
+                              ?.companyMemberAdditionalInfo?.companyName
                           }
-                          alt="logo"
-                          layout="fill"
-                        />
-                      </div>
-                    ) : (
-                      <NoImage2 />
-                    )}
-                    <span>
-                      <div className="companyName">
-                        {data?.member?.companyMemberAdditionalInfo?.companyName}
-                      </div>
-                      <div className="price">
-                        {' '}
-                        {PriceBasicCalculation(data.subscribePricePerMonth)
-                          ? `${PriceBasicCalculation(
-                              data.subscribePricePerMonth,
-                            )}원`
-                          : '무료'}
-                      </div>
-                    </span>
-                  </div>
+                        </div>
+                        <div className="price">
+                          {' '}
+                          {PriceBasicCalculation(
+                            data?.preQuotation?.subscribePricePerMonth,
+                          )
+                            ? `${PriceBasicCalculation(
+                                data?.preQuotation?.subscribePricePerMonth,
+                              )}원`
+                            : '무료'}
+                        </div>
+                      </span>
+                    </div>
 
-                  <Image src={arrow_icon} alt="arrow_icon" />
-                </li>
-              ))}
+                    <Image src={arrow_icon} alt="arrow_icon" />
+                  </li>
+                ),
+              )}
             </ul>
           </ProductList>
           <TwoButton
             onClcikModal={onClcikModal!}
-            id={data?.companyMemberAdditionalInfo?.memberIdx}
+            id={data?.member?.companyMemberAdditionalInfo?.memberIdx}
           />
         </LeftSection>
       )}
@@ -160,14 +186,15 @@ const BiddingQuote = ({
             <WebFinishedPhotoWrapper>
               <WebLeftPhotoBox>
                 <Image
-                  src={DataFilter ? DataFilter : '#'}
+                  src={
+                    newChargerImageFiles ? newChargerImageFiles[webIdx] : '#'
+                  }
                   alt="img-icon"
                   layout="fill"
                   priority={true}
                   unoptimized={true}
                   objectFit="contain"
                 />
-                {/* </div> */}
               </WebLeftPhotoBox>
               <WebRightPhotoWrapper>
                 {newChargerImageFiles?.map((item, idx) => (
@@ -196,12 +223,14 @@ const BiddingQuote = ({
 
             {/* 충전소 회사 정보 */}
             <ChareCompanyInfo>
-              {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+              {data?.member?.companyMemberAdditionalInfo
+                ?.companyLogoImageUrl !== null ? (
                 <ImageBox>
                   <Image
                     src={
-                      data?.companyMemberAdditionalInfo?.companyLogoImageUrl
-                        ? data?.companyMemberAdditionalInfo
+                      data?.member?.companyMemberAdditionalInfo
+                        ?.companyLogoImageUrl!
+                        ? data?.member?.companyMemberAdditionalInfo
                             ?.companyLogoImageUrl!
                         : '#'
                     }
@@ -217,14 +246,16 @@ const BiddingQuote = ({
                 <NoImage />
               )}
 
-              <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+              <Title>
+                {data?.member?.companyMemberAdditionalInfo?.companyName}
+              </Title>
               <WebList>
                 {/* 🍎 부분구독일경우 충전소 설치비 불러와야함 */}
                 {partSubscribe === 'PART' && (
                   <WebItem>
                     <span className="name">충전소 설치비</span>
                     <span className="value">{`${PriceBasicCalculation(
-                      data?.preQuotation?.chargingStationInstallationPrice!,
+                      data?.chargingStationInstallationPrice!,
                     )} 원`}</span>
                   </WebItem>
                 )}
@@ -232,7 +263,7 @@ const BiddingQuote = ({
                   <span className="name">월 구독료</span>
                   <span className="value">
                     {`${PriceBasicCalculation(
-                      data?.preQuotation?.subscribePricePerMonth!,
+                      data?.subscribePricePerMonth!,
                     )} 원`}
                   </span>
                 </WebItem>
@@ -250,37 +281,30 @@ const BiddingQuote = ({
                 <WebItem>
                   <span className="name">공사기간</span>
                   <span className="value">
-                    {data?.preQuotation?.constructionPeriod
-                      .toString()
+                    {data?.constructionPeriod
+                      ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     일
                   </span>
                 </WebItem>
                 {/* 🍎 충전기 제조사 1개 일 때 */}
-                {data?.preQuotation?.preQuotationChargers.length === 1 && (
+                {data?.preQuotationChargers?.length! === 1 && (
                   <>
                     <WebItem>
                       <span className="name">충전요금</span>
-                      {data?.preQuotation?.preQuotationChargers[0]
-                        ?.chargePriceType === 'PURCHASER_AUTONOMY' ? (
+                      {data?.preQuotationChargers[0]?.chargePriceType ===
+                      'PURCHASER_AUTONOMY' ? (
                         <span className="value">구매자 자율</span>
                       ) : (
                         <span className="value">
-                          {
-                            data?.preQuotation?.preQuotationChargers[0]
-                              .chargePrice
-                          }
-                          원 / kW
+                          {data?.preQuotationChargers[0].chargePrice}원 / kW
                         </span>
                       )}
                     </WebItem>
                     <WebItem>
                       <span className="name">충전기 제조사</span>
                       <span className="value">
-                        {
-                          data?.preQuotation?.preQuotationChargers[0]
-                            .manufacturer
-                        }
+                        {data?.preQuotationChargers[0].manufacturer}
                       </span>
                     </WebItem>
                   </>
@@ -293,11 +317,13 @@ const BiddingQuote = ({
         <>
           {mobile && (
             <>
-              {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+              {data?.member?.companyMemberAdditionalInfo
+                ?.companyLogoImageUrl !== '' ? (
                 <ImageBox>
                   <Image
                     src={
-                      data?.companyMemberAdditionalInfo?.companyLogoImageUrl!
+                      data?.member?.companyMemberAdditionalInfo
+                        ?.companyLogoImageUrl!
                     }
                     alt="icon"
                     priority={true}
@@ -309,14 +335,16 @@ const BiddingQuote = ({
               ) : (
                 <NoImage />
               )}
-              <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+              <Title>
+                {data?.member?.companyMemberAdditionalInfo?.companyName}
+              </Title>
               <List>
                 {/* 🍎 부분구독일 경우 충전소 설치비 데이터 불러와야함 */}
                 {partSubscribe === 'PART' && (
                   <Item>
                     <span className="name">충전소 설치비</span>
                     <span className="value">{`${PriceBasicCalculation(
-                      data?.preQuotation?.chargingStationInstallationPrice!,
+                      data?.chargingStationInstallationPrice!,
                     )} 원`}</span>
                   </Item>
                 )}
@@ -324,16 +352,12 @@ const BiddingQuote = ({
                   <span className="name">월 구독료</span>
                   <span className="value">
                     {`${PriceBasicCalculation(
-                      data?.preQuotation?.subscribePricePerMonth!,
+                      data?.subscribePricePerMonth!,
                     )} 원`}
                   </span>
                 </Item>
                 <Item>
                   <span className="name">수익지분</span>
-                  {/* <span className="value">
-                  {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
-                  %
-                </span> */}
                   {data?.quotationRequest?.quotationRequestChargers?.length! ===
                   homeSelect?.length! ? (
                     <span className="text">-</span>
@@ -346,7 +370,7 @@ const BiddingQuote = ({
                 <Item>
                   <span className="name">공사기간</span>
                   <span className="value">
-                    {data?.preQuotation?.constructionPeriod
+                    {data?.constructionPeriod
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     일
@@ -354,18 +378,14 @@ const BiddingQuote = ({
                 </Item>
                 {/* 🍎 충전기 제조사 1개 일 때 */}
                 {/* 🍎 구매자 자율이면 '구매자 자율'문자 반영 */}
-                {data?.preQuotation?.preQuotationChargers.length === 1 ? (
+                {data?.preQuotationChargers.length === 1 ? (
                   <>
                     <Item>
                       <span className="name">충전요금</span>
-                      {data?.preQuotation?.preQuotationChargers[0]
-                        .chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                      {data?.preQuotationChargers[0].chargePriceType !==
+                      'PURCHASER_AUTONOMY' ? (
                         <span className="value">
-                          {
-                            data?.preQuotation?.preQuotationChargers[0]
-                              .chargePrice
-                          }{' '}
-                          원 / kW
+                          {data?.preQuotationChargers[0].chargePrice} 원 / kW
                         </span>
                       ) : (
                         <span className="value">구매자 자율</span>
@@ -374,10 +394,7 @@ const BiddingQuote = ({
                     <Item>
                       <span className="name">충전기 제조사</span>
                       <span className="value">
-                        {
-                          data?.preQuotation?.preQuotationChargers[0]
-                            .manufacturer
-                        }
+                        {data?.preQuotationChargers[0].manufacturer}
                       </span>
                     </Item>
                   </>
@@ -388,7 +405,7 @@ const BiddingQuote = ({
                       <Subtitle>충전요금</Subtitle>
                       {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
                       {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                      {reverseNewArr?.map((item, index) => (
+                      {data?.preQuotationChargers?.map((item, index) => (
                         <MultiBox key={index}>
                           {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
                             <Item>
@@ -424,7 +441,7 @@ const BiddingQuote = ({
                       <Subtitle>충전기 제조사</Subtitle>
                       {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
                       {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                      {reverseNewArr?.map((item, index) => (
+                      {data?.preQuotationChargers?.map((item, index) => (
                         <MultiBox key={index}>
                           <Item>
                             <span className="name">
@@ -446,23 +463,23 @@ const BiddingQuote = ({
             </>
           )}
         </>
-        {data?.preQuotation?.preQuotationChargers !== undefined &&
-          data?.preQuotation?.preQuotationChargers.length > 1 && (
+        {data?.preQuotationChargers !== undefined &&
+          data?.preQuotationChargers.length > 1 && (
             <Line style={{ marginTop: '60pt' }} />
           )}
         <UnderInfo>
           {!mobile && (
             <>
               {/* 🍎 충전기 제조사 1개 일 때 */}
-              {data?.preQuotation?.preQuotationChargers !== undefined &&
-                data?.preQuotation?.preQuotationChargers.length > 1 && (
+              {data?.preQuotationChargers !== undefined &&
+                data?.preQuotationChargers.length > 1 && (
                   <>
                     {/* 🍎 충전기 제조사 2개 이상 일 때 */}
                     <Section pb={580.5}>
                       <Subtitle>충전요금</Subtitle>
                       {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
                       {/* 🍎 index 뒤집어져서 나오는 이슈가 있어서 여기는 map전에 reverse()해줌 이상있으면 바로 수정 / 여기 위치는 웹에서 오른쪽 상단박스 */}
-                      {reverseNewArr?.map((item, index) => (
+                      {data?.preQuotationChargers?.map((item, index) => (
                         <MultiBox key={index}>
                           {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
                             <FlexWrap>
@@ -503,7 +520,7 @@ const BiddingQuote = ({
                       <Subtitle>충전기 제조사</Subtitle>
                       {/* 🍎 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
                       {/* 🍎 여기도 역순으로 나오면 reverse() 해야함 */}
-                      {reverseNewArr?.map((item, index) => (
+                      {data?.preQuotationChargers?.map((item, index) => (
                         <MultiBox key={index}>
                           <FlexWrap>
                             <Label>
@@ -532,17 +549,15 @@ const BiddingQuote = ({
               <Label>구독 상품</Label>
               <FeaturesList>
                 {/* textarea 줄바꿈 */}
-                {data?.preQuotation?.subscribeProductFeature
-                  ?.split('\n')
-                  .map((line, idx) => (
-                    <li key={idx}>
-                      {line}
-                      <br />
-                    </li>
-                  ))}
+                {data?.subscribeProductFeature?.split('\n').map((line, idx) => (
+                  <li key={idx}>
+                    {line}
+                    <br />
+                  </li>
+                ))}
               </FeaturesList>
             </FlexWrap>
-            {reverseNewArr?.map((item, index) => (
+            {data?.preQuotationChargers?.map((item, index) => (
               <FlexWrap key={index}>
                 <Label>
                   {convertKo(
@@ -571,29 +586,31 @@ const BiddingQuote = ({
           <Section imgBox={true} length={true}>
             <Subtitle>충전기 이미지</Subtitle>
             <GridImg>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+              {data?.preQuotationChargers?.map((item, index) => (
                 <React.Fragment key={index}>
-                  {item.chargerImageFiles.map((img, index) => (
-                    <GridItem
-                      key={index}
-                      onClick={() => {
-                        initialSlideOnChange(index);
-                      }}
-                    >
-                      <Image
-                        src={img.url}
-                        alt="img-icon"
-                        layout="fill"
-                        priority={true}
-                        unoptimized={true}
-                        objectFit="cover"
-                        style={{ borderRadius: '6pt' }}
+                  {item.preQuotationFiles
+                    .filter((e) => e.productFileType === 'IMAGE')
+                    .map((img, index) => (
+                      <GridItem
+                        key={index}
                         onClick={() => {
-                          setOpenImgModal(!openImgModal);
+                          initialSlideOnChange(index);
                         }}
-                      />
-                    </GridItem>
-                  ))}
+                      >
+                        <Image
+                          src={img.url}
+                          alt="img-icon"
+                          layout="fill"
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
+                          style={{ borderRadius: '6pt' }}
+                          onClick={() => {
+                            setOpenImgModal(!openImgModal);
+                          }}
+                        />
+                      </GridItem>
+                    ))}
                 </React.Fragment>
               ))}
             </GridImg>
@@ -611,26 +628,32 @@ const BiddingQuote = ({
           <ChargeSection pb={pb}>
             <Subtitle>충전기 카탈로그</Subtitle>
             <FileContainer>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+              {data?.preQuotationChargers?.map((item, index) => (
                 <React.Fragment key={index}>
-                  {item.catalogFiles.map((file, index) => (
-                    <FileDownloadBtn key={index}>
-                      <FileDownload
-                        download={file.originalName}
-                        // href={file.url}
-                        onClick={() => {
-                          fileDownload(userAgent, file.originalName, file.url);
-                        }}
-                      >
-                        <Image
-                          src={fileImg}
-                          alt="file-icon"
-                          layout="intrinsic"
-                        />
-                        <FileName> {file.originalName}</FileName>
-                      </FileDownload>
-                    </FileDownloadBtn>
-                  ))}
+                  {item.preQuotationFiles
+                    .filter((e) => e.productFileType === 'CATALOG')
+                    .map((file, index) => (
+                      <FileDownloadBtn key={index}>
+                        <FileDownload
+                          download={file.originalName}
+                          // href={file.url}
+                          onClick={() => {
+                            fileDownload(
+                              userAgent,
+                              file.originalName,
+                              file.url,
+                            );
+                          }}
+                        >
+                          <Image
+                            src={fileImg}
+                            alt="file-icon"
+                            layout="intrinsic"
+                          />
+                          <FileName> {file.originalName}</FileName>
+                        </FileDownload>
+                      </FileDownloadBtn>
+                    ))}
                 </React.Fragment>
               ))}
             </FileContainer>
@@ -640,9 +663,11 @@ const BiddingQuote = ({
               {/* 담당자 정보 */}
               {isSpot && (
                 <ManagerInfo
-                  name={data?.preQuotation?.member?.name!}
-                  email={data?.companyMemberAdditionalInfo?.managerEmail!}
-                  phone={data?.preQuotation?.member?.phone!}
+                  name={data?.member?.name!}
+                  email={
+                    data?.member?.companyMemberAdditionalInfo?.managerEmail!
+                  }
+                  phone={data?.member?.phone!}
                 />
               )}
             </Section>
@@ -742,6 +767,9 @@ const ProductList = styled.div`
     padding-bottom: 16.5pt;
     padding-left: 12pt;
     padding-right: 19.125pt;
+  }
+  .target {
+    border: 0.75pt solid ${colors.main1};
   }
   .leftBox {
     display: flex;

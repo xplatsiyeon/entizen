@@ -62,6 +62,7 @@ export interface FinalQuotationChargers {
   manufacturer: string;
   productFeature: string;
   finalQuotationIdx: number;
+  finalQuotationChargerFiles: FinalQuotationDetailFiles[];
 }
 // 최종 견적 이미지 , 파일 , 사업자 등록증
 export interface FinalQuotationDetailFiles {
@@ -69,6 +70,7 @@ export interface FinalQuotationDetailFiles {
   updatedAt: string;
   deletedAt: string | null;
   finalQuotationDetailFileIdx: number;
+  productFileType: 'IMAGE' | 'CATALOG';
   originalName: string;
   url: string;
   size: number;
@@ -146,7 +148,7 @@ export interface QuotationStatusHistories {
   preQuotation: PreQuotation;
 }
 // 간편 견적
-export interface QuotationRequest {
+export interface QuotationRequestV1 {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -176,9 +178,9 @@ export interface QuotationRequest {
   badge: string;
 }
 // 간편 견적 응답
-export interface QuotationDataV1 {
+export interface QuotationDataV1Response {
   isSuccess: true;
-  quotationRequest: QuotationRequest;
+  quotationRequest: QuotationRequestV1;
 }
 
 export interface QuotationRequests {
@@ -232,7 +234,18 @@ export interface QuotationStatusHistory {
   quotationRequestIdx: number;
   preQuotationIdx: number;
 }
-
+// 가견적 파일들
+export interface preQuotationFiles {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  preQuotationFileIdx: number;
+  productFileType: 'IMAGE' | 'CATALOG';
+  originalName: string;
+  url: string;
+  size: number;
+  preQuotationChargerIdx: number;
+}
 // 가견적 충전기
 export interface PreQuotationChargers {
   createdAt: string;
@@ -245,53 +258,55 @@ export interface PreQuotationChargers {
   manufacturer: string;
   productFeature: string | null;
   preQuotationIdx: number;
-  preQuotationFiles: []; // 어떤 값 들어오는 지 확인 필요
+  preQuotationFiles: preQuotationFiles[];
 }
-// 가견적 상세 조회
-export interface preQuotation {
-  isSuccess: true;
-  preQuotation: {
+// 가견적 데이터
+export interface PreQuotationsV1 {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  preQuotationIdx: number;
+  chargingStationInstallationPrice: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string | null;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  quotationRequest: {
     createdAt: string;
     updatedAt: string;
-    deletedAt: string | null;
-    preQuotationIdx: number;
-    chargingStationInstallationPrice: number;
-    subscribePricePerMonth: number;
-    constructionPeriod: number;
-    subscribeProductFeature: string | null;
-    changedDate: string;
+    deletedAt: null;
     quotationRequestIdx: number;
+    quotationStatus: string;
+    changedDate: string;
+    subscribeProduct: string;
+    investRate: string;
+    subscribePeriod: number;
+    installationAddress: string;
+    installationAddressWithPoundSign: null | boolean;
+    installationLocation: string;
+    installationPurpose: string;
+    expiredAt: string;
+    etcRequest: string;
+    currentInProgressPreQuotationIdx: null | number;
+    closedStatusAtForCancel: null | boolean;
+    spotInspectionReceivedAtForCancel: null | boolean;
+    finalQuotationReceivedAtForCancel: null | boolean;
     memberIdx: number;
-    quotationRequest: {
-      createdAt: string;
-      updatedAt: string;
-      deletedAt: null;
-      quotationRequestIdx: number;
-      quotationStatus: string;
-      changedDate: string;
-      subscribeProduct: string;
-      investRate: string;
-      subscribePeriod: number;
-      installationAddress: string;
-      installationAddressWithPoundSign: null | boolean;
-      installationLocation: string;
-      installationPurpose: string;
-      expiredAt: string;
-      etcRequest: string;
-      currentInProgressPreQuotationIdx: null | number;
-      closedStatusAtForCancel: null | boolean;
-      spotInspectionReceivedAtForCancel: null | boolean;
-      finalQuotationReceivedAtForCancel: null | boolean;
-      memberIdx: number;
-      quotationRequestChargers: QuotationRequestChargers[];
-      member: UserMember;
-      quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
-    };
-    quotationStatusHistory: QuotationStatusHistory;
-    finalQuotation: FinalQuotation;
-    member: CompanyMember;
-    preQuotationChargers: PreQuotationChargers[];
-    badge: string;
-    maskingInstallationAddress: string;
+    quotationRequestChargers: QuotationRequestChargers[];
+    member: UserMember;
+    quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
   };
+  quotationStatusHistory: QuotationStatusHistory;
+  finalQuotation: FinalQuotation;
+  member: CompanyMember;
+  preQuotationChargers: PreQuotationChargers[];
+  badge: string;
+  maskingInstallationAddress: string;
+}
+// 가견적 상세 조회
+export interface preQuotationResPonse {
+  isSuccess: true;
+  preQuotation: PreQuotationsV1;
 }

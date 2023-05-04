@@ -17,10 +17,19 @@ import { CookiesProvider } from 'react-cookie';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const dispatch = useDispatch();
   const [queryClient] = useState(() => new QueryClient());
+
   const client = new ApolloClient({
     uri: `${process.env.NEXT_PUBLIC_BASE_URL}/graphql`,
     cache: new InMemoryCache(),
   });
+
+  queryClient.defaultQueryOptions({
+    retry: 0,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    suspense: true,
+  });
+
   // 에러 캐싱 방지 (테스트 필요)
   useEffect(() => {
     const errorsKeys = queryClient

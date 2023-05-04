@@ -1,20 +1,17 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import arrow from 'public/images/right-arrow.svg';
-
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PreQuotations } from 'pages/mypage/request';
-import {
-  PriceBasicCalculation,
-  PriceCalculation,
-} from 'utils/calculatePackage';
+import { PriceBasicCalculation } from 'utils/calculatePackage';
 import { useQuery } from 'react-query';
 import { UserInfo } from 'pages/mypage';
 import { isTokenGetApi } from 'api';
 import { Dispatch, SetStateAction } from 'react';
+import { QuotationRequestV1, QuotationStatusHistories } from 'types/quotation';
 type Props = {
-  data: PreQuotations[];
+  data: QuotationRequestV1;
+
   setIsFinalItmeIndex: Dispatch<SetStateAction<number>>;
 };
 const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
@@ -26,17 +23,17 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
-  const onClickCompany = (company: PreQuotations, index: number) => {
+  const onClickCompany = (item: QuotationStatusHistories, index: number) => {
     // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
 
-    if (company?.finalQuotation) {
+    if (item?.preQuotation?.finalQuotation) {
       // console.log('최종견적 있다');
       setIsFinalItmeIndex(index);
     } else {
       route.push({
         pathname: '/mypage/request/detail',
         query: {
-          preQuotationIdx: company.preQuotationIdx,
+          preQuotationIdx: item.preQuotationIdx,
         },
       });
     }
@@ -53,27 +50,30 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
     <Wrapper>
       <H1>
         {userData?.name}님, <br /> 총{' '}
-        <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
-        도착했습니다.
+        <span className="accent">
+          {data ? data?.quotationStatusHistories?.length : 0}개
+        </span>
+        의 구독상품이 도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {data?.map((company, index) => (
+        {data?.quotationStatusHistories.map((item, index) => (
           <GridItem
-            isFailed={company?.finalQuotation ? true : false}
+            isFailed={item?.preQuotation?.finalQuotation ? true : false}
             key={index}
-            onClick={() => onClickCompany(company, index)}
+            onClick={() => onClickCompany(item, index)}
           >
-            {company?.member?.companyMemberAdditionalInfo
-              ?.companyLogoImageUrl !== '' ? (
+            {item?.preQuotation?.member?.companyMemberAdditionalInfo
+              ?.companyLogoImageUrl !== null ? (
               <div className="img-box">
                 <Image
                   src={
-                    company?.member?.companyMemberAdditionalInfo
+                    item?.preQuotation?.member?.companyMemberAdditionalInfo
                       ?.companyLogoImageUrl
                   }
                   alt={
-                    company?.member?.companyMemberAdditionalInfo?.companyName
+                    item?.preQuotation.member?.companyMemberAdditionalInfo
+                      ?.companyName
                   }
                   priority={true}
                   unoptimized={true}
@@ -85,12 +85,21 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
               <NoImage />
             )}
 
-            <h2>{company?.member?.companyMemberAdditionalInfo?.companyName}</h2>
+            <h2>
+              {
+                item?.preQuotation?.member?.companyMemberAdditionalInfo
+                  ?.companyName
+              }
+            </h2>
             <p>구독료</p>
             <PriceBox>
               <h1>
-                {PriceBasicCalculation(company.subscribePricePerMonth)
-                  ? `${PriceBasicCalculation(company.subscribePricePerMonth)}원`
+                {PriceBasicCalculation(
+                  item?.preQuotation?.subscribePricePerMonth,
+                )
+                  ? `${PriceBasicCalculation(
+                      item?.preQuotation?.subscribePricePerMonth,
+                    )}원`
                   : '무료'}
               </h1>
               <div>

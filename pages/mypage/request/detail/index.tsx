@@ -2,7 +2,6 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import TwoButton from 'components/mypage/request/TwoButton';
-import RequestModal from 'components/Modal/RequestModal';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import styled from '@emotion/styled';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -18,7 +17,12 @@ import {
   SpotDataResponse,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 import RequestDetailModal from 'components/Modal/RequestDetailModal';
-import { QuotationRequestsResponse } from '..';
+import {
+  preQuotationResPonse,
+  PreQuotationsV1,
+  QuotationDataV1Response,
+  QuotationRequestV1,
+} from 'types/quotation';
 export interface PreQuotationChargers {
   createdAt: string;
   preQuotationChargerIdx: number;
@@ -114,40 +118,52 @@ export interface PreQuotationResponse {
   quotationRequest: QuotationRequest;
 }
 
-const TAG = 'page/mypage/request/detail/[id].tsx';
 const MypageDetail = () => {
   const [isModal, setModal] = useState(false);
   const router = useRouter();
   const routerId = router?.query?.preQuotationIdx;
   const handleOnClick = () => router.back();
 
-  // ---------  가견적 상세조회 api -----------
-  const { data, isLoading, isError, error } = useQuery<
-    PreQuotationResponse,
-    AxiosError
-  >('pre-quotation', () => isTokenGetApi(`/quotations/pre/${routerId}`), {
-    enabled: router.isReady,
-    // enabled: false,
-  });
-
-  // ----------- 구매자 내견적 상세 조회 API ------------
-  const { data: quotationsData, refetch } = useQuery<QuotationRequestsResponse>(
-    'mypage-request-id',
-    () =>
-      isTokenGetApi(
-        `/quotations/request/${data?.quotationRequest?.quotationRequestIdx}`,
-      ),
+  // ---------  가견적 상세조회 API (v1) -----------
+  const {
+    data: preQuotationsData,
+    isLoading: preQuotationsLoading,
+    isError: preQuotationsError,
+  } = useQuery<preQuotationResPonse, AxiosError, PreQuotationsV1>(
+    'v1/pre-quotations',
+    () => isTokenGetApi(`/v1/pre-quotations/${routerId}`),
     {
-      enabled: router.isReady && data ? true : false,
-      // enabled: false,
+      select(data) {
+        return data.preQuotation;
+      },
+      enabled: router.isReady,
+      retry: 0,
     },
   );
 
-  console.log('🔥 data : ', data);
+  // ==================== 간편 견적 조회 V1 ====================
+  const {
+    data: quotationDataV1,
+    isError: quotationErrorV1,
+    isLoading: quotationLoadingV1,
+    refetch: quotationRefresh,
+  } = useQuery<QuotationDataV1Response, AxiosError, QuotationRequestV1>(
+    'v1/quotation-requests',
+    () =>
+      isTokenGetApi(
+        `/v1/quotation-requests/${preQuotationsData?.quotationRequest?.quotationRequestIdx}`,
+      ),
+    {
+      enabled: router.isReady && preQuotationsData ? true : false,
+      select(data) {
+        return data.quotationRequest;
+      },
+    },
+  );
 
   // 모달창에 넘겨 줄 기업이름
-  const ModalCompany = data?.companyMemberAdditionalInfo?.companyName;
-
+  const ModalCompany =
+    preQuotationsData?.member?.companyMemberAdditionalInfo?.companyName;
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -159,13 +175,12 @@ const MypageDetail = () => {
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
     {
       enabled: router.isReady,
-      // enabled: false,
     },
   );
   // 모달 컨트롤
   const onClcikModal = () => setModal((prev) => !prev);
+
   const rightControl = () =>
-    // router.push(`/mypage/request/detail/${routerId}/calendar`);
     router.push({
       pathname: `/mypage/request/detail/calendar`,
       query: {
@@ -173,11 +188,11 @@ const MypageDetail = () => {
       },
     });
 
-  if (isError && spotIsError) {
+  if (preQuotationsError && spotIsError) {
     // console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
     // console.log(error);
   }
-  if (isLoading && spotLoading) {
+  if (preQuotationsLoading && spotLoading) {
     return <Loader />;
   }
   // console.log(TAG + '🔥 ~line 95 현장실사 데이터 api 로그');
@@ -199,6 +214,7 @@ const MypageDetail = () => {
               rightControl={rightControl}
             />
           )}
+          {/* 헤더 */}
           <MypageHeader
             title="상세내용"
             exitBtn={true}
@@ -206,16 +222,19 @@ const MypageDetail = () => {
           />
           {/* 담당자 정보 */}
           <BiddingQuote
-            quotationsData={quotationsData!}
+            quotationNewData={quotationDataV1!}
             pb={0}
-            data={data!}
+            data={preQuotationsData!}
             onClcikModal={onClcikModal}
           />
 
           <WebHide>
             <TwoButton
               onClcikModal={onClcikModal}
-              id={data?.companyMemberAdditionalInfo?.memberIdx!}
+              id={
+                preQuotationsData?.member?.companyMemberAdditionalInfo
+                  ?.memberIdx!
+              }
             />
           </WebHide>
         </Wrapper>

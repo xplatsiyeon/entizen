@@ -11,7 +11,6 @@ import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
-import Modal from 'components/Modal/Modal';
 import { FinalQuotations, PreQuotationResponse } from './detail';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
@@ -31,7 +30,12 @@ import { redirectAction } from 'store/redirectUrlSlice';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
-import { QuotationDataV1, QuotationRequest } from 'types/quotation';
+import {
+  preQuotationResPonse,
+  PreQuotationsV1,
+  QuotationDataV1Response,
+  QuotationRequestV1,
+} from 'types/quotation';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -117,59 +121,41 @@ const Mypage1_3 = ({}: any) => {
   const [modalMessage, setModalMessage] = useState('');
   const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
 
+  // ---------  가견적 상세조회 API (v1) -----------
+  const {
+    data: preQuotationsData,
+    isLoading: preQuotationsLoading,
+    isError: preQuotationsError,
+  } = useQuery<preQuotationResPonse, AxiosError, PreQuotationsV1>(
+    'v1/pre-quotations',
+    () => isTokenGetApi(`/v1/pre-quotations/${routerId}`),
+    {
+      select(data) {
+        return data.preQuotation;
+      },
+      enabled: router.isReady,
+      retry: 0,
+    },
+  );
+
   // ==================== 간편 견적 조회 V1 ====================
   const {
     data: quotationDataV1,
     isError: quotationErrorV1,
     isLoading: quotationLoadingV1,
     refetch: quotationRefresh,
-  } = useQuery<QuotationDataV1, AxiosError, QuotationRequest>(
+  } = useQuery<QuotationDataV1Response, AxiosError, QuotationRequestV1>(
     'v1/quotation-requests',
     () =>
       isTokenGetApi(
         `/v1/quotation-requests/${router?.query?.quotationRequestIdx}`,
       ),
     {
-      enabled: router.isReady,
+      enabled:
+        router.isReady && router?.query?.quotationRequestIdx ? true : false,
       select(data) {
         return data.quotationRequest;
       },
-    },
-  );
-
-  //----------- 구매자 내견적 상세 조회 API ------------
-  const { data, isError, isLoading, refetch } =
-    useQuery<QuotationRequestsResponse>(
-      'mypage-request-id',
-      () => isTokenGetApi(`/quotations/request/${routerId}`),
-      {
-        enabled: router.isReady,
-        // enabled: false,
-      },
-    );
-
-  console.log(
-    '🔥 data : ',
-    data?.quotationRequest.hasCurrentInProgressPreQuotationIdx,
-  );
-
-  // ---------  가견적 상세조회 api -----------
-  const {
-    data: quotationData,
-    isLoading: quotationLoading,
-    isError: quotationError,
-    refetch: quotationRefetch,
-    error,
-  } = useQuery<PreQuotationResponse, AxiosError>(
-    'pre-quotation',
-    () =>
-      isTokenGetApi(
-        `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-      ),
-    {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
     },
   );
 
@@ -184,12 +170,10 @@ const Mypage1_3 = ({}: any) => {
     'spot-inspection',
     () =>
       isTokenGetApi(
-        `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
+        `/quotations/pre/${preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
+      enabled: quotationDataV1?.hasCurrentInProgressPreQuotationIdx === true,
     },
   );
 
@@ -205,18 +189,20 @@ const Mypage1_3 = ({}: any) => {
 
   // 견적취소 버튼 체크
   const cencleBtnCheck =
-    data?.badge === '견적취소' || data?.badge === '낙찰성공' ? false : true;
+    quotationDataV1?.badge === '견적취소' ||
+    quotationDataV1?.badge === '낙찰성공'
+      ? false
+      : true;
 
   // ----------- 다른 파트너 선정 patch api -----------
   const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
         setPartnerModal(false);
-        refetch();
+        // refetch();
         setIsFinalItmeIndex(-1);
       },
       onError: (error: any) => {
-        // console.log('다른 파트너 선정 patch error');
         console.log(error);
       },
     });
@@ -271,7 +257,7 @@ const Mypage1_3 = ({}: any) => {
    * 다른 파트너 선정 api 호출 함수
    */
   const onClickOtherPartnerModal = () => {
-    const { currentInProgressPreQuotationIdx } = data?.quotationRequest!;
+    const { currentInProgressPreQuotationIdx } = quotationDataV1!;
 
     if (currentInProgressPreQuotationIdx) {
       otherPatchMutate({
@@ -285,10 +271,11 @@ const Mypage1_3 = ({}: any) => {
   /**
    * 최종견적 낙찰 확정 api 호출 함수
    */
-  const finalItme = data?.preQuotations?.filter(
+  const finalItme = quotationDataV1?.quotationStatusHistories?.filter(
     (e) => e.quotationRequestIdx === Number(routerId),
   )[isFinalItmeIndex];
-  const finalIndex = finalItme?.finalQuotation?.finalQuotationIdx!;
+  const finalIndex =
+    finalItme?.preQuotation?.finalQuotation?.finalQuotationIdx!;
 
   const onClickConfirmModal = async () => {
     confirmPatchMutate({
@@ -316,27 +303,27 @@ const Mypage1_3 = ({}: any) => {
 
   useEffect(() => {
     if (routerId && router.isReady) {
-      // console.log('refetch');
       console.log('⭐️ refrech check');
-      refetch();
-      // spotRetch();
+      // refetch();
     }
   }, [router]);
 
+  const currentInProgressPreQuotationIdx =
+    preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx;
   useEffect(() => {
-    if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
-      quotationRefetch();
+    if (currentInProgressPreQuotationIdx) {
+      // quotationRefetch();
     }
-  }, [data?.quotationRequest?.currentInProgressPreQuotationIdx]);
+  }, [currentInProgressPreQuotationIdx]);
 
   useLayoutEffect(() => {
-    const currentInProgressPreQuotationIdx =
-      data?.quotationRequest?.currentInProgressPreQuotationIdx!;
     const hasCurrentInProgressPreQuotationIdx =
-      data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx!;
+      quotationDataV1?.hasCurrentInProgressPreQuotationIdx!;
     if (hasCurrentInProgressPreQuotationIdx) {
-      data?.preQuotations?.forEach((preQuotation, index) => {
-        const preQuotationIdx = preQuotation?.finalQuotation?.preQuotationIdx!;
+      quotationDataV1.quotationStatusHistories?.forEach((data, index) => {
+        const preQuotationIdx =
+          data?.preQuotation?.finalQuotation?.preQuotationIdx!;
+
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
           setIsFinalItmeIndex(index);
         }
@@ -344,19 +331,20 @@ const Mypage1_3 = ({}: any) => {
     } else {
       setIsFinalItmeIndex(-1);
     }
-  }, [data]);
-
-  useEffect(() => {
-    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
-      refetch();
-      quotationRefetch();
-      // spotRetch();
-    }
-  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
-
-  useEffect(() => {
-    console.log('quotationDataV1 : ', quotationDataV1);
   }, [quotationDataV1]);
+
+  useEffect(() => {
+    if (
+      routerId &&
+      preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx
+    ) {
+      // refetch();
+      // quotationRefetch();
+    }
+  }, [
+    routerId,
+    preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx,
+  ]);
 
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
@@ -411,7 +399,7 @@ const Mypage1_3 = ({}: any) => {
                   handleBackClick={handleBackOnClick}
                 />
                 {/*================================== 상단 박스 ==================================*/}
-                <EstimateContainer data={data!} />
+                <EstimateContainer data={quotationDataV1!} />
                 {cencleBtnCheck && (
                   <CancelButton handleOnClick={handleOnClick} />
                 )}
@@ -420,13 +408,13 @@ const Mypage1_3 = ({}: any) => {
                 </DownArrowBox>
 
                 {/* 현장실사 해당 기업 상세 페이지 */}
-                {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx &&
+                {!quotationDataV1?.hasCurrentInProgressPreQuotationIdx &&
                 isFinalItmeIndex === -1 ? (
                   // ================================== 구독 상품 리스트 (가견적 작성 회사) ==================================
                   <React.Fragment>
                     {/* 구독 상품 리스트 */}
                     <SubscriptionProduct
-                      data={data?.preQuotations!}
+                      data={quotationDataV1!}
                       setIsFinalItmeIndex={setIsFinalItmeIndex}
                     />
                     {/* 엔티즌 소통하기 */}
@@ -443,14 +431,14 @@ const Mypage1_3 = ({}: any) => {
                   <>
                     {/* ============================= 상태에 따라 안내문 변경 ============================ */}
                     {/* 최종견적이 없고 */}
-                    {quotationData?.preQuotation?.finalQuotation === null &&
-                    data?.badge !== '최종견적 대기 중' ? (
+                    {preQuotationsData?.finalQuotation === null &&
+                    quotationDataV1?.badge !== '최종견적 대기 중' ? (
                       // 변경 데이터가 있고, 확정이 아니라면
                       spotInspection !== null && spotInspection?.isConfirmed ? (
                         <ScheduleConfirm
                           date={spotInspection?.spotInspectionDate[0]}
                           spotId={
-                            data?.quotationRequest
+                            preQuotationsData?.quotationRequest
                               ?.currentInProgressPreQuotationIdx!
                           }
                           routerId={routerId}
@@ -460,8 +448,7 @@ const Mypage1_3 = ({}: any) => {
                         spotInspection?.isNewPropose ? (
                         <ScheduleChange
                           spotId={
-                            data?.quotationRequest
-                              ?.currentInProgressPreQuotationIdx!
+                            quotationDataV1?.currentInProgressPreQuotationIdx!
                           }
                           routerId={routerId}
                         />
@@ -484,7 +471,11 @@ const Mypage1_3 = ({}: any) => {
                       <>
                         {/* --------------------최종견적 상세 내용--------------------------*/}
                         <FinalQuotation
-                          data={data?.preQuotations![isFinalItmeIndex]!}
+                          data={
+                            quotationDataV1?.quotationStatusHistories[
+                              isFinalItmeIndex
+                            ]!
+                          }
                           isFinalItmeIndex={isFinalItmeIndex}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
@@ -492,8 +483,8 @@ const Mypage1_3 = ({}: any) => {
                           <CommunicationBox
                             text="파트너와 소통하기"
                             id={
-                              quotationData?.companyMemberAdditionalInfo
-                                ?.memberIdx
+                              preQuotationsData?.member
+                                ?.companyMemberAdditionalInfo?.memberIdx
                             }
                           />
                         </TextBox>
@@ -516,7 +507,7 @@ const Mypage1_3 = ({}: any) => {
                               onClick={() =>
                                 onClickConfirm(
                                   1,
-                                  `${finalItme?.member
+                                  `${finalItme?.preQuotation?.member
                                     ?.companyMemberAdditionalInfo
                                     ?.companyName!}로\n확정하시겠습니까?`,
                                 )
@@ -534,15 +525,15 @@ const Mypage1_3 = ({}: any) => {
                         {/* ----------------------가견적------------------------- */}
                         <SendTextTitle>보낸 가견적서</SendTextTitle>
                         <BiddingQuote
-                          data={quotationData!}
+                          data={preQuotationsData!}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
                         <TextBox>
                           <CommunicationBox
                             text="파트너와 소통하기"
                             id={
-                              quotationData?.companyMemberAdditionalInfo
-                                ?.memberIdx
+                              preQuotationsData?.member
+                                ?.companyMemberAdditionalInfo?.memberIdx
                             }
                           />
                         </TextBox>
