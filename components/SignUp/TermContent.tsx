@@ -194,14 +194,12 @@ const TermContent = ({
     type: termsType,
   ) => {
     e.stopPropagation();
-    if (mobile) {
-      setIsTermsModal(true);
-      setTermsModalType(type);
-    } else {
-      type === 'terms'
-        ? TermsofServiceHandler(e, 3)
-        : TermsofServiceHandler(e, 4);
+    if (document) {
+      document.body.style.overflow = 'hidden';
     }
+
+    setIsTermsModal(true);
+    setTermsModalType(type);
   };
 
   // 데이터 GET
@@ -259,10 +257,10 @@ const TermContent = ({
   }, []);
 
   return (
-    <>
+    <Wrap>
       {isModal && <Modal text={modalMessage} click={onClickModal} />}
       {!mobile && <Notice variant="h3">엔티즌 약관에 동의해주세요</Notice>}
-      {mobile && isTermsModal && (
+      {isTermsModal && (
         <TermsModal
           userType={userType}
           termsModalType={termsModalType}
@@ -382,10 +380,11 @@ const TermContent = ({
           isClick={nextBtn}
         />
       )}
-    </>
+    </Wrap>
   );
 };
 
+const Wrap = styled.div``;
 const Notice = styled(Typography)`
   margin-top: 6pt;
   font-weight: 700;

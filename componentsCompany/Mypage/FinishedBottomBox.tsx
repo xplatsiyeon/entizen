@@ -89,12 +89,8 @@ const FinishedBottomBox = ({ data }: Props) => {
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
-        <BiggerText>현장실사 결과</BiggerText>
-        <Contents>
-          <p className="contents">
-            {data?.finalQuotation?.spotInspectionResult}
-          </p>
-        </Contents>
+
+        {/* 고객 정보 */}
         <BiggerText>고객 정보</BiggerText>
         <Contents>
           <div className="text-box">
@@ -108,6 +104,14 @@ const FinishedBottomBox = ({ data }: Props) => {
             </a>
             <span className="webPhone">{callPhone}</span>
           </div>
+        </Contents>
+
+        {/* 현장실사 결과 */}
+        <BiggerText>현장실사 결과</BiggerText>
+        <Contents>
+          <p className="contents">
+            {data?.finalQuotation?.spotInspectionResult}
+          </p>
         </Contents>
         {/* 첨부 파일 */}
         <BiggerText className="catalog">첨부 파일</BiggerText>

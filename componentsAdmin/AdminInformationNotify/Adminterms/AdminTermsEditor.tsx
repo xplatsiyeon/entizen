@@ -36,8 +36,8 @@ export const dropDownValueEn = [
 export const dropDownValue = [
   '고객 이용 약관',
   '파트너 이용 약관',
-  '위치 정보 동의 약관',
   '개인 정보 동의 약관',
+  '위치 정보 동의 약관',
 ];
 
 export interface TermsUpdate {
@@ -50,7 +50,8 @@ const AdminTermsEditor = ({
   detatilId,
   setChangeNumber,
 }: Props) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
+
   // 공지사항 등록, 수정시 refetch
   // 리스트 페이지 데이터 불러오는 api 임
   const { data: termsList, refetch: termsListRefetch } =
@@ -64,7 +65,12 @@ const AdminTermsEditor = ({
   const [messageModal, setMessageModal] = useState<boolean>(false);
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
-  const { data, isLoading, isError, refetch } = useQuery<TermsUpdate>(
+  const {
+    data: termsDetailData,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<TermsUpdate>(
     'adminTermsDetail',
     () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
     {
@@ -74,11 +80,15 @@ const AdminTermsEditor = ({
     },
   );
 
+  const [dropDownState, setDropDownState] = useState<string[]>([
+    ...dropDownValue,
+  ]);
+
   const editorImgRef = useRef<any>(null);
   // 이미지 set
   const [editorImg, setEditorImg] = useState<any>();
   // 본문 초기값
-  const firstContent = data?.data?.content;
+  const firstContent = termsDetailData?.data?.content;
   // 본문
   const [bodyText, setBodyText] = useState<string>('');
   // 약관 타입
@@ -143,6 +153,8 @@ const AdminTermsEditor = ({
   const modalPostBtnControll = () => {
     const type = dropDownValueEn[selctValueEn];
 
+    console.log('🔥 type : ', type);
+    // return;
     if (bodyText && type) {
       if (detatilId === '') {
         postMutate({
@@ -164,7 +176,9 @@ const AdminTermsEditor = ({
       modifiedMutate({
         url: `/admin/terms/${detatilId}`,
         data: {
-          type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
+          type: selectValue
+            ? dropDownValueEn[selctValueEn]
+            : termsDetailData?.data?.type,
           content: bodyText,
         },
       });
@@ -181,7 +195,7 @@ const AdminTermsEditor = ({
     isError: patchError,
   } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('user-mypage');
+      queryClient.invalidateQueries('user-mypage');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
@@ -238,16 +252,41 @@ const AdminTermsEditor = ({
     e.target.value = '';
   };
 
-  useEffect(() => {}, [data]);
+  useEffect(() => {}, [termsDetailData]);
 
+  // 약관 중복 제거
+  const deleteTerms = (temp: string[], target: string) => {
+    const index = temp.indexOf(target);
+    temp.splice(index, 1);
+  };
+  // 수정 및 등록
   useEffect(() => {
     setSelctValueEn(dropDownValue.indexOf(selectValue));
-    if (data !== undefined) {
-      setSelctValueKr(dropDownValueEn.indexOf(data?.data?.type));
+    if (termsDetailData !== undefined) {
+      setSelctValueKr(dropDownValueEn.indexOf(termsDetailData?.data?.type));
     } else {
       setSelctValueKr(0);
+      // const temp: string[] = [...dropDownValue];
+      // termsList?.data.terms.forEach((list) => {
+      //   switch (list.type) {
+      //     case 'PERSONAL_INFO': // 개인약관
+      //       deleteTerms(temp, '개인 정보 동의 약관');
+      //       break;
+      //     case 'LOCATION': // 위치정보
+      //       deleteTerms(temp, '위치 정보 동의 약관');
+      //       break;
+      //     case 'SERVICE_FOR_COMPANY': // 파트너
+      //       deleteTerms(temp, '파트너 이용 약관');
+      //       break;
+      //     case 'SERVICE_FOR_USER': // 고객
+      //       deleteTerms(temp, '고객 이용 약관');
+      //       break;
+      //   }
+      // });
+
+      // setDropDownState([...temp]);
     }
-  }, [selctValueEn, selctValueKr, selectValue, data]);
+  }, [selctValueEn, selctValueKr, selectValue, termsDetailData]);
 
   console.log('bodyText🖤💔💖💝', bodyText);
 
@@ -287,7 +326,7 @@ const AdminTermsEditor = ({
           <SubText>약관 등록</SubText>
           <TitleContainer>
             <DropDownBtn
-              dropDownValue={dropDownValue}
+              dropDownValue={dropDownState}
               setSelectValue={setSelectValue}
               selectValue={selectValue}
               currentStep={dropDownValue[selctValueKr]}

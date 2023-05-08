@@ -7,6 +7,7 @@ import ExitImg from 'public/images/X.svg';
 import { useQuery } from 'react-query';
 import { getApi } from 'api';
 import { termsType } from 'components/SignUp/TermContent';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   setIsTermsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,16 +21,9 @@ export default function TermsModal({
   userType,
 }: Props) {
   const outside = useRef();
-
-  const handleModalClose = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  ) => {
-    if (outside) {
-      if (outside.current === e.target) {
-        setIsTermsModal(false);
-      }
-    }
-  };
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   // 유저 약관동의
   const { data: userTerm } = useQuery<any>('user-term', () =>
@@ -43,38 +37,57 @@ export default function TermsModal({
   const { data: personalInfo } = useQuery<any>('personal-info', () =>
     getApi(`/terms/personal-info`),
   );
-
-  const onClickBtn = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const closeModal = () => {
+    if (document) {
+      document.body.style.overflow = 'unset';
+    }
     setIsTermsModal(false);
   };
-
-  const onClickClose = () => {
-    setIsTermsModal(false);
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside) {
+      if (outside.current === e.target) {
+        closeModal();
+      }
+    }
+  };
+  const onClickBtn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    closeModal();
   };
 
   return (
     <ModalWrapper ref={outside} onClick={handleModalClose}>
       <ModalBox onSubmit={onClickBtn}>
         <ModalHeader>
-          <span className="exit_icon" onClick={onClickClose}>
+          <span className="exit_icon" onClick={closeModal}>
             <Image src={ExitImg} alt="exit" layout="fill" />
           </span>
           <span>
-            {termsModalType === 'terms' ? '이용약관' : '개인정보 처리방침'}
+            {mobile
+              ? termsModalType === 'terms'
+                ? '이용약관'
+                : '개인정보 처리방침'
+              : ''}
+            {!mobile
+              ? termsModalType === 'terms'
+                ? '엔티즌 플랫폼 서비스 이용약관'
+                : '개인정보 처리방침'
+              : ''}
           </span>
-          <span className="none"></span>
+          {/* <span className="none"></span> */}
         </ModalHeader>
+
         <Wrapper>
           {termsModalType === 'terms' ? (
             userType && userType === 1 ? (
-              <div dangerouslySetInnerHTML={{ __html: companyTerm }} />
+              <p dangerouslySetInnerHTML={{ __html: companyTerm }} />
             ) : (
-              <div dangerouslySetInnerHTML={{ __html: userTerm }} />
+              <p dangerouslySetInnerHTML={{ __html: userTerm }} />
             )
           ) : (
-            // <div dangerouslySetInnerHTML={{ __html: userTerm }} />
-            <div dangerouslySetInnerHTML={{ __html: personalInfo }} />
+            <p dangerouslySetInnerHTML={{ __html: personalInfo }} />
           )}
         </Wrapper>
       </ModalBox>
@@ -98,25 +111,39 @@ const ModalBox = styled.form`
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 100%;
   transform: translate(-50%, -50%);
   align-items: center;
   border-radius: 20pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
   background-color: ${colors.lightWhite};
-
-  top: 75pt;
+  top: 200pt;
+  /* top: 0 */
   left: auto;
   transform: none;
-  height: 100%;
-  border-radius: 20pt 20pt 0 0;
+  border-radius: 20pt;
   overflow-y: scroll;
+
+  padding-left: 47.25pt;
+  padding-right: 27pt;
+  padding-bottom: 15pt;
+  width: 345pt;
+  height: 498pt;
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+  @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+    border-radius: 20pt 20pt 0 0;
+    top: 75pt;
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const ModalHeader = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
@@ -125,7 +152,7 @@ const ModalHeader = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 700;
-  font-size: 12pt;
+  font-size: 15pt;
   line-height: 18pt;
   text-align: center;
   letter-spacing: -0.02em;
@@ -135,11 +162,20 @@ const ModalHeader = styled.div`
   padding-top: 24pt;
   padding-bottom: 30pt;
   .exit_icon {
-    position: absolute;
-    top: 24pt;
-    left: 0pt;
+    position: relative;
+    cursor: pointer;
     width: 18pt;
     height: 18pt;
+  }
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    justify-content: center;
+    flex-direction: row;
+    .exit_icon {
+      position: absolute;
+      top: 24pt;
+      left: 0pt;
+    }
   }
 `;
 

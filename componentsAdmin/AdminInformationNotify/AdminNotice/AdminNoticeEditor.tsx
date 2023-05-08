@@ -435,53 +435,6 @@ const MainTextArea = styled.textarea`
   margin-bottom: 8px;
 `;
 
-const ImgWrapper = styled.div`
-  display: flex;
-  width: 964px;
-  height: 130px;
-  border: 1px solid #e2e5ed;
-  padding: 14px 11px;
-  margin-bottom: 8px;
-`;
-
-const AddImgText = styled.div`
-  ${smallText}
-  margin-bottom: 8px;
-`;
-
-const AddImg = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  border-right: 1px solid #e2e5ed;
-  padding-right: 40px;
-`;
-
-const ImgSpanBox = styled.div`
-  height: auto;
-  width: 800px;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ImgSpan = styled.div`
-  position: relative;
-  width: 140px;
-  height: 104px;
-  border-radius: 4px;
-  border: 0.75pt solid #e2e5ed;
-  & > span > img {
-    border-radius: 4px;
-  }
-`;
-
-const Xbox = styled.div`
-  position: absolute;
-  top: -7pt;
-  right: -7pt;
-  cursor: pointer;
-`;
-
 const BtnBox = styled.div`
   display: flex;
   gap: 8px;

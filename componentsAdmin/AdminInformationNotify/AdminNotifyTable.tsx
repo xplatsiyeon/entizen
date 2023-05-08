@@ -6,7 +6,7 @@ import { isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { AdminTermsListResponse } from 'types/tableDataType';
 import { dateFomat } from 'utils/calculatePackage';
-import { dropDownValueEn, dropDownValue } from './Adminterms/AdminTermsEditor';
+import { dropDownValue, dropDownValueEn } from './Adminterms/AdminTermsEditor';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,8 +50,8 @@ const AdminNotifyTable = ({
   
 
   */
-  // // 약관 리스트
-  // // /admin/terms
+  // 약관 리스트
+  // /admin/terms
   const {
     data: termsList,
     refetch: termsListRefetch,

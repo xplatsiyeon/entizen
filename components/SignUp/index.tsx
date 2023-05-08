@@ -346,7 +346,7 @@ const SignUpContainer = (props: Props) => {
 
 const Wrapper = styled.div`
   padding-left: 15pt;
-  padding-right: 15pt;
+  padding-right: 15pt; ;
 `;
 
 export default SignUpContainer;
