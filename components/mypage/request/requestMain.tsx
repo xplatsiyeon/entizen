@@ -6,10 +6,7 @@ import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import { useRef } from 'react';
-import AsIndex from '../as';
 import Estimate from './estimate';
-import MyProjects from '../projects/MyProjects';
-import Charging from '../place/Charging';
 import { UserInfo } from 'pages/mypage';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
@@ -87,7 +84,6 @@ const RequestMain = (props: props) => {
     <Wrapper
       ref={myPageIndex}
       onClick={() => {
-        // if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
         if (myPageIndex.current && !on)
           myPageIndex.current.style.height = 'auto';
       }}

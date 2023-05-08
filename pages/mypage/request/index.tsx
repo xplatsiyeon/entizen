@@ -11,7 +11,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
-import { FinalQuotations, PreQuotationResponse } from './detail';
+import { FinalQuotations } from './detail';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
@@ -115,30 +115,13 @@ const Mypage1_3 = ({}: any) => {
   const routerId = router?.query?.quotationRequestIdx;
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
-  const queryclient = useQueryClient();
+  const queryClient = useQueryClient();
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
   const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
 
-  // ---------  가견적 상세조회 API (v1) -----------
-  const {
-    data: preQuotationsData,
-    isLoading: preQuotationsLoading,
-    isError: preQuotationsError,
-  } = useQuery<preQuotationResPonse, AxiosError, PreQuotationsV1>(
-    'v1/pre-quotations',
-    () => isTokenGetApi(`/v1/pre-quotations/${routerId}`),
-    {
-      select(data) {
-        return data.preQuotation;
-      },
-      enabled: router.isReady,
-      retry: 0,
-    },
-  );
-
-  // ==================== 간편 견적 조회 V1 ====================
+  // ==================== 간편 견적 조회 (V1) ====================
   const {
     data: quotationDataV1,
     isError: quotationErrorV1,
@@ -151,10 +134,57 @@ const Mypage1_3 = ({}: any) => {
         `/v1/quotation-requests/${router?.query?.quotationRequestIdx}`,
       ),
     {
+      retry: 0,
       enabled:
         router.isReady && router?.query?.quotationRequestIdx ? true : false,
       select(data) {
         return data.quotationRequest;
+      },
+      onSuccess(data) {
+        if (data.quotationStatusHistories.length > 0) {
+          console.log('refresh 실행');
+          console.log(data);
+        }
+      },
+      onError(err) {
+        console.log('v1/quotation-requests 에러 발생');
+        console.log('🔥 err : ', err);
+      },
+    },
+  );
+
+  // ---------  가견적 상세조회 API (V1) -----------
+  const {
+    data: preQuotationsData,
+    isLoading: preQuotationsLoading,
+    isError: preQuotationsError,
+    refetch: preQuotationsRefetch,
+  } = useQuery<preQuotationResPonse, AxiosError, PreQuotationsV1>(
+    'v1/pre-quotations',
+    () =>
+      isTokenGetApi(
+        `/v1/pre-quotations/${quotationDataV1?.currentInProgressPreQuotationIdx}`,
+      ),
+    {
+      select(data) {
+        return data.preQuotation;
+      },
+      retry: 0,
+      enabled:
+        quotationDataV1 &&
+        quotationDataV1?.currentInProgressPreQuotationIdx &&
+        quotationDataV1?.currentInProgressPreQuotationIdx !== null &&
+        quotationDataV1?.currentInProgressPreQuotationIdx !== undefined
+          ? true
+          : false,
+
+      onSuccess(data) {
+        console.log('🔥 data : ', data);
+        console.log('data 실행');
+      },
+      onError(err) {
+        console.log('v1/pre-quotations 에러 발생');
+        console.log('🔥 err : ', err);
       },
     },
   );
@@ -170,10 +200,14 @@ const Mypage1_3 = ({}: any) => {
     'spot-inspection',
     () =>
       isTokenGetApi(
-        `/quotations/pre/${preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
+        `/quotations/pre/${quotationDataV1?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled: quotationDataV1?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled:
+        router.isReady &&
+        quotationDataV1?.hasCurrentInProgressPreQuotationIdx === true
+          ? true
+          : false,
     },
   );
 
@@ -213,7 +247,7 @@ const Mypage1_3 = ({}: any) => {
     isError: patchError,
   } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryclient.invalidateQueries('user-mypage');
+      queryClient.invalidateQueries('user-mypage');
     },
     onError: () => {
       // alert('삭제 실패');
@@ -301,22 +335,18 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
+  // 데이터 갱신
   useEffect(() => {
     if (routerId && router.isReady) {
-      console.log('⭐️ refrech check');
-      // refetch();
+      quotationRefresh();
     }
   }, [router]);
 
-  const currentInProgressPreQuotationIdx =
-    preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx;
-  useEffect(() => {
-    if (currentInProgressPreQuotationIdx) {
-      // quotationRefetch();
-    }
-  }, [currentInProgressPreQuotationIdx]);
-
+  // 최종 견적 변경
   useLayoutEffect(() => {
+    // 현재 진행중 index 업데이트
+    const currentInProgressPreQuotationIdx =
+      quotationDataV1?.currentInProgressPreQuotationIdx;
     const hasCurrentInProgressPreQuotationIdx =
       quotationDataV1?.hasCurrentInProgressPreQuotationIdx!;
     if (hasCurrentInProgressPreQuotationIdx) {
@@ -333,18 +363,10 @@ const Mypage1_3 = ({}: any) => {
     }
   }, [quotationDataV1]);
 
-  useEffect(() => {
-    if (
-      routerId &&
-      preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx
-    ) {
-      // refetch();
-      // quotationRefetch();
-    }
-  }, [
-    routerId,
-    preQuotationsData?.quotationRequest?.currentInProgressPreQuotationIdx,
-  ]);
+  const target = quotationDataV1?.quotationStatusHistories.filter(
+    (item) =>
+      item.preQuotationIdx === quotationDataV1.currentInProgressPreQuotationIdx,
+  )[0];
 
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
@@ -431,15 +453,15 @@ const Mypage1_3 = ({}: any) => {
                   <>
                     {/* ============================= 상태에 따라 안내문 변경 ============================ */}
                     {/* 최종견적이 없고 */}
-                    {preQuotationsData?.finalQuotation === null &&
+
+                    {target?.preQuotation?.finalQuotation === null &&
                     quotationDataV1?.badge !== '최종견적 대기 중' ? (
                       // 변경 데이터가 있고, 확정이 아니라면
                       spotInspection !== null && spotInspection?.isConfirmed ? (
                         <ScheduleConfirm
                           date={spotInspection?.spotInspectionDate[0]}
                           spotId={
-                            preQuotationsData?.quotationRequest
-                              ?.currentInProgressPreQuotationIdx!
+                            quotationDataV1?.currentInProgressPreQuotationIdx!
                           }
                           routerId={routerId}
                         />
@@ -483,7 +505,7 @@ const Mypage1_3 = ({}: any) => {
                           <CommunicationBox
                             text="파트너와 소통하기"
                             id={
-                              preQuotationsData?.member
+                              target?.preQuotation?.member
                                 ?.companyMemberAdditionalInfo?.memberIdx
                             }
                           />
@@ -532,7 +554,7 @@ const Mypage1_3 = ({}: any) => {
                           <CommunicationBox
                             text="파트너와 소통하기"
                             id={
-                              preQuotationsData?.member
+                              target?.preQuotation?.member
                                 ?.companyMemberAdditionalInfo?.memberIdx
                             }
                           />

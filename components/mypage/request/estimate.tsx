@@ -3,7 +3,7 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
@@ -63,6 +63,10 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   const [inProgressPage, setInProgressPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
 
+  const queryClient = useQueryClient();
+  // const quotationRequests = queryClient.getQueryData('v1/quotation-requests');
+  // const preQuotations = queryClient.getQueryData('v1/pre-quotations');
+
   const router = useRouter();
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
@@ -105,7 +109,7 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
     history?: boolean;
   }
 
-  const handleRoute = (idx: number, isHistory?: boolean) => {
+  const handleRoute = async (idx: number, isHistory?: boolean) => {
     let date: routerData = {
       quotationRequestIdx: idx,
       history: isHistory,
@@ -117,11 +121,14 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
     }
 
     //alert(n)
-    router.push({
+    await router.push({
       pathname: '/mypage/request',
       query: { ...date },
     });
+
+    console.log('idx : ', idx);
   };
+
   // 진행 중인 간편견적 리스트 조회
   useEffect(() => {
     inProgressRefetch();
@@ -130,6 +137,16 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   useEffect(() => {
     historyRefetch();
   }, [historyPage]);
+
+  useEffect(() => {
+    console.log('실행');
+    if (router.isReady) {
+      console.log(router.query);
+
+      // queryClient.refetchQueries('v1/quotation-requests');
+      // queryClient.refetchQueries('v1/pre-quotations');
+    }
+  }, [router]);
 
   if (inProgressError || historyError) {
     return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
