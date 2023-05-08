@@ -65,6 +65,7 @@ const SearchAddress = ({ isSearch, setIsSearch, setKeyword }: Props) => {
     dispatch(
       locationAction.load({
         jibunAddr: result.jibunAddr,
+        roadAddr: result.roadAddr,
         roadAddrPart: result.roadAddrPart1,
       }),
     );

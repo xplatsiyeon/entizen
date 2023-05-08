@@ -138,76 +138,25 @@ const Main = () => {
       <LearnAbout borders={12} />
       {/* 엔티즌 도서관 */}
       <EntizenLibrary fontSize={19.5} smallfont={13.5} />
-      <ImageWrap2>
-        <Image
-          src={mainBanner1}
-          alt="사진"
-          // loading="lazy"
-          priority
-          placeholder="blur"
-        />
-        <Image
-          src={mainBanner2}
-          alt="사진"
-          // loading="lazy"
-          priority
-          placeholder="blur"
-        />
-        <Image
-          src={mainBanner3}
-          alt="사진"
-          // loading="lazy"
-          priority
-          placeholder="blur"
-        />
-        <Image
-          src={main6}
-          alt="사진"
-          // loading="lazy"
-          priority
-          placeholder="blur"
-        />
+      <section>
+        <Image src={mainBanner1} alt="사진" priority placeholder="blur" />
+        <Image src={mainBanner2} alt="사진" priority placeholder="blur" />
+        <Image src={mainBanner3} alt="사진" priority placeholder="blur" />
+        <Image src={main6} alt="사진" priority placeholder="blur" />
         {/* 전기차 슬라이드 */}
         {/* <MainSlider /> */}
         <MainSlider />
-        <Image
-          src={main8}
-          alt="사진"
-          // loading="lazy"
-          priority
-          placeholder="blur"
-        />
+        <Image src={main8} alt="사진" priority placeholder="blur" />
         <Wrap onClick={() => router.push('/signUp/Terms')}>
-          <Image
-            src={main9}
-            alt="사진"
-            // loading="lazy"
-            priority
-            placeholder="blur"
-          />
+          <Image src={main9} alt="사진" priority placeholder="blur" />
         </Wrap>
-      </ImageWrap2>
+      </section>
       <WebFooter />
     </Wrapper>
   );
 };
 
 export default Main;
-
-const CarouselWrap = styled.section`
-  width: 100%;
-  height: 360pt;
-  background: #5a2dc9;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100%;
-  }
-`;
 
 const Wrapper = styled.div`
   @media (min-width: 900pt) {
@@ -247,7 +196,6 @@ const ContentWrap = styled.section`
   }
 `;
 
-// const SalesWrap = styled.div`
 const SalesForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -293,7 +241,6 @@ const Button = styled.button<{ isSearchBar: boolean }>`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  /* margin-bottom: 69pt; */
   margin-top: 6pt;
   box-sizing: border-box;
   cursor: pointer;
@@ -310,12 +257,9 @@ const ImageWrap = styled.section`
   margin: 90pt 0;
 `;
 
-const ImageWrap2 = styled.section``;
-
 const Wrap = styled.div`
   width: 900pt;
   margin: 60pt auto 90pt;
-
   @media (max-width: 899.25pt) {
     width: 100%;
   }

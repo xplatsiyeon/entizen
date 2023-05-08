@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -10,14 +10,10 @@ import ThirdStep from 'components/quotation/request/ThirdStep';
 import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
-
-import Request1_7 from './confirm';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-
-import rootReducer, { RootState } from 'store/store';
+import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -25,15 +21,11 @@ interface Components {
 
 const Quotation1_1 = () => {
   const route = useRouter();
+  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  const { tabNumber } = useSelector((state: RootState) => state.quotationData);
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
-  });
+  const { tabNumber } = useSelector((state: RootState) => state.quotationData);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -68,7 +60,7 @@ const Quotation1_1 = () => {
   return (
     <>
       <WebBody>
-        <WebHeader />
+        <WebHeader now={'check'} />
         <Inner>
           <Wrapper>
             {isModal && (

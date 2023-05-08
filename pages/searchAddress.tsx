@@ -65,13 +65,14 @@ const SearchAddress = (props: Props) => {
   };
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
-    const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    const { jibun, roadad, sggnm, sinm, road } = e.currentTarget.dataset;
     // 검색 키워드
     dispatch(locationAction.addKeyword(searchWord));
     dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
         jibunAddr: jibun,
+        roadAddr: road,
         roadAddrPart: roadad,
         sggNm: sggnm,
         siNm: sinm,
@@ -151,6 +152,7 @@ const SearchAddress = (props: Props) => {
       {results.map((el, index) => (
         <SearchResult
           data-jibun={el.jibunAddr}
+          data-road={el.roadAddr}
           data-roadad={el.roadAddrPart1}
           data-sggnm={el.sggNm}
           data-sinm={el.siNm}

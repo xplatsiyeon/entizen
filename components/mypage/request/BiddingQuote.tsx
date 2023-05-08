@@ -318,7 +318,7 @@ const BiddingQuote = ({
           {mobile && (
             <>
               {data?.member?.companyMemberAdditionalInfo
-                ?.companyLogoImageUrl !== '' ? (
+                ?.companyLogoImageUrl !== null ? (
                 <ImageBox>
                   <Image
                     src={
@@ -684,12 +684,10 @@ const Wrap = styled.div`
 const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
-
   gap: 196.5pt;
 `;
 
 const RightSection = styled.div`
-  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

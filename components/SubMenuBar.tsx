@@ -14,6 +14,7 @@ type Props = {
 };
 
 const SubMenuBar = ({ type, num, now }: Props) => {
+  console.log('type : ', type);
   const router = useRouter();
   let linkName: string[];
   let linkUrl: string[];

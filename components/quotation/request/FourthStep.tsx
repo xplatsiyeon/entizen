@@ -64,6 +64,7 @@ const FourthStep = ({
     dispatch(
       locationAction.load({
         jibunAddr: result.jibunAddr,
+        roadAddr: result.roadAddr,
         roadAddrPart: result.roadAddrPart1,
       }),
     );
@@ -222,7 +223,7 @@ const FourthStep = ({
               }}
             />
           )}
-          {/* 검색 리스트 목록 */}
+          {/* 검색 리스트 목록 - 웹 */}
           {isSearch && !mobile && (
             <SearchBar>
               {results.map((result) => (
@@ -231,9 +232,9 @@ const FourthStep = ({
                     <div className="imgWrap">
                       <Image src={MapPin} alt="searchIcon" layout="intrinsic" />
                     </div>
-                    <p className="name">{result.jibunAddr}</p>
+                    <p className="name">{result.roadAddr}</p>
                   </div>
-                  <div className="address">{result.roadAddrPart1}</div>
+                  <div className="address">{result.jibunAddr}</div>
                 </li>
               ))}
             </SearchBar>

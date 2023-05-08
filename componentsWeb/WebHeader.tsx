@@ -31,23 +31,11 @@ type Props = {
   sub?: string;
 };
 
-type GetUnread = {
-  isSuccess: boolean;
-  data: {
-    wasReadQuotation: boolean;
-    wasReadAfterSalesService: boolean;
-    wasReadProject: boolean;
-    wasReadChatting: boolean;
-    wasReadAlert: boolean;
-  };
-};
-
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const userID = sessionStorage.getItem('USER_ID');
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
-  const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
   const [keyword, setKeyword, results] = userAddressHooks();
 
@@ -142,6 +130,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 </div>
               </LogoBox>
               <DivBox
+                clicked={router.pathname.includes('request')}
                 onClick={() => {
                   dispatch(quotationAction.init());
                   handleLink('/quotation/request');
@@ -150,6 +139,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 간편견적
               </DivBox>
               <DivBox
+                clicked={router.pathname.includes('guide')}
                 onClick={() => {
                   handleLink('/guide');
                   setLinklist(true);
@@ -157,18 +147,21 @@ const WebHeader = ({ num, now, sub }: Props) => {
               >
                 가이드
               </DivBox>
-              <DivBox onClick={() => handleLink('/chatting')}>
+              <DivBox
+                clicked={router.pathname.includes('chatting')}
+                onClick={() => {
+                  handleLink('/chatting');
+                }}
+              >
                 소통하기
                 {userID && historyUnread?.wasReadChatting === false && (
                   <BellOnText />
                 )}
               </DivBox>
               <DivBox
-                className="mypage"
-                now={now}
+                clicked={router.pathname.includes('mypage')}
                 onClick={() => {
-                  setLinklist(true);
-                  setType('mypage');
+                  handleLink('/mypage');
                 }}
               >
                 마이페이지
@@ -286,7 +279,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
         </MainLink>
         {/*========================== 서브 메뉴 ==================================== */}
         {linklist ? (
-          <SubMenuBar type={type ? type : String(sub)} num={num} now={now} />
+          <SubMenuBar type={String(sub)} num={num} now={now} />
         ) : null}
       </Wrapper>
     </>
@@ -298,7 +291,6 @@ export default WebHeader;
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  //margin-bottom: 45.75pt;
   border-bottom: 0.75pt solid #e9eaee;
   background: #ffff;
   box-sizing: border-box;
@@ -319,7 +311,6 @@ const Inner = styled.div`
   margin: 0 auto;
   max-width: 900pt;
   height: 100%;
-  //max-height: 81pt;
 `;
 
 const Box1 = styled.div`
@@ -380,18 +371,18 @@ const ProfileMenu = styled.ul`
   }
 `;
 
-const DivBox = styled.div<{ now?: string }>`
+const DivBox = styled.div<{ now?: string; clicked: boolean }>`
   margin-right: 30pt;
   display: flex;
   align-items: center;
   cursor: pointer;
-
   font-weight: bold;
   font-size: 13.5pt;
   line-height: 13.5pt;
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
   text-decoration: none;
+  color: ${({ clicked }) => (clicked ? colors.main1 : colors.main2)};
   a {
     font-weight: bold;
     font-size: 13.5pt;
@@ -399,9 +390,6 @@ const DivBox = styled.div<{ now?: string }>`
     font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
     text-decoration: none;
-  }
-  &.mypage {
-    color: ${({ now }) => (now === 'mypage' ? colors.main1 : colors.main2)};
   }
 `;
 

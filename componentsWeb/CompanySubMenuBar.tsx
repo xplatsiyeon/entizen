@@ -17,26 +17,16 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
 type Props = {
-  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
-  tabNumber?: number;
-  componentId?: number;
-  linkState?: string;
-  num?: number;
-  now?: string;
-  type?: string;
-  openSubLink?: boolean;
+  num: number;
+  now: string;
+  type: string;
+  openSubLink: boolean;
 };
 
-const CompanySubMenuBar = ({
-  setTabNumber,
-  tabNumber,
-  componentId,
-  linkState,
-  type,
-  num,
-  now,
-  openSubLink,
-}: Props) => {
+const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
+  console.log('🔥 now : ', now);
+  console.log('🔥 num : ', num);
+  console.log('🔥 openSubLink : ', openSubLink);
   console.log('🔥 type : ', type);
 
   let linkName: string[];
@@ -134,7 +124,6 @@ const CompanySubMenuBar = ({
   // 읽음 표시
   const onClickLink = (idx: number) => {
     handleLink(idx);
-    // setTabIdx(idx);
     dispatch(headerAction.setTabIdx(idx));
 
     const key = linkNameEn[idx];

@@ -37,6 +37,14 @@ type Props = {
   height?: boolean;
 };
 
+type Menu = {
+  id: number;
+  type: string;
+  menu: string;
+  linkUrl: string;
+  alert?: boolean;
+};
+
 const WebBuyerHeader = ({
   setTabNumber,
   tabNumber,
@@ -47,15 +55,13 @@ const WebBuyerHeader = ({
   setOpenSubLink,
   height,
 }: Props) => {
-  const [isHovering, setIsHovered] = useState(false);
-  // const [type, setType] = useState<string>('');
-  // const [tab, setTab] = useState<number>();
-  const onMouseEnter = () => setIsHovered(true);
-  const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const { tab, type } = useSelector((state: RootState) => state.headerSlice);
   const isUser = sessionStorage.getItem('USER_ID');
+  const [isHovering, setIsHovered] = useState(false);
+  const onMouseEnter = () => setIsHovered(true);
+  const onMouseLeave = () => setIsHovered(false);
+  const { tab, type } = useSelector((state: RootState) => state.headerSlice);
 
   // 알람 조회
   // /v1/alerts/unread-points
@@ -75,76 +81,21 @@ const WebBuyerHeader = ({
     },
   );
 
+  // 로그 아웃
   const logout = () => {
     handleLogoutOnClickModalClick()
       .then((res) => router.push('/'))
       .catch((error) => alert(error));
   };
 
+  // 메뉴 클릭
   const onClickMenu = ({ type, id, linkUrl }: Menu) => {
-    console.log('클릭');
-    console.log('🔥 type : ', type);
-
-    // dispatch(headerAction.setTabId(-1));
-
-    if (type === 'communication') {
-      router.push(linkUrl);
-    }
-    dispatch(headerAction.setTabIdx(-1));
+    router.push(linkUrl);
+    dispatch(headerAction.setTabIdx(0));
     dispatch(headerAction.setTab(id));
     dispatch(headerAction.setType(type));
 
     setOpenSubLink(true);
-  };
-
-  // router로 setType이랑 setTab 바로 업데이트
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     if (router.pathname === '/company/mypage') {
-  //       setType('myProject');
-  //       setTab(3);
-  //     } else if (
-  //       router.pathname === '/company/quotation' ||
-  //       router.pathname === '/company/quotation/lastQuotation'
-  //     ) {
-  //       setType('estimate');
-  //       setTab(0);
-  //     } else if (
-  //       router.pathname === '/company/mypage/runningProgress' ||
-  //       router.pathname === '/company/mypage/successedProject'
-  //     ) {
-  //       setType('myProject');
-  //       setTab(3);
-  //     } else if (
-  //       router.pathname === '/company/recievedRequest' ||
-  //       router.pathname === '/company/sentProvisionalQuotation'
-  //     ) {
-  //       setType('estimate');
-  //       setTab(0);
-  //     } else if (router.pathname === '/company/as') {
-  //       setType('as');
-  //       setTab(2);
-  //     } else if (
-  //       router.pathname === '/company/as/receivedAS' ||
-  //       router.pathname === `/company/as/history`
-  //     ) {
-  //       setType('as');
-  //       setTab(2);
-  //     } else if (
-  //       router.pathname === '/company/chatting' ||
-  //       router.pathname === `/company/chatting/chattingRoom`
-  //     ) {
-  //       setTab(1);
-  //     }
-  //   }
-  // }, [router]);
-
-  type Menu = {
-    id: number;
-    type: string;
-    menu: string;
-    linkUrl: string;
-    alert?: boolean;
   };
 
   // false : on / true : off
@@ -242,6 +193,7 @@ const WebBuyerHeader = ({
                     layout="intrinsic"
                     onClick={() => {
                       router.push('/');
+                      dispatch(headerAction.reset());
                     }}
                     style={{ cursor: 'pointer' }}
                   />
@@ -370,12 +322,9 @@ const WebBuyerHeader = ({
         {/* ================== 서브 메뉴 바 ===================== */}
         {type !== 'communication' && setTabNumber ? (
           <CompanySubMenuBar
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
             type={type}
-            num={num}
-            now={now}
+            num={num!}
+            now={now!}
             openSubLink={Boolean(openSubLink)}
           />
         ) : null}

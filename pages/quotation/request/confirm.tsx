@@ -227,7 +227,7 @@ const Confirm = (props: Props) => {
                       <Image src={mapPin} alt="mapPin-icon" layout="fill" />
                     </div>
                     <AddressName>
-                      {locationList.locationList.jibunAddr}
+                      {locationList.locationList.roadAddr}
                     </AddressName>
                     {open ? (
                       <ArrowImg>
@@ -281,7 +281,7 @@ const Confirm = (props: Props) => {
                     <Image src={mapPin} alt="mapPin-icon" layout="fill" />
                   </div>
                   <AddressName>
-                    {locationList.locationList.jibunAddr}
+                    {locationList.locationList.roadAddr}
                   </AddressName>
                 </AddressBox>
               )}

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface LocationType {
   jibunAddr: string;
+  roadAddr: string;
   roadAddrPart: string;
   sggNm: string;
   siNm: string;
@@ -16,6 +17,7 @@ export interface LocationListTypes {
 const initialState: LocationListTypes = {
   locationList: {
     jibunAddr: '',
+    roadAddr: '',
     roadAddrPart: '',
     sggNm: '',
     siNm: '',

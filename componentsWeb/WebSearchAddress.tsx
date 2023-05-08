@@ -85,7 +85,7 @@ const WebSearchAddress = ({
   };
 
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
-    const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    const { jibun, roadad, sggnm, sinm, road } = e.currentTarget.dataset;
     // setFakeWord(roadad!);
     dispatch(locationAction.changeFakeWord(roadad!)); // 주소 마스킹
     dispatch(coordinateAction.setMark(true));
@@ -96,6 +96,7 @@ const WebSearchAddress = ({
       dispatch(
         locationAction.load({
           jibunAddr: jibun,
+          roadAddr: road,
           roadAddrPart: roadad,
           sggNm: sggnm,
           siNm: sinm,
@@ -206,6 +207,7 @@ const WebSearchAddress = ({
           {results.map((el, index) => (
             <SearchResult
               data-jibun={el.jibunAddr}
+              data-road={el.roadAddr}
               data-roadad={el.roadAddrPart1}
               data-sggnm={el.sggNm}
               data-sinm={el.siNm}
