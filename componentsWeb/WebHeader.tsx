@@ -130,7 +130,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 </div>
               </LogoBox>
               <DivBox
-                clicked={router.pathname.includes('request')}
+                clicked={router.pathname.includes('quotation/request')}
                 onClick={() => {
                   dispatch(quotationAction.init());
                   handleLink('/quotation/request');

@@ -119,7 +119,7 @@ const Mypage1_3 = ({}: any) => {
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
-  const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
+  const [isFinalItemIndex, setIsFinalItemIndex] = useState<number>(-1);
 
   // ==================== 간편 견적 조회 (V1) ====================
   const {
@@ -140,12 +140,7 @@ const Mypage1_3 = ({}: any) => {
       select(data) {
         return data.quotationRequest;
       },
-      onSuccess(data) {
-        if (data.quotationStatusHistories.length > 0) {
-          console.log('refresh 실행');
-          console.log(data);
-        }
-      },
+      onSuccess(data) {},
       onError(err) {
         console.log('v1/quotation-requests 에러 발생');
         console.log('🔥 err : ', err);
@@ -172,9 +167,7 @@ const Mypage1_3 = ({}: any) => {
       retry: 0,
       enabled:
         quotationDataV1 &&
-        quotationDataV1?.currentInProgressPreQuotationIdx &&
-        quotationDataV1?.currentInProgressPreQuotationIdx !== null &&
-        quotationDataV1?.currentInProgressPreQuotationIdx !== undefined
+        typeof quotationDataV1.currentInProgressPreQuotationIdx === 'number'
           ? true
           : false,
 
@@ -234,7 +227,7 @@ const Mypage1_3 = ({}: any) => {
       onSuccess: () => {
         setPartnerModal(false);
         // refetch();
-        setIsFinalItmeIndex(-1);
+        setIsFinalItemIndex(-1);
       },
       onError: (error: any) => {
         console.log(error);
@@ -298,7 +291,7 @@ const Mypage1_3 = ({}: any) => {
         url: `/quotations/pre/${currentInProgressPreQuotationIdx}`,
       });
     } else {
-      setIsFinalItmeIndex(-1);
+      setIsFinalItemIndex(-1);
       setPartnerModal(false);
     }
   };
@@ -307,7 +300,7 @@ const Mypage1_3 = ({}: any) => {
    */
   const finalItme = quotationDataV1?.quotationStatusHistories?.filter(
     (e) => e.quotationRequestIdx === Number(routerId),
-  )[isFinalItmeIndex];
+  )[isFinalItemIndex];
   const finalIndex =
     finalItme?.preQuotation?.finalQuotation?.finalQuotationIdx!;
 
@@ -355,11 +348,11 @@ const Mypage1_3 = ({}: any) => {
           data?.preQuotation?.finalQuotation?.preQuotationIdx!;
 
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
-          setIsFinalItmeIndex(index);
+          setIsFinalItemIndex(index);
         }
       });
     } else {
-      setIsFinalItmeIndex(-1);
+      setIsFinalItemIndex(-1);
     }
   }, [quotationDataV1]);
 
@@ -431,13 +424,13 @@ const Mypage1_3 = ({}: any) => {
 
                 {/* 현장실사 해당 기업 상세 페이지 */}
                 {!quotationDataV1?.hasCurrentInProgressPreQuotationIdx &&
-                isFinalItmeIndex === -1 ? (
+                isFinalItemIndex === -1 ? (
                   // ================================== 구독 상품 리스트 (가견적 작성 회사) ==================================
                   <React.Fragment>
                     {/* 구독 상품 리스트 */}
                     <SubscriptionProduct
                       data={quotationDataV1!}
-                      setIsFinalItmeIndex={setIsFinalItmeIndex}
+                      setIsFinalItmeIndex={setIsFinalItemIndex}
                     />
                     {/* 엔티즌 소통하기 */}
                     <AdminBtnWrap>
@@ -489,16 +482,16 @@ const Mypage1_3 = ({}: any) => {
                     ) : null}
 
                     {/* 최종견적 가견적 구별 조견문 */}
-                    {isFinalItmeIndex !== -1 ? (
+                    {isFinalItemIndex !== -1 ? (
                       <>
                         {/* --------------------최종견적 상세 내용--------------------------*/}
                         <FinalQuotation
                           data={
                             quotationDataV1?.quotationStatusHistories[
-                              isFinalItmeIndex
+                              isFinalItemIndex
                             ]!
                           }
-                          isFinalItmeIndex={isFinalItmeIndex}
+                          isFinalItmeIndex={isFinalItemIndex}
                           isSpot={spotData?.data?.spotInspection ? true : false}
                         />
                         <TextBox>
