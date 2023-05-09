@@ -1,18 +1,15 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
-import { css } from '@emotion/react';
 import {
   ProjectListSituation,
   ReverseAuctionSituation,
   ASListSitutation,
 } from 'types/tableDataType';
-import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
-import { useDispatch } from 'react-redux';
-import Image from 'next/image';
+import { dateFomat } from 'utils/calculatePackage';
 import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
@@ -39,8 +36,6 @@ const DashBoardTable = ({
   statusCheck,
   quotationRequestStatus,
   asStatusCheck,
-  setDetailId,
-  setIsDetail,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -49,14 +44,6 @@ const DashBoardTable = ({
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // 오늘 날짜.
   const today = new Date();
-  // console.log(adminDateFomat(String(today)));
-
-  // 역경매 견적서 보기에 넘겨줄 아이디값
-  const dispatch = useDispatch();
-
-  // 유저 회원 검색 필터 뭐 눌렀는지
-  const changeSearchType = ['name', 'id'];
-
   /*
   
    필터에 limit 기능이 생기면, 갯수에 따라 게시글 번호 계산해주는 함수 만들어야 함.
@@ -264,6 +251,7 @@ const DashBoardTable = ({
     );
 
   useEffect(() => {
+    console.log('🔥 tableType : ', tableType);
     switch (tableType) {
       case 'projectListSituation':
         projectListSituationRefetch();

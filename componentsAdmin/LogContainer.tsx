@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { id } from 'date-fns/locale';
 import React, { useEffect } from 'react';
 import colors from 'styles/colors';
 import { ProjectLog, QuotationsLog } from 'types/admin';
@@ -19,6 +20,27 @@ export default function LogContainer({
 }: Props) {
   console.log('🔥 quotationData : ', quotationData);
   console.log('🔥 projectData : ', projectData);
+
+  const convertDate = (date: string | undefined) => {
+    if (date) {
+      const days = new Date(date);
+      // Date 객체로 변환합니다.
+      const dateObj = new Date(days.toString());
+
+      // 년, 월, 일, 시간, 분, 초를 추출합니다.
+      const year = dateObj.getFullYear().toString();
+      const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+      const day = dateObj.getDate().toString().padStart(2, '0');
+      const hours = dateObj.getHours().toString().padStart(2, '0');
+      const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+      const seconds = dateObj.getSeconds().toString().padStart(2, '0');
+
+      // yyyymmddhhmmss 형식으로 변환합니다.
+      const yyyymmddhhmmss = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return yyyymmddhhmmss;
+    }
+  };
+
   // 스크롤 제일 하단으로 배치
   useEffect(() => {
     const scrollBox: HTMLUListElement | null =
@@ -42,7 +64,7 @@ export default function LogContainer({
           quotationData?.map((item) => (
             <li className="contents">
               <span className="id">{item.quotationRequestIdx}</span>
-              <span className="date">{originDateFomat(item.updatedAt)}</span>
+              <span className="date">{convertDate(item.updatedAt)}</span>
               <span className="before">
                 {item.beforeQuotationRequestStatus}
               </span>
@@ -56,7 +78,7 @@ export default function LogContainer({
           projectData?.map((item) => (
             <li className="contents">
               <span className="id">{item.projectIdx}</span>
-              <span className="date">{originDateFomat(item.updatedAt)}</span>
+              <span className="date">{convertDate(item.updatedAt)}</span>
               <span className="before">{item.beforeProjectStatus}</span>
               <span className="after">{item.afterProjectStatus}</span>
               <span className="projectId">{item.projectHistoryLogIdx}</span>

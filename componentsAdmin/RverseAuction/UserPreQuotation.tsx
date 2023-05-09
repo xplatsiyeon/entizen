@@ -26,6 +26,8 @@ import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import { dateFomat, hyphenFn, convertKo } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import LogContainer from 'componentsAdmin/LogContainer';
+import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
 
 export interface QuotationRequest {
   quotationRequestIdx: number;
@@ -89,6 +91,27 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
     {
       select(data) {
         return data.data.quotationRequest;
+      },
+    },
+  );
+
+  // 견적서 데이터 확인
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () =>
+      isTokenAdminGetApi(
+        `/admin/quotations/quotation-requests/${detatilId}/histories`,
+      ),
+    {
+      onSuccess(data) {
+        // console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
       },
     },
   );
@@ -271,6 +294,11 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
             />
           )}
         </FlexList3>
+        <LogContainer
+          type="quotation"
+          quotationData={LogData!}
+          title={'상태 기록'}
+        />
       </DetailBox>
     </Background>
   );
@@ -334,12 +362,14 @@ const Btn = styled.div`
 const DetailBox = styled.div`
   border: 2px solid #e7e7e7;
   /* padding: 28px 510px 28px 14px; */
-  padding: 28px 0 28px 14px;
+  /* padding: 28px 0 28px 14px; */
+  padding: 28px 0;
   border-radius: 4px;
   min-width: 964px;
 `;
 
 const FlexList = styled.div`
+  padding-left: 14px;
   &:not(:last-of-type) {
     padding-bottom: 23px;
   }
@@ -348,6 +378,7 @@ const FlexList = styled.div`
 `;
 
 const FlexList2 = styled.div`
+  padding-left: 14px;
   display: flex;
   align-items: center;
   padding-bottom: 10px;
@@ -357,6 +388,7 @@ const FlexList2 = styled.div`
 `;
 
 const FlexList3 = styled.div`
+  padding-left: 14px;
   display: flex;
   align-items: inherit;
   padding-bottom: 23px;

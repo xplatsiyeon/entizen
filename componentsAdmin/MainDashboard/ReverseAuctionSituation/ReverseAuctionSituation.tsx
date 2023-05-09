@@ -1,18 +1,10 @@
 import styled from '@emotion/styled';
 import DashBoardTable from 'componentsAdmin/MainDashboard/DashBoardTable';
 import AdminHeader from 'componentsAdmin/Header';
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { DateRangePicker } from 'rsuite';
+import React, { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import * as XLSX from 'xlsx';
-import { adminNoPickDateFomat } from 'utils/calculatePackage';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
 import { adminDateFomat } from 'utils/calculatePackage';
 import { Range } from 'react-date-range';
@@ -131,7 +123,7 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   // };
 
   useEffect(() => {
-    // console.log(projectState);
+    console.log(projectState);
   }, [projectState]);
 
   useEffect(() => {
@@ -154,7 +146,6 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
                 className="checkBox"
                 data-index={index}
                 id={state}
-                // onChange={onChangeProjectCheckBox}
                 onChange={(e) => {
                   checkStatusHandle(e.currentTarget.checked, e.target.id);
                 }}
@@ -167,14 +158,6 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
         {/* 레인지 달력 */}
         <li className="row" ref={dateRef}>
           <label className="label">기간검색</label>
-          {/* <DateRangePicker
-            defaultValue={[new Date('2022-09-05'), new Date()]}
-            className="datePicker-input"
-            placeholder={'년-월-일 ~ 년-월-일'}
-            size={'sm'}
-            onChange={handleDateChange}
-            style={{ cursor: 'pointer' }}
-          /> */}
           <AdminDateRange
             dateState={dateState}
             setDateState={setDateState}
