@@ -8,7 +8,7 @@ import {
   GET_InProgressProjectsDetail,
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -16,7 +16,7 @@ import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
-const TAG = 'pages/mypage/project/index.tsx';
+
 const ProjectInfo = () => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
@@ -45,7 +45,12 @@ const ProjectInfo = () => {
     },
   });
 
-  // console.log(routerId);
+  // 완료된 프로젝트일 경우 프로젝트 -> 내 충전소로 이동
+  useEffect(() => {
+    if (projectData?.project?.isApprovedByAdmin === true) {
+      router.replace(`/mypage/place?id=${projectData?.project?.projectIdx}`);
+    }
+  }, [projectData]);
 
   if (projectLoading) {
     return <Loader />;
@@ -54,10 +59,7 @@ const ProjectInfo = () => {
     // console.log('프로젝트 에러 발생');
     // console.log(projectError);
   }
-  // console.log('🔥 ~line 49 프로젝트 상세 api 데이터 ' + TAG);
-  // console.log(routerId);
 
-  // console.log(projectData);
   if (!accessToken && memberType !== 'USER') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');

@@ -4,6 +4,8 @@ import MypageHeader from 'components/mypage/request/header';
 import DateModal from 'componentsCompany/Modal/DateModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
+import { Router } from 'express';
+import { useRouter } from 'next/router';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import { getToday } from 'utils/calculatePackage';
@@ -21,7 +23,7 @@ type Props = {
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 
 const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
-  console.log('⭐️ data : ', data);
+  console.log('⭐️ 진행중인 : ', data);
   const preStepDate = [
     data?.project?.readyStepGoalDate!,
     data?.project?.installationStepGoalDate!,

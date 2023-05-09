@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import OnRing from 'public/images/bell-outline.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { Alerts, AlertsResponse } from 'types/alerts';
@@ -14,7 +13,6 @@ import { AxiosError } from 'axios';
 type Props = {};
 
 const Header = (props: Props) => {
-  const router = useRouter();
   const userID = sessionStorage.getItem('USER_ID');
 
   // 알람 조회

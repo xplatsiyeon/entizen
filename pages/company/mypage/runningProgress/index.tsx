@@ -105,6 +105,14 @@ const RunningProgress = (props: Props) => {
     dispatch(contractAction.reset());
   }, []);
 
+  useEffect(() => {
+    if (inProgressData?.project.isApprovedByAdmin === true) {
+      router.replace(
+        `/company/mypage/successedProject?projectIdx=${inProgressData?.project.projectIdx}`,
+      );
+    }
+  }, [inProgressData]);
+
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');

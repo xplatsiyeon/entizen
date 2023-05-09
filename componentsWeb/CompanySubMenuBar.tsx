@@ -24,19 +24,12 @@ type Props = {
 };
 
 const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
-  console.log('🔥 now : ', now);
-  console.log('🔥 num : ', num);
-  console.log('🔥 openSubLink : ', openSubLink);
-  console.log('🔥 type : ', type);
-
   let linkName: string[];
   let linkNameEn: string[];
 
   const router = useRouter();
   const dispatch = useDispatch();
   const { tabIdx } = useSelector((state: RootState) => state.headerSlice);
-  // 클릭 시
-  // const [tabIdx, setTabIdx] = useState(-1);
   // 마우스 오버
   const [hoverIdx, setHoverIdx] = useState(-1);
   const [show, setShow] = useState(false);
@@ -147,10 +140,6 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
     }
     return result;
   };
-
-  useEffect(() => {
-    console.log('🔥 tabIdx : ', tabIdx);
-  }, [tabIdx]);
 
   return (
     <Wrap openSubLink={openSubLink}>

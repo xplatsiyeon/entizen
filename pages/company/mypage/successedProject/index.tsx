@@ -18,13 +18,15 @@ import { useQuery } from '@apollo/client';
 import CommunicationBox from 'components/CommunicationBox';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import { headerAction } from 'storeCompany/headerSlice';
 
 type Props = {};
 
 const successedProject = (props: Props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const routerId = router?.query?.projectIdx;
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
@@ -34,7 +36,6 @@ const successedProject = (props: Props) => {
   const [historyDetailData, setHistoryDetailData] = useState<Projects>();
 
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { loading, error, data } = useQuery<ResponseHistoryProjectsDetail>(
     GET_historyProjectsDetail,
     {
@@ -58,9 +59,6 @@ const successedProject = (props: Props) => {
     },
   );
 
-  // console.log('🔥 히스토리 프로젝트 데이터 ~line 68 -> ' + TAG);
-  // console.log(historyDetailData);
-
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -79,6 +77,10 @@ const successedProject = (props: Props) => {
       setComponentId(num);
     }
   }, [router.query.projectIdx]);
+
+  useEffect(() => {
+    dispatch(headerAction.setTabIdx(1));
+  }, []);
 
   // url정보기 기억하고 로그인 페이지로 리다이렉트
   if (!accessToken && memberType !== 'COMPANY') {
