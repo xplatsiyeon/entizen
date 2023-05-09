@@ -29,7 +29,7 @@ type Props = {
   id?: string;
 };
 export type ImageType = 'IMAGE' | 'FILE';
-const ComContranct = ({ id }: Props) => {
+const ComContract = ({ id }: Props) => {
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const router = useRouter();
   const routerId = router.query.projectIdx!;
@@ -133,7 +133,7 @@ const ComContranct = ({ id }: Props) => {
         },
       });
     } else {
-      setIsModal(true);
+      setContractIsModal(true); // 계약서 작성 모달
     }
   };
 
@@ -229,7 +229,11 @@ const ComContranct = ({ id }: Props) => {
 
   return (
     <Wrapper>
-      {isModal && <ContractModal setIsModal={setIsModal} />}
+      {/* alert 모달 */}
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
+      {/* 계약서 모달 */}
+      {contractIsModal && <ContractModal setIsModal={setIsModal} />}
+      {/* 자체 계약서 모달 */}
       {openSelfContract && (
         <FileSelectModal
           fileText="앨범에서 가져오기"
@@ -239,7 +243,6 @@ const ComContranct = ({ id }: Props) => {
           onClickPhoto={imgHandler}
         />
       )}
-      {isModal && <Modal click={onClickModal} text={modalMessage} />}
       {/* 이미지 input */}
       <input
         style={{ display: 'none' }}
@@ -323,7 +326,7 @@ const ComContranct = ({ id }: Props) => {
   );
 };
 
-export default ComContranct;
+export default ComContract;
 
 const Wrapper = styled.div`
   margin-top: 34.5pt;

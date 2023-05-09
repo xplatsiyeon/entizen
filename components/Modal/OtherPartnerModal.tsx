@@ -7,6 +7,7 @@ import { QuotationRequestV1 } from 'types/quotation';
 import { useRouter } from 'next/router';
 
 interface Props {
+  modalNumber: number; // 0 다른파트너 / 1 확정하기
   contents: string;
   leftText: string;
   leftControl: () => void;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function OtherPartnerModal({
+  modalNumber,
   contents,
   leftText,
   leftControl,
@@ -27,11 +29,6 @@ export default function OtherPartnerModal({
 }: Props) {
   const outside = useRef(null);
   const router = useRouter();
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
-  });
-
-  console.log('🔥 quotationDataV1 : ', quotationDataV1);
 
   // 외부 클릭 모달 창 닫기
   const handleModalClose = (
@@ -62,11 +59,14 @@ export default function OtherPartnerModal({
     <ModalBackground ref={outside} onClick={(e) => handleModalClose(e)}>
       <Modal>
         <H1>{contents}</H1>
-        <Text>
-          {companyName} 외에 &nbsp;
-          {quotationDataV1?.quotationStatusHistories?.length - 1}개의 업체가
-          <br /> 견적을 제출하였습니다.
-        </Text>
+        {modalNumber === 0 && (
+          <Text>
+            {companyName} 외에 &nbsp;
+            {quotationDataV1?.quotationStatusHistories?.length - 1}개의 업체가
+            <br /> 견적을 제출하였습니다.
+          </Text>
+        )}
+
         <BtnBox>
           <LeftBtn onClick={leftControl}>{leftText}</LeftBtn>
           <RightBtn onClick={rightControl}>{rightText}</RightBtn>

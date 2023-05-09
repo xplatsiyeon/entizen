@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Phone from 'public/mypage/Phone.svg';
+import { useRef } from 'react';
 import colors from 'styles/colors';
 
 interface Props {
@@ -18,8 +19,20 @@ const FileSelectModal = ({
   onClickPhoto,
   cencleBtn,
 }: Props) => {
+  const outside = useRef<HTMLDivElement | null>(null);
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside) {
+      if (outside.current === e.target) {
+        cencleBtn();
+      }
+    }
+  };
+
   return (
-    <Wrapper>
+    <Wrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <Box>
         <div className="list fisrt" onClick={onClickPhoto}>
           {fileText ? fileText : '사진'}

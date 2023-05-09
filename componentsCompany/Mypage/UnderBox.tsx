@@ -5,7 +5,7 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
-import ComContranct from './CompContract';
+import ComContract from './CompContract';
 import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
@@ -17,7 +17,6 @@ type Props = {
 
 const UnderBox = ({ id }: Props) => {
   // 계약서 작성 및 서명 클릭 화면
-  const [contr, setContr] = useState<boolean>(false);
   const router = useRouter();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
@@ -45,50 +44,13 @@ const UnderBox = ({ id }: Props) => {
         </ImageBox>
         {/* ========================= 모바일 =========================*/}
         <MobWrap>
-          <ComContranct id={id} />
-          {/* {!contr ? (
-            // 빈 화면
-            <NoContractBox>
-              <CenterImgBox>
-                <Image src={contract} alt="contract" layout="fill" />
-              </CenterImgBox>
-              <BiggerText>계약서를 작성해 주세요.</BiggerText>
-              <SmallText>계약 후 프로젝트가 진행됩니다.</SmallText>
-            </NoContractBox>
-          ) : (
-            // 계약서 선택 템플릿
-            <ComContranct />
-          )} */}
+          <ComContract id={id} />
         </MobWrap>
       </Wrapper>
-
-      {/* {!contr ? (
-        <BtnBox>
-          <Btn onClick={() => setContr(true)} tColor={true}>
-            계약서 작성 및 서명
-          </Btn>
-          <Btn tColor={false} onClick={() => onClickBtn(id)}>
-            고객과 소통하기
-          </Btn>
-        </BtnBox>
-      ) : (
-        <BtnWrap>
-          <BtnBox2 onClick={() => alert('개발중입니다')}>
-            <WebImageBox width={15} height={15}>
-              <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
-            </WebImageBox>
-            <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
-            <WebImageBox width={3.75} height={7.5}>
-              <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
-            </WebImageBox>
-          </BtnBox2>
-        </BtnWrap>
-      )} */}
-
       {/* ========================= 데스트탑 =========================  */}
       <WebBtnWrapper>
         {/* 계약서 선택란*/}
-        <ComContranct />
+        <ComContract />
       </WebBtnWrapper>
       <CommunityBtnBox>
         <WebImageBox width={15} height={15}>

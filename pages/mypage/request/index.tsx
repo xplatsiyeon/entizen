@@ -36,6 +36,7 @@ import {
   QuotationDataV1Response,
   QuotationRequestV1,
 } from 'types/quotation';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -381,15 +382,25 @@ const Mypage1_3 = ({}: any) => {
           />
         )}
         {/* 확정하기 모달 */}
-        {partnerModal && (
+        {modalNumber === 1 && partnerModal && (
+          <ConfirmModal
+            onClose={() => setPartnerModal(false)}
+            onClick={onClickConfirmModal}
+            leftText="확인"
+            rightText="취소"
+            contents={`${preQuotationsData?.member?.companyMemberAdditionalInfo?.companyName}로\n 확정하시겠습니까?`}
+          />
+        )}
+
+        {/* 다른파트너 모달 */}
+        {modalNumber === 0 && partnerModal && (
           <OtherPartnerModal
+            modalNumber={modalNumber}
             quotationDataV1={quotationDataV1!}
             backgroundOnClick={() => setPartnerModal(false)}
             contents={modalMessage}
             rightText={'확인'}
-            rightControl={
-              modalNumber === 0 ? onClickOtherPartnerModal : onClickConfirmModal
-            }
+            rightControl={onClickOtherPartnerModal}
             leftText={'취소'}
             leftControl={() => setPartnerModal(false)}
           />
