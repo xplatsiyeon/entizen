@@ -480,8 +480,6 @@ const SentQuoatationFirst = () => {
               {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
               {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
                 <LastQuotationBtnBox2>
-                  {/* <Blur />
-                <BlurTwo /> */}
                   <LastBtn onClick={() => setIsConfirmModal(true)}>
                     현장실사 완료
                   </LastBtn>

@@ -3,11 +3,7 @@ import { Button } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import { useMediaQuery } from 'react-responsive';
-import {
-  QuotationDataV1,
-  QuotationRequest,
-  QuotationStatusHistories,
-} from 'types/quotation';
+import { QuotationRequestV1 } from 'types/quotation';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -17,7 +13,7 @@ interface Props {
   rightText: string;
   rightControl: () => void;
   backgroundOnClick: () => void;
-  quotationDataV1: QuotationRequest;
+  quotationDataV1: QuotationRequestV1;
 }
 
 export default function OtherPartnerModal({
