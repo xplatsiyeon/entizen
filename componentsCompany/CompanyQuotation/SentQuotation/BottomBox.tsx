@@ -14,7 +14,7 @@ import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
 
 type Props = {
   pb?: number;
@@ -50,12 +50,10 @@ const BottomBox = ({ pb, data }: Props) => {
   };
 
   // 이미지 확대 보기에 전달 할 배열
-  const fileArray =
-    data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map((item) =>
-      item?.chargerImageFiles.reverse(),
-    );
-
-  const fileArray2 = { ...fileArray };
+  let fileArr: ImgType[] = [];
+  data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map((item) => {
+    item?.chargerImageFiles.map((e) => fileArr?.unshift(e));
+  });
 
   return (
     <Wrapper>
@@ -279,7 +277,7 @@ const BottomBox = ({ pb, data }: Props) => {
       {/* 이미지 자세히 보기 기능 */}
       {openImgModal && (
         <ImgDetailCarousel
-          file={fileArray2[0]!}
+          file={fileArr!}
           setOpenImgModal={setOpenImgModal}
           idxRef={idxRef}
         />

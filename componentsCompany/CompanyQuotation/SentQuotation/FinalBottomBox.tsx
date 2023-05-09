@@ -23,7 +23,7 @@ import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMediaQuery } from 'react-responsive';
-import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
 
 type Props = {
   pb?: number;
@@ -46,12 +46,12 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   };
 
   // 이미지 확대 보기에 전달 할 배열
-  const fileArray =
-    data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
-      (item) => item?.chargerImageFiles.reverse(),
-    );
-
-  const fileArray2 = { ...fileArray };
+  let fileArr: ImgType[] = [];
+  data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
+    (item) => {
+      item?.chargerImageFiles.map((e) => fileArr?.unshift(e));
+    },
+  );
 
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
@@ -334,7 +334,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
       {/* 이미지 자세히 보기 기능 */}
       {openImgModal && (
         <ImgDetailCarousel
-          file={fileArray2[0]!}
+          file={fileArr}
           setOpenImgModal={setOpenImgModal}
           idxRef={idxRef}
         />
