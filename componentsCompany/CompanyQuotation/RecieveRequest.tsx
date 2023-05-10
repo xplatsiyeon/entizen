@@ -16,10 +16,12 @@ import Search from './Search';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
 import { useMediaQuery } from 'react-responsive';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import PaginationCompo from 'components/PaginationCompo';
+import { useDispatch } from 'react-redux';
+import { headerAction } from 'storeCompany/headerSlice';
 
 type Props = {
   searchWord: string;
@@ -40,6 +42,7 @@ const RecieveRequest = ({
   setCheckedFilter,
   keyword,
 }: Props) => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   // 페이지 네이션
@@ -65,6 +68,26 @@ const RecieveRequest = ({
   useEffect(() => {
     refetch();
   }, [checkedFilterIndex, keyword, receivedPage]);
+
+  // 받은 견적 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyReceivedQuotation: true,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(headerAction.setTabIdx(0));
+    dispatch(headerAction.setTab(0));
+    dispatch(headerAction.setType('estimate'));
+  }, []);
 
   if (isError) {
     return (

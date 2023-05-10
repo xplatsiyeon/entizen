@@ -1,21 +1,38 @@
 import React, { Fragment, useState } from 'react';
 import styled from '@emotion/styled';
-import colors from 'styles/colors';
-// import RightArrow from 'public/images/CaretRightArrow.png';
 import RightArrow from 'public/images/RightMenuArrowSvg.svg';
 import Image from 'next/image';
 import Chats from '../public/images/Chats.png';
 import MyProductList from '../public/images/MyProductListPng.png';
 import ReceivedQuotation from '../public/images/ReceivedQuotation.png';
-import EntizenLibrary from '../public/images/EntizenLibraryIcon.png';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
-
-type Props = { type: string };
+import { useDispatch } from 'react-redux';
+import { headerAction } from 'storeCompany/headerSlice';
 
 const CompanyRightMenu = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
+
+  // 받은 요청 라우팅
+  const onClickQuotation = () => {
+    dispatch(headerAction.setTabIdx(0));
+    dispatch(headerAction.setTab(0));
+    dispatch(headerAction.setType('estimate'));
+    router.push('/company/quotation');
+  };
+  // 소통하기 라우팅
+  const onClickChatting = () => {
+    dispatch(headerAction.setTab(1));
+    dispatch(headerAction.setType('chatting'));
+    router.push('/company/chatting');
+  };
+  // 소통하기 라우팅
+  const onClickMyProductList = () => {
+    dispatch(headerAction.reset());
+    router.push('/company/myProductList');
+  };
   return (
     <MenuRapper open={open}>
       <MenuContainer>
@@ -33,37 +50,21 @@ const CompanyRightMenu = () => {
         {open && (
           <>
             <MenuOpenWrapper>
-              <MenuBox
-                onClick={() => {
-                  router.push('/company/chatting');
-                }}
-              >
+              <MenuBox onClick={onClickChatting}>
                 <ImageBoxS>
                   <Image src={Chats} alt="Chats" />
                 </ImageBoxS>
                 <MenuTitle>소통하기</MenuTitle>
                 <Divide />
               </MenuBox>
-              <MenuBox
-                onClick={() => {
-                  router.push({
-                    pathname: '/company/quotation',
-                  });
-                }}
-              >
+              <MenuBox onClick={onClickQuotation}>
                 <ImageBoxL>
                   <Image src={ReceivedQuotation} alt="Chats" />
                 </ImageBoxL>
                 <MenuTitle>받은 요청</MenuTitle>
                 <Divide />
               </MenuBox>
-              <MenuBox
-                onClick={() => {
-                  router.push({
-                    pathname: '/company/myProductList',
-                  });
-                }}
-              >
+              <MenuBox onClick={onClickMyProductList}>
                 <ImageBoxL>
                   <Image src={MyProductList} alt="Chats" />
                 </ImageBoxL>
@@ -108,23 +109,6 @@ const MenuContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-`;
-
-const Poligon = styled.div`
-  clip-path: polygon(
-    100% 0%,
-    100% 100%,
-    32% 100%,
-    35% 21%,
-    21% 20%,
-    8% 15%,
-    18% 11%,
-    34% 8%,
-    34% 0
-  );
-  border: 1px solid red;
-  position: absolute;
-  background-color: red;
 `;
 
 const MenuBox = styled.div`
@@ -206,15 +190,6 @@ const ImageIcon = styled.div<{ open: boolean }>`
   @media (max-width: 1125pt) {
     padding: 4pt 6pt;
   }
-`;
-
-const Circle = styled.div`
-  width: 36px;
-  height: 36px;
-  background-color: white;
-  border-radius: 50%;
-  transform: translate(-43px, -306px);
-  box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
 `;
 
 const MenuOpenWrapper = styled.div`

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  tab: -1,
-  type: '',
-  tabIdx: -1,
+  tab: -1, // 메인 메뉴 번호
+  type: '', // 타입
+  tabIdx: -1, // 서브 메뉴 번호
 };
 
 const slice = createSlice({

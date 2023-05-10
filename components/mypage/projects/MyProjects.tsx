@@ -12,6 +12,8 @@ import Loader from 'components/Loader';
 import PaginationCompo from 'components/PaginationCompo';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
 
 type Props = {
   listUp?: boolean;
@@ -74,6 +76,20 @@ const MyProjects = ({ listUp }: Props) => {
   useEffect(() => {
     projectListRefetch();
   }, [projectPage]);
+
+  // 내 프로젝트 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadUserProject: true,
+      },
+    });
+  }, []);
 
   if (projectListLoading) {
     return <Loader />;

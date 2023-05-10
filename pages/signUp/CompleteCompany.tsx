@@ -17,7 +17,7 @@ const CompleteCompany = (props: Props) => {
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
-  const [tabNumber, setTabNumber] = useState<number>(7);
+  const [tabNumber, setTabNumber] = useState<number>(-1);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 

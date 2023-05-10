@@ -5,11 +5,11 @@ import CaretDown24 from 'public/images/CaretDown24.png';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Sort from './Sort';
 import { filterType, filterTypeEn } from 'pages/company/quotation';
 import Search from './Search';
-import { isTokenGetApi } from 'api';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
@@ -18,6 +18,8 @@ import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
+import { useDispatch } from 'react-redux';
+import { headerAction } from 'storeCompany/headerSlice';
 
 type Props = {};
 
@@ -47,6 +49,7 @@ export interface HistoryResponse {
 const TAG = 'componentsCOmpany/CompanyQuotation/History';
 const History = ({}: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   // 페이지 네이션
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
@@ -73,10 +76,27 @@ const History = ({}: Props) => {
     );
 
   useEffect(() => {
-    // console.log(`🔥 리페치 테스트 ~line 63 -> ${TAG}`);
-    // console.log(error);
     refetch();
   }, [checkedFilterIndex, keyword, historyPage]);
+
+  //  견적 히스토리 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyQuotationHistory: true,
+      },
+    });
+  }, []);
+  useEffect(() => {
+    dispatch(headerAction.setTab(0));
+    dispatch(headerAction.setTabIdx(2));
+    dispatch(headerAction.setType('estimate'));
+  }, []);
 
   if (isError) {
     // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');

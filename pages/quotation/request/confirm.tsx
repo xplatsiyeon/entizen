@@ -192,7 +192,10 @@ const Confirm = (props: Props) => {
   let routerRef = useRef<string>('');
   const routeChangeStart = useCallback(
     (url: string) => {
-      if (url === '/quotation/request') {
+      if (
+        url === '/quotation/request' ||
+        url === '/quotation/request/complete'
+      ) {
         actionInit();
         return;
       } else {

@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import PaginationCompo from 'components/PaginationCompo';
 import { useRouter } from 'next/router';
@@ -8,6 +9,7 @@ import {
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
 import { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
 import colors from 'styles/colors';
 import { handleColor2 } from 'utils/changeValue';
 import CommonBtn from '../as/CommonBtn';
@@ -64,6 +66,20 @@ const Charging = ({ listUp }: Props) => {
     });
   };
   useEffect(() => {}, [chargingData]);
+  // 내 충전소 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadUserChargingStation: true,
+      },
+    });
+  }, []);
+
   if (chargingLoading) {
     return <Loader />;
   }

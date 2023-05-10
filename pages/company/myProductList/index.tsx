@@ -16,7 +16,7 @@ const MyProductListComponent = (props: Props) => {
   const handleHomeClick = () => {
     router.push('/');
   };
-  const [tabNumber, setTabNumber] = useState<number>(7);
+  const [tabNumber, setTabNumber] = useState<number>(-1);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   return (

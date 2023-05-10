@@ -15,7 +15,7 @@ import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
 import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
-type Props = { num?: number; now?: string };
+type Props = {};
 interface QuotationRequest {
   changedDate: string;
   createdAt: string;
@@ -49,7 +49,7 @@ export interface ReceivedRequest {
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 export const filterTypeEn = ['deadline', 'status', 'date'];
 
-const CompanyQuotations = ({ num, now }: Props) => {
+const CompanyQuotations = ({}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -131,8 +131,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
           <WebBuyerHeader
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}
-            num={num}
-            now={now}
             openSubLink={openSubLink}
             setOpenSubLink={setOpenSubLink}
           />

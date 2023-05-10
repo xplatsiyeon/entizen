@@ -13,8 +13,8 @@ import { redirectAction } from 'store/redirectUrlSlice';
 import { excelDownloadFile } from 'hooks/excelDown';
 import { useMediaQuery } from 'react-responsive';
 import useDebounce from 'hooks/useDebounce';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import PaginationCompo from 'components/PaginationCompo';
 
 export interface AfterSalesServices {
@@ -88,6 +88,20 @@ const AsHistory = ({}: Props) => {
   useEffect(() => {
     historyRefetch();
   }, [historyFilterTypeEn, historyKeyword, historySelected, historyAsPage]);
+
+  // 신규 AS 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyAfterSalesServiceHistory: true,
+      },
+    });
+  }, []);
 
   const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({

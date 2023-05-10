@@ -11,6 +11,8 @@ import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 import RightNoProject from './RightNoProject';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
 
 type Props = {
   tabNumber: number;
@@ -88,16 +90,26 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
     console.log('data : ', data);
   }, [data]);
 
+  // 진행 중인 프로젝트 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyInProgressProject: true,
+      },
+    });
+  }, []);
+
   if (loading) {
     return <Loader />;
   }
   if (error) {
     // console.log(error);
   }
-
-  // console.log('🔥 데이터 확인 ~line 87 ' + TAG);
-
-  // console.log(data);
 
   return (
     <>

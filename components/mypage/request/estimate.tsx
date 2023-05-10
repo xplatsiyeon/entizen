@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi } from 'api';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
@@ -133,6 +133,20 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   useEffect(() => {
     historyRefetch();
   }, [historyPage]);
+
+  // 내 견적서 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadUserQuotation: true,
+      },
+    });
+  }, []);
 
   useEffect(() => {
     console.log('실행');

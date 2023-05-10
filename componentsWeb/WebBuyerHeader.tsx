@@ -47,8 +47,6 @@ type Menu = {
 
 const WebBuyerHeader = ({
   setTabNumber,
-  tabNumber,
-  componentId,
   num,
   now,
   openSubLink,
@@ -62,6 +60,8 @@ const WebBuyerHeader = ({
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const { tab, type } = useSelector((state: RootState) => state.headerSlice);
+  console.log('🔥 tab : ', tab);
+  console.log('🔥 type : ', type);
 
   // 알람 조회
   // /v1/alerts/unread-points
@@ -217,7 +217,6 @@ const WebBuyerHeader = ({
               })}
             </Box1>
             <Box2>
-              {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
               {isUser ? (
                 <>
                   <DivBox2>

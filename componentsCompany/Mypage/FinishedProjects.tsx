@@ -18,6 +18,8 @@ import { changeDataFn } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
 
 type Props = {
   tabNumber: number;
@@ -66,6 +68,20 @@ export default function FinishedProjects({ tabNumber, componentId }: Props) {
   useEffect(() => {
     historyRefetch();
   }, [completedProjectPage]);
+
+  // 완료 프로젝트 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyCompletedProject: true,
+      },
+    });
+  }, []);
 
   if (historyLoading) {
     return <Loader />;

@@ -97,6 +97,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
   return (
     <Wrapper>
       <Container>
+        {/* 웹헤더ㅏ */}
         <WebBuyerHeader
           setTabNumber={setTabNumber}
           tabNumber={tabNumber}
@@ -106,6 +107,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
+        {/* 오른쪽 메뉴바 */}
         <CompanyRightMenu />
         <HeadWrapper>
           <LogoBox>
@@ -120,9 +122,6 @@ const CompanyMainPage = ({ num, now }: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            {/* <FirstIconBox onClick={() => router.push('/alarm')}>
-              <Image src={Ring} alt="alarmIcon" />
-            </FirstIconBox> */}
             {!userID && (
               <FirstIconBox
                 onClick={() => {
@@ -180,7 +179,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
             )}
           </IconWrapper>
         </HeadWrapper>
-
+        {/* 배너 */}
         <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}

@@ -378,7 +378,7 @@ const AdminBannerEditor = ({
   });
 
   const modalPostBtnControll = () => {
-    if (detatilId === '') {
+    if (detatilId === '' && pcImgUrl && tabletImgUrl && mobileImgUrl) {
       postMutate({
         url: `/admin/banners`,
         data: {
@@ -400,9 +400,11 @@ const AdminBannerEditor = ({
             size: mobileImgSize,
             originalName: mobileImgName,
           },
-          // innerImages: insideImgArr,
         },
       });
+    } else {
+      setMessageModal(true);
+      setMessage('제목과 배너는 필수 항목입니다.');
     }
   };
   console.log('pcImgName ⚽️', pcImgName);

@@ -13,8 +13,8 @@ import { dateFomat } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import useDebounce from 'hooks/useDebounce';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
 
@@ -90,6 +90,20 @@ const NewAs = ({}: Props) => {
   useEffect(() => {
     newRefetch();
   }, [newFilterTypeEn, newKeyword, newSelected, newAsPage]);
+
+  // 신규 AS 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanyNewAfterSalesService: true,
+      },
+    });
+  }, []);
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));

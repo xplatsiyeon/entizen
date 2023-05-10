@@ -20,8 +20,12 @@ import NoAs from './NoAs';
 import CommonBtn from './CommonBtn';
 import { useRouter } from 'next/router';
 import checkSvg from 'public/images/check-small.png';
-import { useQuery as reactQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi } from 'api';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { handleColorAS } from 'utils/changeValue';
 import { dateFomat } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
@@ -228,6 +232,20 @@ const AsIndex = ({ listUp }: Props) => {
   useEffect(() => {
     refetch();
   }, [checkedFilterIndex, keyword, asPage]);
+
+  // 내 AS 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadUserAfterSalesService: true,
+      },
+    });
+  }, []);
 
   if (isLoading) {
     return <Loader />;

@@ -47,10 +47,10 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
     },
   );
   // 알림 읽음 여부 변경
-  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
-    onError: () => {},
-  });
+  // const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+  //   onSuccess: () => {},
+  //   onError: () => {},
+  // });
 
   switch (type) {
     case 'myProject':
@@ -120,14 +120,14 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
     dispatch(headerAction.setTabIdx(idx));
 
     const key = linkNameEn[idx];
-    if (key) {
-      updateAlertMutate({
-        url: '/v1/alerts/unread-points',
-        data: {
-          [key]: true,
-        },
-      });
-    }
+    // if (key) {
+    //   updateAlertMutate({
+    //     url: '/v1/alerts/unread-points',
+    //     data: {
+    //       [key]: true,
+    //     },
+    //   });
+    // }
   };
 
   // 불 들어오는 확인

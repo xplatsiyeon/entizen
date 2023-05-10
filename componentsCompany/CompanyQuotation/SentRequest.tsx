@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import { filterType } from 'pages/company/quotation';
 import Sort from './Sort';
@@ -17,6 +17,8 @@ import NoEstimate from './NoEstimate';
 import useDebounce from 'hooks/useDebounce';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
+import { headerAction } from 'storeCompany/headerSlice';
+import { useDispatch } from 'react-redux';
 
 type Props = {};
 export interface QuotationRequest {
@@ -62,6 +64,7 @@ const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const filterTypeEn = ['deadline', 'status', 'date'];
 const SentRequest = ({}: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   // 페이지 네이션
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
@@ -92,6 +95,26 @@ const SentRequest = ({}: Props) => {
   useEffect(() => {
     refetch();
   }, [checkedFilterIndex, keyword, sendPage]);
+
+  // 보낸 견적 알림 읽음 처리
+  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  useEffect(() => {
+    updateAlertMutate({
+      url: '/v1/alerts/unread-points',
+      data: {
+        wasReadCompanySentQuotation: true,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(headerAction.setTab(0));
+    dispatch(headerAction.setTabIdx(1));
+    dispatch(headerAction.setType('estimate'));
+  }, []);
 
   if (isError) {
     // console.log(TAG + '🔥 ~line  68 ~ error 콘솔');

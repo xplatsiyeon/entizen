@@ -32,10 +32,10 @@ const SubMenuBar = ({ type, num, now }: Props) => {
     },
   );
   // 알림 읽음 여부 변경
-  const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
-    onError: () => {},
-  });
+  // const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
+  //   onSuccess: () => {},
+  //   onError: () => {},
+  // });
 
   switch (type) {
     case 'guide':
@@ -82,15 +82,15 @@ const SubMenuBar = ({ type, num, now }: Props) => {
   // 읽음 표시
   const onClickLink = (idx: number) => {
     handleLink(idx);
-    const key = userAlertsEn[idx];
-    if (key) {
-      updateAlertMutate({
-        url: '/v1/alerts/unread-points',
-        data: {
-          [key]: true,
-        },
-      });
-    }
+    // const key = userAlertsEn[idx];
+    // if (key) {
+    //   updateAlertMutate({
+    //     url: '/v1/alerts/unread-points',
+    //     data: {
+    //       [key]: true,
+    //     },
+    //   });
+    // }
   };
 
   // 불 들어오는 확인
