@@ -19,6 +19,7 @@ import {
   PreQuotationsV1,
   QuotationRequestV1,
 } from 'types/quotation';
+import { useQueryClient } from 'react-query';
 
 interface Props {
   pb?: number;
@@ -42,7 +43,7 @@ const BiddingQuote = ({
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
   });
-
+  const queryClient = useQueryClient();
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [newChargerImageFiles, setNewChargerImageFiles] = useState<string[]>();
@@ -72,7 +73,6 @@ const BiddingQuote = ({
       item.preQuotationFiles.filter((el) => el.productFileType === 'IMAGE'),
     )
     .flat();
-  // .reverse();
 
   // 충전기 이미지 상태 관리
   useEffect(() => {
@@ -122,9 +122,14 @@ const BiddingQuote = ({
                         ? 'target'
                         : ''
                     }
-                    onClick={() => {
-                      router.push(
-                        `/mypage/request/detail?preQuotationIdx=${router?.query?.preQuotationIdx}`,
+                    onClick={async () => {
+                      console.log(
+                        '🔥 preQuotationIdx : ',
+                        data.preQuotationIdx,
+                      );
+
+                      await router.push(
+                        `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
                       );
                     }}
                   >

@@ -1,6 +1,6 @@
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TwoButton from 'components/mypage/request/TwoButton';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import styled from '@emotion/styled';
@@ -23,100 +23,100 @@ import {
   QuotationDataV1Response,
   QuotationRequestV1,
 } from 'types/quotation';
-export interface PreQuotationChargers {
-  createdAt: string;
-  preQuotationChargerIdx: number;
-  chargePriceType: string;
-  chargePrice: number;
-  modelName: string;
-  manufacturer: string;
-  productFeature: string;
-  preQuotationIdx: number;
-  preQuotationFiles: ChargerFiles[];
-  chargerImageFiles: ChargerFiles[];
-  catalogFiles: ChargerFiles[];
-}
-export interface Member {
-  memberIdx: number;
-  memberType: string;
-  name: string;
-  phone: string;
-  id: string;
-}
+// export interface PreQuotationChargers {
+//   createdAt: string;
+//   preQuotationChargerIdx: number;
+//   chargePriceType: string;
+//   chargePrice: number;
+//   modelName: string;
+//   manufacturer: string;
+//   productFeature: string;
+//   preQuotationIdx: number;
+//   preQuotationFiles: ChargerFiles[];
+//   chargerImageFiles: ChargerFiles[];
+//   catalogFiles: ChargerFiles[];
+// }
+// export interface Member {
+//   memberIdx: number;
+//   memberType: string;
+//   name: string;
+//   phone: string;
+//   id: string;
+// }
 
-export interface ChargerImageFiles {
-  createdAt: string;
-  finalQuotationChargerFileIdx: number;
-  productFileType: string;
-  originalName: string;
-  url: string;
-  size: number;
-  finalQuotationChargerIdx: number;
-}
+// export interface ChargerImageFiles {
+//   createdAt: string;
+//   finalQuotationChargerFileIdx: number;
+//   productFileType: string;
+//   originalName: string;
+//   url: string;
+//   size: number;
+//   finalQuotationChargerIdx: number;
+// }
 
-export interface FinalQuotationChargers {
-  createdAt: string;
-  finalQuotationChargerIdx: number;
-  kind: string;
-  standType: string;
-  channel: string;
-  count: number;
-  chargePriceType: string;
-  chargePrice: number;
-  installationLocation: string;
-  modelName: string;
-  manufacturer: string;
-  productFeature: string;
-  finalQuotationIdx: number;
-  chargerImageFiles: ChargerImageFiles[];
-  catalogFiles: ChargerImageFiles[];
-}
-export interface FinalQuotationDetailFiles {
-  createdAt: string;
-  finalQuotationDetailFileIdx: number;
-  finalQuotationIdx: number;
-  originalName: string;
-  size: number;
-  url: string;
-}
-export interface FinalQuotations {
-  createdAt: string;
-  finalQuotationIdx: number;
-  chargingStationInstallationPrice: number;
-  subscribeProduct: string;
-  subscribePeriod: number;
-  userInvestRate: string;
-  chargingPointRate: string;
-  subscribePricePerMonth: number;
-  constructionPeriod: number;
-  subscribeProductFeature: string;
-  spotInspectionResult: string;
-  quotationRequestIdx: number;
-  preQuotationIdx: number;
-  finalQuotationChargers: FinalQuotationChargers[];
-  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
-}
-export interface PreQuotation {
-  createdAt: string;
-  preQuotationIdx: number;
-  chargingStationInstallationPrice: number;
-  subscribePricePerMonth: number;
-  constructionPeriod: number;
-  subscribeProductFeature: string;
-  preQuotationStatus: string;
-  changedDate: string;
-  quotationRequestIdx: number;
-  memberIdx: number;
-  preQuotationChargers: PreQuotationChargers[];
-  member: Member;
-  finalQuotation: FinalQuotations;
-}
-export interface PreQuotationResponse {
-  isSuccess: boolean;
-  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
-  preQuotation: PreQuotation;
-  quotationRequest: QuotationRequest;
-}
+// export interface FinalQuotationChargers {
+//   createdAt: string;
+//   finalQuotationChargerIdx: number;
+//   kind: string;
+//   standType: string;
+//   channel: string;
+//   count: number;
+//   chargePriceType: string;
+//   chargePrice: number;
+//   installationLocation: string;
+//   modelName: string;
+//   manufacturer: string;
+//   productFeature: string;
+//   finalQuotationIdx: number;
+//   chargerImageFiles: ChargerImageFiles[];
+//   catalogFiles: ChargerImageFiles[];
+// }
+// export interface FinalQuotationDetailFiles {
+//   createdAt: string;
+//   finalQuotationDetailFileIdx: number;
+//   finalQuotationIdx: number;
+//   originalName: string;
+//   size: number;
+//   url: string;
+// }
+// export interface FinalQuotations {
+//   createdAt: string;
+//   finalQuotationIdx: number;
+//   chargingStationInstallationPrice: number;
+//   subscribeProduct: string;
+//   subscribePeriod: number;
+//   userInvestRate: string;
+//   chargingPointRate: string;
+//   subscribePricePerMonth: number;
+//   constructionPeriod: number;
+//   subscribeProductFeature: string;
+//   spotInspectionResult: string;
+//   quotationRequestIdx: number;
+//   preQuotationIdx: number;
+//   finalQuotationChargers: FinalQuotationChargers[];
+//   finalQuotationDetailFiles: FinalQuotationDetailFiles[];
+// }
+// export interface PreQuotation {
+//   createdAt: string;
+//   preQuotationIdx: number;
+//   chargingStationInstallationPrice: number;
+//   subscribePricePerMonth: number;
+//   constructionPeriod: number;
+//   subscribeProductFeature: string;
+//   preQuotationStatus: string;
+//   changedDate: string;
+//   quotationRequestIdx: number;
+//   memberIdx: number;
+//   preQuotationChargers: PreQuotationChargers[];
+//   member: Member;
+//   finalQuotation: FinalQuotations;
+// }
+// export interface PreQuotationResponse {
+//   isSuccess: boolean;
+//   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+//   preQuotation: PreQuotation;
+//   quotationRequest: QuotationRequest;
+// }
 
 const MypageDetail = () => {
   const [isModal, setModal] = useState(false);
@@ -129,6 +129,7 @@ const MypageDetail = () => {
     data: preQuotationsData,
     isLoading: preQuotationsLoading,
     isError: preQuotationsError,
+    refetch: preQuotationsRefetch,
   } = useQuery<preQuotationResPonse, AxiosError, PreQuotationsV1>(
     'v1/pre-quotations',
     () => isTokenGetApi(`/v1/pre-quotations/${routerId}`),
@@ -146,7 +147,7 @@ const MypageDetail = () => {
     data: quotationDataV1,
     isError: quotationErrorV1,
     isLoading: quotationLoadingV1,
-    refetch: quotationRefresh,
+    refetch: quotationRefetch,
   } = useQuery<QuotationDataV1Response, AxiosError, QuotationRequestV1>(
     'v1/quotation-requests',
     () =>
@@ -187,6 +188,13 @@ const MypageDetail = () => {
         preQuotationIdx: routerId,
       },
     });
+
+  useEffect(() => {
+    if (router.isReady) {
+      preQuotationsRefetch();
+      quotationRefetch();
+    }
+  }, [routerId]);
 
   if (preQuotationsError && spotIsError) {
     // console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');

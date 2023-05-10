@@ -108,7 +108,7 @@ const Request = () => {
             <Body>
               <span
                 className="profile-icon"
-                onClick={() => router.push('profile/editing')}
+                onClick={() => router.push('/profile/editing')}
               >
                 프로필 변경
               </span>
