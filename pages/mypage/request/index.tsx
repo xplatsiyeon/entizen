@@ -135,7 +135,6 @@ const Mypage1_3 = ({}: any) => {
         `/v1/quotation-requests/${router?.query?.quotationRequestIdx}`,
       ),
     {
-      retry: 0,
       enabled:
         router.isReady && router?.query?.quotationRequestIdx !== undefined
           ? true

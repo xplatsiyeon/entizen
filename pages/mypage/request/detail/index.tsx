@@ -157,11 +157,16 @@ const MypageDetail = () => {
     {
       enabled:
         router.isReady &&
-        preQuotationsData?.quotationRequest?.quotationRequestIdx
+        preQuotationsData &&
+        preQuotationsData.quotationRequest.quotationRequestIdx !== undefined
           ? true
           : false,
       select(data) {
         return data.quotationRequest;
+      },
+      onError(err) {
+        console.log('v1/quotation-requests 에러 발생');
+        console.log('🔥 err : ', err);
       },
     },
   );
