@@ -220,7 +220,8 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   @media (min-width: 900pt) {
-    min-width: 255pt;
+    width: 255pt;
+    min-width: 225pt;
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;

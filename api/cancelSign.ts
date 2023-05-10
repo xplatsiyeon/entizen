@@ -7,7 +7,7 @@ export const modusignCancel = (documentId: string) => {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}==`,
+      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}`,
     },
     body: JSON.stringify({
       accessibleByParticipant: false,

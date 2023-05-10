@@ -1,9 +1,5 @@
 import { ModuSignResponse } from 'QueryComponents/ModuSignQuery';
-import {
-  convertKo,
-  moduSignDate,
-  PriceBasicCalculation,
-} from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import {
   location,
   locationEn,
@@ -38,20 +34,14 @@ export const moduSign = ({
   // 계약하는 날짜 당일
   const today = new Date();
 
-  const test = PriceBasicCalculation(
-    Number(newContractData.subscriptionFee[0].replaceAll(',', '')) *
-      Number(chargerString[0]?.count) *
-      Number(projectInProgress?.finalQuotation?.constructionPeriod),
-  );
-
   const options = {
     method: 'POST',
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      authorization:
-        'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
+      authorization: `Basic ${process.env.NEXT_PUBLIC_MODUSIGN_KEY}`,
     },
+
     body: JSON.stringify({
       document: {
         participantMappings: [
@@ -1286,7 +1276,8 @@ export const moduSign = ({
         title: '엔티즌계약서',
       },
 
-      templateId: 'f63edf40-e314-11ed-9853-33cb678807c6',
+      // templateId: 'f63edf40-e314-11ed-9853-33cb678807c6',
+      templateId: '06595ba0-eeee-11ed-936c-a9796946f580',
     }),
   };
 

@@ -4,11 +4,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  isTokenDeleteApi,
-  isTokenAdminGetApi,
-  isTokenAdminDeleteApi,
-} from 'api';
+import { isTokenAdminGetApi, isTokenAdminDeleteApi } from 'api';
 import Loader from 'components/Loader';
 import {
   adminDateFomat,
@@ -113,25 +109,25 @@ const FinalQuotation = ({ finalQuotationIdx, detatilId }: Props) => {
   );
 
   // 견적서 데이터 확인
-  // const {
-  //   data: LogData,
-  //   isLoading: LogLoading,
-  //   isError: logError,
-  // } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
-  //   ',',
-  //   () =>
-  //     isTokenAdminGetApi(
-  //       `/admin/quotations/quotation-requests/${detatilId}/histories`,
-  //     ),
-  //   {
-  //     onSuccess(data) {
-  //       console.log('🔥 log_data : ', data);
-  //     },
-  //     select(data) {
-  //       return data.data;
-  //     },
-  //   },
-  // );
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () =>
+      isTokenAdminGetApi(
+        `/admin/quotations/quotation-requests/${detatilId}/histories`,
+      ),
+    {
+      onSuccess(data) {
+        console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
+  );
 
   const onChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -453,12 +449,12 @@ const FinalQuotation = ({ finalQuotationIdx, detatilId }: Props) => {
               )}
             </div>
           </BusinessList>
-          {/* 
+
           <LogContainer
             type="quotation"
             quotationData={LogData!}
             title={'상태 기록'}
-          /> */}
+          />
         </Contatiner>
       )}
     </>

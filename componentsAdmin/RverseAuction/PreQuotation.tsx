@@ -100,25 +100,25 @@ const PreQuotation = ({ preQuotationIdx, detatilId }: Props) => {
   const [fileIdx, setFileIdx] = useState<number | undefined>();
 
   // 견적서 데이터 확인
-  // const {
-  //   data: LogData,
-  //   isLoading: LogLoading,
-  //   isError: logError,
-  // } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
-  //   ',',
-  //   () =>
-  //     isTokenAdminGetApi(
-  //       `/admin/quotations/quotation-requests/${detatilId}/histories`,
-  //     ),
-  //   {
-  //     onSuccess(data) {
-  //       // console.log('🔥 log_data : ', data);
-  //     },
-  //     select(data) {
-  //       return data.data;
-  //     },
-  //   },
-  // );
+  const {
+    data: LogData,
+    isLoading: LogLoading,
+    isError: logError,
+  } = useQuery<QuotationsLogResponse, AxiosError, QuotationsLog[]>(
+    ',',
+    () =>
+      isTokenAdminGetApi(
+        `/admin/quotations/quotation-requests/${detatilId}/histories`,
+      ),
+    {
+      onSuccess(data) {
+        // console.log('🔥 log_data : ', data);
+      },
+      select(data) {
+        return data.data;
+      },
+    },
+  );
 
   const { data, isLoading, isError } = useQuery<PreQuotationRespnse>(
     'preQuotaion',
@@ -390,11 +390,11 @@ const PreQuotation = ({ preQuotationIdx, detatilId }: Props) => {
               ),
             )}
           </BusinessList>
-          {/* <LogContainer
+          <LogContainer
             type="quotation"
             quotationData={LogData!}
             title={'상태 기록'}
-          /> */}
+          />
         </Contatiner>
       )}
     </>

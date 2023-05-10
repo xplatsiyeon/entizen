@@ -137,7 +137,9 @@ const Mypage1_3 = ({}: any) => {
     {
       retry: 0,
       enabled:
-        router.isReady && router?.query?.quotationRequestIdx ? true : false,
+        router.isReady && router?.query?.quotationRequestIdx !== undefined
+          ? true
+          : false,
       select(data) {
         return data.quotationRequest;
       },
