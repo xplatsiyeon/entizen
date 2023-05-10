@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { addressSliceAction } from 'store/addressSlice';
@@ -40,6 +40,7 @@ export type Response = [
     type: string;
   },
   addressType[],
+  Dispatch<SetStateAction<addressType[]>>,
 ];
 /**
  *
@@ -80,5 +81,5 @@ export default function userAddressHooks(): Response {
     }
   }, [searchValue]);
 
-  return [keyword, setKeyword, results];
+  return [keyword, setKeyword, results, setResults];
 }

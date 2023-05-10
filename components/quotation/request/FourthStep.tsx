@@ -46,7 +46,7 @@ const FourthStep = ({
     query: '(max-width:899.25pt)',
   });
 
-  const [keyword, setKeyword, results] = userAddressHooks();
+  const [keyword, setKeyword, results, setResults] = userAddressHooks();
   const [isClickAddress, setIsClickAddress] = useState(false);
   // 지도 실행
   useMap();
@@ -135,11 +135,21 @@ const FourthStep = ({
     if (!isSearch) setHiddenTag(false);
   }, [isSearch]);
 
+  // 키워드 초기화
+  useEffect(() => {
+    if (keyword.length === 0) {
+      setResults([]);
+    }
+  }, [keyword]);
+
   // 검색된 주소 목록 생성 또는 삭제
   useEffect(() => {
+    console.log(results);
     if (!mobile) {
       if (results.length > 0 && keyword.length > 0 && !isClickAddress) {
         setIsSearch(true);
+      } else {
+        setIsSearch(false);
       }
     }
   }, [isClickAddress, keyword, results]);

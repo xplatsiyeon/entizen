@@ -383,6 +383,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('projectList');
+      queryClinet.invalidateQueries('projectDetail');
       setMessageModal(true);
       setMessage('최종 승인이 완료됐습니다.');
     },
@@ -408,6 +409,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('projectList');
+      queryClinet.invalidateQueries('projectDetail');
       setMessageModal(true);
       setMessage('프로젝트 삭제가 완료됐습니다.');
     },
@@ -719,13 +721,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             </List>
             <List>
               <Label>단계별 일정</Label>
-              {/* <ButtonBox
-                onClick={() => {
-                  alert('개발중입니다.');
-                }}
-              >
-                단계별일정수정
-              </ButtonBox> */}
+
               <GoalDateFlex>
                 <GoalDateAlign>
                   <GoalDateLabel>준비:</GoalDateLabel>
