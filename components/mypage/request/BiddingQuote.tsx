@@ -80,16 +80,13 @@ const BiddingQuote = ({
     .flat();
 
   // 리스트 클릭
-  const onClickList = (data: QuotationStatusHistories) => {
-    setCompanyName(
-      data?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName,
-    );
-    setCompanyIdx(data.preQuotationIdx);
-    setIsModal(true);
-    // await router.push(
-    //   `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
-    // );
-  };
+  // const onClickList = (data: QuotationStatusHistories) => {
+  //   setCompanyName(
+  //     data?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName,
+  //   );
+  //   setCompanyIdx(data.preQuotationIdx);
+  //   setIsModal(true);
+  // };
 
   // 충전기 이미지 상태 관리
   useEffect(() => {
@@ -111,7 +108,7 @@ const BiddingQuote = ({
   return (
     <Wrap>
       {/* ================= 웹 왼쪽 영역 ================= */}
-      {isModal && (
+      {/* {isModal && (
         <RequestDetailModal
           exit={() => setIsModal((prev) => !prev)}
           title={`${companyName}의 \n 구독상품으로 선택하시겠습니까?`}
@@ -129,7 +126,7 @@ const BiddingQuote = ({
             }
           }}
         />
-      )}
+      )} */}
       {desktop && isSpot === undefined && (
         <LeftSection>
           <ProductList>
@@ -159,7 +156,12 @@ const BiddingQuote = ({
                         : ''
                     }
                     // 온클릭
-                    onClick={() => onClickList(data)}
+                    // onClick={() => onClickList(data)}
+                    onClick={async () => {
+                      await router.push(
+                        `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
+                      );
+                    }}
                   >
                     <div className="leftBox">
                       {data?.preQuotation?.member?.companyMemberAdditionalInfo
@@ -173,6 +175,9 @@ const BiddingQuote = ({
                             }
                             alt="logo"
                             layout="fill"
+                            priority={true}
+                            unoptimized={true}
+                            objectFit="cover"
                           />
                         </div>
                       ) : (
@@ -1085,10 +1090,9 @@ const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 60pt;
-  /* border: 2px solid red; */
+  /* margin-top: 60pt; */
   @media (min-width: 900pt) {
-    margin-top: 0;
+    margin-top: 60pt;
     margin-left: 0;
     width: 75pt;
     height: 75pt;
@@ -1289,10 +1293,11 @@ const WebLeftPhotos = styled.div<{ index: number; chargeIdx: number }>`
     }
     .imgBox {
       /* border: 2px solid blue; */
+      position: relative;
       & > span {
         border-radius: 6pt;
       }
-      position: relative;
+
       width: 100%;
       height: 100%;
     }
@@ -1319,6 +1324,7 @@ const NoImage = styled.div`
   background: #caccd1;
   margin-top: 60pt;
   @media (max-width: 899.25pt) {
+    margin-top: 0;
     height: 48pt;
     width: 48pt;
     border-radius: 6pt;
