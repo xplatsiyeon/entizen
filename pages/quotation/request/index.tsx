@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -14,13 +20,18 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { addressSliceAction } from 'store/addressSlice';
+import { coordinateAction } from 'store/lnglatSlice';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Quotation1_1 = () => {
-  const route = useRouter();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
@@ -53,9 +64,44 @@ const Quotation1_1 = () => {
     5: <SixthStep tabNumber={tabNumber} />,
   };
 
-  // useEffect(() => {
-  //   console.log('isSearch 🍎', isSearch);
-  // }, [isSearch]);
+  // 다른 페이지 이동 시 모달창 띄우기
+  let routerRef = useRef<string>('');
+  const routeChangeStart = useCallback(
+    (url: string) => {
+      if (url === '/quotation/request/confirm') {
+        return;
+      } else {
+        console.log('🔥 url : ', url);
+        routerRef.current = url; // 라우팅 할 url 저장
+
+        if (
+          isModal === false &&
+          router.asPath.split('?')[0] !== url.split('?')[0]
+        ) {
+          setIsModal(true);
+          router.events.emit('routeChangeError');
+          throw 'Abort route change. Please ignore this error.';
+        }
+      }
+    },
+    [router.asPath, router.events, isModal],
+  );
+
+  // 다른 페이지 이동
+  const onClickRouter = () => {
+    dispatch(quotationAction.init());
+    dispatch(addressSliceAction.reset());
+    dispatch(coordinateAction.reset());
+    router.replace(routerRef.current ? routerRef.current : '/');
+  };
+
+  // 다른 페이지 이동 시 함수 실행
+  useEffect(() => {
+    router.events.on('routeChangeStart', routeChangeStart);
+    return () => {
+      router.events.off('routeChangeStart', routeChangeStart);
+    };
+  }, [routeChangeStart, router.events]);
 
   return (
     <>
@@ -73,7 +119,7 @@ const Quotation1_1 = () => {
                 leftBtnText={'그만하기'}
                 rightBtnColor={colors.main}
                 rightBtnText={'계속 작성하기'}
-                leftBtnControl={() => route.replace('/')}
+                leftBtnControl={onClickRouter}
                 rightBtnControl={HandleModal}
               />
             )}

@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -14,12 +20,15 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
-import { SubscribePrice } from 'store/quotationSlice';
+import { quotationAction, SubscribePrice } from 'store/quotationSlice';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import { useMediaQuery } from 'react-responsive';
 import DoubleArrow from 'public/images/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { addressSliceAction } from 'store/addressSlice';
+import { useDispatch } from 'react-redux';
+import { coordinateAction } from 'store/lnglatSlice';
 
 type Props = {};
 
@@ -38,6 +47,7 @@ interface PredictedProfitTime {
 }
 
 const Confirm = (props: Props) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -63,6 +73,7 @@ const Confirm = (props: Props) => {
   const [simulVisible, setSimulVisible] = useState(false);
 
   const [date, setDate] = useState<PredictedProfitTime>({ year: 0, month: 0 });
+  const [twoBtnModal, setTwoBtnModal] = useState(false);
   // react-query // api 호출
   const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
@@ -177,6 +188,49 @@ const Confirm = (props: Props) => {
     }
   }, []);
 
+  // 다른 페이지 이동 시 모달창 띄우기
+  let routerRef = useRef<string>('');
+  const routeChangeStart = useCallback(
+    (url: string) => {
+      if (url === '/quotation/request') {
+        actionInit();
+        return;
+      } else {
+        console.log('🔥 url : ', url);
+        routerRef.current = url; // 라우팅 할 url 저장
+
+        if (
+          twoBtnModal === false &&
+          router.asPath.split('?')[0] !== url.split('?')[0]
+        ) {
+          setTwoBtnModal(true);
+          router.events.emit('routeChangeError');
+          throw 'Abort route change. Please ignore this error.';
+        }
+      }
+    },
+    [router.asPath, router.events, twoBtnModal],
+  );
+
+  // 액션 초기화
+  const actionInit = () => {
+    dispatch(quotationAction.init());
+    dispatch(addressSliceAction.reset());
+    dispatch(coordinateAction.reset());
+  };
+
+  const onClickClose = () => {
+    setTwoBtnModal((prev) => !prev);
+  };
+
+  // 다른 페이지 이동 시 함수 실행
+  useEffect(() => {
+    router.events.on('routeChangeStart', routeChangeStart);
+    return () => {
+      router.events.off('routeChangeStart', routeChangeStart);
+    };
+  }, [routeChangeStart, router.events]);
+
   if (isError) {
     // console.log(error);
   }
@@ -187,6 +241,23 @@ const Confirm = (props: Props) => {
         <WebHeader />
         <Inner>
           <Wrapper>
+            {twoBtnModal && (
+              <TwoBtnModal
+                exit={onClickClose}
+                text={
+                  '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
+                }
+                leftBtnColor={colors.lightGray2}
+                leftBtnText={'그만하기'}
+                rightBtnColor={colors.main}
+                rightBtnText={'계속 작성하기'}
+                leftBtnControl={() => {
+                  actionInit();
+                  router.replace(routerRef.current ? routerRef.current : '/');
+                }}
+                rightBtnControl={onClickClose}
+              />
+            )}
             {isModal && (
               <QuotationModal
                 onClick={onClickModal}
