@@ -232,7 +232,7 @@ const ComContract = ({ id }: Props) => {
       {/* alert 모달 */}
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
       {/* 계약서 모달 */}
-      {contractIsModal && <ContractModal setIsModal={setIsModal} />}
+      {contractIsModal && <ContractModal setIsModal={setContractIsModal} />}
       {/* 자체 계약서 모달 */}
       {openSelfContract && (
         <FileSelectModal

@@ -281,7 +281,7 @@ const Confirm = (props: Props) => {
                     <Image src={mapPin} alt="mapPin-icon" layout="fill" />
                   </div>
                   <AddressName>
-                    {locationList.locationList.roadAddr}
+                    {locationList?.locationList.roadAddr}
                   </AddressName>
                 </AddressBox>
               )}
