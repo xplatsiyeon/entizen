@@ -63,10 +63,6 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   const [inProgressPage, setInProgressPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
 
-  const queryClient = useQueryClient();
-  // const quotationRequests = queryClient.getQueryData('v1/quotation-requests');
-  // const preQuotations = queryClient.getQueryData('v1/pre-quotations');
-
   const router = useRouter();
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',

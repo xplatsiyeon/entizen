@@ -201,9 +201,9 @@ const MypageDetail = () => {
   useEffect(() => {
     if (router.isReady) {
       if (preQuotationsData?.quotationRequest?.quotationRequestIdx) {
-        preQuotationsRefetch();
+        quotationRefetch();
       }
-      quotationRefetch();
+      preQuotationsRefetch();
     }
   }, [routerId]);
 
