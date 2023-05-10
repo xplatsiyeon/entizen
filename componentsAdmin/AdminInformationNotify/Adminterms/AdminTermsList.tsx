@@ -54,6 +54,7 @@ const AdminTermsList = ({ setNowHeight, setNumber }: Props) => {
       {isDetail && (
         <AdminTermsEditor
           setIsDetail={setIsDetail}
+          setDetailId={setDetailId}
           detatilId={detatilId}
           setChangeNumber={setChangeNumber}
         />

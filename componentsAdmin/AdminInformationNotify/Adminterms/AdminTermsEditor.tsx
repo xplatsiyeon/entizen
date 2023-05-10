@@ -22,6 +22,7 @@ import { AxiosError } from 'axios';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailId: React.Dispatch<React.SetStateAction<string>>;
   detatilId?: string;
   setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -47,11 +48,13 @@ export interface TermsUpdate {
 
 const AdminTermsEditor = ({
   setIsDetail,
+  setDetailId,
   detatilId,
   setChangeNumber,
 }: Props) => {
   const queryClient = useQueryClient();
 
+  console.log('🔥 detatilId : ', detatilId);
   // 공지사항 등록, 수정시 refetch
   // 리스트 페이지 데이터 불러오는 api 임
   const { data: termsList, refetch: termsListRefetch } =
@@ -75,6 +78,7 @@ const AdminTermsEditor = ({
     () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
     {
       onSuccess: (res) => {
+        console.log('🔥 res : ', res);
         setBodyText(res?.data?.content!);
       },
     },
@@ -154,6 +158,7 @@ const AdminTermsEditor = ({
     const type = dropDownValueEn[selctValueEn];
 
     console.log('🔥 type : ', type);
+    console.log('🔥 bodyText : ', bodyText);
     // return;
     if (bodyText && type) {
       if (detatilId === '') {
@@ -196,6 +201,8 @@ const AdminTermsEditor = ({
   } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('user-mypage');
+      termsListRefetch();
+      // queryClient.invalidateQueries('adminTermsDetail');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
@@ -262,29 +269,51 @@ const AdminTermsEditor = ({
   // 수정 및 등록
   useEffect(() => {
     setSelctValueEn(dropDownValue.indexOf(selectValue));
+    const temp: string[] = [...dropDownValue];
     if (termsDetailData !== undefined) {
-      setSelctValueKr(dropDownValueEn.indexOf(termsDetailData?.data?.type));
-    } else {
-      setSelctValueKr(0);
-      // const temp: string[] = [...dropDownValue];
-      // termsList?.data.terms.forEach((list) => {
-      //   switch (list.type) {
-      //     case 'PERSONAL_INFO': // 개인약관
-      //       deleteTerms(temp, '개인 정보 동의 약관');
-      //       break;
-      //     case 'LOCATION': // 위치정보
-      //       deleteTerms(temp, '위치 정보 동의 약관');
-      //       break;
-      //     case 'SERVICE_FOR_COMPANY': // 파트너
-      //       deleteTerms(temp, '파트너 이용 약관');
-      //       break;
-      //     case 'SERVICE_FOR_USER': // 고객
-      //       deleteTerms(temp, '고객 이용 약관');
-      //       break;
-      //   }
-      // });
+      // 수정
+      if (detatilId) {
+        const targetIdx = dropDownValueEn.indexOf(termsDetailData?.data?.type);
 
-      // setDropDownState([...temp]);
+        termsList?.data.terms.forEach((list) => {
+          if (list.type !== dropDownValueEn[targetIdx]) {
+            switch (list.type) {
+              case 'PERSONAL_INFO': // 개인약관
+                deleteTerms(temp, '개인 정보 동의 약관');
+                break;
+              case 'LOCATION': // 위치정보
+                deleteTerms(temp, '위치 정보 동의 약관');
+                break;
+              case 'SERVICE_FOR_COMPANY': // 파트너
+                deleteTerms(temp, '파트너 이용 약관');
+                break;
+              case 'SERVICE_FOR_USER': // 고객
+                deleteTerms(temp, '고객 이용 약관');
+                break;
+            }
+          }
+        });
+      } else {
+        // 초기 값
+        termsList?.data.terms.forEach((list) => {
+          switch (list.type) {
+            case 'PERSONAL_INFO': // 개인약관
+              deleteTerms(temp, '개인 정보 동의 약관');
+              break;
+            case 'LOCATION': // 위치정보
+              deleteTerms(temp, '위치 정보 동의 약관');
+              break;
+            case 'SERVICE_FOR_COMPANY': // 파트너
+              deleteTerms(temp, '파트너 이용 약관');
+              break;
+            case 'SERVICE_FOR_USER': // 고객
+              deleteTerms(temp, '고객 이용 약관');
+              break;
+          }
+        });
+      }
+      setSelctValueKr(dropDownValueEn.indexOf(termsDetailData?.data?.type));
+      setDropDownState([...temp]);
     }
   }, [selctValueEn, selctValueKr, selectValue, termsDetailData]);
 
@@ -327,8 +356,8 @@ const AdminTermsEditor = ({
           <TitleContainer>
             <DropDownBtn
               dropDownValue={dropDownState}
-              setSelectValue={setSelectValue}
               selectValue={selectValue}
+              setSelectValue={setSelectValue}
               currentStep={dropDownValue[selctValueKr]}
               width={'230px'}
               background={'#E2E5ED'}
@@ -435,45 +464,6 @@ const TitleContainer = styled.div`
   align-items: center;
   margin-bottom: 8px;
   gap: 8px;
-`;
-
-const TitleBox = styled.div`
-  width: 778px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  border: 1px solid #e2e5ed;
-  border-radius: 3px;
-  padding: 0 6px;
-`;
-
-const TitleText = styled.span`
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 14px;
-  color: #000000;
-  font-weight: 500;
-  margin-right: 10px;
-  padding-right: 8px;
-  border-right: 2px solid #e2e5ed;
-`;
-
-const TitleArea = styled.input`
-  border: none;
-  outline: none;
-  resize: none;
-  background: none;
-`;
-
-const MainTextArea = styled.textarea`
-  width: 964px;
-  height: 416px;
-  border: 1px solid #e2e5ed;
-  outline: none;
-  resize: none;
-  background: none;
-  padding: 8px;
-  border-radius: 3px;
-  margin-bottom: 8px;
 `;
 
 const BtnBox = styled.div`

@@ -62,7 +62,7 @@ const AdminNotifyTable = ({
     {
       enabled: false,
       onSuccess: (termsList) => {
-        console.log('🔥 termsList : ', termsList);
+        // console.log('🔥 termsList : ', termsList);
         if (tableType === 'termsList') {
           const temp: any = [];
           termsList?.data?.terms?.forEach((ele, idx) => {
@@ -127,14 +127,16 @@ const AdminNotifyTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>{' '}
-        <Button
-          onClick={() => {
-            handleCommon();
-          }}
-          hide={hide}
-        >
-          {commonBtn}
-        </Button>
+        {termsList?.data.terms.length! < 4 && (
+          <Button
+            onClick={() => {
+              handleCommon();
+            }}
+            hide={hide}
+          >
+            {commonBtn}
+          </Button>
+        )}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

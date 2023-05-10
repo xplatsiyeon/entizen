@@ -30,7 +30,7 @@ adminInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  console.log('🔥 token : ', token);
+  // console.log('🔥 token : ', token);
   return config;
 });
 
