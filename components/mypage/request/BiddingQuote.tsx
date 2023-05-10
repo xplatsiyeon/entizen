@@ -18,8 +18,10 @@ import {
   preQuotationFiles,
   PreQuotationsV1,
   QuotationRequestV1,
+  QuotationStatusHistories,
 } from 'types/quotation';
 import { useQueryClient } from 'react-query';
+import RequestDetailModal from 'components/Modal/RequestDetailModal';
 
 interface Props {
   pb?: number;
@@ -43,10 +45,13 @@ const BiddingQuote = ({
   const desktop = useMediaQuery({
     query: '(min-width:900pt)',
   });
-  const queryClient = useQueryClient();
+
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [newChargerImageFiles, setNewChargerImageFiles] = useState<string[]>();
+  const [isModal, setIsModal] = useState(false);
+  const [companyName, setCompanyName] = useState('');
+  const [companyIdx, setCompanyIdx] = useState<number | undefined>();
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
 
@@ -74,6 +79,18 @@ const BiddingQuote = ({
     )
     .flat();
 
+  // 리스트 클릭
+  const onClickList = (data: QuotationStatusHistories) => {
+    setCompanyName(
+      data?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName,
+    );
+    setCompanyIdx(data.preQuotationIdx);
+    setIsModal(true);
+    // await router.push(
+    //   `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
+    // );
+  };
+
   // 충전기 이미지 상태 관리
   useEffect(() => {
     if (data) {
@@ -94,6 +111,25 @@ const BiddingQuote = ({
   return (
     <Wrap>
       {/* ================= 웹 왼쪽 영역 ================= */}
+      {isModal && (
+        <RequestDetailModal
+          exit={() => setIsModal((prev) => !prev)}
+          title={`${companyName}의 \n 구독상품으로 선택하시겠습니까?`}
+          subtitle={
+            '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
+          }
+          leftControl={() => setIsModal((prev) => !prev)}
+          rightControl={async () => {
+            console.log('preQuotationIdx', data?.preQuotationIdx);
+            if (typeof companyIdx === 'number') {
+              setIsModal((prev) => !prev);
+              await router.push(
+                `/mypage/request/detail?preQuotationIdx=${companyIdx}`,
+              );
+            }
+          }}
+        />
+      )}
       {desktop && isSpot === undefined && (
         <LeftSection>
           <ProductList>
@@ -122,16 +158,8 @@ const BiddingQuote = ({
                         ? 'target'
                         : ''
                     }
-                    onClick={async () => {
-                      console.log(
-                        '🔥 preQuotationIdx : ',
-                        data.preQuotationIdx,
-                      );
-
-                      await router.push(
-                        `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
-                      );
-                    }}
+                    // 온클릭
+                    onClick={() => onClickList(data)}
                   >
                     <div className="leftBox">
                       {data?.preQuotation?.member?.companyMemberAdditionalInfo
