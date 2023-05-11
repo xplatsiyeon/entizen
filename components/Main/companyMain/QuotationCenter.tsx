@@ -9,8 +9,9 @@ import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
-import { ReceivedRequest } from 'pages/company/quotation';
 import { css } from '@emotion/react';
+import { Alerts, AlertsResponse } from 'types/alerts';
+import { AxiosError } from 'axios';
 
 export interface RecivedCountResponse {
   isSuccess: boolean;
@@ -21,39 +22,51 @@ type Props = {};
 
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
+  const userID = sessionStorage?.getItem('USER_ID')!;
   const [total, setTotal] = useState(18);
 
-  // 실제 새롭게 받은 요청 개수
-  // api 호출
+  // 알람 조회
+  // v1/alerts/unread-points
   const {
-    data: newReceived,
-    isLoading: receivedIsLoading,
-    isError: receivedIsError,
-  } = useQuery<ReceivedRequest>('received-request', () =>
-    isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIsError,
+    refetch: historyIsRefetch,
+    // } = useQuery<GetUnread>(
+  } = useQuery<AlertsResponse, AxiosError, Alerts>(
+    'historyUnread',
+    () => isTokenGetApi(`/v1/alerts/unread-points`),
+    {
+      enabled: userID !== null ? true : false,
+      select(data) {
+        return data.data;
+      },
+    },
   );
 
   useEffect(() => {
-    if (newReceived?.data.receivedQuotationRequests.length! < 10) {
-      setTotal(18);
-    } else if (
-      newReceived?.data.receivedQuotationRequests.length! > 9 &&
-      newReceived?.data.receivedQuotationRequests.length! < 100
-    ) {
-      setTotal(21);
-    } else if (newReceived?.data.receivedQuotationRequests.length! > 99) {
-      setTotal(23);
-    } else {
-      setTotal(18);
+    if (historyUnread) {
+      if (historyUnread?.unreadQuotationRequestsCount < 10) {
+        setTotal(18);
+      } else if (
+        historyUnread?.unreadQuotationRequestsCount > 9 &&
+        historyUnread?.unreadQuotationRequestsCount < 100
+      ) {
+        setTotal(21);
+      } else if (historyUnread?.unreadQuotationRequestsCount > 99) {
+        setTotal(23);
+      } else {
+        setTotal(18);
+      }
     }
-  }, [newReceived]);
+  }, [historyUnread]);
 
   // newReceived?.receivedQuotationRequests.length! > 300? '300+': newReceived?.receivedQuotationRequests.length!
-  if (receivedIsError) {
+  if (historyIsError) {
     alert('잠시 후 다시 시도해주세요.');
     router.push('/404');
   }
-  if (receivedIsLoading) {
+  if (historyIsLoading) {
     return <Loader />;
   }
   return (
@@ -62,26 +75,30 @@ const QuotationCenter = ({}: Props) => {
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {newReceived?.data.totalCount === 0 ? (
+      {historyUnread?.unreadQuotationRequestsCount === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle total={total} length={newReceived?.data.totalCount!}>
-            {newReceived?.data.totalCount! > 300
+          <CountCircle
+            total={total}
+            length={historyUnread?.unreadQuotationRequestsCount!}
+          >
+            {historyUnread?.unreadQuotationRequestsCount! > 300
               ? '300+'
-              : newReceived?.data.totalCount}
+              : historyUnread?.unreadQuotationRequestsCount}
           </CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
-      {newReceived?.data.totalCount! >= 1 ? (
+      {historyUnread?.unreadQuotationRequestsCount! >= 1 ? (
         <>
           <Reqeusts>
-            {newReceived?.data.totalCount}건의 견적 요청이 있습니다!
+            {historyUnread?.unreadQuotationRequestsCount}건의 견적 요청이
+            있습니다!
           </Reqeusts>
           <RequestInfo>
             요청서를 확인하고 가견적서를 작성해
