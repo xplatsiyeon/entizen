@@ -91,7 +91,7 @@ const Carousel = () => {
           clickable: true,
         }}
         autoplay={{
-          delay: 2000,
+          delay: 1500,
           // disableOnInteraction: false,
         }}
         speed={300}
