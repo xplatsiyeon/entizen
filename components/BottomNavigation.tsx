@@ -30,6 +30,8 @@ const BottomNavigation = ({}: Props) => {
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
+  // 받은 견적 개수 조회
+  // received-request
   const { data, isLoading, isError, error } = useQuery<ReceivedRequest>(
     'count',
     () => isTokenGetApi('/quotations/received-request?keyword=&sort=deadline'),
@@ -58,7 +60,6 @@ const BottomNavigation = ({}: Props) => {
       },
     },
   );
-
   if (isError) {
     // console.log(TAG + '~line 43 ~에러 발생 콘솔');
     // console.log(error);
@@ -160,14 +161,9 @@ const BottomNavigation = ({}: Props) => {
               )}
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
               {/* 카운트 체크 */}
-              {historyUnread?.unreadQuotationRequestsCount !== undefined && (
-                <Count
-                  length={
-                    historyUnread?.unreadQuotationRequestsCount?.toString()
-                      .length
-                  }
-                >
-                  {historyUnread?.unreadQuotationRequestsCount}
+              {data?.data.totalCount !== undefined && (
+                <Count length={data?.data.totalCount?.toString().length}>
+                  {data?.data.totalCount}
                 </Count>
               )}
             </div>

@@ -91,8 +91,8 @@ const Charging = ({ listUp }: Props) => {
     <>
       {chargingData?.chargingStations?.projects?.length! > 0 ? (
         <div>
-          {chargingData?.chargingStations?.projects?.map((el, idx) => (
-            <List listUp={Boolean(listUp)}>
+          <List listUp={Boolean(listUp)}>
+            {chargingData?.chargingStations?.projects?.map((el, idx) => (
               <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
                 <CommonBtn
                   /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
@@ -111,8 +111,8 @@ const Charging = ({ listUp }: Props) => {
                   {el?.companyMember?.companyMemberAdditionalInfo?.companyName}
                 </P2>
               </ProjectBox>
-            </List>
-          ))}
+            ))}
+          </List>
           <PaginationCompo
             setPage={setMyChargingPage}
             page={myChargingPage}
