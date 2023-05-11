@@ -12,7 +12,7 @@ import Loader from 'components/Loader';
 import PaginationCompo from 'components/PaginationCompo';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPatchApi } from 'api';
 
 type Props = {
@@ -78,8 +78,11 @@ const MyProjects = ({ listUp }: Props) => {
   }, [projectPage]);
 
   // 내 프로젝트 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

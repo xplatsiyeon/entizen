@@ -16,7 +16,7 @@ import Search from './Search';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
 import { useMediaQuery } from 'react-responsive';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import PaginationCompo from 'components/PaginationCompo';
@@ -69,11 +69,15 @@ const RecieveRequest = ({
     refetch();
   }, [checkedFilterIndex, keyword, receivedPage]);
 
+  const queryClient = useQueryClient();
   // 받은 견적 알림 읽음 처리
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
+
   useEffect(() => {
     updateAlertMutate({
       url: '/v1/alerts/unread-points',

@@ -234,8 +234,11 @@ const AsIndex = ({ listUp }: Props) => {
   }, [checkedFilterIndex, keyword, asPage]);
 
   // 내 AS 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

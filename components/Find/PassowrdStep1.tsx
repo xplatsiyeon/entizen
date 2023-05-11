@@ -131,7 +131,6 @@ const PassowrdStep1 = ({ setStep }: Props) => {
 
   // 나이스 인증
   useEffect(() => {
-    // console.log('🔥memberType=>', memberType);
     axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

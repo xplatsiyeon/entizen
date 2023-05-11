@@ -11,7 +11,7 @@ import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 import RightNoProject from './RightNoProject';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPatchApi } from 'api';
 
 type Props = {
@@ -91,8 +91,11 @@ export default function ProjectInProgress({ tabNumber, componentId }: Props) {
   }, [data]);
 
   // 진행 중인 프로젝트 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

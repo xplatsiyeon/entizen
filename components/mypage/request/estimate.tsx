@@ -3,7 +3,12 @@ import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
@@ -135,11 +140,15 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   }, [historyPage]);
 
   // 내 견적서 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {
+    console.log('----------------------------테스트-----------------------');
     updateAlertMutate({
       url: '/v1/alerts/unread-points',
       data: {

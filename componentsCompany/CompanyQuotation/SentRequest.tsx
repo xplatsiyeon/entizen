@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import { filterType } from 'pages/company/quotation';
@@ -97,8 +97,11 @@ const SentRequest = ({}: Props) => {
   }, [checkedFilterIndex, keyword, sendPage]);
 
   // 보낸 견적 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

@@ -13,7 +13,7 @@ import { dateFomat } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import useDebounce from 'hooks/useDebounce';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
@@ -92,8 +92,11 @@ const NewAs = ({}: Props) => {
   }, [newFilterTypeEn, newKeyword, newSelected, newAsPage]);
 
   // 신규 AS 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

@@ -49,7 +49,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
     isError: historyIIsError,
     refetch: historyIsRefetch,
   } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'historyUnread',
+    'v1/alerts',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,

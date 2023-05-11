@@ -5,7 +5,7 @@ import CaretDown24 from 'public/images/CaretDown24.png';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Sort from './Sort';
 import { filterType, filterTypeEn } from 'pages/company/quotation';
 import Search from './Search';
@@ -80,8 +80,11 @@ const History = ({}: Props) => {
   }, [checkedFilterIndex, keyword, historyPage]);
 
   //  견적 히스토리 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

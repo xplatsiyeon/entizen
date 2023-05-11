@@ -9,7 +9,7 @@ import {
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
 import { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 import { handleColor2 } from 'utils/changeValue';
 import CommonBtn from '../as/CommonBtn';
@@ -67,8 +67,11 @@ const Charging = ({ listUp }: Props) => {
   };
   useEffect(() => {}, [chargingData]);
   // 내 충전소 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

@@ -18,7 +18,7 @@ import { changeDataFn } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
 import { useMediaQuery } from 'react-responsive';
 import PaginationCompo from 'components/PaginationCompo';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPatchApi } from 'api';
 
 type Props = {
@@ -70,8 +70,11 @@ export default function FinishedProjects({ tabNumber, componentId }: Props) {
   }, [completedProjectPage]);
 
   // 완료 프로젝트 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

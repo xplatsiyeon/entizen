@@ -71,7 +71,7 @@ const WebBuyerHeader = ({
     isError: historyIIsError,
     refetch: historyIsRefetch,
   } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'historyUnread',
+    'v1/alerts',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: isUser !== null ? true : false,
@@ -166,10 +166,10 @@ const WebBuyerHeader = ({
     },
     {
       id: 3,
-      type: 'myProject',
+      type: 'project',
       menu: '내 프로젝트',
-      linkUrl: '/company/mypage',
-      alert: allAlert('projectAlert'),
+      linkUrl: '/company/mypage?id=0',
+      alert: allAlert('project'),
     },
   ];
 
@@ -210,7 +210,7 @@ const WebBuyerHeader = ({
                       onClickMenu(el);
                     }}
                   >
-                    {el.menu}
+                    {el?.menu}
                     {isUser && el.alert === false && <BellOnText />}
                   </DivBox>
                 );

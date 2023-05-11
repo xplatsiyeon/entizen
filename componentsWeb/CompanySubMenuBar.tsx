@@ -37,7 +37,7 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
   // 알림 읽은 여부 확인
   const userID = sessionStorage?.getItem('USER_ID')!;
   const { data: alertData } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'alerts',
+    'v1/alerts',
     () => isTokenGetApi('/v1/alerts/unread-points'),
     {
       enabled: userID !== null ? true : false,
@@ -80,12 +80,13 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
   }
 
   const handleLink = (idx: number) => {
+    console.log('🔥 idx : ', idx);
     const userId = sessionStorage.getItem('USER_ID');
 
     if (!userId && type === 'project') {
       router.push('/signin');
     } else {
-      if (type === 'myProject') {
+      if (type === 'project') {
         router.push({
           pathname: '/company/mypage',
           query: { id: idx },
@@ -164,7 +165,7 @@ const CompanySubMenuBar = ({ type, num, now, openSubLink }: Props) => {
               {i}
               {/* 읽음 표시 */}
               {type === 'estimate' && !getBell(idx) && <BellOnText />}
-              {type === 'myProject' && !getBell(idx) && <BellOnText />}
+              {type === 'project' && !getBell(idx) && <BellOnText />}
               {type === 'as' && !getBell(idx) && <BellOnText />}
             </Text>
 

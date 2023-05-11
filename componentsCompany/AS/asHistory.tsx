@@ -13,7 +13,7 @@ import { redirectAction } from 'store/redirectUrlSlice';
 import { excelDownloadFile } from 'hooks/excelDown';
 import { useMediaQuery } from 'react-responsive';
 import useDebounce from 'hooks/useDebounce';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import PaginationCompo from 'components/PaginationCompo';
 
@@ -90,8 +90,11 @@ const AsHistory = ({}: Props) => {
   }, [historyFilterTypeEn, historyKeyword, historySelected, historyAsPage]);
 
   // 신규 AS 알림 읽음 처리
+  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries('v1/alerts');
+    },
     onError: () => {},
   });
   useEffect(() => {

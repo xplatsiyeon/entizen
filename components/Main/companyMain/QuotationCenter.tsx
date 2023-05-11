@@ -34,7 +34,7 @@ const QuotationCenter = ({}: Props) => {
     refetch: historyIsRefetch,
     // } = useQuery<GetUnread>(
   } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'historyUnread',
+    'v1/alerts',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
       enabled: userID !== null ? true : false,
