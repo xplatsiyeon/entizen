@@ -34,7 +34,7 @@ const PassowrdStep1 = ({ setStep }: Props) => {
   // let key = sessionStorage.getItem('key');
   // let data = JSON.parse(key!);
   const [data, setData] = useState<any>();
-  const memberType = router.query.loginType;
+  const memberType = router?.query.loginType;
   const [name, setName] = useState('');
   const [id, setId] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -56,7 +56,9 @@ const PassowrdStep1 = ({ setStep }: Props) => {
       ) {
         setIsModal(true);
         setModalMsg(
-          '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
+          `${
+            memberType === 'USER' ? '이메일' : '아이디'
+          }와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
         );
       } else if (data?.data?.data?.member?.snsLogin !== null) {
         setIsModal(true);
@@ -107,7 +109,9 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         sessionStorage.removeItem('key');
         setIsModal(true);
         setModalMsg(
-          '아이디와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.',
+          `${
+            memberType === 'USER' ? '이메일' : '아이디'
+          }와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
         );
       }
     }
@@ -185,9 +189,9 @@ const PassowrdStep1 = ({ setStep }: Props) => {
           value={name}
           onChange={(e) => setName(e.currentTarget.value)}
         />
-        <label>아이디</label>
+        <label>{memberType === 'USER' ? '이메일' : '아이디'}</label>
         <input
-          placeholder="아이디 입력"
+          placeholder={`${memberType === 'USER' ? '이메일' : '아이디'} 입력`}
           type={'text'}
           value={id}
           onChange={(e) => setId(e.currentTarget.value)}

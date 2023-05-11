@@ -108,25 +108,6 @@ const BiddingQuote = ({
   return (
     <Wrap>
       {/* ================= 웹 왼쪽 영역 ================= */}
-      {/* {isModal && (
-        <RequestDetailModal
-          exit={() => setIsModal((prev) => !prev)}
-          title={`${companyName}의 \n 구독상품으로 선택하시겠습니까?`}
-          subtitle={
-            '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
-          }
-          leftControl={() => setIsModal((prev) => !prev)}
-          rightControl={async () => {
-            console.log('preQuotationIdx', data?.preQuotationIdx);
-            if (typeof companyIdx === 'number') {
-              setIsModal((prev) => !prev);
-              await router.push(
-                `/mypage/request/detail?preQuotationIdx=${companyIdx}`,
-              );
-            }
-          }}
-        />
-      )} */}
       {desktop && isSpot === undefined && (
         <LeftSection>
           <ProductList>

@@ -27,9 +27,11 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
   text-align: center;
+  margin-bottom: 60pt;
   @media (min-width: 900pt) {
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 0;
   }
 `;
 const P = styled.p`

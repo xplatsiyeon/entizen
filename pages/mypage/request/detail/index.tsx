@@ -137,8 +137,8 @@ const MypageDetail = () => {
       select(data) {
         return data.preQuotation;
       },
-      enabled: router.isReady,
       retry: 0,
+      enabled: router.isReady && routerId ? true : false,
     },
   );
 

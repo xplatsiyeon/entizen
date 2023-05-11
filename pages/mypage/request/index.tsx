@@ -329,34 +329,40 @@ const Mypage1_3 = ({}: any) => {
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
-
   // 데이터 갱신
   useEffect(() => {
     if (routerId && router.isReady) {
       quotationRefresh();
     }
   }, [router]);
-
   // 최종 견적 변경
   useLayoutEffect(() => {
     // 현재 진행중 index 업데이트
     const currentInProgressPreQuotationIdx =
       quotationDataV1?.currentInProgressPreQuotationIdx;
+    // 진행 중인지 여부 확인 true / false
     const hasCurrentInProgressPreQuotationIdx =
       quotationDataV1?.hasCurrentInProgressPreQuotationIdx!;
+    // 진행중이라면 전체 견적서에서 진행중인 idx값 추출
     if (hasCurrentInProgressPreQuotationIdx) {
-      quotationDataV1.quotationStatusHistories?.forEach((data, index) => {
+      let isFinal = false;
+      quotationDataV1?.quotationStatusHistories?.forEach((data, index) => {
         const preQuotationIdx =
           data?.preQuotation?.finalQuotation?.preQuotationIdx!;
 
         if (preQuotationIdx === currentInProgressPreQuotationIdx!) {
+          isFinal = true;
           setIsFinalItemIndex(index);
         }
       });
+
+      if (isFinal === false) {
+        setIsFinalItemIndex(-1);
+      }
     } else {
       setIsFinalItemIndex(-1);
     }
-  }, [quotationDataV1]);
+  }, [quotationDataV1, preQuotationsData]);
 
   const target = quotationDataV1?.quotationStatusHistories.filter(
     (item) =>

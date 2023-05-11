@@ -25,7 +25,6 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
 
   const onClickCompany = (item: QuotationStatusHistories, index: number) => {
     // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
-
     if (item?.preQuotation?.finalQuotation) {
       // console.log('최종견적 있다');
       setIsFinalItmeIndex(index);
