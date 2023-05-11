@@ -201,11 +201,15 @@ const MypageDetail = () => {
   useEffect(() => {
     if (router.isReady) {
       if (preQuotationsData?.quotationRequest?.quotationRequestIdx) {
+        console.log(
+          '🔥 Index : ',
+          preQuotationsData?.quotationRequest?.quotationRequestIdx,
+        );
         quotationRefetch();
       }
       preQuotationsRefetch();
     }
-  }, [routerId]);
+  }, [router, preQuotationsData]);
 
   if (preQuotationsError && spotIsError) {
     // console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');

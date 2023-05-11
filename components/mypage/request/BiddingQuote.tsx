@@ -18,10 +18,7 @@ import {
   preQuotationFiles,
   PreQuotationsV1,
   QuotationRequestV1,
-  QuotationStatusHistories,
 } from 'types/quotation';
-import { useQueryClient } from 'react-query';
-import RequestDetailModal from 'components/Modal/RequestDetailModal';
 
 interface Props {
   pb?: number;
@@ -49,9 +46,7 @@ const BiddingQuote = ({
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [newChargerImageFiles, setNewChargerImageFiles] = useState<string[]>();
-  const [isModal, setIsModal] = useState(false);
-  const [companyName, setCompanyName] = useState('');
-  const [companyIdx, setCompanyIdx] = useState<number | undefined>();
+
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
 
@@ -78,15 +73,6 @@ const BiddingQuote = ({
       item.preQuotationFiles.filter((el) => el.productFileType === 'IMAGE'),
     )
     .flat();
-
-  // 리스트 클릭
-  // const onClickList = (data: QuotationStatusHistories) => {
-  //   setCompanyName(
-  //     data?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName,
-  //   );
-  //   setCompanyIdx(data.preQuotationIdx);
-  //   setIsModal(true);
-  // };
 
   // 충전기 이미지 상태 관리
   useEffect(() => {
@@ -137,7 +123,6 @@ const BiddingQuote = ({
                         : ''
                     }
                     // 온클릭
-                    // onClick={() => onClickList(data)}
                     onClick={async () => {
                       await router.push(
                         `/mypage/request/detail?preQuotationIdx=${data?.preQuotationIdx}`,
@@ -196,7 +181,6 @@ const BiddingQuote = ({
           />
         </LeftSection>
       )}
-
       {/* ================= 웹 오른쪽 영역 ==================== */}
       <RightSection>
         {isSpot === undefined && (

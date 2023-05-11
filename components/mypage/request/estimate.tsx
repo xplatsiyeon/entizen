@@ -65,6 +65,7 @@ type Props = {
 };
 
 const Estimate = ({ listUp, isSubMenu }: Props) => {
+  const queryClient = useQueryClient();
   const [inProgressPage, setInProgressPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
 
@@ -140,7 +141,6 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
   }, [historyPage]);
 
   // 내 견적서 읽음 처리
-  const queryClient = useQueryClient();
   const { mutate: updateAlertMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('v1/alerts');
@@ -148,7 +148,8 @@ const Estimate = ({ listUp, isSubMenu }: Props) => {
     onError: () => {},
   });
   useEffect(() => {
-    console.log('----------------------------테스트-----------------------');
+    queryClient.removeQueries('v1/quotation-requests');
+    queryClient.removeQueries('v1/pre-quotations');
     updateAlertMutate({
       url: '/v1/alerts/unread-points',
       data: {
