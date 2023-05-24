@@ -91,10 +91,11 @@ const Carousel = () => {
           clickable: true,
         }}
         autoplay={{
-          delay: 1500,
-          // disableOnInteraction: false,
+          delay: 3000,
+          disableOnInteraction: false,
         }}
-        speed={300}
+        touchMoveStopPropagation
+        speed={200}
         loop={true}
         navigation={{
           nextEl: '.swiper-button-next',
