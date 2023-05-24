@@ -69,7 +69,10 @@ const getRefreshToken = mem(
 // ============================= response interceptor ===================================
 instance.interceptors.response.use(
   // 응답 요청 성공했을 떄
-  (response) => response,
+  (response) => {
+    console.log('response : ', response);
+    return response;
+  },
   // 응답 요청 실패했을 떄
   async (err) => {
     const {
