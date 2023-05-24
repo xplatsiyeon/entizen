@@ -6,8 +6,10 @@ type Props = {};
 export default function cookieTest(props: Props) {
   const [cookies, setCookie] = useCookies(['CSRF-TOKEN']);
 
-  const cookieValue = cookies['CSRF-TOKEN'];
-  console.log('CSRF-TOKEN 값:', cookieValue);
+  useEffect(() => {
+    const cookieValue = cookies['CSRF-TOKEN'];
+    console.log('CSRF-TOKEN 값:', cookieValue);
+  }, [cookies]);
 
   return <div>cookieTest</div>;
 }
