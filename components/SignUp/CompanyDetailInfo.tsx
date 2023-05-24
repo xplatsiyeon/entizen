@@ -301,7 +301,7 @@ const CompanyDetailInfo = ({
                   className="overlap"
                   onClick={() => setAddressOn(true)}
                 >
-                  <Typography className="checkOverlap">주소찾기</Typography>
+                  <Typography className="checkOverlap">주소 찾기</Typography>
                 </OverlapBtn>
               </InputAdornment>
             ),
@@ -551,7 +551,8 @@ const OverlapBtn = styled.button`
     padding: 4.5pt 9pt;
   }
   margin-right: 0;
-  background: #e2e5ed;
+  /* background: #e2e5ed; */
+  background-color: ${colors.main};
   color: #ffffff;
   border-radius: 6pt;
   font-size: 10.5pt;
@@ -561,9 +562,9 @@ const OverlapBtn = styled.button`
   &.changeColor {
     background-color: ${colors.main};
   }
-  :hover {
+  /* :hover {
     background-color: ${colors.main};
-  }
+  } */
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;

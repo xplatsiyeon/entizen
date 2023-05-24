@@ -94,6 +94,8 @@ const OverlapBtn = styled.button`
   right: 8pt;
   top: 52.5pt;
   background: #e2e5ed;
+  /* background: #5221cb; */
+  /* #5221CB */
   color: #ffffff;
   border-radius: 6pt;
   padding: 7.5pt 9pt;

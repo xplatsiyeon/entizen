@@ -57,8 +57,8 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         setIsModal(true);
         setModalMsg(
           `${
-            memberType === 'USER' ? '이메일' : '아이디'
-          }와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
+            memberType === 'USER' ? '이메일과' : '아이디와'
+          } 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
         );
       } else if (data?.data?.data?.member?.snsLogin !== null) {
         setIsModal(true);
@@ -110,8 +110,8 @@ const PassowrdStep1 = ({ setStep }: Props) => {
         setIsModal(true);
         setModalMsg(
           `${
-            memberType === 'USER' ? '이메일' : '아이디'
-          }와 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
+            memberType === 'USER' ? '이메일과' : '아이디와'
+          } 회원정보가 일치하지 않습니다.\n다시 입력해주세요.`,
         );
       }
     }
