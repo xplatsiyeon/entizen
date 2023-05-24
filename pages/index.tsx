@@ -10,6 +10,7 @@ import { quotationAction } from 'store/quotationSlice';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import { locationAction } from 'store/locationSlice';
 import { addressSliceAction } from 'store/addressSlice';
+import { useCookies } from 'react-cookie';
 
 interface Props {
   userAgent: string;
@@ -30,6 +31,13 @@ const Home: NextPage<Props> = ({}: Props) => {
     dispatch(addressSliceAction.reset()); // 주소 검색 초기화
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [cookies, setCookie] = useCookies(['CSRF-TOKEN']);
+
+  useEffect(() => {
+    const cookieValue = cookies['CSRF-TOKEN'];
+    console.log('CSRF-TOKEN 값:', cookieValue);
+  }, [cookies]);
 
   return (
     <>
