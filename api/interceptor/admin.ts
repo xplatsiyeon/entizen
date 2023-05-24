@@ -1,6 +1,17 @@
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
 import mem from 'mem';
+import { Cookies } from 'react-cookie';
+
+const cookies = new Cookies();
+
+export const setCookie = (name: string, value: string, options?: any) => {
+  return cookies.set(name, value, { ...options });
+};
+
+export const getCookie = (name: string) => {
+  return cookies.get(name);
+};
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const REFRESH_URL = `${BASE_URL}/admin/auth/token`;
@@ -17,7 +28,10 @@ const adminInstance = axios.create({
 
 // ============================= request interceptor ===================================
 adminInstance.interceptors.request.use((config) => {
+  const csrf = getCookie('CSRF-TOKEN');
+  console.log('csrf : ', csrf);
   console.log('config : ', config);
+  console.log('cookie : ', document);
   if (!config.headers) return config;
   let token: string | null = null;
   // refresh token을 호출하는 경우는 refresh 토큰을 찾아서 token 값에 넣어준다.
@@ -30,7 +44,10 @@ adminInstance.interceptors.request.use((config) => {
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
+  config.data = {
+    ...config.data,
+    'csrf-token': 'JGGYXKTr-NQq9GHBeGp90p5usVJHLRQHmVj0',
+  };
   // console.log('🔥 token : ', token);
   return config;
 });
