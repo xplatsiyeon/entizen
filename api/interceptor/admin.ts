@@ -31,7 +31,7 @@ adminInstance.interceptors.request.use((config) => {
   }
   config.data = {
     ...config.data,
-    'csrf-token': 'JGGYXKTr-NQq9GHBeGp90p5usVJHLRQHmVj0', // CSRF 토큰
+    // 'csrf-token': 'JGGYXKTr-NQq9GHBeGp90p5usVJHLRQHmVj0', // CSRF 토큰
   };
   // console.log('🔥 token : ', token);
   return config;
