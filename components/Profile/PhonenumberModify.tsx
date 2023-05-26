@@ -146,6 +146,9 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   // 나이스 인증 1
   useEffect(() => {
     axios({
+      headers: {
+        local: 'true',
+      },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },

@@ -243,6 +243,9 @@ const TermContent = ({
   useEffect(() => {
     const memberType = 'USER';
     axios({
+      headers: {
+        local: 'true',
+      },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },

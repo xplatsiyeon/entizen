@@ -172,6 +172,9 @@ const ManagerInfo = ({
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
     axios({
+      headers: {
+        local: 'true',
+      },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },

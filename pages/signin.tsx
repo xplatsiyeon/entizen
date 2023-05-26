@@ -331,6 +331,9 @@ const Signin = () => {
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
+      headers: {
+        local: 'true',
+      },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType },

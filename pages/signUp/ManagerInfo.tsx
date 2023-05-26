@@ -195,6 +195,9 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 나이스 인증 데이터 불러오기
   useEffect(() => {
     axios({
+      headers: {
+        local: 'true',
+      },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
       data: { memberType: token.memberType },
