@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
 import { kakaoInit } from 'utils/kakao';
+import { getCookie } from './cookie';
 
 const LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/logout`;
 // 관리자 로그아웃 API
@@ -41,9 +42,13 @@ export const KakaoLogout = () => {
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   // console.log('=============== 로그아웃 =================');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const csrfToken = getCookie('CSRF-TOKEN');
   if (accessToken) {
     await axios({
       method: 'post',
+      data: {
+        'csrf-token': csrfToken,
+      },
       url: LOG_OUT_API,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -65,8 +70,12 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const csrfToken = getCookie('CSRF-TOKEN');
   await axios({
     method: 'post',
+    data: {
+      'csrf-token': csrfToken,
+    },
     url: ADMIN_LOG_OUT_API,
     headers: {
       Authorization: `Bearer ${accessToken}`,
