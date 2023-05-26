@@ -558,6 +558,7 @@ const OverlapBtn = styled.button`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
+  max-width: 78px;
   width: 78px;
   height: 36px;
   background-color: ${colors.main1};

@@ -272,7 +272,7 @@ const SignUpContainer = (props: Props) => {
           {/* </Wrapper> */}
         </>
       )}
-      {/* 담당자 정보 */}
+      {/* 담당자 정보 - 이메일 */}
       {signUpLevel === 3 && userType === 1 && (
         <>
           <SignUpHeader

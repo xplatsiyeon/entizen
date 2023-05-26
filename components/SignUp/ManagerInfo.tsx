@@ -129,10 +129,11 @@ const ManagerInfo = ({
   // email 상태
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+    reg_email.test(value) ? setIsEmailValid(true) : setIsEmailValid(false);
     setEmail(value);
     setAuthCode('');
     setEmailAlert(false);
-    setIsEmailValid(false);
+    // setIsEmailValid(false);
     setEmailMessage('');
     setEmailCodeMessage('');
     setIsSuccessEmail(false);
@@ -185,7 +186,8 @@ const ManagerInfo = ({
 
   // 유효성 검사
   useEffect(() => {
-    reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
+    console.log('isEmailValid : ', isEmailValid);
+    // reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
     authCode.length === 7
       ? setIsEmailCodeValid(true)
       : setIsEmailCodeValid(false);
