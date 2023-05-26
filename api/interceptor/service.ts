@@ -34,13 +34,21 @@ instance.interceptors.request.use((config) => {
 
   // CSRF 토큰 추가
   const csrfToken = getCookie('CSRF-TOKEN');
+  const bodyData = config.data;
   console.log('csrfToken : ', csrfToken);
-  if (config.method !== 'get') {
+  if (!bodyData.hasOwnProperty('csrf-token') && config.method !== 'get') {
     config.data = {
       ...config.data,
       'csrf-token': csrfToken,
     };
   }
+
+  // if (config.method !== 'get') {
+  //   config.data = {
+  //     ...config.data,
+  //     'csrf-token': csrfToken,
+  //   };
+  // }
 
   return config;
 });
