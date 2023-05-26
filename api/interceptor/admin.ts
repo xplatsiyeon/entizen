@@ -31,13 +31,11 @@ adminInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  const csrfToken = getCookie('CSRF-TOKEN');
-  console.log('csrfToke : ', csrfToken);
   // CSRF 토큰 추가
+  const csrfToken = getCookie('CSRF-TOKEN');
   if (config.method !== 'get') {
     config.data = {
       ...config.data,
-      // 'csrf-token': document.cookie.replace('CSRF-TOKEN=', ''),
       'csrf-token': csrfToken,
     };
   }
