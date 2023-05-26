@@ -12,14 +12,18 @@ const adminInstance = axios.create({
   headers: {
     'content-type': 'application/json;charset=UTF-8',
     accept: 'application/json,',
+    local: true,
   },
   withCredentials: true,
 });
 
 // ============================= request interceptor ===================================
 adminInstance.interceptors.request.use((config) => {
+  console.log('config : ', config);
   if (!config.headers) return config;
+
   let token: string | null = null;
+
   // refresh token을 호출하는 경우는 refresh 토큰을 찾아서 token 값에 넣어준다.
   if (config.url === REFRESH_URL) {
     token = JSON.parse(sessionStorage.getItem('ADMIN_REFRESH_TOKEN')!);

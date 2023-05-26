@@ -250,8 +250,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handle={true}
           back={true}
           title={''}
-          handleOnClick={() => setComponent(1)}
-          handleBackClick={() => setComponent(1)}
+          handleOnClick={() => setComponent(0)}
+          handleBackClick={() => setComponent(0)}
         />
       </HeaderWrap>
       <Notice variant="h3">

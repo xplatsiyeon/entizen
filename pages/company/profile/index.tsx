@@ -10,7 +10,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import EditAddress from 'componentsCompany/Profile/editAddress';
 
 const ProfileIndex = () => {
-  const [component, setComponent] = useState<number>(0);
+  const [component, setComponent] = useState<number>(1);
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
