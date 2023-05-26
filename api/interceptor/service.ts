@@ -33,6 +33,7 @@ instance.interceptors.request.use((config) => {
 
   // CSRF 토큰 추가
   const csrfToken = getCookie('CSRF-TOKEN');
+  console.log('csrfToken : ', csrfToken);
   if (config.method !== 'get') {
     config.data = {
       ...config.data,
