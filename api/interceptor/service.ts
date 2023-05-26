@@ -36,11 +36,13 @@ instance.interceptors.request.use((config) => {
   const csrfToken = getCookie('CSRF-TOKEN');
   const bodyData = config.data;
   console.log('csrfToken : ', csrfToken);
-  if (!bodyData.hasOwnProperty('csrf-token') && config.method !== 'get') {
-    config.data = {
-      ...config.data,
-      'csrf-token': csrfToken,
-    };
+  if (config.baseURL === 'https://test-api.entizen.kr/api') {
+    if (!bodyData.hasOwnProperty('csrf-token') && config.method !== 'get') {
+      config.data = {
+        ...config.data,
+        'csrf-token': csrfToken,
+      };
+    }
   }
 
   // if (config.method !== 'get') {
