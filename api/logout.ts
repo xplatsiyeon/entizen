@@ -53,6 +53,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
+        local: 'true',
       },
       withCredentials: true,
     }).then((res) => {
@@ -80,6 +81,7 @@ export const handleLogoutOnClickAdmin = async () => {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'application/json',
+      local: 'true',
     },
     withCredentials: true,
   }).then((res) => {
