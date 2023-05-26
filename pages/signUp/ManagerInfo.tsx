@@ -98,7 +98,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 원버튼 모달 확인
   const onClickModal = () => {
     if (modalMessage === '담당자가 변경되었습니다.') {
-      setComponent(1);
+      setComponent(0);
     } else {
       setIsModal(false);
     }

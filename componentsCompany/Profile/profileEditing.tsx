@@ -42,7 +42,7 @@ const ProfileEditing = ({
   const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const token: JwtTokenType = jwt_decode(accessToken);
+
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   // console.log('프로필', profile);
@@ -395,7 +395,8 @@ const ImageWrap = styled.div`
 
 const Line = styled.div`
   height: 6pt;
-  width: 100%;
+  /* width: 100%; */
+  width: 100vw;
   background: #f3f4f7;
   margin-top: 30pt;
   position: relative;
