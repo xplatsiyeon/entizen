@@ -71,8 +71,9 @@ instance.interceptors.response.use(
   // 응답 요청 성공했을 떄
   (response) => {
     console.log('response : ', response);
-    const cookieHeader = response.headers;
-    console.log('쿠키 헤더 값:', cookieHeader);
+
+    console.log('쿠키 헤더 값:', document.cookie);
+
     return response;
   },
   // 응답 요청 실패했을 떄

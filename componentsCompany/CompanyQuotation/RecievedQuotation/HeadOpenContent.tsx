@@ -105,8 +105,6 @@ export interface Chargers {
   ];
 }
 
-const TAG =
-  'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
 const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;

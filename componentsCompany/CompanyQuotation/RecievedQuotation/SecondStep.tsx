@@ -338,6 +338,9 @@ const SecondStep = ({
   };
   // 셀렉트 박스 클릭
   const onChangeSelectBox = (value: string, idx: number) => {
+    console.log('온클릭');
+    console.log('productId 값 : ', productId);
+    console.log('idx 값 : ', idx);
     setProductId(idx);
     setProductItem(value);
     // isChangeProduct 값이 변경 될때마다 하단의 내제품리스트 불러오는 useEffect가 실행됨.
@@ -345,14 +348,14 @@ const SecondStep = ({
     setIsChangeProduct((prev) => !prev);
 
     // 만약에 같은 제품 id 또 클릭하면 입력값 초기화
-    if (productId === idx) {
-      setProductId(null);
-      setProductItem('');
-      setManufacturingCompany('');
-      setChargeFeatures('');
-      setImgArr([]);
-      setFileArr([]);
-    }
+    // if (productId === idx) {
+    //   setProductId(null);
+    //   setProductItem('');
+    //   setManufacturingCompany('');
+    //   setChargeFeatures('');
+    //   setImgArr([]);
+    //   setFileArr([]);
+    // }
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -786,7 +789,7 @@ const SecondStep = ({
       <SecondWrapper>
         <TopBox>
           <div className="titleText">
-            [선택사항] 내 제품 리스트에서{' '}
+            [선택사항] 내 제품 리스트에서
             <div className="highlight">가져오기</div>
           </div>
           <div className="smallText">

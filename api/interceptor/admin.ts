@@ -29,10 +29,14 @@ adminInstance.interceptors.request.use((config) => {
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  config.data = {
-    ...config.data,
-    // 'csrf-token': 'JGGYXKTr-NQq9GHBeGp90p5usVJHLRQHmVj0', // CSRF 토큰
-  };
+
+  if (config.method !== 'get') {
+    config.data = {
+      ...config.data,
+      'csrf-token': document.cookie.replace('CSRF-TOKEN=', ''),
+    };
+  }
+
   // console.log('🔥 token : ', token);
   return config;
 });
