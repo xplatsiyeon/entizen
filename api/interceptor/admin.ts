@@ -38,11 +38,13 @@ adminInstance.interceptors.request.use((config) => {
   console.log('csrfToken : ', csrfToken);
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
     if (config.method !== 'get') {
-      if (bodyData && !bodyData.hasOwnProperty('csrf-token')) {
-        config.data = {
-          ...config.data,
-          'csrf-token': csrfToken,
-        };
+      if (bodyData) {
+        if (!bodyData.hasOwnProperty('csrf-token')) {
+          config.data = {
+            ...config.data,
+            'csrf-token': csrfToken,
+          };
+        }
       } else {
         config.data = {
           'csrf-token': csrfToken,
@@ -50,6 +52,7 @@ adminInstance.interceptors.request.use((config) => {
       }
     }
   }
+
   return config;
 });
 
