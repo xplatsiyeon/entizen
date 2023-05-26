@@ -47,26 +47,28 @@ const MoreModal = ({
     <Body>
       <Wrapper onClick={() => setMoreModal(false)} />
       <Box>
-        <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-          {alarm ? '알람끄기' : '알람켜기'}
-        </div>
-        <div
-          className="list"
-          onClick={() => {
-            setMoreModal(false);
-            setQuitModal(true);
-          }}
-        >
-          채팅방 나가기
-        </div>
-        <div
-          className="list"
-          onClick={() => {
-            setMoreModal(false);
-            setReportModal(true);
-          }}
-        >
-          신고하기
+        <div className="wrap">
+          <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
+            {alarm ? '알람끄기' : '알람켜기'}
+          </div>
+          <div
+            className="list out"
+            onClick={() => {
+              setMoreModal(false);
+              setQuitModal(true);
+            }}
+          >
+            채팅방 나가기
+          </div>
+          <div
+            className="list"
+            onClick={() => {
+              setMoreModal(false);
+              setReportModal(true);
+            }}
+          >
+            신고하기
+          </div>
         </div>
         <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
       </Box>
@@ -103,17 +105,20 @@ const Body = styled.div`
 const Box = styled.div`
   position: fixed;
   bottom: 0;
-  overflow: hidden;
+
   width: 100%;
-  border-radius: 9pt;
 
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex-direction: column;
-  gap: 6.75pt;
+  /* gap: 6.75pt; */
   z-index: 100;
-
+  .wrap {
+    width: 100%;
+    border-radius: 9pt;
+    overflow: hidden;
+  }
   .list {
     width: 100%;
     background: ${colors.lightWhite};
@@ -125,11 +130,15 @@ const Box = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.blue4};
     cursor: pointer;
+    :not(:nth-last-child(1)) {
+      border-bottom: 1px solid #f3f4f7;
+    }
   }
-  .fisrt {
-    border-bottom: 1px solid #f3f4f7;
+  .out {
+    color: ${colors.sub4};
   }
 `;
+
 const BottomBtn = styled.div`
   width: 100%;
   background: ${colors.lightWhite};
@@ -142,4 +151,5 @@ const BottomBtn = styled.div`
   color: ${colors.gray2};
   border-radius: 9pt;
   cursor: pointer;
+  margin-top: 6.75pt;
 `;

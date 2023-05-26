@@ -79,6 +79,7 @@ const ManagerInfo = ({
         setEmailAlert(false);
         setEmailCodeAlert(true);
         setEmailCodeMessage('인증번호가 잘못되었습니다.');
+        setIsValid(false);
       }
       // setIsSuccessEmail(false);
       setEmailMessage('');
@@ -129,16 +130,21 @@ const ManagerInfo = ({
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setEmail(value);
+    setAuthCode('');
     setEmailAlert(false);
     setIsEmailValid(false);
     setEmailMessage('');
+    setEmailCodeMessage('');
     setIsSuccessEmail(false);
+    setIsValid(false);
+    setButtonMsg('확인');
   };
   // email code 변경
   const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setAuthCode(value);
     setEmailCodeAlert(false);
+    // setIsEmailValid(false);
     setIsEmailCodeValid(false);
     setEmailCodeMessage('');
     setIsSuccessCode(false);
@@ -355,7 +361,7 @@ const Input = styled(TextField)`
   }
   .MuiOutlinedInput-root {
     &.Mui-focused fieldset {
-      border: 0.75pt solid #5221cb;
+      border: 0.75pt solid ${colors.main1};
     }
   }
   & .remove {

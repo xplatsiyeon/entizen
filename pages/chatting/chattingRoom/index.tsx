@@ -85,14 +85,17 @@ const ChattingRoom = ({}: Props) => {
         <Wrapper>
           <Body>
             <MobWrap>
+              {/* 채팅 리스트 */}
               <ChattingLists chattingRoom={true} userChatting={true} />
             </MobWrap>
             {router.query.entizen ? (
+              // 엔티즌 채팅
               <ChattingRoomLogsEntizen
                 userChatting={true}
                 listRefetch={refetch}
               />
             ) : (
+              // 일반 채팅방
               <ChattingRoomLogs userChatting={true} listRefetch={refetch} />
             )}
           </Body>

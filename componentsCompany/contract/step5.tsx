@@ -53,7 +53,7 @@ export default function Step5({ companyName, subscribeProduct }: Props) {
       </Notice>
       <H3>
         <span className="emphasis">
-          {subscribeProduct === 'ENTIRETY' ? '전체구독' : '부분구독'}
+          {subscribeProduct === 'ENTIRETY' ? '전체구독' : '부분구독'}&nbsp;
         </span>
         상품에는
       </H3>

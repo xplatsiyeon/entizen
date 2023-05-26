@@ -414,7 +414,7 @@ const Terms = styled(Box)`
 `;
 const Form = styled(Box)<{ isterms: string }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
+    ${({ isterms }) => (isterms === 'true' ? colors.main1 : colors.lightGray)};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;
@@ -466,7 +466,7 @@ const Item = styled(Box)`
 const BottomForm = styled(Box)<{ isterms: boolean[] }>`
   border: 0.75pt solid
     ${({ isterms }) =>
-      isterms.every((e) => e === true) ? colors.main : colors.lightGray};
+      isterms.every((e) => e === true) ? colors.main1 : colors.lightGray};
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 15pt 11.25pt;

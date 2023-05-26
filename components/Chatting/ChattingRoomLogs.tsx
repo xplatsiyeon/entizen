@@ -91,9 +91,7 @@ type Props = {
   listRefetch: () => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
-const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
-  console.log(userChatting);
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -1079,6 +1077,7 @@ const IconBox = styled.div`
   transform: translateY(-50%);
   display: flex;
   align-items: center;
+  z-index: 99999;
   //gap: 6.4pt;
   @media (min-width: 900pt) {
     right: 21pt;

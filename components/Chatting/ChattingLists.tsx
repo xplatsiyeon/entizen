@@ -142,10 +142,6 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
       <Header>
         <H2>소통하기</H2>
         <IconWrapper>
-          {/* <IconWrap onClick={() => router.push('/alarm')}>
-            <Image src={bell} alt="alarmIcon" layout="fill" />
-          </IconWrap> */}
-          {/* <IconWrap onClick={() => router.push('/alarm?id=0')}> */}
           <IconWrap
             onClick={() => {
               router.push('/alarm');
@@ -278,7 +274,7 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   top: 0;
-  right: 0;
+  right: 15pt;
   gap: 22pt;
 
   @media (min-width: 900pt) {
@@ -288,7 +284,7 @@ const IconBox = styled.div`
 const IconWrap = styled.div`
   position: absolute;
   top: 0;
-  right: 33pt;
+  right: 48pt;
   width: 18pt;
   height: 18pt;
   cursor: pointer;

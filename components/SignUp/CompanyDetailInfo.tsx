@@ -243,7 +243,7 @@ const CompanyDetailInfo = ({
     );
   }
   return (
-    <>
+    <Wrap>
       {/* 에러 모달 */}
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       {fileModal && (
@@ -301,7 +301,7 @@ const CompanyDetailInfo = ({
                   className="overlap"
                   onClick={() => setAddressOn(true)}
                 >
-                  <Typography className="checkOverlap">주소 찾기</Typography>
+                  <span className="checkOverlap">주소 찾기</span>
                 </OverlapBtn>
               </InputAdornment>
             ),
@@ -431,10 +431,13 @@ const CompanyDetailInfo = ({
         bottom={30}
         handleClick={handleNextClick}
       />
-    </>
+    </Wrap>
   );
 };
-
+const Wrap = styled.div`
+  padding-left: 15px;
+  padding-right: 15px;
+`;
 const Info = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   padding-top: 6pt;
@@ -547,24 +550,24 @@ const File = styled.label`
   }
 `;
 const OverlapBtn = styled.button`
-  & .checkOverlap {
-    padding: 4.5pt 9pt;
+  display: flex;
+  .checkOverlap {
+    padding: 7.5pt 9pt;
   }
   margin-right: 0;
-  /* background: #e2e5ed; */
-  background-color: ${colors.main};
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  width: 78px;
+  height: 36px;
+  background-color: ${colors.main1};
   color: #ffffff;
   border-radius: 6pt;
   font-size: 10.5pt;
-  font-weight: 500;
+
   line-height: 12pt;
+  text-align: center;
   cursor: pointer;
-  &.changeColor {
-    background-color: ${colors.main};
-  }
-  /* :hover {
-    background-color: ${colors.main};
-  } */
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;

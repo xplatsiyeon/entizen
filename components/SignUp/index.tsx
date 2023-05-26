@@ -254,22 +254,22 @@ const SignUpContainer = (props: Props) => {
             />
           )}
 
-          <Wrapper>
-            <CompanyDetailInfo
-              businessRegistration={businessRegistration}
-              setBusinessRegistration={setBusinessRegistration}
-              companyName={companyName}
-              setCompanyName={setCompanyName}
-              postNumber={postNumber}
-              setPostNumber={setPostNumber}
-              companyAddress={companyAddress}
-              setCompanyAddress={setCompanyAddress}
-              companyDetailAddress={companyDetailAddress}
-              setCompanyDetailAddress={setCompanyDetailAddress}
-              addressOn={addressOn}
-              setAddressOn={setAddressOn}
-            />
-          </Wrapper>
+          {/* <Wrapper> */}
+          <CompanyDetailInfo
+            businessRegistration={businessRegistration}
+            setBusinessRegistration={setBusinessRegistration}
+            companyName={companyName}
+            setCompanyName={setCompanyName}
+            postNumber={postNumber}
+            setPostNumber={setPostNumber}
+            companyAddress={companyAddress}
+            setCompanyAddress={setCompanyAddress}
+            companyDetailAddress={companyDetailAddress}
+            setCompanyDetailAddress={setCompanyDetailAddress}
+            addressOn={addressOn}
+            setAddressOn={setAddressOn}
+          />
+          {/* </Wrapper> */}
         </>
       )}
       {/* 담당자 정보 */}
@@ -343,10 +343,11 @@ const SignUpContainer = (props: Props) => {
     </>
   );
 };
+export default SignUpContainer;
 
 const Wrapper = styled.div`
   padding-left: 15pt;
-  padding-right: 15pt; ;
+  padding-right: 15pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
 `;
-
-export default SignUpContainer;

@@ -21,12 +21,10 @@ export default function Step8({ subscribeProduct }: Props) {
   useEffect(() => {
     if (subscribeProduct === 'ENTIRETY') {
       setPlaceHolder(
-        '충전인프라 구입/설치/운영관리/유지보수 비용, 통신망 이용료, 한전불입금, 전기 기본요금 이(가) 포함되어 있다.',
+        '수익지분 100% 기준의 충전기 +공사 가격에서 (남은 구독기간/전체구독기간)에 비례한 금액 을(를) 위약금으로 지급하여야 한다.',
       );
     } else {
-      setPlaceHolder(
-        '충전인프라 운영관리/유지보수 비용, 통신망 이용료, 한전불입금, 전기 기본요금 이(가) 포함되어 있다.',
-      );
+      setPlaceHolder('1개월분의 구독료 을(를) 위약금으로 지급하여야 한다.');
     }
   }, [subscribeProduct]);
 

@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import colors from 'styles/colors';
 interface Props {
   text: string;
   isClick: boolean;
@@ -89,7 +90,7 @@ const Button = styled.button<{
   border-radius: 6pt;
   align-items: center;
   color: white;
-  background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
+  background-color: ${({ isClick }) => (isClick ? colors.main1 : colors.gray)};
   cursor: ${({ isClick }) => isClick && 'pointer'};
 
   @media (max-width: 899.25pt) {
