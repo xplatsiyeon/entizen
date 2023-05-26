@@ -1,3 +1,4 @@
+import { getCookie } from 'api/cookie';
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
 import mem from 'mem';
@@ -30,6 +31,8 @@ adminInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
+  const csrfToken = getCookie('CSRF-TOKEN');
+  console.log('csrfToke : ', csrfToken);
   // CSRF 토큰 추가
   if (config.method !== 'get') {
     config.data = {
