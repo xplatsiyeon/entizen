@@ -30,6 +30,7 @@ adminInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
+  // CSRF 토큰 추가
   if (config.method !== 'get') {
     config.data = {
       ...config.data,
@@ -37,7 +38,6 @@ adminInstance.interceptors.request.use((config) => {
     };
   }
 
-  // console.log('🔥 token : ', token);
   return config;
 });
 

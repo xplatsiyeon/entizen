@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
@@ -21,11 +15,6 @@ import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import { css } from '@emotion/react';
-import {
-  ImgFile,
-  MulterResponse,
-} from 'componentsCompany/MyProductList/ProductAddComponent';
-import { AxiosError } from 'axios';
 import { convertEn, convertKo } from 'utils/calculatePackage';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -205,6 +194,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   };
 
   useEffect(() => {
+    console.log('data : ', data);
     setBodyText(firstContent);
     setTitle(firstTitle);
     if (data?.data?.faq?.visibleTarget === 'COMPANY') {

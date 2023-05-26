@@ -24,12 +24,12 @@ type Props = {
 const SignUpManagerInfo = ({ setComponent }: Props) => {
   const router = useRouter();
   const [data, setData] = useState<string>('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  // const [name, setName] = useState('');
+  const [email, setEmail] = useState(''); // 이메일
+  const [authCode, setAuthCode] = useState<string>(''); // 이메일 코드
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
-  const [authCode, setAuthCode] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
@@ -118,32 +118,32 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     //setIsTwoBtnModal(false);
     const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     // console.log('profile', profile, key);
-    /*  if (profile?.phone.toString() === key?.phone.toString()) {
+    if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',
         data: {
-          name: name,
+          name: key.name,
           phone: key.phone.toString(),
           email: email,
         },
       });
-      // console.log('온 클릭'); 
-    } */
-    if (name === key?.name) {
-      changeMutate({
-        url: '/members',
-        data: {
-          name: name,
-          phone: key.phone.toString(),
-          email: email,
-        },
-      });
-    } else {
-      setModalMessage(
-        '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
-      );
-      setIsModal(true);
+      // console.log('온 클릭');
     }
+    // if (name === key?.name) {
+    //   changeMutate({
+    //     url: '/members',
+    //     data: {
+    //       name: name,
+    //       phone: key.phone.toString(),
+    //       email: email,
+    //     },
+    //   });
+    // } else {
+    //   setModalMessage(
+    //     '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
+    //   );
+    //   setIsModal(true);
+    // }
   };
 
   // 이메일인증
@@ -173,10 +173,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
 
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
-    // console.log('나이스 인증');
-    // console.log(event);
+    console.log('나이스 인증');
+    console.log(event);
     const { id } = event.currentTarget;
-    // console.log(`id -> ${id}`);
+    console.log(`id -> ${id}`);
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -191,6 +191,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       cloneDocument.form_chk.submit();
     }
   };
+
   // 나이스 인증 데이터 불러오기
   useEffect(() => {
     axios({
@@ -207,15 +208,22 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
   useEffect(() => {
     reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
     authCode.length === 7
       ? setIsEmailCodeValid(true)
       : setIsEmailCodeValid(false);
-  }, [email, authCode, name]);
+  }, [email, authCode]);
+
+  useEffect(() => {
+    setIsEmailCodeValid(false);
+    setIsValid(false);
+  }, [email]);
   return (
     <Wrapper>
       {isModal && (
@@ -270,13 +278,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         <input type="hidden" name="recvMethodType" value="get" />
         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
         <Form>
-          <label>담당자 이름</label>
+          {/* <label>담당자 이름</label>
           <Input
             placeholder="이름을 입력해주세요"
             value={name}
             setValue={setName}
             type="button"
-          />
+          /> */}
         </Form>
         <Form>
           <label>담당자 이메일</label>
@@ -299,6 +307,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           >
             인증
           </OverlapBtn>
+
           <Input
             placeholder="이메일 인증번호 입력"
             value={authCode}
@@ -314,13 +323,14 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         </Form>
         <Btn
           marginTop="30"
-          text={'담당자 변경'}
-          isClick={isValid && name.length > 1}
+          // text={'담당자 변경'}
+          text={'본인인증하기'}
+          isClick={isValid}
           handleClick={fnPopup}
         />
       </form>
-      {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
-      <Buttons className="firstNextPage" onClick={onCickBtn}>
+      <Buttons className="firstNextPage" onClick={onClickNice}>
+        {/* <Buttons className="firstNextPage" onClick={onCickBtn}> */}
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>

@@ -29,6 +29,15 @@ instance.interceptors.request.use((config) => {
   if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // CSRF 토큰 추가
+  // if (config.method !== 'get') {
+  //   config.data = {
+  //     ...config.data,
+  //     'csrf-token': document.cookie.replace('CSRF-TOKEN=', ''),
+  //   };
+  // }
+
   return config;
 });
 
@@ -69,13 +78,7 @@ const getRefreshToken = mem(
 // ============================= response interceptor ===================================
 instance.interceptors.response.use(
   // 응답 요청 성공했을 떄
-  (response) => {
-    console.log('response : ', response);
-
-    console.log('쿠키 헤더 값:', document.cookie);
-
-    return response;
-  },
+  (response) => response,
   // 응답 요청 실패했을 떄
   async (err) => {
     const {

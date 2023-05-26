@@ -30,6 +30,11 @@ const AdminFAQTable = ({
   const { data: adminFaqList } = useQuery<AdminFAQListResponse>(
     'adminFaqList',
     () => isTokenAdminGetApi(`/admin/faqs`),
+    {
+      onSuccess(data) {
+        console.log('adminFaqList : ', adminFaqList);
+      },
+    },
   );
   const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
