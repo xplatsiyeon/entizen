@@ -37,7 +37,8 @@ adminInstance.interceptors.request.use((config) => {
   if (config.method !== 'get') {
     config.data = {
       ...config.data,
-      'csrf-token': document.cookie.replace('CSRF-TOKEN=', ''),
+      // 'csrf-token': document.cookie.replace('CSRF-TOKEN=', ''),
+      'csrf-token': csrfToken,
     };
   }
 
