@@ -37,11 +37,15 @@ instance.interceptors.request.use((config) => {
   const bodyData = config.data;
   console.log('bodyData : ', bodyData);
   console.log('csrfToken : ', csrfToken);
-  if (config.baseURL === 'https://test-api.entizen.kr/api') {
+  if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
     if (config.method !== 'get') {
-      if (!bodyData.hasOwnProperty('csrf-token')) {
+      if (bodyData && !bodyData.hasOwnProperty('csrf-token')) {
         config.data = {
           ...config.data,
+          'csrf-token': csrfToken,
+        };
+      } else {
+        config.data = {
           'csrf-token': csrfToken,
         };
       }
