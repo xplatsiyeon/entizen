@@ -98,11 +98,11 @@ const getRefreshToken = mem(
       return accessToken;
     } catch (error) {
       // alert('로그인 테스트 진행 중 입니다.');
-      console.log(
-        '================ 토큰 오류 발생 getRefreshToken ================',
-      );
-      console.log('error : ', error);
-      // deleteData();
+      // console.log(
+      //   '================ 토큰 오류 발생 getRefreshToken ================',
+      // );
+      // console.log('error : ', error);
+      deleteData();
     }
   },
   { maxAge: 1000 },
@@ -131,10 +131,10 @@ instance.interceptors.response.use(
         message === 'COMPANY - 회원이 아닙니다.' || // 탈퇴한 회원
         errorCode === 1003)
     ) {
-      console.log('================ 토큰 오류 발생 response ================');
-      console.log('message :', message);
+      // console.log('================ 토큰 오류 발생 response ================');
+      // console.log('message :', message);
       // alert('message 테스트 중 : ' + message);
-      // deleteData(); // 데이터 삭제
+      deleteData(); // 데이터 삭제
     }
 
     /** 2 */

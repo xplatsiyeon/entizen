@@ -38,6 +38,7 @@ const DateModal = ({
   beforeStepDate,
   inProgressRefetch,
 }: Props) => {
+  console.log('selectedDays : ', selectedDays);
   const outside = useRef(null);
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
@@ -226,7 +227,12 @@ const DateModal = ({
         </Title>
         <Weeks className="Weeks">{returnWeek()}</Weeks>
         <Days className="date">{returnDay()}</Days>
-        <Button onClick={onClcikSubmitDate}>선택한 날짜로 입력하기</Button>
+        <Button
+          isValid={selectedDays ? true : false}
+          onClick={onClcikSubmitDate}
+        >
+          선택한 날짜로 입력하기
+        </Button>
       </Wrapper>
     </Container>
   );
@@ -238,7 +244,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 999999;
   width: 100vw;
   height: 100vh;
   background-color: rgb(34, 34, 34, 0.4);
@@ -247,21 +253,21 @@ const Container = styled.div`
 const Wrapper = styled.div`
   position: fixed;
   bottom: 0;
-  height: 375pt;
+  /* height: 375pt; */
+  height: auto;
   border-radius: 20pt 20pt 0 0;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  padding: 21pt 15pt 30pt 15pt;
   background-color: #ffffff;
   z-index: 1000;
   opacity: 1 !important;
-
   @media (min-width: 900pt) {
     position: relative;
     left: 50%;
     top: 20%;
-    width: 324pt;
-    height: 429pt;
+    width: 354pt;
+    height: auto;
     border-radius: 12pt;
+    padding: 30pt 28.5pt;
   }
 `;
 
@@ -275,6 +281,10 @@ const HeaderTitle = styled.div`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  @media (min-width: 900pt) {
+    padding-bottom: 36pt;
+    padding-top: 0;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -283,6 +293,7 @@ const Title = styled.div`
 `;
 const Pagenation = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
   cursor: pointer;
   .left-btn {
@@ -316,8 +327,9 @@ const Weeks = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin-bottom: 9pt;
   @media (min-width: 900pt) {
-    padding-top: 40pt;
+    padding-top: 24pt;
   }
 `;
 const Week = styled.div`
@@ -326,34 +338,46 @@ const Week = styled.div`
   font-size: 7.5pt;
   line-height: 9pt;
   padding: 5.25px 0;
+
   text-align: center;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: ${colors.calendarWeek};
+  @media (min-width: 900pt) {
+    padding: 4.5pt 0;
+    font-size: 9pt;
+    margin-bottom: 9pt;
+  }
 `;
 const Days = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding-bottom: 30pt;
+  /* padding-bottom: 30pt; */
   cursor: pointer;
+  @media (min-width: 900pt) {
+    padding-bottom: 12pt;
+  }
 `;
-const Day = styled.div<{ selectedDay?: boolean }>`
+const Day = styled.span<{ selectedDay?: boolean }>`
   display: flex;
   justify-content: center;
-  text-align: center;
+  align-items: center;
   width: calc(100% / 7);
   line-height: 50px;
   font-weight: 500;
-  padding: 3.25pt 0;
   font-size: 10.5pt;
   line-height: 16.5pt;
   color: ${colors.main2};
+  margin-bottom: 9pt;
   .item {
-    width: 16.5pt;
-    height: 16.5pt;
+    width: 27pt;
+    height: 27pt;
     margin-top: 2px;
     padding-bottom: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     ${({ selectedDay }) =>
       selectedDay &&
       css`
@@ -362,9 +386,13 @@ const Day = styled.div<{ selectedDay?: boolean }>`
         border-radius: 50%;
       `};
   }
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    margin-bottom: 9pt;
+  }
 `;
 
-const Button = styled.div`
+const Button = styled.button<{ isValid: boolean }>`
   width: 100%;
   box-sizing: border-box;
   padding-top: 15pt;
@@ -377,9 +405,10 @@ const Button = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #ffffff;
-  background-color: ${colors.main};
+  background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
   cursor: pointer;
+  margin-top: 22.5pt;
   @media (min-width: 900pt) {
-    margin-top: 50pt;
+    margin-top: 12pt;
   }
 `;

@@ -259,11 +259,16 @@ const ChangeDateModal = ({
         <TextareaSubTitle>
           일정이 변경되는 이유를 간단히 작성해주세요.
         </TextareaSubTitle>
-        <TextArea
-          rows={3}
-          placeholder="간단하게 작성해주세요!"
-          onChange={onChangeTextArea}
-        />
+        <TextAreaWrap>
+          <TextArea
+            maxLength={50}
+            rows={3}
+            placeholder="간단하게 작성해주세요!"
+            onChange={onChangeTextArea}
+          />
+          <span className="length">{contents.length}/50</span>
+        </TextAreaWrap>
+
         <Button onClick={onClickGoalDate}>선택한 날짜로 입력하기</Button>
       </Wrapper>
     </Container>
@@ -274,7 +279,7 @@ export default ChangeDateModal;
 
 const Container = styled.div`
   position: absolute;
-  z-index: 2000;
+  z-index: 9999;
   top: 0;
   width: 100vw;
   height: 100vh;
@@ -287,32 +292,33 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position: fixed;
-  overflow: scroll;
-  bottom: 0;
-  max-height: 440pt;
+  /* position: fixed;
+  bottom: 0; */
+  /* overflow: scroll; */
+  margin-top: 100px;
+  max-height: 525pt;
   /* height: 480pt; */
   border-radius: 20pt 20pt 0 0;
   padding-left: 15pt;
   padding-right: 15pt;
   padding-bottom: 30pt;
   background-color: #ffffff;
-  z-index: 2000;
+  z-index: 9999;
   opacity: 1 !important;
   @media (min-width: 900pt) {
     position: relative;
     left: 50%;
     top: 10%;
     width: 324pt;
-    max-height: 490pt;
+    max-height: 576pt;
     border-radius: 12pt;
   }
 `;
 
 const HeaderTitle = styled.div`
   width: 100%;
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
   padding-top: 21pt;
   padding-bottom: 24pt;
   text-align: center;
@@ -334,6 +340,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   .left-btn {
     cursor: pointer;
     position: relative;
@@ -355,7 +362,7 @@ const Pagenation = styled.div`
     color: ${colors.main2};
   }
   @media (min-width: 900pt) {
-    padding-top: 46pt;
+    padding-top: 36pt;
   }
 `;
 const Notice = styled.span`
@@ -370,6 +377,10 @@ const Weeks = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  padding-bottom: 12pt;
+  @media (min-width: 900pt) {
+    padding-top: 24pt;
+  }
 `;
 const Week = styled.div`
   width: calc(100% / 7);
@@ -388,6 +399,10 @@ const Days = styled.div`
   width: 100%;
   padding-bottom: 30pt;
   cursor: pointer;
+  padding-bottom: 12pt;
+  /* @media (min-width: 900pt) {
+    padding-bottom: 12pt;
+  } */
 `;
 const Day = styled.div<{ selectedDay?: boolean }>`
   display: flex;
@@ -396,15 +411,19 @@ const Day = styled.div<{ selectedDay?: boolean }>`
   width: calc(100% / 7);
   line-height: 50px;
   font-weight: 500;
-  padding: 3.25pt 0;
+  /* padding: 3.25pt 0; */
   font-size: 10.5pt;
   line-height: 16.5pt;
   color: ${colors.main2};
+  margin-bottom: 9pt;
   .item {
-    width: 16.5pt;
-    height: 16.5pt;
+    width: 27pt;
+    height: 27pt;
     margin-top: 2px;
     padding-bottom: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     ${({ selectedDay }) =>
       selectedDay &&
       css`
@@ -412,6 +431,10 @@ const Day = styled.div<{ selectedDay?: boolean }>`
         color: ${colors.lightWhite};
         border-radius: 50%;
       `};
+  }
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    margin-bottom: 9pt;
   }
 `;
 const TextareaSubTitle = styled.div`
@@ -422,10 +445,27 @@ const TextareaSubTitle = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
 `;
-
+const TextAreaWrap = styled.div`
+  position: relative;
+  padding-top: 9pt;
+  height: 90pt;
+  .length {
+    position: absolute;
+    bottom: 11.25pt;
+    right: 11.25pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+`;
 const TextArea = styled.textarea`
+  height: 100%;
   width: 100%;
-  margin-top: 9pt;
   padding: 12pt;
   box-sizing: border-box;
   resize: none;
@@ -439,6 +479,9 @@ const TextArea = styled.textarea`
   border: 1px solid #e2e5ed;
   :focus {
     font-weight: 400;
+  }
+  ::placeholder {
+    color: ${colors.lightGray3};
   }
 `;
 

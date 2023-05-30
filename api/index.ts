@@ -1,6 +1,7 @@
 import axios from 'axios';
 import instance from './interceptor/service';
 import adminInstance from './interceptor/admin';
+import { getCookie } from './cookie';
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   endpoint: string;
@@ -104,6 +105,7 @@ export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
 // ---------------------------------- multer Img -----------------------------------
 export async function multerApi(formData: any): Promise<any> {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  // const csrfToken = await getCookie('CSRF-TOKEN');
   return axios({
     method: 'POST',
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/files`,
@@ -111,6 +113,7 @@ export async function multerApi(formData: any): Promise<any> {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'multipart/form-data; charset=EUC-KR',
+      local: process.env.NEXT_PUBLIC_LOCAL!,
       Accept: '*/*',
     },
     withCredentials: true,
@@ -248,6 +251,7 @@ export async function multerAdminApi(formData: any): Promise<any> {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'multipart/form-data; charset=EUC-KR',
       Accept: '*/*',
+      local: process.env.NEXT_PUBLIC_LOCAL!,
     },
     data: formData,
     withCredentials: true,
