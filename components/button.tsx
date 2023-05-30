@@ -47,6 +47,7 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   /* border: 1px solid red; */
+  /* border: 1px solid red; */
   /* cursor: pointer; */
   @media (max-width: 899.25pt) {
     padding: 0 15pt;

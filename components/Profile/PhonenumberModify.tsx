@@ -218,12 +218,12 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
             </InputBox>
             {/* {!isValid && value.length > 0 && (
               <AlertMessage color={colors.sub4}>
-                영문,숫자,특수문자 조합 8자 이상
+                영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
               </AlertMessage>
             )} */}
             {isFailedPassword && (
               <AlertMessage color={colors.sub4}>
-                비밀번호가 일치하지 않습니다.
+                비밀번호가 일치하지 않습니다
               </AlertMessage>
             )}
             <Title>휴대폰 번호</Title>

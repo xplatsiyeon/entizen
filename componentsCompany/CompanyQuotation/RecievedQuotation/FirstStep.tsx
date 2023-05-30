@@ -2,7 +2,14 @@ import styled from '@emotion/styled';
 import { EditSharp } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  EventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
@@ -50,6 +57,12 @@ const FirstStep = ({
   //   'chargingStationInstallationPrice 뭐나옴?',
   //   chargingStationInstallationPrice,
   // );
+
+  const handleFocus = (event: any) => {
+    const input = event.target;
+    const length = input.value.length;
+    input.setSelectionRange(length, length);
+  };
 
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
@@ -128,9 +141,15 @@ const FirstStep = ({
         <div className="displayBox">
           <Input
             placeholder="0"
+            // onFocus={(e) => {
+            //   e.
+            // }}
             onChange={(e) => {
+              // setMonthleSubscribePrice(e.target.value);
+              // console.log('e.target.value : ', e.target.value);
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
+                // setMonthleSubscribePrice(e.target.value);
               } else if (
                 e.target.value.length > 1 &&
                 e.target.value[0] === '0'
@@ -145,7 +164,11 @@ const FirstStep = ({
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
               }
             }}
-            value={monthlySubscribePrice}
+            // value={monthlySubscribePrice}
+            value={Number(
+              monthlySubscribePrice?.replaceAll(',', ''),
+            ).toLocaleString()}
+            // value={Number(monthlySubscribePrice).toLocaleString()}
             name="subscribeMoney"
           />
           <div className="won">원</div>

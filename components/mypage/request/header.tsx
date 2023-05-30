@@ -80,7 +80,9 @@ const Wrap = styled.div`
   z-index: 9999;
 `;
 const MarginBottom = styled.div`
-  margin-bottom: 36pt;
+  @media (max-width: 899.25pt) {
+    margin-bottom: 36pt;
+  }
 `;
 
 const Header = styled.div<{ handle: boolean | undefined }>`

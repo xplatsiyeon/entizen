@@ -257,107 +257,106 @@ const EditPW = ({ setComponent }: Props) => {
           handle={setComponent ? true : undefined}
           back={true}
           title={'비밀번호 변경'}
-          // handleOnClick={setComponent ? () => setComponent(1) : undefined}
-          // handleBackClick={setComponent ? () => setComponent(1) : undefined}
           handleOnClick={setComponent ? () => setComponent(0) : undefined}
           handleBackClick={setComponent ? () => setComponent(0) : undefined}
         />
       </Wrap>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '27pt',
-          width: '100%',
-        }}
-      >
-        <BeforePassword>기존 비밀번호</BeforePassword>
-        <Input
-          placeholder="기존 비밀번호 입력"
-          onChange={handleIdChange}
-          type={pwShow[0] ? 'text' : 'password'}
-          value={beforePasswordInput}
-          name="beforePw"
-          hiddenLabel
-          InputProps={beforeAdornment}
-          onFocus={(e) => setBeforePwSelected(true)}
-          onBlur={(e) => setBeforePwSelected(false)}
+      <Body>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <BeforePassword>기존 비밀번호</BeforePassword>
+          <Input
+            placeholder="기존 비밀번호 입력"
+            onChange={handleIdChange}
+            type={pwShow[0] ? 'text' : 'password'}
+            value={beforePasswordInput}
+            name="beforePw"
+            hiddenLabel
+            InputProps={beforeAdornment}
+            onFocus={(e) => setBeforePwSelected(true)}
+            onBlur={(e) => setBeforePwSelected(false)}
+          />
+          {passwordError && (
+            <Box>
+              <Typography
+                sx={{
+                  color: '#F75015',
+                  fontSize: '9pt',
+                }}
+              >
+                {errorMessage}
+              </Typography>
+            </Box>
+          )}
+          <NewPassword>새로운 비밀번호</NewPassword>
+          <Input
+            placeholder="비밀번호 입력"
+            onChange={handleIdChange}
+            type={pwShow[1] ? 'text' : 'password'}
+            value={pwInput}
+            name="pw"
+            hiddenLabel
+            InputProps={iconAdornment}
+            onFocus={(e) => setPwSelected(true)}
+            onBlur={(e) => setPwSelected(false)}
+          />
+          {!checkedPw && pwInput.length > 4 ? (
+            <Box>
+              <Typography
+                sx={{
+                  color: '#F75015',
+                  fontSize: '9pt',
+                }}
+              >
+                영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+          <Input
+            placeholder="비밀번호 재입력"
+            onChange={handleIdChange}
+            type={pwShow[2] ? 'text' : 'password'}
+            value={checkPw}
+            name="checkPw"
+            InputProps={secondIconAdornment}
+            onFocus={(e) => setCheckPwSelected(true)}
+            onBlur={(e) => setCheckPwSelected(false)}
+          />
+          {!checkSamePw && checkPw.length > 4 ? (
+            <Box>
+              <Typography
+                sx={{
+                  color: '#F75015',
+                  fontSize: '9pt',
+                }}
+              >
+                비밀번호가 일치하지 않습니다
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+        </Box>
+        <Btn
+          isClick={
+            checkPw.length > 7 && pwInput.length > 7 && pwInput === checkPw
+              ? true
+              : false
+          }
+          handleClick={handleClick}
+          marginTop="33.75"
+          text={'수정 완료'}
         />
-        {passwordError && (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              {errorMessage}
-            </Typography>
-          </Box>
-        )}
-        <NewPassword>새로운 비밀번호</NewPassword>
-        <Input
-          placeholder="비밀번호 입력"
-          onChange={handleIdChange}
-          type={pwShow[1] ? 'text' : 'password'}
-          value={pwInput}
-          name="pw"
-          hiddenLabel
-          InputProps={iconAdornment}
-          onFocus={(e) => setPwSelected(true)}
-          onBlur={(e) => setPwSelected(false)}
-        />
-        {!checkedPw && pwInput.length > 4 ? (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              영문,숫자,특수문자 조합 8자 이상
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-        <Input
-          placeholder="비밀번호 재입력"
-          onChange={handleIdChange}
-          type={pwShow[2] ? 'text' : 'password'}
-          value={checkPw}
-          name="checkPw"
-          InputProps={secondIconAdornment}
-          onFocus={(e) => setCheckPwSelected(true)}
-          onBlur={(e) => setCheckPwSelected(false)}
-        />
-        {!checkSamePw && checkPw.length > 4 ? (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              비밀번호를 확인해주세요
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-      </Box>
-      <Btn
-        isClick={
-          checkPw.length > 7 && pwInput.length > 7 && pwInput === checkPw
-            ? true
-            : false
-        }
-        handleClick={handleClick}
-        marginTop="33.75"
-        text={'수정 완료'}
-      />
+      </Body>
     </Wrapper>
   );
 };
@@ -388,11 +387,26 @@ const NewPassword = styled.p`
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0pt 31.875pt;
+  /* margin: 0pt 31.875pt; */
+  height: 100%;
+  /* border: 1px solid red; */
 
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0 15pt 15pt 15pt;
+  }
+`;
+
+const Body = styled.div`
+  padding-top: 42pt;
+  height: 100%;
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (max-width: 899.25pt) {
+    padding-top: 27pt;
   }
 `;
 

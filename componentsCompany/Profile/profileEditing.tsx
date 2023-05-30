@@ -2,23 +2,18 @@ import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-// import AvatarIcon from 'public/images/avatar.png';
 import AvatarIcon from 'public/images/AvatarIconSvg.svg';
-// import AvatarPhoto from 'public/images/avatar-photo.png';
 import AvatarPhoto from 'public/images/AvatarPhotosvg.svg';
 import colors from 'styles/colors';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import arrowRight from 'public/images/arrow-right.png';
 import { isTokenPatchApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import useProfile from 'hooks/useProfile';
 import { UploadFileResponse } from 'components/Profile/ProfileModify';
-import { JwtTokenType } from 'pages/signin';
-import jwt_decode from 'jwt-decode';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
 import Loader from 'components/Loader';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -27,7 +22,6 @@ type Props = {
   routeHandle?: boolean;
   isAddressOn?: boolean;
 };
-const TAG = 'componentsCompany/Profile/profileEditing.tsx';
 const ProfileEditing = ({
   setComponent,
   component,
@@ -36,27 +30,19 @@ const ProfileEditing = ({
   setHeightOn,
 }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [imgFile, setImgFile] = useState<string>('');
   const [data, setData] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-
   const { profile, invalidate, isLoading } = useProfile(accessToken);
-
-  // console.log('프로필', profile);
-
-  //주소
-  const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
-  const [postNumber, setPostNumber] = useState<string>('');
-  const [companyAddress, setCompanyAddress] = useState<string>('');
-  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
-
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
     {
@@ -167,7 +153,7 @@ const ProfileEditing = ({
   return (
     <Scroll>
       <Wrapper component={component}>
-        <Header back={true} title="프로필 변경" />
+        {mobile && <Header back={true} title="프로필 변경" />}
         <Body component={component} className={String(component)}>
           {/* {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>} */}
           {isLoading ? (
@@ -313,19 +299,23 @@ const Scroll = styled.div`
 
 const Wrapper = styled.div<{ component?: number }>`
   padding-right: 15pt;
+
   @media (min-width: 900pt) {
-    padding-top: 32.25pt;
+    /* padding-top: 32.25pt; */
     padding-bottom: 132.75pt;
     padding-right: ${({ component }) => (component === 0 ? '47.25pt' : '24pt')};
   }
 `;
 
 const Body = styled.div<{ component: number }>`
-  padding-top: 21.5pt;
+  /* padding-top: 21.5pt; */
+  padding-top: 36pt;
   padding-left: 15pt;
   @media (min-width: 900pt) {
     padding-left: ${({ component }) => (component === 0 ? '47.5pt' : '24pt')};
-    padding-top: ${({ component }) => (component === 1 ? '10.75pt' : '21.5pt')};
+    /* padding-top: ${({ component }) =>
+      component === 1 ? '10.75pt' : '42pt'}; */
+    padding-top: 42pt;
   }
 `;
 const Avatar = styled.div`
@@ -411,13 +401,15 @@ const Wrap = styled.div<{ component?: number }>`
     component === 0 ? '0 0 0 47.25pt  ' : '0 24pt'};
   position: relative;
 
+  /* border: 1px solid red; */
   @media (max-width: 899.25pt) {
     /* padding: 0; */
     padding-left: 15pt;
+    padding-bottom: 116.25pt;
   }
 `;
 
-const MBtn = styled.button`
+const MBtn = styled.p`
   background: none;
   border: none;
   font-family: 'Spoqa Han Sans Neo';
@@ -428,9 +420,11 @@ const MBtn = styled.button`
   letter-spacing: -0.02em;
   text-decoration-line: underline;
   color: #5a2dc9;
-  position: absolute;
+  text-align: end;
+  margin-top: 18px;
+  /* position: absolute;
   bottom: -27pt;
-  right: 15pt;
+  right: 15pt; */
   cursor: pointer;
 `;
 const Buttons = styled.button`

@@ -211,7 +211,7 @@ const EditCertificate = ({ setComponent }: Props) => {
   }
 
   return (
-    <Body>
+    <Wrapper>
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       {fileModal && (
         <FileSelectModal
@@ -228,97 +228,99 @@ const EditCertificate = ({ setComponent }: Props) => {
           handleBackClick={() => setComponent(0)}
         />
       </Wrap>
-      <RemainderInputBox>
-        <PhotosBox>
-          <Form>
-            <SubTitle>사업자 등록증</SubTitle>
-            <div>
-              <File onClick={handleOnClick}>
-                <Image src={AddImg} alt="img" />
-                <div>이미지 또는 파일 업로드</div>
-              </File>
-            </div>
-          </Form>
-          {/* 이미지 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={imgRef}
-            className="imageClick"
-            type="file"
-            accept="image/*"
-            onChange={saveFileImage}
-            multiple
-            capture={userAgent === 'Android_App' && true}
-          />
-          {/* 파일 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={fileRef}
-            className="imageClick"
-            type="file"
-            accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
-            onChange={saveFileImage}
-            multiple
-          />
-          {/* <Img_Preview> */}
-          {imgPreview && (
-            <div className="img-preview">
-              {businessRegistration?.map((item, index) => (
-                <ImgSpan key={index} data-name={index}>
-                  <Image
-                    layout="fill"
-                    alt="preview"
-                    data-name={index}
-                    key={index}
-                    src={item.url}
-                    priority={true}
-                    unoptimized={true}
-                  />
-                  <Xbox onClick={deleteFileImage} data-name={index}>
+      <Body>
+        <RemainderInputBox>
+          <PhotosBox>
+            <Form>
+              <SubTitle>사업자 등록증</SubTitle>
+              <div>
+                <File onClick={handleOnClick}>
+                  <Image src={AddImg} alt="img" />
+                  <div>이미지 또는 파일 업로드</div>
+                </File>
+              </div>
+            </Form>
+            {/* 이미지 input */}
+            <input
+              style={{ display: 'none' }}
+              ref={imgRef}
+              className="imageClick"
+              type="file"
+              accept="image/*"
+              onChange={saveFileImage}
+              multiple
+              capture={userAgent === 'Android_App' && true}
+            />
+            {/* 파일 input */}
+            <input
+              style={{ display: 'none' }}
+              ref={fileRef}
+              className="imageClick"
+              type="file"
+              accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
+              onChange={saveFileImage}
+              multiple
+            />
+            {/* <Img_Preview> */}
+            {imgPreview && (
+              <div className="img-preview">
+                {businessRegistration?.map((item, index) => (
+                  <ImgSpan key={index} data-name={index}>
                     <Image
-                      src={CloseImg}
+                      layout="fill"
+                      alt="preview"
                       data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
+                      key={index}
+                      src={item.url}
+                      priority={true}
+                      unoptimized={true}
                     />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-            </div>
-          )}
-          {/* <File_Preview> */}
-          {filePreview && (
-            <div className="file-preview">
-              {businessRegistration?.map((item, index) => (
-                <FileBox key={index} data-name={index}>
-                  <div className="file">
-                    <div className="file-img">
-                      <Image src={FileText} alt="file-icon" />
+                    <Xbox onClick={deleteFileImage} data-name={index}>
+                      <Image
+                        src={CloseImg}
+                        data-name={index}
+                        layout="intrinsic"
+                        alt="closeBtn"
+                        width={24}
+                        height={24}
+                      />
+                    </Xbox>
+                  </ImgSpan>
+                ))}
+              </div>
+            )}
+            {/* <File_Preview> */}
+            {filePreview && (
+              <div className="file-preview">
+                {businessRegistration?.map((item, index) => (
+                  <FileBox key={index} data-name={index}>
+                    <div className="file">
+                      <div className="file-img">
+                        <Image src={FileText} alt="file-icon" />
+                      </div>
+                      <div className="file-data">
+                        <FileName>{item.originalName}</FileName>
+                        <span className="file-size">{`용량 ${getByteSize(
+                          item.size,
+                        )}`}</span>
+                      </div>
                     </div>
-                    <div className="file-data">
-                      <FileName>{item.originalName}</FileName>
-                      <span className="file-size">{`용량 ${getByteSize(
-                        item.size,
-                      )}`}</span>
+                    <div
+                      className="file-exit"
+                      onClick={deleteFileImage}
+                      data-name={index}
+                    >
+                      <Image src={CloseImg} data-name={index} alt="closeBtn" />
                     </div>
-                  </div>
-                  <div
-                    className="file-exit"
-                    onClick={deleteFileImage}
-                    data-name={index}
-                  >
-                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                  </div>
-                </FileBox>
-              ))}
-            </div>
-          )}
-        </PhotosBox>
-      </RemainderInputBox>
-      <Button onClick={onClickBtn}>수정 완료</Button>
-    </Body>
+                  </FileBox>
+                ))}
+              </div>
+            )}
+          </PhotosBox>
+        </RemainderInputBox>
+        <Button onClick={onClickBtn}>수정 완료</Button>
+      </Body>
+    </Wrapper>
   );
 };
 
@@ -326,30 +328,49 @@ export default EditCertificate;
 
 const Wrap = styled.div`
   margin-left: -15pt;
+
+  /* border: 1px solid red; */
+`;
+const Wrapper = styled.div`
+  margin: 0 15pt;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 30pt;
+  }
 `;
 const Body = styled.div`
-  //height: 100vh;
-  margin: 0 15pt;
+  height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;
   position: relative;
   display: flex;
+  /* border: 1px solid tomato; */
   /* height: 100%; */
-  padding: 0 0 58.6875pt;
+  /* padding: 0 0 58.6875pt; */
   margin-top: 24pt;
   & .file-preview {
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding-bottom: 58.6875pt;
+    /* padding-bottom: 58.6875pt; */
     gap: 9pt;
   }
   .img-preview {
     display: flex;
     width: 100%;
     gap: 6pt;
+  }
+  @media (max-width: 899.25pt) {
+    margin-top: 0;
+    padding-top: 27pt;
   }
 `;
 
@@ -360,7 +381,7 @@ const PhotosBox = styled.div`
   flex-direction: column;
   gap: 9pt;
   align-items: center;
-  padding-bottom: 58.6875pt;
+  /* padding-bottom: 58.6875pt; */
 `;
 
 const Form = styled.form`
@@ -488,8 +509,8 @@ const Button = styled.button`
   color: #ffffff;
   padding: 15pt 0;
   border-radius: 6pt;
-  position: absolute;
-  bottom: 30pt;
+  /* position: absolute; */
+  /* bottom: 30pt; */
 `;
 
 const FileName = styled.div`

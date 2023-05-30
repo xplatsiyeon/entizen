@@ -10,7 +10,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import EditAddress from 'componentsCompany/Profile/editAddress';
 
 const ProfileIndex = () => {
-  const [component, setComponent] = useState<number>(1);
+  const [component, setComponent] = useState<number>(0);
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -121,18 +121,10 @@ const FlexBox = styled.div<{ heightOn: boolean }>`
   display: block;
   position: relative;
   width: 345pt;
-  /* width: 282pt; */
 
-  //width: 281.25pt;
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
-  /* padding: 32.25pt 31.5pt 42pt; */
-  /* padding: 32.25pt 0 42pt; */
-  /* padding-bottom: 42pt; */
-  /* padding-left: 31.5pt; */
-  /* padding-left: 47.25pt; */
-  /*  */
   margin: ${({ heightOn }) => (heightOn ? '20vh 0' : '45.75pt 0')};
 
   @media (max-width: 899.25pt) {
@@ -152,9 +144,9 @@ const FlexBox2 = styled.div`
   border-radius: 12pt;
   background: #ffff;
   width: 560pt;
-  padding: 32.25pt 22.5pt 42pt;
+  /* padding: 42pt 22.5pt 42pt; */
+  padding: 0pt 22.5pt 42pt;
   margin: 120pt 0 47.5pt;
-
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -174,11 +166,6 @@ const HiddenBox = styled.div`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
-  /* padding: 32.25pt 31.5pt 42pt; */
-  /* padding-bottom: 42pt; */
-  /* padding-left: 31.5pt; */
-  //padding-left: 24pt;
-  /* padding-right: 0; */
   margin: 120pt 0 47.5pt;
 
   @media (max-width: 899.25pt) {

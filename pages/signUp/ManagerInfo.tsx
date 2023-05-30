@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import { Box, color } from '@mui/system';
+import { Box } from '@mui/system';
 import Btn from 'components/button';
 import Input from 'components/input';
 import MypageHeader from 'components/mypage/request/header';
@@ -22,9 +22,7 @@ type Props = {
 };
 
 const SignUpManagerInfo = ({ setComponent }: Props) => {
-  const router = useRouter();
   const [data, setData] = useState<string>('');
-  // const [name, setName] = useState('');
   const [email, setEmail] = useState(''); // 이메일
   const [authCode, setAuthCode] = useState<string>(''); // 이메일 코드
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -280,15 +278,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         <input type="hidden" id="encodeData" name="EncodeData" value={data} />
         <input type="hidden" name="recvMethodType" value="get" />
         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-        <Form>
-          {/* <label>담당자 이름</label>
-          <Input
-            placeholder="이름을 입력해주세요"
-            value={name}
-            setValue={setName}
-            type="button"
-          /> */}
-        </Form>
+
         <Form>
           <label>담당자 이메일</label>
           <div>
@@ -325,7 +315,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           </OverlapBtn>
         </Form>
         <Btn
-          marginTop="30"
+          marginTop="140"
           // text={'담당자 변경'}
           text={'본인인증하기'}
           isClick={isValid}
@@ -345,10 +335,11 @@ export default SignUpManagerInfo;
 const Wrapper = styled.div`
   position: relative;
   //margin: 0pt 31.875pt;
-
+  padding-top: 42pt;
+  height: 100%;
   @media (max-width: 899.25pt) {
-    height: 100%;
     margin: 0 15pt 15pt 15pt;
+    padding-top: 0;
   }
 `;
 
@@ -372,11 +363,13 @@ const Remark = styled(Typography)`
   line-height: 15pt;
   letter-spacing: -0.02em;
 `;
-const Form = styled(Box)`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 24pt;
   position: relative;
+  /* border: 1px solid red; */
+  /* height: 100%; */
   & > label {
     color: ${colors.main2};
     font-size: 12pt;

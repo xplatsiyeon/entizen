@@ -39,6 +39,9 @@ const AdLogin = () => {
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
       return await axios({
+        headers: {
+          local: 'true',
+        },
         method: 'POST',
         url: `/api${url}`,
         data,

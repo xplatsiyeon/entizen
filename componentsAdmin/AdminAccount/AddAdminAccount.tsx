@@ -513,7 +513,7 @@ const AddAdminAccount = ({
 
         {!checkedPw && pwInput.length > 7 && (
           <NoticeText warning={true}>
-            영문,숫자,특수문자 조합 8자 이상
+            영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
           </NoticeText>
         )}
         {pwInput.length < 4 && (
@@ -550,7 +550,7 @@ const AddAdminAccount = ({
           <NoticeText>비밀번호 확인을 위해 한번 더 입력해주세요.</NoticeText>
         )}
         {!checkSamePw && checkPw.length > 4 && (
-          <NoticeText warning={true}>비밀번호를 확인해주세요</NoticeText>
+          <NoticeText warning={true}>비밀번호가 일치하지 않습니다</NoticeText>
         )}
         {checkSamePw && checkPw.length < 17 && checkPw.length > 7 && (
           <NoticeText>비밀번호가 일치합니다.</NoticeText>

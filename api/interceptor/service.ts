@@ -68,7 +68,7 @@ const getRefreshToken = mem(
       );
       const {
         data: { accessToken },
-      } = await axios.post<{
+      } = await instance.post<{
         accessToken: string;
         refreshToken: string | null;
       }>(REFRESH_URL, {
@@ -86,7 +86,7 @@ const getRefreshToken = mem(
       return accessToken;
     } catch (error) {
       // alert('로그인 테스트 진행 중 입니다.');
-      // alert(error);
+      // console.log(error);
       deleteData();
     }
   },
@@ -116,7 +116,7 @@ instance.interceptors.response.use(
         message === 'COMPANY - 회원이 아닙니다.' || // 탈퇴한 회원
         errorCode === 1003)
     ) {
-      console.log('================ 토큰 오류 발생 ================');
+      // console.log('================ 토큰 오류 발생 ================');
       // alert('message 테스트 중 : ' + message);
       deleteData(); // 데이터 삭제
     }

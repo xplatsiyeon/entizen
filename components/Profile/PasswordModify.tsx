@@ -287,7 +287,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                       fontSize: '9pt',
                     }}
                   >
-                    영문,숫자,특수문자 조합 8자 이상
+                    영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
                   </Typography>
                 </Box>
               ) : (
@@ -311,7 +311,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                       fontSize: '9pt',
                     }}
                   >
-                    비밀번호를 확인해주세요
+                    비밀번호가 일치하지 않습니다
                   </Typography>
                 </Box>
               ) : (

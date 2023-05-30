@@ -574,7 +574,9 @@ const IdPwInput = ({
         />
         {!checkedPw && pwInput.length > 4 ? (
           <Box>
-            <MessageErrPW>영문,숫자,특수문자 조합 8자 이상</MessageErrPW>
+            <MessageErrPW>
+              영문, 숫자, 특수문자 조합 8자 이상 입력해 주세요
+            </MessageErrPW>
           </Box>
         ) : (
           <></>
@@ -592,7 +594,7 @@ const IdPwInput = ({
         />
         {!checkSamePw && checkPw.length > 4 ? (
           <Box>
-            <MessageErrPW>비밀번호를 확인해주세요</MessageErrPW>
+            <MessageErrPW>비밀번호가 일치하지 않습니다</MessageErrPW>
           </Box>
         ) : (
           <></>

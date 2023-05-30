@@ -6,23 +6,17 @@ import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import Header from 'components/mypage/request/header';
 import colors from 'styles/colors';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const EditAddress = ({ setComponent }: Props) => {
-  // 원버튼 모달 온클릭
-  //setComponent(4)
-  //   const handleModalYes = () => {
-  //     sessionStorage.removeItem('key');
-
-  //     if () setComponent!(1);
-  //     /*router.push('/signin'); */
-  //   };
-
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   //주소
-
   const [addressOn, setAddressOn] = useState<boolean>(false);
   const [postNumber, setPostNumber] = useState<string>('');
   const [companyAddress, setCompanyAddress] = useState<string>('');
@@ -42,9 +36,6 @@ const EditAddress = ({ setComponent }: Props) => {
   });
 
   const handleEditAddress = () => {
-    // console.log('companyAddress==>>', companyAddress);
-    // console.log('companyDetailAddress==>>', companyDetailAddress);
-    // console.log('postNumber==>>', postNumber);
     //주소 수정할 경우
     addressMutate({
       url: '/members/address',
@@ -82,28 +73,26 @@ const EditAddress = ({ setComponent }: Props) => {
 
   return (
     <>
-      <Header
-        handle={true}
-        back={true}
-        title="주소 변경"
-        handleBackClick={() => setComponent(0)}
-      />
+      {mobile && (
+        <Header
+          handle={true}
+          back={true}
+          title="주소 변경"
+          handleBackClick={() => setComponent(0)}
+        />
+      )}
+
       <Wrapper>
         <Address>
-          <SubTitle style={{ marginTop: '22.5pt' }}>기업 주소</SubTitle>
+          <SubTitle style={{ marginTop: '27pt' }}>기업 주소</SubTitle>
           <InputWrap>
             <InputBox
               placeholder="회사 우편번호 입력"
-              value={
-                postNumber
-                // ? postNumber
-                // : profile?.companyMemberAdditionalInfo?.companyZipCode
-              }
+              value={postNumber}
               name="id"
               readOnly={true}
-              // onClick={() => setAddressOn(true)}
             />
-            {/* <InputBtn onClick={() => setAddressOn(true)}> */}
+
             <InputBtn onClick={() => setAddressOn(true)}>
               <span>주소찾기</span>
             </InputBtn>
@@ -111,21 +100,18 @@ const EditAddress = ({ setComponent }: Props) => {
           <InputBox
             placeholder="회사 주소 입력"
             value={companyAddress}
-            // name="checkPw"
             readOnly={true}
-            // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
             value={companyDetailAddress}
             onChange={(e) => setCompanyDetailAddress(e.target.value)}
-            // name="checkPw"
           />
         </Address>
+        <ButtonBox>
+          <EditAdressBtn onClick={handleEditAddress}>수정완료</EditAdressBtn>
+        </ButtonBox>
       </Wrapper>
-      <ButtonBox>
-        <EditAdressBtn onClick={handleEditAddress}>수정완료</EditAdressBtn>
-      </ButtonBox>
     </>
   );
 };
@@ -137,7 +123,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  height: 92%;
+  /* border: 1px solid red; */
+  height: 100%;
   margin: 0 15pt;
   @media (max-width: 899.25pt) {
     height: auto;
@@ -194,12 +181,13 @@ const InputBtn = styled.button`
   }
 `;
 const ButtonBox = styled.div`
+  /* border: 1px solid blue; */
+  width: 100%;
   @media (max-width: 899.25pt) {
     position: fixed;
     bottom: 30pt;
     width: 100%;
     padding: 0 15pt;
-    /* left: 15pt; */
   }
 `;
 
@@ -214,15 +202,10 @@ const EditAdressBtn = styled.button`
   letter-spacing: -0.02em;
   background: ${colors.main1};
   color: ${colors.lightWhite};
+  /* border: 1px solid red; */
   padding: 15pt 0;
   width: 100%;
   box-sizing: border-box;
-  /* margin-top: 315pt; */
-  @media (max-width: 899.25pt) {
-    position: fixed;
-    bottom: 30pt;
-    /* left: 15pt; */
-  }
 `;
 
 const Wrap = styled.div`
