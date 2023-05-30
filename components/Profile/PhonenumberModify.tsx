@@ -14,6 +14,7 @@ import { useMutation } from 'react-query';
 import { isPostApi, isTokenPatchApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { checkedPassword } from 'utils/calculatePackage';
+import instance from 'api/interceptor/service';
 interface Key {
   id: string;
   isMember: boolean;
@@ -145,9 +146,9 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
   // 나이스 인증 1
   useEffect(() => {
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

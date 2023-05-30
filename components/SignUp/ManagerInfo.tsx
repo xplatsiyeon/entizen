@@ -173,7 +173,7 @@ const ManagerInfo = ({
     const memberType = loginTypeEnList[userType];
     axios({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

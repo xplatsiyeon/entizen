@@ -7,6 +7,7 @@ import { originUserAction } from 'store/userInfoSlice';
 import { userAction } from 'store/userSlice';
 import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
+import instance from 'api/interceptor/service';
 
 export const useNaverAuthHook = () => {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ export const useNaverAuthHook = () => {
 
   const NaverApi = async (data: any) => {
     const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
-    await axios({
+    await instance({
       method: 'post',
       url: NAVER_POST,
       data: {

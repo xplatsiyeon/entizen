@@ -13,6 +13,7 @@ import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
 import backIcon from 'public/images/backIcon.svg';
 import Image from 'next/image';
+import instance from 'api/interceptor/service';
 
 const FindPassword = () => {
   const router = useRouter();
@@ -58,7 +59,7 @@ const FindPassword = () => {
     try {
       // console.log('이름 =>   ' + data.name);
       // console.log('번호 =>   ' + data.phone);
-      await axios({
+      await instance({
         method: 'patch',
         url: PROFILE_API,
         data: {

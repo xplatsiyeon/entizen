@@ -12,7 +12,8 @@ const Checking = ({ date }: Props) => {
   const route = useRouter();
   return (
     <Wrapper>
-      <P>현장실사 일정을 확인 중입니다.</P>
+      {/* <P>현장실사 일정을 확인 중입니다.</P> */}
+      <P>일정 변경 확인 중입니다</P>
       <Date>{date?.replaceAll('-', '.')}</Date>
     </Wrapper>
   );

@@ -12,6 +12,7 @@ import Loader from 'components/Loader';
 import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import colors from 'styles/colors';
+import instance from 'api/interceptor/service';
 
 const Profile = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Profile = () => {
   const KaKaApi = async (data: any) => {
     const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     // try {
-    await axios({
+    await instance({
       method: 'post',
       url: KAKAO_POST,
       data: {

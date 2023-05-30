@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import useProfile from 'hooks/useProfile';
+import instance from 'api/interceptor/service';
 
 interface Key {
   id: string;
@@ -52,7 +53,7 @@ const phone = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members`;
     try {
-      axios({
+      instance({
         method: 'patch',
         url: PASSWORD_CHANGE,
         data: {
@@ -61,6 +62,7 @@ const phone = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           ContentType: 'application/json',
+          local: process.env.LOCAL!,
         },
         withCredentials: true,
       }).then((res) => {
@@ -98,9 +100,9 @@ const phone = () => {
   // 나이스 인증
   useEffect(() => {
     const memberType = selectedType;
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

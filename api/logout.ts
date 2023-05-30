@@ -2,6 +2,7 @@ import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
 import { kakaoInit } from 'utils/kakao';
 import { getCookie } from './cookie';
+import instance from './interceptor/service';
 
 const LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/logout`;
 // 관리자 로그아웃 API
@@ -44,17 +45,17 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const csrfToken = getCookie('CSRF-TOKEN');
   if (accessToken) {
-    await axios({
+    await instance({
       method: 'post',
       data: {
         'csrf-token': csrfToken,
       },
       url: LOG_OUT_API,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-        local: 'true',
-      },
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      //   ContentType: 'application/json',
+      //   local: 'true',
+      // },
       withCredentials: true,
     }).then((res) => {
       sessionStorage.removeItem('SNS_MEMBER');

@@ -16,6 +16,7 @@ import { Key } from 'components/Profile/PasswordModify';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
+import instance from 'api/interceptor/service';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -192,9 +193,9 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
 
   // 나이스 인증 데이터 불러오기
   useEffect(() => {
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

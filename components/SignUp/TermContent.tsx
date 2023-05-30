@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import useNice from 'hooks/useNice';
 import TermsModal from 'components/Modal/TermsModal';
+import instance from 'api/interceptor/service';
 type Props = {
   // level: number;
   // setLevel: Dispatch<SetStateAction<number>>;
@@ -242,9 +243,9 @@ const TermContent = ({
 
   useEffect(() => {
     const memberType = 'USER';
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

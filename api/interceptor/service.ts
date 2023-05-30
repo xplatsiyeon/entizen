@@ -12,7 +12,7 @@ const instance = axios.create({
   headers: {
     'content-type': 'application/json;charset=UTF-8',
     accept: 'application/json,',
-    local: 'true',
+    local: process.env.LOCAL!,
   },
   withCredentials: true,
 });
@@ -35,11 +35,15 @@ instance.interceptors.request.use((config) => {
 
   // CSRF 토큰 추가
   const csrfToken = getCookie('CSRF-TOKEN');
+  console.log('csrfToken : ', csrfToken);
+
   const bodyData = config.data;
   console.log('bodyData : ', bodyData);
   console.log('csrfToken : ', csrfToken);
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
     if (config.method !== 'get') {
+      console.log('config.method : ', config.method);
+
       if (bodyData) {
         if (!bodyData.hasOwnProperty('csrf-token')) {
           config.data = {

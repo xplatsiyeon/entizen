@@ -20,6 +20,7 @@ import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import Modal from 'components/Modal/Modal';
 import { selectAction } from 'store/loginTypeSlice';
+import instance from 'api/interceptor/service';
 
 const SignUpTerms = () => {
   const router = useRouter();
@@ -154,7 +155,8 @@ const SignUpTerms = () => {
         }),
       );
       // try {
-      await axios({
+
+      await instance({
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/members/join/sns`,
         data: {
@@ -171,6 +173,7 @@ const SignUpTerms = () => {
         },
         headers: {
           ContentType: 'application/json',
+          local: process.env.LOCAL!,
         },
         withCredentials: true,
       })
@@ -228,9 +231,9 @@ const SignUpTerms = () => {
 
   useEffect(() => {
     const memberType = selectedType;
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

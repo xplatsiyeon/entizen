@@ -9,6 +9,7 @@ import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
+import instance from 'api/interceptor/service';
 
 const AdLogin = () => {
   const dispatch = useDispatch();
@@ -38,10 +39,10 @@ const AdLogin = () => {
   } = useMutation(
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
-      return await axios({
-        headers: {
-          local: 'true',
-        },
+      return await instance({
+        // headers: {
+        //   local: 'true',
+        // },
         method: 'POST',
         url: `/api${url}`,
         data,

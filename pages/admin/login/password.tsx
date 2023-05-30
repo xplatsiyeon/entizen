@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminPasswordModal from 'componentsAdmin/Modal/AdminPasswordModal';
 import { css } from '@emotion/react';
 import AdminRepasswordModal from 'componentsAdmin/Modal/AdminRepasswordModal';
+import instance from 'api/interceptor/service';
 
 type Existence = {
   isSuccess: boolean;
@@ -92,7 +93,7 @@ const PasswordNotifyPage = () => {
   } = useMutation(
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
-      return await axios({
+      return await instance({
         method: 'PATCH',
         url: `/api${url}`,
         data,

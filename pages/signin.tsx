@@ -35,6 +35,7 @@ import SignUpHeader from 'components/SignUp/header';
 import { useNaverAuthHook } from 'hooks/useNaverAuthHook';
 import FindIdComponents from 'components/FindId';
 import { reg_password } from 'utils/user';
+import instance from 'api/interceptor/service';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -330,9 +331,9 @@ const Signin = () => {
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
-    axios({
+    instance({
       headers: {
-        local: 'true',
+        local: process.env.LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
@@ -412,7 +413,7 @@ const Signin = () => {
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
     const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
-    await axios({
+    await instance({
       method: 'post',
       url: APPLE_POST,
       data: {

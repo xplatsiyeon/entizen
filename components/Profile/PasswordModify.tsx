@@ -14,6 +14,7 @@ import axios from 'axios';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
 import { handleLogoutOnClickModalClick } from 'api/logout';
+import instance from 'api/interceptor/service';
 
 export interface Key {
   id: string;
@@ -102,7 +103,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members/password/${token.memberIdx}`;
     // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
 
-    axios({
+    instance({
       method: 'patch',
       url: PASSWORD_CHANGE,
       data: {
@@ -112,6 +113,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
+        local: process.env.LOCAL!,
       },
       withCredentials: true,
     })

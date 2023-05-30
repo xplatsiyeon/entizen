@@ -39,7 +39,7 @@ const Index: NextPage = () => {
     const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     const NaverApi = async (data: any) => {
       try {
-        await axios({
+        await instance({
           method: 'post',
           url: NAVER_POST,
           data: {
