@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Router, { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import instance from 'api/interceptor/service';
 
 const Index: NextPage = () => {
   const router = useRouter();
