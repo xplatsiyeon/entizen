@@ -42,7 +42,12 @@ instance.interceptors.request.use((config) => {
   console.log('csrfToken : ', csrfToken);
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
     // 제외 항목들 추가
-    if (config.url !== '/auth/nice' && config.url !== '/auth/token') {
+    if (
+      config.url !== '/auth/nice' &&
+      config.url !== '/auth/token' &&
+      config.url !== '/auth/apple' &&
+      config.url !== '/contracts'
+    ) {
       if (config.method !== 'get') {
         console.log('config.method : ', config.method);
         // csrf 토큰 추가
