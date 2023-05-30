@@ -4,7 +4,7 @@ import { appLogout } from 'bridge/appToWeb';
 import mem from 'mem';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const REFRESH_URL = `${BASE_URL}/auth/token`;
+const REFRESH_URL = `/auth/token`;
 
 // 초기 interceptor 값
 const instance = axios.create({
@@ -18,7 +18,7 @@ const instance = axios.create({
 });
 
 // ============================= request interceptor ===================================
-instance.interceptors.request.use((config) => {
+instance.interceptors.request.use(async (config) => {
   console.log('config : ', config);
   if (!config.headers) return config;
   let token: string | null = null;
@@ -34,7 +34,7 @@ instance.interceptors.request.use((config) => {
   }
 
   // CSRF 토큰 추가
-  const csrfToken = getCookie('CSRF-TOKEN');
+  const csrfToken = await getCookie('CSRF-TOKEN');
   console.log('csrfToken : ', csrfToken);
 
   const bodyData = config.data;
@@ -98,8 +98,11 @@ const getRefreshToken = mem(
       return accessToken;
     } catch (error) {
       // alert('로그인 테스트 진행 중 입니다.');
-      // console.log(error);
-      deleteData();
+      console.log(
+        '================ 토큰 오류 발생 getRefreshToken ================',
+      );
+      console.log('error : ', error);
+      // deleteData();
     }
   },
   { maxAge: 1000 },
@@ -128,9 +131,10 @@ instance.interceptors.response.use(
         message === 'COMPANY - 회원이 아닙니다.' || // 탈퇴한 회원
         errorCode === 1003)
     ) {
-      // console.log('================ 토큰 오류 발생 ================');
+      console.log('================ 토큰 오류 발생 response ================');
+      console.log('message :', message);
       // alert('message 테스트 중 : ' + message);
-      deleteData(); // 데이터 삭제
+      // deleteData(); // 데이터 삭제
     }
 
     /** 2 */

@@ -512,10 +512,11 @@ const WebBody = styled.div`
   margin: 0 auto;
   background: #fcfcfc;
   font-family: 'Spoqa Han Sans Neo';
+  height: 100%;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
-    height: 100vh;
+    /* height: 100vh; */
   }
 `;
 const Inner = styled.div`
