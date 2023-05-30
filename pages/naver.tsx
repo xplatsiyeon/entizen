@@ -37,22 +37,22 @@ const Index: NextPage = () => {
       naverLogin?.init();
     };
 
-    const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    // const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     const NaverApi = async (data: any) => {
       try {
         await instance({
           method: 'post',
-          url: NAVER_POST,
+          url: '/members/login/sns',
           data: {
             uuid: '' + data.user.id,
             snsType: 'NAVER',
             snsResponse: JSON.stringify(data),
             email: data.user.email,
           },
-          headers: {
-            ContentType: 'application/json',
-          },
-          withCredentials: true,
+          // headers: {
+          //   ContentType: 'application/json',
+          // },
+          // withCredentials: true,
         }).then((res) => {
           // console.log(res);
         });

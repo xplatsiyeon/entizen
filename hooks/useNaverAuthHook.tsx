@@ -73,20 +73,20 @@ export const useNaverAuthHook = () => {
   };
 
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    // const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await instance({
       method: 'post',
-      url: NAVER_POST,
+      url: '/members/login/sns',
       data: {
         uuid: '' + data.user.id,
         snsType: 'NAVER',
         snsResponse: JSON.stringify(data),
         email: data.user.email,
       },
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
+      // headers: {
+      //   ContentType: 'application/json',
+      // },
+      // withCredentials: true,
     }).then((res) => {
       let c = res.data;
       let d = JSON.parse(res.config.data);

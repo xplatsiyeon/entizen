@@ -61,15 +61,15 @@ const FindPassword = () => {
       // console.log('번호 =>   ' + data.phone);
       await instance({
         method: 'patch',
-        url: PROFILE_API,
+        url: `/members/reset/password/${data.memberIdx}`,
         data: {
           password: pwInput,
         },
-        headers: {
-          ContentType: 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
+        // headers: {
+        //   ContentType: 'application/json',
+        //   Authorization: `Bearer ${accessToken}`,
+        // },
+        // withCredentials: true,
       }).then((res) => {
         // console.log(res);
         setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');

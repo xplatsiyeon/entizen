@@ -4,7 +4,6 @@ import { kakaoInit } from 'utils/kakao';
 import { getCookie } from './cookie';
 import instance from './interceptor/service';
 
-const LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/logout`;
 // 관리자 로그아웃 API
 const ADMIN_LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/admin/auth/logout`;
 
@@ -42,49 +41,50 @@ export const KakaoLogout = () => {
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   // console.log('=============== 로그아웃 =================');
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const csrfToken = getCookie('CSRF-TOKEN');
-  if (accessToken) {
-    await instance({
-      method: 'post',
-      data: {
-        'csrf-token': csrfToken,
-      },
-      url: LOG_OUT_API,
-      // headers: {
-      //   Authorization: `Bearer ${accessToken}`,
-      //   ContentType: 'application/json',
-      //   local: 'true',
-      // },
-      withCredentials: true,
-    }).then((res) => {
-      sessionStorage.removeItem('SNS_MEMBER');
-      sessionStorage.removeItem('ACCESS_TOKEN');
-      sessionStorage.removeItem('REFRESH_TOKEN');
-      sessionStorage.removeItem('USER_ID');
-      sessionStorage.removeItem('MEMBER_TYPE');
-      // 로그아웃 브릿지 연결
-      appLogout(userAgent as string);
-    });
-  }
+  // const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  // const csrfToken = getCookie('CSRF-TOKEN');
+  // if (accessToken) {
+  await instance({
+    method: 'post',
+    url: '/members/logout',
+    // data: {
+    //   'csrf-token': csrfToken,
+    // },
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    //   local: process.env.NEXT_PUBLIC_LOCAL!,
+    // },
+    // withCredentials: true,
+  }).then((res) => {
+    sessionStorage.removeItem('SNS_MEMBER');
+    sessionStorage.removeItem('ACCESS_TOKEN');
+    sessionStorage.removeItem('REFRESH_TOKEN');
+    sessionStorage.removeItem('USER_ID');
+    sessionStorage.removeItem('MEMBER_TYPE');
+    // 로그아웃 브릿지 연결
+    appLogout(userAgent as string);
+  });
+  // }
 };
 
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const csrfToken = getCookie('CSRF-TOKEN');
+  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  // const csrfToken = getCookie('CSRF-TOKEN');
   await axios({
     method: 'post',
-    data: {
-      'csrf-token': csrfToken,
-    },
-    url: ADMIN_LOG_OUT_API,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-      local: 'true',
-    },
-    withCredentials: true,
+    url: '/admin/auth/logout',
+    // data: {
+    //   'csrf-token': csrfToken,
+    // },
+
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    //   ContentType: 'application/json',
+    //   local: process.env.NEXT_PUBLIC_LOCAL!,
+    // },
+    // withCredentials: true,
   }).then((res) => {
     sessionStorage.removeItem('ADMIN_ACCESS_TOKEN');
     sessionStorage.removeItem('ADMIN_REFRESH_TOKEN');

@@ -332,11 +332,11 @@ const Signin = () => {
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
     instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
+      // headers: {
+      //   local: process.env.NEXT_PUBLIC_LOCAL!,
+      // },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {
@@ -412,10 +412,10 @@ const Signin = () => {
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    // const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await instance({
       method: 'post',
-      url: APPLE_POST,
+      url: '/members/login/sns',
       data: {
         uuid: result.sub,
         snsType: 'APPLE',
@@ -423,10 +423,10 @@ const Signin = () => {
         email: result.email,
       },
 
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
+      // headers: {
+      //   ContentType: 'application/json',
+      // },
+      // withCredentials: true,
     }).then((res) => {
       let c = res.data;
       let d = JSON.parse(res.config.data);

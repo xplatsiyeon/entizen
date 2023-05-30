@@ -158,7 +158,7 @@ const SignUpTerms = () => {
 
       await instance({
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/members/join/sns`,
+        url: `/members/join/sns`,
         data: {
           name: data.name,
           phone: data.phone,
@@ -171,11 +171,11 @@ const SignUpTerms = () => {
           ],
           snsLoginIdx: user.snsLoginIdx,
         },
-        headers: {
-          ContentType: 'application/json',
-          local: process.env.NEXT_PUBLIC_LOCAL!,
-        },
-        withCredentials: true,
+        // headers: {
+        //   ContentType: 'application/json',
+        //   local: process.env.NEXT_PUBLIC_LOCAL!,
+        // },
+        // withCredentials: true,
       })
         .then((res) => {
           router.push('/signUp/Complete');
@@ -232,11 +232,11 @@ const SignUpTerms = () => {
   useEffect(() => {
     const memberType = selectedType;
     instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
+      // headers: {
+      //   local: process.env.NEXT_PUBLIC_LOCAL!,
+      // },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {

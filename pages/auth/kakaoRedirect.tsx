@@ -34,21 +34,21 @@ const Profile = () => {
 
   // 카카오 백엔드 API
   const KaKaApi = async (data: any) => {
-    const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+    // const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     // try {
     await instance({
       method: 'post',
-      url: KAKAO_POST,
+      url: '/members/login/sns',
       data: {
         uuid: '' + data.id,
         snsType: 'KAKAO',
         snsResponse: JSON.stringify(data),
         email: data.kakao_account.email,
       },
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
+      // headers: {
+      //   ContentType: 'application/json',
+      // },
+      // withCredentials: true,
     })
       .then((res) => {
         let resData = res.data;

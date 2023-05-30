@@ -244,11 +244,8 @@ const TermContent = ({
   useEffect(() => {
     const memberType = 'USER';
     instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {

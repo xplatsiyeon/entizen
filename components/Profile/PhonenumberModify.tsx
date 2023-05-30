@@ -147,11 +147,11 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   // 나이스 인증 1
   useEffect(() => {
     instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
+      // headers: {
+      //   local: process.env.NEXT_PUBLIC_LOCAL!,
+      // },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {

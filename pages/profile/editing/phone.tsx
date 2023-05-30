@@ -55,16 +55,16 @@ const phone = () => {
     try {
       instance({
         method: 'patch',
-        url: PASSWORD_CHANGE,
+        url: `/members`,
         data: {
           phone: key.phone,
         },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-          local: process.env.NEXT_PUBLIC_LOCAL!,
-        },
-        withCredentials: true,
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        //   ContentType: 'application/json',
+        //   local: process.env.NEXT_PUBLIC_LOCAL!,
+        // },
+        // withCredentials: true,
       }).then((res) => {
         // console.log('백엔드에서 받은 데이터');
         // console.log(res);
@@ -101,11 +101,11 @@ const phone = () => {
   useEffect(() => {
     const memberType = selectedType;
     instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
+      // headers: {
+      //   local: process.env.NEXT_PUBLIC_LOCAL!,
+      // },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {

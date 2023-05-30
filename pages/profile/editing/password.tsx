@@ -88,16 +88,16 @@ const FindPassword = () => {
     try {
       instance({
         method: 'patch',
-        url: PASSWORD_CHANGE,
+        url: `/members/password/${key.memberIdx}`,
         data: {
           oldPassword: beforePasswordInput,
           newPassword: password,
         },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        //   ContentType: 'application/json',
+        // },
+        // withCredentials: true,
       }).then((res) => {
         setOpenModal(true);
       });

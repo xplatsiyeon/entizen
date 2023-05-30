@@ -100,22 +100,22 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const handleClick = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const token: JwtTokenType = jwt_decode(accessToken);
-    const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members/password/${token.memberIdx}`;
+    // const PASSWORD_CHANGE = `${process.env.NEXT_PUBLIC_BASE_URL}/members/password/${token.memberIdx}`;
     // const PASSWORD_CHANGE = `api/members/password/${token.memberIdx}`;
 
     instance({
       method: 'patch',
-      url: PASSWORD_CHANGE,
+      url: `/members/password/${token.memberIdx}`,
       data: {
         oldPassword: beforePasswordInput,
         newPassword: password,
       },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
-      withCredentials: true,
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      //   ContentType: 'application/json',
+      //   local: process.env.NEXT_PUBLIC_LOCAL!,
+      // },
+      // withCredentials: true,
     })
       .then((res) => {
         setOpenModal(true);
