@@ -12,7 +12,7 @@ const adminInstance = axios.create({
   headers: {
     'content-type': 'application/json;charset=UTF-8',
     accept: 'application/json,',
-    local: process.env.LOCAL!,
+    local: process.env.NEXT_PUBLIC_LOCAL!,
   },
   withCredentials: true,
 });

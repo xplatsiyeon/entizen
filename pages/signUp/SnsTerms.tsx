@@ -173,7 +173,7 @@ const SignUpTerms = () => {
         },
         headers: {
           ContentType: 'application/json',
-          local: process.env.LOCAL!,
+          local: process.env.NEXT_PUBLIC_LOCAL!,
         },
         withCredentials: true,
       })
@@ -233,7 +233,7 @@ const SignUpTerms = () => {
     const memberType = selectedType;
     instance({
       headers: {
-        local: process.env.LOCAL!,
+        local: process.env.NEXT_PUBLIC_LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

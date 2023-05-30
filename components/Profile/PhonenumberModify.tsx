@@ -148,7 +148,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   useEffect(() => {
     instance({
       headers: {
-        local: process.env.LOCAL!,
+        local: process.env.NEXT_PUBLIC_LOCAL!,
       },
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,

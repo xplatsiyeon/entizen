@@ -113,7 +113,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
-        local: process.env.LOCAL!,
+        local: process.env.NEXT_PUBLIC_LOCAL!,
       },
       withCredentials: true,
     })
