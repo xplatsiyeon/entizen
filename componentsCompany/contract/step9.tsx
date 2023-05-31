@@ -20,6 +20,7 @@ import { modusignCancel } from 'api/cancelSign';
 import { useQuery } from '@apollo/client';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
+import { deleteSign } from 'api/deleteSign';
 
 type Props = {};
 
@@ -36,6 +37,28 @@ export default function Step9(props: Props) {
   const { contractSlice } = useSelector((state: RootState) => state);
 
   console.log('🔥 contractSlice : ', contractSlice);
+
+  // ------------------모두싸인 서명 취소 (계약서 수정하기)----------------------
+  const {
+    mutate: deleteMutate,
+    isError: deleteError,
+    isLoading: deleteLoading,
+  } = useMutation(deleteSign, {
+    onSuccess(data, variables, context) {
+      console.log('성공');
+      modusignMutate(
+        { data: inModuSignData!, newContractData: contractSlice }!,
+      );
+    },
+    onError(error, variables, context) {
+      console.log('실패');
+      setIsModal(true);
+      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+      // setModalMessage('다시 시도해주세요');
+      // setIsModal(true);
+    },
+  });
+
   // ------------------모두싸인 GET API----------------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -68,7 +91,6 @@ export default function Step9(props: Props) {
   } = useMutation(moduSign, {
     onSuccess: async (modusignData: any) => {
       // 백엔드에 보내줄 API 연결
-
       console.log('성공');
       console.log('🔥 modusignData : ', modusignData);
       const apiData: any = {
@@ -127,10 +149,15 @@ export default function Step9(props: Props) {
 
   // 온클릭 요청
   const onClickContractRequest = () => {
+    const documentId = router.query.documentId;
     if (isValid && !modusignIsLoading) {
-      modusignMutate(
-        { data: inModuSignData!, newContractData: contractSlice }!,
-      );
+      if (documentId) {
+        deleteMutate(documentId as string);
+      } else {
+        modusignMutate(
+          { data: inModuSignData!, newContractData: contractSlice }!,
+        );
+      }
     }
   };
 

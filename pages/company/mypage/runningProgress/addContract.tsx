@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { deleteSign } from 'api/deleteSign';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import Step0 from 'componentsCompany/contract/step0';
@@ -20,6 +21,7 @@ import {
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import colors from 'styles/colors';

@@ -35,10 +35,13 @@ import {
 } from 'bridge/appToWeb';
 import { isTokenPutApi, multerApi } from 'api';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import Modal from 'components/Modal/Modal';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import download_icon from 'public/companyContract/contract_download_icon.svg';
+import { deleteSign } from 'api/deleteSign';
+import ContractModal from 'componentsCompany/Modal/contractModal';
+import { useMediaQuery } from 'react-responsive';
 
 export interface fileDownLoad {
   originalName: string;
@@ -89,7 +92,12 @@ const ProgressBody = ({
   const [modalMessage, setModalMessage] = useState('');
   // 자체 계약서 파일 모달
   const [openSelfContract, setOpenSelfContract] = useState(false);
+  const [contractIsModal, setContractIsModal] = useState(false);
   const [tpye, setType] = useState<ImageType>();
+
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
 
   const {
     loading: contractLoading,
@@ -158,6 +166,23 @@ const ProgressBody = ({
         setModalMessage('다시 시도해주세요');
         setIsModal(true);
       }
+    },
+  });
+
+  // 계약서 취소 mutate
+  const {
+    mutate: deleteMutate,
+    isError: deleteError,
+    isLoading: deleteLoading,
+  } = useMutation(deleteSign, {
+    onSuccess(data, variables, context) {
+      console.log('성공');
+      inProgressRefetch();
+    },
+    onError(error, variables, context) {
+      console.log('실패');
+      setModalMessage('다시 시도해주세요');
+      setIsModal(true);
     },
   });
 
@@ -281,33 +306,52 @@ const ProgressBody = ({
     URL.revokeObjectURL(a.href);
   };
 
-  // 계약서 보기
+  // 자체 계약서 다운로드
   const selfContractView = () => {
-    console.log('계약서 데이터 : ', contractDocumentData);
-    console.log('데이터 : ', data);
-    return;
+    // console.log('계약서 데이터 : ', contractDocumentData);
+    // console.log('데이터 : ', data);
+    // return;
     const contractUrl = JSON.parse(
       contractData?.project?.contract?.contractContent!,
     )[0];
     onClickBtn(contractUrl);
   };
 
-  // 계약서 보기 버튼 클릭
+  // 일반 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    console.log('계약서 데이터 : ', contractDocumentData);
-    console.log('데이터 : ', data);
-    return;
-    // 브릿지
-    // openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
+    // console.log('계약서 데이터 : ', contractDocumentData);
+    // console.log('데이터 : ', data);
+    // return;
 
-    const a = document.createElement('a');
-    a.download = 'test';
-    a.href = contractDocumentData?.embeddedUrl!;
-    a.onclick = () =>
-      fileDownload(userAgent, 'test', contractDocumentData?.embeddedUrl!);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(a.href);
+    // 브릿지
+    openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
+
+    // const a = document.createElement('a');
+    // a.download = 'test';
+    // a.href = 'https://app.modusign.co.kr/document/viewer'!;
+    // a.onclick = () =>
+    //   fileDownload(
+    //     userAgent,
+    //     'test',
+    //     'https://app.modusign.co.kr/document/viewer'!,
+    //   );
+    // a.click();
+    // a.remove();
+    // URL.revokeObjectURL(a.href);
+  };
+
+  // 일반 계약서 계약서 수정하기
+  const onClickDelete = () => {
+    if (mobile) {
+      router.push({
+        pathname: '/company/mypage/runningProgress/addContract',
+        query: {
+          projectIdx: routerId,
+        },
+      });
+    } else {
+      setContractIsModal(true); // 계약서 작성 모달
+    }
   };
 
   let textArr;
@@ -382,6 +426,13 @@ const ProgressBody = ({
   return (
     <>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
+      {/* 계약서 모달 */}
+      {!mobile && contractIsModal && (
+        <ContractModal
+          documentId={data.project.contract.documentId!}
+          setIsModal={setContractIsModal}
+        />
+      )}
       {openSelfContract && (
         <FileSelectModal
           fileText="앨범에서 가져오기"
@@ -475,10 +526,7 @@ const ProgressBody = ({
                           />
                         </span>
                       </span>
-                      <button
-                        className="modify"
-                        // onClick={() => setOpenSelfContract((prev) => !prev)}
-                      >
+                      <button className="modify" onClick={onClickDelete}>
                         수정
                       </button>
                     </div>

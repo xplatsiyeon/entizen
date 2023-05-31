@@ -7,15 +7,35 @@ import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
 import { Box } from '@mui/system';
 import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import { deleteSign } from 'api/deleteSign';
 
 type Props = {
+  documentId?: string;
   setIsModal: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function ContractModal({ setIsModal }: Props) {
+export default function ContractModal({ documentId, setIsModal }: Props) {
   const outside = useRef();
   const router = useRouter();
   const dispatch = useDispatch();
+
+  // 계약서 취소 mutate
+  // const {
+  //   mutate: deleteMutate,
+  //   isError: deleteError,
+  //   isLoading: deleteLoading,
+  // } = useMutation(deleteSign, {
+  //   onSuccess(data, variables, context) {
+  //     console.log('성공');
+  //     // inProgressRefetch();
+  //   },
+  //   onError(error, variables, context) {
+  //     console.log('실패');
+  //     // setModalMessage('다시 시도해주세요');
+  //     // setIsModal(true);
+  //   },
+  // });
 
   // 모달 배경 클릭 시 닫기
   const handleModalClose = (
@@ -34,6 +54,7 @@ export default function ContractModal({ setIsModal }: Props) {
         pathname: '/company/mypage/runningProgress/addContract',
         query: {
           projectIdx: router.query.projectIdx,
+          documentId: documentId,
         },
       });
   };
@@ -54,7 +75,7 @@ export default function ContractModal({ setIsModal }: Props) {
           />
         </div>
         <button className="button" onClick={onClickButton}>
-          시작하기
+          {documentId ? '수정하기' : '시작하기'}
         </button>
       </Modal>
     </ModalWrap>

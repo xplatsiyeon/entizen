@@ -77,6 +77,8 @@ const WebBody = styled.div`
   /* background: #fcfcfc; */
   background-color: white;
   overflow-x: hidden;
+  position: relative;
+  padding-top: 66pt;
 `;
 
 const Inner = styled.div`

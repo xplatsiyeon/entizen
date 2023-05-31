@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
+import colors from 'styles/colors';
+import Image from 'next/image';
+import landing_Inquiry_icon from 'public/Landing/landing_Inquiry_icon.svg';
+import landing_arrow_icon from 'public/Landing/landing_arrow_icon.svg';
+import { useRouter } from 'next/router';
 
 const LandingHeader = () => {
+  const router = useRouter();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
@@ -14,6 +20,19 @@ const LandingHeader = () => {
       navigator.clipboard.writeText(text);
     } catch (error) {}
   };
+  // 문의하기
+  const onClickEmail = () => {
+    setMailOn(true);
+    setTimeout(function () {
+      setMailOn(false);
+    }, 2000);
+    handleCopyEmail('entizen@entizen.kr');
+  };
+
+  // 엔티즌 바로가기
+  const onClickRouter = () => {
+    router.push('https://api.entizen.kr/');
+  };
   return (
     <HeaderWrapper>
       {mailOn && (
@@ -23,18 +42,43 @@ const LandingHeader = () => {
       )}
       <Box>
         <ImgTag src="Landing/EntizenLogo.svg" alt="EntizenLogo" />
-        <Button
-          onClick={() => {
-            setMailOn(true);
-            setTimeout(function () {
-              setMailOn(false);
-            }, 2000);
-            handleCopyEmail('entizen@entizen.kr');
-          }}
-        >
-          <span className="text">무엇이든 물어보세요</span>
-          {!mobile && <ImgTag src="Landing/RightWhiteArrow.svg" />}
-        </Button>
+        <ButtonWrap>
+          {/* <span className="text">무엇이든 물어보세요</span>
+          {!mobile && <ImgTag src="Landing/RightWhiteArrow.svg" />} */}
+          <button className="inquiryBtn" onClick={onClickEmail}>
+            <span className="inquiryText">문의하기</span>
+            <span className="inquiryImg">
+              <Image
+                src={landing_Inquiry_icon}
+                alt="landing_Inquiry_icon"
+                layout="fill"
+              />
+            </span>
+          </button>
+          {!mobile && (
+            <button className="shortcutBtn" onClick={onClickRouter}>
+              <span className="shortcutText">엔티즌 바로가기</span>
+              <span className="shortcutImg">
+                <Image
+                  src={landing_arrow_icon}
+                  alt="landing_arrow_icon"
+                  layout="fill"
+                />
+              </span>
+            </button>
+          )}
+        </ButtonWrap>
+        {/* 하단 버튼 */}
+        <ButtonBanner onClick={onClickRouter}>
+          <span className="text">{'엔티즌\n 바로가기'}</span>
+          <span className="img">
+            <Image
+              src={landing_arrow_icon}
+              alt="landing_arrow_icon"
+              layout="fill"
+            />
+          </span>
+        </ButtonBanner>
       </Box>
     </HeaderWrapper>
   );
@@ -53,7 +97,10 @@ const HeaderWrapper = styled.div`
   width: 100vw;
   border-bottom: 0.75pt solid #e9eaee;
   box-sizing: border-box;
-
+  position: fixed;
+  top: 0;
+  z-index: 99999;
+  background-color: ${colors.lightWhite};
   @media (max-width: 899.25pt) {
     display: flex;
     align-items: center;
@@ -63,13 +110,15 @@ const HeaderWrapper = styled.div`
 
 const ImgTag = styled.img``;
 
-const Button = styled.div`
+const ButtonWrap = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  /* display: flex;
   align-items: center;
   justify-content: center;
   gap: 6pt;
   padding: 7pt 15pt 9pt;
-  /* padding: 9pt 15pt; */
   background-color: #222222;
   border-radius: 21.75pt;
   cursor: pointer;
@@ -79,18 +128,14 @@ const Button = styled.div`
     gap: 0;
   }
   .text {
-    /* font-family: 'AppleSDGothicNeo', 'Noto Sans KR', sans-serif; */
-    /* font-family: AppleGothicNeo; */
     font-family: 'Apple SD Gothic Neo', 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 800;
-    /* line-height: 13.5pt; */
     padding-top: 2pt;
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
     color: white;
-
     @media (max-width: 899.25pt) {
       font-size: 9pt;
       font-weight: 800;
@@ -98,6 +143,140 @@ const Button = styled.div`
       letter-spacing: -0.02em;
       text-align: left;
       padding-top: 1pt;
+    }
+  } */
+  .inquiryBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 24pt;
+    background-color: ${colors.lightWhite};
+    @media (max-width: 899.25pt) {
+      margin-right: 0;
+    }
+  }
+  .inquiryText {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 10.5pt;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    margin-right: 3pt;
+    padding-top: 1.5pt;
+  }
+  .inquiryImg {
+    position: relative;
+    width: 12pt;
+    height: 12pt;
+  }
+  .shortcutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${colors.lightWhite};
+    background: #ffffff;
+    padding: 9pt 15pt;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 29px;
+  }
+  .shortcutText {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 10.5pt;
+    line-height: 13.5pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main1};
+    margin-right: 1.5pt;
+  }
+  .shortcutImg {
+    position: relative;
+    width: 13.5pt;
+    height: 13.5pt;
+  }
+`;
+
+const ButtonBanner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  white-space: pre;
+  text-align: center;
+  position: fixed;
+  right: 45pt;
+  top: 678pt;
+  width: 90pt;
+  height: 90pt;
+  border-radius: 50%;
+  cursor: pointer;
+  background: linear-gradient(
+    70.87deg,
+    #5221cb 24.29%,
+    rgba(82, 33, 203, 0) 212.16%
+  );
+  /* shadow */
+
+  filter: drop-shadow(0px 0px 10px rgba(137, 163, 201, 0.2));
+
+  .img {
+    position: relative;
+    width: 21pt;
+    height: 21pt;
+  }
+  .text {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.02em;
+    /* Sub3 */
+    color: #ffffff;
+    margin-bottom: 5pt;
+  }
+
+  @media (max-width: 899.25pt) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    white-space: nowrap;
+    padding: 9pt 15pt;
+    position: fixed;
+    right: 15pt;
+    bottom: 26.25pt;
+    top: auto;
+    border-radius: 29px;
+    z-index: 99999;
+    width: auto;
+    height: auto;
+    background: linear-gradient(
+      70.87deg,
+      #5221cb 24.29%,
+      rgba(82, 33, 203, 0) 212.16%
+    );
+    /* shadow */
+
+    filter: drop-shadow(0px 0px 10px rgba(137, 163, 201, 0.2));
+    .img {
+      position: relative;
+      width: 13.5pt;
+      height: 13.5pt;
+    }
+    .text {
+      font-family: 'Apple SD Gothic Neo';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: -0.02em;
+      /* Sub3 */
+      color: #ffffff;
+      margin-right: 1.5pt;
+      margin-bottom: 0;
     }
   }
 `;
