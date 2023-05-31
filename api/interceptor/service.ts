@@ -45,8 +45,8 @@ instance.interceptors.request.use(async (config) => {
     if (
       config.url !== '/auth/nice' &&
       config.url !== '/auth/token' &&
-      config.url !== '/auth/apple' &&
-      config.url !== '/contracts'
+      config.url !== '/auth/apple'
+      // && config.url !== '/contracts'
     ) {
       if (config.method !== 'get') {
         console.log('config.method : ', config.method);

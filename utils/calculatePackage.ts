@@ -7,8 +7,8 @@ export const checkedPassword = (password: string): boolean => {
 };
 
 // -----------기본 가격 콤마 계산----------------
-export const PriceBasicCalculation = (price: number) => {
-  if (price === 0) return 0;
+export const PriceBasicCalculation = (price: number): string | undefined => {
+  if (price === 0) return '0';
   if (price) {
     const parts = price.toString().split('.');
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');

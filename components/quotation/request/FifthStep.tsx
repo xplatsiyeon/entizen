@@ -19,6 +19,7 @@ export const M11_LIST = [
   '디자인',
   '납기',
   '보증기간',
+  '충전수익',
 ];
 export const M11_LIST_EN = [
   'PRICE',
@@ -28,6 +29,7 @@ export const M11_LIST_EN = [
   'DESIGN',
   'DEADLINE',
   'GUARANTEE',
+  'BENEFIT',
 ];
 
 const FifthStep = ({ tabNumber }: Props) => {

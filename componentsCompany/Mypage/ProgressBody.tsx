@@ -283,6 +283,9 @@ const ProgressBody = ({
 
   // 계약서 보기
   const selfContractView = () => {
+    console.log('계약서 데이터 : ', contractDocumentData);
+    console.log('데이터 : ', data);
+    return;
     const contractUrl = JSON.parse(
       contractData?.project?.contract?.contractContent!,
     )[0];
@@ -291,8 +294,20 @@ const ProgressBody = ({
 
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
+    console.log('계약서 데이터 : ', contractDocumentData);
+    console.log('데이터 : ', data);
+    return;
     // 브릿지
-    openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
+    // openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
+
+    const a = document.createElement('a');
+    a.download = 'test';
+    a.href = contractDocumentData?.embeddedUrl!;
+    a.onclick = () =>
+      fileDownload(userAgent, 'test', contractDocumentData?.embeddedUrl!);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
   };
 
   let textArr;
@@ -433,14 +448,42 @@ const ProgressBody = ({
             <>
               {/* 모두싸인 계약서 */}
               {!Array.isArray(contractContent) ? (
-                <ContractBtnBox
-                  onClick={onClickContract}
-                  presentProgress={
-                    data?.project?.badge === '계약대기' ? true : false
-                  }
-                >
-                  <div>계약서 보기</div>
-                </ContractBtnBox>
+                // <ContractBtnBox
+                //   onClick={onClickContract}
+                //   presentProgress={
+                //     data?.project?.badge === '계약대기' ? true : false
+                //   }
+                // ></ContractBtnBox>
+                <>
+                  {/* 일반 계약서 */}
+                  <SeftContract
+                    presentProgress={
+                      data?.project?.badge === '계약대기' ? true : false
+                    }
+                  >
+                    <div className="contractBox">
+                      <span
+                        onClick={onClickContract}
+                        className="contractDownload"
+                      >
+                        <span className="text">계약서 다운로드</span>
+                        <span className="contractImg">
+                          <Image
+                            src={download_icon}
+                            alt="download_icon"
+                            layout="fill"
+                          />
+                        </span>
+                      </span>
+                      <button
+                        className="modify"
+                        // onClick={() => setOpenSelfContract((prev) => !prev)}
+                      >
+                        수정
+                      </button>
+                    </div>
+                  </SeftContract>
+                </>
               ) : (
                 <>
                   {/* 자체 계약서 */}

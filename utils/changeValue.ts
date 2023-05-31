@@ -1,13 +1,13 @@
 import colors from 'styles/colors';
 
-// 회사 뱃지 변환
+// 판매자 견적서 뱃지 변환
 export const HandleColor = (badge: string | undefined): string => {
   if (badge) {
-    if (badge.includes('마감')) {
+    if (badge.includes('마감') || badge.includes('선택대기')) {
       return colors.sub4;
     } else if (badge.includes('현장실사') || badge.includes('최종견적')) {
       return colors.main;
-    } else if (badge.includes('대기')) {
+    } else if (badge.includes('낙찰대기 중') || badge.includes('최종대기 중')) {
       return colors.yellow;
     } else if (badge.includes('낙찰성공')) {
       return colors.main2;
@@ -19,19 +19,17 @@ export const HandleColor = (badge: string | undefined): string => {
   }
 };
 
-// 구매자 뱃지 변환
-
 /**
- * 구매자 뱃지 변환
+ * 구매자 내 견적서 뱃지 변환
  * @param badge 뱃지 데이터
  * @returns "" | 뱃지 컬러
  */
 export const HandleUserColor = (badge: string | undefined): string => {
   if (badge) {
-    if (badge.includes('마감')) return '#F75015';
-    else if (badge.includes('대기 중')) return '#FFC043';
-    else if (badge.includes('취소')) return '#CACCD1';
-    else return '#5A2DC9';
+    if (badge.includes('마감')) return colors.sub4;
+    else if (badge.includes('대기 중')) return colors.yellow;
+    else if (badge.includes('취소')) return colors.lightGray3;
+    else return colors.main;
   } else {
     return '';
   }
@@ -66,13 +64,13 @@ export const handleColor = (badge: string | undefined): string => {
  * @returns
  */
 export const handleColor2 = (badge: number) => {
-  if ((badge) > 100) {
+  if (badge > 100) {
     return colors.main;
-  } else if ( (badge > 30) && (badge <= 99)) {
+  } else if (badge > 30 && badge <= 99) {
     return '#FFC043';
-  } else if ((badge <= 30)) {
+  } else if (badge <= 30) {
     return '#F75015';
-  } else if(!badge) {
+  } else if (!badge) {
     return '#222222';
   } else {
     return '#CACCD1';
@@ -85,7 +83,7 @@ export const handleColor2 = (badge: number) => {
  * @returns
  */
 export const handleColorAS = (badge: string) => {
-  if (badge?.includes('요청')) {
+  if (badge?.includes('요청') || badge?.includes('선택대기')) {
     return '#F75015';
   } else if (badge?.includes('확인')) {
     return '#5221CB';
