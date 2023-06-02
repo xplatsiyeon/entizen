@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
@@ -90,6 +90,17 @@ const BiddingQuote = ({
   }, [data]);
 
   console.log('🔥 quotationNewData : ', quotationNewData);
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      alert('뒤로가기 클릭');
+      if (openImgModal === true) {
+        window.onClickBackButton = () => setOpenImgModal(false);
+      }
+    }
+  }, []);
 
   return (
     <Wrap>
