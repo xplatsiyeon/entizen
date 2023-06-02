@@ -3,12 +3,13 @@ import axios from 'axios';
 import Router, { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import instance from './interceptor/service';
 
 export const login = (
   naverLogin: any,
   callBack: (_naverLogin: any) => void,
 ) => {
-  console.log('naverLogin',naverLogin)
+  console.log('naverLogin', naverLogin);
   const naver = (window as any).naver;
   // if (naverLogin) {
   naverLogin = new naver.LoginWithNaverId({
@@ -60,9 +61,9 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
   }
 };
 const NaverApi = async (data: any, callBack: (result: any) => void) => {
-  const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
+  const NAVER_POST = `/members/login/sns`;
   try {
-    await axios({
+    await instance({
       method: 'post',
       url: NAVER_POST,
       data: {

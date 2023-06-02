@@ -14,6 +14,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import { reg_email } from 'utils/user';
 import { useMutation } from 'react-query';
 import { isTokenPostApi } from 'api';
+import instance from 'api/interceptor/service';
 
 type Props = {
   email: string;
@@ -171,12 +172,12 @@ const ManagerInfo = ({
 
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
-    axios({
+    instance({
       headers: {
         local: process.env.NEXT_PUBLIC_LOCAL!,
       },
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/nice`,
+      url: `/auth/nice`,
       data: { memberType },
     })
       .then((res) => {
