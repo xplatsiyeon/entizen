@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import AddIcon from 'public/images/add-img2.svg';
+import AddIcon from 'public/images/PlusCircle.svg';
 import Arrow from 'public/guide/Arrow.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import {
@@ -221,21 +221,21 @@ const FirstStep = ({ tabNumber }: Props) => {
               충전기 종류 및 수량 선택
             </h3>
             {1 <= index ? (
-              <div
+              <span
                 className="add-img"
                 onClick={() => onClickMinus(index)}
                 style={{ cursor: 'pointer' }}
               >
-                <Image src={XCircle} alt="add-img" />
-              </div>
+                <Image src={XCircle} alt="add-img" layout="fill" />
+              </span>
             ) : (
-              <div
+              <span
                 className="add-img"
                 onClick={onClickAdd}
                 style={{ cursor: 'pointer' }}
               >
-                <Image src={AddIcon} alt="add-img" />
-              </div>
+                <Image src={AddIcon} alt="add-img" layout="fill" />
+              </span>
             )}
           </SubTitle>
           {/* 충전기 종류 옵션 박스 */}
@@ -331,6 +331,19 @@ const SubTitle = styled.div`
     font-family: 'Spoqa Han Sans Neo';
   }
   .add-img {
+    position: relative;
+    width: 21pt;
+    height: 21pt;
+  }
+  @media (max-width: 899.25pt) {
+    .name {
+      font-size: 10.5pt;
+    }
+    /* .add-img {
+      position: relative;
+      width: 15.75pt;
+      height: 15.75pt;
+    } */
   }
 `;
 const SelectBoxWrapper = styled.div`

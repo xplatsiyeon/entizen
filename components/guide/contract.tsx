@@ -81,23 +81,28 @@ const Contract = () => {
           {/* Close */}
           <ItemButton onClick={() => handleClick(item.id)}>
             <Image src={item.img} alt="icon" />
-            <ListItemText primary={item.name} />
-            {open[item.id] ? (
-              <ArrowImg>
-                <Image src={DownArrow} alt="down_arrow" />
-              </ArrowImg>
-            ) : (
-              <ArrowImg>
-                <Image src={UpArrow} alt="up_arrow" />
-              </ArrowImg>
-            )}
+            {/* <ItemName primary={item.name} /> */}
+            <ItemWrap>
+              <ItemName>{item.name}</ItemName>
+              {open[item.id] ? (
+                <ArrowImg>
+                  <Image src={DownArrow} alt="down_arrow" />
+                </ArrowImg>
+              ) : (
+                <ArrowImg>
+                  <Image src={UpArrow} alt="up_arrow" />
+                </ArrowImg>
+              )}
+            </ItemWrap>
           </ItemButton>
           <Line />
           {/* Open */}
           <Collapse in={open[item.id]} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ItemText primary={item.contetns} sx={{ pl: 6 }} />
-              <ItemNotice primary={item.notice} sx={{ pl: 6 }} />
+              {/* <ItemText primary={item.contetns} sx={{ pl: 6 }} /> */}
+              <ItemText>{item.contetns}</ItemText>
+              {/* <ItemNotice primary={item.notice} sx={{ pl: 6 }} /> */}
+              <ItemNotice>{item.notice}</ItemNotice>
             </List>
           </Collapse>
         </ListBox>
@@ -119,20 +124,49 @@ const ListBox = styled.div`
 const ItemButton = styled(ListItemButton)`
   padding-left: 0;
   padding-right: 0;
+
   & span {
     padding-left: 12px;
   }
 `;
+const ItemWrap = styled.div`
+  /* border: 1px solid red; */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+// const ItemName = styled(ListItemText)`
+const ItemName = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  /* identical to box height, or 100% */
 
-const ItemText = styled(ListItemText)`
+  letter-spacing: -0.02em;
+
+  /* Main2 */
+
+  color: #222222;
+`;
+
+// const ItemText = styled(ListItemText)`
+const ItemText = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   padding-left: 45pt;
-  font-weight: 400;
+  font-weight: 400 !important;
   font-size: 10.5pt;
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const ItemNotice = styled(ListItemText)`
+// const ItemNotice = styled(ListItemText)`
+const ItemNotice = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   padding-left: 45pt;
   font-weight: 400;
   font-size: 9pt;
@@ -140,6 +174,8 @@ const ItemNotice = styled(ListItemText)`
   padding-top: 6pt;
   letter-spacing: -0.02em;
   color: ${colors.gray2};
+  padding-top: 6pt;
+  padding-bottom: 18pt;
 `;
 const Line = styled.div`
   position: absolute;

@@ -108,12 +108,14 @@ const TopBox = ({
                     )} %`}
                   </span>
                 )} */}
-                {data?.project?.finalQuotation?.userInvestRate === '-'
-                  ? data?.project?.finalQuotation?.userInvestRate
-                  : `${Math.floor(
-                      Number(data?.project?.finalQuotation?.userInvestRate) *
-                        100,
-                    )} %`}
+                <span className="text">
+                  {data?.project?.finalQuotation?.userInvestRate === '-'
+                    ? data?.project?.finalQuotation?.userInvestRate
+                    : `${Math.floor(
+                        Number(data?.project?.finalQuotation?.userInvestRate) *
+                          100,
+                      )} %`}
+                </span>
               </div>
               {data?.project?.finalQuotation?.finalQuotationChargers?.map(
                 (item, index) => (

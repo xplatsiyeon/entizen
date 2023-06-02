@@ -23,6 +23,7 @@ const SignUpComplete = () => {
           <Image src={ExitImg} alt="exit-icon" />
         </Exit>
         <Complete
+          mt={51.75}
           title={'엔티즌 가입을 환영합니다!'}
           text={'내 충전기의 예상 매출을 확인해보세요.'}
           buttonText={mobile ? `간편견적 확인하기 〉` : `홈으로`}
@@ -31,7 +32,9 @@ const SignUpComplete = () => {
             mobile ? router.push('/quotation/request') : router.push('/')
           }
         />
-        <Wrap>{mobile && <WhyEntizen />}</Wrap>
+        <Wrap>
+          <WhyEntizen />
+        </Wrap>
       </Inner>
       <WebFooter />
     </Body>
@@ -62,6 +65,7 @@ const Inner = styled.div`
   justify-content: space-between;
   position: relative;
   margin: 45.75pt auto;
+
   width: 900pt;
 
   @media (max-width: 899.25pt) {
@@ -73,6 +77,8 @@ const Inner = styled.div`
 `;
 
 const Wrap = styled.div`
+  margin-top: 145.5pt;
+  margin-bottom: 49.25pt;
   @media (max-width: 899.25pt) {
     display: none;
   }

@@ -152,6 +152,7 @@ const LearnText = styled(Typography)`
   @media (max-width: 899.25pt) {
     font-size: 12pt;
     line-height: 12pt;
+    padding-left: 15pt;
   }
 `;
 
@@ -174,6 +175,7 @@ const TabBox = styled.div`
   //자식 박스가 105p가 되는 지점,
   @media (max-width: 502.5pt) {
     width: 457.5pt;
+    padding-left: 15pt;
   }
 `;
 

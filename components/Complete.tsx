@@ -21,6 +21,7 @@ interface Props {
   [key: string]: any;
   buttonWeb?: string;
   user?: string;
+  mt: number;
 }
 
 const Complete = ({
@@ -32,11 +33,14 @@ const Complete = ({
   handleExitClick,
   yesExit,
   user,
+  mt,
 }: Props) => {
+  console.log('mt : ', mt);
   const router = useRouter();
   return (
     <>
-      <Wrapper>
+      {/* <Wrapper mt={mt ? mt : 97.5}> */}
+      <Wrapper mt={mt}>
         <IconWrap onClick={() => router.push('/company/quotation?id=1')}>
           {yesExit && (
             <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
@@ -79,10 +83,10 @@ const Complete = ({
 
 export default Complete;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ mt: number }>`
   margin-top: 12.9375pt;
   @media (min-width: 900pt) {
-    margin-top: 97.5pt;
+    margin-top: ${({ mt }) => mt + 'pt'};
   }
 `;
 
@@ -126,7 +130,6 @@ const Footer = styled.div`
   width: 50%;
   margin: 0 auto;
   position: relative;
-
   box-sizing: border-box;
   text-align: center;
   bottom: 0;
@@ -207,10 +210,10 @@ const WebBtn = styled(Button)`
   text-align: center;
   color: ${colors.lightWhite};
   /* margin-bottom: 60pt; */
-  margin-bottom: 60pt;
   padding: 9pt 12pt;
   font-family: 'Spoqa Han Sans Neo';
   padding: 9pt 15pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }

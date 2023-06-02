@@ -175,6 +175,8 @@ const SearchMapWrapper = styled.div`
     margin-top: 24pt;
     min-width: 251.25pt;
     min-height: 88.5pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 const TextArea = styled(Typography)`

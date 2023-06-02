@@ -82,7 +82,9 @@ export const moduSign = ({
           // 기업 이름
           {
             dataLabel: 'companyName',
-            value: projectInProgress?.companyMember?.name,
+            value:
+              projectInProgress?.companyMember?.companyMemberAdditionalInfo
+                ?.companyName,
           },
           // ============================ 제2조 [상품에 관한 사항] =================================
           // 충전기 설치 목적
@@ -108,7 +110,9 @@ export const moduSign = ({
           {
             dataLabel: 'subscribePeriod',
             value:
-              projectInProgress?.finalQuotation?.constructionPeriod + '개월',
+              // projectInProgress?.finalQuotation?.constructionPeriod + '개월',
+              projectInProgress?.finalQuotation?.quotationRequest
+                ?.subscribePeriod + '개월',
           },
           // 수익지분
           {
@@ -867,7 +871,7 @@ export const moduSign = ({
           // 취급 수수료
           {
             dataLabel: 'handlingFee',
-            value: newContractData.handlingFee,
+            value: newContractData.handlingFee + '%',
           },
           // 구독 기간 자동 연장 - 항목
           {
@@ -1236,7 +1240,7 @@ export const moduSign = ({
           //날짜 - 월
           {
             dataLabel: 'contractMonth',
-            value: `${today.getMonth().toString()}`,
+            value: `${(today.getMonth() + 1).toString()}`,
           },
           //날짜 - 일
           {

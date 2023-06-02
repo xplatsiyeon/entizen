@@ -60,9 +60,9 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding-top: 15pt;
-  padding-bottom: 39pt;
+  padding-bottom: 15pt;
   flex: 2;
-  margin-right: 8.7375pt;
+
   max-height: 42pt;
   margin-top: 45pt;
   border-radius: 6pt;
@@ -73,12 +73,14 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
     `}
 
   &.prev {
+    margin-right: 8.7375pt;
     background-color: ${colors.gray} !important;
     flex: 1;
   }
   @media (max-width: 899.25pt) {
     width: 100%;
-
+    padding-top: 15pt;
+    padding-bottom: 39pt;
     min-width: none;
     margin-top: none;
     border-radius: 0;

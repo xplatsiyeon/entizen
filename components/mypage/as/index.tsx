@@ -274,7 +274,7 @@ const AsIndex = ({ listUp }: Props) => {
           {(['bottom'] as const).map((anchor) => (
             <React.Fragment key={anchor}>
               <FilterBtn onClick={toggleDrawer(anchor, true)}>
-                <span>{checkedFilter}</span>
+                <span className="text">{checkedFilter}</span>
                 <span>
                   <Image src={blackDownArrow} alt="filterIcon" />
                 </span>
@@ -461,10 +461,18 @@ const FilterBtnBox = styled.div`
   justify-content: flex-end;
   position: relative;
   margin-top: 0pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   padding: 0 10.5pt;
-
+  .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 9pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
   @media (max-width: 899.25pt) {
     width: 100%;
     margin-top: 29.25pt;

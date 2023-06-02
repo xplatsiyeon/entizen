@@ -411,6 +411,7 @@ const TwoBtn = styled.div`
   gap: 8.7pt;
   @media (max-width: 899.25pt) {
     position: fixed;
+    bottom: 0;
     gap: 0;
   }
 `;

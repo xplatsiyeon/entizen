@@ -204,15 +204,23 @@ const MainPage = (props: Props) => {
         <CarouselWrapper>
           <Carousel />
         </CarouselWrapper>
+        {/* 예상 매출 */}
         <SalesProjection />
+        {/* 내견적 / 내 프로젝트 */}
         <MyEstimateProject
           quotationData={quotationData!}
           projectData={projectData!}
         />
+        {/* 구독요청 배너 */}
         <SubscribeRequest />
-        <WhyEntizen />
+        {/* 왜 엔티즌인가 */}
+        <WhyEntizenWrap>
+          <WhyEntizen />
+        </WhyEntizenWrap>
         {/* <WhyEntizenWeb /> */}
+        {/* 알아보기 */}
         <LearnAbout />
+        {/* 엔티즌 도서관 */}
         <EntizenLibrary />
       </Container>
       <Box>
@@ -254,7 +262,7 @@ const LogoBox = styled.div`
   align-items: center;
 `;
 const FirstIconBox = styled.div`
-  margin-top: 15pt;
+  margin-top: 12pt;
   /* margin-bottom: 15pt; */
 
   margin-right: 15pt;
@@ -268,8 +276,8 @@ const IconWrapper = styled.div`
 `;
 
 const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
+  /* padding-left: 15pt;
+  padding-right: 15pt; */
 `;
 const Box = styled.div`
   width: 100%;
@@ -285,6 +293,12 @@ const Test = styled.div`
 `;
 
 const CarouselWrapper = styled.div`
-  padding-top: 52.5pt;
+  /* padding-top: 52.5pt; */
+  padding: 52.5pt 15pt 0 15pt;
+`;
+const WhyEntizenWrap = styled.div`
+  padding-left: 15pt;
+  padding-right: 15pt;
+  /* border: 1px solid red; */
 `;
 export default MainPage;

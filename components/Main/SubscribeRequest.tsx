@@ -22,24 +22,33 @@ const SubscribeRequest = ({ borders }: Props) => {
   };
 
   return (
-    <ImageBox onClick={handleLink} borders={borders ? borders : 0}>
-      <P>
-        <div>간단하고 다양한 견적을 무료로 비교해보고,</div>
-        <div>최적의 상품을 구독해보세요</div>
-      </P>
-      <ButtonBox>
-        <BtnText>나만의 구독상품 요청하기</BtnText>
-        <BtnIcon>
-          <Image src={blueArrow} alt="icon" />
-        </BtnIcon>
-      </ButtonBox>
-      <ImageWrap>
-        <Image src={img_subs} layout="fill" alt="" />
-      </ImageWrap>
-    </ImageBox>
+    <Wrap>
+      <ImageBox onClick={handleLink} borders={borders ? borders : 0}>
+        <P>
+          <div>간단하고 다양한 견적을 무료로 비교해보고,</div>
+          <div>최적의 상품을 구독해보세요</div>
+        </P>
+        <ButtonBox>
+          <BtnText>나만의 구독상품 요청하기</BtnText>
+          <BtnIcon>
+            <Image src={blueArrow} alt="icon" />
+          </BtnIcon>
+        </ButtonBox>
+        <ImageWrap>
+          <Image src={img_subs} layout="fill" alt="" />
+        </ImageWrap>
+      </ImageBox>
+    </Wrap>
   );
 };
 
+const Wrap = styled.div`
+  /* border: 1px solid red; */
+  @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
+`;
 const ImageBox = styled.div<{ borders: number }>`
   position: relative;
   width: 100%;

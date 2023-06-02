@@ -196,6 +196,7 @@ const BiddingQuote = ({
                   layout="fill"
                   priority={true}
                   unoptimized={true}
+                  // objectFit="cover"
                   objectFit="contain"
                 />
               </WebLeftPhotoBox>

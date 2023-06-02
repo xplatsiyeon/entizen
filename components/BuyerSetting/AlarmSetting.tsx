@@ -57,7 +57,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     },
   });
 
-  // console.log('🔥 alertsList==>', alertsList);
+  console.log('🔥 alertsList==>', alertsList);
   // 알람 PUT
   const { mutate: putMutate, isLoading: putLoading } = useMutation(
     isTokenPutApi,

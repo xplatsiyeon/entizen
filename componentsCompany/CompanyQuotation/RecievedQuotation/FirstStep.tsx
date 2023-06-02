@@ -8,6 +8,7 @@ import React, {
   EventHandler,
   SetStateAction,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
@@ -51,6 +52,7 @@ const FirstStep = ({
 }: Props) => {
   // console.log(partSubscribe);
 
+  const test = useRef<any>(null);
   const dispatch = useDispatch();
   const router = useRouter();
   // console.log(
@@ -114,6 +116,11 @@ const FirstStep = ({
           <div className="withAfter">충전소 설치비</div>
           <div>
             <Input
+              onClick={() => {
+                test.current.focus({
+                  cursor: 'end',
+                });
+              }}
               placeholder="0"
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
@@ -131,6 +138,7 @@ const FirstStep = ({
               }}
               value={chargingStationInstallationPrice}
               name="chargeInstall"
+              ref={test}
             />
             <div className="won">원</div>
           </div>

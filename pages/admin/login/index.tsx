@@ -44,7 +44,7 @@ const AdLogin = () => {
         //   local: 'true',
         // },
         method: 'POST',
-        url: `/api${url}`,
+        url: url,
         data,
         // withCredentials: true,
       }).then((res) => res);

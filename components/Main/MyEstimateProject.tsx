@@ -112,6 +112,8 @@ const Wrapper = styled.div`
     flex: none;
     margin-top: 60pt;
     height: auto;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 

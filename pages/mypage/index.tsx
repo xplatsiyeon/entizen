@@ -176,7 +176,6 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #ffffff;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -205,7 +204,6 @@ const FlexBox = styled.div`
   width: 255pt;
   padding: 42pt 13.5pt;
   margin-right: 60pt;
-
   @media (max-width: 899.25pt) {
     border: none;
     width: auto;
@@ -221,7 +219,7 @@ const Header = styled.header`
   align-items: flex-start;
   padding: 0 15pt 0;
   @media (max-width: 899.25pt) {
-    padding: 21pt 11.5pt 0 9pt;
+    padding: 21pt 15pt 0 15pt;
   }
   & h1 {
     font-weight: 700;
@@ -247,10 +245,12 @@ const Header = styled.header`
 `;
 const Body = styled.div`
   padding-top: 21pt;
-
   .profile-icon {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    text-align: center;
     margin-left: 15pt;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -259,6 +259,14 @@ const Body = styled.div`
     border-radius: 12pt;
     padding: 6pt 9pt;
     cursor: pointer;
+  }
+  @media (max-width: 899.25pt) {
+    .profile-icon {
+      padding: 6pt;
+      display: inline-block;
+      width: 91px;
+      height: 32px;
+    }
   }
 `;
 const Line = styled.div`
@@ -292,7 +300,6 @@ const TabItem = styled.span<{ tab: string; index: string }>`
     tab === index ? colors.main : colors.lightGray};
   display: flex;
   align-items: center;
-
   @media (max-width: 899.25pt) {
     flex-direction: column;
     margin-right: 15pt;

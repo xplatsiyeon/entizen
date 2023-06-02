@@ -46,27 +46,25 @@ const Wrapper = styled.div`
   }
 `;
 const P = styled.p`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   padding-top: 18pt;
   color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  text-align: center;
+  color: ${colors.main1};
   @media (min-width: 900pt) {
-    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
-    font-weight: 500;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    text-align: center;
   }
 `;
 const Btn = styled(Button)`
   margin-top: 15pt;
   /* border: 0.75px solid ${colors.main2}; */
   border-radius: 12pt;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 9pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
@@ -75,12 +73,19 @@ const Btn = styled(Button)`
   padding: 6pt 9pt;
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  min-width: 51pt;
+  min-height: 21pt;
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
+    margin-top: 21pt;
     font-size: 12pt;
     font-weight: 500;
     line-height: 9pt;
     letter-spacing: -0.02em;
     text-align: left;
+    width: 121.297pt;
+    height: 33pt;
+    border-radius: 67.5pt;
   }
 `;
