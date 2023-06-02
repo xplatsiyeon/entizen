@@ -300,7 +300,7 @@ const IdPwInput = ({
 
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
-    if (isEmailCodeValid) {
+    if (isSuccessEmail && isEmailCodeValid) {
       emailIdMutate({
         url: '/mail/auth/validation',
         data: { email: idInput, authCode },

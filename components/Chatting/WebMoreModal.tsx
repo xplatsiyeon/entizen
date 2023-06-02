@@ -6,6 +6,7 @@ import Phone from 'public/mypage/Phone.svg';
 import { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
+import checkSmall from 'public/images/chat_check_small.svg';
 import QuitModal from './QuitModal';
 
 interface Props {
@@ -47,11 +48,23 @@ const WebMoreModal = ({
   return (
     <>
       <Box>
-        <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-          {alarm ? '알람끄기' : '알람켜기'}
+        <div
+          className={`list fisrt ${alarm ? 'check' : ''}`}
+          onClick={() => onClickAlarm(routerId)}
+        >
+          {alarm ? (
+            <div>
+              <span className="img">
+                <Image src={checkSmall} alt="checkSmall" />
+              </span>
+              알람끄기
+            </div>
+          ) : (
+            <div>알람켜기</div>
+          )}
         </div>
         <div
-          className="list fisrt"
+          className="list last"
           onClick={() => {
             setMoreModal(false);
             setQuitModal(true);
@@ -59,14 +72,14 @@ const WebMoreModal = ({
         >
           채팅방 나가기
         </div>
-        <div
+        {/* <div
           className="list"
           onClick={() => {
             setReportModal(true);
           }}
         >
           신고하기
-        </div>
+        </div> */}
       </Box>
       <Wrapper onClick={() => setMoreModal(false)} />
     </>
@@ -93,28 +106,46 @@ const Wrapper = styled.div`
 `;
 const Box = styled.div`
   position: absolute;
-  right: 9pt;
+  right: 20.25pt;
+  top: 60pt;
   overflow: hidden;
-  border-radius: 9pt;
-  background: white;
-  //border: 1px solid;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  padding: 9pt 21pt;
+  padding: 9pt;
   z-index: 5;
+  /* ------------------------- */
+  /* shadow */
+  background: ${colors.lightWhite};
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
   .list {
+    padding-left: 12pt;
+    padding-right: 12pt;
     width: 100%;
     background: ${colors.lightWhite};
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
     font-weight: 400;
-    font-size: 12pt;
+    font-size: 9pt;
     line-height: 12pt;
-    padding: 15pt 0;
-    text-align: center;
     letter-spacing: -0.02em;
-    color: ${colors.blue4};
+    color: ${colors.main2};
     cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
   .fisrt {
+    padding-bottom: 6pt;
     border-bottom: 1px solid #f3f4f7;
+  }
+  .last {
+    padding-top: 6pt;
+  }
+  .check {
+    padding-left: 0;
+  }
+
+  .img {
+    margin-right: 3pt;
   }
 
   @media (max-width: 899.25pt) {

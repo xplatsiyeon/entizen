@@ -54,7 +54,6 @@ const ChattingRoom = ({}: Props) => {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
   } else {
-    // console.log('앤타준? ', router.query.entizen);
     return (
       <WebBody>
         <WebBuyerHeader setOpenSubLink={() => {}} />

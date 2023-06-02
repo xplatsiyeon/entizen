@@ -7,6 +7,7 @@ interface Props {
   isButton?: boolean;
   contents?: string;
   setValue?: Dispatch<SetStateAction<string>>;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   [key: string]: any; // 필요한 props 작성하세요.
 }
 
@@ -15,13 +16,14 @@ const Input = ({
   isButton = false,
   contents,
   setValue,
+  onChange,
 }: Props) => {
   return (
     <Wrapper>
       <Box
         type="text"
         placeholder={placeholder}
-        onChange={(e) => setValue!(e.currentTarget.value)}
+        onChange={onChange ? onChange : (e) => setValue!(e.currentTarget.value)}
       />
       {isButton && <OverlapBtn>{contents}</OverlapBtn>}
     </Wrapper>

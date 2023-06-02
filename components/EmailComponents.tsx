@@ -67,9 +67,14 @@ export default function Email({
   const { mutate: certifyEmailMutate } = useMutation(isTokenPostApi, {
     onSuccess(res) {
       setEmailAlert(true);
-      setEmailMessage('인증번호가 이메일로 전송되었습니다.');
       setIsSuccessEmail(true);
       setEmailCheckBtn('재전송');
+
+      if (emailCheckBtn === '재전송') {
+        setEmailMessage('재전송 되었습니다. 스팸메일함도 확인해주세요.');
+      } else {
+        setEmailMessage('인증번호가 이메일로 전송되었습니다.');
+      }
     },
   });
 
@@ -104,6 +109,7 @@ export default function Email({
     setAuthCode(value);
     setEmailCodeMessage('');
     setEmailValid(false);
+    setIsSuccessCode(false);
   };
 
   // 이메일 인증
@@ -118,7 +124,7 @@ export default function Email({
   };
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
-    if (isEmailCodeValid) {
+    if (isSuccessEmail && isEmailCodeValid) {
       emailIdMutate({
         url: '/mail/auth/validation',
         data: { email, authCode },
@@ -151,6 +157,7 @@ export default function Email({
             {emailCheckBtn}
           </ConfirmButton>
         </InputBox>
+        {/* 이메일 유효성 검사 */}
         {emailAlert && emailMessage && (
           <AlertMessage isSuccess={isSuccessEmail}>{emailMessage}</AlertMessage>
         )}

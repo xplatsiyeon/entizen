@@ -60,7 +60,7 @@ const MoreModal = ({
           >
             채팅방 나가기
           </div>
-          <div
+          {/* <div
             className="list"
             onClick={() => {
               setMoreModal(false);
@@ -68,7 +68,7 @@ const MoreModal = ({
             }}
           >
             신고하기
-          </div>
+          </div> */}
         </div>
         <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
       </Box>

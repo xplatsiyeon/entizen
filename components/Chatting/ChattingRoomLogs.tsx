@@ -1,24 +1,14 @@
 import styled from '@emotion/styled';
-import MypageHeader from 'components/mypage/request/header';
 import defaultImg from 'public/images/defaultImg.png';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import MoreModal from 'components/Chatting/MoreModal';
 import QuitModal from 'components/Chatting/QuitModal';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
-import addBtn from 'public/images/addBtn.png';
-import addBtnSvg from 'public/images/addBtnSvg.svg';
 import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
@@ -39,10 +29,9 @@ import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
-import { CollectionsBookmarkOutlined } from '@mui/icons-material';
+import colors from 'styles/colors';
+import CaretLeft from 'public/images/CaretLeft.svg';
 
 type ChattingLogs = {
   createdAt: string;
@@ -595,15 +584,20 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
       <TopBox>
-        <MypageHeader
+        {/* <MypageHeader
           back={true}
           title={handleName()}
           handle={true}
           handleOnClick={handleRoute}
           handleBackClick={handleRoute}
-        />
-        {/* <span>뒤로가기</span>
-        {handleName()} */}
+        /> */}
+        <Back>
+          <span className="imgBox" onClick={handleRoute}>
+            <Image src={CaretLeft} alt="CaretLeft" />
+          </span>
+        </Back>
+        <Name>{handleName()}</Name>
+
         <IconBox>
           <IconWrap className="alarm" onClick={onClickAlarm}>
             {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
@@ -1065,25 +1059,57 @@ const TopBox = styled.div`
   top: 0;
   width: 100%;
   z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${colors.lightWhite};
+  padding: 9pt 15pt;
   @media (min-width: 900pt) {
     position: absolute;
     border-bottom: 0.75pt solid #e2e5ed;
     width: -webkit-fill-available;
-
-    padding: 22.5pt 5pt;
+    padding: 22.5pt 20.25pt 22.5pt 14.25pt;
   }
 `;
-const IconBox = styled.div`
-  position: absolute;
+const Back = styled.span`
+  /* border: 1px solid blue; */
+  position: relative;
+  width: 57pt;
+  .imgBox {
+    width: 21pt;
+    height: 21pt;
+    cursor: pointer;
+  }
+
+  @media (max-width: 899.25pt) {
+    .imgBox {
+      width: 18pt;
+      height: 18pt;
+    }
+  }
+`;
+const Name = styled.span`
+  /* border: 1px solid blue; */
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 18pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+const IconBox = styled.span`
+  /* border: 1px solid blue; */
+  /* position: absolute;
   right: 15pt;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 50%; */
+  /* transform: translateY(-50%); */
   display: flex;
   align-items: center;
   z-index: 99999;
-  //gap: 6.4pt;
   @media (min-width: 900pt) {
-    right: 21pt;
+    /* right: 21pt; */
   }
 `;
 const IconWrap = styled.div`

@@ -23,13 +23,23 @@ type Props = {
 };
 
 const SignUpManagerInfo = ({ setComponent }: Props) => {
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [data, setData] = useState<string>('');
   const [email, setEmail] = useState(''); // 이메일
   const [authCode, setAuthCode] = useState<string>(''); // 이메일 코드
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  // 이메일 유효성 검사
+  const [emailAlert, setEmailAlert] = useState(false);
+  const [emailMessage, setEmailMessage] = useState('');
+  const [emailCheckBtn, setEmailCheckBtn] = useState<'인증' | '재전송'>('인증');
+  const [isSuccessEmail, setIsSuccessEmail] = useState(false);
+  // 이메일 코드 인증
+  const [emailCodeAlert, setEmailCodeAlert] = useState(false);
+  const [emailCodeMessage, setEmailCodeMessage] = useState('');
+  const [isSuccessCode, setIsSuccessCode] = useState(false);
+
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -44,12 +54,20 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     isTokenPostApi,
     {
       onSuccess: (res) => {
-        // console.log(res);
-        // console.log(res.data.authCode);
+        // setModalMessage('인증번호가 이메일로 전송되었습니다.');
+        // setIsModal(true);
+        // setEmailCheckBtn('재전송');
+        setEmailAlert(true);
+        setIsSuccessEmail(true);
+        setEmailCheckBtn('재전송');
 
-        setModalMessage('인증번호가 이메일로 전송되었습니다.');
-        setIsModal(true);
+        if (emailCheckBtn === '재전송') {
+          setEmailMessage('재전송 되었습니다. 스팸메일함도 확인해주세요.');
+        } else {
+          setEmailMessage('인증번호가 이메일로 전송되었습니다.');
+        }
       },
+
       onError: () => {
         setModalMessage('다시 입력해주세요.');
         setIsModal(true);
@@ -62,16 +80,20 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     isTokenPostApi,
     {
       onSuccess: (res) => {
-        // console.log(res);
         if (res.data.isValidAuthCode) {
-          setModalMessage('인증이 완료되었습니다.');
-          setIsModal(true);
+          setIsSuccessCode(true);
+          setEmailCodeAlert(true);
+          setEmailCodeMessage('인증이 완료되었습니다.');
           setIsValid(true);
         } else {
-          setModalMessage('잘못된 인증번호입니다.');
-          setIsModal(true);
+          setEmailAlert(false);
+          setEmailCodeAlert(true);
+          setIsSuccessCode(false);
+          setEmailCodeMessage('인증번호가 잘못되었습니다.');
           setIsValid(false);
         }
+        // setIsSuccessEmail(false);
+        setEmailMessage('');
       },
       onError: () => {
         setModalMessage('잘못된 인증번호입니다.');
@@ -89,7 +111,9 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         setIsModal(true);
       },
       onError: () => {
-        setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
+        setModalMessage(
+          '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
+        );
         setIsModal(true);
       },
     },
@@ -127,22 +151,26 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       );
       setIsModal(true);
     }
+  };
 
-    // if (name === key?.name) {
-    //   changeMutate({
-    //     url: '/members',
-    //     data: {
-    //       name: name,
-    //       phone: key.phone.toString(),
-    //       email: email,
-    //     },
-    //   });
-    // } else {
-    //   setModalMessage(
-    //     '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
-    //   );
-    //   setIsModal(true);
-    // }
+  // email 상태
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setEmail(value);
+    setEmailMessage('');
+    setIsEmailValid(false);
+    setEmailCheckBtn('인증');
+    // 이메일 유효성 검사
+    const reg_email =
+      /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
+  };
+  // email code 변경
+  const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setAuthCode(value);
+    setEmailCodeMessage('');
+    setIsEmailCodeValid(false);
   };
 
   // 이메일인증
@@ -159,7 +187,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 이메일 인증코드 확인
   const certifyEmailCode = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (isEmailCodeValid) {
+    if (isSuccessEmail && isEmailCodeValid) {
       emailCodeMutate({
         url: '/mail/auth/validation',
         data: {
@@ -211,12 +239,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  // 이메일 유효성 검사
-  const reg_email =
-    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-
   useEffect(() => {
-    reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
     authCode.length === 7
       ? setIsEmailCodeValid(true)
       : setIsEmailCodeValid(false);
@@ -287,6 +310,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
               placeholder="이메일 입력"
               value={email}
               setValue={setEmail}
+              onChange={onChangeEmail}
             />
           </div>
           <input type="hidden" name="test" value="" />
@@ -299,21 +323,39 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             type="button"
             onSubmit={() => false}
           >
-            인증
+            {emailCheckBtn}
           </OverlapBtn>
+          {emailAlert && emailMessage && (
+            <AlertMessage isSuccess={isSuccessEmail}>
+              {emailMessage}
+            </AlertMessage>
+          )}
+          {!isEmailValid && email.length > 1 && (
+            <AlertMessage isSuccess={isSuccessEmail}>
+              이메일을 형식에 맞게 입력해주세요.
+            </AlertMessage>
+          )}
+          <InputBox>
+            <Input
+              placeholder="이메일 인증번호 입력"
+              value={authCode}
+              setValue={setAuthCode}
+            />
 
-          <Input
-            placeholder="이메일 인증번호 입력"
-            value={authCode}
-            setValue={setAuthCode}
-          />
-          <OverlapBtn
-            isEmailValid={isEmailCodeValid}
-            onClick={certifyEmailCode}
-            type="button"
-          >
-            확인
-          </OverlapBtn>
+            <OverlapBtn
+              isEmailValid={isEmailCodeValid}
+              onClick={certifyEmailCode}
+              type="button"
+            >
+              확인
+            </OverlapBtn>
+          </InputBox>
+          {/* 이메일 인증 유효성 검사 */}
+          {emailCodeAlert && (
+            <AlertMessage isSuccess={isSuccessCode}>
+              {emailCodeMessage}
+            </AlertMessage>
+          )}
         </Form>
         <Btn
           marginTop="140"
@@ -383,7 +425,8 @@ const Form = styled.div`
 const OverlapBtn = styled.button<{ isEmailValid: boolean }>`
   position: absolute;
   right: 8pt;
-  top: 77pt;
+  top: 17pt;
+  /* top: 77pt; */
   background: ${({ isEmailValid }) =>
     isEmailValid ? colors.main : colors.lightWhite3};
   color: ${colors.lightWhite};
@@ -396,4 +439,16 @@ const OverlapBtn = styled.button<{ isEmailValid: boolean }>`
 `;
 const Buttons = styled.button`
   display: none;
+`;
+const AlertMessage = styled.p<{ isSuccess: boolean }>`
+  color: ${({ isSuccess }) => (isSuccess ? colors.main1 : colors.sub4)};
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 9pt;
+  /* padding-left: 15pt; */
+`;
+const InputBox = styled.div`
+  position: relative;
 `;

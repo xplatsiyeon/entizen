@@ -50,7 +50,7 @@ const ManagerInfo = ({
   const [emailAlert, setEmailAlert] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
   const [isSuccessEmail, setIsSuccessEmail] = useState(false);
-  const [buttonMsg, setButtonMsg] = useState<'확인' | '재인증'>('확인');
+  const [buttonMsg, setButtonMsg] = useState<'인증' | '재인증'>('인증');
   // 이메일 코드 인증
   const [authCode, setAuthCode] = useState<string>('');
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
@@ -62,9 +62,14 @@ const ManagerInfo = ({
   const { mutate: certifyEmailMutate } = useMutation(isTokenPostApi, {
     onSuccess(res) {
       setEmailAlert(true);
-      setEmailMessage('인증번호가 이메일로 전송되었습니다.');
       setIsSuccessEmail(true);
       setButtonMsg('재인증');
+
+      if (buttonMsg === '재인증') {
+        setEmailMessage('재전송 되었습니다. 스팸메일함도 확인해주세요.');
+      } else {
+        setEmailMessage('인증번호가 이메일로 전송되었습니다.');
+      }
     },
   });
 
@@ -79,10 +84,10 @@ const ManagerInfo = ({
       } else {
         setEmailAlert(false);
         setEmailCodeAlert(true);
+        setIsSuccessCode(false);
         setEmailCodeMessage('인증번호가 잘못되었습니다.');
         setIsValid(false);
       }
-      // setIsSuccessEmail(false);
       setEmailMessage('');
     },
   });
@@ -139,14 +144,13 @@ const ManagerInfo = ({
     setEmailCodeMessage('');
     setIsSuccessEmail(false);
     setIsValid(false);
-    setButtonMsg('확인');
+    setButtonMsg('인증');
   };
   // email code 변경
   const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setAuthCode(value);
     setEmailCodeAlert(false);
-    // setIsEmailValid(false);
     setIsEmailCodeValid(false);
     setEmailCodeMessage('');
     setIsSuccessCode(false);
@@ -162,7 +166,7 @@ const ManagerInfo = ({
   };
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
-    if (isEmailCodeValid) {
+    if (isSuccessEmail && isEmailCodeValid) {
       emailIdMutate({
         url: '/mail/auth/validation',
         data: { email, authCode },
