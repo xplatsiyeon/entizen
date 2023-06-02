@@ -37,16 +37,16 @@ const Profile = () => {
     // const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     // try {
 
-    instance
-      .post('/members/login/sns', {
-        uuid: '' + data.id,
-        snsType: 'KAKAO',
-        snsResponse: JSON.stringify(data),
-        email: data.kakao_account.email,
-      })
-      .then((res) => console.log('res : ', res))
-      .catch((error) => console.log('error : ', error));
-    return;
+    // instance
+    //   .post('/members/login/sns', {
+    //     uuid: '' + data.id,
+    //     snsType: 'KAKAO',
+    //     snsResponse: JSON.stringify(data),
+    //     email: data.kakao_account.email,
+    //   })
+    //   .then((res) => console.log('res : ', res))
+    //   .catch((error) => console.log('error : ', error));
+    // return;
     await instance({
       method: 'post',
       url: '/members/login/sns',
