@@ -46,13 +46,14 @@ const ImgDetailCarousel = ({ file, setOpenImgModal, idxRef }: Props) => {
   SwipeCore.use([Navigation]);
 
   // 앱 -> 웹
-  // useLayoutEffect(() => {
-  //   // 안드로이드 호출
-  //   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  //   if (userAgent === 'Android_App') {
-  //     window.onClickBackButton = () => setOpenImgModal(false);
-  //   }
-  // }, []);
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      // window.onClickBackButton = () => setOpenImgModal(false);
+      window.onClickBackButton = () => alert('테스트');
+    }
+  }, []);
 
   return (
     <TopWrapper>

@@ -602,6 +602,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           handleOnClick={handleRoute}
           handleBackClick={handleRoute}
         />
+        {/* <span>뒤로가기</span>
+        {handleName()} */}
         <IconBox>
           <IconWrap className="alarm" onClick={onClickAlarm}>
             {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
@@ -1067,6 +1069,7 @@ const TopBox = styled.div`
     position: absolute;
     border-bottom: 0.75pt solid #e2e5ed;
     width: -webkit-fill-available;
+
     padding: 22.5pt 5pt;
   }
 `;
