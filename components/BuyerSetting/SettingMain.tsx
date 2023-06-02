@@ -18,6 +18,7 @@ import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
 import { appLogout } from 'bridge/appToWeb';
 import { googleLogout } from '@react-oauth/google';
+import instance from 'api/interceptor/service';
 
 type Props = {
   tabNumber: number;
@@ -90,9 +91,9 @@ const SettingMain = ({
   };
   // 회원탈퇴
   const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/withdrawal`;
+    const WITHDRAWAL_API = `/members/withdrawal`;
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    await axios({
+    await instance({
       method: 'post',
       url: WITHDRAWAL_API,
       headers: {
@@ -138,11 +139,11 @@ const SettingMain = ({
     const token: JwtTokenType = jwt_decode(accessToken);
 
     if (checkPassword) {
-      const LOGIN_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login`;
+      const LOGIN_API = `/members/login`;
       const userId = JSON.parse(sessionStorage.getItem('USER_ID')!);
       const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
       try {
-        axios({
+        instance({
           method: 'post',
           url: LOGIN_API,
           data: {

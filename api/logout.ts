@@ -3,6 +3,7 @@ import { appLogout } from 'bridge/appToWeb';
 import { kakaoInit } from 'utils/kakao';
 import { getCookie } from './cookie';
 import instance from './interceptor/service';
+import adminInstance from './interceptor/admin';
 
 // 관리자 로그아웃 API
 const ADMIN_LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/admin/auth/logout`;
@@ -72,7 +73,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 export const handleLogoutOnClickAdmin = async () => {
   // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   // const csrfToken = getCookie('CSRF-TOKEN');
-  await axios({
+  await adminInstance({
     method: 'post',
     url: '/admin/auth/logout',
     // data: {
