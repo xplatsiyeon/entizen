@@ -33,9 +33,15 @@ export default function FindIdComponents({
       let key = sessionStorage.getItem('key');
       let data: FindKey = JSON.parse(key!);
       console.log('🔥 data  : ', data);
+
       if (data.isMember) {
-        sessionStorage.getItem('key');
-        router.push('/find/password');
+        if (data.snsType) {
+          setErrorMessage('간편가입으로 가입된 계정입니다.');
+          setErrorModal((prev) => !prev);
+        } else {
+          sessionStorage.getItem('key');
+          router.push('/find/password');
+        }
       } else {
         setErrorMessage(
           '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',

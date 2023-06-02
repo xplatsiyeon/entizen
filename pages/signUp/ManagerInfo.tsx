@@ -47,7 +47,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         // console.log(res);
         // console.log(res.data.authCode);
 
-        setModalMessage('이메일로 인증번호가 전송되었습니다.');
+        setModalMessage('인증번호가 이메일로 전송되었습니다.');
         setIsModal(true);
       },
       onError: () => {
@@ -64,7 +64,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         // console.log(res);
         if (res.data.isValidAuthCode) {
-          setModalMessage('인증번호가 확인되었습니다.');
+          setModalMessage('인증이 완료되었습니다.');
           setIsModal(true);
           setIsValid(true);
         } else {

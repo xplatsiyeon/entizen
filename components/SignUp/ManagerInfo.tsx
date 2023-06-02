@@ -62,7 +62,7 @@ const ManagerInfo = ({
   const { mutate: certifyEmailMutate } = useMutation(isTokenPostApi, {
     onSuccess(res) {
       setEmailAlert(true);
-      setEmailMessage('이메일로 인증번호가 전송되었습니다.');
+      setEmailMessage('인증번호가 이메일로 전송되었습니다.');
       setIsSuccessEmail(true);
       setButtonMsg('재인증');
     },
@@ -74,7 +74,7 @@ const ManagerInfo = ({
       if (res.data.isValidAuthCode) {
         setIsSuccessCode(true);
         setEmailCodeAlert(true);
-        setEmailCodeMessage('인증번호가 확인되었습니다.');
+        setEmailCodeMessage('인증이 완료되었습니다.');
         setIsValid(true);
       } else {
         setEmailAlert(false);

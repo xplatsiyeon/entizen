@@ -90,18 +90,6 @@ const BiddingQuote = ({
   }, [data]);
 
   console.log('🔥 quotationNewData : ', quotationNewData);
-  // 앱 -> 웹
-  const HandleModal = () => setOpenImgModal((prev) => !prev);
-  useLayoutEffect(() => {
-    // 안드로이드 호출
-    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-    if (userAgent === 'Android_App') {
-      if (openImgModal === true) {
-        alert('뒤로가기 클릭');
-        window.onClickBackButton = () => HandleModal();
-      }
-    }
-  }, [openImgModal]);
 
   return (
     <Wrap>
