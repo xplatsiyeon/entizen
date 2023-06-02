@@ -6,7 +6,7 @@ import 'swiper/css/navigation';
 import { Pagination } from 'swiper';
 import SwipeCore, { Navigation } from 'swiper';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
 import ExitBtn from 'public/images/ImgModalX.svg';
@@ -44,6 +44,15 @@ const ImgDetailCarousel = ({ file, setOpenImgModal, idxRef }: Props) => {
     }
   }, []);
   SwipeCore.use([Navigation]);
+
+  // 앱 -> 웹
+  useLayoutEffect(() => {
+    // 안드로이드 호출
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
+    if (userAgent === 'Android_App') {
+      window.onClickBackButton = () => setOpenImgModal(false);
+    }
+  }, []);
 
   return (
     <TopWrapper>
@@ -117,13 +126,14 @@ const Wrapper = styled(Swiper)`
   left: 50%;
   transform: translate(-50%, -50%);
   position: fixed;
-
+  /* border: 1px solid red; */
   @media (max-width: 899.25pt) {
     left: 50%;
     width: 100%;
     height: 100%;
     border-radius: 0;
     touch-action: none;
+    z-index: 99999;
   }
 
   .swiper-pagination {

@@ -683,6 +683,7 @@ const BiddingQuote = ({
 };
 const Wrap = styled.div`
   display: flex;
+  /* border: 1px solid red; */
 `;
 
 const LeftSection = styled.div`
