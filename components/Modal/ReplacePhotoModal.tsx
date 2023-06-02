@@ -128,7 +128,8 @@ const ModalBox = styled(Box)`
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   @media (min-width: 900pt) {
-    width: 420pt;
+    /* width: 420pt; */
+    width: 517.5pt;
     padding: 0 37.5pt;
     border-radius: 12pt;
     bottom: 170pt;
@@ -216,24 +217,32 @@ const BtnBox = styled(Box)`
   }
 `;
 const BtnLeft = styled(Box)`
-  width: 100px;
+  width: 100%;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   color: ${colors.darkGray};
   background: ${colors.gray};
   border-radius: 6pt;
   cursor: pointer;
+  @media (max-width: 899.25pt) {
+    width: 100px;
+  }
 `;
 const BtnRight = styled(Box)`
-  width: 223px;
+  width: 100%;
   display: flex;
+  flex: 3;
   justify-content: center;
   align-items: center;
   background-color: ${colors.main};
   color: ${colors.lightWhite};
   border-radius: 6pt;
   cursor: pointer;
+  @media (max-width: 899.25pt) {
+    width: 223px;
+  }
 `;
 const BtnText = styled.div`
   font-family: 'Spoqa Han Sans Neo';

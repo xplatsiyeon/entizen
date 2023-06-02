@@ -77,7 +77,7 @@ const CenterBox = ({ spotData, data }: Props) => {
           spotData?.data?.spotInspection?.isConfirmed === false && (
             <>
               <ReservationDateCheck>
-                <div className="text">일정 변경 요청이 들어왔습니다.</div>
+                <div className="text">일정 변경 요청이 들어왔습니다</div>
                 <div className="btnBox">
                   <div
                     className="checkBtn"
@@ -198,11 +198,11 @@ const ReservationDate = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   margin-top: 15pt;
   border-radius: 6pt;
-  padding: 18pt 24.75pt;
+  padding: 30.75pt 24.75pt;
 
   .text {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 12pt;
+    font-size: 15pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -213,7 +213,7 @@ const ReservationDate = styled.div`
     display: flex;
     justify-content: center;
     gap: 9pt;
-    margin-top: 15pt;
+    margin-top: 21pt;
     .right {
       background-color: ${colors.main};
       color: #eeeeee;
@@ -229,14 +229,28 @@ const ReservationDate = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 6pt 9pt;
+    padding: 12pt 25.875pt;
+    border-radius: 67.5pt;
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 10pt;
+    font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
-    border-radius: 12pt;
+  }
+  @media (max-width: 899.25pt) {
+    padding: 18pt 24.75pt;
+    .text {
+      font-size: 12pt;
+    }
+    .btnBox {
+      margin-top: 15pt;
+    }
+    .btnBox > .box {
+      border-radius: 12pt;
+      padding: 6pt 9pt;
+      font-size: 10pt;
+    }
   }
 `;
 const ReservationDateCheck = styled.div`
@@ -247,9 +261,11 @@ const ReservationDateCheck = styled.div`
 
   .text {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 12pt;
-    font-weight: 500;
-    line-height: 12pt;
+    font-style: normal;
+    font-weight: 700;
+
+    font-size: 15pt;
+    line-height: 21pt;
     letter-spacing: -0.02em;
     text-align: center;
     color: ${colors.main};
@@ -262,17 +278,31 @@ const ReservationDateCheck = styled.div`
     display: inline-block;
     box-sizing: border-box;
     margin-top: 18pt;
-    padding: 6pt 9pt;
+    padding: 12pt 39pt;
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 10pt;
     font-weight: 500;
-    line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
-    border-radius: 12pt;
+    border-radius: 67.5pt;
     border: 0.75pt solid ${colors.main};
     color: ${colors.main};
     cursor: pointer;
+    font-size: 12pt;
+    line-height: 9pt;
+  }
+
+  @media (max-width: 899.25pt) {
+    .text {
+      font-weight: 500;
+      font-size: 12pt;
+      line-height: 12pt;
+    }
+    .checkBtn {
+      font-size: 10pt;
+      line-height: 12pt;
+      padding: 6pt 9pt;
+      border-radius: 12pt;
+    }
   }
 `;
 

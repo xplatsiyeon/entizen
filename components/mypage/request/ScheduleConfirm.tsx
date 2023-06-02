@@ -58,12 +58,16 @@ const P = styled.p`
   font-family: 'Spoqa Han Sans Neo';
 `;
 const Date = styled.h1`
-  padding-top: 12pt;
+  padding-top: 18pt;
   font-weight: 500;
-  font-size: 15pt;
+  font-size: 21pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (max-width: 899.25pt) {
+    font-size: 15pt;
+    line-height: 12pt;
+  }
 `;
 const Btn = styled(Button)`
   margin-top: 15pt;

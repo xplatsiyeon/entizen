@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import MypageHeader from 'components/mypage/request/header';
 import WebHeader from 'componentsWeb/WebHeader';
 import ScheduleIcon from 'public/mypage/schedule-icon.svg';
+import NoScheduleIcon from 'public/mypage/no_schedule-icon.svg';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
@@ -173,7 +174,7 @@ const DatePicker = ({}: Props) => {
               days={days?.sort()}
               types={'customer'}
             />
-            {memberType !== 'COMPANy' && (
+            {memberType !== 'COMPANY' && (
               <Explanation>
                 * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
                 <br />
@@ -213,7 +214,7 @@ const DatePicker = ({}: Props) => {
                         }}
                       >
                         <div className="img-box">
-                          <Image src={ScheduleIcon} alt="img" />
+                          <Image src={NoScheduleIcon} alt="img" />
                         </div>
                         <div className="due-date">
                           <div>현장실사 방문 예정일</div>
@@ -385,12 +386,14 @@ const UL = styled.ul`
   .list {
     font-family: 'Spoqa Han Sans Neo';
     background-color: #e2e5ed;
+    /* background-color: #e2e5ed; */
     border-radius: 6pt;
     padding: 6pt;
     margin-bottom: 9pt;
     display: flex;
     gap: 12pt;
     cursor: pointer;
+    color: ${colors.lightGray2};
   }
   .img-box {
     height: 36pt;
@@ -402,16 +405,19 @@ const UL = styled.ul`
     line-height: 9pt;
     letter-spacing: -0.02em;
     //padding-top: 2pt;
-    color: ${colors.lightWhite};
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 6pt;
+    font-style: normal;
   }
   .selected {
     font-family: 'Spoqa Han Sans Neo';
     cursor: pointer;
     background: rgba(90, 45, 201, 0.7);
+
+    color: ${colors.lightWhite};
   }
 `;
 const Btn = styled.button<{ isValid: boolean }>`
