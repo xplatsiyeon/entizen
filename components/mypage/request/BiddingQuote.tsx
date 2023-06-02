@@ -95,12 +95,12 @@ const BiddingQuote = ({
     // 안드로이드 호출
     const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
     if (userAgent === 'Android_App') {
-      alert('뒤로가기 클릭');
       if (openImgModal === true) {
+        alert('뒤로가기 클릭');
         window.onClickBackButton = () => setOpenImgModal(false);
       }
     }
-  }, []);
+  }, [openImgModal]);
 
   return (
     <Wrap>
