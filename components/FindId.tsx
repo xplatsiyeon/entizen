@@ -21,7 +21,7 @@ export default function FindIdComponents({
   setIsFindIdView,
 }: Props) {
   const router = useRouter();
-  const { id } = useSelector((state: RootState) => state.findUserInfo);
+  const { id, snsType } = useSelector((state: RootState) => state.findUserInfo);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // const [isFindId, setIsFindId] = useState(true);
@@ -35,13 +35,8 @@ export default function FindIdComponents({
       console.log('🔥 data  : ', data);
 
       if (data.isMember) {
-        if (data.snsType) {
-          setErrorMessage('간편가입으로 가입된 계정입니다.');
-          setErrorModal((prev) => !prev);
-        } else {
-          sessionStorage.getItem('key');
-          router.push('/find/password');
-        }
+        sessionStorage.getItem('key');
+        router.push('/find/password');
       } else {
         setErrorMessage(
           '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
@@ -76,11 +71,19 @@ export default function FindIdComponents({
       <Body>
         <Header />
         <Inform>
-          <div>
-            고객님의 정보와
-            <br />
-            {id ? '일치하는  이메일입니다' : '일치하는 이메일이 없습니다'}
-          </div>
+          {snsType ? (
+            <div>
+              간편가입으로
+              <br />
+              가입된 계정입니다.
+            </div>
+          ) : (
+            <div>
+              고객님의 정보와
+              <br />
+              {id ? '일치하는  이메일입니다' : '일치하는 이메일이 없습니다'}
+            </div>
+          )}
         </Inform>
         <UserId>{id ? id : ''}</UserId>
         <Box
