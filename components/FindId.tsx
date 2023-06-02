@@ -98,7 +98,7 @@ export default function FindIdComponents({
 
         {/* 이메일 찾기 or 비밀번호 찾기  */}
         <ButtonBox>
-          {id ? (
+          {!snsType && id ? (
             <Button isFindId={true} onClick={HandleFindPassword}>
               비밀번호 찾기
             </Button>
