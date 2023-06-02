@@ -755,6 +755,18 @@ const Signin = () => {
                       </Buttons>
                     )}
                   </Box>
+                  <TestWrap>
+                    <div
+                      ref={appleRef}
+                      id="appleid-signin"
+                      data-color="black"
+                      data-border="true"
+                      data-type="sign in"
+                      data-width="100"
+                      data-height="32"
+                      data-mode="center-align"
+                    ></div>
+                  </TestWrap>
                 </Box>
                 {/* ============================ 소셜 로그인 ============================ */}
                 {selectedLoginType === 0 && (
@@ -1028,4 +1040,9 @@ const AlertMessage = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.orange};
+`;
+const TestWrap = styled.div`
+  margin: 20pt auto;
+  position: relative;
+  display: none;
 `;
