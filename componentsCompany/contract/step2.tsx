@@ -50,12 +50,13 @@ export default function Step2({ data }: Props) {
                 <input
                   type={'text'}
                   placeholder="0"
-                  value={inputPriceFormat(subscriptionFee[index])}
+                  value={subscriptionFee[index]}
                   onChange={(e) =>
                     dispatch(
                       contractAction.setSubscribe([
                         index,
-                        e.currentTarget.value,
+                        inputPriceFormat(e.currentTarget.value),
+                        // e.currentTarget.value,
                       ]),
                     )
                   }

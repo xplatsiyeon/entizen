@@ -65,13 +65,13 @@ export default function Step1({ data }: Props) {
                     dispatch(
                       contractAction.setProductPrice([
                         index,
-                        e.currentTarget.value,
+                        inputPriceFormat(e.currentTarget.value),
                       ]),
                     )
                   }
                   type={'text'}
                   placeholder="0"
-                  value={inputPriceFormat(productPrice[index])}
+                  value={productPrice[index]}
                 />
                 원
               </span>
@@ -84,13 +84,13 @@ export default function Step1({ data }: Props) {
                     dispatch(
                       contractAction.setInstallationCost([
                         index,
-                        e.currentTarget.value,
+                        inputPriceFormat(e.currentTarget.value),
                       ]),
                     )
                   }
                   type={'text'}
                   placeholder="0"
-                  value={inputPriceFormat(installationCost[index])}
+                  value={installationCost[index]}
                 />
                 원
               </span>

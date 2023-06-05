@@ -23,6 +23,7 @@ export default function Step3({ data }: Props) {
   );
 
   useEffect(() => {
+    console.log('extensionSubscriptionFee : ', extensionSubscriptionFee);
     if (extensionSubscriptionFee.length > 0) {
       setIsValid(true);
     } else {
@@ -52,7 +53,7 @@ export default function Step3({ data }: Props) {
         </p>
       </Notice>
 
-      {data.finalQuotationChargers.map((charger, index) => (
+      {data?.finalQuotationChargers.map((charger, index) => (
         <ContentsSection key={index}>
           <ul>
             {/* 상단 정보  */}
@@ -65,15 +66,16 @@ export default function Step3({ data }: Props) {
                 <input
                   type={'text'}
                   placeholder="0"
-                  value={inputPriceFormat(extensionSubscriptionFee[index])}
-                  onChange={(e) =>
+                  value={extensionSubscriptionFee[index]}
+                  onChange={(e) => {
+                    console.log('e :', e.currentTarget.value);
                     dispatch(
                       contractAction.setExtensionSubscriptionFee([
                         index,
-                        e.currentTarget.value,
+                        inputPriceFormat(e.currentTarget.value),
                       ]),
-                    )
-                  }
+                    );
+                  }}
                 />
                 원/월
               </span>

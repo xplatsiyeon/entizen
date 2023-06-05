@@ -93,6 +93,7 @@ export default function Step9(props: Props) {
       // 백엔드에 보내줄 API 연결
       console.log('성공');
       console.log('🔥 modusignData : ', modusignData);
+
       const apiData: any = {
         ...modusignData,
         projectIdx: router?.query?.projectIdx,
@@ -150,6 +151,8 @@ export default function Step9(props: Props) {
   // 온클릭 요청
   const onClickContractRequest = () => {
     const documentId = router.query.documentId;
+    // console.log('contractSlice : ', contractSlice);
+    // return;
     if (isValid && !modusignIsLoading) {
       if (documentId) {
         deleteMutate(documentId as string);
