@@ -27,7 +27,12 @@ import {
   useQuery as reactQuery,
   useQueryClient,
 } from 'react-query';
-import { getDocument } from 'api/getDocument';
+import {
+  downloadModusignPdf,
+  getDocument,
+  modusignPdfDown,
+  modusignPdfResponse,
+} from 'api/getDocument';
 import {
   fileDownload,
   openExternalBrowser,
@@ -114,6 +119,23 @@ const ProgressBody = ({
       },
     },
   });
+
+  // 모두싸인 PDF 파일 다운로드
+  const {
+    data: modusignPdfDownData,
+    isLoading: modusignPdfDownLoading,
+    isError: modusignPdfDownError,
+  } = reactQuery<modusignPdfResponse>(
+    'contract-pdf',
+    () => modusignPdfDown(data?.project?.contract?.documentId!),
+    {
+      enabled:
+        data?.project?.contract?.documentId?.substring(0, 7) !== 'project' &&
+        data?.project?.contract?.documentId !== undefined
+          ? true
+          : false,
+    },
+  );
   // 자체 계약서 업데이트
   const { mutate: selfMutate, isLoading: isLoading } = useMutation(
     isTokenPutApi,
@@ -319,25 +341,14 @@ const ProgressBody = ({
 
   // 일반 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    // console.log('계약서 데이터 : ', contractDocumentData);
+    // console.log('계약서 데이터 : ', modusignPdfDownData?.file?.downloadUrl);
     // console.log('데이터 : ', data);
     // return;
+    // 모두싸인 다운로드
+    downloadModusignPdf(modusignPdfDownData?.file?.downloadUrl!);
 
-    // 브릿지
-    openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
-
-    // const a = document.createElement('a');
-    // a.download = 'test';
-    // a.href = 'https://app.modusign.co.kr/document/viewer'!;
-    // a.onclick = () =>
-    //   fileDownload(
-    //     userAgent,
-    //     'test',
-    //     'https://app.modusign.co.kr/document/viewer'!,
-    //   );
-    // a.click();
-    // a.remove();
-    // URL.revokeObjectURL(a.href);
+    // 브릿지 - 모두싸인 보기
+    // openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
   };
 
   // 일반 계약서 계약서 수정하기

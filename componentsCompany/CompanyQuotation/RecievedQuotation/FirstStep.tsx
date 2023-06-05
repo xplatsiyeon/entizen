@@ -172,10 +172,10 @@ const FirstStep = ({
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
               }
             }}
-            // value={monthlySubscribePrice}
-            value={Number(
-              monthlySubscribePrice?.replaceAll(',', ''),
-            ).toLocaleString()}
+            value={monthlySubscribePrice}
+            // value={Number(
+            //   monthlySubscribePrice?.replaceAll(',', ''),
+            // ).toLocaleString()}
             // value={Number(monthlySubscribePrice).toLocaleString()}
             name="subscribeMoney"
           />

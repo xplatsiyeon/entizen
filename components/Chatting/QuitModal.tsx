@@ -59,8 +59,7 @@ const Body = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
-  z-index: 5;
-
+  background-color: #6b6b6b2e;
   @media (min-width: 900pt) {
     position: absolute;
     background-color: #6b6b6b2e;
@@ -70,8 +69,9 @@ const Wrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
   background: #22222261;
 
   @media (min-width: 900pt) {
@@ -86,7 +86,7 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
   border-radius: 6pt;
   width: 80%;
-
+  z-index: 10000001;
   @media (min-width: 900pt) {
     width: auto;
   }

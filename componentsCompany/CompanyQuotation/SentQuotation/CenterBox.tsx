@@ -196,7 +196,7 @@ const SecondTitle = styled.div`
 
 const ReservationDate = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
-  margin-top: 15pt;
+  margin-top: 30pt;
   border-radius: 6pt;
   padding: 30.75pt 24.75pt;
 
@@ -240,6 +240,7 @@ const ReservationDate = styled.div`
   }
   @media (max-width: 899.25pt) {
     padding: 18pt 24.75pt;
+    margin-top: 15pt;
     .text {
       font-size: 12pt;
     }
@@ -255,9 +256,9 @@ const ReservationDate = styled.div`
 `;
 const ReservationDateCheck = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
-  margin-top: 15pt;
+  margin-top: 30pt;
   border-radius: 6pt;
-  padding: 18pt 24.75pt;
+  padding: 30pt 24.75pt;
 
   .text {
     font-family: 'Spoqa Han Sans Neo';
@@ -292,6 +293,8 @@ const ReservationDateCheck = styled.div`
   }
 
   @media (max-width: 899.25pt) {
+    margin-top: 15pt;
+    padding: 18pt 24.75pt;
     .text {
       font-weight: 500;
       font-size: 12pt;
@@ -307,16 +310,16 @@ const ReservationDateCheck = styled.div`
 `;
 
 const ConfirmedReservation = styled.div`
-  padding: 18pt 45.75pt;
+  padding: 30.75pt 45.75pt;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
-  margin-top: 15pt;
+  margin-top: 30pt;
   border-radius: 6pt;
 
   .text {
     font-family: 'Spoqa Han Sans Neo';
     color: #747780;
-    margin-bottom: 12pt;
-    font-size: 12pt;
+    margin-bottom: 18pt;
+    font-size: 15pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -324,11 +327,22 @@ const ConfirmedReservation = styled.div`
   }
   .date {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 15pt;
+    font-size: 21pt;
     font-weight: 500;
     line-height: 15pt;
     letter-spacing: -0.02em;
     text-align: center;
+  }
+  @media (max-width: 899.25pt) {
+    padding: 18pt 45.75pt;
+    margin-top: 15pt;
+    .text {
+      font-size: 12pt;
+      margin-bottom: 12pt;
+    }
+    .date {
+      font-size: 15pt;
+    }
   }
 `;
 

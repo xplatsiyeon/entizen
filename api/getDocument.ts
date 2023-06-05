@@ -24,6 +24,8 @@ export function downloadModusignPdf(url: string) {
       var a = document.createElement('a');
       a.href = URL.createObjectURL(b);
       a.setAttribute('download', '모두싸인 계약서');
+      // 다운로드 브릿지
+      // 다운로드 브릿지가 추가 되어야 하나?
       a.click();
     });
   });

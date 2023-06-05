@@ -222,7 +222,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
         </WebBox>
       </FlexBox>
       {/* 채팅 룸 */}
-      {/* 
+      {/*       
           {routerId && (
             <MobBox>
               <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
@@ -255,9 +255,8 @@ const Body = styled.div<{ chattingRoom: boolean }>`
 const Header = styled.header`
   width: 100%;
   position: relative;
-  /* margin: 0 15pt; */
   position: fixed;
-  z-index: 1000;
+  /* z-index: 1000; */
   background-color: white;
   left: 0;
   top: 0;

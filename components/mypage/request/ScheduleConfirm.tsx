@@ -28,7 +28,7 @@ const ScheduleConfirm = ({ date, spotId, routerId }: Props) => {
           });
         }}
       >
-        날짜 변경
+        일정 변경
       </Btn>
     </Wrapper>
   );
@@ -37,25 +37,27 @@ const ScheduleConfirm = ({ date, spotId, routerId }: Props) => {
 export default ScheduleConfirm;
 
 const Wrapper = styled.div`
-  /* margin: 36.75pt 0 0; */
-  padding-bottom: 18pt;
+  padding: 29pt 0;
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
   text-align: center;
-
   @media (max-width: 899.25pt) {
     margin: 0 15pt 0 15pt;
+    padding: 18pt 0;
   }
 `;
 const P = styled.p`
   font-weight: 500;
-  font-size: 12pt;
+  font-size: 15pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  padding-top: 18pt;
+  /* padding-top: 18pt; */
   color: ${colors.gray2};
   font-family: 'Spoqa Han Sans Neo';
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+  }
 `;
 const Date = styled.h1`
   padding-top: 18pt;
@@ -70,14 +72,20 @@ const Date = styled.h1`
   }
 `;
 const Btn = styled(Button)`
-  margin-top: 15pt;
   border: 0.75px solid ${colors.main2};
-  border-radius: 12pt;
+  margin-top: 24pt;
   font-weight: 500;
-  font-size: 9pt;
+  font-size: 12pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  padding: 6pt 9pt;
+  padding: 12pt 37.5pt;
+  border-radius: 67.5pt;
   font-family: 'Spoqa Han Sans Neo';
+  @media (max-width: 899.25pt) {
+    margin-top: 15pt;
+    font-size: 9pt;
+    padding: 6pt 9pt;
+    border-radius: 12pt;
+  }
 `;

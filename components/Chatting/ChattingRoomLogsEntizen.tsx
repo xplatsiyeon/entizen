@@ -35,6 +35,8 @@ import { RootState } from 'store/store';
 import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
 import test from 'pages/test';
 import { elements } from 'chart.js';
+import CaretLeft from 'public/images/CaretLeft.svg';
+import colors from 'styles/colors';
 
 type ChattingLogs = {
   createdAt: string;
@@ -604,13 +606,20 @@ const ChattingRoomLogsEntizen = ({
     <Body ref={logs}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
       <TopBox>
-        <MypageHeader
+        {/* <MypageHeader
           back={true}
           title={handleName()}
           handle={true}
           handleOnClick={handleRoute}
           handleBackClick={handleRoute}
-        />
+        /> */}
+        <Back>
+          <span className="imgBox" onClick={handleRoute}>
+            <Image src={CaretLeft} alt="CaretLeft" />
+          </span>
+        </Back>
+        <Name>{handleName()}</Name>
+
         <IconBox>
           <IconWrap className="alarm" onClick={onClickAlarm}>
             {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
@@ -1044,29 +1053,54 @@ const IconWrap2 = styled.button`
   height: 20.7pt;
   background: transparent;
 `;
+
 const TopBox = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${colors.lightWhite};
+  padding: 9pt 15pt;
   @media (min-width: 900pt) {
     position: absolute;
     border-bottom: 0.75pt solid #e2e5ed;
     width: -webkit-fill-available;
-    padding: 22.5pt 5pt;
+    padding: 22.5pt 20.25pt 22.5pt 14.25pt;
   }
 `;
-const IconBox = styled.div`
-  position: absolute;
-  right: 15pt;
-  top: 50%;
-  transform: translateY(-50%);
+const Back = styled.span`
+  position: relative;
+  .imgBox {
+    width: 21pt;
+    height: 21pt;
+    cursor: pointer;
+  }
+
+  @media (max-width: 899.25pt) {
+    .imgBox {
+      width: 18pt;
+      height: 18pt;
+    }
+  }
+`;
+const Name = styled.span`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 18pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+const IconBox = styled.span`
   display: flex;
   align-items: center;
   z-index: 99999;
-  //gap: 6.4pt;
   @media (min-width: 900pt) {
-    right: 21pt;
   }
 `;
 const IconWrap = styled.div`
@@ -1079,6 +1113,7 @@ const IconWrap = styled.div`
     height: 21pt;
   }
 `;
+
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;

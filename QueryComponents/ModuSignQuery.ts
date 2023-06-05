@@ -44,6 +44,7 @@ export const GET_ModuSignResponse = gql`
           etcRequest
           subscribePeriod
         }
+        subscribePeriod
       }
       contract {
         contractContent
@@ -95,6 +96,7 @@ export interface ModuSignResponse {
         etcRequest: string;
         subscribePeriod: string;
       };
+      subscribePeriod: string;
     };
     contract: {
       documentId: string;

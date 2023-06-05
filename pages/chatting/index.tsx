@@ -42,29 +42,31 @@ export interface UserChattingRooms {
   };
 }
 
+export interface EntizenChattingRoom {
+  chattingRoomIdx: number;
+  chattingLog: null | {
+    fromMemberIdx: number;
+    fromMemberType: string;
+    wasRead: boolean;
+    createdAt: string;
+    content: string;
+    fileUrl: string;
+  };
+  chattingRoomFavorite: {
+    chattingRoomFavoriteIdx: number;
+    isFavorite: boolean;
+  };
+  chattingRoomNotification: {
+    chattingRoomNotificationIdx: number;
+    isSetNotification: boolean;
+  };
+}
+
 export interface ChattingListResponse {
   isSuccess: true;
   data: {
     chattingRooms: {
-      entizenChattingRoom: {
-        chattingRoomIdx: number;
-        chattingLog: null | {
-          fromMemberIdx: number;
-          fromMemberType: string;
-          wasRead: boolean;
-          createdAt: string;
-          content: string;
-          fileUrl: string;
-        };
-        chattingRoomFavorite: {
-          chattingRoomFavoriteIdx: number;
-          isFavorite: boolean;
-        };
-        chattingRoomNotification: {
-          chattingRoomNotificationIdx: number;
-          isSetNotification: boolean;
-        };
-      };
+      entizenChattingRoom: EntizenChattingRoom;
       userChattingRooms: UserChattingRooms[];
     };
   };

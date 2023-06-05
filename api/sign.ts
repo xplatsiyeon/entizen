@@ -737,31 +737,31 @@ export const moduSign = ({
           {
             dataLabel: 'chargerPeriod3_1',
             value: chargerString[0]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'chargerPeriod3_2',
             value: chargerString[1]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'chargerPeriod3_3',
             value: chargerString[2]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'chargerPeriod3_4',
             value: chargerString[3]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'chargerPeriod3_5',
             value: chargerString[4]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           // 구독 설치 - 충 구독금액
@@ -1101,35 +1101,35 @@ export const moduSign = ({
             dataLabel: 'afterCount5',
             value: `${chargerString[4] ? `${chargerString[4]?.count}` : ''}`,
           },
+          // 구독 기간 자동 연장 - 구독기간
           {
             dataLabel: 'afterSubscribePeriod1',
             value: chargerString[0]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
-          // 구독 기간 자동 연장 - 구독기간
           {
             dataLabel: 'afterSubscribePeriod2',
             value: chargerString[1]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod3',
             value: chargerString[2]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod4',
             value: chargerString[3]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod5',
             value: chargerString[4]
-              ? `${projectInProgress?.finalQuotation?.constructionPeriod}`
+              ? `${projectInProgress?.finalQuotation?.subscribePeriod}`
               : '',
           },
           // 구독 기간 자동 연장 - 총 구독금액
@@ -1280,9 +1280,8 @@ export const moduSign = ({
         title: '엔티즌계약서',
       },
 
-      // templateId: 'f63edf40-e314-11ed-9853-33cb678807c6',
       // templateId: '06595ba0-eeee-11ed-936c-a9796946f580',
-      templateId: '06595ba0-eeee-11ed-936c-a9796946f580',
+      templateId: '1487be00-029f-11ee-a0ac-2f27daba2e4b',
     }),
   };
 
