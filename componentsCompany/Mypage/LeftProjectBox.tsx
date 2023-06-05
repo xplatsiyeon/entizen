@@ -221,7 +221,8 @@ const Wrapper = styled.div`
   width: 100%;
   @media (min-width: 900pt) {
     width: 255pt;
-    min-width: 225pt;
+    /* min-width: 225pt; */
+    min-width: 255pt;
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
@@ -264,6 +265,7 @@ const Header = styled.header`
 
 const Body = styled.div`
   padding-top: 15pt;
+
   .profile-icon {
     margin-left: 15pt;
     font-weight: 400;
@@ -384,7 +386,8 @@ const WebTabItem = styled.span<{ progress: boolean; nowRouter: string }>`
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;
-    padding-top: 23pt;
+    /* padding-top: 23pt; */
+    padding-top: 45pt;
   }
 `;
 

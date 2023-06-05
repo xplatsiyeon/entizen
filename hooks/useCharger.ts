@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { speedAction } from 'store/speed';
+import instance from 'api/interceptor/service';
 
 export interface SlowFast {
   year: string;
@@ -25,7 +26,7 @@ export default function useCharger() {
 
   const callInfo = async (speed: 'SLOW' | 'FAST', location: Location) => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/charge`, {
+    const res = await instance.get(`/charge`, {
       params: {
         siDo: location.siNm,
         siGunGu: location.sggNm ? location.sggNm : '',

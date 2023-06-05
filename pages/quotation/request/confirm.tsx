@@ -289,6 +289,7 @@ const Confirm = (props: Props) => {
               handleOnClick={() => setIsConfrimModal(true)}
               handleBackClick={() => router.back()}
             />
+            {/* 모바일 */}
             {mobile && (
               <>
                 <TopMobileWrapper
@@ -297,12 +298,14 @@ const Confirm = (props: Props) => {
                   }}
                 >
                   <AddressMobileBox open={open}>
-                    <div className="mapPin-icon">
-                      <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                    <div className="wrap">
+                      <div className="mapPin-icon">
+                        <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                      </div>
+                      <AddressName>
+                        {locationList.locationList.roadAddr}
+                      </AddressName>
                     </div>
-                    <AddressName>
-                      {locationList.locationList.roadAddr}
-                    </AddressName>
                     {open ? (
                       <ArrowImg>
                         <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -349,16 +352,21 @@ const Confirm = (props: Props) => {
               </>
             )}
             <Body>
+              {/* PC */}
               {!mobile && (
                 <AddressBox>
-                  <div className="mapPin-icon">
-                    <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                  <div className="imgWrap">
+                    <div className="mapPin-icon">
+                      <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                    </div>
                   </div>
+
                   <AddressName>
                     {locationList?.locationList.roadAddr}
                   </AddressName>
                 </AddressBox>
               )}
+              {/* PC */}
               {!mobile && (
                 <TopInfoBox>
                   {chargersKo?.map((item, index) => (
@@ -390,9 +398,13 @@ const Confirm = (props: Props) => {
               )}
 
               <SubTitle>수익지분</SubTitle>
-              <NameBox>
-                <span className="name">내 수익/투자</span>
-                <span className="name">판매자</span>
+              <NameBox
+                isHome={homeType}
+                disabled={disabled}
+                subscribeNumber={subscribeText === '전체 구독' ? 0 : 1}
+              >
+                <span className="name slider-bar-user">내 수익/투자</span>
+                <span className="name slider-bar-company">판매자</span>
               </NameBox>
               <SliderSizes
                 homeCharger={homeType} // 홈충전기
@@ -555,37 +567,50 @@ const Body = styled.div`
 const AddressBox = styled.div`
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
   gap: 6pt;
-  padding-bottom: 15pt;
+  padding-bottom: 18pt;
   border-bottom: 0.75pt dotted ${colors.gray};
   .mapPin-icon {
     position: relative;
-    width: 15pt;
-    height: 15pt;
+    min-width: 15pt;
+    min-height: 15pt;
+  }
+  @media (max-width: 899.25pt) {
+    padding-bottom: 15pt;
   }
 `;
 
 const AddressMobileBox = styled.div<{ open: boolean }>`
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 6pt;
   padding-bottom: ${({ open }) => (open ? '48pt' : '')};
-
+  .wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6pt;
+  }
   .mapPin-icon {
     position: relative;
-    width: 15pt;
-    height: 15pt;
+    min-width: 15pt;
+    min-height: 15pt;
   }
 `;
 
 const AddressName = styled.h1`
   font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
+  font-size: 15pt;
+  line-height: 18pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    line-height: 12pt;
+  }
 `;
 const SubTitle = styled.h2`
   padding-top: 30pt;
@@ -595,17 +620,35 @@ const SubTitle = styled.h2`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const NameBox = styled.div`
+const NameBox = styled.div<{
+  disabled: boolean;
+  isHome: boolean;
+  subscribeNumber: number;
+}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 18pt;
+  padding-top: 24pt;
   .name {
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+  }
+  .slider-bar-user {
+    color: ${({ disabled, isHome, subscribeNumber }) =>
+      isHome === true // 홈충전기
+        ? colors.main2
+        : !disabled || subscribeNumber === 1
+        ? colors.main
+        : colors.lightGray2};
+  }
+  .slider-bar-company {
+    color: ${({ isHome }) => (isHome ? colors.main2 : colors.lightGray2)};
+  }
+  @media (max-width: 899.25pt) {
+    padding-top: 18pt;
   }
 `;
 const ContentsWrapper = styled.div`
@@ -645,11 +688,14 @@ const ContentsWrapper = styled.div`
   .accent {
     color: ${colors.main};
   }
+  @media (max-width: 899.25pt) {
+    padding-top: 45pt;
+  }
 `;
 const RequestForm = styled.form`
-  padding-top: 45pt;
+  padding-top: 60pt;
   @media (max-width: 899.25pt) {
-    padding-top: 27pt;
+    padding-top: 60pt;
   }
   .name {
     display: flex;
@@ -779,7 +825,8 @@ const TopInfoBox = styled.div`
 const TopMobileWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 37.5pt 18.5625pt 21pt 18.5625pt;
+  /* padding: 37.5pt 18.5625pt 21pt 18.5625pt; */
+  padding: 28.5pt 18.5625pt 21pt 18.5625pt;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4);
   background-color: white;
 `;
@@ -794,7 +841,7 @@ const ArrowImg = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  bottom: 6.5pt;
+  /* bottom: 6.5pt; */
   width: 18pt;
   height: 18pt;
 `;
@@ -802,7 +849,7 @@ const ArrowImg = styled.div`
 const TextBox = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
     @media (min-width: 900pt) {
@@ -821,7 +868,7 @@ const Name = styled.span`
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
-    line-height: 12pt;
+    line-height: 18pt;
     letter-spacing: -0.02em;
     text-align: left;
   }

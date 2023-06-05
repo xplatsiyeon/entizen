@@ -182,7 +182,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 21pt 15pt 0 15pt;
+  padding: 42pt 30pt 0 27pt;
   & h1 {
     font-weight: 700;
     font-size: 21pt;
@@ -204,12 +204,17 @@ const Header = styled.header`
     text-align: end;
     cursor: pointer;
   }
+  @media (max-width: 899.25pt) {
+    padding: 21pt 15pt 0 15pt;
+  }
 `;
 
 const Body = styled.div`
   padding-top: 15pt;
+
   .profile-icon {
-    margin-left: 15pt;
+    display: inline-block;
+    margin-left: 27pt;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -220,11 +225,17 @@ const Body = styled.div`
     padding: 6pt 9pt;
     cursor: pointer;
   }
+  @media (max-width: 899.25pt) {
+    margin-left: 15pt;
+  }
 `;
 const Line = styled.div`
-  margin-top: 21pt;
+  margin-top: 24pt;
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
+  @media (max-width: 899.25pt) {
+    margin-top: 21pt;
+  }
 `;
 
 const MobileTabContainer = styled.div`
@@ -237,7 +248,7 @@ const MobileTabContainer = styled.div`
 `;
 const WebTabContainer = styled.div`
   display: flex;
-  gap: 15pt;
+  gap: 18pt;
   padding-left: 15pt;
   flex-direction: column;
   padding-left: 27pt;
@@ -245,6 +256,7 @@ const WebTabContainer = styled.div`
   transition: all 0.3s ease-in-out;
   @media (max-width: 899.25pt) {
     display: none;
+    gap: 15pt;
   }
 `;
 const TabItem = styled.span<{ tab: string; index: string }>`
@@ -288,7 +300,8 @@ const WebTabItem = styled.span<{ newAS: boolean; nowRouter: string }>`
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;
-    padding-top: 23pt;
+    padding-top: 45pt;
+    /* padding-top: 23pt; */
   }
 `;
 

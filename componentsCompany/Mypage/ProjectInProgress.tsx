@@ -180,8 +180,8 @@ const ContentsContainer = styled.div`
   @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
-    grid-column-gap: 25.5pt;
-    grid-row-gap: 20pt;
+    grid-column-gap: 22.5pt;
+    grid-row-gap: 22.5pt;
     margin: 0 auto;
   }
 `;
@@ -189,8 +189,8 @@ const ContentsContainer = styled.div`
 const Contents = styled.div`
   padding: 12pt 13.5pt;
   display: flex;
-  margin-bottom: 9pt;
   justify-content: space-between;
+  margin-bottom: 9pt;
   box-shadow: 0pt 0pt 7.5pt 0pt #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
@@ -200,6 +200,7 @@ const Contents = styled.div`
     width: 178.5pt;
     height: 114pt;
     border-radius: 12pt;
+    margin-bottom: 0;
   }
 `;
 

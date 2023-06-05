@@ -228,7 +228,9 @@ const FlexBox = styled.div`
 const MapWrap = styled.div<{ biggerClick?: boolean }>`
   flex: 1;
   position: relative;
+
   @media (max-width: 899.25pt) {
+    margin-top: 12pt;
   }
   .addressHeader {
     ${({ biggerClick }) =>
@@ -277,20 +279,24 @@ const WholeMap = styled.div<{ biggerClick?: boolean }>`
     margin: 0 15pt;
     position: relative;
     overflow: hidden;
-    ${({ biggerClick }) =>
-      biggerClick &&
-      css`
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        z-index: 11;
-        transform: translateY(-91.5pt);
-        .addressHeader {
-          display: block;
+    border: 1px solid #e9eaee;
+    /* 레이아웃 그림자 */
+    filter: drop-shadow(0px 0px 10px rgba(137, 163, 201, 0.2));
+    border-radius: 6pt
+      ${({ biggerClick }) =>
+        biggerClick &&
+        css`
+          width: 100vw;
+          height: 100vh;
+          margin: 0;
           z-index: 11;
-          background-color: white;
-        }
-      `};
+          transform: translateY(-91.5pt);
+          .addressHeader {
+            display: block;
+            z-index: 11;
+            background-color: white;
+          }
+        `};
     &.bigger {
       width: 100vw;
       height: 100vh;
@@ -341,7 +347,7 @@ const SearchMapArea = styled.div`
   display: none;
   @media (max-width: 899.25pt) {
     display: block;
-    height: 50pt;
+    /* height: 50pt; */
     width: 100%;
     position: relative;
     z-index: 10;

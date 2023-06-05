@@ -783,7 +783,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           <FocusBox tabIndex={1} className="target" ref={focusRef} />
         </div>
       </Inner>
-
+      {/* 모바일 채팅 입력창 */}
       <MobBottomWrap>
         <BottomBox onClick={handleFocus}>
           <FlexBox
@@ -830,7 +830,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           </div>
         </AddBtn>
       </MobBottomWrap>
-
+      {/* PC 채팅 입력창 */}
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
@@ -839,8 +839,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             </FileIconWrap>
             <TextInput
               placeholder="메세지를 입력하세요"
-              // onKeyDown={() => imgChange(true)}
-              // onKeyUp={() => imgChange(false)}
               value={text}
               onChange={onChangeText}
               ref={webInputRef}
@@ -949,6 +947,7 @@ const FileIconWrap = styled.div`
   width: 14.5pt;
   height: 15.45pt;
   margin: 0 0 0 13.5pt;
+  cursor: pointer;
 `;
 const MobBottomWrap = styled.div`
   position: fixed;

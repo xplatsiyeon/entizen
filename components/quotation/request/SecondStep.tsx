@@ -102,6 +102,7 @@ const SecondStep = ({ tabNumber }: Props) => {
       },
     });
   };
+
   // 버튼 유효성 검사
   useEffect(() => {
     // 초기 false
