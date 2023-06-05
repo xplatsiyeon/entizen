@@ -15,15 +15,15 @@ import arrowIcon from '/public/images/subsidy-arrow-icon.png';
 import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import { subsidyAction } from 'store/subsidySlice';
-interface Subsidy {
-  ministryOfEnvironmentApplyPrice: number;
-  koreaEnergyAgencyApplyPrice: number;
-  localGovernmentApplyPrice: number;
-  duplicateApplyPrice: number;
-  maxApplyPrice: number;
-  canDuplicateApply: boolean;
-  date: string;
-}
+// interface Subsidy {
+//   ministryOfEnvironmentApplyPrice: number;
+//   koreaEnergyAgencyApplyPrice: number;
+//   localGovernmentApplyPrice: number;
+//   duplicateApplyPrice: number;
+//   maxApplyPrice: number;
+//   canDuplicateApply: boolean;
+//   date: string;
+// }선택요금제도
 
 const SubsidyResultGuide = () => {
   const router = useRouter();
@@ -44,14 +44,10 @@ const SubsidyResultGuide = () => {
       if (num === 0) {
         return '0';
       } else {
-        return (
-          num
-            .toString()
-            // .slice(0, -3)
-            .slice(0, -4)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        );
-        //.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+        return num
+          .toString()
+          .slice(0, -4)
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
     } else {
       return '0';
@@ -59,10 +55,6 @@ const SubsidyResultGuide = () => {
   };
 
   const onClickAlarmBtn = () => {
-    // router.push({
-    //   pathname: '/setting',
-    //   query: { id: 1 },
-    // });
     router.push({
       pathname: '/setting',
       query: { id: 1, direct: true },
@@ -78,188 +70,203 @@ const SubsidyResultGuide = () => {
     dispatch(subsidyAction.reset());
   }, []);
 
-  console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
-  console.log(subsidyGuideData);
-  console.log(
-    '최대 신청 보조금',
-    subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
-  );
-  console.log(
-    '최대 신청 보조금',
-    changeMoneyUnit(subsidyGuideData?.thisYearSubsidy?.maxApplyPrice),
-  );
+  // console.log(`⭐️ line: 81, ⭐️ subsidyGuideData: ${subsidyGuideData}`);
+  // console.log(subsidyGuideData);
+  // console.log(
+  //   '최대 신청 보조금',
+  //   subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+  // );
+  // console.log(
+  //   '최대 신청 보조금',
+  //   changeMoneyUnit(subsidyGuideData?.thisYearSubsidy?.maxApplyPrice),
+  // );
 
   return (
     <Body>
       <WebHeader num={3} now={'guide'} sub={'guide'} />
       <Wrapper>
         <UserRightMenu />
-        <GuideHeader
-          title={'보조금 가이드'}
-          leftOnClick={() => router.back()}
-          rightOnClick={() => router.push('/')}
-        />
 
-        {!checkYear ? (
-          <>
-            <SubsidyResult>
-              {mobile ? (
-                <p>
-                  <span className="accent">{subsidyGuideData.memberName}</span>
-                  님이
-                  <br /> 신청 가능한 보조금은 <br />
-                  최대&nbsp;
-                  <span className="accent">
+        {mobile && (
+          <GuideHeader
+            title={'보조금 가이드'}
+            leftOnClick={() => router.back()}
+            rightOnClick={() => router.push('/')}
+          />
+        )}
+
+        <Container>
+          {!checkYear ? (
+            <>
+              {/* ================== 올해 보조금 ====================*/}
+              <SubsidyResult>
+                {mobile ? (
+                  <p>
+                    <span className="accent">
+                      {subsidyGuideData.memberName}
+                    </span>
+                    님이
+                    <br /> 신청 가능한 보조금은 <br />
+                    최대&nbsp;
+                    <span className="accent">
+                      {`${changeMoneyUnit(
+                        subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+                      )}만원`}
+                    </span>
+                    &nbsp;입니다
+                  </p>
+                ) : (
+                  <p>
+                    <span className="accent">
+                      {subsidyGuideData.memberName}
+                    </span>
+                    님이 신청 가능한 보조금은 <br />
+                    최대&nbsp;
+                    <span className="accent">
+                      {`${changeMoneyUnit(
+                        subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+                      )}만원`}
+                    </span>
+                    &nbsp;입니다
+                  </p>
+                )}
+              </SubsidyResult>
+              <ResultContainer>
+                {/* 환경부 */}
+                <div className="box">
+                  <div className="name">환경부</div>
+                  <div className="price">
                     {`${changeMoneyUnit(
-                      subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
+                      subsidyGuideData?.thisYearSubsidy
+                        ?.ministryOfEnvironmentApplyPrice,
                     )}만원`}
-                  </span>
-                  &nbsp;입니다
-                </p>
-              ) : (
-                <p>
-                  <span className="accent">{subsidyGuideData.memberName}</span>
-                  님이 신청 가능한 보조금은 <br />
-                  최대&nbsp;
-                  <span className="accent">
-                    {`${changeMoneyUnit(
-                      subsidyGuideData?.thisYearSubsidy?.maxApplyPrice,
-                    )}만원`}
-                  </span>
-                  &nbsp;입니다
-                </p>
-              )}
-            </SubsidyResult>
-            <ResultContainer>
-              {/* 환경부 */}
-              <div className="box">
-                <div className="name">환경부</div>
-                <div className="price">
-                  {`${changeMoneyUnit(
-                    subsidyGuideData?.thisYearSubsidy
-                      ?.ministryOfEnvironmentApplyPrice,
-                  )}만원`}
+                  </div>
                 </div>
-              </div>
 
-              {subsidyGuideData?.thisYearSubsidy?.canDuplicateApply ? (
-                <>
-                  {/* 한국에너지공단 */}
-                  <div className="box">
-                    <div className="name overlap">한국에너지공단</div>
-                    <div className="price overlap">
-                      {`${changeMoneyUnit(
-                        subsidyGuideData?.thisYearSubsidy
-                          ?.koreaEnergyAgencyApplyPrice,
-                      )}만원`}
-                      <div className="badge">중복 신청 가능</div>
+                {subsidyGuideData?.thisYearSubsidy?.canDuplicateApply ? (
+                  <>
+                    {/* 한국에너지공단 */}
+                    <div className="box">
+                      <div className="name overlap">한국에너지공단</div>
+                      <div className="price overlap">
+                        {`${changeMoneyUnit(
+                          subsidyGuideData?.thisYearSubsidy
+                            ?.koreaEnergyAgencyApplyPrice,
+                        )}만원`}
+                        <div className="badge">중복 신청 가능</div>
+                      </div>
                     </div>
-                  </div>
-                  {/* 지자체 */}
-                  <div className="box">
-                    <div className="name overlap">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
-                    <div className="price overlap">
-                      {`${changeMoneyUnit(
-                        subsidyGuideData?.thisYearSubsidy
-                          ?.localGovernmentApplyPrice,
-                      )}만원`}
-                      <div className="badge">중복 신청 가능</div>
+                    {/* 지자체 */}
+                    <div className="box">
+                      <div className="name overlap">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
+                      <div className="price overlap">
+                        {`${changeMoneyUnit(
+                          subsidyGuideData?.thisYearSubsidy
+                            ?.localGovernmentApplyPrice,
+                        )}만원`}
+                        <div className="badge">중복 신청 가능</div>
+                      </div>
                     </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* 한국에너지공단 */}
-                  <div className="box">
-                    <div className="name">한국에너지공단</div>
-                    <div className="price">
-                      {`${changeMoneyUnit(
-                        subsidyGuideData?.thisYearSubsidy
-                          ?.koreaEnergyAgencyApplyPrice,
-                      )}만원`}
+                  </>
+                ) : (
+                  <>
+                    {/* 한국에너지공단 */}
+                    <div className="box">
+                      <div className="name">한국에너지공단</div>
+                      <div className="price">
+                        {`${changeMoneyUnit(
+                          subsidyGuideData?.thisYearSubsidy
+                            ?.koreaEnergyAgencyApplyPrice,
+                        )}만원`}
+                      </div>
                     </div>
-                  </div>
-                  {/* 지자체 */}
-                  <div className="box">
-                    <div className="name">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
-                    <div className="price">
-                      {`${changeMoneyUnit(
-                        subsidyGuideData?.thisYearSubsidy
-                          ?.localGovernmentApplyPrice,
-                      )}만원`}
+                    {/* 지자체 */}
+                    <div className="box">
+                      <div className="name">{`${subsidyGuideData?.installationSiDo} ${subsidyGuideData?.installationSiGunGu}`}</div>
+                      <div className="price">
+                        {`${changeMoneyUnit(
+                          subsidyGuideData?.thisYearSubsidy
+                            ?.localGovernmentApplyPrice,
+                        )}만원`}
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </ResultContainer>
-            <Notice pt={72}>
-              보조금은 &apos;전기자동차충전사업자&apos;로 등록된 <br />
-              사업자만 신청 가능합니다.
-              <br />
-              <br />
-              &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
-              파트너와 보조금에 대해 상의해보세요!
-            </Notice>
-          </>
-        ) : (
-          <LastYearSubsidyGuide>
-            <div className="alert">
-              <Image src={alertIcon} layout="fill" />
-            </div>
-            <h1 className="main">
-              보조금 공고 발표 전<br /> 또는 신청기간이 지났습니다.
-            </h1>
-            <p className="notice">
-              보조금 알림설정을 통해
-              <br className="br" /> 새로운 보조금 공고소식을 받아보세요.
-            </p>
-            <button className="subsidyButton" onClick={onClickAlarmBtn}>
-              보조금 알림설정 가기
-              <div className="arrow">
-                <Image src={arrowIcon} width={5} height={10} />
-              </div>
-            </button>
-            <div className="Announcement">
-              <p className="text">
-                찾으신 제품의
-                {Number(subsidyGuideData.thisYearSubsidy.date.slice(0, 4)) - 1}
-                년 보조금은
-              </p>
-              <p className="text">
-                최대{' '}
-                <span className="highlight">
-                  {`${subsidyGuideData.lastMaximumSubsidy.toLocaleString(
-                    'ko-KR',
-                  )}원`}
-                </span>
-                이었습니다.
-              </p>
-            </div>
-            <Notice pt={45}>
-              {mobile ? (
-                <>
-                  보조금은 &apos;전기자동차충전사업자&apos;로 등록된
-                  <br className="br" />
-                  사업자만 신청 가능합니다.
-                  <br />
-                  <br />
-                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,
-                  <br className="br" />
-                  파트너와 보조금에 대해 상의해보세요!
-                </>
-              ) : (
-                <>
+                  </>
+                )}
+              </ResultContainer>
+              {!mobile ? (
+                <Notice pt={72}>
                   보조금은 &apos;전기자동차충전사업자&apos;로 등록된 사업자만
                   신청 가능합니다.
                   <br />
                   &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,
                   파트너와 보조금에 대해 상의해보세요!
-                </>
+                </Notice>
+              ) : (
+                <Notice pt={37.5}>
+                  <br />
+                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
+                  파트너와 보조금에 대해 상의해보세요!
+                </Notice>
               )}
-            </Notice>
-          </LastYearSubsidyGuide>
-        )}
-
+            </>
+          ) : (
+            // ==================== 작년 보조금 ======================
+            <LastYearSubsidyGuide>
+              <div className="alert">
+                <Image src={alertIcon} layout="fill" />
+              </div>
+              <h1 className="main">
+                보조금 공고 발표 전<br /> 또는 신청기간이 지났습니다.
+              </h1>
+              <p className="notice">
+                {'보조금 알림설정을 통해\n새로운 보조금 공고소식을 받아보세요.'}
+              </p>
+              <button className="subsidyButton" onClick={onClickAlarmBtn}>
+                보조금 알림설정 가기
+                <div className="arrow">
+                  <Image src={arrowIcon} width={5} height={10} />
+                </div>
+              </button>
+              <div className="Announcement">
+                <p className="text">
+                  찾으신 제품의
+                  {Number(subsidyGuideData.thisYearSubsidy.date.slice(0, 4)) -
+                    1}
+                  년 보조금은
+                </p>
+                <p className="text">
+                  최대&nbsp;
+                  <span className="highlight">
+                    {`${subsidyGuideData.lastMaximumSubsidy.toLocaleString(
+                      'ko-KR',
+                    )}원`}
+                  </span>
+                  이었습니다.
+                </p>
+              </div>
+              {mobile ? (
+                <Notice pt={30}>
+                  {/* 보조금은 &apos;전기자동차충전사업자&apos;로 등록된
+                  <br />
+                  사업자만 신청 가능합니다.
+                  <br /> */}
+                  <br />
+                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,
+                  <br />
+                  파트너와 보조금에 대해 상의해보세요!
+                </Notice>
+              ) : (
+                <Notice pt={60}>
+                  보조금은 &apos;전기자동차충전사업자&apos;로 등록된 사업자만
+                  신청 가능합니다.
+                  <br />
+                  &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고,
+                  파트너와 보조금에 대해 상의해보세요!
+                </Notice>
+              )}
+            </LastYearSubsidyGuide>
+          )}
+        </Container>
         <Btn onClick={onClickButton}>홈으로</Btn>
       </Wrapper>
       <WebFooter />
@@ -277,34 +284,43 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-  min-height: 650pt;
   @media (max-height: 809pt) {
     display: block;
     width: 100%;
     padding: 0;
+    min-height: auto;
   }
 `;
 const Wrapper = styled.div`
-  width: 345pt;
   margin: 0 auto;
-  padding-bottom: 100pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
   @media (max-width: 899.25pt) {
     width: 100%;
+    min-height: 100vh;
     padding: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+const Container = styled.div`
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    padding-bottom: 33pt;
   }
 `;
 const SubsidyResult = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  padding-top: 66pt;
   text-align: center;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: #222222;
+  color: ${colors.main2};
+  width: 100%;
   @media (min-width: 900pt) {
     font-size: 19.5pt;
     font-weight: 700;
@@ -320,7 +336,6 @@ const SubsidyResult = styled.div`
     line-height: 24pt;
     letter-spacing: -0.02em;
     text-align: center;
-
     @media (min-width: 900pt) {
       font-size: 19.5pt;
       font-weight: 700;
@@ -335,6 +350,7 @@ const ResultContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4.5pt;
+  width: 100%;
   .box {
     padding-top: 45pt;
     width: 100%;
@@ -399,10 +415,9 @@ const ResultContainer = styled.div`
     color: ${colors.main};
     width: 100%;
   }
-
   @media (max-width: 899.25pt) {
     box-sizing: border-box;
-    margin: 0 15pt;
+    /* margin: 0 15pt; */
   }
 `;
 const Notice = styled.p<{ pt: number }>`
@@ -414,6 +429,7 @@ const Notice = styled.p<{ pt: number }>`
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
   padding-top: ${({ pt }) => pt}pt;
+  width: 100%;
   @media (min-width: 899.25pt) {
     font-size: 12pt;
     font-weight: 500;
@@ -424,9 +440,6 @@ const Notice = styled.p<{ pt: number }>`
 `;
 const Btn = styled.div`
   display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
   color: ${colors.lightWhite};
   width: 100%;
   padding: 15pt 0 39pt 0;
@@ -435,22 +448,22 @@ const Btn = styled.div`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  margin-top: 33pt;
+  /* margin-top: 33pt; */
   background-color: ${colors.main};
   @media (max-width: 899.25pt) {
     display: block;
   }
 `;
-
 const LastYearSubsidyGuide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 15pt;
+  /* padding: 0 15pt; */
+
   .alert {
     position: relative;
-    margin-top: 46.5pt;
+    /* margin-top: 46.5pt; */
     width: 33pt;
     height: 33pt;
   }
@@ -473,7 +486,9 @@ const LastYearSubsidyGuide = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.lightGray2};
-    margin: 0 48.75pt;
+
+    white-space: nowrap;
+    /* margin: 0 48.75pt; */
   }
   .subsidyButton {
     font-family: 'Spoqa Han Sans Neo';
@@ -496,23 +511,23 @@ const LastYearSubsidyGuide = styled.div`
       text-align: left;
     }
   }
-  .arrow {
-  }
-
   .Announcement {
     background: ${colors.lightWhite};
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
-    padding: 24pt 0;
-    width: 100%;
-    /* margin-top: 36pt; */
+    padding: 18pt 0;
+    width: 345pt;
+    height: 75pt;
     margin: 36pt 15pt 0 15pt;
   }
   .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Spoqa Han Sans Neo';
     font-weight: 600;
     font-size: 10.5pt;
-    line-height: 32px;
+    /* line-height: 32px; */
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
@@ -529,10 +544,7 @@ const LastYearSubsidyGuide = styled.div`
     color: ${colors.main1};
   }
 
-  @media (min-width: 899.25pt) {
-    /* border: 1px solid red; */
-    width: 411pt;
-    padding: 0;
+  @media (max-width: 899.25pt) {
     .Announcement {
       font-weight: 700;
       font-size: 19.5pt;
@@ -540,15 +552,21 @@ const LastYearSubsidyGuide = styled.div`
       text-align: center;
       letter-spacing: -0.02em;
       color: ${colors.main2};
+      width: 100%;
+      height: auto;
     }
     .alert {
       width: 41.25pt;
       height: 41.25pt;
+      margin-top: 37.5pt;
+    }
+    .notice {
+      white-space: pre-wrap;
     }
     .text {
       font-weight: 500;
       font-size: 12pt;
-      line-height: 18pt;
+      line-height: 15pt;
       white-space: nowrap;
     }
     .highlight {

@@ -238,7 +238,7 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 15pt;
-  border-top: 0.75pt solid #e2e5ed;
+  /* border-top: 0.75pt solid #e2e5ed; */
   display: flex;
   flex-direction: column;
   @media (min-width: 900pt) {

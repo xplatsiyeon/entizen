@@ -39,6 +39,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import RequestHeader from './RequestHeader';
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -423,7 +424,7 @@ const HeadOpenContent = () => {
           setOpenSubLink={setOpenSubLink}
         />
         {modalOpen && (
-          <TwoBtnModal
+          <ExitConfirmModal
             text={
               '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
             }

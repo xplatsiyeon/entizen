@@ -16,24 +16,24 @@ type Props = {
 const Tab2 = ({ data, getImg, device }: Props) => {
   console.log('🔥 data : ', data);
   const [imgUrl1, setImgUrl1] = useState('');
-  const [imgUrl2, setImgUrl2] = useState('');
-  const [imgUrl3, setImgUrl3] = useState('');
+  // const [imgUrl2, setImgUrl2] = useState('');
+  // const [imgUrl3, setImgUrl3] = useState('');
 
   useEffect(() => {
     getImg(data[0], setImgUrl1);
-    getImg(data[1], setImgUrl2);
-    getImg(data[2], setImgUrl3);
+    // getImg(data[1], setImgUrl2);
+    // getImg(data[2], setImgUrl3);
   }, [data, device]);
 
   return (
     <Wrapper>
-      <Label pt={device === 'pc' ? 18 : 6.75}>선택요금제도</Label>
+      {/* <Label pt={device === 'pc' ? 18 : 6.75}>선택요금제도</Label> */}
       {imgUrl1 && (
         <ImageWrapper>
           <PosterImage src={imgUrl1} />
         </ImageWrapper>
       )}
-      <Label pt={device === 'pc' ? 36 : 26.25}>전압구분</Label>
+      {/* <Label pt={device === 'pc' ? 36 : 26.25}>전압구분</Label>
       {imgUrl2 && (
         <ImageWrapper>
           <PosterImage src={imgUrl2} />
@@ -44,7 +44,7 @@ const Tab2 = ({ data, getImg, device }: Props) => {
         <ImageWrapper className="last">
           <PosterImage src={imgUrl3} />
         </ImageWrapper>
-      )}
+      )} */}
       {data !== undefined ? (
         <BodyText dangerouslySetInnerHTML={{ __html: data[0]?.content }} />
       ) : (

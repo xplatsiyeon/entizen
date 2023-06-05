@@ -98,7 +98,7 @@ export default Step1;
 
 const Step = styled.h3`
   font-family: 'Spoqa Han Sans Neo';
-  padding-top: 25.5pt;
+  /* padding-top: 25.5pt; */
   font-weight: 500;
   font-size: 15pt;
   line-height: 21pt;

@@ -32,7 +32,7 @@ type Props = {
   data: InProgressProjectsDetailResponse;
   type: 'USER' | 'COMPANY';
 };
-const TAG = 'componentsCompany/Mypage/TopBox.tsx';
+
 const TopBox = ({
   open,
   className,
@@ -273,11 +273,12 @@ const Wrapper = styled.div`
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   padding-left: 26.25pt;
   padding-right: 26.25pt;
-  margin-top: 6pt;
+  /* margin-top: 6pt; */
   border-radius: 12pt;
   /* border-top: 1px solid #e2e5ed; */
 
   @media (max-width: 899.25pt) {
+    box-shadow: 0px 6px 10px rgba(137, 163, 201, 0.1);
     padding-left: 15pt;
     padding-right: 15pt;
     display: flex;
@@ -332,6 +333,9 @@ const StoreName = styled(ListItemText)`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+  }
+  @media (max-width: 899.25pt) {
+    margin-top: 0;
   }
 `;
 

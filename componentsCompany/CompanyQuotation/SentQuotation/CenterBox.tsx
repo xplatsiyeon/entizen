@@ -226,6 +226,7 @@ const ReservationDate = styled.div`
     }
   }
   .btnBox > .btn {
+    max-height: 33pt;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,6 +242,7 @@ const ReservationDate = styled.div`
   @media (max-width: 899.25pt) {
     padding: 18pt 24.75pt;
     margin-top: 15pt;
+
     .text {
       font-size: 12pt;
     }

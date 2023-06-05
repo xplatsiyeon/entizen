@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { deleteSign } from 'api/deleteSign';
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import Step0 from 'componentsCompany/contract/step0';
@@ -66,7 +67,7 @@ export default function AddContract(props: Props) {
   return (
     <WebBody>
       {modalOpen && (
-        <TwoBtnModal
+        <ExitConfirmModal
           exit={gobackQuestion}
           text={
             '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'

@@ -66,13 +66,7 @@ const PlaceGetReview = ({ review, data }: Props) => {
             );
           })}
 
-          <TextArea
-            placeholder={data?.opinion}
-            rows={8}
-            value={''}
-            required
-            readOnly={true}
-          />
+          <Contents>{data?.opinion}</Contents>
         </MobWrap>
       </RatingForm>
     </Wrap>
@@ -175,7 +169,7 @@ const DownArrowBox = styled.div`
   }
 `;
 
-const TextArea = styled.textarea`
+const Contents = styled.span`
   margin: 28pt 0;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
@@ -186,12 +180,13 @@ const TextArea = styled.textarea`
   width: 100%;
   color: #222222;
   box-sizing: border-box;
-  padding-top: 0pt;
   padding-left: 12pt;
   padding-top: 12pt;
+  padding-right: 7.5pt;
   border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   resize: none;
+  min-height: 150pt;
   ::placeholder {
     color: #222222;
     font-weight: 400;

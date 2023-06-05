@@ -218,14 +218,15 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   border-radius: 12pt;
-
+  /* border: 1px solid red; */
   /* border-top: 1px solid #e2e5ed; */
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
-    margin-top: 6pt;
+    /* margin-top: 6pt; */
     border-radius: 0;
-    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4);
+    /* box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.4); */
+    box-shadow: 0px 6px 10px rgba(137, 163, 201, 0.1);
   }
 
   @media (min-width: 900pt) {

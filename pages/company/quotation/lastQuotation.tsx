@@ -1,3 +1,4 @@
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import LastWrite from 'componentsCompany/CompanyQuotation/LastQuotation';
@@ -59,7 +60,7 @@ const LastQuotation = ({ setComponentId, componentId, send }: Props) => {
         handleOnClick={() => setModalOpen(true)}
       />
       {modalOpen && (
-        <TwoBtnModal
+        <ExitConfirmModal
           text={
             '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
           }

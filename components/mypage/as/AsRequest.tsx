@@ -303,6 +303,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     padding-left: 15pt;
     padding-right: 15pt;
+    box-shadow: 0px 6px 10px rgba(137, 163, 201, 0.1);
   }
 `;
 

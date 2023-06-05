@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import RequestHeader from '../RecievedQuotation/RequestHeader';
 import { useMediaQuery } from 'react-responsive';
+import ConfirmModal from 'components/Modal/ConfirmModal';
 
 export interface ChargerFiles {
   createdAt: string;

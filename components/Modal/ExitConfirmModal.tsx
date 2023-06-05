@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction, useRef } from 'react';
+import colors from 'styles/colors';
 
 type Props = {
   text: string;
@@ -13,7 +14,7 @@ type Props = {
   exit: () => void;
 };
 
-const TwoBtnModal = ({
+const ExitConfirmModal = ({
   text,
   leftBtnText,
   rightBtnText,
@@ -67,27 +68,6 @@ const TwoBtnModal = ({
   );
 };
 
-const ContentText = styled(Typography)`
-  white-space: pre-wrap;
-
-  font-size: 15pt;
-  font-weight: 700;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: #222222;
-  font-family: 'Spoqa Han Sans Neo';
-  text-align: center;
-  margin: 42pt 23.5pt 33pt;
-
-  @media (max-width: 899.25pt) {
-    font-size: 12pt;
-    font-weight: 500;
-    line-height: 18pt;
-    margin: 21pt 27.75pt 21pt;
-  }
-`;
-
 const ModalWrapper = styled(Box)`
   width: 100vw;
   height: 100vh;
@@ -114,10 +94,32 @@ const ModalBox = styled(Box)`
   transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-  padding: 0 28.5pt 30pt;
+  padding: 30pt 17.625pt;
+  width: 281.25pt;
+  height: 193.5pt;
   @media (max-width: 899.25pt) {
     width: 220.5pt;
     padding: 0;
+  }
+`;
+
+const ContentText = styled(Typography)`
+  white-space: pre-wrap;
+  font-size: 15pt;
+  font-weight: 700;
+  line-height: 22.5pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-align: center;
+  font-style: normal;
+  color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
+  margin-bottom: 24pt;
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 18pt;
+    margin: 21pt 27.75pt 21pt;
   }
 `;
 const Content = styled(Box)`
@@ -200,4 +202,4 @@ const BtnText = styled.div`
   }
 `;
 
-export default TwoBtnModal;
+export default ExitConfirmModal;

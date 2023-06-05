@@ -60,6 +60,8 @@ const ChargingPlace = () => {
     (e) => e.projectIdx === routerId,
   );
 
+  console.log('target![0].projectReview : ', target![0].projectReview);
+
   return (
     <>
       <Body bgColor={open}>
@@ -80,8 +82,8 @@ const ChargingPlace = () => {
                     open
                       ? '내 충전소'
                       : target![0].projectReview
-                      ? '내 충전소 리뷰하기'
-                      : '내 충전소 리뷰보기'
+                      ? '내 충전소 리뷰 보기'
+                      : '내 충전소 리뷰하기'
                   }
                   exitBtn={open ? undefined : true}
                   handleOnClick={() => setOpen(!open)}

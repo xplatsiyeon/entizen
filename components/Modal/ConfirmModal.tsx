@@ -78,10 +78,13 @@ const Modal = styled.div<{ border?: boolean }>`
   }
 `;
 const H1 = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   white-space: pre-wrap;
   font-weight: 700;
   font-size: 21pt;
-  line-height: 21pt;
+  /* line-height: 21pt; */
+  line-height: 33pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};

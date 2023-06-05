@@ -305,34 +305,39 @@ const SubsidyGuide = () => {
       <UserRightMenu />
       <Inner>
         <Wrapper>
-          <GuideHeader
-            title={'보조금 가이드'}
-            leftOnClick={() => router.back()}
-            rightOnClick={() => router.push('/')}
-          />
-          <Step1
-            clicked={clicked}
-            handlePurposeOnClick={handlePurposeOnClick}
-          />
-          <Step2
-            selectedRegion={selectedRegion}
-            selectedOption={selectedOption}
-            handleSelectBox={handleSelectBox}
-            HandleRegionChange={HandleRegionChange}
-            onClickAdd={onClickAdd}
-            onClickMinus={onClickMinus}
-          />
           {mobile && (
-            <ChargeGuide onClick={onClickRouter}>
-              <span className="text">충전기 가이드</span>
-              <div className="img">
-                <Image src={arrow_small} alt="arrow_small" />
-              </div>
-            </ChargeGuide>
+            <GuideHeader
+              title={'보조금 가이드'}
+              leftOnClick={() => router.back()}
+              rightOnClick={() => router.push('/')}
+            />
           )}
-          <Btn buttonActivate={buttonActivate} onClick={onClickButton}>
-            보조금 확인하기
-          </Btn>
+
+          <Container>
+            <Step1
+              clicked={clicked}
+              handlePurposeOnClick={handlePurposeOnClick}
+            />
+            <Step2
+              selectedRegion={selectedRegion}
+              selectedOption={selectedOption}
+              handleSelectBox={handleSelectBox}
+              HandleRegionChange={HandleRegionChange}
+              onClickAdd={onClickAdd}
+              onClickMinus={onClickMinus}
+            />
+            {mobile && (
+              <ChargeGuide onClick={onClickRouter}>
+                <span className="text">충전기 가이드</span>
+                <div className="img">
+                  <Image src={arrow_small} alt="arrow_small" />
+                </div>
+              </ChargeGuide>
+            )}
+            <Btn buttonActivate={buttonActivate} onClick={onClickButton}>
+              보조금 확인하기
+            </Btn>
+          </Container>
         </Wrapper>
       </Inner>
       <WebFooter />
@@ -384,7 +389,12 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
-    padding: 0 15pt 15pt 15pt;
+  }
+`;
+const Container = styled.div`
+  padding: 32.25pt 15pt 15pt 15pt;
+  @media (max-width: 899.25pt) {
+    padding: 25.5pt 15pt 15pt 15pt;
   }
 `;
 

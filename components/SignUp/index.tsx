@@ -15,6 +15,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import CompoIdPwInput from './CompoIdPwInput';
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 export interface BusinessRegistrationType {
   url: string;
   size: number;
@@ -112,7 +113,7 @@ const SignUpContainer = (props: Props) => {
     <>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
       {modalOpen && (
-        <TwoBtnModal
+        <ExitConfirmModal
           exit={gobackQuestion}
           text={
             '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'

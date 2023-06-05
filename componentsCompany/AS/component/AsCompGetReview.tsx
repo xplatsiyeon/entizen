@@ -76,12 +76,7 @@ const AsCompGetReview = ({ review, isProject }: Props) => {
               </RBarBox>
             ))}
             {isProject === true ? (
-              <ProejctTextArea
-                rows={1}
-                value={review?.opinion}
-                required
-                readOnly={true}
-              />
+              <ProejctTextArea>{review?.opinion}</ProejctTextArea>
             ) : (
               <TextArea
                 rows={2}
@@ -122,7 +117,6 @@ const RatingForm = styled.div`
   width: 100%;
   background: white;
   top: 25pt;
-
   @media (max-width: 899.25pt) {
     flex-direction: column;
     flex-wrap: nowrap;
@@ -220,7 +214,8 @@ const TextArea = styled.textarea`
   }
 `;
 
-const ProejctTextArea = styled.textarea`
+// const ProejctTextArea = styled.textarea`
+const ProejctTextArea = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;

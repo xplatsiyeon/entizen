@@ -26,11 +26,13 @@ const monitoring = ({ data, getImg, device }: Props) => {
         </ImageWrapper>
       )}
 
-      {data !== undefined ? (
-        <div dangerouslySetInnerHTML={{ __html: data?.content }} />
-      ) : (
-        <></>
-      )}
+      <TextWrap>
+        {data !== undefined ? (
+          <div dangerouslySetInnerHTML={{ __html: data?.content }} />
+        ) : (
+          <></>
+        )}
+      </TextWrap>
     </Main>
   );
 };
@@ -92,13 +94,17 @@ const Main = styled.div`
   }
 `;
 const ImageWrapper = styled.div`
-  width: 100%;
-  position: relative;
+  /* width: 100%; */
   margin-bottom: 30pt;
+  max-width: 645pt;
+  position: relative;
   & > span {
     position: unset !important;
   }
   @media (max-width: 899.25pt) {
     margin-bottom: 24pt;
   }
+`;
+const TextWrap = styled.div`
+  max-width: 645pt;
 `;

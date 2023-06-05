@@ -101,7 +101,7 @@ const Signin = () => {
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
-  const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
+  const [selectedLoginType, setSelectedLoginType] = useState<number>(0); // 0: 일반회원, 1: 파트너회원
   const [isId, setIsId] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
@@ -655,7 +655,9 @@ const Signin = () => {
                     <TextFields
                       value={userId}
                       id="outlined-basic"
-                      placeholder="아이디 입력"
+                      placeholder={
+                        selectedLoginType === 0 ? '이메일 입력' : '아이디 입력'
+                      }
                       onChange={(e) => {
                         setUserId(e.target.value);
                       }}

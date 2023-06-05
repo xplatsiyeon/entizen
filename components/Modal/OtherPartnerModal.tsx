@@ -109,13 +109,16 @@ const Modal = styled.div<{ border?: boolean }>`
   }
 `;
 const H1 = styled.h1`
-  white-space: pre-wrap;
+  white-space: nowrap;
   font-weight: 700;
   font-size: 15pt;
   line-height: 21pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (max-width: 899.25pt) {
+    white-space: pre-wrap;
+  }
 `;
 const Text = styled.p`
   white-space: pre-wrap;

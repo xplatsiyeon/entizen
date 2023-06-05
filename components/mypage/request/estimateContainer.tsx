@@ -154,13 +154,16 @@ export default EstimateContainer;
 
 const Wrapper = styled.div`
   padding: 21pt 15pt;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  /* box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2); */
+  box-shadow: 0px 6px 10px rgba(137, 163, 201, 0.1);
   @media (min-width: 900pt) {
+    box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
     padding: 27pt 26.25pt;
     border-radius: 12pt;
   }
 `;
 const Badge = styled.span<{ color: string }>`
+  display: inline-block;
   background: ${({ color }) => color};
   color: ${colors.lightWhite};
   padding: 4.5pt 9pt !important;

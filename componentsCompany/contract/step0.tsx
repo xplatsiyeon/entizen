@@ -7,6 +7,7 @@ import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { contractAction } from 'storeCompany/contract';
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 
 type Props = {};
 
@@ -18,7 +19,7 @@ export default function Step0(props: Props) {
   return (
     <Wrap>
       {isModal && (
-        <TwoBtnModal
+        <ExitConfirmModal
           leftBtnColor={colors.gray6}
           leftBtnText="그만하기"
           rightBtnColor={colors.main1}

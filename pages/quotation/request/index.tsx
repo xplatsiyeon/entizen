@@ -24,6 +24,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { addressSliceAction } from 'store/addressSlice';
 import { coordinateAction } from 'store/lnglatSlice';
+import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -110,7 +111,7 @@ const Quotation1_1 = () => {
         <Inner>
           <Wrapper>
             {isModal && (
-              <TwoBtnModal
+              <ExitConfirmModal
                 exit={HandleModal}
                 text={
                   '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
