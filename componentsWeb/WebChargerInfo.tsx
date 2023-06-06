@@ -201,8 +201,9 @@ const ChargerNotice = styled(Typography)`
 const PredictBoxWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin: 0 15pt 0;
+  margin: 21pt 15pt 0;
   gap: 11.25pt;
+  /* border: 1px solid red; */
   @media (max-width: 899.25pt) {
     margin: 30pt 0 0;
     padding: 0 15pt;

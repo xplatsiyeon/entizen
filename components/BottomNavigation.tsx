@@ -162,7 +162,11 @@ const BottomNavigation = ({}: Props) => {
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
               {/* 카운트 체크 */}
               {data?.data.totalCount !== undefined && (
-                <Count length={data?.data.totalCount?.toString().length}>
+                // data?.data.totalCount !== 0 &&
+                <Count
+                  count={data?.data.totalCount}
+                  length={data?.data.totalCount?.toString().length}
+                >
                   {data?.data.totalCount}
                 </Count>
               )}
@@ -189,7 +193,9 @@ const BottomNavigation = ({}: Props) => {
               <H3 clicked={false}>소통하기</H3>
               {/* 카운트 체크 */}
               {historyUnread?.unreadChatLogsCount !== undefined && (
+                // historyUnread?.unreadChatLogsCount !== 0 &&
                 <Count
+                  count={historyUnread?.unreadChatLogsCount}
                   length={historyUnread?.unreadChatLogsCount?.toString().length}
                 >
                   {historyUnread?.unreadChatLogsCount}
@@ -302,6 +308,7 @@ const BottomNavigation = ({}: Props) => {
               {/* 카운트 체크 */}
               {historyUnread?.unreadChatLogsCount !== undefined && (
                 <Count
+                  count={historyUnread?.unreadChatLogsCount}
                   length={historyUnread?.unreadChatLogsCount?.toString().length}
                 >
                   {historyUnread?.unreadChatLogsCount}
@@ -357,7 +364,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Count = styled.div<{ length: number }>`
+const Count = styled.div<{ length: number; count: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -371,7 +378,8 @@ const Count = styled.div<{ length: number }>`
   font-size: 6pt;
   line-height: 6pt;
   color: ${colors.lightWhite};
-  background-color: ${colors.main1};
+  background-color: ${({ count }) =>
+    count === 0 ? colors.gray6 : colors.main1};
   min-width: 10.5pt;
   min-height: 10.5pt;
   border-radius: 50px;

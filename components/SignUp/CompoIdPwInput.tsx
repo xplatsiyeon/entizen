@@ -358,7 +358,9 @@ const CompoIdPwInput = ({
   return (
     <>
       <Info>
-        가입하실 이메일과
+        {`가입하실 ${
+          loginTypeEnList[userType] === 'USER' ? '이메일과' : '아이디와'
+        }`}
         <br />
         비밀번호를 설정해주세요
       </Info>

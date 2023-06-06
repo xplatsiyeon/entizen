@@ -67,7 +67,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position: relative;
+  /* position: relative; */
   margin: 0 31.875pt; //42.5px
   @media (max-width: 899.25pt) {
     margin: 0;

@@ -171,6 +171,7 @@ const SalesProjection = ({
 const SearchMapWrapper = styled.div`
   margin-top: 52.5pt;
   min-width: 331.5pt;
+
   @media (max-width: 899.25pt) {
     margin-top: 24pt;
     min-width: 251.25pt;

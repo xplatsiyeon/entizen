@@ -103,23 +103,25 @@ const Main = () => {
       {/* 기능 부분 */}
       <ContentWrap>
         {/*예상 매출 검색 */}
-        <SalesForm onSubmit={handleOnClick} className="salesForm">
-          <SalesProjection
-            keyword={keyword}
-            setKeyword={setKeyword}
-            isScroll={isScroll}
-            setIsScroll={setIsScroll}
-            isSearchBar={isSearchBar}
-            setIsSearchBar={setIsSearchBar}
-            results={results}
-          />
-          <ButtonWrap>
-            <Button type="submit" isSearchBar={isSearchBar}>
-              검색
-            </Button>
-          </ButtonWrap>
-        </SalesForm>
+        <SalesFormWrap>
+          <SalesForm onSubmit={handleOnClick} className="salesForm">
+            <SalesProjection
+              keyword={keyword}
+              setKeyword={setKeyword}
+              isScroll={isScroll}
+              setIsScroll={setIsScroll}
+              isSearchBar={isSearchBar}
+              setIsSearchBar={setIsSearchBar}
+              results={results}
+            />
 
+            <ButtonWrap>
+              <Button type="submit" isSearchBar={isSearchBar}>
+                검색
+              </Button>
+            </ButtonWrap>
+          </SalesForm>
+        </SalesFormWrap>
         {/* 내 견적서, 내 프로젝트 수량 */}
         <ProjectWrap>
           <MyEstimateProject
@@ -197,13 +199,21 @@ const ContentWrap = styled.section`
   }
 `;
 
+const SalesFormWrap = styled.div`
+  border: 1.5pt solid #e2e5ed;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  margin-right: 22.5pt;
+  border-radius: 12pt;
+  padding: 5px 6pt 5px;
+`;
+
 const SalesForm = styled.form`
   display: flex;
   flex-direction: column;
-  margin-right: 22.5pt;
-  border: 1.5pt solid #e2e5ed;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
-  border-radius: 16px;
+  /* margin-right: 22.5pt; */
+  /* border: 1.5pt solid #e2e5ed;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2); */
+  /* border-radius: 12pt; */
   font-family: 'Spoqa Han Sans Neo';
   max-height: 352.5pt;
   max-width: 594.22px;

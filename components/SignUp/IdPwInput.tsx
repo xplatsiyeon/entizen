@@ -92,7 +92,7 @@ const IdPwInput = ({
   const [emailAlert, setEmailAlert] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
   const [isSuccessEmail, setIsSuccessEmail] = useState(false);
-  const [buttonMsg, setButtonMsg] = useState<'확인' | '재인증'>('확인');
+  const [buttonMsg, setButtonMsg] = useState<'인증' | '재인증'>('인증');
   // 이메일 코드 인증
   const [authCode, setAuthCode] = useState<string>('');
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
@@ -216,7 +216,10 @@ const IdPwInput = ({
     if (e.target.name === 'id') {
       setEmailAlert(false);
       setIdInput(value);
-      // idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
+      setIsSuccessEmail(false);
+      setButtonMsg('인증');
+      setIsSuccessCode(false);
+      setEmailCodeMessage('');
     }
     if (e.target.name === 'pw') setPwInput(value);
     if (e.target.name === 'checkPw') setCheckPw(value);
@@ -344,7 +347,7 @@ const IdPwInput = ({
       setIsEmailValid(true);
     } else {
       setIsEmailValid(false);
-      setButtonMsg('확인');
+      setButtonMsg('인증');
       setIsSuccessEmail(false);
     }
     // 이메일 코드 인증
