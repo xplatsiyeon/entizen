@@ -43,6 +43,7 @@ import {
   NaverBox,
   loginTypeEnList,
 } from 'pages/signin';
+import Head from 'next/head';
 
 type Props = {
   userType: number;
@@ -367,6 +368,20 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
 
   return (
     <>
+      <Head>
+        <script
+          type="text/javascript"
+          src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
+        ></script>
+        <meta name="appleid-signin-client-id" content="entizenapplekey" />
+        <meta
+          name="appleid-signin-redirect-uri"
+          content={process.env.NEXT_PUBLIC_BASE_URL + '/auth/apple'}
+        />
+        <meta name="appleid-signin-scope" content="name email" />
+        <meta name="appleid-signin-state" content="" />
+        <meta name="appleid-signin-use-popup" content="true" />
+      </Head>
       {mobile && <Notice variant="h3">어떤 용무로 오셨나요?</Notice>}
       <SelectWrapper>
         {UserTypeList.map((type, index) => (
