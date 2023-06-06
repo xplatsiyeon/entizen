@@ -757,7 +757,7 @@ const Signin = () => {
                       </Buttons>
                     )}
                   </Box>
-                  <TestWrap>
+                  <AppleWrap>
                     <div
                       ref={appleRef}
                       id="appleid-signin"
@@ -768,7 +768,7 @@ const Signin = () => {
                       data-height="32"
                       data-mode="center-align"
                     ></div>
-                  </TestWrap>
+                  </AppleWrap>
                 </Box>
                 {/* ============================ 소셜 로그인 ============================ */}
                 {selectedLoginType === 0 && (
@@ -1043,7 +1043,7 @@ const AlertMessage = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.orange};
 `;
-const TestWrap = styled.div`
+export const AppleWrap = styled.div`
   margin: 20pt auto;
   position: relative;
   display: none;

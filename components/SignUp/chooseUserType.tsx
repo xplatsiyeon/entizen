@@ -36,6 +36,7 @@ import instance from 'api/interceptor/service';
 import { GoogleSignUpData } from 'pages/auth/google';
 import {
   AppleResult,
+  AppleWrap,
   JwtTokenType,
   KAKAO_AUTH_URL,
   Line,
@@ -391,6 +392,18 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
                     <div>{type}</div>
                   </Select>
                 </WebRapper>
+                <AppleWrap>
+                  <div
+                    ref={appleRef}
+                    id="appleid-signin"
+                    data-color="black"
+                    data-border="true"
+                    data-type="sign in"
+                    data-width="100"
+                    data-height="32"
+                    data-mode="center-align"
+                  ></div>
+                </AppleWrap>
                 {/* =========================================== 소셜로그인 ========================================== */}
                 {!mobile && (
                   <>
