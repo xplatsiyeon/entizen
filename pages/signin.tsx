@@ -528,7 +528,10 @@ const Signin = () => {
                   },
                 })
           }
-          onClickCloseModal={() => setFind(false)}
+          onClickCloseModal={() => {
+            setFind(false);
+            sessionStorage.removeItem('key');
+          }}
         />
       )}
       {/* 웹 */}
