@@ -28,7 +28,8 @@ export const openExternalBrowser = (userAgent: string, url: string) => {
   } else if (userAgent === 'iOS_App') {
     window.webkit.messageHandlers.openExternalBrowser.postMessage(url);
   } else {
-    window.open(url);
+    window.open(url, '_blank', 'noopener, noreferrer');
+    // window.open(url);
   }
 };
 
