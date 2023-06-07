@@ -285,6 +285,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           onClickDelete={() => onClickDelete(chatting?.chattingRoomIdx!)}
         />
       }
+      {/* PC */}
       <Web>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
@@ -531,7 +532,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           )}
         </Body>
       </Web>
-
+      {/* 모바일 */}
       <Mob ref={mobRef}>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
@@ -541,6 +542,13 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
               onTouchStart={(e) => handleMoveStart(e)}
               onTouchMove={(e) => handleMove(e, true)}
               onTouchEnd={(e) => handleMoveEnd(e, true)}
+              onContextMenu={(event) =>
+                onClickDeleteChattingRoom(
+                  event,
+                  undefined,
+                  data?.data?.chattingRooms?.entizenChattingRoom as any,
+                )
+              }
             >
               <HiddenBox1>
                 {/* 버튼에 즐겨찾기 설정 api함수 */}
@@ -657,6 +665,9 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                   onTouchStart={(e) => handleMoveStart(e)}
                   onTouchMove={(e) => handleMove(e)}
                   onTouchEnd={(e) => handleMoveEnd(e)}
+                  onContextMenu={(event) =>
+                    onClickDeleteChattingRoom(event, chatting)
+                  }
                 >
                   <HiddenBox1>
                     {/* 버튼에 즐겨찾기 설정 api함수 */}
@@ -734,14 +745,13 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                               : false
                           }
                         />
-                        {/* 앱 심사로 인해 일시적으로 주석 처리 */}
-                        {/* <Favorite>
-                            {chatting.chattingRoomFavorite.isFavorite ? (
-                              <Image src={checked} layout="fill" />
-                            ) : (
-                              <Image src={unChecked} layout="fill" />
-                            )}
-                          </Favorite> */}
+                        <Favorite>
+                          {chatting.chattingRoomFavorite.isFavorite ? (
+                            <Image src={checked} layout="fill" />
+                          ) : (
+                            <Image src={unChecked} layout="fill" />
+                          )}
+                        </Favorite>
                       </Box>
                     </ChattingRoomInfo>
                   </ChattingRoom>

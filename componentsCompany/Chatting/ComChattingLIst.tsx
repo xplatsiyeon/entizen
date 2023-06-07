@@ -271,6 +271,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
           onClickDelete={() => onClickDelete(chatting?.chattingRoomIdx!)}
         />
       }
+      {/* PC */}
       <Web>
         <Body>
           {/* 엔티즌. 상위 고정 && 채팅방 나가기 불가.*/}
@@ -507,6 +508,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
         </Body>
       </Web>
 
+      {/* 모바일 */}
       <Mob ref={mobRef}>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
@@ -516,6 +518,13 @@ const ComChattingList = ({ data, refetch }: Props) => {
               onTouchStart={(e) => handleMoveStart(e)}
               onTouchMove={(e) => handleMove(e, true)}
               onTouchEnd={(e) => handleMoveEnd(e, true)}
+              onContextMenu={(event) =>
+                onClickDeleteChattingRoom(
+                  event,
+                  undefined,
+                  data?.data?.chattingRooms?.entizenChattingRoom as any,
+                )
+              }
             >
               <HiddenBox1>
                 {/* 버튼에 즐겨찾기 설정 api함수 */}
@@ -633,6 +642,9 @@ const ComChattingList = ({ data, refetch }: Props) => {
                   onTouchStart={(e) => handleMoveStart(e)}
                   onTouchMove={(e) => handleMove(e)}
                   onTouchEnd={(e) => handleMoveEnd(e)}
+                  onContextMenu={(event) =>
+                    onClickDeleteChattingRoom(event, chatting)
+                  }
                 >
                   <HiddenBox1>
                     {/* 버튼에 즐겨찾기 설정 api함수 */}
