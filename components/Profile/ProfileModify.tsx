@@ -276,7 +276,7 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
 export default ProfileModify;
 const Scroll = styled.div`
   @media (min-width: 900pt) {
-    height: 100vh;
+    /* height: 100vh; */
     overflow: scroll;
     overflow-x: hidden;
 

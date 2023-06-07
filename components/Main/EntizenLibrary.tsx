@@ -51,9 +51,9 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               <div key={idx}>
                 <LibraryList
                   onClick={() => {
-                    // openExternalBrowser(userAgent, `${item?.link}`);
+                    openExternalBrowser(userAgent, `${item?.link}`);
                     // location.href = `${item?.link}`;
-                    router.push(item?.link);
+                    // router.push(item?.link);
                   }}
                   index={number}
                 >
