@@ -75,6 +75,7 @@ const ButtonBox = styled.div`
   justify-content: center;
   border-radius: 21.75pt;
   background-color: #ffffff;
+  cursor: pointer;
 
   @media (max-width: 899.25pt) {
     left: 15pt;
