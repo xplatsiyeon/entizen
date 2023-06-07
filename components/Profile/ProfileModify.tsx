@@ -112,11 +112,37 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
     }
     multerMutae(formData);
   };
+
+  // 전화번호 변경
+  const onClickChangePhone = () => {
+    if (checkSns) {
+      setIsModal(true);
+      setErrorMessage('간편견적 아이디는 전화번호를 수정할 수 없습니다.');
+    } else {
+      setTabNumber(0);
+    }
+  };
+
   // 비밀번호 변경
   const HandlePassword = async () => {
-    let key = sessionStorage.getItem('key');
-    let data = JSON.parse(key!);
-    setTabNumber(1);
+    if (checkSns) {
+      setIsModal(true);
+      setErrorMessage('간편견적 아이디는 비밀번호를 수정할 수 없습니다.');
+    } else {
+      let key = sessionStorage.getItem('key');
+      let data = JSON.parse(key!);
+      setTabNumber(1);
+    }
+  };
+
+  // 이메일 변경
+  const onClickChangeEmail = () => {
+    if (checkSns) {
+      setIsModal(true);
+      setErrorMessage('간편견적 아이디는 이메일을 수정할 수 없습니다.');
+    } else {
+      setTabNumber(2);
+    }
   };
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
@@ -198,55 +224,44 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
             이름
           </Label>
           <InputBox type="text" readOnly placeholder={profile?.name} />
-          {!checkSns && (
-            <>
-              {/* 나이스 인증 */}
-              <form name="form_chk" method="get">
-                <input type="hidden" name="m" value="checkplusService" />
-                {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-                <input
-                  type="hidden"
-                  id="encodeData"
-                  name="EncodeData"
-                  value={data !== undefined && data}
-                />
-                <input type="hidden" name="recvMethodType" value="get" />
-                {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+          <>
+            {/* 나이스 인증 */}
+            <form name="form_chk" method="get">
+              <input type="hidden" name="m" value="checkplusService" />
+              {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+              <input
+                type="hidden"
+                id="encodeData"
+                name="EncodeData"
+                value={data !== undefined && data}
+              />
+              <input type="hidden" name="recvMethodType" value="get" />
+              {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
 
-                <Label mt={30}>휴대폰 번호</Label>
-                <InputWrap
-                  onClick={() => {
-                    setTabNumber(0);
-                  }}
-                >
-                  <InputBox
-                    type="text"
-                    readOnly
-                    defaultValue={hyphenFn(profile?.phone)}
-                  />
-                  <Image src={Arrow} alt="arrow-img" />
-                </InputWrap>
-                <Label mt={30}>이메일</Label>
-                <InputWrap
-                  onClick={() => {
-                    console.log('click');
-                    setTabNumber(2);
-                  }}
-                >
-                  <InputBox type="text" readOnly defaultValue={profile?.id} />
-                  <Image src={Arrow} alt="arrow-img" />
-                </InputWrap>
-                <Form>
-                  <TitleSection id="password" onClick={HandlePassword}>
-                    <Label mt={0}>비밀번호 변경</Label>
-                    <div>
-                      <Image src={Arrow} alt="arrow-img" />
-                    </div>
-                  </TitleSection>
-                </Form>
-              </form>
-            </>
-          )}
+              <Label mt={30}>휴대폰 번호</Label>
+              <InputWrap onClick={onClickChangePhone}>
+                <InputBox
+                  type="text"
+                  readOnly
+                  defaultValue={hyphenFn(profile?.phone)}
+                />
+                <Image src={Arrow} alt="arrow-img" />
+              </InputWrap>
+              <Label mt={30}>이메일</Label>
+              <InputWrap onClick={onClickChangeEmail}>
+                <InputBox type="text" readOnly defaultValue={profile?.id} />
+                <Image src={Arrow} alt="arrow-img" />
+              </InputWrap>
+              <Form>
+                <TitleSection id="password" onClick={HandlePassword}>
+                  <Label mt={0}>비밀번호 변경</Label>
+                  <div>
+                    <Image src={Arrow} alt="arrow-img" />
+                  </div>
+                </TitleSection>
+              </Form>
+            </form>
+          </>
           {/* {isPassword && (
             <Buttons className="firstNextPage" onClick={HandlePassword}>
               숨겨진 비밀번호 버튼
