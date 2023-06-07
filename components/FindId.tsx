@@ -57,6 +57,7 @@ export default function FindIdComponents({
   const onClickLogin = () => {
     setIsFindIdView(false);
     setIsFindId(false);
+    sessionStorage.removeItem('key');
   };
 
   return (

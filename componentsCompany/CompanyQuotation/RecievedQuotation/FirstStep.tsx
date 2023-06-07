@@ -1,16 +1,7 @@
 import styled from '@emotion/styled';
-import { EditSharp } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, {
-  ChangeEvent,
-  Dispatch,
-  EventHandler,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
@@ -50,21 +41,8 @@ const FirstStep = ({
   chargingStationInstallationPrice,
   setChargingStationInstallationPrice,
 }: Props) => {
-  // console.log(partSubscribe);
-
-  const test = useRef<any>(null);
   const dispatch = useDispatch();
   const router = useRouter();
-  // console.log(
-  //   'chargingStationInstallationPrice 뭐나옴?',
-  //   chargingStationInstallationPrice,
-  // );
-
-  const handleFocus = (event: any) => {
-    const input = event.target;
-    const length = input.value.length;
-    input.setSelectionRange(length, length);
-  };
 
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
@@ -116,11 +94,6 @@ const FirstStep = ({
           <div className="withAfter">충전소 설치비</div>
           <div>
             <Input
-              onClick={() => {
-                test.current.focus({
-                  cursor: 'end',
-                });
-              }}
               placeholder="0"
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
@@ -138,7 +111,6 @@ const FirstStep = ({
               }}
               value={chargingStationInstallationPrice}
               name="chargeInstall"
-              ref={test}
             />
             <div className="won">원</div>
           </div>
@@ -149,15 +121,9 @@ const FirstStep = ({
         <div className="displayBox">
           <Input
             placeholder="0"
-            // onFocus={(e) => {
-            //   e.
-            // }}
             onChange={(e) => {
-              // setMonthleSubscribePrice(e.target.value);
-              // console.log('e.target.value : ', e.target.value);
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
-                // setMonthleSubscribePrice(e.target.value);
               } else if (
                 e.target.value.length > 1 &&
                 e.target.value[0] === '0'
@@ -173,10 +139,6 @@ const FirstStep = ({
               }
             }}
             value={monthlySubscribePrice}
-            // value={Number(
-            //   monthlySubscribePrice?.replaceAll(',', ''),
-            // ).toLocaleString()}
-            // value={Number(monthlySubscribePrice).toLocaleString()}
             name="subscribeMoney"
           />
           <div className="won">원</div>
@@ -415,11 +377,13 @@ const InputBox2 = styled.div`
   }
 `;
 
-const Input = styled(TextField)`
+// const Input = styled(TextField)`
+const Input = styled.input`
   /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   width: 100%;
   outline: none;
+  text-align: end;
   .MuiOutlinedInput-root {
     &:hover fieldset {
       border: 0.75pt solid #e2e5ed;
