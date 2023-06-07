@@ -486,7 +486,7 @@ const Signin = () => {
   useEffect(() => {
     sessionStorage.removeItem('key');
     dispatch(selectAction.reset());
-  }, []);
+  }, [find]);
 
   useEffect(() => {
     console.log('🔥 isValid : ', isValid);
@@ -530,7 +530,7 @@ const Signin = () => {
           }
           onClickCloseModal={() => {
             setFind(false);
-            sessionStorage.removeItem('key');
+            // sessionStorage.removeItem('key');
           }}
         />
       )}
