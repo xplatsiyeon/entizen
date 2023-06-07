@@ -117,7 +117,7 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
   const onClickChangePhone = () => {
     if (checkSns) {
       setIsModal(true);
-      setErrorMessage('간편견적 아이디는 전화번호를 수정할 수 없습니다.');
+      setErrorMessage('간편가입 아이디는 전화번호를 수정할 수 없습니다.');
     } else {
       setTabNumber(0);
     }
@@ -127,7 +127,7 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
   const HandlePassword = async () => {
     if (checkSns) {
       setIsModal(true);
-      setErrorMessage('간편견적 아이디는 비밀번호를 수정할 수 없습니다.');
+      setErrorMessage('간편가입 아이디는 비밀번호를 수정할 수 없습니다.');
     } else {
       let key = sessionStorage.getItem('key');
       let data = JSON.parse(key!);
@@ -139,7 +139,7 @@ const ProfileModify = ({ setTabNumber, tabNumber }: Props) => {
   const onClickChangeEmail = () => {
     if (checkSns) {
       setIsModal(true);
-      setErrorMessage('간편견적 아이디는 이메일을 수정할 수 없습니다.');
+      setErrorMessage('간편가입 아이디는 이메일을 수정할 수 없습니다.');
     } else {
       setTabNumber(2);
     }
