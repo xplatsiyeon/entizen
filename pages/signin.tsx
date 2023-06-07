@@ -486,7 +486,7 @@ const Signin = () => {
   useEffect(() => {
     sessionStorage.removeItem('key');
     dispatch(selectAction.reset());
-  }, [find]);
+  }, []);
 
   useEffect(() => {
     console.log('🔥 isValid : ', isValid);

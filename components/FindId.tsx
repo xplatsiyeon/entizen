@@ -54,10 +54,10 @@ export default function FindIdComponents({
     }
   };
 
-  const onClickLogin = () => {
+  const onClickLogin = async () => {
+    await sessionStorage.removeItem('key');
     setIsFindIdView(false);
     setIsFindId(false);
-    sessionStorage.removeItem('key');
   };
 
   return (
