@@ -16,7 +16,7 @@ import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
 import AddIcon from 'public/images/add-img2.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import Image from 'next/image';
-import { inputPriceFormat } from 'utils/calculatePackage';
+import { commaInputLastFocus, inputPriceFormat } from 'utils/calculatePackage';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
@@ -471,6 +471,7 @@ const FirstStep = ({
           <div className="withAfter">월 구독료</div>
           <div className="monthFlex">
             <Input
+              onFocus={commaInputLastFocus}
               onChange={(e) => {
                 // console.log('월구독료 길이', e.target.value.length);
                 if (e.target.value[0] !== '0') {

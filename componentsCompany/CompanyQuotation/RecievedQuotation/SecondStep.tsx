@@ -23,6 +23,7 @@ import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import {
+  commaInputLastFocus,
   convertKo,
   getByteSize,
   inputPriceFormat,
@@ -774,6 +775,7 @@ const SecondStep = ({
           <InputBox isSelected={chargeTypeNumber === 1 ? true : false}>
             <div>
               <Input
+                onFocus={commaInputLastFocus}
                 onChange={onChangeInput}
                 placeholder="0"
                 value={fee}

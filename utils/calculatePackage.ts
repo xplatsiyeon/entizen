@@ -326,3 +326,19 @@ export const getToday = () => {
   const date = newDate.getDate().toString();
   return `${year}-${month}-${date}`;
 };
+
+/**
+ *
+ * @param e : input event
+ * @returns focus 제일 끝으로 이동
+ * @try onFocus={commaInputLastFocus}
+ */
+export const commaInputLastFocus = (
+  e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
+) => {
+  const el = e.target;
+  setTimeout(() => {
+    el.setSelectionRange(100, 100);
+    el.scrollLeft = 100 * 30;
+  }, 0);
+};

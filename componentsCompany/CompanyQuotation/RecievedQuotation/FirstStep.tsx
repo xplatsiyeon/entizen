@@ -5,7 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
-import { inputPriceFormat } from 'utils/calculatePackage';
+import { commaInputLastFocus, inputPriceFormat } from 'utils/calculatePackage';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
@@ -95,6 +95,7 @@ const FirstStep = ({
           <div>
             <Input
               placeholder="0"
+              onFocus={commaInputLastFocus}
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
                   setChargingStationInstallationPrice(
@@ -121,6 +122,7 @@ const FirstStep = ({
         <div className="displayBox">
           <Input
             placeholder="0"
+            onFocus={commaInputLastFocus}
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
@@ -377,8 +379,7 @@ const InputBox2 = styled.div`
   }
 `;
 
-// const Input = styled(TextField)`
-const Input = styled.input`
+const Input = styled(TextField)`
   /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   width: 100%;
