@@ -11,6 +11,11 @@ import { useEffect, useRef, useState } from 'react';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
+import { useQueries } from 'react-query';
+import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 interface Props {
   file?: ProjectCompletionFiles[];
@@ -18,6 +23,11 @@ interface Props {
 }
 const Carousel = ({ file, ImgDetail }: Props) => {
   console.log('🔥 file : ', file);
+  const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
+  const router = useRouter();
   const [fileArr, setFileArr] = useState<ProjectCompletionFiles[]>([]);
   // 충전기 이미지 클릭시 뭐 눌렀는지 확인
   const idxRef = useRef(-1);
@@ -57,7 +67,13 @@ const Carousel = ({ file, ImgDetail }: Props) => {
                 alt={el?.originalName}
                 onClick={() => {
                   initialSlideOnChange(idx);
-                  setOpenImgModal(!openImgModal);
+                  if (mobile) {
+                    dispatch(imgDetailAction.setFile(file!));
+                    router.push('/ImgDetailCarousel');
+                  } else {
+                    setOpenImgModal(!openImgModal);
+                  }
+                  // setOpenImgModal(!openImgModal);
                 }}
               />
             </div>

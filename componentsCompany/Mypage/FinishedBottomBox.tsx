@@ -20,15 +20,21 @@ import {
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 import { useMediaQuery } from 'react-responsive';
 import Carousel from 'components/mypage/projects/Carousel';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 type Props = {
   data: Projects;
 };
 
 const FinishedBottomBox = ({ data }: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+
   const callPhone = hyphenFn(data?.userMember?.phone.toString());
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const fileArray: any = [];
@@ -197,6 +203,12 @@ const FinishedBottomBox = ({ data }: Props) => {
           <WebRightPhotoBox
             key={DataFilter?.projectCompletionFileIdx}
             onClick={() => {
+              if (mobile) {
+                dispatch(imgDetailAction.setFile(fileArray));
+                router.push('/ImgDetailCarousel');
+              } else {
+                setOpenImgModal(!openImgModal);
+              }
               setOpenImgModal(!openImgModal);
             }}
           >

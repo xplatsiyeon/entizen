@@ -27,12 +27,17 @@ import {
 } from 'react-query';
 import ImgDetailCarousel from 'components/ImgDetailCarousel';
 import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 interface Props {
   data: ChargingStations;
 }
 const TAG = 'components/mypage/place/PlaceInfo.tsx';
 const PlaceInfo = ({ data }: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
@@ -237,7 +242,12 @@ const PlaceInfo = ({ data }: Props) => {
           <WebRightPhotoBox
             key={DataFilter?.projectCompletionFileIdx}
             onClick={() => {
-              setOpenImgModal(!openImgModal);
+              if (mobile) {
+                dispatch(imgDetailAction.setFile(fileArray));
+                router.push('/ImgDetailCarousel');
+              } else {
+                setOpenImgModal(!openImgModal);
+              }
             }}
           >
             <div className="imgBox">

@@ -15,6 +15,10 @@ import { fileDownload } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
+import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 type Props = {
   pb?: number;
@@ -22,6 +26,11 @@ type Props = {
 };
 
 const BottomBox = ({ pb, data }: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   // 부분 구독 판별
@@ -254,8 +263,14 @@ const BottomBox = ({ pb, data }: Props) => {
                   <GridItem
                     key={img.chargerProductFileIdx}
                     onClick={() => {
-                      setOpenImgModal(!openImgModal);
                       initialSlideOnChange(index);
+                      if (mobile) {
+                        dispatch(imgDetailAction.setFile(fileArr!));
+                        router.push('/ImgDetailCarousel');
+                      } else {
+                        setOpenImgModal(!openImgModal);
+                      }
+                      // setOpenImgModal(!openImgModal);
                     }}
                   >
                     <Image

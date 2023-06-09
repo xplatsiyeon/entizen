@@ -25,6 +25,7 @@ const persistConfig = {
     'LoginType',
     'header',
     'contract',
+    'imgDetailSlice',
   ],
 };
 // userList

@@ -19,6 +19,8 @@ import {
   PreQuotationsV1,
   QuotationRequestV1,
 } from 'types/quotation';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 interface Props {
   pb?: number;
@@ -36,6 +38,7 @@ const BiddingQuote = ({
   quotationNewData,
 }: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
@@ -610,7 +613,15 @@ const BiddingQuote = ({
                           objectFit="cover"
                           style={{ borderRadius: '6pt' }}
                           onClick={() => {
-                            setOpenImgModal(!openImgModal);
+                            if (mobile) {
+                              dispatch(
+                                imgDetailAction.setFile(newChargerImageFiles2!),
+                              );
+                              router.push('/ImgDetailCarousel');
+                            } else {
+                              setOpenImgModal(!openImgModal);
+                            }
+                            // setOpenImgModal(!openImgModal);
                           }}
                         />
                       </GridItem>

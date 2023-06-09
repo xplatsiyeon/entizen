@@ -24,6 +24,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMediaQuery } from 'react-responsive';
 import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 type Props = {
   pb?: number;
@@ -32,9 +35,12 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
 
@@ -311,8 +317,14 @@ const FinalBottomBox = ({ pb, data }: Props) => {
                   <GridItem
                     key={img?.finalQuotationChargerIdx + index}
                     onClick={() => {
-                      setOpenImgModal(!openImgModal);
                       initialSlideOnChange(index);
+                      if (mobile) {
+                        dispatch(imgDetailAction.setFile(fileArr!));
+                        router.push('/ImgDetailCarousel');
+                      } else {
+                        setOpenImgModal(!openImgModal);
+                      }
+                      // setOpenImgModal(!openImgModal);
                     }}
                   >
                     <Image

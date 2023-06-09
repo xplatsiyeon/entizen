@@ -25,6 +25,10 @@ import {
 import { fileDownload } from 'bridge/appToWeb';
 import ImgDetailCarousel, { ImgType } from 'components/ImgDetailCarousel';
 import { QuotationStatusHistories } from 'types/quotation';
+import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { imgDetailAction } from 'store/imgDetailSlice';
 
 interface Props {
   pb?: number;
@@ -34,6 +38,11 @@ interface Props {
   isFinalItmeIndex?: number;
 }
 const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(max-width:899.25pt)',
+  });
   // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // 이미지 상세보기 모달창
   const [openImgModal, setOpenImgModal] = useState(false);
@@ -314,7 +323,13 @@ const FinalQuotation = ({ pb, data, isFinalItmeIndex }: Props) => {
                       unoptimized={true}
                       objectFit="cover"
                       onClick={() => {
-                        setOpenImgModal(!openImgModal);
+                        if (mobile) {
+                          dispatch(imgDetailAction.setFile(chargerFile!));
+                          router.push('/ImgDetailCarousel');
+                        } else {
+                          setOpenImgModal(!openImgModal);
+                        }
+                        // setOpenImgModal(!openImgModal);
                       }}
                     />
                   </GridItem>
