@@ -18,13 +18,13 @@ export const useNaverAuthHook = () => {
 
   //주소에 해쉬값이 있어야 네이버 로그인 처리됨.
   const checkHash = (naverLogin: any) => {
-    const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
+    const hash = router?.asPath?.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
     // console.log('⭐️hash -> ' + hash);
 
     if (hash) {
       const token = hash.split('=')[1].split('&')[0]; // token값 확인
       // console.log('⭐️ token : ', token);
-      naverLogin.getLoginStatus((status: any) => {
+      naverLogin?.getLoginStatus((status: any) => {
         if (status) {
           // console.log('⭐️ status : ', status);
           NaverApi(naverLogin);
@@ -50,7 +50,7 @@ export const useNaverAuthHook = () => {
   };
 
   const login = () => {
-    const naver = (window as any).naver;
+    const naver = (window as any)?.naver;
     // if (naverLogin) {
     naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID

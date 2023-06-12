@@ -9,7 +9,7 @@ import { googleLogout } from '@react-oauth/google';
 export const NaverLogout = async () => {
   // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
   const localToken = sessionStorage.getItem('com.naver.nid.access_token');
-  const res = await axios.get('/oauth2.0/token', {
+  axios.get('/oauth2.0/token', {
     params: {
       grant_type: 'delete',
       client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID

@@ -99,6 +99,7 @@ const ModalBox = styled(Box)`
   height: 193.5pt;
   @media (max-width: 899.25pt) {
     width: 220.5pt;
+    height: auto;
     padding: 0;
   }
 `;

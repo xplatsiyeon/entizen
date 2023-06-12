@@ -36,6 +36,7 @@ import { useNaverAuthHook } from 'hooks/useNaverAuthHook';
 import FindIdComponents from 'components/FindId';
 import { reg_password } from 'utils/user';
 import instance from 'api/interceptor/service';
+import { NaverLogout } from 'api/logout';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -487,6 +488,11 @@ const Signin = () => {
       setIsValid(false);
     }
   }, [password]);
+
+  // 테스트
+  // useEffect(() => {
+  //   NaverLogout();
+  // }, []);
 
   return (
     <React.Fragment>
