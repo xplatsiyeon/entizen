@@ -19,7 +19,7 @@ export const useNaverAuthHook = () => {
   //주소에 해쉬값이 있어야 네이버 로그인 처리됨.
   const checkHash = (naverLogin: any) => {
     const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-    console.log('⭐️hash -> ' + hash);
+    // console.log('⭐️hash -> ' + hash);
 
     if (hash) {
       const token = hash.split('=')[1].split('&')[0]; // token값 확인
@@ -73,7 +73,6 @@ export const useNaverAuthHook = () => {
   };
 
   const NaverApi = async (data: any) => {
-    // const NAVER_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await instance({
       method: 'post',
       url: '/members/login/sns',
@@ -83,10 +82,6 @@ export const useNaverAuthHook = () => {
         snsResponse: JSON.stringify(data),
         email: data.user.email,
       },
-      // headers: {
-      //   ContentType: 'application/json',
-      // },
-      // withCredentials: true,
     }).then((res) => {
       let c = res.data;
       let d = JSON.parse(res.config.data);
@@ -117,9 +112,9 @@ export const useNaverAuthHook = () => {
   };
 
   useEffect(() => {
-    console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');
+    // console.log('⭐️⭐️⭐️렌더링⭐️⭐️⭐️');
     const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-    console.log('⭐️hash -> ' + hash);
+    // console.log('⭐️hash -> ' + hash);
   }, []);
 
   return { login };

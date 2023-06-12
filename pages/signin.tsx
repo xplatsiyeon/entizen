@@ -263,7 +263,7 @@ const Signin = () => {
   };
   // 네이버 온클릭
   const handleNaver = async () => {
-    console.log(naverRef.current.children[0]);
+    // console.log(naverRef.current.children[0]);
     if (naverRef) {
       console.log(naverRef.current.children[0]);
       naverRef.current.children[0].click();
@@ -332,9 +332,6 @@ const Signin = () => {
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
     instance({
-      // headers: {
-      //   local: process.env.NEXT_PUBLIC_LOCAL!,
-      // },
       method: 'post',
       url: `/auth/nice`,
       data: { memberType },
@@ -412,7 +409,6 @@ const Signin = () => {
 
   // 애플로그인 핸들러
   const handleAppleLogin = async (result: AppleResult) => {
-    // const APPLE_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
     await instance({
       method: 'post',
       url: '/members/login/sns',
@@ -422,11 +418,6 @@ const Signin = () => {
         snsResponse: JSON.stringify(result),
         email: result.email,
       },
-
-      // headers: {
-      //   ContentType: 'application/json',
-      // },
-      // withCredentials: true,
     }).then((res) => {
       let c = res.data;
       let d = JSON.parse(res.config.data);
