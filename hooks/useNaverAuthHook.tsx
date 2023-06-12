@@ -20,7 +20,7 @@ export const useNaverAuthHook = () => {
   const checkHash = (naverLogin: any) => {
     // return;
     const hash = router?.asPath?.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
-    alert(hash);
+    // alert(hash);
     // console.log('⭐️hash -> ' + hash);
 
     if (hash) {
