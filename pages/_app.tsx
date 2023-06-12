@@ -102,6 +102,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       // 아이폰 호출
     } else if (iOS) {
       window.returnUserInfo = (userInfo) => {
+        alert(userInfo);
         if (typeof userInfo === 'object') {
           sessionStorage.setItem(
             'SNS_MEMBER',

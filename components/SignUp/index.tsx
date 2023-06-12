@@ -110,7 +110,7 @@ const SignUpContainer = (props: Props) => {
   }, [userType]);
 
   if (router.query.token) {
-    return <div>네이버 테스트</div>;
+    return <div></div>;
   }
 
   return (
