@@ -71,6 +71,7 @@ export const useNaverAuthHook = () => {
   };
 
   const NaverApi = async (data: any) => {
+    const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
     await instance({
       method: 'post',
       url: '/members/login/sns',
@@ -101,6 +102,22 @@ export const useNaverAuthHook = () => {
         sessionStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
         sessionStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
         dispatch(originUserAction.set(data.user.email));
+
+        // ================ 브릿지 연결 =====================
+        const userInfo = {
+          SNS_MEMBER: token.isSnsMember,
+          MEMBER_TYPE: token.memberType,
+          ACCESS_TOKEN: c.accessToken,
+          REFRESH_TOKEN: c.refreshToken,
+          USER_ID: data.user.email,
+        };
+        if (userAgent === 'Android_App') {
+          window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (userAgent === 'iOS_App') {
+          window.webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
+        }
 
         router.push('/');
       } else {
