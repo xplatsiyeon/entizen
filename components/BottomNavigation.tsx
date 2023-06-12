@@ -161,13 +161,13 @@ const BottomNavigation = ({}: Props) => {
               )}
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
               {/* 카운트 체크 */}
-              {data?.data.totalCount !== undefined && (
+              {data?.data?.totalCount !== undefined && (
                 // data?.data.totalCount !== 0 &&
                 <Count
-                  count={data?.data.totalCount}
-                  length={data?.data.totalCount?.toString().length}
+                  count={data?.data?.totalCount}
+                  length={data?.data?.totalCount?.toString().length}
                 >
-                  {data?.data.totalCount}
+                  {data?.data?.totalCount}
                 </Count>
               )}
             </div>

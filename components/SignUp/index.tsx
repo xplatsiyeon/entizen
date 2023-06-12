@@ -109,6 +109,10 @@ const SignUpContainer = (props: Props) => {
     console.log('userType : ', userType);
   }, [userType]);
 
+  if (router.query.token) {
+    return <div>네이버 테스트</div>;
+  }
+
   return (
     <>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
