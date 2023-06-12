@@ -111,7 +111,6 @@ const Signin = () => {
   const [findText, setFindText] = useState<'id' | 'password'>('id');
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
-
   // 비밀번호 유효성 검사
   const [isValid, setIsValid] = useState(false);
   // 네이버 로그인 훅
@@ -401,7 +400,7 @@ const Signin = () => {
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
-      const token = data.detail.authorization.id_token;
+      const token = data?.detail?.authorization?.id_token;
       const base64Payload = token.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
       const payload = Buffer.from(base64Payload, 'base64');
       const result: AppleResult = JSON.parse(payload.toString());
@@ -611,7 +610,7 @@ const Signin = () => {
                         marginTop: mobile ? '9.375pt' : '24pt',
                       }}
                     >
-                      {loginTypeList.map((loginType, index) => (
+                      {loginTypeList?.map((loginType, index) => (
                         <Box key={index}>
                           <Typography
                             variant="h6"

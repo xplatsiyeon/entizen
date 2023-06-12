@@ -31,8 +31,8 @@ export const useNaverAuthHook = () => {
           dispatch(
             userAction.add({
               ...user,
-              email: naverLogin.user.email,
-              snsType: naverLogin.user.snsType,
+              email: naverLogin?.user.email,
+              snsType: naverLogin?.user.snsType,
             }),
           );
           // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
@@ -50,24 +50,24 @@ export const useNaverAuthHook = () => {
 
   const login = () => {
     const naver = (window as any).naver;
-    if (naverLogin) {
-      naverLogin = new naver.LoginWithNaverId({
-        clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
-        // 테스트 리다이렉트 주소
-        callbackUrl: `https://api.entizen.kr/signin`,
-        isPopup: false, // 팝업 형태로 인증 여부
-        callbackHandle: true,
-        loginButton: {
-          color: 'green', // 색상
-          type: 3, // 버튼 크기
-          height: '60', // 버튼 높이
-        }, // 로그인 버튼 설정
-      });
+    // if (naverLogin) {
+    naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
+      // 테스트 리다이렉트 주소
+      callbackUrl: `https://api.entizen.kr/signin`,
+      isPopup: false, // 팝업 형태로 인증 여부
+      callbackHandle: true,
+      loginButton: {
+        color: 'green', // 색상
+        type: 3, // 버튼 크기
+        height: '60', // 버튼 높이
+      }, // 로그인 버튼 설정
+    });
 
-      // console.log('naverLogin');
-      naverLogin?.init();
-      checkHash(naverLogin);
-    }
+    // console.log('naverLogin');
+    naverLogin?.init();
+    checkHash(naverLogin);
+    // }
   };
 
   const NaverApi = async (data: any) => {
