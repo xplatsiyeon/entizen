@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { appLogout } from 'bridge/appToWeb';
 import { kakaoInit } from 'utils/kakao';
-import { getCookie } from './cookie';
 import instance from './interceptor/service';
 import adminInstance from './interceptor/admin';
-
-// 관리자 로그아웃 API
-const ADMIN_LOG_OUT_API = `${process.env.NEXT_PUBLIC_BASE_URL}/admin/auth/logout`;
+import { googleLogout } from '@react-oauth/google';
 
 // 네이버 로그아웃
 export const NaverLogout = async () => {
@@ -41,28 +38,21 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
-  // console.log('=============== 로그아웃 =================');
-  // const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  // const csrfToken = getCookie('CSRF-TOKEN');
-  // if (accessToken) {
+  const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
   await instance({
     method: 'post',
     url: '/members/logout',
-    // data: {
-    //   'csrf-token': csrfToken,
-    // },
-    // headers: {
-    //   Authorization: `Bearer ${accessToken}`,
-    //   ContentType: 'application/json',
-    //   local: process.env.NEXT_PUBLIC_LOCAL!,
-    // },
-    // withCredentials: true,
   }).then((res) => {
     sessionStorage.removeItem('SNS_MEMBER');
     sessionStorage.removeItem('ACCESS_TOKEN');
     sessionStorage.removeItem('REFRESH_TOKEN');
     sessionStorage.removeItem('USER_ID');
     sessionStorage.removeItem('MEMBER_TYPE');
+    if (isSns) {
+      NaverLogout();
+      KakaoLogout();
+      googleLogout();
+    }
     // 로그아웃 브릿지 연결
     appLogout(userAgent as string);
   });
@@ -71,21 +61,9 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
-  // const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  // const csrfToken = getCookie('CSRF-TOKEN');
   await adminInstance({
     method: 'post',
     url: '/admin/auth/logout',
-    // data: {
-    //   'csrf-token': csrfToken,
-    // },
-
-    // headers: {
-    //   Authorization: `Bearer ${accessToken}`,
-    //   ContentType: 'application/json',
-    //   local: process.env.NEXT_PUBLIC_LOCAL!,
-    // },
-    // withCredentials: true,
   }).then((res) => {
     sessionStorage.removeItem('ADMIN_ACCESS_TOKEN');
     sessionStorage.removeItem('ADMIN_REFRESH_TOKEN');
