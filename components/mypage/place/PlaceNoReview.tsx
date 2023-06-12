@@ -48,10 +48,13 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
   );
 
   const handleClick = () => {
-    chargingRefetch();
-    router.push('/mypage');
-    close(true);
     setModalOpen(false);
+
+    if (modalMessage !== '리뷰를 작성해주세요.') {
+      router.push('/mypage');
+      close(true);
+      chargingRefetch();
+    }
   };
 
   const onClickBtn = () => {
@@ -64,7 +67,7 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
       });
     } else {
       setModalOpen(true);
-      setModalMessage('리뷰을 작성해주세요.');
+      setModalMessage('리뷰를 작성해주세요.');
     }
   };
 

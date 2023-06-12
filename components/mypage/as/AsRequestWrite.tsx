@@ -259,13 +259,13 @@ const AsRequestWrite = ({ rewrite }: Props) => {
         return obj;
       });
       setTitle(
-        detailData.data.afterSalesService.afterSalesService.requestTitle,
+        detailData?.data.afterSalesService.afterSalesService.requestTitle,
       );
       setRequestText(
-        detailData.data.afterSalesService.afterSalesService.requestContent,
+        detailData?.data.afterSalesService.afterSalesService.requestContent,
       );
       setSelectedOption(
-        detailData.data.afterSalesService.afterSalesService.project
+        detailData?.data.afterSalesService.afterSalesService.project
           .finalQuotation.preQuotation.quotationRequest.installationAddress,
       );
       setSelectedIndex(

@@ -45,8 +45,9 @@ const AsRequestWriteReview = ({
       ratingScore.attentivenessPoint !== 0 &&
       ratingScore.quicknessPoint !== 0 &&
       ratingScore.professionalismPoint !== 0 &&
-      ratingScore.satisfactionPoint !== 0 &&
-      reqeustText.length !== 0
+      ratingScore.satisfactionPoint !== 0
+      // &&
+      // reqeustText.length !== 0
     ) {
       dispatch(
         reviewAction.write({
