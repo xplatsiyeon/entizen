@@ -25,12 +25,9 @@ export const useNaverAuthHook = () => {
 
     if (hash) {
       const token = hash.split('=')[1].split('&')[0]; // token값 확인
-      // console.log('⭐️ token : ', token);
       naverLogin?.getLoginStatus((status: any) => {
         if (status) {
-          // console.log('⭐️ status : ', status);
-          // NaverApi(naverLogin);
-          // console.log('⭐️ naverLogin : ', naverLogin);
+          NaverApi(naverLogin);
           dispatch(
             userAction.add({
               ...user,
@@ -53,22 +50,21 @@ export const useNaverAuthHook = () => {
 
   const login = () => {
     const naver = (window as any).naver;
-    // if (naverLogin) {
-    naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
-      // 테스트 리다이렉트 주소
-      callbackUrl: `https://api.entizen.kr/signin`,
-      isPopup: false, // 팝업 형태로 인증 여부
-      callbackHandle: true,
-      loginButton: {
-        color: 'green', // 색상
-        type: 3, // 버튼 크기
-        height: '60', // 버튼 높이
-      }, // 로그인 버튼 설정
-    });
-
-    // console.log('naverLogin');
     if (naverLogin) {
+      naverLogin = new naver.LoginWithNaverId({
+        clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
+        // 테스트 리다이렉트 주소
+        callbackUrl: `https://api.entizen.kr/signin`,
+        isPopup: false, // 팝업 형태로 인증 여부
+        callbackHandle: true,
+        loginButton: {
+          color: 'green', // 색상
+          type: 3, // 버튼 크기
+          height: '60', // 버튼 높이
+        }, // 로그인 버튼 설정
+      });
+
+      // console.log('naverLogin');
       naverLogin?.init();
       checkHash(naverLogin);
     }
@@ -79,14 +75,14 @@ export const useNaverAuthHook = () => {
       method: 'post',
       url: '/members/login/sns',
       data: {
-        uuid: '' + data?.user.id,
+        uuid: '' + data?.user?.id,
         snsType: 'NAVER',
         snsResponse: JSON.stringify(data),
-        email: data?.user.email,
+        email: data?.user?.email,
       },
     }).then((res) => {
       let c = res?.data;
-      let d = JSON.parse(res?.config.data);
+      let d = JSON.parse(res?.config?.data);
       dispatch(
         userAction.add({
           ...user,
