@@ -29,7 +29,7 @@ export const useNaverAuthHook = () => {
       naverLogin?.getLoginStatus((status: any) => {
         if (status) {
           // console.log('⭐️ status : ', status);
-          NaverApi(naverLogin);
+          // NaverApi(naverLogin);
           // console.log('⭐️ naverLogin : ', naverLogin);
           dispatch(
             userAction.add({
