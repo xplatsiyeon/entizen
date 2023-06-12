@@ -149,9 +149,9 @@ const SignUpTerms = () => {
         userAction.add({
           ...user,
           snsType: fullTerms,
-          name: data.name,
-          phone: data.phone,
-          birthDate: data.birthDate,
+          name: data?.name,
+          phone: data?.phone,
+          birthDate: data?.birthDate,
         }),
       );
       // try {
@@ -160,16 +160,16 @@ const SignUpTerms = () => {
         method: 'post',
         url: `/members/join/sns`,
         data: {
-          name: data.name,
-          phone: data.phone,
-          birthDate: data.birthDate,
+          name: data?.name,
+          phone: data?.phone,
+          birthDate: data?.birthDate,
           optionalTermsConsentStatus: [
             {
               optionalTermsType: 'EVENT',
               consentStatus: fullTerms,
             },
           ],
-          snsLoginIdx: user.snsLoginIdx,
+          snsLoginIdx: user?.snsLoginIdx,
         },
         // headers: {
         //   ContentType: 'application/json',
@@ -196,10 +196,10 @@ const SignUpTerms = () => {
 
   // 데이터 GET
   useEffect(() => {
-    setFullTerms(LoginType.fullTerms);
-    setRequiredTerms(LoginType.requiredTerms);
-    setSelectTerms(LoginType.selectTerms);
-    setRequiredCheck(LoginType.requiredCheck);
+    setFullTerms(LoginType?.fullTerms);
+    setRequiredTerms(LoginType?.requiredTerms);
+    setSelectTerms(LoginType?.selectTerms);
+    setRequiredCheck(LoginType?.requiredCheck);
   }, []);
   // 전체 약관 동의
   useEffect(() => {
@@ -208,8 +208,8 @@ const SignUpTerms = () => {
   }, [requiredCheck]);
 
   useEffect(() => {
-    if (router.asPath.includes('Canceled')) {
-      router.push('/signin');
+    if (router?.asPath.includes('Canceled')) {
+      router?.push('/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -219,8 +219,8 @@ const SignUpTerms = () => {
   }, [requiredTerms]);
   // 전체 약관 동의 활성화
   useEffect(() => {
-    const everyRequiredCheck = requiredCheck.every((e) => e === true);
-    const everySelectedCheck = selectTerms.every((e) => e === true);
+    const everyRequiredCheck = requiredCheck?.every((e) => e === true);
+    const everySelectedCheck = selectTerms?.every((e) => e === true);
     console.log('⭐️ everyRequiredCheck : ', everyRequiredCheck);
     console.log('⭐️ selectTerms : ', selectTerms);
 
@@ -231,20 +231,19 @@ const SignUpTerms = () => {
 
   useEffect(() => {
     const memberType = selectedType;
-    instance({
-      // headers: {
-      //   local: process.env.NEXT_PUBLIC_LOCAL!,
-      // },
-      method: 'post',
-      url: `/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
+    if (memberType) {
+      instance({
+        method: 'post',
+        url: `/auth/nice`,
+        data: { memberType },
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((res) => {
+          setData(res?.data?.executedData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

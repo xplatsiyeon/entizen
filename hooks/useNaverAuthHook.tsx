@@ -68,10 +68,10 @@ export const useNaverAuthHook = () => {
     });
 
     // console.log('naverLogin');
-    naverLogin?.init();
-    checkHash(naverLogin);
-    //callBack(naverLogin);
-    // }
+    if (naverLogin) {
+      naverLogin?.init();
+      checkHash(naverLogin);
+    }
   };
 
   const NaverApi = async (data: any) => {
