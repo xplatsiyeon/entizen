@@ -18,8 +18,9 @@ export const useNaverAuthHook = () => {
 
   //주소에 해쉬값이 있어야 네이버 로그인 처리됨.
   const checkHash = (naverLogin: any) => {
-    return;
+    // return;
     const hash = router?.asPath?.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
+    alert(hash);
     // console.log('⭐️hash -> ' + hash);
 
     if (hash) {
@@ -78,14 +79,14 @@ export const useNaverAuthHook = () => {
       method: 'post',
       url: '/members/login/sns',
       data: {
-        uuid: '' + data.user.id,
+        uuid: '' + data?.user.id,
         snsType: 'NAVER',
         snsResponse: JSON.stringify(data),
-        email: data.user.email,
+        email: data?.user.email,
       },
     }).then((res) => {
-      let c = res.data;
-      let d = JSON.parse(res.config.data);
+      let c = res?.data;
+      let d = JSON.parse(res?.config.data);
       dispatch(
         userAction.add({
           ...user,
@@ -97,7 +98,7 @@ export const useNaverAuthHook = () => {
         }),
       );
       if (c.isMember === true) {
-        const token: JwtTokenType = jwt_decode(res.data.accessToken);
+        const token: JwtTokenType = jwt_decode(res?.data.accessToken);
         sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
         sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
         sessionStorage.setItem('USER_ID', JSON.stringify(data.user.email));
