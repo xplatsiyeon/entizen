@@ -11,7 +11,7 @@ import { isTokenGetApi } from 'api';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import { convertKo } from 'utils/calculatePackage';
+import { convertKo, inputPriceFormat } from 'utils/calculatePackage';
 import {
   M5_LIST,
   M5_LIST_EN,
@@ -169,7 +169,9 @@ const LastWrite = (props: Props) => {
     if (data && !finalQuotationIdx) {
       // console.log('수정 데이터 없다');
       setChargingStationInstallationPrice(
-        preQuotation?.chargingStationInstallationPrice?.toString(),
+        inputPriceFormat(
+          preQuotation?.chargingStationInstallationPrice?.toString(),
+        ),
       );
       setSubscribeProduct(
         convertKo(
@@ -194,7 +196,7 @@ const LastWrite = (props: Props) => {
           : '0',
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
-        preQuotation?.subscribePricePerMonth.toString(),
+        inputPriceFormat(preQuotation?.subscribePricePerMonth.toString()),
       );
       setConstructionPeriod(preQuotation?.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
@@ -267,7 +269,9 @@ const LastWrite = (props: Props) => {
       const { finalQuotation } = data?.sendQuotationRequest?.preQuotation!;
 
       setChargingStationInstallationPrice(
-        finalQuotation?.chargingStationInstallationPrice?.toString(),
+        inputPriceFormat(
+          finalQuotation?.chargingStationInstallationPrice?.toString(),
+        ),
       );
       setSubscribeProduct(
         convertKo(
@@ -284,7 +288,7 @@ const LastWrite = (props: Props) => {
         Math.floor(Number(finalQuotation?.chargingPointRate) * 100).toString(),
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
-        finalQuotation?.subscribePricePerMonth?.toString(),
+        inputPriceFormat(finalQuotation?.subscribePricePerMonth?.toString()),
       );
       setConstructionPeriod(finalQuotation?.constructionPeriod?.toString());
       setDueDiligenceResult(finalQuotation?.spotInspectionResult);

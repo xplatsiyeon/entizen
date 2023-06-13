@@ -294,16 +294,19 @@ const Btn = styled.div<{ tabNumber: number }>`
     }
   }
   .left {
-    background: ${({ tabNumber }) =>
-      tabNumber !== -1 ? colors.main : colors.gray};
+    /* background: ${({ tabNumber }) =>
+      tabNumber !== -1 ? colors.main : colors.gray}; */
 
+    background-color: ${colors.gray};
     cursor: pointer;
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
   }
   .right {
-    background: rgba(90, 45, 201, 0.5);
+    background: ${({ tabNumber }) =>
+      tabNumber !== -1 ? colors.main : 'rgba(90, 45, 201, 0.5)'};
+    /* background: rgba(90, 45, 201, 0.5); */
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
