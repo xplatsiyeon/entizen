@@ -226,7 +226,7 @@ const ManagerInfo = ({
       >
         <Label>담당자 이메일</Label>
         <Input
-          autoComplete="false"
+          autoComplete="new-password"
           placeholder="이메일 입력"
           onChange={onChangeEmail}
           value={email}
@@ -253,7 +253,7 @@ const ManagerInfo = ({
         )}
 
         <Input
-          autoComplete="false"
+          autoComplete="new-password"
           placeholder="이메일 인증번호 입력"
           onChange={onChangeEmailCode}
           value={authCode}

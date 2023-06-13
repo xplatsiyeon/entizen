@@ -26,6 +26,8 @@ const CenterBox = ({ spotData, data }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
 
+  console.log('spotData : ', spotData);
+
   return (
     <>
       {modalOpen && (
@@ -101,9 +103,10 @@ const CenterBox = ({ spotData, data }: Props) => {
 
         {/* ----------- 현장실사 일정 확정 -------------- */}
         {spotData?.data?.hasReceivedSpotInspectionDates === false &&
-          spotData?.data?.spotInspection?.isNewPropose === false &&
-          spotData?.data?.spotInspection?.isConfirmed === true &&
-          data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
+          // spotData?.data?.spotInspection?.isNewPropose === false &&
+          // spotData?.data?.spotInspection?.isConfirmed === true &&
+          (data?.sendQuotationRequest?.badge === '현장실사 조율 중' ||
+            data?.sendQuotationRequest?.badge === '현장실사 예약 완료') && (
             <>
               <ConfirmedReservation>
                 <div className="text">현장실사 일정이 확정되었습니다.</div>
