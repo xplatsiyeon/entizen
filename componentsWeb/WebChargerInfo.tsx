@@ -60,7 +60,7 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
           {selectedCharger === 0 &&
             slowCharger?.map((el, index) => (
               <PredictBox key={index}>
-                <div className="name">{el.year.slice(0, 2)}년 예측치</div>
+                <div className="name">{el.year.slice(2, 4)}년 예측치</div>
                 <div className="label first">충전량 (월)</div>
                 <div className="price">
                   {el.chargeQuantity.toLocaleString()}kW
@@ -72,7 +72,7 @@ const WebChargerInfo = ({ selectedCharger, setSelectedCharger }: Props) => {
           {selectedCharger === 1 &&
             fastCharger?.map((el, index) => (
               <PredictBox key={index}>
-                <div className="name">{el.year.slice(0, 2)}년 예측치</div>
+                <div className="name">{el.year.slice(2, 4)}년 예측치</div>
                 <div className="label first">충전량 (월)</div>
                 <div className="price">
                   {el.chargeQuantity.toLocaleString()} kW
