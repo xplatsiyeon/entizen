@@ -88,6 +88,10 @@ const RecieveRequest = ({
   }, []);
 
   useEffect(() => {
+    console.log(
+      'data?.data.receivedQuotationRequests : ',
+      data?.data.receivedQuotationRequests,
+    );
     dispatch(headerAction.setTabIdx(0));
     dispatch(headerAction.setTab(0));
     dispatch(headerAction.setType('estimate'));

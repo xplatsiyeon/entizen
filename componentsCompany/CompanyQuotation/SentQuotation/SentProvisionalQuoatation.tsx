@@ -170,7 +170,6 @@ export interface QuotationRequest {
   memberIdx: number;
   quotationRequestChargers: QuotationRequestChargers[];
   member: Member;
-  installationAddress: string;
 }
 export interface SentRequestResponse {
   isSuccess: boolean;

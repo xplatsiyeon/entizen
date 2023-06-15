@@ -75,7 +75,6 @@ export interface QuotationsDetailResponse {
     etcRequest: string;
     memberIdx: number;
     quotationRequestChargers: QuotationRequestChargers[];
-    installationAddress: string;
   };
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
@@ -293,9 +292,7 @@ const HeadOpenContent = () => {
   const quotationRequestChargers =
     data?.receivedQuotationRequest?.quotationRequestChargers! ||
     editData?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
-  const installationAddress =
-    data?.receivedQuotationRequest.installationAddress! ||
-    editData?.sendQuotationRequest?.quotationRequest?.installationAddress!;
+
   const homeSelect =
     data?.receivedQuotationRequest.quotationRequestChargers.filter(
       (el) => el.kind === '7-HOME',

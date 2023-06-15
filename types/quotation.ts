@@ -174,7 +174,6 @@ export interface QuotationRequestV1 {
   quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
   quotationRequestChargers: QuotationRequestChargers[];
   hasCurrentInProgressPreQuotationIdx: boolean;
-  installationAddress: string;
   badge: string;
 }
 // 간편 견적 응답

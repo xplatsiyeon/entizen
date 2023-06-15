@@ -27,7 +27,6 @@ interface QuotationRequest {
   investRate: string;
   memberIdx: number;
   quotationRequestIdx: number;
-  installationAddress: string;
 }
 
 interface Components {
