@@ -95,7 +95,8 @@ const FirstStep = ({
           <div>
             <Input
               placeholder="0"
-              onFocus={commaInputLastFocus}
+              // onFocus={commaInputLastFocus}
+              onMouseDown={commaInputLastFocus}
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
                   setChargingStationInstallationPrice(
@@ -122,7 +123,8 @@ const FirstStep = ({
         <div className="displayBox">
           <Input
             placeholder="0"
-            onFocus={commaInputLastFocus}
+            // onFocus={commaInputLastFocus}
+            onMouseDown={commaInputLastFocus}
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));

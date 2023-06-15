@@ -333,9 +333,7 @@ export const getToday = () => {
  * @returns focus 제일 끝으로 이동
  * @try onFocus={commaInputLastFocus}
  */
-export const commaInputLastFocus = (
-  e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
-) => {
+export const commaInputLastFocus = (e: any) => {
   const el = e.target;
   setTimeout(() => {
     el.setSelectionRange(100, 100);

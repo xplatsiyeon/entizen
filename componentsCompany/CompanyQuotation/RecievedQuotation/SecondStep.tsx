@@ -775,7 +775,8 @@ const SecondStep = ({
           <InputBox isSelected={chargeTypeNumber === 1 ? true : false}>
             <div>
               <Input
-                onFocus={commaInputLastFocus}
+                // onFocus={commaInputLastFocus}
+                onMouseDown={commaInputLastFocus}
                 onChange={onChangeInput}
                 placeholder="0"
                 value={fee}

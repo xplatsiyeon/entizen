@@ -471,7 +471,8 @@ const FirstStep = ({
           <div className="withAfter">월 구독료</div>
           <div className="monthFlex">
             <Input
-              onFocus={commaInputLastFocus}
+              // onFocus={commaInputLastFocus}
+              onMouseDown={commaInputLastFocus}
               onChange={(e) => {
                 // console.log('월구독료 길이', e.target.value.length);
                 if (e.target.value[0] !== '0') {
