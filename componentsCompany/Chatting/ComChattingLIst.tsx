@@ -621,9 +621,31 @@ const ComChattingList = ({ data, refetch }: Props) => {
                     <Favorite>
                       {data?.data.chattingRooms.entizenChattingRoom
                         ?.chattingRoomFavorite.isFavorite ? (
-                        <Image src={checked} layout="fill" />
+                        <Image
+                          src={checked}
+                          layout="fill"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClickFavorite(
+                              data?.data?.chattingRooms?.entizenChattingRoom
+                                ?.chattingRoomIdx!,
+                            );
+                          }}
+                        />
                       ) : (
-                        <Image src={unChecked} layout="fill" />
+                        <Image
+                          src={unChecked}
+                          layout="fill"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClickFavorite(
+                              data?.data?.chattingRooms?.entizenChattingRoom
+                                ?.chattingRoomIdx!,
+                            );
+                          }}
+                        />
                       )}
                     </Favorite>
                   </Box>
@@ -716,9 +738,25 @@ const ComChattingList = ({ data, refetch }: Props) => {
                         />
                         <Favorite>
                           {chatting.chattingRoomFavorite.isFavorite ? (
-                            <Image src={checked} layout="fill" />
+                            <Image
+                              src={checked}
+                              layout="fill"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onClickFavorite(chatting?.chattingRoomIdx!);
+                              }}
+                            />
                           ) : (
-                            <Image src={unChecked} layout="fill" />
+                            <Image
+                              src={unChecked}
+                              layout="fill"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onClickFavorite(chatting?.chattingRoomIdx!);
+                              }}
+                            />
                           )}
                         </Favorite>
                       </Box>

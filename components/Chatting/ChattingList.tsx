@@ -5,6 +5,7 @@ import defaultImg from 'public/images/defaultImg.png';
 import entizenCK from 'public/images/entizenCK.png';
 import {
   Dispatch,
+  EventHandler,
   SetStateAction,
   Touch,
   TouchEvent,
@@ -203,6 +204,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
 
   // 채팅 즐겨찾기 함수
   const onClickFavorite = (chattingRoomIdx: number) => {
+    console.log('즐겨찾기 클릭');
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/favorite`,
     });
@@ -285,7 +287,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           onClickDelete={() => onClickDelete(chatting?.chattingRoomIdx!)}
         />
       }
-      {/* PC */}
+      {/* ============================== PC =========================== */}
       <Web>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
@@ -532,7 +534,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
           )}
         </Body>
       </Web>
-      {/* 모바일 */}
+      {/* =========================== 모바일 ========================= */}
       <Mob ref={mobRef}>
         <Body>
           {data?.data?.chattingRooms?.entizenChattingRoom && (
@@ -644,9 +646,31 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     <Favorite>
                       {data?.data.chattingRooms.entizenChattingRoom
                         ?.chattingRoomFavorite.isFavorite ? (
-                        <Image src={checked} layout="fill" />
+                        <Image
+                          src={checked}
+                          layout="fill"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClickFavorite(
+                              data?.data?.chattingRooms?.entizenChattingRoom
+                                ?.chattingRoomIdx!,
+                            );
+                          }}
+                        />
                       ) : (
-                        <Image src={unChecked} layout="fill" />
+                        <Image
+                          src={unChecked}
+                          layout="fill"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClickFavorite(
+                              data?.data?.chattingRooms?.entizenChattingRoom
+                                ?.chattingRoomIdx!,
+                            );
+                          }}
+                        />
                       )}
                     </Favorite>
                   </Box>
@@ -747,9 +771,25 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                         />
                         <Favorite>
                           {chatting.chattingRoomFavorite.isFavorite ? (
-                            <Image src={checked} layout="fill" />
+                            <Image
+                              src={checked}
+                              layout="fill"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onClickFavorite(chatting.chattingRoomIdx!);
+                              }}
+                            />
                           ) : (
-                            <Image src={unChecked} layout="fill" />
+                            <Image
+                              src={unChecked}
+                              layout="fill"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onClickFavorite(chatting.chattingRoomIdx!);
+                              }}
+                            />
                           )}
                         </Favorite>
                       </Box>
