@@ -32,7 +32,7 @@ import {
 } from 'assets/selectList';
 import { AxiosError } from 'axios';
 import Loader from 'components/Loader';
-import { convertKo } from 'utils/calculatePackage';
+import { convertKo, inputPriceFormat } from 'utils/calculatePackage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -249,10 +249,12 @@ const HeadOpenContent = () => {
       // console.log(preQuotation);
 
       setChargingStationInstallationPrice(
-        preQuotation?.chargingStationInstallationPrice?.toString(),
+        inputPriceFormat(
+          preQuotation?.chargingStationInstallationPrice?.toString(),
+        ),
       );
       setMonthleSubscribePrice(
-        preQuotation?.subscribePricePerMonth?.toString(),
+        inputPriceFormat(preQuotation?.subscribePricePerMonth?.toString()),
       );
       setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
       setFirstPageTextArea(preQuotation?.subscribeProductFeature!);

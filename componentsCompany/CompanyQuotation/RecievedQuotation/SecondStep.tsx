@@ -588,7 +588,7 @@ const SecondStep = ({
       });
 
       setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
-      setFee(charger.chargePrice?.toString()!);
+      setFee(inputPriceFormat(charger.chargePrice?.toString()!));
       setProductItem(charger.modelName);
       setManufacturingCompany(charger.manufacturer);
       setChargeFeatures(charger.productFeature);

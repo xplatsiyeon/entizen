@@ -234,7 +234,9 @@ const LastWrite = (props: Props) => {
             quotationCharger?.count.toString(),
           ),
           chargePriceType: preQutationCharger?.chargePriceType,
-          chargePrice: preQutationCharger?.chargePrice.toString(),
+          chargePrice: inputPriceFormat(
+            preQutationCharger?.chargePrice.toString(),
+          ),
           installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger?.modelName,
           manufacturer: preQutationCharger?.manufacturer,
@@ -250,7 +252,9 @@ const LastWrite = (props: Props) => {
           channel: quotationCharger?.channel,
           count: quotationCharger?.count.toString(),
           chargePriceType: preQutationCharger?.chargePriceType,
-          chargePrice: preQutationCharger?.chargePrice.toString(),
+          chargePrice: inputPriceFormat(
+            preQutationCharger?.chargePrice.toString(),
+          ),
           installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger?.modelName,
           manufacturer: preQutationCharger?.manufacturer,
@@ -323,7 +327,9 @@ const LastWrite = (props: Props) => {
           ),
 
           chargePriceType: finalQuotationCharger.chargePriceType,
-          chargePrice: finalQuotationCharger.chargePrice.toString(),
+          chargePrice: inputPriceFormat(
+            finalQuotationCharger.chargePrice.toString(),
+          ),
           installationLocation: finalQuotationCharger.installationLocation,
           modelName: finalQuotationCharger.modelName,
           manufacturer: finalQuotationCharger.manufacturer,
@@ -341,7 +347,9 @@ const LastWrite = (props: Props) => {
           channel: finalQuotationCharger.channel,
           count: finalQuotationCharger.count.toString(),
           chargePriceType: finalQuotationCharger.chargePriceType,
-          chargePrice: finalQuotationCharger.chargePrice.toString(),
+          chargePrice: inputPriceFormat(
+            finalQuotationCharger.chargePrice.toString(),
+          ),
           installationLocation: finalQuotationCharger.installationLocation,
           modelName: finalQuotationCharger.modelName,
           manufacturer: finalQuotationCharger.manufacturer,
