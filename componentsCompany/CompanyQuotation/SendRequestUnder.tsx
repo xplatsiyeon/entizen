@@ -26,7 +26,7 @@ export interface QuotationRequest {
   quotationStatus: string;
   subscribePeriod: number;
   subscribeProduct: string;
-  maskingInstallationAddress: string;
+  installationAddress: string;
 }
 export interface PreQuotation {
   changedDate: string;
@@ -82,7 +82,7 @@ const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
             <DisplayBox>
               {el?.badge === '선택대기' ? (
                 <AddressBox>
-                  {el?.quotationRequest.maskingInstallationAddress}
+                  {el?.quotationRequest.installationAddress}
                 </AddressBox>
               ) : (
                 <AddressBox>

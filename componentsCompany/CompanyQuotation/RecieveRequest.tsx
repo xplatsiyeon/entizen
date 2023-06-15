@@ -145,7 +145,7 @@ const RecieveRequest = ({
                   />
                 </DdayBox>
                 <AddressBox>
-                  {el?.quotationRequest?.maskingInstallationAddress}
+                  {el?.quotationRequest?.installationAddress}
                 </AddressBox>
               </DdayNAddress>
               <IconBox>

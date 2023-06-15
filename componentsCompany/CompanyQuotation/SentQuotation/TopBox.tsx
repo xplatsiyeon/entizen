@@ -65,7 +65,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
               <h1>
                 {
                   data?.sendQuotationRequest?.quotationRequest
-                    ?.maskingInstallationAddress
+                    ?.installationAddress
                 }
               </h1>
             ) : (

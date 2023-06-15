@@ -35,7 +35,7 @@ export interface QuotationRequest {
   quotationStatus: string;
   subscribePeriod: number;
   subscribeProduct: string;
-  maskingInstallationAddress: string;
+  installationAddress: string;
 }
 export interface PreQuotation {
   changedDate: string;
@@ -132,7 +132,7 @@ const SentRequest = ({}: Props) => {
 
   // console.log('badge', data?.sendQuotationRequests);
 
-  //maskingInstallationAddress
+  //installationAddress
   return (
     <>
       <Sort
@@ -174,7 +174,7 @@ const SentRequest = ({}: Props) => {
                 </DdayBox>
                 {el?.badge === '선택대기' ? (
                   <AddressBox>
-                    {el?.quotationRequest.maskingInstallationAddress}
+                    {el?.quotationRequest.installationAddress}
                   </AddressBox>
                 ) : (
                   <AddressBox>

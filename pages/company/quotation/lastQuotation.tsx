@@ -24,7 +24,7 @@ export interface QuotationRequest {
   quotationStatus: string;
   subscribePeriod: number;
   subscribeProduct: string;
-  maskingInstallationAddress: string;
+  installationAddress: string;
 }
 export interface PreQuotation {
   changedDate: string;

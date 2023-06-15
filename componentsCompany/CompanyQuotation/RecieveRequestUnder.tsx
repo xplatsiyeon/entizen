@@ -76,7 +76,7 @@ const RecieveRequestUnder = ({
             </DdayNAddress>
             <DisplayBox>
               <AddressBox>
-                {el?.quotationRequest?.maskingInstallationAddress}
+                {el?.quotationRequest?.installationAddress}
               </AddressBox>
               <ArrowIconBox>
                 <Image src={CaretDown24} alt="RightArrow" />

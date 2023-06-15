@@ -75,7 +75,7 @@ export interface QuotationsDetailResponse {
     etcRequest: string;
     memberIdx: number;
     quotationRequestChargers: QuotationRequestChargers[];
-    maskingInstallationAddress: string;
+    installationAddress: string;
   };
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
@@ -293,10 +293,9 @@ const HeadOpenContent = () => {
   const quotationRequestChargers =
     data?.receivedQuotationRequest?.quotationRequestChargers! ||
     editData?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
-  const maskingInstallationAddress =
-    data?.receivedQuotationRequest.maskingInstallationAddress! ||
-    editData?.sendQuotationRequest?.quotationRequest
-      ?.maskingInstallationAddress!;
+  const installationAddress =
+    data?.receivedQuotationRequest.installationAddress! ||
+    editData?.sendQuotationRequest?.quotationRequest?.installationAddress!;
   const homeSelect =
     data?.receivedQuotationRequest.quotationRequestChargers.filter(
       (el) => el.kind === '7-HOME',
@@ -477,7 +476,7 @@ const HeadOpenContent = () => {
                     />
                     <div>
                       <StoreNameText tabNumber={tabNumber}>
-                        {maskingInstallationAddress}
+                        {installationAddress}
                       </StoreNameText>
                       {tabNumber !== -1 && (
                         <>

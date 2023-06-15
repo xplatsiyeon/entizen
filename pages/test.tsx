@@ -1,16 +1,20 @@
 import styled from '@emotion/styled';
 import Select from 'components/Select';
-import React, { EventHandler, useState } from 'react';
+import React, { EventHandler, useRef, useState } from 'react';
+import { NumericFormat } from 'react-number-format';
 
 type Props = {};
 
 const test = (props: Props) => {
   const [value, setValue] = useState('');
+  const ref = useRef<HTMLInputElement | null>(null);
   const input = document.querySelector('input');
 
   // input.addEventListener('input', function(e){
   // 	e.value = e.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   // })
+  console.log('test: ', NumericFormat(213321));
+
   return (
     <div>
       <Wrap>
@@ -19,9 +23,16 @@ const test = (props: Props) => {
           id="salary"
           draggable={false}
           autoCorrect="false"
-          value={value.toLocaleString()}
+          value={value}
+          // data-value={'400'.toLocaleString()}
           onChange={(e) => {
-            setValue(e.target.value.toLocaleString());
+            setValue(
+              Number(e.target.value)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            );
+            // ref.current?.value = e.target.value.toLocaleString();
+            // setValue(e.target.value.toLocaleString());
           }}
         />
       </Wrap>

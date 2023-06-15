@@ -174,7 +174,7 @@ export interface QuotationRequestV1 {
   quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
   quotationRequestChargers: QuotationRequestChargers[];
   hasCurrentInProgressPreQuotationIdx: boolean;
-  maskingInstallationAddress: string;
+  installationAddress: string;
   badge: string;
 }
 // 간편 견적 응답
@@ -303,7 +303,7 @@ export interface PreQuotationsV1 {
   member: CompanyMember;
   preQuotationChargers: PreQuotationChargers[];
   badge: string;
-  maskingInstallationAddress: string;
+  installationAddress: string;
 }
 // 가견적 상세 조회
 export interface preQuotationResPonse {
