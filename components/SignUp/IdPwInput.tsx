@@ -479,6 +479,7 @@ const IdPwInput = ({
         <Label>이메일</Label>
         {/* 이메일 작성란 */}
         <Input
+          type="text"
           autoComplete="new-password"
           borderBoolean1={
             data?.isMember === true && emailAlert && !isEmailValid
@@ -521,6 +522,7 @@ const IdPwInput = ({
         </Box>
         {/* 이메일 인증코드 작성란 */}
         <Input
+          type="text"
           autoComplete="new-password"
           borderBoolean1={
             data?.isMember === true && emailCodeAlert && !isEmailCodeValid
@@ -566,11 +568,11 @@ const IdPwInput = ({
       <BoxPW>
         <LabelPW>비밀번호</LabelPW>
         <Input
+          type={pwShow[0] ? 'text' : 'password'}
           autoComplete="new-password"
           borderBoolean1={!checkedPw && pwInput.length > 4 ? true : false}
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
-          type={pwShow[0] ? 'text' : 'password'}
           value={pwInput}
           name="pw"
           hiddenLabel
@@ -588,11 +590,11 @@ const IdPwInput = ({
           <></>
         )}
         <Input
+          type={pwShow[1] ? 'text' : 'password'}
           autoComplete="new-password"
           borderBoolean1={!checkSamePw && checkPw.length > 4 ? true : false}
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
-          type={pwShow[1] ? 'text' : 'password'}
           value={checkPw}
           name="checkPw"
           InputProps={secondIconAdornment}

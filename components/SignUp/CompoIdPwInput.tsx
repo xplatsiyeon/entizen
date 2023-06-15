@@ -376,6 +376,7 @@ const CompoIdPwInput = ({
       >
         <Label>아이디</Label>
         <Input
+          type="text"
           autoComplete="new-password"
           borderBoolean1={
             data?.isMember === true && initIdAlert && !idLength ? true : false
@@ -420,11 +421,11 @@ const CompoIdPwInput = ({
       <BoxPW>
         <LabelPW>비밀번호</LabelPW>
         <Input
+          type={pwShow[0] ? 'text' : 'password'}
           autoComplete="new-password"
           borderBoolean1={!checkedPw && pwInput.length > 4 ? true : false}
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
-          type={pwShow[0] ? 'text' : 'password'}
           value={pwInput}
           name="pw"
           hiddenLabel
@@ -442,11 +443,11 @@ const CompoIdPwInput = ({
           <></>
         )}
         <Input
+          type={pwShow[1] ? 'text' : 'password'}
           autoComplete="new-password"
           borderBoolean1={!checkSamePw && checkPw.length > 4 ? true : false}
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
-          type={pwShow[1] ? 'text' : 'password'}
           value={checkPw}
           name="checkPw"
           InputProps={secondIconAdornment}

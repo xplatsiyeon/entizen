@@ -655,6 +655,8 @@ const Signin = () => {
                   {/* 인풋 박스 및 버튼  */}
                   <ContainerBox>
                     <TextFields
+                      type="text"
+                      autoComplete="new-password"
                       value={userId}
                       id="outlined-basic"
                       placeholder={
@@ -665,10 +667,11 @@ const Signin = () => {
                       }}
                     />
                     <TextFields
+                      type="password"
+                      autoComplete="new-password"
                       value={password}
                       id="outlined-basic"
                       placeholder="비밀번호 입력"
-                      type="password"
                       onBlur={(e) => {
                         //유효성 검사
                       }}

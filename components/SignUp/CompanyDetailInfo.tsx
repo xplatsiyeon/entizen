@@ -273,6 +273,8 @@ const CompanyDetailInfo = ({
       >
         <Label>회사명</Label>
         <Input
+          type="text"
+          autoComplete="new-password"
           placeholder="기업명 입력"
           onChange={handleCompanyNameChange}
           value={companyName}
@@ -290,6 +292,8 @@ const CompanyDetailInfo = ({
       >
         <Label>주소</Label>
         <Input
+          type="text"
+          autoComplete="new-password"
           placeholder="회사 우편번호 입력"
           value={postNumber}
           name="id"
@@ -308,6 +312,8 @@ const CompanyDetailInfo = ({
           }}
         />
         <Input
+          type="text"
+          autoComplete="new-password"
           placeholder="회사 주소 입력"
           value={companyAddress}
           name="checkPw"
@@ -316,6 +322,8 @@ const CompanyDetailInfo = ({
           }}
         />
         <Input
+          type="text"
+          autoComplete="new-password"
           placeholder="회사 상세주소 입력"
           value={companyDetailAddress}
           onChange={(e) => setCompanyDetailAddress(e.target.value)}
