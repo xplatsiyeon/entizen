@@ -9,6 +9,7 @@ import { UserInfo } from 'pages/mypage';
 import { isTokenGetApi } from 'api';
 import { Dispatch, SetStateAction } from 'react';
 import { QuotationRequestV1, QuotationStatusHistories } from 'types/quotation';
+import alertIcon from 'public/mypage/alert_icon.svg';
 type Props = {
   data: QuotationRequestV1;
 
@@ -55,6 +56,15 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
         의 구독상품이 도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
+      <NoticeMessage>
+        <span className="imgBox">
+          <Image src={alertIcon} alt="alertIcon" layout="fill" />
+        </span>
+        <p className="notice">
+          가견적을 통해 제안받은 금액은 현장실사 후 차이가 발생할 수
+          있습니다.(한전불입금, 공사환경 등)
+        </p>
+      </NoticeMessage>
       <GridContainer>
         {data?.quotationStatusHistories.map((item, index) => (
           <GridItem
@@ -260,5 +270,47 @@ const NoImage = styled.div`
   background: #caccd1;
   @media (max-width: 899.25pt) {
     margin-bottom: 15pt;
+  }
+`;
+
+const NoticeMessage = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  background-color: #fff3ef;
+  border-radius: 8px;
+  width: 774px;
+  min-height: 56px;
+  margin-top: 28px;
+  .imgBox {
+    position: relative;
+    margin-right: 6px;
+    width: 24px;
+    height: 24px;
+  }
+  .notice {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    color: ${colors.sub4};
+  }
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    margin-top: 32px;
+    min-height: 68px;
+    align-items: flex-start;
+    padding: 11px 12px 13px 16px;
+    .imgBox {
+      min-width: 20px;
+      min-height: 20px;
+    }
+    .notice {
+      padding-top: 2px;
+      font-weight: 500;
+      font-size: 14px;
+    }
   }
 `;

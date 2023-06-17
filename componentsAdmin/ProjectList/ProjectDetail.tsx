@@ -282,6 +282,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
   );
 
+  // 계약서 다운로드
   const {
     data: modusignPdfDownData,
     isLoading: modusignPdfDownLoading,
@@ -556,10 +557,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     );
 
   useEffect(() => {
+    console.log('data 🍓', data);
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
-
-  console.log('data 🍓', data?.data?.project?.contract?.contractContent!);
 
   return (
     <Background>
@@ -851,6 +851,29 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                 )}
               </Contents>
             </List>
+            {/* 충전기 중요도 추가 항목 jungmin */}
+            {/* <List>
+              <Label>충전기 중요도 1순위</Label>
+              <Contents>
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationPurpose,
+                )}
+              </Contents>
+            </List>
+            <List>
+              <Label>충전기 중요도 2순위</Label>
+              <Contents>
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationPurpose,
+                )}
+              </Contents>
+            </List> */}
             <List>
               <Label>기타 요청사항</Label>
               <TextBox

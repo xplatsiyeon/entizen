@@ -7,6 +7,8 @@ import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { commaInputLastFocus, inputPriceFormat } from 'utils/calculatePackage';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
+import alertIcon from 'public/images/partner_alert_icon.svg';
+import Image from 'next/image';
 
 type Props = {
   tabNumber: number;
@@ -88,6 +90,20 @@ const FirstStep = ({
         </span>
       </TopStep>
       <SubWord>월 구독료와 특장점을 입력해주세요.</SubWord>
+      <NoticeMessage>
+        <span className="left">
+          <span className="imgBox">
+            <Image src={alertIcon} alt="alertIcon" layout="fill" />
+          </span>
+          <p className="boldText">공사 가견적 조건</p>
+        </span>
+        <span className="right">
+          <p className="text">
+            완속: 모자분리, 전선루트 20m 급속: 공중가설지역, 한전불입, 전선루트
+            50m * 보조금 미신청 기준으로 가견적를 작성해주세요.
+          </p>
+        </span>
+      </NoticeMessage>
       {/* 부분구독은 충전기 설치비 추가로 생겨야함 */}
       {(partSubscribe === 'PART' || router.query.part === 'true') && (
         <InputBox>
@@ -200,6 +216,8 @@ const FirstStep = ({
     </Wrapper>
   );
 };
+
+export default FirstStep;
 
 const Wrapper = styled.div`
   padding-left: 15pt;
@@ -551,4 +569,68 @@ const TextFlex = styled.div`
   }
 `;
 
-export default FirstStep;
+const NoticeMessage = styled.div`
+  display: flex;
+  background: ${colors.gray3};
+  border-radius: 8px;
+  padding: 14px 27px 19px 12px;
+  margin-top: 28px;
+  .left {
+    flex: 1;
+    display: flex;
+  }
+  .imgBox {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+  }
+  .boldText {
+    padding-top: 2px;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+  .right {
+    flex: 1;
+  }
+  .text {
+    padding-top: 2px;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray7};
+    padding-left: 32px;
+  }
+  @media (max-width: 899.25pt) {
+    display: block;
+    .left {
+    }
+    .imgBox {
+      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+    }
+    .boldText {
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .right {
+    }
+    .text {
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+`;

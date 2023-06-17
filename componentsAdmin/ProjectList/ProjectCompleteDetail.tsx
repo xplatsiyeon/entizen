@@ -580,6 +580,7 @@ const ProjectCompleteDetail = ({
     );
 
   useEffect(() => {
+    console.log('data : ', data);
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
 
@@ -838,6 +839,29 @@ const ProjectCompleteDetail = ({
                 )}
               </Contents>
             </List>
+            {/* 충전기 중요도 추가 항목 jungmin */}
+            {/* <List>
+              <Label>충전기 중요도 1순위</Label>
+              <Contents>
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationPurpose,
+                )}
+              </Contents>
+            </List>
+            <List>
+              <Label>충전기 중요도 2순위</Label>
+              <Contents>
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationPurpose,
+                )}
+              </Contents>
+            </List> */}
             <List>
               <Label>기타 요청사항</Label>
               <TextBox

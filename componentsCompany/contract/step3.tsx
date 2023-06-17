@@ -8,7 +8,7 @@ import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { inputPriceFormat } from 'utils/calculatePackage';
+import { commaInputLastFocus, inputPriceFormat } from 'utils/calculatePackage';
 import { FinalQuotation } from 'QueryComponents/CompanyQuery';
 
 type Props = {
@@ -64,6 +64,7 @@ export default function Step3({ data }: Props) {
               <Name>구독료</Name>
               <span>
                 <input
+                  onMouseDown={commaInputLastFocus}
                   type={'text'}
                   placeholder="0"
                   value={extensionSubscriptionFee[index]}

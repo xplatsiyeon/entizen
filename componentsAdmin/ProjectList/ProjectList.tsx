@@ -220,6 +220,7 @@ const ProjectList = ({ setNowHeight }: Props) => {
           </CheckBoxWrapper>
         </li>
       </Manager>
+      {/* 리스트 목록 */}
       <ProjectListTable
         searchType={searchTypeEn[selectedFilter]}
         setDetailId={setDetailId}

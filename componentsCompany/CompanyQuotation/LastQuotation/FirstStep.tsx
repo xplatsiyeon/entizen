@@ -443,6 +443,7 @@ const FirstStep = ({
               <div className="withAfter">충전소 설치비</div>
               <div className="monthFlex">
                 <Input
+                  onMouseDown={commaInputLastFocus}
                   onChange={(e) => {
                     if (e.target.value[0] !== '0') {
                       setChargingStationInstallationPrice(

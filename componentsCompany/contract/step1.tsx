@@ -8,7 +8,7 @@ import { contractAction } from 'storeCompany/contract';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { inputPriceFormat } from 'utils/calculatePackage';
+import { commaInputLastFocus, inputPriceFormat } from 'utils/calculatePackage';
 import { FinalQuotation } from 'QueryComponents/CompanyQuery';
 import { useMediaQuery } from 'react-responsive';
 
@@ -61,6 +61,7 @@ export default function Step1({ data }: Props) {
               <Name>제품 가격</Name>
               <span>
                 <input
+                  onMouseDown={commaInputLastFocus}
                   onChange={(e) =>
                     dispatch(
                       contractAction.setProductPrice([
@@ -80,6 +81,7 @@ export default function Step1({ data }: Props) {
               <Name>설치공사비</Name>
               <span>
                 <input
+                  onMouseDown={commaInputLastFocus}
                   onChange={(e) =>
                     dispatch(
                       contractAction.setInstallationCost([

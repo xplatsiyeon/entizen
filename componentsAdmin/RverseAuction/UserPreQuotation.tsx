@@ -147,7 +147,7 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
     });
   };
 
-  // console.log('data=>', data);
+  console.log('data=>', data);
 
   return (
     <Background>
@@ -275,6 +275,27 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
             )}
           </DetailText>
         </FlexList>
+        {/* 충전기 중요도 추가 항목 jungmin */}
+        {/* <FlexList>
+          <DetailText type={'left'}>충전기 중요도 1순위</DetailText>
+          <DetailText type={'right'}>
+            {convertKo(
+              InstallationPurposeType,
+              InstallationPurposeTypeEn,
+              data?.installationPurpose,
+            )}
+          </DetailText>
+        </FlexList>
+        <FlexList>
+          <DetailText type={'left'}>충전기 중요도 2순위</DetailText>
+          <DetailText type={'right'}>
+            {convertKo(
+              InstallationPurposeType,
+              InstallationPurposeTypeEn,
+              data?.installationPurpose,
+            )}
+          </DetailText>
+        </FlexList> */}
         <FlexList3>
           <DetailText type={'left'}>기타요청사항</DetailText>
           {data?.etcRequest?.length === 0 ? (
