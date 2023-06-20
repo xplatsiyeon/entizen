@@ -13,6 +13,8 @@ import {
   M6_LIST_EN,
   M7_LIST,
   M7_LIST_EN,
+  quotationRequestInstallationPointsType,
+  quotationRequestInstallationPointsTypeEn,
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
@@ -28,7 +30,15 @@ import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import LogContainer from 'componentsAdmin/LogContainer';
 import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
-
+interface QuotationRequestInstallationPoints {
+  createdAt: string;
+  deletedAt: string;
+  point: string;
+  quotationRequestIdx: number;
+  quotationRequestInstallationPointIdx: number;
+  rank: number;
+  updatedAt: string;
+}
 export interface QuotationRequest {
   quotationRequestIdx: number;
   expiredAt: string;
@@ -46,6 +56,7 @@ export interface QuotationRequest {
     name: string;
     phone: string;
   };
+  quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
   quotationRequestChargers: [
     {
       quotationRequestChargerIdx: number;
@@ -275,27 +286,22 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
             )}
           </DetailText>
         </FlexList>
-        {/* 충전기 중요도 추가 항목 jungmin */}
-        {/* <FlexList>
-          <DetailText type={'left'}>충전기 중요도 1순위</DetailText>
-          <DetailText type={'right'}>
-            {convertKo(
-              InstallationPurposeType,
-              InstallationPurposeTypeEn,
-              data?.installationPurpose,
-            )}
-          </DetailText>
-        </FlexList>
-        <FlexList>
-          <DetailText type={'left'}>충전기 중요도 2순위</DetailText>
-          <DetailText type={'right'}>
-            {convertKo(
-              InstallationPurposeType,
-              InstallationPurposeTypeEn,
-              data?.installationPurpose,
-            )}
-          </DetailText>
-        </FlexList> */}
+        {/* 충전기 중요도 추가 항목 */}
+        {data?.quotationRequestInstallationPoints.map((point, idx) => (
+          <FlexList key={idx}>
+            <DetailText type={'left'}>
+              충전기 중요도 {point.rank}순위
+            </DetailText>
+            <DetailText type={'right'}>
+              {convertKo(
+                quotationRequestInstallationPointsType,
+                quotationRequestInstallationPointsTypeEn,
+                point.point,
+              )}
+            </DetailText>
+          </FlexList>
+        ))}
+
         <FlexList3>
           <DetailText type={'left'}>기타요청사항</DetailText>
           {data?.etcRequest?.length === 0 ? (

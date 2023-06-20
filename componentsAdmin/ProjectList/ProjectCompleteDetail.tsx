@@ -18,6 +18,8 @@ import {
   M6_LIST_EN,
   M7_LIST,
   M7_LIST_EN,
+  quotationRequestInstallationPointsType,
+  quotationRequestInstallationPointsTypeEn,
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
@@ -58,6 +60,15 @@ type Props = {
 
 interface documentResponse {
   embeddedUrl: string;
+}
+interface QuotationRequestInstallationPoints {
+  createdAt: string;
+  deletedAt: string;
+  point: string;
+  quotationRequestIdx: number;
+  quotationRequestInstallationPointIdx: number;
+  rank: number;
+  updatedAt: string;
 }
 
 // '',YYYY-MM-DD | CHANGING
@@ -161,6 +172,7 @@ interface ProjectDetailResponse {
             quotationRequestIdx: number;
             installationPurpose: string;
             etcRequest: string;
+            quotationRequestInstallationPoints: QuotationRequestInstallationPoints[];
           };
         };
         finalQuotationChargers: {
@@ -839,29 +851,21 @@ const ProjectCompleteDetail = ({
                 )}
               </Contents>
             </List>
-            {/* 충전기 중요도 추가 항목 jungmin */}
-            {/* <List>
-              <Label>충전기 중요도 1순위</Label>
-              <Contents>
-                {convertKo(
-                  InstallationPurposeType,
-                  InstallationPurposeTypeEn,
-                  data?.data?.project?.finalQuotation?.preQuotation
-                    ?.quotationRequest?.installationPurpose,
-                )}
-              </Contents>
-            </List>
-            <List>
-              <Label>충전기 중요도 2순위</Label>
-              <Contents>
-                {convertKo(
-                  InstallationPurposeType,
-                  InstallationPurposeTypeEn,
-                  data?.data?.project?.finalQuotation?.preQuotation
-                    ?.quotationRequest?.installationPurpose,
-                )}
-              </Contents>
-            </List> */}
+            {/* 충전기 중요도 추가 항목 */}
+            {data?.data.project.finalQuotation.preQuotation.quotationRequest.quotationRequestInstallationPoints.map(
+              (point, idx) => (
+                <List key={idx}>
+                  <Label>충전기 중요도 {point.rank}순위</Label>
+                  <Contents>
+                    {convertKo(
+                      quotationRequestInstallationPointsType,
+                      quotationRequestInstallationPointsTypeEn,
+                      point.point,
+                    )}
+                  </Contents>
+                </List>
+              ),
+            )}
             <List>
               <Label>기타 요청사항</Label>
               <TextBox

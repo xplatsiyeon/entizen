@@ -114,5 +114,26 @@ export const InstallationPurposeTypeEn: string[] = [
   'ETC',
 ];
 
+export const quotationRequestInstallationPointsType: string[] = [
+  '가격',
+  'A/S',
+  '품질',
+  '편의성',
+  '디자인',
+  '납기',
+  '보증기간',
+  '충전수익',
+];
+export const quotationRequestInstallationPointsTypeEn: string[] = [
+  'PRICE',
+  'AS',
+  'QUALITY',
+  'CONVENIENCE',
+  'DESIGN',
+  'DEADLINE',
+  'GUARANTEE',
+  'BENEFIT',
+];
+
 export const location: string[] = ['건물 안', '건물 밖'];
 export const locationEn: string[] = ['INSIDE', 'OUTSIDE'];
