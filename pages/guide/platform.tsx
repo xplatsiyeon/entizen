@@ -322,9 +322,10 @@ const ModalBox = styled(Box)`
 const TabBox = styled.div`
   display: flex;
   justify-content: start;
-  padding: 0 200pt 12pt 200pt;
-  width: 105%;
-
+  /* padding: 0 200pt 12pt 200pt;
+  width: 105%; */
+  max-width: 860px;
+  margin: 0 auto;
   font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899.25pt) {

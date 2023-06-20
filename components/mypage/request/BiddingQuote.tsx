@@ -1284,6 +1284,7 @@ const WebLeftPhotos = styled.div<{ index: number; chargeIdx: number }>`
 
 const WebLeftPhotoBox = styled.div`
   @media (min-width: 900pt) {
+    border: 0.75pt solid ${colors.gray};
     width: 508.5pt;
     height: 396pt;
     border-radius: 12pt;

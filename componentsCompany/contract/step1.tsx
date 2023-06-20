@@ -136,7 +136,8 @@ const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 700;
-  font-size: 35.5pt;
+  /* font-size: 35.5pt; */
+  font-size: 34px;
   line-height: 35.5pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};

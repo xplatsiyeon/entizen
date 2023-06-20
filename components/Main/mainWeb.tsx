@@ -28,6 +28,7 @@ import UserRightMenu from 'components/UserRightMenu';
 import MainSlider from 'components/MainSlider';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import userAddressHooks from 'hooks/userAddressHooks';
+import colors from 'styles/colors';
 
 const Main = () => {
   const router = useRouter();
@@ -172,14 +173,14 @@ const Wrapper = styled.div`
     }
     ::-webkit-scrollbar-track {
       // 뒷배경
-      background: rgba(33, 122, 244, 0.1);
+      /* background: rgba(33, 122, 244, 0.1); */
     }
     ::-webkit-scrollbar-thumb {
       // 막대
-      /* background: #217af4; */
-      background-color: #5a2dc9;
+      /* background-color: #5a2dc9; */
+      background-color: ${colors.gray};
 
-      box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3);
+      /* box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3); */
       border-radius: 7.5pt;
       height: 15%;
     }

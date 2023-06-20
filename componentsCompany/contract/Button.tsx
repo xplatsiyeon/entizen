@@ -86,5 +86,8 @@ const Btn = styled.button<{ prev?: boolean; isValid?: boolean }>`
     border-radius: 0;
     margin-right: auto;
     max-height: auto;
+    &.prev {
+      margin-right: 0;
+    }
   }
 `;
