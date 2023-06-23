@@ -99,8 +99,7 @@ const FirstStep = ({
         </span>
         <span className="right">
           <p className="text">
-            완속: 모자분리, 전선루트 20m 급속: 공중가설지역, 한전불입, 전선루트
-            50m * 보조금 미신청 기준으로 가견적를 작성해주세요.
+            {`완속: 모자분리, 전선루트 20m\n 급속: 공중가설지역, 한전불입, 전선루트50m\n * 보조금 미신청 기준으로 가견적를 작성해주세요.`}
           </p>
         </span>
       </NoticeMessage>
@@ -610,9 +609,11 @@ const NoticeMessage = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.lightGray7};
     padding-left: 32px;
+    white-space: pre;
   }
   @media (max-width: 899.25pt) {
     display: block;
+    white-space: nowrap;
     .left {
     }
     .imgBox {
