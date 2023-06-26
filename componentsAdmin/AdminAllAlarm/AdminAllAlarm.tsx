@@ -7,13 +7,25 @@ import { excelDownloadFile } from 'hooks/excelDown';
 import { isTokenAdminPostApi } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import { MenuItem, Select } from '@mui/material';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
+const alertOption1 = ['전체', '구매자', '판매자'];
+const alertOption1En = ['all', 'user', 'company'];
+const alertOption2 = ['전체', '이벤트 허용 고객'];
+const alertOption2En = ['all', 'allowEvent'];
+const alertOption3 = ['전체', '이메일 전송', '푸시 전송'];
+const alertOption3En = ['all', 'email', 'app'];
+
 const AdminAllAlarm = ({ setNowHeight }: Props) => {
   const queryClient = useQueryClient();
+
+  const [selectOption1, setSelectOption1] = useState('전체');
+  const [selectOption2, setSelectOption2] = useState('전체');
+  const [selectOption3, setSelectOption3] = useState('전체');
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -61,13 +73,22 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
     onSettled: () => {},
   });
 
-  const modalPostBtnControll = () => {
+  const modalPostBtnControl = () => {
+    const index1 = alertOption1.indexOf(selectOption1);
+    const index2 = alertOption2.indexOf(selectOption2);
+    const index3 = alertOption3.indexOf(selectOption3);
     postMutate({
       url: `/admin/alerts/transmission/all`,
       data: {
         title: title,
         content: contents,
         link: link,
+        // "all" | "user" | "company"
+        target: alertOption1En[index1],
+        // "all" | "allowEvent"
+        event: alertOption2En[index2],
+        // "all" | "email" | "app"
+        method: alertOption3En[index3],
       },
     });
   };
@@ -88,6 +109,59 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
         />
       )}
       <AdminHeader type="main" title="알람" subTitle="알람 전체 전송" />
+      <FlexHorizontal>
+        <SubTitle>대상</SubTitle>
+        <SelectBoxWrap>
+          <SelectBox
+            value={selectOption1}
+            onChange={(e) => setSelectOption1(e.target.value as string)}
+          >
+            {alertOption1.map((el, idx) => (
+              <MenuItem
+                key={idx}
+                value={alertOption1[idx]}
+                onClick={() => {
+                  // setSelectedFilter(idx);
+                }}
+              >
+                {alertOption1[idx]}
+              </MenuItem>
+            ))}
+          </SelectBox>
+          <SelectBox
+            value={selectOption2}
+            onChange={(e) => setSelectOption2(e.target.value as string)}
+          >
+            {alertOption1.map((el, idx) => (
+              <MenuItem
+                key={idx}
+                value={alertOption2[idx]}
+                onClick={() => {
+                  // setSelectedFilter(idx);
+                }}
+              >
+                {alertOption2[idx]}
+              </MenuItem>
+            ))}
+          </SelectBox>
+          <SelectBox
+            value={selectOption3}
+            onChange={(e) => setSelectOption3(e.target.value as string)}
+          >
+            {alertOption3.map((el, idx) => (
+              <MenuItem
+                key={idx}
+                value={alertOption3[idx]}
+                onClick={() => {
+                  // setSelectedFilter(idx);
+                }}
+              >
+                {alertOption3[idx]}
+              </MenuItem>
+            ))}
+          </SelectBox>
+        </SelectBoxWrap>
+      </FlexHorizontal>
       <FlexHorizontal>
         <SubTitle>제목</SubTitle>
         <InputText
@@ -119,7 +193,7 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
         />
       </FlexHorizontal>
       <BtnBox>
-        <Btn onClick={modalPostBtnControll}>전송</Btn>
+        <Btn onClick={modalPostBtnControl}>전송</Btn>
       </BtnBox>
     </Wrapper>
   );
@@ -220,6 +294,7 @@ const SubTitle = styled.div`
   text-align: left;
   font-weight: 400;
   font-size: 16px;
+  min-width: 50px;
 `;
 
 const InputText = styled.textarea`
@@ -267,4 +342,14 @@ const AdminBtn = styled.button`
   line-height: 150%;
   outline: none;
   text-align: center;
+`;
+const SelectBoxWrap = styled.span`
+  display: flex;
+
+  width: 100%;
+  gap: 20px;
+`;
+const SelectBox = styled(Select)`
+  width: 100pt;
+  height: 30px;
 `;

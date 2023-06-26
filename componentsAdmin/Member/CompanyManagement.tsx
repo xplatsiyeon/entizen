@@ -217,6 +217,7 @@ const Manager = styled.ul`
     width: 946px;
   }
 `;
+
 const SelectBox = styled(Select)`
   width: 100pt;
   height: 100%;
