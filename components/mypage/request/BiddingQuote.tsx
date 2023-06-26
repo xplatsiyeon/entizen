@@ -227,99 +227,96 @@ const BiddingQuote = ({
                 ))}
               </WebRightPhotoWrapper>
             </WebFinishedPhotoWrapper>
-
-            {/* 충전소 회사 정보 */}
-            <ChareCompanyInfo>
-              {data?.member?.companyMemberAdditionalInfo
-                ?.companyLogoImageUrl !== null ? (
-                <ImageBox>
-                  <Image
-                    src={
-                      data?.member?.companyMemberAdditionalInfo
+          </TopWebRapper>
+        )}
+        {/* 충전소 회사 정보 */}
+        <ChareCompanyInfo>
+          {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl !==
+          null ? (
+            <ImageBox>
+              <Image
+                src={
+                  data?.member?.companyMemberAdditionalInfo
+                    ?.companyLogoImageUrl!
+                    ? data?.member?.companyMemberAdditionalInfo
                         ?.companyLogoImageUrl!
-                        ? data?.member?.companyMemberAdditionalInfo
-                            ?.companyLogoImageUrl!
-                        : '#'
-                    }
-                    alt="icon"
-                    priority={true}
-                    unoptimized={true}
-                    layout="fill"
-                    objectFit="cover"
-                    style={{ borderRadius: '6pt' }}
-                  />
-                </ImageBox>
-              ) : (
-                <NoImage />
-              )}
+                    : '#'
+                }
+                alt="icon"
+                priority={true}
+                unoptimized={true}
+                layout="fill"
+                objectFit="cover"
+                style={{ borderRadius: '6pt' }}
+              />
+            </ImageBox>
+          ) : (
+            <NoImage />
+          )}
 
-              <Title>
-                {data?.member?.companyMemberAdditionalInfo?.companyName}
-              </Title>
-              <WebList>
-                {/* 🍎 부분구독일경우 충전소 설치비 불러와야함 */}
-                {partSubscribe === 'PART' && (
-                  <WebItem>
-                    <span className="name">충전소 설치비</span>
-                    <span className="value">{`${PriceBasicCalculation(
-                      data?.chargingStationInstallationPrice!,
-                    )} 원`}</span>
-                  </WebItem>
-                )}
+          <Title>
+            {data?.member?.companyMemberAdditionalInfo?.companyName}
+          </Title>
+          <WebList>
+            {/* 🍎 부분구독일경우 충전소 설치비 불러와야함 */}
+            {partSubscribe === 'PART' && (
+              <WebItem>
+                <span className="name">충전소 설치비</span>
+                <span className="value">{`${PriceBasicCalculation(
+                  data?.chargingStationInstallationPrice!,
+                )} 원`}</span>
+              </WebItem>
+            )}
+            <WebItem>
+              <span className="name">월 구독료</span>
+              <span className="value">
+                {`${PriceBasicCalculation(data?.subscribePricePerMonth!)} 원`}
+              </span>
+            </WebItem>
+            <WebItem>
+              <span className="name">수익지분</span>
+              {data?.quotationRequest?.quotationRequestChargers?.length! ===
+              homeSelect?.length! ? (
+                <span className="value">-</span>
+              ) : (
+                <span className="value">{`${Math.floor(
+                  Number(data?.quotationRequest?.investRate) * 100,
+                )} %`}</span>
+              )}
+            </WebItem>
+            <WebItem>
+              <span className="name">공사기간</span>
+              <span className="value">
+                {data?.constructionPeriod
+                  ?.toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                일
+              </span>
+            </WebItem>
+            {/* 🍎 충전기 제조사 1개 일 때 */}
+            {data?.preQuotationChargers?.length! === 1 && (
+              <>
                 <WebItem>
-                  <span className="name">월 구독료</span>
-                  <span className="value">
-                    {`${PriceBasicCalculation(
-                      data?.subscribePricePerMonth!,
-                    )} 원`}
-                  </span>
-                </WebItem>
-                <WebItem>
-                  <span className="name">수익지분</span>
-                  {data?.quotationRequest?.quotationRequestChargers?.length! ===
-                  homeSelect?.length! ? (
-                    <span className="value">-</span>
+                  <span className="name">충전요금</span>
+                  {data?.preQuotationChargers[0]?.chargePriceType ===
+                  'PURCHASER_AUTONOMY' ? (
+                    <span className="value">구매자 자율</span>
                   ) : (
-                    <span className="value">{`${Math.floor(
-                      Number(data?.quotationRequest?.investRate) * 100,
-                    )} %`}</span>
+                    <span className="value">
+                      {data?.preQuotationChargers[0].chargePrice}원 / kW
+                    </span>
                   )}
                 </WebItem>
                 <WebItem>
-                  <span className="name">공사기간</span>
+                  <span className="name">충전기 제조사</span>
                   <span className="value">
-                    {data?.constructionPeriod
-                      ?.toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                    일
+                    {data?.preQuotationChargers[0].manufacturer}
                   </span>
                 </WebItem>
-                {/* 🍎 충전기 제조사 1개 일 때 */}
-                {data?.preQuotationChargers?.length! === 1 && (
-                  <>
-                    <WebItem>
-                      <span className="name">충전요금</span>
-                      {data?.preQuotationChargers[0]?.chargePriceType ===
-                      'PURCHASER_AUTONOMY' ? (
-                        <span className="value">구매자 자율</span>
-                      ) : (
-                        <span className="value">
-                          {data?.preQuotationChargers[0].chargePrice}원 / kW
-                        </span>
-                      )}
-                    </WebItem>
-                    <WebItem>
-                      <span className="name">충전기 제조사</span>
-                      <span className="value">
-                        {data?.preQuotationChargers[0].manufacturer}
-                      </span>
-                    </WebItem>
-                  </>
-                )}
-              </WebList>
-            </ChareCompanyInfo>
-          </TopWebRapper>
-        )}
+              </>
+            )}
+          </WebList>
+        </ChareCompanyInfo>
 
         <>
           {mobile && (
@@ -367,9 +364,9 @@ const BiddingQuote = ({
                   <span className="name">수익지분</span>
                   {data?.quotationRequest?.quotationRequestChargers?.length! ===
                   homeSelect?.length! ? (
-                    <span className="text">-</span>
+                    <span className="value">-</span>
                   ) : (
-                    <span className="text">{`${Math.floor(
+                    <span className="value">{`${Math.floor(
                       Number(data?.quotationRequest?.investRate) * 100,
                     )} %`}</span>
                   )}
@@ -549,7 +546,8 @@ const BiddingQuote = ({
                 )}
             </>
           )}
-          <Line style={{ marginTop: '30pt' }} />
+          {/* <Line style={{ marginTop: '30pt' }} /> */}
+          <Line />
           <Section className="borderOn">
             <Subtitle>특장점</Subtitle>
             <FlexWrap>
@@ -865,6 +863,7 @@ const Section = styled.section<{
   pb?: number;
   length?: boolean;
 }>`
+  /* border: 1px solid red; */
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   :not(:last-child) {
@@ -985,6 +984,7 @@ const Item = styled.li`
     color: ${colors.gray2};
     flex: 1;
     font-family: 'Spoqa Han Sans Neo';
+
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
