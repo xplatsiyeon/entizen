@@ -15,11 +15,7 @@ const Footer = (props: Props) => {
         <InfoWrapper>
           <LabelBox>
             <Labels>대표자</Labels>
-            {/* <Labels>사업자 등록번호</Labels> */}
-            {/* <Labels>호스팅 사업자</Labels> */}
             <Labels>사업자 등록번호</Labels>
-            {/* <Labels>이메일</Labels> */}
-            {/* <Labels>고객센터</Labels> */}
             <Labels>주소</Labels>
             <Labels>이메일</Labels>
             <Labels>고객센터</Labels>
@@ -28,14 +24,10 @@ const Footer = (props: Props) => {
           </LabelBox>
           <InfoBox>
             <Infos>구자균</Infos>
-            {/* <Infos>0000-000-0000</Infos> */}
-            {/* <Infos>블라블라</Infos> */}
             <Infos>116-81-19273</Infos>
-            {/* <Infos>블라블라@블라</Infos> */}
-            {/* <Infos>0000-0000</Infos> */}
             <Infos>경기도 안양시 동안구 엘에스로 127(호계동)</Infos>
-            <Infos>entizen@entizen.kr</Infos>
-            <Infos>010-9818-8856</Infos>
+            <Infos>help@entizen.kr</Infos>
+            <Infos>1544-6811</Infos>
             <Infos>
               평일 09:00~17:00
               <br />
@@ -133,6 +125,9 @@ const Container = styled.div`
 
 const FooterBox = styled.div`
   margin: 35.25pt 40.5pt 81.75pt 39.75pt;
+  @media (max-width: 899.25pt) {
+    margin: 35.25pt 35.33pt 81.75pt 35.33pt;
+  }
 `;
 
 const CompanyName = styled.div`

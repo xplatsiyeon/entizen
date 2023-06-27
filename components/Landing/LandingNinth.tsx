@@ -35,7 +35,7 @@ const LandingNinth = () => {
               setTimeout(function () {
                 setMailOn(false);
               }, 2000);
-              handleCopyEmail('entizen@entizen.kr');
+              handleCopyEmail('help@entizen.kr');
             }}
           >
             <Image src={MobileArrow} />
@@ -71,7 +71,7 @@ const LandingNinth = () => {
                   setTimeout(function () {
                     setMailOn(false);
                   }, 2000);
-                  handleCopyEmail('entizen@entizen.kr');
+                  handleCopyEmail('help@entizen.kr');
                 }}
               >
                 <Image src={Arrow} />

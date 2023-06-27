@@ -213,6 +213,8 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
         pickedDate={pickedDate}
         commonBtn={'엑셀 다운로드'}
         excelUrl={excelUrl}
+        bidBtn={'입찰 내용'}
+        bidExcelUrl={excelUrl} /* jungmin 엑셀 url 수정 필요 */
         pagenationHide={false}
         processQueryString={processQueryString}
         userSearch={userSearch}

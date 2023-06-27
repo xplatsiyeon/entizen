@@ -114,10 +114,10 @@ const WebFooter = () => {
             <br />
             주소: 경기도 안양시 동안구 엘에스로 127(호계동)
             <br />
-            이메일: entizen@entizen.kr
+            이메일: help@entizen.kr
             <br />
-            고객센터: 010-9818-8856 ⎥ 운영시간: 평일 09:00 ~ 17:00 (점심시간
-            12:00 ~ 13:00 / 주말 및 공휴일 제외)
+            고객센터: 1544-6811 ⎥ 운영시간: 평일 09:00 ~ 17:00 (점심시간 12:00 ~
+            13:00 / 주말 및 공휴일 제외)
             <br />
             <br /> Copyright &copy; 2023 LS ELECTRIC Co., Ltd. All Rights
             Reserved
@@ -127,7 +127,7 @@ const WebFooter = () => {
         <Box2>
           <CallNumber>
             <p>고객센터</p>
-            <p>9818-8856</p>
+            <p>1544-6811</p>
           </CallNumber>
           <Time>
             <p> 평일 9:00~17:00</p>

@@ -85,7 +85,7 @@ const questionInPerson = () => {
                 setTimeout(function () {
                   setMailOn(false);
                 }, 2000);
-                handleCopyEmail('entizen@entizen.kr');
+                handleCopyEmail('help@entizen.kr');
               }}
             >
               이메일 문의하기
@@ -114,19 +114,17 @@ const questionInPerson = () => {
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          {/* 앱 심사로 인해 일시적으로 주석 처리 */}
-          {/* <SettingBox>
-            <SettingList
-              onClick={() => {
-                setCallBtnModal(true);
-              }}
-            >
-              전화 문의하기
-            </SettingList>
+          {/* 전화 문의하기 */}
+          <SettingBox
+            onClick={() => {
+              setCallBtnModal(true);
+            }}
+          >
+            <SettingList>전화 문의하기</SettingList>
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
-          </SettingBox> */}
+          </SettingBox>
           <MailCopyBtn mailOn={mailOn}>
             이메일 주소가 복사 되었습니다.
           </MailCopyBtn>

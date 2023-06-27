@@ -154,7 +154,7 @@ const HamburgerMenu = ({ st }: Props) => {
             </span>
           </WhiteAreaBottomMenus>
           <WhiteAreaBottomText>
-            <span>고객센터 | 9818-8856</span>
+            <span>고객센터 | 1544-6811</span>
             <span onClick={() => router.push('/setting')}>설정</span>
           </WhiteAreaBottomText>
         </WhiteArea>

@@ -28,6 +28,8 @@ type Props = {
   detatilId?: string;
   commonBtn?: string;
   excelUrl?: string;
+  bidBtn?: string;
+  bidExcelUrl?: string;
   hide?: boolean;
   pagenationHide?: boolean;
   processQueryString?: string;
@@ -41,6 +43,8 @@ const ReverseAuctionTable = ({
   detatilId,
   pickedDate,
   commonBtn,
+  bidBtn,
+  bidExcelUrl,
   excelUrl,
   hide,
   pagenationHide,
@@ -267,14 +271,24 @@ const ReverseAuctionTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>
-        <Button
-          onClick={() => {
-            excelDownloadFile(excelUrl!, accessToken);
-          }}
-          hide={hide}
-        >
-          {commonBtn}
-        </Button>
+        <ButtonWrap>
+          <Button
+            onClick={() => {
+              excelDownloadFile(bidExcelUrl!, accessToken);
+            }}
+            hide={hide}
+          >
+            {bidBtn}
+          </Button>
+          <Button
+            onClick={() => {
+              excelDownloadFile(excelUrl!, accessToken);
+            }}
+            hide={hide}
+          >
+            {commonBtn}
+          </Button>
+        </ButtonWrap>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
@@ -410,69 +424,7 @@ const Div = styled.div`
   height: 490px;
 `;
 
-const BtnGap = styled.div`
+const ButtonWrap = styled.span`
   display: flex;
   gap: 10px;
-`;
-
-const LibraryImage = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const TitleBox = styled.div`
-  background-color: #fbfcff;
-  border: 1px solid #e2e5ed;
-  padding: 8px 10px;
-  width: 200px;
-  height: 82px;
-  overflow-y: scroll;
-  text-align: center;
-
-  display: flex;
-  align-items: center;
-`;
-
-const LinkBox = styled.div`
-  background-color: #fbfcff;
-  border: 1px solid #e2e5ed;
-  padding: 8px 10px;
-  width: 394px;
-  height: 82px;
-  overflow-y: scroll;
-  text-align: center;
-  display: flex;
-  align-items: center;
-`;
-
-const ToggleContainer = styled.div`
-  position: absolute;
-  left: 44%;
-  top: 30%;
-`;
-
-const ToggleBtn = styled.button<{ visible?: boolean }>`
-  width: 36px;
-  height: 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: ${({ visible }) => (visible ? '#ffc043' : '#747780')};
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.5s ease-in-out;
-`;
-
-const Circle = styled.div<{ visible?: boolean }>`
-  background-color: white;
-  width: 14px;
-  height: 14px;
-  border-radius: 10px;
-  position: absolute;
-  right: ${({ visible }) => (visible ? '10%' : '55%')};
-  transition: all 0.5s ease-in-out;
 `;

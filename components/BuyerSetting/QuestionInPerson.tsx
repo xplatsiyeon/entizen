@@ -107,7 +107,7 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
               setTimeout(function () {
                 setMailOn(false);
               }, 1500);
-              handleCopyEmail('entizen@entizen.kr');
+              handleCopyEmail('help@entizen.kr');
             }}
           >
             <SettingList>이메일 문의하기</SettingList>
@@ -133,30 +133,28 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          {/* 앱 심사로 인해 일시적으로 주석 처리 */}
-          {/* <CallBox href="tel:9818-8856">
-            <SettingList
-            // onClick={() => {
-            //   setCallBtnModal(true);
-            // }}
-            >
-              전화 문의하기
-            </SettingList>
+          {/* 전화 문의하기 */}
+          <CallBox
+            onClick={() => {
+              setCallBtnModal(true);
+            }}
+          >
+            <SettingList>전화 문의하기</SettingList>
 
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
-          </CallBox> */}
+          </CallBox>
           <MailCopyBtn mailOn={mailOn}>
             이메일 주소가 복사 되었습니다.
           </MailCopyBtn>
         </Wrapper>
-        {/* {callBtnModal === true && (
+        {callBtnModal === true && (
           <CallModal
             setCallBtnModal={setCallBtnModal}
             callBtnModal={callBtnModal}
           />
-        )} */}
+        )}
       </Inner>
     </WebBody>
   );

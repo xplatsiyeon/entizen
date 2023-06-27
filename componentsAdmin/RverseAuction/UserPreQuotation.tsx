@@ -30,6 +30,7 @@ import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import LogContainer from 'componentsAdmin/LogContainer';
 import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
+import ProQuotationLogContainer from './ProQuotationLogContainer';
 interface QuotationRequestInstallationPoints {
   createdAt: string;
   deletedAt: string;
@@ -321,6 +322,8 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
             />
           )}
         </FlexList3>
+        {/* jungmin LogData 추가 작업 진행 필요 */}
+        <ProQuotationLogContainer logoData={LogData!} title={'가견적 기록'} />
         <LogContainer
           type="quotation"
           quotationData={LogData!}

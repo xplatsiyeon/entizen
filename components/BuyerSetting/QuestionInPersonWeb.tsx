@@ -41,7 +41,7 @@ const QuestionInPersonWeb = () => {
         <MainTitle>1:1 문의</MainTitle>
         <FlexWrapper>
           <SubTitle>고객센터 운영 관리</SubTitle>
-          <CallNumber>9818-8856</CallNumber>
+          <CallNumber>1544-6811</CallNumber>
         </FlexWrapper>
         <CustomerBox>
           <CustomerSapn>• 평일 10:00 ~ 17:00</CustomerSapn>
@@ -75,7 +75,7 @@ const QuestionInPersonWeb = () => {
                 setTimeout(function () {
                   setMailOn(false);
                 }, 1500);
-                handleCopyEmail('entizen@entizen.kr');
+                handleCopyEmail('help@entizen.kr');
               }}
             >
               <Image src={MailSvg} alt="Mail" />

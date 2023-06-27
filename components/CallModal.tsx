@@ -21,8 +21,8 @@ const CallModal = ({ callBtnModal, setCallBtnModal }: Props) => {
           <ImageIcon>
             <Image src={CallPng} alt="call" />
           </ImageIcon>
-          {/* 통화 9818-8856 */}
-          <a href="tel:010-4998-8965">통화 9818-8856</a>
+          {/* 통화 1544-6811 */}
+          <a href="tel:010-4998-8965">통화 1544-6811</a>
         </ButtonBox>
         <ButtonCancel
           onClick={() => {
@@ -40,7 +40,7 @@ export default CallModal;
 
 const Modal = styled.div`
   position: fixed;
-  z-index: 99;
+  z-index: 99999;
   top: 0;
   left: 0;
   right: 0;
@@ -48,13 +48,17 @@ const Modal = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   padding: 0 10pt;
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
 `;
 
 const ButtonContainer = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
-  top: 320pt;
+  margin-bottom: 30pt;
+  width: 100%;
 `;
 
 const ButtonBox = styled.div`

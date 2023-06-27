@@ -37,7 +37,7 @@ const FindIdModal = ({
       <ModalBox onSubmit={onClickBtn}>
         <Content>
           <p>담당자 변경으로 인증이 어려우실 경우 엔티즌으로 연락바랍니다.</p>
-          <h2>고객센터 9818-8856</h2>
+          <h2>고객센터 1544-6811</h2>
           <p>
             평일 10:00 ~18:00
             <br />

@@ -26,7 +26,7 @@ const LandingHeader = () => {
     setTimeout(function () {
       setMailOn(false);
     }, 2000);
-    handleCopyEmail('entizen@entizen.kr');
+    handleCopyEmail('help@entizen.kr');
   };
 
   // 엔티즌 바로가기
