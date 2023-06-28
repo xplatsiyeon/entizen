@@ -40,13 +40,9 @@ const AdLogin = () => {
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
       return await instance({
-        // headers: {
-        //   local: 'true',
-        // },
         method: 'POST',
         url: url,
         data,
-        // withCredentials: true,
       }).then((res) => res);
     },
     {
@@ -61,11 +57,9 @@ const AdLogin = () => {
           JSON.stringify(res.data.data.refreshToken),
         );
 
-        // console.log('로그인성공', res.data);
         router.push('/admin');
       },
       onError: (err) => {
-        // console.log(err);
         setErr(true);
       },
     },

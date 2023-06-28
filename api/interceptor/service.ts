@@ -22,6 +22,7 @@ instance.interceptors.request.use(async (config) => {
   console.log('config : ', config);
   if (!config.headers) return config;
   let token: string | null = null;
+
   // refresh token을 호출하는 경우는 refresh 토큰을 찾아서 token 값에 넣어준다.
   if (config.url === REFRESH_URL) {
     token = JSON.parse(sessionStorage.getItem('REFRESH_TOKEN')!);
@@ -35,21 +36,16 @@ instance.interceptors.request.use(async (config) => {
 
   // CSRF 토큰 추가
   const csrfToken = await getCookie('CSRF-TOKEN');
-  console.log('csrfToken : ', csrfToken);
-
   const bodyData = config.data;
-  console.log('bodyData : ', bodyData);
-  console.log('csrfToken : ', csrfToken);
+
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
     // 제외 항목들 추가
     if (
       config.url !== '/auth/nice' &&
       config.url !== '/auth/token' &&
       config.url !== '/auth/apple'
-      // && config.url !== '/contracts'
     ) {
       if (config.method !== 'get') {
-        console.log('config.method : ', config.method);
         // csrf 토큰 추가
         if (bodyData) {
           if (!bodyData.hasOwnProperty('csrf-token')) {

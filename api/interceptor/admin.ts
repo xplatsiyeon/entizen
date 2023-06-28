@@ -21,7 +21,6 @@ const adminInstance = axios.create({
 adminInstance.interceptors.request.use((config) => {
   console.log('config : ', config);
   if (!config.headers) return config;
-
   let token: string | null = null;
 
   // refresh token을 호출하는 경우는 refresh 토큰을 찾아서 token 값에 넣어준다.
@@ -35,24 +34,25 @@ adminInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  // CSRF 토큰 추가
   const csrfToken = getCookie('CSRF-TOKEN');
   const bodyData = config.data;
-  console.log('bodyData : ', bodyData);
-  console.log('csrfToken : ', csrfToken);
+
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
-    if (config.method !== 'get') {
-      if (bodyData) {
-        if (!bodyData.hasOwnProperty('csrf-token')) {
+    if (config.url !== '/admin/login') {
+      if (config.method !== 'get') {
+        // CSRF 토큰 추가
+        if (bodyData) {
+          if (!bodyData.hasOwnProperty('csrf-token')) {
+            config.data = {
+              ...config.data,
+              'csrf-token': csrfToken,
+            };
+          }
+        } else {
           config.data = {
-            ...config.data,
             'csrf-token': csrfToken,
           };
         }
-      } else {
-        config.data = {
-          'csrf-token': csrfToken,
-        };
       }
     }
   }
