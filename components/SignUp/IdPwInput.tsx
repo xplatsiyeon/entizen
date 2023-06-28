@@ -620,7 +620,8 @@ const IdPwInput = ({
             : false
         }
         text={'가입 완료'}
-        marginTop={77.25}
+        // marginTop={77.25}
+        marginTop={mobile ? 35.25 : 30}
         handleClick={userType === 0 ? handleClick : handleCompanyClick}
       />
       <NameInput className="nameInput" />
@@ -655,7 +656,7 @@ const Label = styled.label`
   color: ${colors.main2};
   margin-top: 49.5pt;
   @media (max-width: 899.25pt) {
-    margin-top: 0;
+    margin-top: 24pt;
   }
 `;
 
@@ -765,7 +766,8 @@ const BoxPW = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 60pt;
+  /* margin-top: 60pt; */
+  margin-top: 30pt;
   width: 100%;
   position: relative;
 `;

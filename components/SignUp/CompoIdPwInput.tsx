@@ -369,7 +369,7 @@ const CompoIdPwInput = ({
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: mobile ? '24pt' : '',
+          marginTop: mobile ? '49.5pt' : '24pt',
           width: '100%',
           position: 'relative',
         }}
@@ -469,7 +469,7 @@ const CompoIdPwInput = ({
             : false
         }
         text={'가입 완료'}
-        marginTop={77.25}
+        marginTop={mobile ? 62.25 : 77.25}
         handleClick={userType === 0 ? handleClick : handleCompanyClick}
       />
       <NameInput className="nameInput" />
@@ -502,7 +502,7 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
-  margin-top: 49.5pt;
+  /* margin-top: 49.5pt; */
   @media (max-width: 899.25pt) {
     margin-top: 0;
   }
@@ -615,9 +615,13 @@ const BoxPW = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 60pt;
+
+  margin-top: 30pt;
   width: 100%;
   position: relative;
+  @media (max-width: 899.25pt) {
+    /* margin-top: 60pt; */
+  }
 `;
 
 const ButtonText = styled(Typography)`

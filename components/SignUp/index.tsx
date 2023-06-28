@@ -39,8 +39,7 @@ const SignUpContainer = (props: Props) => {
   );
 
   // Type 0일 때 일반, 1일 때 기업 선택
-  // const [userType, setUserType] = useState<number>(-1);
-  const [userType, setUserType] = useState<number>(1);
+  const [userType, setUserType] = useState<number>(-1);
 
   // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
@@ -82,7 +81,7 @@ const SignUpContainer = (props: Props) => {
   const onClickModal = () => {
     router.push('/signUp/Complete');
   };
-  // const handleHomeClick = () => router.push('/');
+
   const handleHomeClick = () => {
     setModalOpen(true);
   };
@@ -105,10 +104,6 @@ const SignUpContainer = (props: Props) => {
       setUserType(-1);
     }
   }, [router]);
-
-  // useEffect(() => {
-  //   console.log('userType : ', userType);
-  // }, [userType]);
 
   if (router.query.token) {
     return <div></div>;

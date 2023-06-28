@@ -80,13 +80,11 @@ const ModalWrapper = styled(Box)`
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   position: fixed;
+  top: 0;
+  left: 0;
   justify-content: center;
   align-items: center;
-  z-index: 100;
-  @media (min-width: 900pt) {
-    top: 0;
-    left: 0;
-  }
+  z-index: 99999;
 `;
 
 const ModalBox = styled(Box)`
