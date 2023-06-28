@@ -10,6 +10,7 @@ import { JwtTokenType } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import instance from 'api/interceptor/service';
+import adminInstance from 'api/interceptor/admin';
 
 const AdLogin = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const AdLogin = () => {
   } = useMutation(
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
-      return await instance({
+      return await adminInstance({
         method: 'POST',
         url: url,
         data,

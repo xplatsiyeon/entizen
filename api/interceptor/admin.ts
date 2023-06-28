@@ -38,7 +38,9 @@ adminInstance.interceptors.request.use((config) => {
   const bodyData = config.data;
 
   if (config.baseURL === process.env.NEXT_PUBLIC_BASE_URL) {
-    if (config.url !== '/admin/login') {
+    console.log('config.url ->', config.url);
+    if (config.url !== '/admin/auth/login') {
+      console.log('진입');
       if (config.method !== 'get') {
         // CSRF 토큰 추가
         if (bodyData) {
