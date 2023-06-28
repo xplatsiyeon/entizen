@@ -176,7 +176,7 @@ const WebSearchAddress = ({
           onChange={handleChange}
           value={fakeWord?.length > 0 ? fakeWord : searchWord}
         />
-        {searchWord?.length > 0 ? (
+        {!isChargeInfoOpen ? (
           <span className="exitIcon">
             <Image
               onClick={() => {

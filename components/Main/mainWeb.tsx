@@ -173,15 +173,11 @@ const Wrapper = styled.div`
     }
     ::-webkit-scrollbar-track {
       // 뒷배경
-      /* background: rgba(33, 122, 244, 0.1); */
     }
     ::-webkit-scrollbar-thumb {
       // 막대
-      /* background-color: #5a2dc9; */
-      background-color: ${colors.gray};
-
-      /* box-shadow: inset 0 0 4.5pt rgba(0, 0, 0, 0.3); */
-      border-radius: 7.5pt;
+      background-color: ${colors.lightGray6};
+      border-radius: 6pt;
       height: 15%;
     }
   }

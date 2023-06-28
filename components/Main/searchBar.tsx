@@ -91,18 +91,6 @@ const Wrap = styled.ul<{ isScroll: boolean }>`
   flex-direction: column;
   z-index: 999;
   padding: 0 56.25pt;
-  /* ::-webkit-scrollbar {
-    display: initial;
-    width: 7.5pt;
-  }
-  ::-webkit-scrollbar-track {
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #caccd1;
-    border-radius: 100px;
-    height: 15%;
-  } */
-
   li {
     min-width: 324pt;
 
@@ -110,7 +98,6 @@ const Wrap = styled.ul<{ isScroll: boolean }>`
     position: relative;
     z-index: 999;
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
     border-radius: 6pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
@@ -127,7 +114,6 @@ const Wrap = styled.ul<{ isScroll: boolean }>`
   }
 
   li > p {
-    /* width: 200px; */
   }
 
   .name {
