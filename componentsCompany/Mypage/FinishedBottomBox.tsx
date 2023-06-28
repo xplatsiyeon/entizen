@@ -244,22 +244,25 @@ const FinishedBottomBox = ({ data }: Props) => {
   );
 };
 const Wrapper = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
   margin-top: 21pt;
   position: relative;
   .catalog {
-    margin-top: 18pt;
-    margin-bottom: 15pt;
-    @media (min-width: 900pt) {
-      margin-top: 30pt;
-      margin-bottom: 24pt;
-    }
+    margin-top: 30pt;
+    margin-bottom: 24pt;
   }
   .review {
     border-top: 1px solid #e9eaee;
     margin-top: 6pt;
     padding-top: 18pt;
+  }
+
+  @media (max-width: 899.25pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+    .catalog {
+      margin-top: 18pt;
+      margin-bottom: 15pt;
+    }
   }
 `;
 const ImageBox = styled.div`
@@ -461,6 +464,7 @@ const WebLeftPhotoBox = styled.div`
     // display: flex;
     // flex-direction: column;
     overflow-y: scroll;
+
     // justify-content: flex-start;
     // gap: 9pt;
     height: 330pt;
@@ -472,6 +476,7 @@ const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
     width: 60pt;
     height: 60pt;
     /* border-radius: 6pt; */
+
     margin-bottom: 8pt;
     overflow: hidden;
     border: ${({ idx, webIdx }) => idx === webIdx && `0.75pt solid #5221cb`};
@@ -491,6 +496,7 @@ const WebRightPhotoBox = styled.div`
     width: 508.5pt;
     height: 330pt;
     border-radius: 12pt;
+    border: 1px solid ${colors.gray};
     /* box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.2); */
     .imgBox {
       position: relative;

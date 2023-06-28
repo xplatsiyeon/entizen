@@ -556,7 +556,7 @@ const Mypage1_3 = ({}: any) => {
                     ) : (
                       <>
                         {/* ----------------------가견적------------------------- */}
-                        <SendTextTitle>보낸 가견적서</SendTextTitle>
+                        {/* <SendTextTitle>보낸 가견적서</SendTextTitle> */}
                         <BiddingQuote
                           data={preQuotationsData!}
                           isSpot={spotData?.data?.spotInspection ? true : false}

@@ -456,6 +456,7 @@ const WebRightPhotoBox = styled.div`
     width: 508.5pt;
     height: 330pt;
     border-radius: 12pt;
+    border: 1px solid ${colors.gray};
     /* box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.2); */
     .imgBox {
       position: relative;

@@ -106,9 +106,9 @@ const SignUpContainer = (props: Props) => {
     }
   }, [router]);
 
-  useEffect(() => {
-    console.log('userType : ', userType);
-  }, [userType]);
+  // useEffect(() => {
+  //   console.log('userType : ', userType);
+  // }, [userType]);
 
   if (router.query.token) {
     return <div></div>;

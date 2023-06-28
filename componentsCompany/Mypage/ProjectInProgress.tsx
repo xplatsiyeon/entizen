@@ -176,12 +176,14 @@ const ContentsContainer = styled.div`
   margin-top: 21pt;
   padding-left: 15pt;
   padding-right: 15pt;
-  /* padding-bottom: 75pt; */
+  padding-bottom: 75pt;
+
   @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
     grid-column-gap: 22.5pt;
     grid-row-gap: 22.5pt;
+    padding-bottom: 0;
     margin: 0 auto;
   }
 `;

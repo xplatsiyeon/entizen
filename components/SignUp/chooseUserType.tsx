@@ -420,50 +420,50 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
                   ></div>
                 </AppleWrap>
                 {/* =========================================== 소셜로그인 ========================================== */}
-                {!mobile && (
-                  <>
-                    <SubName>일반 회원 간편하게 회원가입</SubName>
-                    <AuthWrap>
-                      <Box
-                        sx={{
-                          height: '33pt',
-                          marginRight: '15pt',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <Link href={KAKAO_AUTH_URL}>
-                          <Image src={kakao} alt="kakao" />
-                        </Link>
-                      </Box>
-                      {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
-                      <Box
-                        sx={{
-                          height: '33pt',
-                          marginRight: '15pt',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => {
-                          if (appleRef.current) appleRef.current.click();
-                        }}
-                      >
-                        <Image src={apple} alt="apple" />
-                      </Box>
-                      <NaverBox>
-                        <Box ref={naverRef} id="naverIdLogin" />
-                        <Image onClick={handleNaver} src={naver} alt="naver" />
-                      </NaverBox>
-                      {/* 구글 로그인 */}
-                      <Box sx={{ height: '33pt', cursor: 'pointer' }}>
-                        <Image
-                          src={google}
-                          alt="google"
-                          onClick={onClickGoogle}
-                        />
-                      </Box>
-                    </AuthWrap>
-                    <BoldLine />
-                  </>
-                )}
+                {/* {!mobile && ( */}
+                <AuthContainer>
+                  <SubName>일반 회원 간편하게 회원가입</SubName>
+                  <AuthWrap>
+                    <Box
+                      sx={{
+                        height: '33pt',
+                        marginRight: '15pt',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <Link href={KAKAO_AUTH_URL}>
+                        <Image src={kakao} alt="kakao" />
+                      </Link>
+                    </Box>
+                    {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
+                    <Box
+                      sx={{
+                        height: '33pt',
+                        marginRight: '15pt',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        if (appleRef.current) appleRef.current.click();
+                      }}
+                    >
+                      <Image src={apple} alt="apple" />
+                    </Box>
+                    <NaverBox>
+                      <Box ref={naverRef} id="naverIdLogin" />
+                      <Image onClick={handleNaver} src={naver} alt="naver" />
+                    </NaverBox>
+                    {/* 구글 로그인 */}
+                    <Box sx={{ height: '33pt', cursor: 'pointer' }}>
+                      <Image
+                        src={google}
+                        alt="google"
+                        onClick={onClickGoogle}
+                      />
+                    </Box>
+                  </AuthWrap>
+                  <BoldLine />
+                </AuthContainer>
+                {/* )} */}
                 {/* ===================================================================================== */}
               </>
             )}
@@ -579,6 +579,11 @@ const BoldLine = styled.div`
   position: absolute;
   left: 0;
   bottom: 296px;
+`;
+const AuthContainer = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
 `;
 
 const AuthWrap = styled.div`

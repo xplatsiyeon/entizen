@@ -19,7 +19,11 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
-import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
+import {
+  commaInputLastFocus,
+  getByteSize,
+  inputPriceFormat,
+} from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { chargers } from 'storeCompany/finalQuotation';
@@ -546,6 +550,7 @@ const SecondStep = ({
             <InputBox>
               <div>
                 <Input
+                  onMouseDown={commaInputLastFocus}
                   onChange={onChangeInput}
                   placeholder="0"
                   value={selectedOptionEn[tabNumber - 1]?.chargePrice}

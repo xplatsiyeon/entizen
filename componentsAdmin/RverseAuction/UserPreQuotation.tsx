@@ -323,7 +323,7 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
           )}
         </FlexList3>
         {/* jungmin LogData 추가 작업 진행 필요 */}
-        <ProQuotationLogContainer logoData={LogData!} title={'가견적 기록'} />
+        {/* <ProQuotationLogContainer logoData={LogData!} title={'가견적 기록'} /> */}
         <LogContainer
           type="quotation"
           quotationData={LogData!}
