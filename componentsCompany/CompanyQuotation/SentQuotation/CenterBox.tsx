@@ -252,7 +252,9 @@ const ReservationDate = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12pt 25.875pt;
+    /* padding: 12pt 25.875pt; */
+    width: 188px;
+    height: 44px;
     border-radius: 67.5pt;
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
@@ -275,6 +277,11 @@ const ReservationDate = styled.div`
       border-radius: 12pt;
       padding: 6pt 9pt;
       font-size: 10pt;
+    }
+    .btnBox > .btn {
+      width: 128px;
+      height: 32px;
+      font-size: 14px;
     }
   }
 `;
