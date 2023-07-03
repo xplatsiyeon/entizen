@@ -272,14 +272,16 @@ const ReverseAuctionTable = ({
       <FlexBox>
         <P>결과 {length}</P>
         <ButtonWrap>
-          {/* <Button
+          {/* 입찰 내역 다운로드 */}
+          <Button
             onClick={() => {
-              excelDownloadFile(bidExcelUrl!, accessToken);
+              excelDownloadFile(ExcelUrl!, accessToken);
             }}
             hide={hide}
           >
             {bidBtn}
-          </Button> */}
+          </Button>
+          {/* 엑셀 다운로드 */}
           <Button
             onClick={() => {
               excelDownloadFile(excelUrl!, accessToken);
