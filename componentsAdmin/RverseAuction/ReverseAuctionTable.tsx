@@ -275,7 +275,7 @@ const ReverseAuctionTable = ({
           {/* 입찰 내역 다운로드 */}
           <Button
             onClick={() => {
-              excelDownloadFile(ExcelUrl!, accessToken);
+              excelDownloadFile(bidExcelUrl!, accessToken);
             }}
             hide={hide}
           >
