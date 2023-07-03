@@ -291,6 +291,31 @@ const SubsidyGuide = () => {
     }
   }, [clicked, selectedOption, selectedRegion, isValid]);
 
+  // 런칭 임시
+  // return (
+  //   <Body>
+  //     <WebHeader num={3} now={'guide'} sub={'guide'} />
+  //     {mobile && (
+  //       <GuideHeader
+  //         title={'보조금 가이드'}
+  //         leftOnClick={() => router.back()}
+  //         rightOnClick={() => router.push('/')}
+  //       />
+  //     )}
+  //     <LoaderWrap>
+  //       <Loader></Loader>
+  //       <h3>서비스 준비 중입니다</h3>
+  //       {mobile ? (
+  //         <p>{`신청 가능한 보조금을\n모두 조회하고 비교하여, 받을 수 있는\n최대 보조금을 확인할 수 있습니다.`}</p>
+  //       ) : (
+  //         <p>{`신청 가능한 보조금을 모두 조회하고 비교하여,\n받을 수 있는 최대 보조금을 확인할 수 있습니다.`}</p>
+  //       )}
+  //     </LoaderWrap>
+  //     <WebFooter />
+  //   </Body>
+  // );
+
+  // 임시로 막기
   return (
     <Body>
       {isModal && (
@@ -444,4 +469,49 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
     width: 100%;
     border-radius: 0pt;
   }
+`;
+
+// 임시 로더
+const LoaderWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 148px;
+  padding-bottom: 128px;
+  h3 {
+    color: var(--b, #222);
+    text-align: center;
+    font-size: 26px;
+    font-family: Spoqa Han Sans Neo;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: -0.52px;
+    margin-top: 48px;
+  }
+  p {
+    color: #747780;
+    text-align: center;
+    font-size: 16px;
+    font-family: Spoqa Han Sans Neo;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    white-space: pre;
+    margin-top: 16px;
+  }
+  @media (max-width: 899.25pt) {
+    h3 {
+      font-size: 24px;
+      line-height: 32px;
+      letter-spacing: -0.48px;
+    }
+  }
+`;
+const Loader = styled.span`
+  width: 88px;
+  height: 88px;
+  background-color: red;
 `;
