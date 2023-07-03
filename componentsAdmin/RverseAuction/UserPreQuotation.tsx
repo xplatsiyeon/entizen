@@ -30,7 +30,7 @@ import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import LogContainer from 'componentsAdmin/LogContainer';
 import { QuotationsLog, QuotationsLogResponse } from 'types/admin';
-import ProQuotationLogContainer from './ProQuotationLogContainer';
+import { excelDownloadFile } from 'hooks/excelDown';
 interface QuotationRequestInstallationPoints {
   createdAt: string;
   deletedAt: string;
@@ -82,15 +82,11 @@ type Props = {
 };
 
 const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
-  // --------------------- AS detail API ------------------------------
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const routerId = 330;
   const queryClinet = useQueryClient();
-  // const routerId = 329;
-  // 수정 등록 버튼 누를때 나오는 모달창
-  const [messageModal, setMessageModal] = useState<boolean>(false);
-  // 경고창에 보내는 메세지
-  const [message, setMessage] = useState('');
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const [messageModal, setMessageModal] = useState<boolean>(false); // 수정 등록 버튼 누를때 나오는 모달창
+  const [message, setMessage] = useState(''); // 경고창에 보내는 메세지
+  const [elseText, setElseText] = useState<string>(''); // 기타요청 사항 받는 set 함수
 
   const { data, isLoading, isError, error } = useQuery<
     UserPreQuotationResponse,
@@ -128,13 +124,6 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
     },
   );
 
-  // 기타요청 사항 받는 set 함수
-  const [elseText, setElseText] = useState<string>('');
-  // 달력 날짜 변경 함수
-  const handleDateChange = () => {};
-
-  const expiredAt = dateFomat(data?.expiredAt!).substring(0, 12);
-
   // 간편견적 삭제
   const {
     mutate: patchCancelMutate,
@@ -159,7 +148,8 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
     });
   };
 
-  console.log('data=>', data);
+  // 간편견적 입찰 내역 다운로드
+  const excelUrl = `/admin/quotations/quotation-requests/${data?.quotationRequestIdx}/downloads`;
 
   return (
     <Background>
@@ -176,11 +166,12 @@ const UserPreQuotation = ({ detatilId, setIsDetail }: Props) => {
         <TwoBtn>
           <Btn
             onClick={() => {
-              alert('개발중입니다.');
+              excelDownloadFile(excelUrl!, accessToken);
             }}
           >
-            수정
+            입찰 내용
           </Btn>
+
           <Btn
             onClick={() => {
               prequotationCancel();

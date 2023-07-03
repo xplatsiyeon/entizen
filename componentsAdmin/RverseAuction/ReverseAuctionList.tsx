@@ -94,13 +94,14 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
     },
   ]);
   const dateRef = useRef<HTMLLIElement>(null);
-  const today = new Date();
+  // 엑셀 다운로드
   const excelUrl = `/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
     dateState[0].startDate!,
   )}&endDate=${adminDateFomat(
     dateState[0].endDate!,
   )}&searchKeyword=&inProgressStatuses[]=`;
-  const bidExcelUrl = `/api/admin/quotations/quotation-requests/downloads/bid?page=1&limit=1000&startDate=${adminDateFomat(
+  // 간편견적 입찰 내역 리스트 다운로드
+  const bidExcelUrl = `/admin/quotations/quotation-requests/downloads/bid?page=1&limit=1000&startDate=${adminDateFomat(
     dateState[0].startDate!,
   )}&endDate=${adminDateFomat(
     dateState[0].endDate!,

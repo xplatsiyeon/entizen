@@ -14,6 +14,7 @@ export const excelDownloadFile = async (
 
     responseType: 'blob', // 응답 데이터 타입 정의
     headers: {
+      local: process.env.NEXT_PUBLIC_LOCAL!,
       Authorization: `Bearer ${accessToken}`,
     },
   }).then((res) => {
