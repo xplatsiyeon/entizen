@@ -656,7 +656,7 @@ const Signin = () => {
                   <ContainerBox>
                     <TextFields
                       type="text"
-                      autoComplete="new-password"
+                      // autoComplete="new-password"
                       value={userId}
                       id="outlined-basic"
                       placeholder={
@@ -668,7 +668,7 @@ const Signin = () => {
                     />
                     <TextFields
                       type="password"
-                      autoComplete="new-password"
+                      // autoComplete="new-password"
                       value={password}
                       id="outlined-basic"
                       placeholder="비밀번호 입력"
