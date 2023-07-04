@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import Progress from '../projectProgress';
 import { contractAction } from 'storeCompany/contract';
+import { useQueryClient } from 'react-query';
 
 type Props = {};
 export interface Data {
@@ -33,6 +34,7 @@ export interface Data {
 const RunningProgress = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [open, setOpen] = useState<boolean>(false);
@@ -103,6 +105,7 @@ const RunningProgress = (props: Props) => {
   // 계약서 추가 내용 리셋 시키기
   useEffect(() => {
     dispatch(contractAction.reset());
+    queryClient.removeQueries('addContracts');
   }, []);
 
   useEffect(() => {

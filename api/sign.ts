@@ -23,8 +23,10 @@ export const moduSign = ({
   data: data,
   newContractData: newContractData,
 }: Props) => {
-  console.log('data===>>');
+  console.log('data =>');
   console.log(data);
+  console.log('newContractData =>');
+  console.log(newContractData);
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
   const projectInProgress = data?.project;
@@ -774,7 +776,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[0]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -788,7 +792,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[1]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -802,7 +808,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[2]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -816,7 +824,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[3]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -830,7 +840,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[4]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -1145,7 +1157,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[0]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -1162,7 +1176,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[1]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -1179,7 +1195,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[2]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -1196,7 +1214,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[3]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',
@@ -1213,7 +1233,9 @@ export const moduSign = ({
                   ) *
                     Number(chargerString[4]?.count) *
                     Number(
-                      projectInProgress?.finalQuotation?.constructionPeriod,
+                      // projectInProgress?.finalQuotation?.constructionPeriod,
+                      projectInProgress?.finalQuotation?.quotationRequest
+                        ?.subscribePeriod,
                     ),
                 )
               : '',

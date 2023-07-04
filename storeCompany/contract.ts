@@ -40,6 +40,26 @@ const slice = createSlice({
   name: 'contract',
   initialState,
   reducers: {
+    setAllData(state, action: PayloadAction<ContractState>) {
+      (state.step = action.payload.step),
+        (state.productPrice = action.payload.productPrice),
+        (state.installationCost = action.payload.installationCost),
+        (state.subscriptionFee = action.payload.subscriptionFee),
+        (state.extensionSubscriptionFee =
+          action.payload.extensionSubscriptionFee),
+        (state.otherSpecifics = action.payload.otherSpecifics),
+        (state.productExplanation = action.payload.productExplanation),
+        (state.invoiceDeliveryDate = action.payload.invoiceDeliveryDate),
+        (state.subscriptionPaymentDate =
+          action.payload.subscriptionPaymentDate),
+        (state.deadlineDate = action.payload.deadlineDate),
+        (state.paymentDeadlineDate = action.payload.paymentDeadlineDate),
+        (state.handlingFee = action.payload.handlingFee),
+        (state.penalty = action.payload.penalty),
+        (state.companyRegistrationNumber =
+          action.payload.companyRegistrationNumber),
+        (state.representativeName = action.payload.representativeName);
+    },
     setStep(state, action: PayloadAction<number>) {
       state.step = action.payload;
     },

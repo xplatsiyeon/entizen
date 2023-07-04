@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { deleteSign } from 'api/deleteSign';
+import { isTokenGetApi } from 'api';
 import ExitConfirmModal from 'components/Modal/ExitConfirmModal';
-import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import Step0 from 'componentsCompany/contract/step0';
 import Step1 from 'componentsCompany/contract/step1';
@@ -22,16 +21,39 @@ import {
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery as reactUseQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { contractAction, ContractState } from 'storeCompany/contract';
 import colors from 'styles/colors';
 
 type Props = {};
 
+interface ContractsDetail {
+  isSuccess: boolean;
+  data: {
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    contractIdx: number;
+    documentId: string;
+    contractContent: string;
+    additionalInfo: string;
+    contractHistory: string | null;
+    projectIdx: number;
+  };
+}
+
 export default function AddContract(props: Props) {
-  const { step } = useSelector((state: RootState) => state.contractSlice);
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [tabNumber, setTabNumber] = useState<number>(0);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false); // 서브 카테고리 열렸는지 아닌지
+
+  const { step } = useSelector((state: RootState) => state.contractSlice);
+  const { contractSlice } = useSelector((state: RootState) => state);
 
   // -------------진행중인 프로젝트 상세 리스트 api-------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -48,14 +70,51 @@ export default function AddContract(props: Props) {
       },
     });
 
-  useEffect(() => {
-    console.log('inProgressData', data);
-  }, [data]);
+  // 계약서 추가 데이터 조회
+  const { data: addContractData } = reactUseQuery<ContractsDetail>(
+    'addContracts',
+    () => isTokenGetApi(`/contracts/${data?.project.contract.contractIdx}`),
+    {
+      enabled:
+        data?.project?.contract?.contractIdx !== undefined ? true : false,
+      onSuccess(data) {
+        console.log('🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 계약서 추가 데이터 조회 ->', data);
+      },
+    },
+  );
 
-  const [tabNumber, setTabNumber] = useState<number>(0);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  useEffect(() => {
+    console.log('data ->', data?.project?.contract?.contractIdx);
+    console.log('addContractData ->', addContractData);
+  }, []);
+
+  // 수정하기 초기 데이터 넣기
+  useEffect(() => {
+    const data = addContractData?.data?.additionalInfo;
+
+    if (data) {
+      const newData: ContractState = JSON.parse(data);
+      dispatch(
+        contractAction.setAllData({
+          step: 1,
+          productPrice: newData.productPrice,
+          installationCost: newData.installationCost,
+          subscriptionFee: newData.subscriptionFee,
+          extensionSubscriptionFee: newData.extensionSubscriptionFee,
+          otherSpecifics: newData.otherSpecifics,
+          productExplanation: newData.productExplanation,
+          invoiceDeliveryDate: newData.invoiceDeliveryDate,
+          subscriptionPaymentDate: newData.subscriptionPaymentDate,
+          deadlineDate: newData.deadlineDate,
+          paymentDeadlineDate: newData.paymentDeadlineDate,
+          handlingFee: newData.handlingFee,
+          penalty: newData.penalty,
+          companyRegistrationNumber: newData.companyRegistrationNumber,
+          representativeName: newData.representativeName,
+        }),
+      );
+    }
+  }, [addContractData]);
 
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => {
@@ -114,6 +173,10 @@ export default function AddContract(props: Props) {
             {step === 6 && <Step6 />}
             {step === 7 && (
               <Step7
+                chargingPointRate={
+                  data?.project.finalQuotation.chargingPointRate
+                }
+                userInvestRate={data?.project.finalQuotation.userInvestRate}
                 subscribeProduct={data?.project.finalQuotation.subscribeProduct}
               />
             )}

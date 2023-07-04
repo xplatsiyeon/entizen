@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function Step1({ data }: Props) {
-  console.log('🔥 data : ', data);
+  // console.log('🔥 data!!!!!!!!!!!!!!!!!!!!!!!!!!! : ', data);
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const { productPrice, installationCost } = useSelector(
@@ -29,6 +29,8 @@ export default function Step1({ data }: Props) {
   });
 
   useEffect(() => {
+    console.log('productPrice->', productPrice);
+    console.log('installationCost->', installationCost);
     if (productPrice.length > 0 && installationCost.length > 0) {
       setIsValid(true);
     } else {

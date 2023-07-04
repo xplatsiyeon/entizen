@@ -11,9 +11,15 @@ import { RootState } from 'store/store';
 
 type Props = {
   subscribeProduct: 'ENTIRETY' | 'PART' | undefined;
+  userInvestRate: string | undefined;
+  chargingPointRate: string | undefined;
 };
 
-export default function Step7({ subscribeProduct }: Props) {
+export default function Step7({
+  subscribeProduct,
+  userInvestRate,
+  chargingPointRate,
+}: Props) {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const { deadlineDate, paymentDeadlineDate, handlingFee } = useSelector(
@@ -40,17 +46,23 @@ export default function Step7({ subscribeProduct }: Props) {
           <h2>
             충전인프라 운영으로 인하여 발생한 수익은 구매자와 운영사업자
             간에&nbsp;
-            <span className="emphasis">70:30</span> 비율로 배분됩니다. 수익 배분
-            날짜와 취급수수료 비율을 입력해주세요.
+            <span className="emphasis">
+              {`${Number(userInvestRate) * 100} : ${
+                Number(chargingPointRate) * 100
+              }`}
+            </span>
+            비율로 배분됩니다. 수익 배분 날짜와 취급수수료 비율을 입력해주세요.
           </h2>
         ) : (
-          <h2>
-            충전인프라 운영으로 인하여 발생한 수익은 구매자와 운영사업자
-            간에&nbsp;
-            <span className="emphasis">0:100</span> 비율로 배분됩니다.
-          </h2>
+          <>
+            <h2>
+              충전인프라 운영으로 인하여 발생한 수익은 구매자와 운영사업자
+              간에&nbsp;
+              <span className="emphasis">0:100</span> 비율로 배분됩니다.
+            </h2>
+            <p>0:100 일 경우 수익을 배분할 필요가 없습니다.</p>
+          </>
         )}
-        <p>0:100 일 경우 수익을 배분할 필요가 없습니다.</p>
       </Notice>
 
       {subscribeProduct === 'ENTIRETY' && (
