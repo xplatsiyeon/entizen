@@ -30,6 +30,8 @@ import { subsidyAction, subsidySlice } from 'store/subsidySlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMediaQuery } from 'react-responsive';
+import ReactLoading from 'react-loading';
+import guideLoading from '../../../public/images/guide_loading.gif';
 export interface SelectedOption {
   idx: number;
   kind: string;
@@ -292,28 +294,32 @@ const SubsidyGuide = () => {
   }, [clicked, selectedOption, selectedRegion, isValid]);
 
   // 런칭 임시
-  // return (
-  //   <Body>
-  //     <WebHeader num={3} now={'guide'} sub={'guide'} />
-  //     {mobile && (
-  //       <GuideHeader
-  //         title={'보조금 가이드'}
-  //         leftOnClick={() => router.back()}
-  //         rightOnClick={() => router.push('/')}
-  //       />
-  //     )}
-  //     <LoaderWrap>
-  //       <Loader></Loader>
-  //       <h3>서비스 준비 중입니다</h3>
-  //       {mobile ? (
-  //         <p>{`신청 가능한 보조금을\n모두 조회하고 비교하여, 받을 수 있는\n최대 보조금을 확인할 수 있습니다.`}</p>
-  //       ) : (
-  //         <p>{`신청 가능한 보조금을 모두 조회하고 비교하여,\n받을 수 있는 최대 보조금을 확인할 수 있습니다.`}</p>
-  //       )}
-  //     </LoaderWrap>
-  //     <WebFooter />
-  //   </Body>
-  // );
+  return (
+    <Body>
+      <WebHeader num={3} now={'guide'} sub={'guide'} />
+      {mobile && (
+        <GuideHeader
+          title={'보조금 가이드'}
+          leftOnClick={() => router.back()}
+          rightOnClick={() => router.push('/')}
+        />
+      )}
+      <LoaderWrap>
+        <Loader>
+          <Image src={guideLoading} alt="로딩중" layout="fill" />
+          {/* <ReactLoading type="spin" color={colors.main} /> */}
+        </Loader>
+
+        <h3>서비스 준비 중입니다</h3>
+        {mobile ? (
+          <p>{`신청 가능한 보조금을\n모두 조회하고 비교하여, 받을 수 있는\n최대 보조금을 확인할 수 있습니다.`}</p>
+        ) : (
+          <p>{`신청 가능한 보조금을 모두 조회하고 비교하여,\n받을 수 있는 최대 보조금을 확인할 수 있습니다.`}</p>
+        )}
+      </LoaderWrap>
+      <WebFooter />
+    </Body>
+  );
 
   // 임시로 막기
   return (
@@ -511,7 +517,14 @@ const LoaderWrap = styled.div`
   }
 `;
 const Loader = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 88px;
   height: 88px;
-  background-color: red;
+  position: relative;
+  @media (max-width: 899.25pt) {
+    width: 60px;
+    height: 60px;
+  }
 `;

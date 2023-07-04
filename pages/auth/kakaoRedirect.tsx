@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,7 +16,6 @@ import instance from 'api/interceptor/service';
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const { user } = useSelector((state: RootState) => state.userList);
   const [errorModal, setErrorModal] = useState(false);
@@ -34,19 +32,6 @@ const Profile = () => {
 
   // 카카오 백엔드 API
   const KaKaApi = async (data: any) => {
-    // const KAKAO_POST = `${process.env.NEXT_PUBLIC_BASE_URL}/members/login/sns`;
-    // try {
-
-    // instance
-    //   .post('/members/login/sns', {
-    //     uuid: '' + data.id,
-    //     snsType: 'KAKAO',
-    //     snsResponse: JSON.stringify(data),
-    //     email: data.kakao_account.email,
-    //   })
-    //   .then((res) => console.log('res : ', res))
-    //   .catch((error) => console.log('error : ', error));
-    // return;
     await instance({
       method: 'post',
       url: '/members/login/sns',
@@ -56,10 +41,6 @@ const Profile = () => {
         snsResponse: JSON.stringify(data),
         email: data.kakao_account.email,
       },
-      // headers: {
-      //   ContentType: 'application/json',
-      // },
-      // withCredentials: true,
     })
       .then((res) => {
         let resData = res.data;
@@ -76,8 +57,7 @@ const Profile = () => {
         );
         if (resData.isMember === true) {
           // 로그인
-          // console.log('멤버 확인');
-          // console.log(resData);
+
           const token: JwtTokenType = jwt_decode(resData.accessToken);
           sessionStorage.setItem(
             'SNS_MEMBER',
@@ -147,12 +127,8 @@ const Profile = () => {
       let data = await kakao.API.request({
         url: '/v2/user/me',
       });
-      // console.log('프로필 데이터');
-      // console.log(data);
       KaKaApi(data);
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
   // 모달창 핸들러
   const onClickModal = () => {
