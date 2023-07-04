@@ -103,14 +103,14 @@ const AdLogin = () => {
           <p>로그인</p>
           <InputID
             type="text"
-            autoComplete="new-password"
+            // autoComplete="new-password"
             placeholder="아이디"
             onChange={(e) => changeValue(e)}
             ref={idRef}
           />
           <InputPW
             type="password"
-            autoComplete="new-password"
+            // autoComplete="new-password"
             placeholder="비밀번호"
             onChange={(e) => changeValue(e)}
             ref={pwRef}
@@ -159,7 +159,7 @@ const Inner = styled.div`
   border-radius: 4px;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   padding: 80px 126px 104px;
   h1 {
     margin-bottom: 48px;
