@@ -691,8 +691,7 @@ const Signin = () => {
                     )}
 
                     {/* 로그인 버튼 */}
-                    {/* <LoginBtn onClick={originLogin}> */}
-                    <LoginBtn type="submit">
+                    <LoginBtn onClick={originLogin}>
                       <BtnSpan>로그인</BtnSpan>
                     </LoginBtn>
                   </ContainerBox>
@@ -1026,7 +1025,7 @@ const AllContainer = styled.div`
   overflow: scroll !important;
 `;
 
-const ContainerBox = styled.form`
+const ContainerBox = styled.div`
   width: 100%;
   margin-top: 42pt;
 `;
