@@ -653,7 +653,7 @@ const Signin = () => {
                     </Box>
                   </Container>
                   {/* 인풋 박스 및 버튼  */}
-                  <ContainerBox>
+                  <ContainerBox onSubmit={originLogin}>
                     <TextFields
                       type="text"
                       // autoComplete="new-password"
@@ -691,7 +691,8 @@ const Signin = () => {
                     )}
 
                     {/* 로그인 버튼 */}
-                    <LoginBtn onClick={originLogin}>
+                    {/* <LoginBtn onClick={originLogin}> */}
+                    <LoginBtn type="submit">
                       <BtnSpan>로그인</BtnSpan>
                     </LoginBtn>
                   </ContainerBox>
