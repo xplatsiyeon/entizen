@@ -1025,7 +1025,7 @@ const AllContainer = styled.div`
   overflow: scroll !important;
 `;
 
-const ContainerBox = styled.div`
+const ContainerBox = styled.form`
   width: 100%;
   margin-top: 42pt;
 `;
