@@ -1155,7 +1155,8 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    Number(chargerString[0]?.count) *
+                    // Number(chargerString[0]?.count)
+                    24 *
                     Number(
                       // projectInProgress?.finalQuotation?.constructionPeriod,
                       projectInProgress?.finalQuotation?.quotationRequest
@@ -1174,7 +1175,8 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    Number(chargerString[1]?.count) *
+                    // Number(chargerString[1]?.count)
+                    24 *
                     Number(
                       // projectInProgress?.finalQuotation?.constructionPeriod,
                       projectInProgress?.finalQuotation?.quotationRequest
@@ -1193,7 +1195,8 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    Number(chargerString[2]?.count) *
+                    // Number(chargerString[2]?.count)
+                    24 *
                     Number(
                       // projectInProgress?.finalQuotation?.constructionPeriod,
                       projectInProgress?.finalQuotation?.quotationRequest
@@ -1212,7 +1215,8 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    Number(chargerString[3]?.count) *
+                    // Number(chargerString[3]?.count)
+                    24 *
                     Number(
                       // projectInProgress?.finalQuotation?.constructionPeriod,
                       projectInProgress?.finalQuotation?.quotationRequest
@@ -1231,7 +1235,8 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    Number(chargerString[4]?.count) *
+                    // Number(chargerString[4]?.count)
+                    24 *
                     Number(
                       // projectInProgress?.finalQuotation?.constructionPeriod,
                       projectInProgress?.finalQuotation?.quotationRequest
