@@ -66,7 +66,12 @@ const AdLogin = () => {
     },
   );
 
-  const signin = () => {
+  const signin = (
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLDivElement>,
+  ) => {
+    e.stopPropagation();
     // console.log('=======signin fn 호출=======');
     loginMutate({
       url: '/admin/auth/login',
@@ -91,7 +96,7 @@ const AdLogin = () => {
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
-      signin();
+      signin(e);
     }
   };
 
@@ -159,7 +164,7 @@ const Inner = styled.div`
   border-radius: 4px;
 `;
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   padding: 80px 126px 104px;
   h1 {
     margin-bottom: 48px;
