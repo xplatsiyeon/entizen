@@ -169,7 +169,6 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
           placeholder="제목을 써주세요."
           onChange={handleTitleArea}
           required
-          maxLength={15}
         />
       </FlexHorizontal>
       <FlexHorizontal>
@@ -179,7 +178,6 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
           placeholder="내용을 써주세요."
           onChange={handleContentsArea}
           required
-          maxLength={15}
         />
       </FlexHorizontal>
 
