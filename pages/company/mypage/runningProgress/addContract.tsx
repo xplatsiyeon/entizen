@@ -111,12 +111,12 @@ export default function AddContract(props: Props) {
     }
   }, [addContractData]);
 
-  useEffect(() => {
-    console.log(
-      'contractIdx =========>>>',
-      data?.project?.contract.contractIdx,
-    );
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(
+  //     'contractIdx =========>>>',
+  //     data?.project?.contract?.contractIdx,
+  //   );
+  // }, [data]);
 
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => {
