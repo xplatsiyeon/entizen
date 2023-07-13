@@ -30,7 +30,7 @@ export interface DropDownTime {
 }
 
 export const DropDownTime: DropDownTime[] = [
-  { time: '오전 12시', send: '12:00', show: '오전 12:00' },
+  { time: '오전 12시', send: '00:00', show: '오전 12:00' },
   { time: '오전 1시', send: '01:00', show: '오전 01:00' },
   { time: '오전 2시', send: '02:00', show: '오전 02:00' },
   { time: '오전 3시', send: '03:00', show: '오전 03:00' },
@@ -42,7 +42,7 @@ export const DropDownTime: DropDownTime[] = [
   { time: '오전 9시', send: '09:00', show: '오전 09:00' },
   { time: '오전 10시', send: '10:00', show: '오전 10:00' },
   { time: '오전 11시', send: '11:00', show: '오전 11:00' },
-  { time: '오후 12시', send: '24:00', show: '오후 12:00' },
+  { time: '오후 12시', send: '12:00', show: '오후 12:00' },
   { time: '오후 1시', send: '13:00', show: '오후 01:00' },
   { time: '오후 2시', send: '14:00', show: '오후 02:00' },
   { time: '오후 3시', send: '15:00', show: '오후 03:00' },
