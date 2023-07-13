@@ -108,14 +108,14 @@ const AdLogin = () => {
           <p>로그인</p>
           <InputID
             type="text"
-            // autoComplete="new-password"
+            autoComplete="username"
             placeholder="아이디"
             onChange={(e) => changeValue(e)}
             ref={idRef}
           />
           <InputPW
             type="password"
-            // autoComplete="new-password"
+            autoComplete="current-password"
             placeholder="비밀번호"
             onChange={(e) => changeValue(e)}
             ref={pwRef}
