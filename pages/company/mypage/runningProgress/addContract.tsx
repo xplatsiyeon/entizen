@@ -83,11 +83,6 @@ export default function AddContract(props: Props) {
     },
   );
 
-  useEffect(() => {
-    console.log('data ->', data?.project?.contract?.contractIdx);
-    console.log('addContractData ->', addContractData);
-  }, []);
-
   // 수정하기 초기 데이터 넣기
   useEffect(() => {
     const data = addContractData?.data?.additionalInfo;
@@ -115,6 +110,13 @@ export default function AddContract(props: Props) {
       );
     }
   }, [addContractData]);
+
+  useEffect(() => {
+    console.log(
+      'contractIdx =========>>>',
+      data?.project?.contract.contractIdx,
+    );
+  }, [data]);
 
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => {

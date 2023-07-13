@@ -283,7 +283,7 @@ export const moduSign = ({
             dataLabel: 'etcRequest',
             value: newContractData.otherSpecifics
               ? newContractData.otherSpecifics
-              : '-',
+              : '',
           },
 
           // ========================== 제 3조 [구독에 관한 사항] ==========================
@@ -1117,31 +1117,36 @@ export const moduSign = ({
           {
             dataLabel: 'afterSubscribePeriod1',
             value: chargerString[0]
-              ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+              ? // ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+                '24'
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod2',
             value: chargerString[1]
-              ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+              ? // ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+                '24'
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod3',
             value: chargerString[2]
-              ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+              ? // ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+                '24'
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod4',
             value: chargerString[3]
-              ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+              ? // ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+                '24'
               : '',
           },
           {
             dataLabel: 'afterSubscribePeriod5',
             value: chargerString[4]
-              ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+              ? // ? `${projectInProgress?.finalQuotation?.quotationRequest.subscribePeriod}`
+                '24'
               : '',
           },
           // 구독 기간 자동 연장 - 총 구독금액
@@ -1155,13 +1160,12 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    // Number(chargerString[0]?.count)
-                    24 *
-                    Number(
-                      // projectInProgress?.finalQuotation?.constructionPeriod,
-                      projectInProgress?.finalQuotation?.quotationRequest
-                        ?.subscribePeriod,
-                    ),
+                    Number(chargerString[0]?.count) *
+                    24,
+                  // Number(
+                  //   projectInProgress?.finalQuotation?.quotationRequest
+                  //     ?.subscribePeriod,
+                  // ),
                 )
               : '',
           },
@@ -1175,13 +1179,12 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    // Number(chargerString[1]?.count)
-                    24 *
-                    Number(
-                      // projectInProgress?.finalQuotation?.constructionPeriod,
-                      projectInProgress?.finalQuotation?.quotationRequest
-                        ?.subscribePeriod,
-                    ),
+                    Number(chargerString[1]?.count) *
+                    24,
+                  // Number(
+                  //   projectInProgress?.finalQuotation?.quotationRequest
+                  //     ?.subscribePeriod,
+                  // ),
                 )
               : '',
           },
@@ -1195,13 +1198,12 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    // Number(chargerString[2]?.count)
-                    24 *
-                    Number(
-                      // projectInProgress?.finalQuotation?.constructionPeriod,
-                      projectInProgress?.finalQuotation?.quotationRequest
-                        ?.subscribePeriod,
-                    ),
+                    Number(chargerString[2]?.count) *
+                    24,
+                  // Number(
+                  //   projectInProgress?.finalQuotation?.quotationRequest
+                  //     ?.subscribePeriod,
+                  // ),
                 )
               : '',
           },
@@ -1215,13 +1217,12 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    // Number(chargerString[3]?.count)
-                    24 *
-                    Number(
-                      // projectInProgress?.finalQuotation?.constructionPeriod,
-                      projectInProgress?.finalQuotation?.quotationRequest
-                        ?.subscribePeriod,
-                    ),
+                    Number(chargerString[3]?.count) *
+                    24,
+                  // Number(
+                  //   projectInProgress?.finalQuotation?.quotationRequest
+                  //     ?.subscribePeriod,
+                  // ),
                 )
               : '',
           },
@@ -1235,13 +1236,12 @@ export const moduSign = ({
                       '',
                     ),
                   ) *
-                    // Number(chargerString[4]?.count)
-                    24 *
-                    Number(
-                      // projectInProgress?.finalQuotation?.constructionPeriod,
-                      projectInProgress?.finalQuotation?.quotationRequest
-                        ?.subscribePeriod,
-                    ),
+                    Number(chargerString[4]?.count) *
+                    24,
+                  // Number(
+                  //   projectInProgress?.finalQuotation?.quotationRequest
+                  //     ?.subscribePeriod,
+                  // ),
                 )
               : '',
           },

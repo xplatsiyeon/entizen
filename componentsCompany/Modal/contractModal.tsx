@@ -49,7 +49,9 @@ export default function ContractModal({ documentId, setIsModal }: Props) {
   };
   // 모달 버튼 클릭
   const onClickButton = () => {
-    dispatch(contractAction.setStep(1)),
+    dispatch(contractAction.setStep(1));
+    // 수정
+    if (documentId) {
       router.push({
         pathname: '/company/mypage/runningProgress/addContract',
         query: {
@@ -57,6 +59,15 @@ export default function ContractModal({ documentId, setIsModal }: Props) {
           documentId: documentId,
         },
       });
+      // 작성
+    } else {
+      router.push({
+        pathname: '/company/mypage/runningProgress/addContract',
+        query: {
+          projectIdx: router.query.projectIdx,
+        },
+      });
+    }
   };
 
   return (

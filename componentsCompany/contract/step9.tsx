@@ -13,7 +13,7 @@ import {
   GET_ModuSignResponse,
   ModuSignResponse,
 } from 'QueryComponents/ModuSignQuery';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { moduSign } from 'api/sign';
 import { isTokenPostApi } from 'api';
 import { modusignCancel } from 'api/cancelSign';
@@ -46,6 +46,7 @@ export default function Step9(props: Props) {
   } = useMutation(deleteSign, {
     onSuccess(data, variables, context) {
       console.log('성공');
+
       modusignMutate(
         { data: inModuSignData!, newContractData: contractSlice }!,
       );
@@ -98,7 +99,7 @@ export default function Step9(props: Props) {
         ...modusignData,
         projectIdx: router?.query?.projectIdx,
       };
-
+      // 서버에 데이터 전달
       await contractsMutate({
         url: '/contracts',
         data: {
@@ -123,8 +124,8 @@ export default function Step9(props: Props) {
     isLoading: contractsIsLoading,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      // setIsModal(true);
-      // setModalMessage('계약서가 전송되었습니다');
+      // 데이터 갱신
+      // queryClient.refetchQueries('contract-pdf');
     },
     onError: (error) => {
       destroyMutate(modusignData?.id);
@@ -151,8 +152,10 @@ export default function Step9(props: Props) {
   // 온클릭 요청
   const onClickContractRequest = () => {
     const documentId = router.query.documentId;
+    // console.log('inModuSignData : ', inModuSignData);
     // console.log('contractSlice : ', contractSlice);
     // return;
+
     if (isValid && !modusignIsLoading) {
       if (documentId) {
         deleteMutate(documentId as string);

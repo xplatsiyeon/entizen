@@ -353,13 +353,29 @@ const ProgressBody = ({
 
   // 일반 계약서 계약서 수정하기
   const onClickDelete = () => {
+    const documentId = data.project.contract.documentId!;
+
+    // 모바일
     if (mobile) {
-      router.push({
-        pathname: '/company/mypage/runningProgress/addContract',
-        query: {
-          projectIdx: routerId,
-        },
-      });
+      // 수정
+      if (documentId) {
+        router.push({
+          pathname: '/company/mypage/runningProgress/addContract',
+          query: {
+            projectIdx: routerId,
+            documentId: data.project.contract.documentId!,
+          },
+        });
+        // 신규
+      } else {
+        router.push({
+          pathname: '/company/mypage/runningProgress/addContract',
+          query: {
+            projectIdx: routerId,
+          },
+        });
+      }
+      // PC
     } else {
       setContractIsModal(true); // 계약서 작성 모달
     }
