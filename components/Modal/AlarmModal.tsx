@@ -10,6 +10,7 @@ interface Props {
 }
 
 const AlarmModal = ({ setIsModal, onClick }: Props) => {
+  console.log('DropDownTime==>', DropDownTime);
   const outside = useRef();
 
   const handleModalClose = (
@@ -65,11 +66,11 @@ const ModalBox = styled(Box)`
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   width: 100%;
-  height: 216pt;
-  overflow: scroll;
   .wrap {
     width: 100%;
     text-align: center;
+    height: 216pt;
+    overflow: scroll;
   }
   .row {
     width: 100%;

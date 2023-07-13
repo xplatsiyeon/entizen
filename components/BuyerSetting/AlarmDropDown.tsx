@@ -124,9 +124,11 @@ const AlarmDropDown = ({
 
       {/* 하단 드랍 다운 */}
       {dropDown &&
+        //모바일
         (mobile ? (
           <AlarmModal setIsModal={setDropDown} onClick={onClickDropDownText} />
         ) : (
+          // 웹
           <DropDownBox>
             {DropDownTime.map((item, idx) => (
               <DropDownText key={idx} onClick={() => onClickDropDownText(item)}>
@@ -146,6 +148,7 @@ const DropDownWrapper = styled.div`
   position: relative;
   padding: 0.75pt 2.25pt;
   cursor: pointer;
+
   :not(:first-of-type) {
     margin-top: 7.5pt;
   }
@@ -184,7 +187,6 @@ const DropDownBox = styled.div`
   height: 180pt;
   overflow-y: scroll;
   @media (max-width: 899.25pt) {
-    border: 1px solid red;
     position: fixed;
     bottom: 0;
     left: 0;
