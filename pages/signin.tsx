@@ -658,7 +658,6 @@ const Signin = () => {
                       type="text"
                       autoComplete="on"
                       value={userId}
-                      id="outlined-basic"
                       placeholder={
                         selectedLoginType === 0 ? '이메일 입력' : '아이디 입력'
                       }
@@ -668,19 +667,12 @@ const Signin = () => {
                     />
                     <TextFields
                       type="password"
-                      // autoComplete="new-password"
                       value={password}
-                      id="outlined-basic"
+                      className="password"
                       placeholder="비밀번호 입력"
-                      onBlur={(e) => {
-                        //유효성 검사
-                      }}
+                      //비밀번호 입력값 변경
                       onChange={(e) => {
-                        //비밀번호 입력값 변경
                         setPassword(e.target.value);
-                      }}
-                      sx={{
-                        marginTop: '9pt',
                       }}
                       onKeyDown={onKeyPress}
                     />
@@ -888,34 +880,62 @@ const Body = styled.div`
     height: 100%;
   }
 `;
-const TextFields = styled(TextField)`
-  width: 100%;
-  font-weight: 400;
-  @media (min-width: 900pt) {
-    width: 250.5pt;
-  }
-  & .MuiInputBase-root {
-    padding-right: 0pt !important;
-  }
-  .MuiOutlinedInput-root {
-    &:hover fieldset {
-      border: 0.75 solid #e2e5ed;
-    }
-    &.Mui-focused fieldset {
-      border: 0.75pt solid #5221cb;
-    }
-  }
-  .MuiOutlinedInput-notchedOutline {
-    border: 0.75 solid #e2e5ed;
-  }
+// const TextFields = styled(TextField)`
+//   width: 100%;
+//   font-weight: 400;
+//   @media (min-width: 900pt) {
+//     width: 250.5pt;
+//   }
+//   & .MuiInputBase-root {
+//     padding-right: 0pt !important;
+//   }
+//   .MuiOutlinedInput-root {
+//     &:hover fieldset {
+//       border: 0.75 solid #e2e5ed;
+//     }
+//     &.Mui-focused fieldset {
+//       border: 0.75pt solid #5221cb;
+//     }
+//   }
+//   .MuiOutlinedInput-notchedOutline {
+//     border: 0.75 solid #e2e5ed;
+//   }
+//   font-family: 'Spoqa Han Sans Neo';
+//   font-size: 12pt;
+//   line-height: 12pt;
+//   border-radius: 6pt;
+//   outline: none;
+//   & div > input {
+//     padding-top: 10.88pt;
+//     padding-bottom: 10.8pt;
+//   }
+// `;
+const TextFields = styled.input`
+  width: 250.5pt;
+  font-weight: 500;
   font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   font-size: 12pt;
   line-height: 12pt;
   border-radius: 6pt;
-  outline: none;
-  & div > input {
-    padding-top: 10.88pt;
-    padding-bottom: 10.8pt;
+  padding-top: 10.88pt;
+  padding-bottom: 10.8pt;
+  padding-right: 0pt !important;
+  border: 0.75pt solid #e2e5ed;
+  padding: 18px 16px;
+  height: 52px;
+  letter-spacing: -0.32px;
+  &.password {
+    margin-top: 12px;
+  }
+  :focus {
+    border: 0.75pt solid #5221cb;
+  }
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    &.password {
+      margin-top: 9px;
+    }
   }
 `;
 const Inner = styled.div`
