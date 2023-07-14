@@ -195,6 +195,7 @@ const TermContent = ({
     type: termsType,
   ) => {
     e.stopPropagation();
+    // 스크롤 막기
     if (document) {
       document.body.style.overflow = 'hidden';
     }

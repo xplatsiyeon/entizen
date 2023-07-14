@@ -656,6 +656,7 @@ const Signin = () => {
                   <ContainerBox onSubmit={originLogin}>
                     <TextFields
                       type="text"
+                      name="member_id"
                       autoComplete="on"
                       value={userId}
                       placeholder={
@@ -667,6 +668,7 @@ const Signin = () => {
                     />
                     <TextFields
                       type="password"
+                      name="member_pw"
                       value={password}
                       className="password"
                       placeholder="비밀번호 입력"
