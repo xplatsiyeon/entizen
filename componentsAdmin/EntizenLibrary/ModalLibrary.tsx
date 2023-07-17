@@ -359,7 +359,6 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
             placeholder="제목을 써주세요."
             onChange={handleTitleArea}
             required
-            maxLength={15}
           />
         </FlexHorizontal>
         <FlexHorizontal>
