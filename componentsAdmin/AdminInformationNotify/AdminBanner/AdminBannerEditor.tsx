@@ -333,30 +333,34 @@ const AdminBannerEditor = ({
 
   // 배너리스트 수정하기 버튼
   const onClickModifiedBtn = () => {
-    modifiedMutate({
-      url: `/admin/banners/${detatilId}`,
-      data: {
-        targetMemberType: userTypeEn[userNum],
-        title: title,
-        url: url,
-        pcImage: {
-          url: pcImgUrl,
-          size: pcImgSize,
-          originalName: pcImgName,
+    if (title && pcImgUrl && tabletImgUrl && mobileImgUrl) {
+      modifiedMutate({
+        url: `/admin/banners/${detatilId}`,
+        data: {
+          targetMemberType: userTypeEn[userNum],
+          title: title,
+          url: url,
+          pcImage: {
+            url: pcImgUrl,
+            size: pcImgSize,
+            originalName: pcImgName,
+          },
+          tabletImage: {
+            url: tabletImgUrl,
+            size: tabletImgSize,
+            originalName: tabletImgName,
+          },
+          mobileImage: {
+            url: mobileImgUrl,
+            size: mobileImgSize,
+            originalName: mobileImgName,
+          },
+          // innerImages: insideImgArr,
         },
-        tabletImage: {
-          url: tabletImgUrl,
-          size: tabletImgSize,
-          originalName: tabletImgName,
-        },
-        mobileImage: {
-          url: mobileImgUrl,
-          size: mobileImgSize,
-          originalName: mobileImgName,
-        },
-        // innerImages: insideImgArr,
-      },
-    });
+      });
+    } else {
+      alert('제목과 배너 이미지는 필수입니다.');
+    }
   };
 
   // 배너리스트 등록 api
