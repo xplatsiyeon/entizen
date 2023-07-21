@@ -121,7 +121,7 @@ const Profile = () => {
   };
   // 토큰 보내기
   const getProfile = async () => {
-    const kakao = kakaoInit();
+    const kakao = kakaoInit(); // 카카오 초기화
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
       let data = await kakao.API.request({

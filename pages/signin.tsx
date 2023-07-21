@@ -781,6 +781,7 @@ const Signin = () => {
                         margin: '48pt auto 0',
                       }}
                     >
+                      {/* 카카오 */}
                       <Box
                         sx={{
                           height: '33pt',
@@ -805,6 +806,7 @@ const Signin = () => {
                       >
                         <Image src={apple} alt="apple" />
                       </Box>
+                      {/* 네이버 */}
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
