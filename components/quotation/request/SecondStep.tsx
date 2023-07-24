@@ -107,15 +107,22 @@ const SecondStep = ({ tabNumber }: Props) => {
   useEffect(() => {
     // 초기 false
     setButtonActivate(false);
+    console.log('1');
     // 홈 충전기 O
     if (unavailableGraph) {
-      setButtonActivate(true);
+      if (subscribeNumber !== -1) {
+        setButtonActivate(true);
+      }
+
+      console.log('2');
       // 홈 충전기 X
     } else {
       if (subscribeNumber === 1) {
         setButtonActivate(true);
+        console.log('3');
       } else if (subscribeNumber !== -1 && disabled === false) {
         setButtonActivate(true);
+        console.log('4');
       }
     }
   }, [disabled, unavailableGraph, subscribeNumber]);
