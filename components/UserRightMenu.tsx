@@ -16,6 +16,7 @@ type Props = { type: string };
 const UserRightMenu = () => {
   const router = useRouter();
   const [open, setOpen] = useState(true);
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   return (
     <MenuRapper open={open}>
       <MenuContainer>
@@ -34,13 +35,25 @@ const UserRightMenu = () => {
           <>
             <MenuBox
               onClick={() => {
-                router.push('/chatting');
+                if (userID) {
+                  router.push('/chatting');
+                } else {
+                  router.push('/signin');
+                }
               }}
             >
               <ImageBoxS>
                 <ImgTag src="/images/Chats.png" alt="Chat" />
               </ImageBoxS>
-              <MenuTitle onClick={() => router.push('/chatting')}>
+              <MenuTitle
+                onClick={() => {
+                  if (userID) {
+                    router.push('/chatting');
+                  } else {
+                    router.push('/signin');
+                  }
+                }}
+              >
                 소통하기
               </MenuTitle>
               <Divide />
@@ -51,8 +64,6 @@ const UserRightMenu = () => {
               }}
             >
               <ImageBoxL>
-                {/* <Image src={EntizenLibrary} alt="Chats" /> */}
-
                 <ImgTag src="/images/EntizenLibraryIcon.png" alt="Library" />
               </ImageBoxL>
               <MenuTitle2>엔티즌 도서관</MenuTitle2>

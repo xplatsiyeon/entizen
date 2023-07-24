@@ -191,9 +191,9 @@ const FAQ = ({ tabNumber, setTabNumber }: Props) => {
             <InfoText>
               <p>고객센터</p>
               <p>1544-6811</p>
-              <p>평일 10:00~17:00</p>
+              <p>평일 09:00~17:00</p>
               <p>
-                점심시간 12:00 ~ 13:00 /<br />
+                점심시간 12:00 ~ 13:00 <br />
                 주말 및 공휴일 제외
               </p>
             </InfoText>

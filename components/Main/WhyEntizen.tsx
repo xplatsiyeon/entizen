@@ -3,9 +3,9 @@ import { Typography } from '@mui/material';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
-import blackWhiteArrow from 'public/images/blackWhiteArrow24.png';
-import whiteGreenArrow from 'public/images/whiteGreenArrow24.png';
-import whiteBlueArrow from 'public/images/whiteBlueArrow24.png';
+import blackWhiteArrow from 'public/images/blackWhiteArrow24.svg';
+import whiteGreenArrow from 'public/images/whiteGreenArrow24.svg';
+import whiteBlueArrow from 'public/images/whiteBlueArrow24.svg';
 import bulb from 'public/images/bulb.png';
 import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
@@ -128,12 +128,13 @@ const WhyEntizen = () => {
               key={index}
             >
               <TextArea color={el.color}>{el.menuText}</TextArea>
-              <ArrowImgBox className="arrow">
+              <ArrowImgBox className="arrow" colors={el.color}>
                 <Image className="mob" src={el.arrowIcon} alt="icon" />
               </ArrowImgBox>
               <ArrowImgBox className="arrow">
                 <Image className="web" src={el.arrowIcon2} alt="icon" />
               </ArrowImgBox>
+
               <IconImgBox width={el.width} height={el.height}>
                 <Image src={el.bigIcon} alt="icon" />
               </IconImgBox>
@@ -224,25 +225,23 @@ const TextArea = styled.div`
   }
 `;
 
-const ArrowImgBox = styled.div`
+const ArrowImgBox = styled.div<{ colors?: string }>`
   position: absolute;
   right: 45pt;
   top: 39pt;
-
   &:nth-of-type(2) {
     display: none;
   }
-
   @media (max-width: 899.25pt) {
     right: 12pt;
     top: 12pt;
-
-    &:nth-of-type(2) {
-      display: block;
-    }
-    &:nth-of-type(3) {
-      display: none;
-    }
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${({ colors }) => (colors ? colors : 'none')};
   }
 `;
 
