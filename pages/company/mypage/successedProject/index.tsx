@@ -82,6 +82,11 @@ const successedProject = (props: Props) => {
     dispatch(headerAction.setTabIdx(1));
   }, []);
 
+  // 히스토리 데이터 업데이트
+  useEffect(() => {
+    console.log('historyDetailData 업데이트');
+  }, [historyDetailData]);
+
   // url정보기 기억하고 로그인 페이지로 리다이렉트
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
