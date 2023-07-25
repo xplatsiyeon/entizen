@@ -128,24 +128,13 @@ const CommunicationTable = ({
                       <button
                         className="detail"
                         onClick={() => {
-                          setDetailId(cell);
+                          const excelUrl = `/admin/chatting/members/${cell}/excel`;
                           setIsDetail(true);
                           excelDownloadFile(excelUrl!, accessToken);
                         }}
                       >
                         엑셀 다운로드
                       </button>
-                      {/* <button
-                        className="detail"
-                        style={{ marginLeft: '10px' }}
-                        onClick={() => {
-                          setDetailId(cell);
-                          setIsDetail(true);
-                          alert('개발중입니다.');
-                        }}
-                      >
-                        삭제
-                      </button> */}
                     </>,
                   ),
               },
@@ -190,6 +179,7 @@ const CommunicationTable = ({
               ];
               temp.push(eleArr);
             });
+            console.log('****************temp==>>', temp);
             setDataArr(temp);
             setColumns([
               '번호',
@@ -220,8 +210,8 @@ const CommunicationTable = ({
               },
             ]);
             setLength(
-              userChattingOneOnOne.data
-                ? userChattingOneOnOne.data.consultations.length
+              userChattingOneOnOne.data.totalCount
+                ? userChattingOneOnOne.data.totalCount
                 : 0,
             );
           }

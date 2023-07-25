@@ -329,6 +329,7 @@ export interface OneOnOneChatResponse {
       isUnread: boolean;
       unreadCount: number;
     }[];
+    totalCount: number;
   };
 }
 // 관리자 리스트 조회

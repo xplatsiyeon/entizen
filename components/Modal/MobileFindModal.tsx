@@ -44,7 +44,7 @@ const MobileFindModal = ({
           </p>
           <h4>고객센터 1544-6811</h4>
           <p className="sub">
-            평일 10:00 ~18:00 <br />
+            평일 09:00 ~18:00 <br />
             (점심시간 12:00 ~13:00 / 주말. 공휴일 제외)
           </p>
         </ContentText>

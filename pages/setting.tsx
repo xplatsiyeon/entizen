@@ -110,6 +110,7 @@ const Setting = () => {
             setOpenSubLink={setOpenSubLink}
           />
         )}
+
         {memberType !== 'COMPANY' ? <UserRightMenu /> : <CompanyRightMenu />}
         <Inner>
           <SettingTitle

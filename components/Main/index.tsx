@@ -138,18 +138,13 @@ const MainPage = (props: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            <FirstIconBox
-              onClick={() => {
-                router.push('/alarm');
-                dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
-              }}
-            >
+            <FirstIconBox>
               {!userID ? (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
                   onClick={() => {
-                    router.push('/signin');
+                    return router.push('/signin');
                   }}
                 />
               ) : historyUnread?.wasReadAlertBell === true ? (
@@ -157,7 +152,8 @@ const MainPage = (props: Props) => {
                   src={BellOff}
                   alt="alarmIcon"
                   onClick={() => {
-                    router.push('/alarm');
+                    alert('alarm');
+
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
                   }}
                 />
@@ -166,7 +162,8 @@ const MainPage = (props: Props) => {
                   src={BellOn}
                   alt="alarmIcon"
                   onClick={() => {
-                    router.push('/alarm');
+                    alert('alarmIcon');
+
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
                   }}
                 />
@@ -263,8 +260,6 @@ const LogoBox = styled.div`
 `;
 const FirstIconBox = styled.div`
   margin-top: 12pt;
-  /* margin-bottom: 15pt; */
-
   margin-right: 15pt;
 `;
 const IconBox = styled.div`
@@ -275,10 +270,7 @@ const IconWrapper = styled.div`
   display: flex;
 `;
 
-const Container = styled.div`
-  /* padding-left: 15pt;
-  padding-right: 15pt; */
-`;
+const Container = styled.div``;
 const Box = styled.div`
   width: 100%;
 `;

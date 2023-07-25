@@ -121,7 +121,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           </CheckBoxWrapper>
         </li>
         <li className="search">
-          <label className='unRead'>읽지않은 채팅</label>
+          <label className="unRead">읽지않은 채팅</label>
           <CheckBoxWrapper>
             {unreadCheckBox.map((data, idx) => (
               <CheckBoxLabel key={data}>
@@ -181,6 +181,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           </AdminBtn>
         </li>
       </Manager>
+      {/* 테이블 */}
       <CommunicationTable
         setIsDetail={setIsDetail}
         setDetailId={setDetailId}
@@ -203,6 +204,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
         isRefetch={isRefetch}
       />
 
+      {/* 상세 */}
       {isDetail && (
         <OOQDetail
           detatilId={detatilId}
@@ -247,7 +249,7 @@ const Manager = styled.ul`
   label {
     padding-right: 39.75pt;
 
-    &.unRead{
+    &.unRead {
       padding-right: 0;
       width: 78pt;
     }

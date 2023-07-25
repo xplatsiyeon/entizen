@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import FaqInfomation from 'components/FAQ/FaqInfomation';
-import GuideHeader from 'components/guide/header';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import { useState } from 'react';
@@ -8,9 +6,6 @@ import colors from 'styles/colors';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import CommunicationIcon from 'public/images/communication-icon.svg';
-import WebFooter from 'componentsWeb/WebFooter';
-import WebHeader from 'componentsWeb/WebHeader';
 import CallModal from 'components/CallModal';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import { useQuery } from 'react-query';
@@ -21,10 +16,6 @@ export interface Contents {
   name: string;
   text: string;
 }
-interface Components {
-  [key: number]: JSX.Element;
-}
-
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -93,13 +84,14 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
           <CustomerTitle>
             고객센터 운영 안내
             <CustomerBox>
-              <CustomerSapn>• 평일 10:00 ~ 17:00</CustomerSapn>
+              <CustomerSapn>• 평일 09:00 ~ 17:00</CustomerSapn>
               <CustomerSapn>
                 • 점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외
               </CustomerSapn>
             </CustomerBox>
           </CustomerTitle>
         </CustomerCenterWrapper>
+        {/* 문의하기 */}
         <Wrapper>
           <SettingBox
             onClick={() => {
@@ -196,6 +188,7 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #ffffff;
+
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -213,6 +206,7 @@ const Inner = styled.div`
   width: 900pt;
   height: 100%;
   border-radius: 12pt;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -250,7 +244,7 @@ const CustomerSapn = styled.p`
 
 const Wrapper = styled.div`
   position: relative;
-  height: 100%;
+  /* height: 100%; */
   padding-left: 15pt;
   padding-right: 15pt;
 `;

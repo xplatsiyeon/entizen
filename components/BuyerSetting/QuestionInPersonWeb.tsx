@@ -44,7 +44,7 @@ const QuestionInPersonWeb = () => {
           <CallNumber>1544-6811</CallNumber>
         </FlexWrapper>
         <CustomerBox>
-          <CustomerSapn>• 평일 10:00 ~ 17:00</CustomerSapn>
+          <CustomerSapn>• 평일 09:00 ~ 17:00</CustomerSapn>
           <CustomerSapn>
             • 점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외
           </CustomerSapn>

@@ -69,7 +69,7 @@ const questionInPerson = () => {
           <CustomerTitle>
             고객센터 운영 안내
             <CustomerBox>
-              <CustomerSapn>• 평일 10:00 ~ 17:00</CustomerSapn>
+              <CustomerSapn>• 평일 09:00 ~ 17:00</CustomerSapn>
               <CustomerSapn>
                 • 점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외
               </CustomerSapn>
