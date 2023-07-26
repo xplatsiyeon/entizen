@@ -91,7 +91,7 @@ const Alam = () => {
       url: `/v1/alerts/histories/${item.alertHistoryIdx}`,
     });
     // 수정 필요
-    const newLink = item.link.replace('https://test-api.entizen.kr', '');
+    const newLink = item.link.replace('https://entizen.kr', '');
     router.replace(newLink);
   };
 

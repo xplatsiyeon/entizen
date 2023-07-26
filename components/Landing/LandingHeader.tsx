@@ -31,7 +31,7 @@ const LandingHeader = () => {
 
   // 엔티즌 바로가기
   const onClickRouter = () => {
-    router.push('https://api.entizen.kr/');
+    router.push('https://entizen.kr/');
   };
   return (
     <HeaderWrapper>

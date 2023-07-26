@@ -6,7 +6,7 @@ import { kakaoInit } from 'utils/kakao';
 
 export default function Auth() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+  const REDIRECT_URI = 'https://entizen.kr/auth/kakao';
   const CLIENT_SECRET = 'asdasdakhj1243789123798';
   // calllback으로 받은 인가코드
   const code = new URL(window.location.href).searchParams.get('code');
