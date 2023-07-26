@@ -152,9 +152,8 @@ const MainPage = (props: Props) => {
                   src={BellOff}
                   alt="alarmIcon"
                   onClick={() => {
-                    alert('alarm');
-
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                    router.push('/alarm');
                   }}
                 />
               ) : (
@@ -162,9 +161,8 @@ const MainPage = (props: Props) => {
                   src={BellOn}
                   alt="alarmIcon"
                   onClick={() => {
-                    alert('alarmIcon');
-
                     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+                    router.push('/alarm');
                   }}
                 />
               )}

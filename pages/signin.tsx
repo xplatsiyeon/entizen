@@ -11,7 +11,6 @@ import apple from 'public/images/apple.svg';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
-import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
@@ -491,11 +490,6 @@ const Signin = () => {
     }
   }, [password]);
 
-  // 테스트
-  // useEffect(() => {
-  //   NaverLogout();
-  // }, []);
-
   return (
     <React.Fragment>
       <Head>
@@ -527,10 +521,7 @@ const Signin = () => {
                   },
                 })
           }
-          onClickCloseModal={() => {
-            setFind(false);
-            // sessionStorage.removeItem('key');
-          }}
+          onClickCloseModal={() => setFind(false)}
         />
       )}
       {/* 웹 */}
@@ -884,36 +875,6 @@ const Body = styled.div`
     height: 100%;
   }
 `;
-// const TextFields = styled(TextField)`
-//   width: 100%;
-//   font-weight: 400;
-//   @media (min-width: 900pt) {
-//     width: 250.5pt;
-//   }
-//   & .MuiInputBase-root {
-//     padding-right: 0pt !important;
-//   }
-//   .MuiOutlinedInput-root {
-//     &:hover fieldset {
-//       border: 0.75 solid #e2e5ed;
-//     }
-//     &.Mui-focused fieldset {
-//       border: 0.75pt solid #5221cb;
-//     }
-//   }
-//   .MuiOutlinedInput-notchedOutline {
-//     border: 0.75 solid #e2e5ed;
-//   }
-//   font-family: 'Spoqa Han Sans Neo';
-//   font-size: 12pt;
-//   line-height: 12pt;
-//   border-radius: 6pt;
-//   outline: none;
-//   & div > input {
-//     padding-top: 10.88pt;
-//     padding-bottom: 10.8pt;
-//   }
-// `;
 const TextFields = styled.input`
   width: 250.5pt;
   font-weight: 500;

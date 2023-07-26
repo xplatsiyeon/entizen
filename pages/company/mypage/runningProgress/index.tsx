@@ -66,7 +66,7 @@ const RunningProgress = (props: Props) => {
     data: inProgressData,
     refetch: inProgressRefetch,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
-    skip: !accessToken ? true : false,
+    // skip: !accessToken ? true : false,
     variables: {
       projectIdx: router?.query?.projectIdx!,
     },
