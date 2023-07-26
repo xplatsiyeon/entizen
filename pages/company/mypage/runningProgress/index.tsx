@@ -108,6 +108,17 @@ const RunningProgress = (props: Props) => {
     queryClient.removeQueries('addContracts');
   }, []);
 
+  // 알림 푸쉬 테스트
+  useEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (Android && iOS) {
+      setTimeout(() => {
+        inProgressRefetch();
+      }, 1000);
+    }
+  }, []);
+
   useEffect(() => {
     if (inProgressData?.project.isApprovedByAdmin === true) {
       router.replace(
