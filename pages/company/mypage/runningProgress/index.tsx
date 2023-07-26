@@ -18,6 +18,7 @@ import { redirectAction } from 'store/redirectUrlSlice';
 import Progress from '../projectProgress';
 import { contractAction } from 'storeCompany/contract';
 import { useQueryClient } from 'react-query';
+import Loader from 'components/Loader';
 
 type Props = {};
 export interface Data {
@@ -102,12 +103,6 @@ const RunningProgress = (props: Props) => {
     };
   }, [nowWidth]);
 
-  // 계약서 추가 내용 리셋 시키기
-  useEffect(() => {
-    dispatch(contractAction.reset());
-    queryClient.removeQueries('addContracts');
-  }, []);
-
   // 알림 푸쉬 테스트
   useEffect(() => {
     const iOS = navigator.userAgent.match(/iOS_App/i);
@@ -126,6 +121,11 @@ const RunningProgress = (props: Props) => {
       );
     }
   }, [inProgressData]);
+
+  // 로딩중
+  if (inProgressLoading) {
+    return <Loader />;
+  }
 
   if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
