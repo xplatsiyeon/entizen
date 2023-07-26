@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -450,6 +456,10 @@ const ProgressBody = ({
       initToggle = [false, false, false, false, false];
   }
 
+  useEffect(() => {
+    console.log('data?.project->', data?.project);
+  }, [data]);
+
   return (
     <>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
@@ -594,7 +604,7 @@ const ProgressBody = ({
             </>
           )}
         </FlexBox>
-        {/* 준비 */}
+        {/* ================================ 준비 ==================================== */}
         <FlexBox>
           <div>
             <CircleImgBox className="topCircle">
@@ -620,7 +630,8 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {data?.project?.readyStepGoalDate ? (
+
+              {data?.project?.readyStepGoalDate.length > 0 ? (
                 <PickedDate
                   color={
                     data?.project?.isCompletedReadyStep === true

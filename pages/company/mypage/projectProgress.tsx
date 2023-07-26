@@ -83,7 +83,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             />
           </HeaderWrap>
         ) : null}
-
+        {/* 진행 중인 프로그램  */}
         {progressNum === -1 && (
           <ProgressBody
             dateArr={dateArr}

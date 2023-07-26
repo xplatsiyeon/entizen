@@ -120,9 +120,6 @@ Props) => {
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  // const [isButtonValid, setIsButtonValid] = useState(false); // 버튼 유효성 검사
-
-  // console.log('이미지 데이터 어케오노', data?.project);
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -304,17 +301,6 @@ Props) => {
       };
     }
   }, []);
-
-  // 버튼 유효성 검사
-  // useEffect(() => {
-  //   console.log('🔥 isButtonValid : ', isButtonValid);
-
-  //   if (imgArr.length > 0) {
-  //     setIsButtonValid(true);
-  //   } else {
-  //     setIsButtonValid(false);
-  //   }
-  // }, [imgArr]);
 
   useEffect(() => {
     // console.log('핀 업데이트 되면 새로 고침');
