@@ -19,6 +19,7 @@ import CommunicationBox from 'components/CommunicationBox';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
 import { headerAction } from 'storeCompany/headerSlice';
+import Loader from 'components/Loader';
 
 type Props = {};
 
@@ -86,6 +87,11 @@ const successedProject = (props: Props) => {
   useEffect(() => {
     console.log('historyDetailData 업데이트');
   }, [historyDetailData]);
+
+  // 로딩중
+  if (loading) {
+    return <Loader />;
+  }
 
   // url정보기 기억하고 로그인 페이지로 리다이렉트
   if (!accessToken && memberType !== 'COMPANY') {
