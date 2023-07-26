@@ -93,7 +93,6 @@ const getRefreshToken = mem(
 
       return accessToken;
     } catch (error) {
-      // alert('로그인 테스트 진행 중 입니다.');
       // console.log(
       //   '================ 토큰 오류 발생 getRefreshToken ================',
       // );
