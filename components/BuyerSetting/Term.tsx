@@ -157,6 +157,9 @@ const Wrapper = styled.div`
     padding: 0 38.25pt;
     max-height: 468.75pt;
     overflow-y: scroll;
+    /* img {
+      width: 150px;
+    } */
   }
 `;
 

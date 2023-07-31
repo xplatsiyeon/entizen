@@ -225,7 +225,7 @@ const Wrapper = styled.div`
       font-style: italic;
     }
     img {
-      width: 100%;
+      width: 70%;
     }
   }
 
