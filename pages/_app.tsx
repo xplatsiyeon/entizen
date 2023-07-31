@@ -143,7 +143,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                     name="viewport"
                     content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
                   />
-                  <title>Next Naver maps</title>
+                  <title>엔티즌</title>
                 </Head>
                 {/* </CustomProvider> */}
                 <Component {...pageProps} />
