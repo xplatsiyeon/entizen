@@ -88,8 +88,11 @@ const Faq = () => {
 
   return (
     <WebBody>
+      {/* 웹헤더 */}
       <WebHeader />
+      {/* 오른쪽 메뉴 */}
       <UserRightMenu />
+      {/* 내부 */}
       <Inner>
         <GuideHeader
           title="자주 묻는 질문"
@@ -114,6 +117,7 @@ const Faq = () => {
               ))}
             </TabContainer>
             {/* <Main>{components[tabNumber]}</Main> */}
+            {/* 메인 내용 */}
             <Main>
               <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />
             </Main>
@@ -299,7 +303,8 @@ const FlexWrap = styled.div`
 
   &:nth-of-type(2) {
     width: 255pt;
-    min-height: 312pt;
+    /* min-height: 312pt; */
+    height: 312pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 16px;
   }

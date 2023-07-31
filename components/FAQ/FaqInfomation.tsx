@@ -30,6 +30,10 @@ const FaqInfomation = ({ faqList, tabNumber, tabCompNumber }: Props) => {
     setOpen([false]);
   }, [tabNumber]);
 
+  useEffect(() => {
+    console.log('faqList->', faqList);
+  }, [faqList]);
+
   return (
     <div>
       {tabNumber === 0 &&
@@ -157,6 +161,7 @@ const ItemText = styled(ListItemText)`
   background: #f3f4f7;
   border-bottom: 0.75pt solid ${colors.gray};
   padding: 12.5pt 5.25pt 12pt 12pt;
+  white-space: pre-line;
 `;
 
 const QText = styled.div`

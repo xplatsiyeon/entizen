@@ -233,6 +233,7 @@ const Faq = () => {
               ))}
             </TabContainer>
             {/* <Main>{components[tabCompNumber]}</Main> */}
+            {/* 상세 내역 */}
             <Main>
               <FaqInfomation faqList={faqList!} tabNumber={tabCompNumber} />
             </Main>
@@ -285,7 +286,7 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
@@ -413,7 +414,7 @@ const FlexWrap = styled.div`
 
   &:nth-of-type(2) {
     width: 255pt;
-    min-height: 312pt;
+    height: 312pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 16px;
   }

@@ -95,7 +95,7 @@ const PasswordNotifyPage = () => {
       const { url, data } = apiInfo;
       return await instance({
         method: 'PATCH',
-        url: `/api${url}`,
+        url: `${url}`,
         data,
         // withCredentials: true,
       }).then((res) => res);
@@ -257,7 +257,7 @@ const PasswordNotifyPage = () => {
                 <LeftTitlePw>재설정 비밀번호</LeftTitlePw>
                 <InputBox2>
                   <InputPassword
-                    type="text"
+                    type="password"
                     placeholder="비밀번호"
                     // onChange={(e) => changeValue(e)}
                     // ref={idRef}
@@ -281,7 +281,7 @@ const PasswordNotifyPage = () => {
                 <LeftTitlePw>비밀번호 재확인</LeftTitlePw>
                 <InputBox2>
                   <InputPassword
-                    type="text"
+                    type="password"
                     pattern="[A-Za-z]+"
                     placeholder="비밀번호 재확인"
                     maxLength={16}
