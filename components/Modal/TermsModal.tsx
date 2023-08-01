@@ -126,7 +126,7 @@ const ModalBox = styled.form`
   padding-bottom: 15pt;
   /* width: 345pt;
   height: 498pt; */
-  width: 900px;
+  width: 1100px;
   height: 700px;
   @media (max-height: 500pt) {
     height: 100%;
