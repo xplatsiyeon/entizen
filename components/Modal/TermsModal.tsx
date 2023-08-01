@@ -82,12 +82,12 @@ export default function TermsModal({
         <Wrapper>
           {termsModalType === 'terms' ? (
             userType && userType === 1 ? (
-              <p dangerouslySetInnerHTML={{ __html: companyTerm }} />
+              <div dangerouslySetInnerHTML={{ __html: companyTerm }} />
             ) : (
-              <p dangerouslySetInnerHTML={{ __html: userTerm }} />
+              <div dangerouslySetInnerHTML={{ __html: userTerm }} />
             )
           ) : (
-            <p dangerouslySetInnerHTML={{ __html: personalInfo }} />
+            <div dangerouslySetInnerHTML={{ __html: personalInfo }} />
           )}
         </Wrapper>
       </ModalBox>
@@ -110,14 +110,13 @@ const ModalWrapper = styled(Box)`
 const ModalBox = styled.form`
   display: flex;
   flex-direction: column;
-  position: fixed;
+  /* position: fixed; */
   transform: translate(-50%, -50%);
   align-items: center;
   border-radius: 20pt;
   background-color: ${colors.lightWhite};
-  top: 200pt;
-  /* top: 0 */
-  left: auto;
+  /* top: 200pt;
+  left: auto; */
   transform: none;
   border-radius: 20pt;
   overflow-y: scroll;
@@ -125,8 +124,10 @@ const ModalBox = styled.form`
   padding-left: 47.25pt;
   padding-right: 27pt;
   padding-bottom: 15pt;
-  width: 345pt;
-  height: 498pt;
+  /* width: 345pt;
+  height: 498pt; */
+  width: 900px;
+  height: 700px;
   @media (max-height: 500pt) {
     height: 100%;
   }
