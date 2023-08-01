@@ -134,11 +134,11 @@ const WebFooter = () => {
             <p>&#40;점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외&#41;</p>
           </Time>
           <ButtonBox>
-            <Button>
+            <Button href="https://apps.apple.com/kr/app/%EC%97%94%ED%8B%B0%EC%A6%8C-%EC%A0%84%EA%B8%B0%EC%B0%A8-%EC%B6%A9%EC%A0%84%EA%B8%B0-%EB%B9%84%EA%B5%90%EB%B6%80%ED%84%B0-%EC%84%A4%EC%B9%98-%EC%9A%B4%EC%98%81%EA%B9%8C%EC%A7%80/id6444201801">
               <Image src={apple} alt="apple" />
               <span>App Store</span>
             </Button>
-            <Button>
+            <Button href="https://play.google.com/store/apps/details?id=com.entizen">
               <Image src={google} alt="google" />
               <span>Google Play</span>
             </Button>
@@ -251,7 +251,7 @@ const ButtonBox = styled.div`
   gap: 15pt;
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   /* background: ${colors.main}; */
   background: #222222;
   padding: 9pt 12pt;
@@ -263,6 +263,13 @@ const Button = styled.button`
   align-items: center;
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.white};
+  :hover {
+    color: ${colors.white};
+    text-decoration: none;
+    text-decoration-line: none;
+    background-color: none;
+    -webkit-tap-highlight-color: transparent;
+  }
   cursor: pointer;
   /* margin-right: 9pt; */
   /* & span:first-of-type {
