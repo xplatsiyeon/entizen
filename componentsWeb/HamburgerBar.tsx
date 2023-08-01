@@ -24,7 +24,7 @@ import CompanyQuotationAndGuideSVG from 'public/images/CompanyQuotationAndGuideS
 import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
 import mypageIconSVG from 'public/images/mypageIconSVG.svg';
 import MyProductListSVG from 'public/images/MyProductListSVG.svg';
-
+import grayInsta from 'public/images/grayCircleInsta.png';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
@@ -391,7 +391,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           <Line2 />
           <WhiteAreaBottomMenus>
             {/* 인스타 그램 임시로 막기 */}
-            {/* <span
+            <span
               onClick={() =>
                 window.open(
                   'https://instagram.com/entizen.ev/',
@@ -400,7 +400,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               }
             >
               <Image src={grayInsta} alt="인스타"></Image>
-            </span> */}
+            </span>
             <span
               // onClick={() =>
               //   window.open('http://post.naver.com/entizen_ev', 'entizen_post')
