@@ -155,7 +155,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
