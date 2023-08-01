@@ -403,6 +403,10 @@ const Header = styled(Box)`
   height: 36pt;
   padding: 9pt 0;
   padding: 0 15pt;
+  position: sticky;
+  top: 0;
+  background-color: ${colors.lightWhite};
+  z-index: 99999;
   .img-item {
     position: absolute;
     left: 7pt;
