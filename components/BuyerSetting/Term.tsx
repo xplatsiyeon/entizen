@@ -81,10 +81,10 @@ const Term = ({ setTabNumber }: Props) => {
 
       <Wrapper>
         {/* 이용 약관 */}
-        {memberType === 'USER' ? (
-          <div dangerouslySetInnerHTML={{ __html: userTerm }} />
-        ) : (
+        {memberType === 'COMPANY' ? (
           <div dangerouslySetInnerHTML={{ __html: companyTerm }} />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: userTerm }} />
         )}
       </Wrapper>
     </WebRapper>
