@@ -97,7 +97,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
   return (
     <Wrapper>
       <Container>
-        {/* 웹헤더ㅏ */}
+        {/* 웹헤더 */}
         <WebBuyerHeader
           setTabNumber={setTabNumber}
           tabNumber={tabNumber}
@@ -151,6 +151,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                 <Image src={BellOn} alt="alarmIcon" />
               </FirstIconBox>
             )}
+            {/* 모바일 */}
             {mobile && (
               <>
                 {(['right'] as const).map((anchor) => (
@@ -181,7 +182,6 @@ const CompanyMainPage = ({ num, now }: Props) => {
         </HeadWrapper>
         {/* 배너 */}
         <Carousel />
-
         {/* 메인 페이지 컴포넌트*/}
         <QuotationCenter />
         {/* 메인 페이지 버튼*/}

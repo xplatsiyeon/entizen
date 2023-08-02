@@ -66,7 +66,6 @@ const QuotationCenter = ({}: Props) => {
     }
   }, [receivedData]);
 
-  // newReceived?.receivedQuotationRequests.length! > 300? '300+': newReceived?.receivedQuotationRequests.length!
   if (receivedError) {
     alert('잠시 후 다시 시도해주세요.');
     router.push('/404');
@@ -149,12 +148,12 @@ const CountCircle = styled.span<{ length: number | string; total: number }>`
   font-family: 'Spoqa Han Sans Neo';
   position: absolute;
   ${({ length }) =>
-    (length > 10 || length === '300+') &&
+    ((length as number) > 10 || length === '300+') &&
     css`
       left: 23pt;
     `};
   ${({ length }) =>
-    length < 10 &&
+    (length as number) < 10 &&
     css`
       right: 0;
     `};
@@ -168,13 +167,10 @@ const CountCircle = styled.span<{ length: number | string; total: number }>`
   text-align: center;
   padding: 4px;
   min-width: 18pt;
-  /* width: ${({ total }) => total && `${total}pt`}; */
-  /* width: ${({ length }) =>
-    length > 10 || length === '300+' ? '65%' : '18pt'}; */
   height: 18pt;
   background-color: ${colors.main};
   color: #ffffff;
-  border-radius: ${({ length }) => (length < 10 ? '50%' : '16pt')};
+  border-radius: ${({ length }) => ((length as number) < 10 ? '50%' : '16pt')};
   z-index: 100 !important;
 `;
 
