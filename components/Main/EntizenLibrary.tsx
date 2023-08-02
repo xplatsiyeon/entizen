@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
-import rightArrow from 'public/images/littleRightArrow.png';
+
+import rightArrow from 'public/images/caretRight.svg';
 import blackRightArrow from 'public/images/blackLittleRightArrow.png';
 import React from 'react';
 import colors from 'styles/colors';
@@ -37,7 +38,6 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
       isTokenGetApi(`/libraries?page=1&limit=10`),
     );
 
-  // const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
 
   return (
@@ -67,7 +67,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                     <DetailView smallfont={smallfont ? smallfont : 0}>
                       자세히 보기
                       <span>
-                        <Image src={rightArrow} alt="icon" />
+                        <Image src={rightArrow} alt="icon" layout="fill" />
                       </span>
                     </DetailView>
                   </TitleNDetail>
@@ -76,93 +76,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
             );
           })}
         </BoardBox>
-        {/* <BoardBox>
-          <LibraryList
-            onClick={() =>
-              openExternalBrowser(
-                userAgent,
-                'https://post.naver.com/myProfile.naver?memberNo=58867144',
-              )
-            }
-          >
-            <ProfileImg>
-              <ImgDiv src="/images/entizenLibrarySample.png" />
-            </ProfileImg>
-            <TitleNDetail>
-              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                엔티즌 도서관 둘러보기
-              </LibraryTitle>
-              <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기
-                <span>
-                  <Image src={rightArrow} alt="icon" />
-                </span>
-              </DetailView>
-            </TitleNDetail>
-          </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
-            <ProfileImg>
-              <div></div>
-            </ProfileImg>
-            <TitleNDetail>
-              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                추후 문구 추가
-              </LibraryTitle>
-              <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
-                <span>
-                  <Image src={rightArrow} alt="icon" />
-                </span>
-              </DetailView>
-            </TitleNDetail>
-          </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
-            <ProfileImg>
-              <div></div>
-            </ProfileImg>
-            <TitleNDetail>
-              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                추후 문구 추가
-              </LibraryTitle>
-              <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
-                <span>
-                  <Image src={rightArrow} alt="icon" />
-                </span>
-              </DetailView>
-            </TitleNDetail>
-          </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
-          
-            <ProfileImg>
-              <div></div>
-            </ProfileImg>
-            <TitleNDetail>
-              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                추후 문구 추가
-              </LibraryTitle>
-              <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기
-                <span>
-                  <Image src={rightArrow} alt="icon" />
-                </span>
-              </DetailView>
-            </TitleNDetail>
-          </LibraryList>
-        </BoardBox> */}
-        {/* 심사후에 주석 해제 */}
+
         <ShowAllBtnBox>
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
@@ -300,13 +214,17 @@ const DetailView = styled(Typography)<{ smallfont: number }>`
   font-size: ${({ smallfont }) => (smallfont !== 0 ? smallfont : 9)}pt;
   line-height: 15pt;
   font-weight: 500;
+
   color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
   cursor: pointer;
   & span {
     display: flex;
     align-items: center;
-    margin-left: 3pt;
+    margin-left: 4pt;
+    width: 20px;
+    height: 20px;
+    position: relative;
   }
   @media (max-width: 899.25pt) {
     margin-top: 0;

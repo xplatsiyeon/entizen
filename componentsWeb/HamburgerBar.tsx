@@ -28,6 +28,7 @@ import grayInsta from 'public/images/grayCircleInsta.png';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
+import { el } from 'date-fns/locale';
 
 type Props = {
   anchor: string;
@@ -98,13 +99,17 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   } = useProfile(accessToken);
 
   // 라우팅 함수 내 견적 vs 간편견적
-  const estimateRouting = () => {
+  const estimateRouting = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (!userID) {
+      console.log('click');
+      router.push('/signin');
+    }
+
     if (userID && memberType === 'COMPANY') {
       router.push('/company/quotation');
     } else if (userID && memberType !== 'COMPANY') {
       router.push('/quotation/request');
-    } else if (userID!) {
-      router.push('/signin');
     }
   };
 

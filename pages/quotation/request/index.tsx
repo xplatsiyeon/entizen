@@ -33,6 +33,7 @@ interface Components {
 const Quotation1_1 = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const userID = sessionStorage?.getItem('USER_ID')!;
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
@@ -46,6 +47,13 @@ const Quotation1_1 = () => {
     // 안드로이드 호출
     if (userAgent === 'Android_App') {
       window.onClickBackButton = () => HandleModal();
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!userID) {
+      router.push('/signin');
+      return;
     }
   }, []);
 
@@ -79,9 +87,13 @@ const Quotation1_1 = () => {
           isModal === false &&
           router.asPath.split('?')[0] !== url.split('?')[0]
         ) {
-          setIsModal(true);
-          router.events.emit('routeChangeError');
-          throw 'Abort route change. Please ignore this error.';
+          if (userID) {
+            setIsModal(true);
+            router.events.emit('routeChangeError');
+            throw 'Abort route change. Please ignore this error.';
+          } else {
+            return;
+          }
         }
       }
     },

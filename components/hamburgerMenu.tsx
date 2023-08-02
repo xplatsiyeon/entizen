@@ -73,7 +73,15 @@ const HamburgerMenu = ({ st }: Props) => {
         )}
 
         <WhiteArea>
-          <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
+          <WhiteAreaMenus
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('클릭');
+              userID
+                ? router.push('/mypage')
+                : router.push('/quotation/request');
+            }}
+          >
             <span>
               <Image src={simpleEstimate} alt="간편견적" />
             </span>

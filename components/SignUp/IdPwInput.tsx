@@ -523,7 +523,6 @@ const IdPwInput = ({
         {/* 이메일 인증코드 작성란 */}
         <Input
           type="text"
-          autoComplete="new-password"
           borderBoolean1={
             data?.isMember === true && emailCodeAlert && !isEmailCodeValid
               ? true

@@ -3,7 +3,7 @@ import MypageHeader from 'components/mypage/request/header';
 import Image from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
-import arrowImg from 'public/images/blueArrow.png';
+import arrowImg from 'public/images/caretRight.svg';
 import { useRouter } from 'next/router';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -150,31 +150,35 @@ const List = styled.li`
   .text-box {
     display: flex;
     flex-direction: column;
-    gap: 9.75pt;
-    font-weight: 400;
-    font-size: 19.5pt;
-    line-height: 18pt;
-    letter-spacing: -0.02em;
+    margin-bottom: 16px;
     color: ${colors.main2};
+    padding-right: 31px;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: -0.4px;
   }
   .color-box {
     display: flex;
     align-items: center;
-    letter-spacing: -0.02em;
-    color: ${colors.main};
+    margin-top: 16px;
   }
   .color-text {
     font-family: 'Spoqa Han Sans Neo';
     position: relative;
-    top: 1.2pt; //  가운데 정렬 디테일 수정
+    font-size: 14px;
     font-weight: 500;
-    font-size: 13.5pt;
-    line-height: 15pt;
+    line-height: 18px;
+    letter-spacing: -0.28px;
+    margin-right: 4px;
+    color: ${colors.main};
   }
   .arrow-img {
     position: relative;
-    width: 15pt;
-    height: 15pt;
+    width: 16px;
+    height: 16px;
   }
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -200,8 +204,8 @@ const List = styled.li`
       font-size: 9pt;
     }
     .arrow-img {
-      width: 9pt;
-      height: 9pt;
+      width: 16px;
+      height: 16px;
     }
   }
 `;
