@@ -202,8 +202,8 @@ const TitleNDetail = styled.div`
 const LibraryTitle = styled(Typography)<{ fontSize: number }>`
   font-size: ${({ fontSize }) => (fontSize !== 0 ? fontSize : 12)}pt;
   font-weight: 400;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
+  line-height: 40px;
+  letter-spacing: -0.52px;
   font-family: 'Spoqa Han Sans Neo';
 `;
 

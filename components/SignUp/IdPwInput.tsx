@@ -522,6 +522,7 @@ const IdPwInput = ({
         </Box>
         {/* 이메일 인증코드 작성란 */}
         <Input
+          autoComplete="off"
           type="text"
           borderBoolean1={
             data?.isMember === true && emailCodeAlert && !isEmailCodeValid
@@ -590,7 +591,7 @@ const IdPwInput = ({
         )}
         <Input
           type={pwShow[1] ? 'text' : 'password'}
-          autoComplete="new-password"
+          autoComplete="off"
           borderBoolean1={!checkSamePw && checkPw.length > 4 ? true : false}
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
