@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
-import axios from 'axios';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
@@ -176,20 +175,22 @@ const ManagerInfo = ({
 
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
-    instance({
-      headers: {
-        local: process.env.NEXT_PUBLIC_LOCAL!,
-      },
-      method: 'post',
-      url: `/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
+    if (memberType) {
+      instance({
+        headers: {
+          local: process.env.NEXT_PUBLIC_LOCAL!,
+        },
+        method: 'post',
+        url: `/auth/nice`,
+        data: { memberType },
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((res) => {
+          setData(res.data.executedData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   // 유효성 검사

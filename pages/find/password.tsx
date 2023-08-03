@@ -9,7 +9,6 @@ import Modal from 'components/Modal/Modal';
 import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import axios from 'axios';
 import PassowrdStep1 from 'components/Find/PassowrdStep1';
 import backIcon from 'public/images/backIcon.svg';
 import Image from 'next/image';
@@ -22,7 +21,6 @@ const FindPassword = () => {
   const [step, setStep] = useState(0);
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
-  // const [pwShow, setPwShow] = useState<boolean>(false);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -57,101 +55,22 @@ const FindPassword = () => {
     let data = JSON.parse(key!);
     const PROFILE_API = `${process.env.NEXT_PUBLIC_BASE_URL}/members/reset/password/${data.memberIdx}`;
     try {
-      // console.log('이름 =>   ' + data.name);
-      // console.log('번호 =>   ' + data.phone);
       await instance({
         method: 'patch',
         url: `/members/reset/password/${data.memberIdx}`,
         data: {
           password: pwInput,
         },
-        // headers: {
-        //   ContentType: 'application/json',
-        //   Authorization: `Bearer ${accessToken}`,
-        // },
-        // withCredentials: true,
       }).then((res) => {
-        // console.log(res);
         setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');
         setOpenModal(true);
-        // console.log(modalText);
       });
     } catch (error: any) {
-      // console.log('post 실패!!!!!!');
-      // console.log(error);
       setModalText(error.response.data.message);
       setOpenModal(true);
-      // console.log(modalText);
     }
   };
 
-  // const iconAdorment = {
-  //   endAdornment: (
-  //     <InputAdornment position="start">
-  //       <Typography
-  //         onClick={() => setPwInput('')}
-  //         onMouseDown={handleMouseDownPassword}
-  //         sx={{
-  //           cursor: 'pointer',
-  //           display: 'flex',
-  //           justifyContent: 'center',
-  //           alignItems: 'center',
-  //         }}
-  //       >
-  //         <CancelRoundedIcon
-  //           sx={{
-  //             color: '#E2E5ED',
-  //             width: '10.5pt',
-  //             marginRight: '9pt',
-  //             cursor: 'pointer',
-  //           }}
-  //         />
-  //       </Typography>
-  //       <Typography
-  //         sx={{
-  //           fontSize: '14px',
-  //           fontWeight: '400',
-  //           lineHeight: '16px',
-  //           letterSpacing: '-0.02em',
-  //           textAlign: 'left',
-  //           color: `${colors.main}`,
-  //           cursor: 'pointer',
-  //         }}
-  //         variant="subtitle1"
-  //         onClick={() => setPwShow(!pwShow)}
-  //         onMouseDown={handleMouseDownPassword}
-  //       >
-  //         {pwShow ? '미표시' : '표시'}
-  //       </Typography>
-  //     </InputAdornment>
-  //     // <InputAdornment position="start">
-  //     //   <CancelRoundedIcon
-  //     //     sx={{
-  //     //       color: '#E2E5ED',
-  //     //       width: '10.5pt',
-  //     //       marginRight: '9pt',
-  //     //       cursor: 'pointer',
-  //     //     }}
-  //     //   />
-  //     //   <Typography
-  //     //     sx={{
-  //     //       fontSize: '14px',
-  //     //       fontWeight: '400',
-  //     //       lineHeight: '16px',
-  //     //       letterSpacing: '-0.02em',
-  //     //       textAlign: 'left',
-  //     //       color: `${colors.main}`,
-  //     //       cursor: 'pointer',
-  //     //     }}
-  //     //     variant="subtitle1"
-  //     //     onClick={() => setPwShow(!pwShow)}
-  //     //     onMouseDown={handleMouseDownPassword}
-  //     //   >
-  //     //     {pwShow ? '미표시' : '표시'}
-  //     //   </Typography>
-  //     // </InputAdornment>
-  //   ),
-  // };
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
   const handleShowBtn = (id: number) => {

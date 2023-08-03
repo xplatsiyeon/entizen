@@ -222,17 +222,20 @@ const ChooseUserType = ({ userType, setUserType }: Props) => {
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
-    instance({
-      method: 'post',
-      url: `/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
+    if (memberType) {
+      instance({
+        method: 'post',
+        url: `/auth/nice`,
+        data: { memberType },
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((res) => {
+          setData(res.data.executedData);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
   // 구글 브릿지 연결 (앱 -> 웹)

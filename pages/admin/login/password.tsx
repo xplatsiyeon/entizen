@@ -140,16 +140,16 @@ const PasswordNotifyPage = () => {
     }
   }, [id, name, firstEmail, secondEmail]);
 
-  useEffect(() => {
-    if (success?.data?.isExistedManager === false) {
-      setModal(true);
-      setExistence(false);
-    } else if (success === undefined) {
-      setExistence(false);
-    } else if (success?.data?.isExistedManager === true) {
-      setExistence(true);
-    }
-  }, [success]);
+  // useEffect(() => {
+  //   if (success?.data?.isExistedManager === false) {
+  //     setModal(true);
+  //     setExistence(false);
+  //   } else if (success === undefined) {
+  //     setExistence(false);
+  //   } else if (success?.data?.isExistedManager === true) {
+  //     setExistence(true);
+  //   }
+  // }, [success]);
 
   useEffect(() => {
     if (1 < password.length && password.length < 8) {
@@ -166,7 +166,7 @@ const PasswordNotifyPage = () => {
     }
   }, [password, rePassword]);
 
-  // 나이스 인증 팝업
+  // 나이스 인증 팝업 띄어기 (2/3)
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -180,26 +180,28 @@ const PasswordNotifyPage = () => {
           'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
         document.form_chk.target = 'popupChk';
         document.form_chk.submit();
+      } else {
+        alert('아이디를 입력해주세요.');
       }
     }
   };
 
-  // 나이스 인증 온클릭
+  // 나이스 인증 온클릭 (3/3)
   const onClickNice = () => {
     let key = sessionStorage.getItem('key');
     let data: NiceKey = JSON.parse(key!);
     console.log(data);
-    alert('나이스 인증 클릭');
+    // 아이디와 비밀번호 일치하는지 조건 확인 (추가 작업 필요)
+    if (key) {
+      setExistence(true);
+    }
   };
 
-  // 나이스 인증
+  // 나이스 인증 (실행 데이터 담기 ) (1/3)
   useEffect(() => {
     instance({
       method: 'post',
       url: `/admin/auth/nice`,
-      // data: {
-      //   memberType: 'USER',
-      // },
     })
       .then((res) => {
         console.log(res);
@@ -346,7 +348,7 @@ const PasswordNotifyPage = () => {
                 fnPopup();
               }}
             >
-              <span>조회</span>
+              <span>본인인증</span>
             </Button>
           ) : (
             <Button

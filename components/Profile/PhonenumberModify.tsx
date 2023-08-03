@@ -146,21 +146,21 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   };
   // 나이스 인증 1
   useEffect(() => {
-    instance({
-      // headers: {
-      //   local: process.env.NEXT_PUBLIC_LOCAL!,
-      // },
-      method: 'post',
-      url: `/auth/nice`,
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
+    if (memberType) {
+      instance({
+        method: 'post',
+        url: `/auth/nice`,
+        data: { memberType },
       })
-      .catch((error) => {
-        console.error('나이스 인증 에러 발생');
-        console.error(error);
-      });
+        .then((res) => {
+          setData(res.data.executedData);
+        })
+        .catch((error) => {
+          console.error('나이스 인증 에러 발생');
+          console.error(error);
+        });
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

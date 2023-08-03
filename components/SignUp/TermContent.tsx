@@ -9,7 +9,6 @@ import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
-import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import { useMediaQuery } from 'react-responsive';
 import { selectAction } from 'store/loginTypeSlice';
@@ -20,8 +19,6 @@ import useNice from 'hooks/useNice';
 import TermsModal from 'components/Modal/TermsModal';
 import instance from 'api/interceptor/service';
 type Props = {
-  // level: number;
-  // setLevel: Dispatch<SetStateAction<number>>;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
   fullTerms: boolean;
@@ -56,7 +53,6 @@ const TermContent = ({
   userType,
   setBirthday,
 }: Props) => {
-  // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
   const dispatch = useDispatch();
   const mobile = useMediaQuery({
@@ -67,7 +63,6 @@ const TermContent = ({
   const [modalMessage, setModalMessage] = useState<string>('');
   const [isTermsModal, setIsTermsModal] = useState<boolean>(false);
   const [termsModalType, setTermsModalType] = useState<termsType>('terms');
-
   const LoginType = useSelector((state: RootState) => state.LoginType);
   const signUpLevel = useSelector(
     (state: RootState) => state.LoginType.signUpLevel,
@@ -431,8 +426,6 @@ const Form = styled(Box)<{ isterms: string }>`
 `;
 const Check = styled(Box)`
   margin-top: 15pt;
-  /* display: flex;
-  align-items: center; */
 `;
 const Item = styled(Box)`
   display: flex;
