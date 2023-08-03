@@ -9,6 +9,7 @@ import AdminPasswordModal from 'componentsAdmin/Modal/AdminPasswordModal';
 import { css } from '@emotion/react';
 import AdminRepasswordModal from 'componentsAdmin/Modal/AdminRepasswordModal';
 import instance from 'api/interceptor/service';
+import { FindKey } from 'pages/signin';
 
 type Existence = {
   isSuccess: boolean;
@@ -24,6 +25,12 @@ type Existence = {
     };
   };
 };
+
+interface NiceKey {
+  birthDate: string;
+  name: string;
+  phone: string;
+}
 
 const PasswordNotifyPage = () => {
   const dispatch = useDispatch();
@@ -158,7 +165,8 @@ const PasswordNotifyPage = () => {
       setCheckRePassword(true);
     }
   }, [password, rePassword]);
-  // 나이스 인증 온클릭 함수
+
+  // 나이스 인증 팝업
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -174,6 +182,14 @@ const PasswordNotifyPage = () => {
         document.form_chk.submit();
       }
     }
+  };
+
+  // 나이스 인증 온클릭
+  const onClickNice = () => {
+    let key = sessionStorage.getItem('key');
+    let data: NiceKey = JSON.parse(key!);
+    console.log(data);
+    alert('나이스 인증 클릭');
   };
 
   // 나이스 인증
@@ -201,7 +217,7 @@ const PasswordNotifyPage = () => {
       <Inner>
         <Wrapper>
           {modal && <AdminPasswordModal setModal={setModal} />}
-          {/* 나이스 인증 */}
+          {/* ============== 나이스 인증 ==============  */}
           <form name="form_chk" method="get">
             <input type="hidden" name="m" value="checkplusService" />
             {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
@@ -214,6 +230,14 @@ const PasswordNotifyPage = () => {
             <input type="hidden" name="recvMethodType" value="get" />
             {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
           </form>
+          <button
+            className="firstNextPage"
+            onClick={onClickNice}
+            style={{ display: 'none' }}
+          >
+            숨겨진 아이디 버튼
+          </button>
+          {/* ============== 나이스 인증 ==============  */}
           <TitleWrapper>
             <span className="leftText">엔티즌 관리자 시스템</span>
             <span className="rightText">비밀번호 재설정</span>
