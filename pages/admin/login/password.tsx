@@ -1,14 +1,10 @@
 import styled from '@emotion/styled';
-import { getApi, PropsApi } from 'api';
+import { PropsApi } from 'api';
 import axios from 'axios';
-import useAdminLogin from 'hooks/useAdminLogin';
-import { Router, useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import jwt_decode from 'jwt-decode';
-import { JwtTokenType } from 'pages/signin';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import AdminPasswordModal from 'componentsAdmin/Modal/AdminPasswordModal';
 import { css } from '@emotion/react';
 import AdminRepasswordModal from 'componentsAdmin/Modal/AdminRepasswordModal';
@@ -43,6 +39,7 @@ const PasswordNotifyPage = () => {
   const [checkPassword, setCheckPassword] = useState<boolean>(true);
   const [checkRePassword, setCheckRePassword] = useState<boolean>(true);
   const [message, setMessage] = useState('');
+  const [data, setData] = useState<any>();
 
   // 관리자 조회시 데이터 저장
   const [success, setSuccess] = useState<Existence>();
@@ -97,7 +94,6 @@ const PasswordNotifyPage = () => {
         method: 'PATCH',
         url: `${url}`,
         data,
-        // withCredentials: true,
       }).then((res) => res);
     },
     {
@@ -118,9 +114,7 @@ const PasswordNotifyPage = () => {
   );
 
   const repassword = () => {
-    // console.log('=======repassword fn 호출=======');
     if (checkPassword === true && checkRePassword === true) {
-      // console.log('=======repassword 조건 충족=======');
       rePasswordMutate({
         url: `/admin/managers/${success?.data?.manager?.managerIdx}/password`,
         data: {
@@ -130,39 +124,9 @@ const PasswordNotifyPage = () => {
     }
   };
 
-  // admin/managers/existence?id=iammanager&name=이관리&email=mznx0192@naver.com
-
-  //   const { adminLoginLoading, signinAdmin } = useAdminLogin(
-  //     idRef?.current?.value!,
-  //     setErrorModal,
-  //     setErrorMessage,
-  //     false,
-  //   );
-  //   // 기본 로그인
-  //   const originLogin = async () => {
-  //     await signinAdmin(pwRef?.current?.value!);
-  //   };
-
-  // const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { type } = e.target;
-  //   setErr(false);
-  //   if (idRef.current && type === 'text') {
-  //     idRef.current.value = e.target.value;
-  //     //// console.log(idRef.current.value)
-  //   } else if (pwRef.current && type == 'password') {
-  //     pwRef.current.value = e.target.value;
-  //     //// console.log(pwRef.current.value)
-  //   }
-  // };
-
-  // const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-  //   if (e.key === 'Enter') {
-  //     signin();
-  //   }
-  // };
-
   useEffect(() => {
-    if (id !== '' && name !== '' && firstEmail !== '' && secondEmail !== '') {
+    // if (id !== '' && name !== '' && firstEmail !== '' && secondEmail !== '') {
+    if (id !== '') {
       setSendStatus(true);
     } else {
       setSendStatus(false);
@@ -194,41 +158,90 @@ const PasswordNotifyPage = () => {
       setCheckRePassword(true);
     }
   }, [password, rePassword]);
+  // 나이스 인증 온클릭 함수
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      if (sendStatus) {
+        window.open(
+          '',
+          'popupChk',
+          'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+        );
+        document.form_chk.action =
+          'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+        document.form_chk.target = 'popupChk';
+        document.form_chk.submit();
+      }
+    }
+  };
+
+  // 나이스 인증
+  useEffect(() => {
+    instance({
+      method: 'post',
+      url: `/admin/auth/nice`,
+      // data: {
+      //   memberType: 'USER',
+      // },
+    })
+      .then((res) => {
+        console.log(res);
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Body>
       <Inner>
         <Wrapper>
           {modal && <AdminPasswordModal setModal={setModal} />}
+          {/* 나이스 인증 */}
+          <form name="form_chk" method="get">
+            <input type="hidden" name="m" value="checkplusService" />
+            {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+            <input
+              type="hidden"
+              id="encodeData"
+              name="EncodeData"
+              value={data !== undefined && data}
+            />
+            <input type="hidden" name="recvMethodType" value="get" />
+            {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+          </form>
           <TitleWrapper>
             <span className="leftText">엔티즌 관리자 시스템</span>
             <span className="rightText">비밀번호 재설정</span>
           </TitleWrapper>
           {existence === false && (
             <InputWrapper>
+              {/* 아이디 */}
               <InputBox>
                 <LeftTitle>아이디</LeftTitle>
                 <InputID
                   type="text"
                   placeholder="아이디"
-                  // onChange={(e) => changeValue(e)}
-                  // ref={idRef}
                   onChange={(e) =>
                     setId(e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''))
                   }
                 />
               </InputBox>
-              <InputBox>
+              {/* 이름 */}
+              {/* <InputBox>
                 <LeftTitle>이름</LeftTitle>
                 <InputName
                   type="text"
                   placeholder="이름"
-                  // onChange={(e) => changeValue(e)}
-                  // ref={nameRef}
                   onChange={(e) => setName(e.target.value)}
                 />
-              </InputBox>
-              <InputBox>
+              </InputBox> */}
+              {/* 이메일 */}
+              {/* <InputBox>
                 <LeftTitle>이메일</LeftTitle>
                 <InputEmail
                   type="text"
@@ -241,7 +254,7 @@ const PasswordNotifyPage = () => {
                   placeholder=""
                   onChange={(e) => setSecondEmail(e.target.value)}
                 />
-              </InputBox>
+              </InputBox> */}
             </InputWrapper>
           )}
           {existence === true && (
@@ -259,15 +272,11 @@ const PasswordNotifyPage = () => {
                   <InputPassword
                     type="password"
                     placeholder="비밀번호"
-                    // onChange={(e) => changeValue(e)}
-                    // ref={idRef}
                     value={password}
-                    onChange={
-                      (e) =>
-                        setPassword(
-                          e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''),
-                        )
-                      // setPassword(e.target.value)
+                    onChange={(e) =>
+                      setPassword(
+                        e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''),
+                      )
                     }
                     maxLength={16}
                     checkPassword={checkPassword}
@@ -286,8 +295,6 @@ const PasswordNotifyPage = () => {
                     placeholder="비밀번호 재확인"
                     maxLength={16}
                     value={rePassword}
-                    // onChange={(e) => changeValue(e)}
-                    // ref={nameRef}
                     onChange={(e) =>
                       setRePassword(
                         e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''),
@@ -311,7 +318,8 @@ const PasswordNotifyPage = () => {
           {existence === false ? (
             <Button
               onClick={() => {
-                adminExistence();
+                // adminExistence();
+                fnPopup();
               }}
             >
               <span>조회</span>
@@ -531,13 +539,14 @@ const TitleWrapper = styled.div`
 
 const LeftTitle = styled.p`
   font-style: normal;
-  /* font-weight: 500; */
   font-size: 16px;
   line-height: 150%;
   color: #000000;
   margin-bottom: 8px;
-  width: 50px;
-  margin-right: 105px;
+  /* width: 50px;
+  margin-right: 105px; */
+  width: 70px;
+  margin-right: 30px;
 `;
 
 const LeftTitlePw = styled.p`
