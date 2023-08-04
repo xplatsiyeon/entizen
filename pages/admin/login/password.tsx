@@ -35,6 +35,7 @@ interface NiceKey {
 }
 
 const PasswordNotifyPage = () => {
+  const [managerIdx, setManagerIdx] = useState<number>();
   const [modal, setModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
@@ -121,9 +122,14 @@ const PasswordNotifyPage = () => {
   );
 
   const repassword = () => {
-    if (checkPassword === true && checkRePassword === true) {
+    if (
+      checkPassword === true &&
+      checkRePassword === true &&
+      managerIdx !== undefined
+    ) {
       rePasswordMutate({
-        url: `/admin/managers/${success?.data?.manager?.managerIdx}/password`,
+        // url: `/admin/managers/${success?.data?.manager?.managerIdx}/password`,
+        url: `/admin/managers/${managerIdx}/password`,
         data: {
           password: rePassword,
         },
@@ -195,6 +201,7 @@ const PasswordNotifyPage = () => {
     // 아이디와 비밀번호 일치하는지 조건 확인
     if (data.id && data.id === id) {
       setExistence(true);
+      setManagerIdx(data.managerIdx);
     } else {
       setMessage('회원정보가 일치하지 않습니다.\n다시 한번 확인 부탁드립니다.');
       setAlertModal(true);
