@@ -192,11 +192,11 @@ const PasswordNotifyPage = () => {
     let key = sessionStorage.getItem('key');
     let data: NiceKey = JSON.parse(key!);
     console.log(data);
-    // 아이디와 비밀번호 일치하는지 조건 확인 (추가 작업 필요)
-    if (data.id === id) {
+    // 아이디와 비밀번호 일치하는지 조건 확인
+    if (data.id && data.id === id) {
       setExistence(true);
     } else {
-      setMessage('비밀번호 변경에 실패했습니다.\n다시 한번 확인 부탁드립니다.');
+      setMessage('회원정보가 일치하지 않습니다.\n다시 한번 확인 부탁드립니다.');
       setAlertModal(true);
     }
   };
