@@ -30,11 +30,11 @@ interface NiceKey {
   birthDate: string;
   name: string;
   phone: string;
+  id: string;
+  managerIdx: number;
 }
 
 const PasswordNotifyPage = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
@@ -168,6 +168,8 @@ const PasswordNotifyPage = () => {
 
   // 나이스 인증 팝업 띄어기 (2/3)
   const fnPopup = () => {
+    setMessage('아이디를 입력해주세요.');
+    setAlertModal(true);
     if (typeof window !== 'object') return;
     else {
       if (sendStatus) {
@@ -181,7 +183,8 @@ const PasswordNotifyPage = () => {
         document.form_chk.target = 'popupChk';
         document.form_chk.submit();
       } else {
-        alert('아이디를 입력해주세요.');
+        setMessage('아이디를 입력해주세요.');
+        setAlertModal(true);
       }
     }
   };
@@ -192,8 +195,11 @@ const PasswordNotifyPage = () => {
     let data: NiceKey = JSON.parse(key!);
     console.log(data);
     // 아이디와 비밀번호 일치하는지 조건 확인 (추가 작업 필요)
-    if (key) {
+    if (data.id === id) {
       setExistence(true);
+    } else {
+      setMessage('비밀번호 변경에 실패했습니다.\n다시 한번 확인 부탁드립니다.');
+      setAlertModal(true);
     }
   };
 
@@ -208,6 +214,7 @@ const PasswordNotifyPage = () => {
         setData(res.data.executedData);
       })
       .catch((error) => {
+        console.error('에러 발생');
         console.error(error);
       });
 
@@ -218,6 +225,13 @@ const PasswordNotifyPage = () => {
     <Body>
       <Inner>
         <Wrapper>
+          {alertModal && (
+            <AdminRepasswordModal
+              setAlertModal={setAlertModal}
+              message={message}
+              size={'lg'}
+            />
+          )}
           {modal && <AdminPasswordModal setModal={setModal} />}
           {/* ============== 나이스 인증 ==============  */}
           <form name="form_chk" method="get">
@@ -285,13 +299,13 @@ const PasswordNotifyPage = () => {
           )}
           {existence === true && (
             <InputWrapper>
-              {alertModal && (
+              {/* {alertModal && (
                 <AdminRepasswordModal
                   setAlertModal={setAlertModal}
                   message={message}
                   size={'lg'}
                 />
-              )}
+              )} */}
               <InputContainer style={{ marginBottom: '40px' }}>
                 <LeftTitlePw>재설정 비밀번호</LeftTitlePw>
                 <InputBox2>
