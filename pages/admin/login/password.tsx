@@ -168,8 +168,6 @@ const PasswordNotifyPage = () => {
 
   // 나이스 인증 팝업 띄어기 (2/3)
   const fnPopup = () => {
-    setMessage('아이디를 입력해주세요.');
-    setAlertModal(true);
     if (typeof window !== 'object') return;
     else {
       if (sendStatus) {
