@@ -109,21 +109,23 @@ const SixthStep = ({ tabNumber }: Props) => {
   };
   // 간편 견적 포스트
   const predictionApi = async () => {
-    predictionMutate({
-      url: '/quotations/prediction',
-      data: {
-        chargers: quotationData.chargers,
-        subscribeProduct: quotationData.subscribeProduct,
-        // investRate: quotationData.investRate.toString(),
-        investRate: '0.5', // 50%받아와서 1-7 파일에서 데이터 값 변경
-        subscribePeriod: quotationData.subscribePeriod,
-        installationAddress: locationList.locationList.roadAddrPart,
-        installationLocation: quotationData.installationLocation,
-        installationPoints: quotationData.installationPoints,
-        installationPurpose: purpose[clicked].name,
-        etcRequest: '',
-      },
-    });
+    if (quotationData.chargers[0].kind !== '') {
+      predictionMutate({
+        url: '/quotations/prediction',
+        data: {
+          chargers: quotationData.chargers,
+          subscribeProduct: quotationData.subscribeProduct,
+          // investRate: quotationData.investRate.toString(),
+          investRate: '0.5', // 50%받아와서 1-7 파일에서 데이터 값 변경
+          subscribePeriod: quotationData.subscribePeriod,
+          installationAddress: locationList.locationList.roadAddrPart,
+          installationLocation: quotationData.installationLocation,
+          installationPoints: quotationData.installationPoints,
+          installationPurpose: purpose[clicked].name,
+          etcRequest: '',
+        },
+      });
+    }
   };
 
   // 다음버튼
@@ -151,7 +153,7 @@ const SixthStep = ({ tabNumber }: Props) => {
         <Modal
           text={errorMessage}
           color={colors.main}
-          click={() => setErrorModal((prev) => !prev)}
+          click={() => window.location.replace('/quotation/request')}
         />
       )}
       <Title>충전기 설치 목적을 알려주세요</Title>
