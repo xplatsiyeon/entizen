@@ -1,0 +1,38 @@
+.complete_page {}
+.complete_page .complete_container {
+    text-align: center;
+    margin: 10rem auto 5rem;
+}
+.complete_page .complete_container .complete_check {}
+.complete_page .complete_container .complete_title {
+    color: #222;
+    text-align: center;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 3.75rem; /* 150% */
+    letter-spacing: -0.05rem;
+    margin-bottom: 0.5rem;
+}
+.complete_page .complete_container .complete_text {
+    color: #222;
+    text-align: center;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.625rem; /* 162.5% */
+    letter-spacing: -0.02rem;
+    margin-bottom: 3rem;
+}
+.complete_page .complete_container .complete_btn {
+    width: 16.25rem;
+    height: 3.5rem;
+    flex-shrink: 0;
+
+    /* text */
+    border-radius: 0.5rem;
+    background: var(--Main1, #5221CB);
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+}

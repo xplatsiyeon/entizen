@@ -42,6 +42,8 @@ class MyDocument extends Document {
             rel="stylesheet"
             type="text/css"
           ></link>
+          {/* 주소찾기 가이드 : https://postcode.map.daum.net/guide */}
+          <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async />
           <Script
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}

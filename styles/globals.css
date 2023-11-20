@@ -104,6 +104,7 @@ input {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  -webkit-text-size-adjust:none; 
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -190,3 +191,14 @@ input::placeholder {
   font-family: 'Poppins';
   src: url(./Fonts/Poppins-Bold.ttf), url(./Fonts/Poppins-Bold.woff);
 }
+
+/* 화면 폭이 320px 이하일 때 */
+@media only screen and (max-width: 320px) { html { font-size: 31.25%; } }
+/* 화면 폭이 321px에서 480px 사이일 때 */
+@media only screen and (min-width: 321px) and (max-width: 480px) { html { font-size: 37.5%; } }
+/* 화면 폭이 481px에서 768px 사이일 때 */
+@media only screen and (min-width: 481px) and (max-width: 768px) { html { font-size: 56.25%; } }
+/* 화면 폭이 769px에서 1024px 사이일 때 */
+@media only screen and (min-width: 769px) and (max-width: 1024px) { html { font-size: 75%; } }
+/* 화면 폭이 1025px 이상일 때 */
+@media only screen and (min-width: 1025px) { html { font-size: 100%; } }

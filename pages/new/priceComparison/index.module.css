@@ -1,0 +1,222 @@
+.price_comparison_page .sec_01 {}
+/* 맨위 배너 글씨 */
+.price_comparison_page .sec_01 .banner_container {
+    position: relative;
+    width: 100%;
+    height: 27.5rem;
+    /* background-image: url('../../../public/new/priceComparison/banner.svg'); */
+    /* background-repeat: 'no-repeat';
+    background-position: center;
+    background-size: cover;
+    object-fit: cover; */
+}
+.price_comparison_page .sec_01 .container {
+    width: 100%;
+    position: absolute;
+    top: 7%;
+}
+.price_comparison_page .sec_01 .title_container,
+.price_comparison_page .sec_01 .comparison_container,
+.price_comparison_page .sec_01 .more_btn {
+    margin: 0 auto;
+    display: block;
+    width: 53.75rem;
+}
+
+.price_comparison_page .sec_01 .title_container {}
+.price_comparison_page .sec_01 .title_container > .text_01 {
+    color: #FFF;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 3.75rem; /* 150% */
+    letter-spacing: -0.05rem;
+    margin-bottom: 2.5rem;
+}
+.price_comparison_page .sec_01 .title_container > .text_02 {
+    color: #FFF;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.625rem; /* 162.5% */
+    letter-spacing: -0.02rem;
+    margin-bottom: 4rem;
+}
+.price_comparison_page .sec_01 .title_container > .text_02 > span {
+    color: #CAB6F9;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.625rem;
+    letter-spacing: -0.02rem;
+}
+
+/* 회사별 비교 */
+.price_comparison_page .sec_01 .comparison_container {
+    width: 53.75rem;
+    /* height: 60.75rem; */
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    background: #FFF;
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+    padding: 4rem 3rem;
+    margin-bottom: 1.75rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .text_01 {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1.625rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 2.5rem; /* 153.846% */
+    letter-spacing: -0.0375rem;
+    margin-bottom: 1rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .text_02 {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.75rem; /* 175% */
+    letter-spacing: -0.02rem;
+    margin-bottom: 2.5rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box {}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container {
+    width: 23rem;
+    /* height: 37.875rem; */
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    border: 1px solid #E2E5ED;
+    background: #FFF;
+    padding: 1.62rem;
+    margin-bottom: 3.5rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_img {
+    margin-bottom: 1.5rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_name {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1.625rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.0325rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info {
+    margin-bottom: 1.75rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper {
+    display: inline-flex;
+    padding-left: 0;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_01 {
+    color: #A3A7B2;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.625rem; /* 162.5% */
+    letter-spacing: -0.02rem;
+    width: 30%;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_02 {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.625rem; /* 162.5% */
+    letter-spacing: -0.02rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .min_price {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.04rem;
+    margin-bottom: 1.75rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .chat_btn {
+    width: 19.75rem;
+    height: 3.25rem;
+    flex-shrink: 0;
+    border-radius: 0.25rem;
+    background: #5221CB;
+    margin-bottom: 0.75rem;
+
+    /* text */
+    color: #FFF;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1rem; /* 100% */
+    letter-spacing: -0.02rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .show_estimate_btn {
+    width: 19.75rem;
+    height: 3.25rem;
+    flex-shrink: 0;
+    border-radius: 0.25rem;
+    background: #F7F6FC;
+
+    /* text */
+    color: #5221CB;
+    text-align: center;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1rem; /* 100% */
+    letter-spacing: -0.02rem;
+}
+.price_comparison_page .sec_01 .comparison_container .text_03 {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2.5rem; /* 166.667% */
+    letter-spacing: -0.0375rem;
+    text-align: center;
+}
+.price_comparison_page .sec_01 .comparison_container .text_03 > span {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 2.5rem;
+    letter-spacing: -0.0375rem;
+}
+.price_comparison_page .sec_01 .more_btn {
+    width: 53.75rem;
+    height: 4rem;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    background: #383B48;
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+    margin-bottom: 10rem;
+
+    /* text */
+    color: #FFF;
+    text-align: center;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem; /* 150% */
+    letter-spacing: -0.02rem;
+}
+.price_comparison_page .sec_01 .comparison_container {}
+.price_comparison_page .sec_01 .comparison_container {}
+.price_comparison_page .sec_01 .comparison_container {}
+.price_comparison_page .sec_01 .more_btn {}

@@ -6,10 +6,11 @@ interface OriginUserInfo {
   refreshToken: undefined | string;
 }
 
+// XXX: test
 const initialState: OriginUserInfo = {
-  userId: undefined,
-  accessToken: undefined,
-  refreshToken: undefined,
+  userId: '123',
+  accessToken: '123',
+  refreshToken: '123',
 };
 
 const slice = createSlice({
