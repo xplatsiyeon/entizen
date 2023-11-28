@@ -9,6 +9,8 @@ import 'swiper/css'; //basic
 import { SlideItem } from 'components/applyAd/slideItem';
 import { useMediaQuery } from 'react-responsive';
 
+import TagManager from 'react-gtm-module'
+
 const ApplyAdMain = () => {
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
@@ -96,7 +98,7 @@ const ApplyAdMain = () => {
             <button
               className={ApplyAdMainStyles.estimateBtn}
               onClick={() => {
-                location.href = '/myEstimate';
+                location.href = '/new/myEstimate';
               }}
             >
               맞춤 견적 받기

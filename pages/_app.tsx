@@ -13,6 +13,7 @@ import { AppProps } from 'next/app';
 import { useDispatch } from 'react-redux';
 import { userAgentAction } from 'store/userAgent';
 import { CookiesProvider } from 'react-cookie';
+import TagManager from 'react-gtm-module'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const dispatch = useDispatch();
@@ -123,6 +124,25 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         }
       };
     }
+  }, []);
+
+  //GTM 설치
+  useEffect(() => {
+    //USER ID 사용하는 경우(회원 정보를 가져온 다음 동작하도록 처리)
+    /*
+    TagManager.dataLayer({
+        dataLayer: {
+        user_id: "value",
+        user_grade: "value",
+        lastLoggedIn: "value",
+        },
+    });
+    */
+
+    //GTM 스니펫 삽입
+    TagManager.initialize({
+        gtmId: `GTM-P4MDKX9W`,
+    });
   }, []);
 
   return (
