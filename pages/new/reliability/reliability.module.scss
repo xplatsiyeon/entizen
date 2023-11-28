@@ -1,0 +1,101 @@
+$imgPath: '/images';
+
+.reliabilityContainer {
+  section {
+    padding: 1.25rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    max-width: 76rem;
+  }
+  .fakeHeader {
+    height: 6.75rem;
+  }
+  .backgroundWrap {
+    height: 17.5rem;
+
+    background: url('#{$imgPath}/myEstimate/background_1.png') 0 0 no-repeat;
+    position: relative;
+
+    .backgroundIntro {
+      color: #222;
+      text-align: center;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 2.5rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 3.75rem; /* 150% */
+      letter-spacing: -0.05rem;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      @media screen and (max-width: 1023px) {
+        width: 21.875rem;
+        font-size: 1.5rem;
+        line-height: 2.25rem; /* 150% */
+        letter-spacing: -0.03rem;
+      }
+    }
+  }
+
+  .mainSectionWrap {
+    box-sizing: border-box;
+    margin: 0 auto 6.25rem;
+    width: 53.75rem;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    
+    .title {
+      padding-top: 5rem;
+
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1.625rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 2.5rem; /* 153.846% */
+      letter-spacing: -0.0375rem;
+      text-align: left;
+      margin-bottom: 1rem;
+
+      @media screen and (max-width: 350px) {
+        font-size: 1.25rem;
+      }
+      @media screen and (max-width: 1023px) {
+        font-size: 1.25rem;
+        letter-spacing: -0.025rem;
+      }
+    }
+    .sub_title {
+      color: #4E5055;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.75rem; /* 175% */
+      letter-spacing: -0.02rem;
+      margin-bottom: 2.5rem;
+    }
+    .infoWrap {
+      width: -webkit-fill-available;
+
+      margin: 0 auto;
+    }
+  }
+  .bottomWrap {
+    padding: 0;
+    margin: 0 auto 10rem;
+    width: 100%;
+
+    .img {
+      display: block;
+    }
+  }
+}
