@@ -111,11 +111,24 @@ const ApplyAdMain = () => {
           </div>
         </section>
         <div className={ApplyAdMainStyles.infoSquare}>
-          <img
+          <video
+            autoPlay
+            loop
+            muted
+            poster="/images/suggestion/infoSquare.png"
+            className={ApplyAdMainStyles.img}
+          >
+            <source
+              src="https://drive.google.com/uc?export=view&id=1Wh6BUhaVgscMWBwXMMhb5uyuYlqMiXSU"
+              // src="https://drive.google.com/file/d/1Wh6BUhaVgscMWBwXMMhb5uyuYlqMiXSU/view?usp=sharing"
+              type="video/mp4"
+            />
+          </video>
+          {/* <img
             src="/images/suggestion/infoSquare.png"
             alt="infoSquare"
             className={ApplyAdMainStyles.img}
-          ></img>
+          ></img> */}
         </div>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section2}`}

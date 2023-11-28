@@ -1,0 +1,179 @@
+/* sec_common */
+.func_system_comparison_page .sec_02,
+.func_system_comparison_page .sec_03,
+.func_system_comparison_page .sec_04 {
+  width: 53.75rem;
+  margin: 0 auto 6.25rem;
+  padding: 0 1.25rem;
+}
+
+.func_system_comparison_page .sec_02 .title,
+.func_system_comparison_page .sec_03 .title,
+.func_system_comparison_page .sec_04 .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.5rem; /* 153.846% */
+  letter-spacing: -0.0375rem;
+  margin-bottom: 1rem;
+}
+.func_system_comparison_page .sec_02 .sub_title > span,
+.func_system_comparison_page .sec_04 .sub_title > span,
+.func_system_comparison_page .sec_03 .sub_title > span {
+  color: #4E5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+  letter-spacing: -0.02rem;
+}
+.func_system_comparison_page .sec_02 .sub_title,
+.func_system_comparison_page .sec_04 .sub_title,
+.func_system_comparison_page .sec_03 .sub_title {
+  color: #4E5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 175% */
+  letter-spacing: -0.02rem;
+  margin-bottom: 2.5rem;
+}
+
+/* table */
+.func_system_comparison_page .table_container {
+  min-width: 21.875rem;
+  max-width: 53.75rem;
+  margin: 0 auto;
+}
+.func_system_comparison_page .table_container table {
+  border-collapse: collapse; /*이중선 제거*/
+  width: 100%;
+}
+.func_system_comparison_page .table_container table th, 
+.func_system_comparison_page .table_container table td {
+  width: 100px;
+  height: 2.75rem;
+  text-align: center;
+  border: 1px solid #909fb7;
+
+  vertical-align: top; /* 위 */
+  vertical-align: bottom; /* 아래 */
+  vertical-align: middle; /* 가운데 */
+
+  color: #222;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.4375rem; /* 343.75% */
+  letter-spacing: -0.02rem;
+}
+.func_system_comparison_page .table_container table th {
+  background-color: #e2e5ed;
+  width: 11.25rem;
+}
+.func_system_comparison_page .table_container .table_caption {
+  color: #4E5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.0175rem;
+  margin-top: 1rem;
+  text-align: right;
+}
+@media screen and (max-width: 767px) {
+  .func_system_comparison_page .table_container {
+    /* width: 21.875rem; */
+    overflow: scroll;
+  }
+  .func_system_comparison_page .table_container table {
+    width: max-content;
+  }
+  .func_system_comparison_page .table_container .table_caption {
+    text-align: right;
+    font-size: 0.875rem;
+    margin-bottom: 0.81rem;
+  }
+}
+
+/* sec_01 */
+.func_system_comparison_page .sec_01 {
+  height: 17.5rem;
+  position: relative;
+  margin-bottom: 5rem;
+}
+.func_system_comparison_page .sec_01 .backgroundIntro {
+  color: #222;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 3.75rem; /* 150% */
+  letter-spacing: -0.05rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+@media screen and (max-width: 1023px) {
+  .func_system_comparison_page .sec_1 .backgroundIntro { 
+    width: 21.875rem;
+    font-size: 1.5rem;
+    line-height: 2.25rem; /* 150% */
+    letter-spacing: -0.03rem;
+  }
+}
+
+/* sec_02 */
+.func_system_comparison_page .sec_02 .info_wrap .info_item {}
+.func_system_comparison_page .sec_02 .info_wrap .info_item {
+  padding-left: 0;
+}
+
+/* sec_03 */
+.func_system_comparison_page .sec_03 {}
+.func_system_comparison_page .sec_03 .item_container {}
+.func_system_comparison_page .sec_03 .item_container .item_wrapper {
+  border-radius: 0.5rem;
+  border: 1px solid #E2E5ED;
+  background: #FFF;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+  padding: 2.06rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 {}
+.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_01 {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.03rem;
+}
+.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_02 {
+  color: #4E5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; /* 150% */
+  letter-spacing: -0.02rem;
+}
+.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_02 {}
+
+/* sec_04 */
+.func_system_comparison_page .sec_04 {}
+

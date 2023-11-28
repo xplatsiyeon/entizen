@@ -1,11 +1,17 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import CommonModal from '../commonModal';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Icon, Stack, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Icon, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
 import CheckCircle from 'public/new/estimate/CheckCircle.svg';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Image from 'next/image';
 import styles from './index.module.css';
+import { styled } from '@mui/material/styles';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WebHeader from 'componentsWeb/WebHeader';
 
 const qna = [
@@ -48,7 +54,24 @@ const Faq = () => {
     query: '(max-width:899.25pt)',
   });
 
+  const [dense, setDense] = React.useState(false);
   const [expanded, setExpanded] = React.useState<string | false>('panel1');
+
+  const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
+    padding: theme.spacing(2),
+    borderTop: '1px solid rgba(0, 0, 0, .125)',
+  }));
+  const Accordion = styled((props: AccordionProps) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+  ))(({ theme }) => ({
+    border: `1px solid ${theme.palette.divider}`,
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+    },
+  }));
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -57,26 +80,60 @@ const Faq = () => {
 
   return (
     <div className={styles.faq_page}>
-        <div className={styles.title}>자주 묻는 질문</div>
         <div className={styles.faq_container}>
-            {isMobile ? (
-                <div>
+          <div className={styles.title}>자주 묻는 질문</div>
+          <div className={styles.faq_wrapper}>
+              {isMobile ? (
+                  <div className={styles.faq_container_mb}>
+                    {qna.map((item, index) => {
+                      return (
+                        <Accordion 
+                          className={styles.faq_item}
+                          expanded={expanded === `panel${index}`} 
+                          onChange={handleChange(`panel${index}`)}
+                        >
+                          <AccordionSummary 
+                            expandIcon={<ExpandMoreIcon />}
+                            className={styles.question_item} 
+                            aria-controls={`panel${index}d-content`} 
+                            id={`panel${index}d-header`}
+                          >
+                            <div className={styles.question_q}>Q</div>
+                            <Typography>{item.question}</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails className={styles.answer_item}>
+                            <Typography>
+                                {item.answer}
+                            </Typography>
+                          </AccordionDetails>
+                        </Accordion>
+                      )
+                    })}
+                  </div>
+              ) : (
+                <div className={styles.faq_container_pc}>
                   {qna.map((item, index) => {
-                    return (
-                      <Accordion expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
-                        <AccordionSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
-                        <Typography>{item.question}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            {item.answer}
-                        </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    )
-                  })}
-                </div>
-            ) : (<div></div>)}
+                      return (
+                        <List dense={dense}>
+                          <ListItem className={styles.question_item}>
+                            <div className={styles.question_q}>Q</div>
+                            <ListItemText
+                              primary={item.question}
+                              // secondary={secondary ? 'Secondary text' : null}
+                            />
+                          </ListItem>
+                          <ListItem className={styles.answer_item}>
+                            <ListItemText
+                              className={styles.answer_text}
+                              primary={item.answer}
+                              // secondary={secondary ? 'Secondary text' : null}
+                            />
+                          </ListItem>
+                        </List>
+                      )
+                    })} 
+              </div>)}
+          </div>
         </div>
     </div>
   );
