@@ -1,0 +1,52 @@
+$imgPath: '/images';
+
+.suggestionHeader {
+  border-bottom: 1px solid #e9eaee;
+  box-sizing: border-box;
+
+  .headerInner {
+    position: relative;
+    width: 100%;
+    max-width: 900pt;
+    height: 6.75rem;
+    line-height: 50px;
+    margin: 0 auto;
+
+    .headerLogo {
+      width: 6.5rem;
+      height: 100%;
+      background: url('#{$imgPath}/entizenLogo.svg') 0 0 no-repeat;
+      background-size: 100% auto;
+      position: absolute;
+
+      background-position: 0 50%;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+}
+
+@media screen and (max-width: 1023px) {
+  .suggestionHeader {
+    width: 100%;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    left: 0px;
+    top: 0px;
+    padding: 0px 1.25rem;
+
+    .headerInner {
+      height: 3.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+}

@@ -1,0 +1,41 @@
+@media screen and (min-width: 1024px) {
+  .headerWrap {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .headerWrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    left: 0;
+    top: 0;
+    padding: 0 15pt;
+
+    .logo {
+      margin-top: 12pt;
+      margin-bottom: 14.5pt;
+      display: flex;
+      align-items: center;
+    }
+
+    .iconWrap {
+      display: flex;
+
+      .firstIcons {
+        margin-top: 12pt;
+        margin-right: 15pt;
+      }
+
+      .iconBox {
+        margin-top: 12pt;
+        margin-bottom: 12pt;
+      }
+    }
+  }
+}
