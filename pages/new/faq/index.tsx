@@ -13,6 +13,7 @@ import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/Accord
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WebHeader from 'componentsWeb/WebHeader';
+import TagManager from 'react-gtm-module'
 
 const qna = [
   {
@@ -77,6 +78,15 @@ const Faq = () => {
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
+  
+  const clickFaq = () => {
+    const tagManagerArgs = {
+        dataLayer: {
+            event: "click_faq",
+        },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
 
   return (
     <div className={styles.faq_page}>

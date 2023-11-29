@@ -17,6 +17,7 @@ import Selection_3 from 'public/new/selection/selection_3.svg';
 import Selection_4 from 'public/new/selection/selection_4.svg';
 import { useMediaQuery } from 'react-responsive';
 import styles from './index.module.css';
+import TagManager from 'react-gtm-module'
 
 const Selection = () => {
   const mobile = useMediaQuery({
@@ -29,6 +30,39 @@ const Selection = () => {
     router.push(`${page}`);
   };
 
+  const clickPrivate = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_selection_private",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const clickPublic = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_selection_public",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const clickCustomer = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_selection_customer",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const clickRevenue = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_selection_revenue",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+
   return (
     <div id="selection" className={styles.selection}>
         <WebHeader />
@@ -37,7 +71,7 @@ const Selection = () => {
           <Box sx={{ width: '100%' }}>
             <Grid className={styles.menu_container} container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 24 }}>
                 <Grid xs={6}>
-                  <div className={styles.menu_box}>
+                  <div id="usage_private" className={styles.menu_box} onClick={clickPrivate}>
                     <div className={styles.title}>개인용도</div>
                     <div className={styles.sub_title}>자택, 사업장</div>
                     <div className={styles.image_wrapper}>
@@ -51,7 +85,7 @@ const Selection = () => {
                   </div>
                 </Grid>
                 <Grid xs={6}>
-                  <div className={styles.menu_box}>
+                  <div id="usage_public" className={styles.menu_box} onClick={clickPublic}>
                     <div className={styles.title}>입주민공용</div>
                     <div className={styles.sub_title}>아파트</div>
                     <div className={styles.image_wrapper}>
@@ -65,7 +99,7 @@ const Selection = () => {
                   </div>
                 </Grid>
                 <Grid xs={6}>
-                  <div className={styles.menu_box}>
+                  <div id="usage_customer" className={styles.menu_box} onClick={clickCustomer}>
                     <div className={styles.title}>모객용도</div>
                     <div className={styles.sub_title}>카페, 숙박업</div>
                     <div className={styles.image_wrapper}>
@@ -79,7 +113,7 @@ const Selection = () => {
                   </div>
                 </Grid>
                 <Grid xs={6}>
-                  <div className={styles.menu_box}>
+                  <div id="usage_revenue" className={styles.menu_box} onClick={clickRevenue}>
                     <div className={styles.title}>충전수익</div>
                     <div className={styles.sub_title}>전기차 충전 사업</div>
                     <div className={styles.image_wrapper}>

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import estimateByCompanyStyles from './estimateByCompany.module.scss';
 import { COMPANY_LIST } from 'assets/company';
+import TagManager from 'react-gtm-module'
 
 interface EstimateCompanyProps {
   company: string;
@@ -9,6 +10,24 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
   const router = useRouter();
 
   const estimateByCompanyData = COMPANY_LIST[company];
+
+  const clickChatBtn = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_chat_btn",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const clickEstimateDetaileBtn = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_detail_btn",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+
   return (
     <div className={estimateByCompanyStyles.estimateByCompanyWrap}>
       <div className={estimateByCompanyStyles.companyInfo}>
@@ -84,13 +103,14 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
         )}
       </div>
       <div className={estimateByCompanyStyles.buttonWrap}>
-        <button className={estimateByCompanyStyles.kakaoChatBtn}>
+        <button className={estimateByCompanyStyles.kakaoChatBtn} onClick={clickChatBtn}>
           <span className={estimateByCompanyStyles.kakaoIcon}></span>
           채팅하기
         </button>
         <button
           className={estimateByCompanyStyles.estimateViewBtn}
           onClick={() => {
+            clickEstimateDetaileBtn();
             location.href = `/new/myEstimate/estimate/${company}`;
           }}
         >

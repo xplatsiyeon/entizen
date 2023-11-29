@@ -16,8 +16,17 @@ import subBanner from 'public/new/electric/start_sub_banner.png';
 import chartImage from 'public/new/electric/chart.png';
 import stepEllipse from 'public/new/estimate/step_ellipse.svg';
 import stepArrow from 'public/new/estimate/step_arrow.svg';
+import TagManager from 'react-gtm-module'
 
 const ElectricStart = () => {
+    const clickGetMoreEstimate = () => {
+        const tagManagerArgs = {
+            dataLayer: {
+                event: "click_get_more_estimate",
+            },
+        };
+        TagManager.dataLayer(tagManagerArgs);
+    }
    return (
     <div id="electric">
         {/* banner */}
@@ -123,7 +132,7 @@ const ElectricStart = () => {
                         <div className={styles.text_02}>계약 진행</div>
                     </div>
                 </div>
-                <div className={styles.button}>
+                <div className={styles.button} onClick={clickGetMoreEstimate}>
                     <p>맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;<Image src={stepArrow} alt="arrow"/></p>
                 </div>
             </div>

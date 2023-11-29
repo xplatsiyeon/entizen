@@ -12,6 +12,8 @@ import classNames from 'classnames';
 import MobileModal from './termsDetail';
 import Common from 'components/guide/common';
 import CommonBackdrop from '../commonBackdrop';
+import TagManager from 'react-gtm-module'
+
 
 declare global { interface Window { daum: any; } }
 interface IAddr { address: string; zonecode: string; }
@@ -81,9 +83,26 @@ const EstimateForm = () => {
 
       setTimeout(() => {      
         setBackdropOpen(false);
+        //GA4 이벤트 전송
+        const tagManagerArgs = {
+          dataLayer: {
+            event: "lead_submit",
+          },
+        };
+        TagManager.dataLayer(tagManagerArgs);
         router.push('/new/estimateForm/complete');
       }, 3000);
     }
+
+    useEffect(() => {
+      //GA4 이벤트 전송
+      const tagManagerArgsForm = {
+        dataLayer: {
+          event: "lead_start",
+        },
+      };
+      TagManager.dataLayer(tagManagerArgsForm);
+    }, []);
 
     return (
       <div id="estimateForm" className={styles.estimateForm}>

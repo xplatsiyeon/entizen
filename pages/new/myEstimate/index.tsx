@@ -1,8 +1,34 @@
 import { MyEstimateHeader } from 'components/myEstimate/header';
 import myEstimateStyles from './myEstimate.module.scss';
 import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
+import TagManager from 'react-gtm-module'
 
 const MyEstimate = () => {
+  const chartDownload = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "chart_download",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const kakaoBtnClick = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "kakao_btn_click",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+  const telBtnClick = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "tel_btn_click",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+
   return (
     <div className={myEstimateStyles.myEstimateContainer}>
       {/* 헤더제외 */}
@@ -134,7 +160,7 @@ const MyEstimate = () => {
             </table>
           </div>
           <div className={myEstimateStyles.buttonWrap}>
-            <button className={myEstimateStyles.downloadBtn}>
+            <button className={myEstimateStyles.downloadBtn} onClick={chartDownload}>
               <p>모든 업체 비교표 다운받기</p>
               <div className={myEstimateStyles.icon}></div>
             </button>
@@ -175,12 +201,14 @@ const MyEstimate = () => {
         <div className={myEstimateStyles.buttonWrap}>
           <button
             className={`${myEstimateStyles.button} ${myEstimateStyles.kakaoChatBtn}`}
+            onClick={kakaoBtnClick}
           >
             <span className={myEstimateStyles.kakaoIcon}></span>엔티즌에게
             카카오톡으로 질문하기
           </button>
           <button
             className={`${myEstimateStyles.button} ${myEstimateStyles.recommCallBtn}`}
+            onClick={telBtnClick}
           >
             <span className={myEstimateStyles.callIcon}></span>전화 상담으로
             업체 추천 받기

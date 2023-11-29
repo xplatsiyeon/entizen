@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { COMPANY_LIST } from 'assets/company';
 import { useMediaQuery } from 'react-responsive';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
+import TagManager from 'react-gtm-module'
 
 const EstimateByCompany = () => {
   const company = 'castpro';
@@ -73,6 +74,7 @@ const EstimateByCompany = () => {
   }, [swiper]);
 
   const estimateByCompanyData = COMPANY_LIST[company];
+  
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>

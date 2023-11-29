@@ -16,6 +16,7 @@ import Step_6 from 'public/new/estimate/step_6.svg';
 import Step_arrow from 'public/new/estimate/step_arrow.svg';
 import Step_ellipse from 'public/new/estimate/step_ellipse.svg';
 import styles from './index.module.css'; 
+import TagManager from 'react-gtm-module'
 
 const progress_01 = [
   {
@@ -66,6 +67,15 @@ const Estimate = () => {
     const pageHandler = (page: string) => {
       router.push(`${page}`);
     };
+
+    const clickGetMoreEstimate = () => {
+      const tagManagerArgs = {
+          dataLayer: {
+              event: "click_get_more_estimate",
+          },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+    }
   
     return (
       <div id="estimate" className={styles.estimate}>
@@ -312,7 +322,7 @@ const Estimate = () => {
                   <div className={styles.item_02}>경험 많고 우수한 업체만 추려드릴게요!</div>
                 </div>
               </div>
-              <div className={styles.button}>
+              <div className={styles.button} onClick={clickGetMoreEstimate}>
                 <p>맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;<Image src={Step_arrow} alt="arrow"/></p>
               </div>
             </div>
