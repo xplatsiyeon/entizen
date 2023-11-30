@@ -3,7 +3,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Button, Divider, Icon, List, ListItem, ListItemText, Stack } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Image from 'next/image';
-import WebHeader from 'components/NewHeader/BeforeHeaderA';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 import Banner from 'public/new/priceComparison/banner.svg';
 import Price from 'public/new/priceComparison/price.svg';
 import Kakao from 'public/new/priceComparison/kakao.svg';
@@ -16,7 +16,7 @@ const PriceComparison = () => {
 
   return (
     <div className={styles.price_comparison_page}>
-        <WebHeader/>
+        <MyEstimateHeader/>
         <div className={styles.sec_01}>
             <div className={styles.banner_container}>
                 <Image

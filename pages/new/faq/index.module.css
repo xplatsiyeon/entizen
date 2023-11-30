@@ -4,6 +4,7 @@
 }
 
 .faq_page .faq_container {
+    position: relative;
     width: 53.75rem;
     margin: auto;
 }

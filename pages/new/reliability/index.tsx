@@ -15,7 +15,7 @@ const Reliability = () => {
   return (
     <div className={styles.reliabilityContainer}>
       {/* 헤더제외 */}
-      {/* <ReliabilityHeader></ReliabilityHeader> */}
+      <MyEstimateHeader/>
       <div className={styles.fakeHeader}></div>
       <section className={styles.backgroundWrap}>
         <p className={styles.backgroundIntro}>

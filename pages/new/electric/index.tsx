@@ -1,12 +1,10 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Grid, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styles from './index.module.css';
 import classNames from 'classnames';
 
-import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import as_01 from 'public/new/electric/as_01.png';
 import as_02 from 'public/new/electric/as_02.png';
 import bannerImage from 'public/new/electric/banner.png';
@@ -25,9 +23,34 @@ import why_03 from 'public/new/electric/why_03.png';
 import why_04 from 'public/new/electric/why_04.png';
 import chartImage from 'public/new/electric/chart.png';
 import step_arrow from 'public/new/estimate/step_arrow.svg';
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
+
+import { Drawer } from '@mui/material';
+import styled from '@emotion/styled';
+import Hamburger from 'public/images/list-bar.svg';
+import HamburgerBar from 'componentsWeb/HamburgerBar';
+
 import TagManager from 'react-gtm-module'
 
 const Electric = () => {
+    const isMobile = useMediaQuery({
+        query: '(max-width:899.25pt)',
+    });
+
+    const [state, setState] = useState({ right: false });
+    const toggleDrawer =
+    (anchor: string, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+            (event as React.KeyboardEvent).key === 'Shift')
+        ) {
+        return;
+        }
+        setState({ ...state, [anchor]: open });
+    };
+
     const clickGetMoreEstimate = () => {
         const tagManagerArgs = {
             dataLayer: {
@@ -36,22 +59,62 @@ const Electric = () => {
         };
         TagManager.dataLayer(tagManagerArgs);
     }
-   
-    return (
-        <div id="electric">
-            <WebHeader/>
-            <section className={styles.sec_01}>
-                <div className={classNames(styles.container, styles.banner_container)}>
-                    <div className={styles.banner_image} style={{ height: '17.5rem' }}>
-                        <Image 
-                            src={bannerImage}
-                            layout="fill"
-                            objectFit="cover"
-                            objectPosition="center"
-                        />
-                    </div>
-                    <div className={styles.banner_title}>전기차 충전기 설치<br/>선택이 아닌 필수 시대</div>
+    
+
+    const IconBox = styled.div`
+        position: absolute;
+        display: flex;
+        align-items: center;
+        top: 0;
+        right: 15pt;
+        gap: 22pt;
+
+        @media (min-width: 900pt) {
+        display: none;
+        }
+    `;
+    
+   return (
+    <div id="electric">
+        <WebHeader/>
+        {isMobile && (
+            <>
+              {(['right'] as const).map((anchor) => (
+                <React.Fragment key={anchor}>
+                  <div onClick={toggleDrawer(anchor, true)}>
+                    <IconBox>
+                      <Image src={Hamburger} alt="listIcon" />
+                    </IconBox>
+                  </div>
+                  <Drawer
+                    anchor={anchor}
+                    open={state[anchor]}
+                    onClose={toggleDrawer(anchor, false)}
+                    // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                  >
+                    <HamburgerBar
+                      anchor={anchor}
+                      toggleDrawer={toggleDrawer}
+                      setState={setState}
+                      state={state}
+                    />
+                  </Drawer>
+                </React.Fragment>
+              ))}
+            </>
+          )}
+        {/* banner */}
+        <section className={styles.sec_01}>
+            <div className={classNames(styles.container, styles.banner_container)}>
+                <div className={styles.banner_image} style={{ height: '17.5rem' }}>
+                    <Image 
+                        src={bannerImage}
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center"
+                    />
                 </div>
+            </div>
             </section>
 
             {/* sub banner */}

@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { COMPANY_LIST } from 'assets/company';
 import { useMediaQuery } from 'react-responsive';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
@@ -76,7 +77,7 @@ const EstimateByCompany = () => {
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
-      <div className={estimateByCompanyStyles.fakeHeader}></div>
+      <MyEstimateHeader></MyEstimateHeader>
       <div className={estimateByCompanyStyles.company}>
         <p className={estimateByCompanyStyles.companyTitle}>
           {estimateByCompanyData.name}

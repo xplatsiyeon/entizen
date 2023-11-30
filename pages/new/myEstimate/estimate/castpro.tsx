@@ -12,6 +12,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { COMPANY_LIST } from 'assets/company';
 import { useMediaQuery } from 'react-responsive';
+import WebHeader from 'components/NewHeader/AfterHeaderA';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 import TagManager from 'react-gtm-module'
 
@@ -78,7 +80,8 @@ const EstimateByCompany = () => {
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
-      <div className={estimateByCompanyStyles.fakeHeader}></div>
+      {/* <WebHeader /> */}
+      <MyEstimateHeader></MyEstimateHeader>
       <div className={estimateByCompanyStyles.company}>
         <p className={estimateByCompanyStyles.companyTitle}>
           {estimateByCompanyData.name}

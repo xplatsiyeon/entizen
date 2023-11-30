@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 import CommonModal from '../commonModal';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Icon, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
 import CheckCircle from 'public/new/estimate/CheckCircle.svg';
@@ -90,6 +91,7 @@ const Faq = () => {
 
   return (
     <div className={styles.faq_page}>
+        <MyEstimateHeader/>
         <div className={styles.faq_container}>
           <div className={styles.title}>자주 묻는 질문</div>
           <div className={styles.faq_wrapper}>
