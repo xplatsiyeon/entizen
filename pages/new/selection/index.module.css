@@ -1,87 +1,154 @@
 .selection {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
 }
-
 
 .sec_01 {
-    width: 120rem;
-    height: 28.5rem;
-    flex-shrink: 0;
-    background: linear-gradient(180deg, #5221CB 0%, #3D1D8C 100%);
+  width: 120rem;
+  height: 28.5rem;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #5221cb 0%, #3d1d8c 100%);
 }
+
 .sec_01 .title {
-    color: #FFF;
-    text-align: center;
-    font-family: Spoqa Han Sans Neo;
-    font-size: 2.5rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 3.75rem; /* 150% */
-    letter-spacing: -0.05rem;
+  color: #fff;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 3.75rem; /* 150% */
+  letter-spacing: -0.05rem;
 }
 .sec_01 .menu_container {
-    width: 65%;
-    margin: auto;
-    margin-top: 15rem;
+  width: 65%;
+  margin: auto;
+  margin-top: 15rem;
 }
 .sec_01 .menu_container .menu_box {
-    width: 17.53125rem;
-    height: 17.5rem;
-    flex-shrink: 0;
-    border-radius: 0.5rem;
-    border: 1px solid #E2E5ED;
-    background: #FFF;
-    margin: auto;
-    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+  width: 17.53125rem;
+  height: 17.5rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e5ed;
+  background: #fff;
+  margin: auto;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 }
 .sec_01 .menu_container .menu_box:hover {
-    border-radius: 0.5rem;
-    border: 1px solid #E2E5ED;
-    background: #383B48;
-    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+  border-radius: 0.5rem;
+  border: 1px solid #e2e5ed;
+  background: #383b48;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 }
 .sec_01 .menu_container .menu_box:hover .title {
-    color: #FFF;
+  color: #fff;
 }
 .sec_01 .menu_container .menu_box:hover .sub_title {
-    color: rgba(255, 255, 255, 0.80);
+  color: rgba(255, 255, 255, 0.8);
 }
 .sec_01 .menu_container .menu_box .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.03rem;
+  text-align: left;
+  margin: 1.5rem 0 0 1.5rem;
+}
+.sec_01 .menu_container .menu_box .sub_title {
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.02rem;
+  margin: 1rem 0 0 1.5rem;
+}
+.sec_01 .menu_container .menu_box .image_wrapper {
+  width: 5.5rem;
+  height: 5.5rem;
+  flex-shrink: 0;
+  position: absolute;
+  margin-left: 10rem;
+  margin-top: 5rem;
+}
+
+.sec_02 {
+  width: 120rem;
+  height: 28.5rem;
+  flex-shrink: 0;
+}
+
+/* mobile */
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+  .sec_01 {
+    width: 100%;
+    height: auto;
+    padding-top: 74px;
+  }
+  .sec_01.title {
+    margin: 0 auto;
+    width: 350px;
+    color: #fff;
+    text-align: center;
+  }
+  .sec_01 .title h1 {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: -0.48px;
+  }
+  .sec_01 .menu_container {
+    width: 100%;
+    padding: 40px 20px 0 20px;
+    margin: 0;
+  }
+  .sec_01 .menu_container .menu_box {
+    width: 169px;
+    height: 169px;
+    padding: 24px 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e5ed;
+    background: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  }
+  .sec_01 .menu_container .menu_box .title {
     color: #222;
     font-family: Spoqa Han Sans Neo;
-    font-size: 1.5rem;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    letter-spacing: -0.03rem;
-    text-align: left;
-    margin: 1.5rem 0 0 1.5rem;
-}
-.sec_01 .menu_container .menu_box .sub_title {
-    color: #4E5055;
+    letter-spacing: -0.4px;
+    margin: 0;
+  }
+  .sec_01 .menu_container .menu_box .sub_title {
+    color: #4e5055;
     font-family: Spoqa Han Sans Neo;
-    font-size: 1rem;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: -0.02rem;
-    margin: 1rem 0 0 1.5rem;
-}
-.sec_01 .menu_container .menu_box .image_wrapper {
+    letter-spacing: -0.32px;
+    margin: 8px auto;
+  }
+  /*
+  .sec_01 .menu_container .menu_box .image_wrapper {
     width: 5.5rem;
     height: 5.5rem;
     flex-shrink: 0;
     position: absolute;
     margin-left: 10rem;
     margin-top: 5rem;
-}
-        
-.sec_02 {
-    width: 120rem;
-    height: 28.5rem;
-    flex-shrink: 0;
+  }
+  */
 }
