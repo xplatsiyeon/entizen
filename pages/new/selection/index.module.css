@@ -2,8 +2,8 @@
     width: 100%;
     height: 100%;
     background-color: #fff;
-    /* position: relative;
-    overflow: hidden; */
+    position: relative;
+    /* overflow: hidden; */
 }
 
 .sec_01 {
@@ -13,7 +13,7 @@
   background: linear-gradient(180deg, #5221cb 0%, #3d1d8c 100%);
 }
 
-.sec_01 .title {
+.sec_01 > .title {
   color: #fff;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
@@ -22,11 +22,12 @@
   font-weight: 500;
   line-height: 3.75rem; /* 150% */
   letter-spacing: -0.05rem;
+  padding-top: 8rem;
 }
 .sec_01 .menu_container {
   width: 65%;
   margin: auto;
-  margin-top: 15rem;
+  margin-top: 7rem;
 }
 .sec_01 .menu_container .menu_box {
   width: 17.53125rem;
@@ -88,6 +89,9 @@
 
 /* mobile */
 @media only screen and (min-width: 200px) and (max-width: 480px) {
+  .selection {
+    height: 750px;
+  }
   .sec_01 {
     width: 100%;
     height: auto;
@@ -99,7 +103,7 @@
     color: #fff;
     text-align: center;
   }
-  .sec_01 .title h1 {
+  .sec_01 .title p {
     font-family: Spoqa Han Sans Neo;
     font-size: 24px;
     font-style: normal;
@@ -111,6 +115,7 @@
     width: 100%;
     padding: 40px 20px 0 20px;
     margin: 0;
+    height: 400px;
   }
   .sec_01 .menu_container .menu_box {
     width: 169px;

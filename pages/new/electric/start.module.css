@@ -200,7 +200,7 @@
 }
 .sec_04 .content_container .content_wrapper_01 .item_wrapper .item {
     display: flex;
-    width: 26.25rem;
+    width: 48%;
     height: 5rem;
     padding: 1rem 1.5rem;
     align-items: center;
@@ -444,4 +444,224 @@
 .sec_06 .how_start_container .button > p {
     display: inherit;
     margin: auto;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+    .sec_01 {}
+    .sec_01 .banner_container {}
+    .sec_01 .banner_container .banner_image {}
+    .sec_01 .banner_container .banner_title {
+        color: #FFF;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+    .sec_02 .sub_banner_container {}
+    .sec_02 .sub_banner_container > .text_01 {
+        text-align: left;
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 200% */
+        letter-spacing: -0.6px;
+    }
+    .sec_02 .sub_banner_container > .text_02 {
+        text-align: left;
+        color: #4E5055;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px; /* 175% */
+        letter-spacing: -0.32px;
+        margin-bottom: 40px;
+
+    }
+    .sec_02 .sub_banner_container .item_wrapper .item {
+        text-align: left;
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+        padding: 16px 24px;
+        border-radius: 8px;
+    }
+    .sec_02 .sub_banner_container .business_wrapper {
+        border-radius: 8px;
+        padding: 24px;
+        height: auto;
+    }
+    .sec_02 .sub_banner_container .business_wrapper .text_wrapper {}
+    .sec_02 .sub_banner_container .business_wrapper .text_01 {
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -0.4px;
+    }
+    .sec_02 .sub_banner_container .business_wrapper .text_02 {
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.32px;
+    }
+    .sec_02 .sub_banner_container .business_wrapper .img {
+        width: 99.999px;
+        height: 96.921px;
+        top: 22%;
+        left: 66%;
+    }
+    .sec_03 {}
+    .sec_03 .container { margin: 20px; }
+    .sec_03 .chart_container {  margin: 0; }
+    .sec_03 .chart_container > .title_01 {
+        color: #FFF;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+    .sec_03 .news_container { margin: 0; margin-top: 50px; }
+    .sec_03 .news_container .item {
+        padding: 16px 24px;
+        color: #222;
+        text-align: left;
+        border-radius: 8px;
+        margin-bottom: 12px;
+
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .sec_04 {}
+    .sec_04 .content_container {
+        width: 100%;
+        padding: 0 20px;
+    }
+    .sec_04 .content_container .wrapper {}
+    .sec_04 .content_container .wrapper .title {
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+    .sec_04 .content_container .wrapper .sub_title {}
+
+    .sec_04 .content_container .content_wrapper_01 .title {}
+    .sec_04 .content_container .content_wrapper_01 .item_wrapper {
+        flex-direction: column;
+        
+    }
+    .sec_04 .content_container .content_wrapper_01 .item_wrapper .item {
+        width: 100%;
+        height: fit-content;
+        border-radius: 8px;
+        padding: 16px 24px;
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+        margin-bottom: 12px;
+    }
+
+    .sec_05 {}
+    .sec_05 > .item_wrapper {
+        height: 184px;
+    } 
+    .sec_05 .item_wrapper .text_wrapper {
+        padding: 0 20px;
+    }
+    .sec_05 .item_wrapper .text_wrapper .text_01 {
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 200% */
+        letter-spacing: -0.6px;
+    }
+    .sec_05 .item_wrapper .text_wrapper .text_02 {
+        color: #FFF;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    
+    .sec_06 .how_start_container .title {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 200% */
+        letter-spacing: -0.6px;
+    }
+    .sec_06 .how_start_container .item_wrapper {}
+    .sec_06 .how_start_container .item_wrapper .item {}
+    .sec_06 .how_start_container .item_wrapper .item .text_01 {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 200% */
+        letter-spacing: -0.6px;
+    }
+    .sec_06 .how_start_container .item_wrapper .item .img {}
+    .sec_06 .how_start_container .item_wrapper .item .text_02 {}
+    .sec_06 .how_start_container .item_wrapper {}
+    .sec_06 .how_start_container .item_wrapper .step_item {}
+    .sec_06 .how_start_container .item_wrapper .step_item .step_img {}
+    .sec_06 .how_start_container .item_wrapper .step_item .step_arrow {}
+    .sec_06 .how_start_container .item_wrapper .step_item .step_img,
+    .sec_06 .how_start_container .item_wrapper .step_item .step_arrow {}
+    .sec_06 .how_start_container .step_mb {
+        margin-bottom: 40px;
+    }
+    .sec_06 .how_start_container .button {
+        height: 56px;
+        border-radius: 8px;
+        display: flex;
+        margin: auto;   
+
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .sec_06 .how_start_container .button > p {} 
 }

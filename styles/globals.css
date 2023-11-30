@@ -195,7 +195,7 @@ input::placeholder {
 /* 화면 폭이 320px 이하일 때 */
 @media only screen and (max-width: 320px) { html { font-size: 31.25%; } }
 /* 화면 폭이 321px에서 480px 사이일 때 */
-@media only screen and (min-width: 321px) and (max-width: 480px) { html { font-size: 37.5%; } }
+@media only screen and (min-width: 321px) and (max-width: 480px) { html { font-size: 40%; } }
 /* 화면 폭이 481px에서 768px 사이일 때 */
 @media only screen and (min-width: 481px) and (max-width: 768px) { html { font-size: 56.25%; } }
 /* 화면 폭이 769px에서 1024px 사이일 때 */

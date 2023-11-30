@@ -12,19 +12,7 @@ $imgPath: '/images';
   a {
     text-decoration: none;
   }
-  .fakeHeader {
-    background-color: aquamarine;
-    height: 6.75rem;
 
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 9;
-
-    @media screen and (max-width: 767px) {
-      height: 6.625rem;
-    }
-  }
   .company {
     // width: 74.625rem;
     height: 10.5rem;
@@ -38,7 +26,7 @@ $imgPath: '/images';
 
     position: fixed;
     z-index: 9;
-    top: 6.55rem;
+    top: 5.9rem;
     width: -webkit-fill-available;
     justify-content: space-around;
     @media screen and (max-width: 767px) {
@@ -148,7 +136,7 @@ $imgPath: '/images';
     // height: 3.15rem;
     position: sticky;
     background-color: white;
-    top: 17rem;
+    top: 16rem;
     z-index: 8;
 
     padding: 0 1.25rem;
@@ -872,16 +860,26 @@ $imgPath: '/images';
 
       .section2Slider {
         overflow: hidden;
-        width: 53.75rem;
+        max-width: 53.75rem;
         font-size: 0;
-
-        .item {
-          width: 16.5rem;
-          height: 26.375rem;
-          overflow: hidden;
+        .section2SliderUl {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          flex-wrap: wrap;
         }
       }
-
+      .item {
+        width: 16.5rem;
+        height: 26.375rem;
+        @media screen and (max-width: 1023px) {
+          width: inherit;
+          height: inherit;
+          margin: 0.5rem;
+        }
+        overflow: hidden;
+      }
       .swiperBtn {
         display: none;
         position: absolute;

@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import bannerImage from 'public/new/electric/start_banner.png';
+import bannerImageMb from 'public/new/electric/start_banner_mb.png';
 import carbonNextArrow from 'public/new/electric/carbon_next_arrow.png';
 import startElectricCar from 'public/new/electric/start_electric_car.png';
 import startIcons_01 from 'public/new/electric/start_icons_01.png';
@@ -15,11 +16,18 @@ import startIcons_02 from 'public/new/electric/start_icons_02.png';
 import startIcons_03 from 'public/new/electric/start_icons_03.png';
 import subBanner from 'public/new/electric/start_sub_banner.png';
 import chartImage from 'public/new/electric/chart.png';
+import stepMb from 'public/new/electric/step_mb.png';
+import chartImageMb from 'public/new/electric/chart_mb.png';
 import stepEllipse from 'public/new/estimate/step_ellipse.svg';
 import stepArrow from 'public/new/estimate/step_arrow.svg';
 import TagManager from 'react-gtm-module'
 
 const ElectricStart = () => {
+    const isMobile = useMediaQuery({
+        query: '(max-width:899.25pt)',
+    });
+    const router = useRouter();
+
     const clickGetMoreEstimate = () => {
         const tagManagerArgs = {
             dataLayer: {
@@ -27,6 +35,7 @@ const ElectricStart = () => {
             },
         };
         TagManager.dataLayer(tagManagerArgs);
+        router.push('/new/estimateForm/form3');
     }
    return (
     <div id="electric">
@@ -36,7 +45,7 @@ const ElectricStart = () => {
             <div className={classNames(styles.banner_container)}>
                 <div className={styles.banner_image}>
                     <Image 
-                        src={bannerImage} 
+                        src={isMobile ? bannerImageMb : bannerImage } 
                         // layout="fill"
                         objectFit="cover"
                         objectPosition="center"
@@ -71,8 +80,8 @@ const ElectricStart = () => {
         <section className={styles.sec_03}>
             <div className={styles.container}>
                 <div className={styles.chart_container}>
-                    <div className={styles.title_01}>전기차 충전기 사업, 왜 지금일까요?<br/>바로 전기차 시장의 가능성 때문입니다.</div>
-                    <div className={styles.chart_wrapper}><Image src={chartImage}/></div>
+                    <div className={styles.title_01}>전기차 충전기 사업, 왜 지금일까요?<br/>바로 전기차 시장의{isMobile? <br/> : ' '}가능성 때문입니다.</div>
+                    <div className={styles.chart_wrapper}><Image src={isMobile ? chartImageMb : chartImage}/></div>
                 </div>
                 <div className={styles.news_container}>
                     <div className={styles.item}>‘540조’ 먹거리 전쟁 본격화... 전기차 충전 시장 뜨거워진다</div>
@@ -112,35 +121,45 @@ const ElectricStart = () => {
         <section className={styles.sec_06}>
             <div className={classNames(styles.container, styles.how_start_container)}>
                 <div className={styles.title}>전기차 충전기 사업 어떻게 시작하나요?</div>
-                <div className={styles.item_wrapper}>
-                    <div className={styles.item}>
-                        <div className={styles.text_01}>Step 1</div>
-                        <div className={styles.img}><Image src={startIcons_01}/></div>
-                        <div className={styles.text_02}>충전기 종류 선택</div>
-                    </div>
-                    <div className={styles.step_item}>
-                        <div className={styles.step_arrow}>
-                            <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
-                            <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
+                {isMobile ? 
+                    <div className={styles.step_mb}>
+                        <Image src={stepMb} 
+                            alt="step_mb"
+                            layout="responsive" 
+                        />
+                    </div> 
+                    : (
+                    <div className={styles.item_wrapper}>
+                        <div className={styles.item}>
+                            <div className={styles.text_01}>Step 1</div>
+                            <div className={styles.img}><Image src={startIcons_01}/></div>
+                            <div className={styles.text_02}>충전기 종류 선택</div>
+                        </div>
+                        <div className={styles.step_item}>
+                            <div className={styles.step_arrow}>
+                                <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
+                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
+                            </div>
+                        </div>
+                        <div className={styles.item}>
+                            <div className={styles.text_01}>Step 2</div>
+                            <div className={styles.img}><Image src={startIcons_02}/></div>
+                            <div className={styles.text_02}>수익율 설정</div>
+                        </div>
+                        <div className={styles.step_item}>
+                            <div className={styles.step_arrow}>
+                                <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
+                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
+                            </div>
+                        </div>
+                        <div className={styles.item}>
+                            <div className={styles.text_01}>Step 3</div>
+                            <div className={styles.img}><Image src={startIcons_03}/></div>
+                            <div className={styles.text_02}>계약 진행</div>
                         </div>
                     </div>
-                    <div className={styles.item}>
-                        <div className={styles.text_01}>Step 2</div>
-                        <div className={styles.img}><Image src={startIcons_02}/></div>
-                        <div className={styles.text_02}>수익율 설정</div>
-                    </div>
-                    <div className={styles.step_item}>
-                        <div className={styles.step_arrow}>
-                            <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
-                            <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
-                        </div>
-                    </div>
-                    <div className={styles.item}>
-                        <div className={styles.text_01}>Step 3</div>
-                        <div className={styles.img}><Image src={startIcons_03}/></div>
-                        <div className={styles.text_02}>계약 진행</div>
-                    </div>
-                </div>
+                )}
+                
                 <div className={styles.button} onClick={clickGetMoreEstimate}>
                     <p>맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;<Image src={stepArrow} alt="arrow"/></p>
                 </div>

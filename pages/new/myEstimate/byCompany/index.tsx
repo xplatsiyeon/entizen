@@ -5,6 +5,7 @@ import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
 import Image from 'next/image';
 import estimateByCompanyStyles from './estimateByCompany.module.scss';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -77,6 +78,7 @@ const EstimateByCompany = () => {
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
+      <MyEstimateHeader></MyEstimateHeader>
       <div className={estimateByCompanyStyles.fakeHeader}></div>
       <div className={estimateByCompanyStyles.company}>
         <p className={estimateByCompanyStyles.companyTitle}>

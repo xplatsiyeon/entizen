@@ -73,6 +73,14 @@
     font-weight: 400;
     letter-spacing: -0.0175rem;
 }
+.sec_01 .container .form_container .item .search_address_wrapper .input_box {
+    width: -webkit-fill-available;
+}
+.sec_01 .container .form_container .item .search_address_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .sec_01 .container .form_container .item .address_btn_grid {
     padding-left: 0;
 }
@@ -81,6 +89,8 @@
     background-color: #5221CB;
     stroke-width: 1px;
     stroke: #5221CB;
+    margin-bottom: 0.5rem;
+    margin-left: 8px;
 
     /* text */
     color: #FFF;
@@ -185,4 +195,118 @@
     font-weight: 400;
     line-height: 1.5rem; /* 171.429% */
     letter-spacing: -0.0175rem;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+    .sec_01 {}
+    .sec_01 .container { margin: 0 20px; }
+    .sec_01 .container > .title {
+        color: #FFF;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+    .sec_01 .container .form_container {
+        border-radius: 8px;
+    }
+    .sec_01 .container .form_container .form_wrapper {
+        display: contents;
+    }
+    .sec_01 .container .form_container .item {
+        margin-bottom: 25px;
+    }
+    .sec_01 .container .form_container .item > label {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.32px;
+        margin-bottom: 20px;
+    }
+    .sec_01 .container .form_container .item .input_box { 
+    }
+    .sec_01 .container .form_container .item .input_box input {
+        padding: 12px;
+    }
+    .sec_01 .container .form_container .item .input_box input,
+    .sec_01 .container .form_container .item .input_box input::placeholder { 
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 14px;
+        letter-spacing: -0.32px;
+    }
+    .sec_01 .container .form_container .item .address {}
+    .sec_01 .container .form_container .item .input_box {}
+    .sec_01 .container .form_container .item .address_btn_grid {}
+    .sec_01 .container .form_container .item .address_btn {
+        padding: 10px;
+        width: 103px;
+        height: 40px;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 14px; /* 87.5% */
+        letter-spacing: -0.32px;
+    }
+    .sec_01 .container .form_container .item .terms_container {
+        flex-direction: column;
+    }
+    .sec_01 .container .form_container .item .terms_container .terms_check svg {
+        width: 18px;
+        height: 18px;
+    }
+    .sec_01 .container .form_container .item .terms_container .terms_check > span {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: -0.32px;
+    }
+    .sec_01 .container .form_container .item .terms_container .terms_check > span > .required_check {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .sec_01 .container .form_container .item .terms_container .terms_detail {
+        justify-content: flex-end;
+    }
+    .sec_01 .container .form_container .item .terms_container .terms_detail > .terms_detail_btn {
+        color: #909FB7;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: -0.32px;
+        text-decoration-line: underline;
+    }
+    .sec_01 .container .form_container .item .submit_btn {
+        display: flex;
+        width: 350px;
+        height: 56px;
+        padding: 16px 98px 16px 97px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .sec_01 .container .form_container .item .submit_btn.active {}
+    .sec_02 {}
+    .sec_01 .container > .title {}
 }

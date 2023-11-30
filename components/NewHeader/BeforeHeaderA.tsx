@@ -173,5 +173,9 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   margin-right: 54pt;
+
+  @media (max-width: 899.25pt) {
+    margin-left: 20px;
+  }
 `;
 

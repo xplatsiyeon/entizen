@@ -19,11 +19,6 @@ const Selection = () => {
   });
   const router = useRouter();
 
-  // 필요한 인자 값 받아와서 페이지 이동
-  const pageHandler = (page: string) => {
-    router.push(`${page}`);
-  };
-
   const clickPrivate = () => {
     const tagManagerArgs = {
       dataLayer: {
@@ -39,6 +34,7 @@ const Selection = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    router.push('/new/estimate');
   }
   const clickCustomer = () => {
     const tagManagerArgs = {
@@ -47,6 +43,7 @@ const Selection = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    router.push('/new/electric');
   }
   const clickRevenue = () => {
     const tagManagerArgs = {
@@ -55,6 +52,7 @@ const Selection = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    router.push('/new/electric/start');
   }
 
   return (
@@ -65,7 +63,7 @@ const Selection = () => {
           <Box sx={{ width: '100%' }}>
             <Grid className={styles.menu_container} 
               container 
-              spacing={{ xs: 1, sm: 2, md: 3 }}
+              rowSpacing={{ xs: 10, sm: 20, md: 10 }}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               columns={{ xs: 12, sm: 12, md: 24 }}
               sx={{ width: '100%' }}

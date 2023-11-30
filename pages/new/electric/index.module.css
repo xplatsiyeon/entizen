@@ -86,7 +86,7 @@
 
 /* sec_04 common */
 .sec_04 {}
-.sec_04 .content_container { width: 50%; margin-bottom: 10rem; }
+.sec_04 .content_container { width: 60%; margin-bottom: 10rem; }
 .sec_04 .content_container .wrapper { margin-bottom: 3rem; }
 .sec_04 .content_container .wrapper .title { color: #222; font-family: Spoqa Han Sans Neo; font-size: 1.625rem; font-style: normal; font-weight: 700; line-height: 2.5rem; /* 153.846% */ letter-spacing: -0.0375rem;  text-align: start; margin-bottom: 1rem; }
 .sec_04 .content_container .wrapper .sub_title { color: #4E5055; font-family: Spoqa Han Sans Neo; font-size: 1rem; font-style: normal; font-weight: 400; line-height: 1.75rem; /* 175% */ letter-spacing: -0.02rem; text-align: start; margin-bottom: 1.5rem; }
@@ -115,7 +115,7 @@
 }
 .sec_04 .content_container .content_wrapper_01 .item_wrapper .item {
     display: flex;
-    width: 26.25rem;
+    width: 49%;
     height: 5rem;
     padding: 1rem 1.5rem;
     align-items: center;
@@ -224,4 +224,141 @@
 .sec_03 .button > p {
     display: inherit;
     margin: auto;
+}
+
+
+/* mobile */
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+    .sec_01 .banner_container .banner_title {
+        font-size: 24px;
+    }
+
+    .sec_02 .sub_banner_container {
+        padding: 20px;
+        text-align: left;
+    }
+    .sec_02 .sub_banner_container .text_01 {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 200% */
+        letter-spacing: -0.6px;
+        text-align: left;
+    }
+    .sec_02 .sub_banner_container .text_02 {
+        color: #4E5055;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px; /* 175% */
+        letter-spacing: -0.32px;
+        text-align: left;
+    }
+
+    .sec_03 .news_container .item {
+        color: #222;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+        text-align: left;
+        padding: 16px 24px;
+    }
+
+    .sec_04 .content_container {
+        width: 100%;
+        /* padding: 20px; */
+    }
+
+    .sec_04 .content_container .content_wrapper_01 .title {
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+
+    .sec_04 .content_container .wrapper { margin-bottom: 80px; }
+    .sec_04 .content_container .wrapper .title { align-items: flex-start !important; color: #222; font-family: Spoqa Han Sans Neo; font-size: 20px; font-style: normal; font-weight: 700; line-height: 40px; /* 200% */ letter-spacing: -0.4px; margin-bottom: 20px;}
+    .sec_04 .content_container .wrapper .sub_title { color: #4E5055; font-family: Spoqa Han Sans Neo; font-size: 16px; font-style: normal; font-weight: 400; line-height: 28px; /* 175% */ letter-spacing: -0.32px; }
+
+    .sec_04 .content_container .content_wrapper_01 .item_wrapper,
+    .sec_04 .content_container .content_wrapper_02 .item_wrapper,
+    .sec_04 .content_container .content_wrapper_03 .item_wrapper,
+    .sec_04 .content_container .content_wrapper_04 .item_wrapper,
+    .sec_04 .content_container .content_wrapper_05 .item_wrapper {
+        flex-direction: column;
+    }
+
+    .sec_04 .content_container .content_wrapper_02 .title,
+    .sec_04 .content_container .content_wrapper_02 .sub_title,
+    .sec_04 .content_container .content_wrapper_03 .title,
+    .sec_04 .content_container .content_wrapper_03 .sub_title {
+        padding: 0 20px; 
+    }
+    
+    .sec_04 .content_container .content_wrapper_01,
+    .sec_04 .content_container .content_wrapper_04,
+    .sec_04 .content_container .content_wrapper_05,
+    .sec_04 .content_container .content_wrapper_06 {
+        padding: 20px;
+        /* text-align: left; */
+        /* align-items: flex-start; */
+    }
+
+    .sec_04 .content_container .content_wrapper_01 .item_wrapper .item { color: #222; font-family: Spoqa Han Sans Neo; font-size: 16px; font-style: normal; font-weight: 500; line-height: 24px; /* 150% */ letter-spacing: -0.32px; max-height: 80px; width: 100%; height: auto; margin-bottom: 12px;
+    }
+
+    .sec_04 .content_container .content_wrapper_05 .item_wrapper .next_arrow {
+        transform: rotate(90deg);
+    }
+
+    .sec_04 .content_container .content_wrapper_06 .item_wrapper .item { 
+        padding: 20px 24px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    .sec_04 .content_container .content_wrapper_06 .item_wrapper .item .text_01 {
+        width: fit-content;
+        height: 33px;
+        font-size: 16px;
+        padding: 0 16px;
+    }
+    .sec_04 .content_container .content_wrapper_06 .item_wrapper .item .text_02 {
+        color: #4E5055;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .sec_04 .content_container .content_wrapper_06 .item_wrapper .item .img {
+        width: 40px;
+        position: absolute;
+        left: 84%;
+        transform: translate( -50%, -375% );
+    }
+    .sec_04 .content_container .content_wrapper_06 .item_wrapper .button {
+        height: 56px;
+        border-radius: 8px;
+        display: flex;
+        margin: auto;   
+
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
 }

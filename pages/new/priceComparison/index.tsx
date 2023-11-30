@@ -30,7 +30,7 @@ const PriceComparison = () => {
                 <div className={styles.title_container}>
                     <div className={styles.text_01}>비용이 제일 궁금하시죠?</div>
                     <div className={styles.text_02}>
-                        저희 파트너 업체들의 충전기 구매 + 설치 비용은 <span>110만원~258만원</span>(비공용 충전기 7kW 1대 기준) 입니다.<br/>
+                        저희 파트너 업체들의 충전기 구매 + 설치 비용은{' '}<span>110만원~258만원</span>(비공용 충전기 7kW 1대 기준) 입니다.<br/>
                         가성비 업체부터 충전 시스템이 뛰어난 업체까지 다양한 파트너와 함께 합니다.<br/>
                         <br/>
                         맞춤 견적을 받으시면 가격뿐만 아니라 A/S현황, 시공횟수 등 다양한 비교 요소를 확인하실 수 있습니다.
@@ -82,7 +82,7 @@ const PriceComparison = () => {
                                 </ListItem>
                             </List>
                             <div className={styles.min_price}>총 1,125,000원 부터 ~</div>
-                            <Button className={styles.chat_btn} variant="contained"><Image src={Kakao} />채팅하기</Button>
+                            <Button className={styles.chat_btn} variant="contained"><Image src={Kakao} className={styles.kakaoIcon} />채팅하기</Button>
                             <Button className={styles.show_estimate_btn} variant="contained">견적서 보기</Button>
                         </div>
                     </Stack>
