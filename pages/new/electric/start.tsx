@@ -6,6 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 import styles from './start.module.css';
 import classNames from 'classnames';
 
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import bannerImage from 'public/new/electric/start_banner.png';
 import carbonNextArrow from 'public/new/electric/carbon_next_arrow.png';
 import startElectricCar from 'public/new/electric/start_electric_car.png';
@@ -29,10 +30,18 @@ const ElectricStart = () => {
     }
    return (
     <div id="electric">
+        <WebHeader/>
         {/* banner */}
         <section className={styles.sec_01}>
             <div className={classNames(styles.banner_container)}>
-            <div className={styles.banner_image}><Image src={bannerImage}/></div>
+                <div className={styles.banner_image}>
+                    <Image 
+                        src={bannerImage} 
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center"
+                    />
+                </div>
                 <div className={styles.banner_title}>전기차 충전기 사업<br/>엔티즌으로 쉽고 빠르게 시작하세요</div>
             </div>
         </section>

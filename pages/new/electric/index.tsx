@@ -6,6 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 import styles from './index.module.css';
 import classNames from 'classnames';
 
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import as_01 from 'public/new/electric/as_01.png';
 import as_02 from 'public/new/electric/as_02.png';
 import bannerImage from 'public/new/electric/banner.png';
@@ -38,7 +39,7 @@ const Electric = () => {
    
     return (
         <div id="electric">
-            {/* banner */}
+            <WebHeader/>
             <section className={styles.sec_01}>
                 <div className={classNames(styles.container, styles.banner_container)}>
                     <div className={styles.banner_image} style={{ height: '17.5rem' }}>

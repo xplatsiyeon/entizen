@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import WebHeader from 'componentsWeb/WebHeader';
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import WebFooter from 'componentsWeb/WebFooter';
 import { Grid, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -17,6 +17,7 @@ import Step_arrow from 'public/new/estimate/step_arrow.svg';
 import Step_ellipse from 'public/new/estimate/step_ellipse.svg';
 import styles from './index.module.css'; 
 import TagManager from 'react-gtm-module'
+import classNames from 'classnames';
 
 const progress_01 = [
   {
@@ -79,20 +80,34 @@ const Estimate = () => {
   
     return (
       <div id="estimate" className={styles.estimate}>
-          <div className={styles.banner}>
+          <WebHeader />
+          <div className={classNames(styles.container, styles.banner_container)}>
+              <div className={styles.banner_image} style={{ height: '17.5rem' }}>
+                  <Image 
+                      src={Banner}
+                      layout="fill"
+                      objectFit="cover"
+                      objectPosition="center"
+                  />
+              </div>
+              <div className={styles.banner_title}>
+                설치비용, 충전요금<br/>상황에 딱 맞게 제안해 드릴게요
+              </div>
+          </div>
+          {/* <div className={styles.banner}>
             <div className={styles.banner_img}>
               <div className={styles.banner_img_filter}></div>
               <Image
                 src={Banner}
                 alt="banner"
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
               />
             </div>
             <div className={styles.banner_title}>
               설치비용, 충전요금<br/>상황에 딱 맞게 제안해 드릴게요
             </div>
-          </div>
+          </div> */}
           <section className={styles.sec_01}>
             <div className={styles.sec_wrapper}>
               <div className={styles.title_01}>

@@ -12,7 +12,7 @@
 .sec_01 {}
 .sec_01 .banner_container { position: relative; }
 .sec_01 .banner_container .banner_image {
-    position: relative;
+    /* position: relative; */
     margin-bottom: 6rem;
 }
 .sec_01 .banner_container .banner_title {

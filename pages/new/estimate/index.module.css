@@ -2,24 +2,17 @@
     font-size: 60%;
 }
 
-/* .banner */
-.banner {
-    width: 120rem;
-    height: 17.5rem;
-    flex-shrink: 0;
+/* sec common */
+.container { margin: auto; text-align: center; }
+
+/* sec_01 */
+#estimate {}
+#estimate .banner_container { position: relative; }
+#estimate .banner_container .banner_image {
     position: relative;
     margin-bottom: 6rem;
 }
-.banner .banner_img_filter {
-    position:absolute; 
-    background-color:#383B48; 
-    z-index:2; 
-    height:100%; 
-    width:100%;
-    opacity: 0.4;
-}
-.banner .banner_img {}
-.banner .banner_title {
+#estimate .banner_container .banner_title {
     color: #FFF;
     text-align: center;
     font-family: Spoqa Han Sans Neo;
@@ -28,7 +21,7 @@
     font-weight: 500;
     line-height: 3.75rem; /* 150% */
     letter-spacing: -0.05rem;
-    
+
     z-index: 2;
     position: absolute;
 	top: 40%;
