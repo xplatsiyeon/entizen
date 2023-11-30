@@ -6,13 +6,13 @@
 .container { margin: auto; text-align: center; }
 
 /* sec_01 */
-#estimate {}
-#estimate .banner_container { position: relative; }
-#estimate .banner_container .banner_image {
+.estimate {}
+.estimate .banner_container { position: relative; }
+.estimate .banner_container .banner_image {
     position: relative;
     margin-bottom: 6rem;
 }
-#estimate .banner_container .banner_title {
+.estimate .banner_container .banner_title {
     color: #FFF;
     text-align: center;
     font-family: Spoqa Han Sans Neo;

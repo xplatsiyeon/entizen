@@ -85,7 +85,7 @@ const Estimate = () => {
               <div className={styles.banner_image} style={{ height: '17.5rem' }}>
                   <Image 
                       src={Banner}
-                      layout="fill"
+                      // layout="fill"
                       objectFit="cover"
                       objectPosition="center"
                   />

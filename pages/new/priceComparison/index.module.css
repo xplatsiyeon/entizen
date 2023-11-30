@@ -1,4 +1,6 @@
-.price_comparison_page .sec_01 {}
+.price_comparison_page .sec_01 {
+    position: relative;
+}
 /* 맨위 배너 글씨 */
 .price_comparison_page .sec_01 .banner_container {
     position: relative;

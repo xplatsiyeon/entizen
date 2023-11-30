@@ -37,7 +37,7 @@ const ElectricStart = () => {
                 <div className={styles.banner_image}>
                     <Image 
                         src={bannerImage} 
-                        layout="fill"
+                        // layout="fill"
                         objectFit="cover"
                         objectPosition="center"
                     />

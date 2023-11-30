@@ -1,4 +1,5 @@
 import { MyEstimateHeader } from 'components/myEstimate/header';
+import WebHeader from 'components/NewHeader/AfterHeaderA';
 import myEstimateStyles from './myEstimate.module.scss';
 import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
 import TagManager from 'react-gtm-module'
@@ -32,7 +33,8 @@ const MyEstimate = () => {
   return (
     <div className={myEstimateStyles.myEstimateContainer}>
       {/* 헤더제외 */}
-      {/* <MyEstimateHeader></MyEstimateHeader> */}
+      {/* <WebHeader/> */}
+      <MyEstimateHeader></MyEstimateHeader>
       <div className={myEstimateStyles.fakeHeader}></div>
       <section className={myEstimateStyles.backgroundWrap}>
         <p className={myEstimateStyles.backgroundIntro}>

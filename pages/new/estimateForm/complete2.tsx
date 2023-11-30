@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
+import WebHeader from 'components/NewHeader/BeforeHeaderB';
 import CommonModal from '../commonModal';
 import { Button, Icon, Stack } from '@mui/material';
 import CheckCircle from 'public/new/estimate/CheckCircle.svg';
@@ -14,6 +15,7 @@ const CompleteForm = () => {
 
   return (
     <div className={styles.complete_page}>
+        <WebHeader/>
         <Stack className={styles.complete_container} spacing={2}>
             <div className={styles.complete_check}><Image src={CheckCircle}/></div>
             <div className={styles.complete_title}>업체 선택이 완료되었습니다.</div>

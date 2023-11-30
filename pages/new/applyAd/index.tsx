@@ -1,4 +1,5 @@
 import { SuggestionHeader } from 'components/applyAd/header';
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import ApplyAdMainStyles from './applyAd.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'; // basic
@@ -84,7 +85,7 @@ const ApplyAdMain = () => {
 
   return (
     <div className={ApplyAdMainStyles.applyAdMain}>
-      <SuggestionHeader></SuggestionHeader>
+      <WebHeader />
       <div className={ApplyAdMainStyles.mainContainer}>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section1}`}

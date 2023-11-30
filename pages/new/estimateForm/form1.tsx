@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import WebHeader from 'componentsWeb/WebHeader';
+import WebHeader from 'components/NewHeader/BeforeHeaderB';
 import WebFooter from 'componentsWeb/WebFooter';
 import { Box } from '@mui/system';
 import { RadioButtonCheckedSharp, RadioButtonUncheckedSharp } from '@mui/icons-material';
@@ -106,6 +106,7 @@ const EstimateForm = () => {
 
     return (
       <div id="estimateForm" className={styles.estimateForm}>
+        <WebHeader/>
         <section className={styles.sec_01}>
           <div className={styles.container}>
             <div className={styles.title}>문항에 답하고 한 눈에 비교할 수 있는<br/>맞춤 견적서를 받아보세요</div>
