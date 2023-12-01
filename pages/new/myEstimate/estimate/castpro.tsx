@@ -87,13 +87,16 @@ const EstimateByCompany = () => {
           {estimateByCompanyData.name}
         </p>
         <div className={estimateByCompanyStyles.buttonWrap}>
-          <button
+          <a
             className={`${estimateByCompanyStyles.button} ${estimateByCompanyStyles.kakaoChatBtn}`}
+            href="https://open.kakao.com/o/sQUjD5Rf"
+            target="_blank"
           >
             <span className={estimateByCompanyStyles.kakaoIcon}></span>
             채팅하기
-          </button>
+          </a>
           <button
+            onClick={() => {location.href = '/new/estimateForm/complete2'}}
             className={`${estimateByCompanyStyles.button}  ${estimateByCompanyStyles.applyBtn}`}
           >
             이 업체에게 현장실사 받기

@@ -36,3 +36,47 @@
     background: var(--Main1, #5221CB);
     box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
 }
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+    .complete_page .complete_container .complete_title {
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    } 
+    .complete_page .complete_container .complete_text {
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+        margin-bottom: 282px;
+    }
+    .complete_page .complete_container .complete_btn {
+        display: flex;
+        width: 350px;
+        height: 56px;
+        padding: 16px 0px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        margin: auto;
+        
+        color: #FFF;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
+    .complete_page .complete_container .complete_btn > svg {
+        width: 20px;
+        height: 20px;
+    }
+}

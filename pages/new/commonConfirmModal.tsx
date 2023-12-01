@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, useMediaQuery, useTheme } from '@mui/material';
 
-const CommonConfirmModal = ({ open, onClose, onConfirm, title = '', content = '' }: any) => {
+const CommonConfirmModal = ({ open, onClose, onConfirm, title = '', content = '', useCancelBtn = true}: any) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -14,9 +14,13 @@ const CommonConfirmModal = ({ open, onClose, onConfirm, title = '', content = ''
         {content} 
       </CustomDialogContent>
       <DialogActions style={{ justifyContent: 'center', marginBottom: '1.5rem' }}>
-        <CancelButton onClick={onClose} variant="contained">
-            취소
-        </CancelButton>
+        {
+            useCancelBtn && (
+                <CancelButton onClick={onClose} variant="contained">
+                    취소
+                </CancelButton>
+            )
+        }
         <ConfirmButton onClick={onConfirm} variant="contained">
             확인
         </ConfirmButton>
@@ -75,6 +79,7 @@ CommonConfirmModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   title: PropTypes.string,
   content: PropTypes.element,
+  useCancelBtn: PropTypes.bool,
 };
 
 export default CommonConfirmModal;

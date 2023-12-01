@@ -3,6 +3,7 @@ $imgPath: '/images';
 .myEstimateContainer {
   section {
     padding: 1.25rem;
+    margin-top: 5.5rem;
   }
 
   @media screen and (max-width: 767px) {
@@ -31,7 +32,7 @@ $imgPath: '/images';
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-
+      
       @media screen and (max-width: 1023px) {
         width: 21.875rem;
         font-size: 1.5rem;
@@ -86,10 +87,6 @@ $imgPath: '/images';
         border-radius: 0.5rem;
         background: #f8f8f8;
 
-        @media screen and (max-width: 1023px) {
-          // width: 100%;
-        }
-
         @media screen and (max-width: 767px) {
           // width: 21.875rem;
           height: 10.25rem;
@@ -103,8 +100,6 @@ $imgPath: '/images';
           line-height: 2rem;
           border-radius: 1.8125rem;
           background: var(--Main1, #5221cb);
-
-          /* shadow */
           box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 
           color: #fff;
@@ -112,7 +107,6 @@ $imgPath: '/images';
           font-size: 0.875rem;
           font-style: normal;
           font-weight: 400;
-          // line-height: 1rem; /* 114.286% */
           letter-spacing: -0.0175rem;
         }
 
@@ -810,4 +804,62 @@ $imgPath: '/images';
       }
     }
   }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+ .myEstimateContainer .backgroundWrap {
+   height: 280px;
+  }
+  .myEstimateContainer .backgroundWrap .backgroundIntro {
+    width: max-content;
+    margin-top: 45px;
+
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; /* 150% */
+    letter-spacing: -0.48px;
+  }
+  .myEstimateContainer .mainSectionWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap {}
+  .myEstimateContainer .mainSectionWrap .infoWrap > .averagePriceWrap {
+      border-radius: 8px;
+      height: auto;
+      padding: 24px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopTitle {
+    height: 32px;
+    width: fit-content;
+    padding: 8px;
+    border-radius: 29px;
+    margin-bottom: 16px;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
+    letter-spacing: -0.28px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo {}
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc > span,
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc {
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.32px;}
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoPrice {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.48px;}
+  .myEstimateContainer {}
+  .myEstimateContainer {}
+  .myEstimateContainer {}
 }

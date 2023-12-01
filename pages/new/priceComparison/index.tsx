@@ -7,12 +7,19 @@ import { MyEstimateHeader } from 'components/myEstimate/header';
 import Banner from 'public/new/priceComparison/banner.svg';
 import Price from 'public/new/priceComparison/price.svg';
 import Kakao from 'public/new/priceComparison/kakao.svg';
+import KakaoMb from 'public/new/priceComparison/kakao_mb.svg';
 import styles from './index.module.css';
+import { useRouter } from 'next/router';
 
 const PriceComparison = () => {
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  const router = useRouter();
+
+  const clickGetMoreEstimate = () => {
+    router.push('/new/estimateForm/form4');
+  }
 
   return (
     <div className={styles.price_comparison_page}>
@@ -61,8 +68,11 @@ const PriceComparison = () => {
                                 </ListItem>
                             </List>
                             <div className={styles.min_price}>총 1,100,000원 부터 ~</div>
-                            <Button className={styles.chat_btn} variant="contained"><Image src={Kakao} />채팅하기</Button>
-                            <Button className={styles.show_estimate_btn} variant="contained">견적서 보기</Button>
+                            <Button className={styles.chat_btn} variant="contained" disabled>
+                                <Image src={isMobile ? KakaoMb : Kakao} className={styles.kakaoIcon} />
+                                <p>채팅하기</p>
+                            </Button>
+                            <Button className={styles.show_estimate_btn} variant="contained" disabled>견적서 보기</Button>
                         </div>
                         <div className={styles.price_container}>
                             <div className={styles.company_img}><Image src={Price}/></div>
@@ -82,13 +92,13 @@ const PriceComparison = () => {
                                 </ListItem>
                             </List>
                             <div className={styles.min_price}>총 1,125,000원 부터 ~</div>
-                            <Button className={styles.chat_btn} variant="contained"><Image src={Kakao} className={styles.kakaoIcon} />채팅하기</Button>
-                            <Button className={styles.show_estimate_btn} variant="contained">견적서 보기</Button>
+                            <Button className={styles.chat_btn} variant="contained" disabled><Image src={Kakao} className={styles.kakaoIcon} /><p>채팅하기</p></Button>
+                            <Button className={styles.show_estimate_btn} variant="contained" disabled>견적서 보기</Button>
                         </div>
                     </Stack>
                     <div className={styles.text_03}>모든 <span>견적비교</span>가 궁금하시다면?</div>
                 </div>
-                <Button className={styles.more_btn} variant="contained">더 많은 업체 견적 받기 <NavigateNextIcon /></Button>
+                <Button className={styles.more_btn} variant="contained" onClick={clickGetMoreEstimate}>더 많은 업체 견적 받기 <NavigateNextIcon /></Button>
             </div> 
         </div>
         <div className={styles.sec_02}></div>

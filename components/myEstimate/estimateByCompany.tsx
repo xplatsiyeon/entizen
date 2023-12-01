@@ -26,6 +26,12 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    location.href = `/new/myEstimate/estimate/${company}`;
+  }
+  const kakaoLink = {
+    ev: 'http://pf.kakao.com/_xnxduxbG/chat',
+    starkoff: 'https://open.kakao.com/o/stFSO2Uf',
+    castpro: 'https://open.kakao.com/o/sQUjD5Rf'
   }
 
   return (
@@ -103,16 +109,17 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
         )}
       </div>
       <div className={estimateByCompanyStyles.buttonWrap}>
-        <button className={estimateByCompanyStyles.kakaoChatBtn} onClick={clickChatBtn}>
+        <a className={estimateByCompanyStyles.kakaoChatBtn} 
+          onClick={clickChatBtn} 
+          href={kakaoLink[company]}
+          target="_blank"
+        >
           <span className={estimateByCompanyStyles.kakaoIcon}></span>
           채팅하기
-        </button>
+        </a>
         <button
           className={estimateByCompanyStyles.estimateViewBtn}
-          onClick={() => {
-            clickEstimateDetaileBtn();
-            location.href = `/new/myEstimate/estimate/${company}`;
-          }}
+          onClick={clickEstimateDetaileBtn}
         >
           견적서보기
         </button>

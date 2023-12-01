@@ -45,6 +45,7 @@ const Electric = () => {
     const isMobile = useMediaQuery({
         query: '(max-width:899.25pt)',
     });
+    const router = useRouter();
 
     const [state, setState] = useState({ right: false });
     const toggleDrawer =
@@ -67,6 +68,7 @@ const Electric = () => {
             },
         };
         TagManager.dataLayer(tagManagerArgs);
+        router.push('/new/estimateForm/form2');
     }
     
 

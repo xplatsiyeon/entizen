@@ -23,7 +23,9 @@ const CompleteForm = () => {
               <p> 선택하신 업체에서 현장 실사 및 {isMobile && <br/>}이후 일정 조율을 위해 연락드릴 예정입니다.</p>
               {!isMobile && <p>추가로 궁금하신 부분이 있다면 엔티즌 고객센터로 연락 주시기 바랍니다.</p>}
             </div>
-            <div><Button className={styles.complete_btn} variant="contained">내 견적서 바로가기 <NavigateNextIcon /></Button></div>
+            <div><Button className={styles.complete_btn} variant="contained" onClick={() => {
+              location.href = '/new/myEstimate';
+            }}>내 견적서 바로가기 <NavigateNextIcon /></Button></div>
         </Stack>
     </div>
   );

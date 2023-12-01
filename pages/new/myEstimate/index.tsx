@@ -2,8 +2,11 @@ import { MyEstimateHeader } from 'components/myEstimate/header';
 import myEstimateStyles from './myEstimate.module.scss';
 import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
 import TagManager from 'react-gtm-module'
+import { useState } from 'react';
+import CommonConfirmModal from '../commonConfirmModal';
 
 const MyEstimate = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {
@@ -28,12 +31,15 @@ const MyEstimate = () => {
     };
     TagManager.dataLayer(tagManagerArgs);
   }
+  const onClickSendBtn = () => {
+    setModalOpen(true);
+  } 
 
   return (
     <div className={myEstimateStyles.myEstimateContainer}>
       {/* 헤더제외 */}
       <MyEstimateHeader></MyEstimateHeader>
-      <div className={myEstimateStyles.fakeHeader}></div>
+      {/* <div className={myEstimateStyles.fakeHeader}></div> */}
       <section className={myEstimateStyles.backgroundWrap}>
         <p className={myEstimateStyles.backgroundIntro}>
           견적 비교 후 궁금한 부분을
@@ -160,10 +166,13 @@ const MyEstimate = () => {
             </table>
           </div>
           <div className={myEstimateStyles.buttonWrap}>
-            <button className={myEstimateStyles.downloadBtn} onClick={chartDownload}>
+            <a className={myEstimateStyles.downloadBtn} 
+              onClick={chartDownload} 
+              href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
+              target="_blank">
               <p>모든 업체 비교표 다운받기</p>
               <div className={myEstimateStyles.icon}></div>
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -199,13 +208,15 @@ const MyEstimate = () => {
           견적서를 보고 엔티즌 플랫폼에<br></br>궁금하신 게 있으신가요?
         </p>
         <div className={myEstimateStyles.buttonWrap}>
-          <button
+          <a
             className={`${myEstimateStyles.button} ${myEstimateStyles.kakaoChatBtn}`}
             onClick={kakaoBtnClick}
+            href="http://pf.kakao.com/_xjxeVYxj/chat"
+            target="_blank"
           >
             <span className={myEstimateStyles.kakaoIcon}></span>엔티즌에게
             카카오톡으로 질문하기
-          </button>
+          </a>
           <button
             className={`${myEstimateStyles.button} ${myEstimateStyles.recommCallBtn}`}
             onClick={telBtnClick}
@@ -227,12 +238,22 @@ const MyEstimate = () => {
                 name="mail"
                 autoComplete="off"
               />
-              <button className={myEstimateStyles.sendBtn}>전송</button>
+              <button className={myEstimateStyles.sendBtn}
+                onClick={onClickSendBtn}
+              >전송</button>
             </div>
           </div>
           <div className={myEstimateStyles.chargeCarImg}></div>
         </div>
       </section>
+      <CommonConfirmModal
+        open={modalOpen}
+        onClose={() => { setModalOpen(false);}}
+        onConfirm={() => { setModalOpen(false);}}
+        useCancelBtn={false}
+        title="전송"
+        content={<p>전송이 완료되었습니다.</p>}
+      />
     </div>
   );
 };

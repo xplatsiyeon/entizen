@@ -26,6 +26,7 @@ const Selection = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    router.push('/new/priceComparison');
   }
   const clickPublic = () => {
     const tagManagerArgs = {

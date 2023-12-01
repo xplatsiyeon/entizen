@@ -117,26 +117,24 @@ const EstimateForm3 = () => {
                   <Grid container className={styles.form_wrapper} spacing={2} columns={1}>
                     <Grid item className={styles.item} xs={12} sm={6}>
                       <label>가장 중요하게 보는 요소</label>
-                      <FormControl variant="outlined" size={size} className={styles.input_box}>
-                        <Select
-                          size={size}
-                          id="importantFactorSelect"
-                          name="importantFactor"
-                          displayEmpty
-                          className={styles.input_box}
-                          value={form?.importantFactor}
-                          placeholder="클릭하여 선택하세요."
-                          onChange={handleChange}
-                        >
-                          <MenuItem value="option_1">설치비용</MenuItem>
-                          <MenuItem value="option_2">충전요금</MenuItem>
-                          <MenuItem value="option_3">A/S</MenuItem>
-                          <MenuItem value="option_4">디자인</MenuItem>
-                          <MenuItem value="option_5">편의성</MenuItem>
-                          <MenuItem value="option_6">보증기간</MenuItem>
-                          <MenuItem value="option_7">업체 신뢰도</MenuItem>
-                        </Select>
-                      </FormControl>
+                      <Select
+                        size={size}
+                        id="importantFactorSelect"
+                        name="importantFactor"
+                        displayEmpty
+                        className={styles.input_box}
+                        value={form?.importantFactor}
+                        placeholder="클릭하여 선택하세요."
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="option_1">설치비용</MenuItem>
+                        <MenuItem value="option_2">충전요금</MenuItem>
+                        <MenuItem value="option_3">A/S</MenuItem>
+                        <MenuItem value="option_4">디자인</MenuItem>
+                        <MenuItem value="option_5">편의성</MenuItem>
+                        <MenuItem value="option_6">보증기간</MenuItem>
+                        <MenuItem value="option_7">업체 신뢰도</MenuItem>
+                      </Select>
                     </Grid>
                     <Grid item className={styles.item} xs={12} sm={6}>
                       <label>설치 희망 장소</label>
@@ -243,6 +241,13 @@ const EstimateForm3 = () => {
                   </Grid>
               </Box>
             </div>
+            {isMobile && 
+              <Button 
+                className={classNames(styles.submit_btn, isComplete && styles.active)}
+                variant="contained" 
+                color="primary" 
+                onClick={onClickSubmit}
+              >내 맞춤 견적서 확인하기</Button>}
           </div>
           <CommonBackdrop open={backdropOpen} />
           <MobileModal open={modalOpen} onClose={handleCloseModal} />

@@ -99,7 +99,7 @@ const ApplyAdMain = () => {
             <button
               className={ApplyAdMainStyles.estimateBtn}
               onClick={() => {
-                location.href = '/new/myEstimate';
+                location.href = '/new/selection';
               }}
             >
               맞춤 견적 받기

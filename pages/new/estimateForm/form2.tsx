@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import WebHeader from 'components/NewHeader/BeforeHeaderB';
+import WebHeaderA from 'components/NewHeader/BeforeHeaderA';
+import WebHeaderB from 'components/NewHeader/BeforeHeaderB';
 import WebFooter from 'componentsWeb/WebFooter';
 import { Box } from '@mui/system';
 import { RadioButtonCheckedSharp, RadioButtonUncheckedSharp } from '@mui/icons-material';
@@ -18,9 +19,10 @@ interface IAddr { address: string; zonecode: string; }
 
 const EstimateForm2 = () => {
     const router = useRouter();
-    const mobile = useMediaQuery({
+    const isMobile = useMediaQuery({
       query: '(max-width:899.25pt)',
     });
+    const size = isMobile ? 'medium' : 'small';
 
     const onClickAddr = () => {
       new window.daum.Postcode({
@@ -106,17 +108,19 @@ const EstimateForm2 = () => {
 
     return (
       <div id="estimateForm" className={styles.estimateForm}>
-        <WebHeader/>
+        {isMobile ? <WebHeaderA /> : <WebHeaderB />}
         <section className={styles.sec_01}>
           <div className={styles.container}>
-            <div className={styles.title}>문항에 답하고 한 눈에 비교할 수 있는<br/>맞춤 견적서를 받아보세요</div>
+            <div className={styles.title}>
+              {isMobile ? <p>문항에 답하고 한 눈에 비교할 수 <br/>있는 맞춤 견적서를 받아보세요</p> : <p>문항에 답하고 한 눈에 비교할 수 있는<br/>맞춤 견적서를 받아보세요</p>}
+            </div>
             <div className={styles.form_container}>
               <Box component="form" noValidate onSubmit={()=>{ console.log('submit!')}} sx={{ mt: 3 }}>
                 <Grid container spacing={2} columns={1}>
                   <Grid item className={styles.item} xs={12} sm={6}>
                     <label>가장 중요하게 보는 요소</label>
                     <Select
-                      size="small"
+                      size={size}
                       id="importantFactorSelect"
                       name="importantFactor"
                       displayEmpty
@@ -137,7 +141,7 @@ const EstimateForm2 = () => {
                   <Grid item className={styles.item} xs={12} sm={6}>
                     <label>설치 희망 장소</label>
                     <Select
-                      size="small"
+                      size={size}
                       id="placeSelect"
                       name="place"
                       className={styles.input_box}
@@ -157,7 +161,7 @@ const EstimateForm2 = () => {
                     { form?.place === 'step_etc' &&
                       <TextField 
                         id="placeEtcInput" 
-                        size="small" 
+                        size={size} 
                         placeholder="텍스트를 입력하세요." 
                         className={styles.input_box}
                         variant="outlined"
@@ -169,32 +173,28 @@ const EstimateForm2 = () => {
                   </Grid>
                   <Grid item className={styles.item} xs={12} sm={6}>
                     <label>설치 희망 상세 주소</label>
-                    <Grid container spacing={3}>
-                      <Grid item xs>
-                        <TextField 
-                          id="addressInput" 
-                          size="small" 
-                          placeholder="주소 검색" 
-                          disabled
-                          className={classNames(styles.input_box, styles.address)}
-                          variant="outlined"
-                          name="address"
-                          value={form?.address}
-                          onChange={handleChange}
-                        />
-                      </Grid>
-                      <Grid item xs={2} className={styles.address_btn_grid}>
-                        <Button 
-                          className={styles.address_btn}
-                          variant="contained" 
-                          onClick={onClickAddr}
-                        >주소 찾기</Button>
-                      </Grid>
-                    </Grid>
+                    <div className={styles.search_address_wrapper}>
+                      <TextField 
+                        id="addressInput" 
+                        size={size} 
+                        placeholder="주소 검색" 
+                        disabled
+                        className={classNames(styles.input_box, styles.address)}
+                        variant="outlined"
+                        name="address"
+                        value={form?.address}
+                        onChange={handleChange}
+                      />
+                      <Button 
+                        className={styles.address_btn}
+                        variant="contained" 
+                        onClick={onClickAddr}
+                      >주소 찾기</Button>
+                    </div>
                     <TextField 
                       id="addressDetailInput" 
                       className={styles.input_box} 
-                      size="small"
+                      size={size}
                       placeholder="상세 주소를 입력해주세요." 
                       variant="outlined"
                       name="addressDetail"
@@ -207,7 +207,7 @@ const EstimateForm2 = () => {
                     <TextField 
                       id="phoneInput" 
                       className={styles.input_box} 
-                      size="small"
+                      size={size}
                       placeholder="텍스트를 입력하세요."
                       variant="outlined" 
                       name="phone"
@@ -220,7 +220,7 @@ const EstimateForm2 = () => {
                     <TextField 
                       id="emailInput" 
                       className={styles.input_box}
-                      size="small" 
+                      size={size} 
                       placeholder="텍스트를 입력하세요."
                       variant="outlined"
                       name="email"
@@ -239,22 +239,29 @@ const EstimateForm2 = () => {
                           name="isAgree"
                           onChange={handleChange}  
                         />
-                        <span>[필수] 개인정보 수집 및 이용 안내에 대한 동의</span>
+                        <span><span className={styles.required_check}>[필수]</span> 개인정보 수집 및 이용 안내에 대한 동의</span>
                       </div>
                       <div className={styles.terms_detail}><Button className={styles.terms_detail_btn} variant="text" onClick={handleOpenModal}>약관 상세보기</Button></div>
                     </div>
                   </Grid>
                   <Grid item className={styles.item} xs={12} sm={6}>
-                    <Button 
-                      className={classNames(styles.submit_btn, isComplete && styles.active)}
-                      variant="contained" 
-                      color="primary" 
-                      onClick={onClickSubmit}
-                    >견적서 받기</Button>
+                    {!isMobile && <Button 
+                        className={classNames(styles.submit_btn, isComplete && styles.active)}
+                        variant="contained" 
+                        color="primary" 
+                        onClick={onClickSubmit}
+                      >내 맞춤 견적서 확인하기</Button>}
                   </Grid>
                 </Grid>
               </Box>
             </div>
+            {isMobile && 
+              <Button 
+                className={classNames(styles.submit_btn, isComplete && styles.active)}
+                variant="contained" 
+                color="primary" 
+                onClick={onClickSubmit}
+              >내 맞춤 견적서 확인하기</Button>}
           </div>
           <CommonBackdrop open={backdropOpen} />
           <MobileModal open={modalOpen} onClose={handleCloseModal} />

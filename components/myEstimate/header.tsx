@@ -110,7 +110,7 @@ export const MyEstimateHeader = () => {
                   clicked={router.pathname.includes('quotation/request')}
                   onClick={() => {
                     // dispatch(quotationAction.init());
-                    // handleLink('/quotation/request');
+                    handleLink('/new/myEstimate');
                   }}
                 >
                   내 견적서

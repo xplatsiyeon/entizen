@@ -10,6 +10,7 @@
   position: relative;
   width: 100%;
   height: 27.5rem;
+  margin-top: 5.5rem;
   /* background-image: url('../../../public/new/priceComparison/banner.svg'); */
   /* background-repeat: 'no-repeat';
     background-position: center;
@@ -95,11 +96,7 @@
 }
 .price_comparison_page .sec_01 .comparison_container > .comparison_box {
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container {
   width: 23rem;
   /* height: 37.875rem; */
   flex-shrink: 0;
@@ -109,20 +106,10 @@
   padding: 1.62rem;
   margin-bottom: 3.5rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_img {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_img {
   margin-bottom: 1.5rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_name {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_name {
   color: #222;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.625rem;
@@ -131,32 +118,14 @@
   line-height: normal;
   letter-spacing: -0.0325rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_info {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info {
   margin-bottom: 1.75rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_info
-  .item_wrapper {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper {
   display: inline-flex;
   padding-left: 0;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_info
-  .item_wrapper
-  .item_01 {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_01 {
   color: #a3a7b2;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
@@ -166,14 +135,7 @@
   letter-spacing: -0.02rem;
   width: 30%;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .company_info
-  .item_wrapper
-  .item_02 {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_02 {
   color: #222;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
@@ -182,12 +144,7 @@
   line-height: 1.625rem; /* 162.5% */
   letter-spacing: -0.02rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .min_price {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .min_price {
   color: #222;
   font-family: Spoqa Han Sans Neo;
   font-size: 2rem;
@@ -197,12 +154,7 @@
   letter-spacing: -0.04rem;
   margin-bottom: 1.75rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .chat_btn {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .chat_btn {
   width: 19.75rem;
   height: 3.25rem;
   flex-shrink: 0;
@@ -219,26 +171,18 @@
   line-height: 1rem; /* 100% */
   letter-spacing: -0.02rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .chat_btn
-  .kakaoIcon {
-  width: 1.25rem !important;
-  min-width: 1.25rem !important;
-  max-width: none !important;
-  height: 1.25rem !important;
-  max-height: none !important;
-  min-height: 1.25rem !important;
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .chat_btn .kakaoIcon {
+  width: 1.25rem;
+  min-width: 1.25rem;
+  max-width: none;
+  height: 1.25rem;
+  max-height: none;
+  min-height: 1.25rem;
 }
-.price_comparison_page
-  .sec_01
-  .comparison_container
-  > .comparison_box
-  .price_container
-  .show_estimate_btn {
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .chat_btn > p {
+  margin-left: 0.5rem;
+}
+.price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .show_estimate_btn {
   width: 19.75rem;
   height: 3.25rem;
   flex-shrink: 0;
@@ -282,6 +226,8 @@
   background: #383b48;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
   margin-bottom: 10rem;
+  display: flex;
+  align-items: center;
 
   /* text */
   color: #fff;
@@ -293,35 +239,58 @@
   line-height: 1.5rem; /* 150% */
   letter-spacing: -0.02rem;
 }
-.price_comparison_page .sec_01 .comparison_container {
-}
-.price_comparison_page .sec_01 .comparison_container {
-}
-.price_comparison_page .sec_01 .comparison_container {
-}
-.price_comparison_page .sec_01 .more_btn {
-}
 
-@media screen and (max-width: 767px) {
+/* mobile */
+@media only screen and (min-width: 200px) and (max-width: 480px) {
   .price_comparison_page .sec_01 .banner_container {
-    height: 46.125rem;
+    height: 738px;
   }
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container {
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container {
     width: auto !important;
   }
 
   .price_comparison_page .sec_01 .title_container > .text_01 {
     color: #fff;
     font-family: Spoqa Han Sans Neo;
-    font-size: 2rem;
+    font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.04rem;
+    margin-bottom: 32px;
+  }
+  .price_comparison_page .sec_01 .title_container > .text_02,
+  .price_comparison_page .sec_01 .title_container > .text_02 > span { 
+    font-size: 16px;
+    font-style: normal;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+ 
+  .price_container {
+    margin-left: 0 !important;
+  }
+  .price_comparison_page .sec_01 .container { top: 20%; }
+
+  .price_comparison_page .sec_01 .comparison_container {
+    border-radius: 8px;
+    width: 350px;
+    margin-bottom: 40px;
+  }
+  .price_comparison_page .sec_01 .comparison_container > .text_01 {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 166.667% */
+    letter-spacing: -0.6px;
+  }
+  .price_comparison_page .sec_01 .comparison_container > .text_02 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+    margin-bottom: 40px;
   }
   .comparison_container .comparison_box {
     display: flex;
@@ -331,63 +300,77 @@
     justify-content: center;
     align-items: center;
     margin: 0;
+    border-radius: 8px;
   }
-  .price_container {
-    margin-left: 0 !important;
+  
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_img {
+    width: 100px;
+    height: 100px;
   }
-
-  .price_comparison_page .sec_01 .comparison_container > .text_01 {
-    font-size: 1.5rem;
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_name {
+    font-size: 26px;
     font-style: normal;
-    font-weight: 700;
-    line-height: 2.5rem; /* 166.667% */
-    letter-spacing: -0.0375rem;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.52px;
   }
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container
-    .company_info
-    .item_wrapper {
+
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_01 {
+    width: 28%;
+  }
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_01,
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_info .item_wrapper .item_02 {
     padding-right: 0;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .min_price {
+    font-size: 24px;
+    margin: 28px 0;
   }
 
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container
-    .company_img {
-    width: 6.25rem;
-    height: 6.25rem;
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .company_img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 28px;
   }
 
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container
-    .chat_btn,
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container
-    .show_estimate_btn {
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .chat_btn,
+  .price_comparison_page .sec_01 .comparison_container > .comparison_box .price_container .show_estimate_btn {
     width: 100%;
+    height: 52px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 100% */
+    letter-spacing: -0.32px;
   }
-  .price_comparison_page
-    .sec_01
-    .comparison_container
-    > .comparison_box
-    .price_container
-    .min_price {
-    font-size: 1.5rem;
+ 
+  .price_comparison_page .sec_01 .comparison_container .text_03,
+  .price_comparison_page .sec_01 .comparison_container .text_03 > span {
+    font-size: 20px;
+    font-style: normal;
+    line-height: 40px; /* 200% */
+    letter-spacing: -0.6px;
   }
   .price_comparison_page .sec_01 .more_btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 56px;
+    padding: 16px 90px 16px 89px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+  }
+  .price_comparison_page .sec_01 .more_btn > svg {
+    width: 20px;
+    height: 20px;
   }
 }

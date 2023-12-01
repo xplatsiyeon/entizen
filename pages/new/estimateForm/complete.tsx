@@ -23,7 +23,9 @@ const CompleteForm = () => {
               <p>카카오톡으로 맞춤 견적서를 {isMobile && <br/>}보내드릴 예정입니다.</p>
               {!isMobile && <p>고객님께서 응답하신 내용을 참고하여 엔티즌 상담팀이 견적서 내용을 친절히 설명드리겠습니다.</p>}
             </div>
-            <div><Button  className={styles.complete_btn} variant="contained">홈으로 <NavigateNextIcon /></Button></div>
+            <div><Button className={styles.complete_btn} variant="contained" onClick={() => {
+                location.href = '/new/applyAd';
+              }}>홈으로 <NavigateNextIcon /></Button></div>
         </Stack>
     </div>
   );

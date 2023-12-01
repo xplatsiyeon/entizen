@@ -5,7 +5,7 @@ import { useMediaQuery, useTheme, Backdrop, CircularProgress } from '@mui/materi
 
 const MobileModal = ({ 
     open, 
-    title = '고객님께 딱 맞는 맞춤 견적서를 생성중입니다..', 
+    title = (<p>고객님께 딱 맞는 맞춤 견적서를<br/>생성중입니다..</p>), 
     content = '잠시만 기다려주세요.'
 }: any) => {
     const theme = useTheme();
@@ -43,6 +43,14 @@ const Text_01 = styled('div')`
     line-height: normal;
     letter-spacing: -0.03rem;
     margin-bottom: 0.75rem;
+
+    @media only screen and (min-width: 200px) and (max-width: 480px) {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 36px; /* 150% */
+        letter-spacing: -0.48px;
+    }
 `
 const Text_02 = styled('div')`
     color: #FFF;
@@ -53,6 +61,14 @@ const Text_02 = styled('div')`
     font-weight: 400;
     line-height: 1.5rem; /* 150% */
     letter-spacing: -0.02rem;
+
+    @media only screen and (min-width: 200px) and (max-width: 480px) {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+    }
 `
 
 MobileModal.propTypes = {
