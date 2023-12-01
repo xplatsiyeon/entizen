@@ -116,7 +116,7 @@ export const MyEstimateHeader = () => {
                       clicked={router.pathname.includes('guide')}
                       onClick={() => {
                         // handleLink('/guide');
-                        // setLinklist(true);
+                        handleLink('/new/checkRate');
                       }}
                     >
                       한전불입금/충전요금
@@ -124,7 +124,7 @@ export const MyEstimateHeader = () => {
                     <DivBox
                       clicked={router.pathname.includes('chatting')}
                       onClick={() => {
-                        // handleLink('/chatting');
+                        handleLink('/new/funcSystemComparison');
                       }}
                     >
                       가격차이
@@ -132,13 +132,17 @@ export const MyEstimateHeader = () => {
                     <DivBox
                       clicked={router.pathname.includes('chatting')}
                       onClick={() => {
-                        // handleLink('/chatting');
+                        handleLink('/new/reliability');
                       }}
                     >
                       업체 신뢰도
                     </DivBox>
                   </Box2>
-                  <DivBox2>자주 묻는 질문</DivBox2>
+                  <DivBox2
+                    onClick={() => {
+                      handleLink('/new/faq');
+                    }}
+                  >자주 묻는 질문</DivBox2>
                   </>
                   )
               }
