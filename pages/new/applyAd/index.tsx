@@ -2,7 +2,7 @@ import { SuggestionHeader } from 'components/applyAd/header';
 import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import ApplyAdMainStyles from './applyAd.module.scss';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'; // basic
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -10,7 +10,15 @@ import 'swiper/css'; //basic
 import { SlideItem } from 'components/applyAd/slideItem';
 import { useMediaQuery } from 'react-responsive';
 
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
+import Image from 'next/image';
+import Sec02Img from 'public/new/applyAd/section2.png';
+import Sec03Img from 'public/new/applyAd/section3.png';
+import Sec04Img from 'public/new/applyAd/section4.png';
+import Sec05Img from 'public/new/applyAd/section5.png';
+import Img01 from 'public/images/suggestion/section3_1.png';
+import Img02 from 'public/images/suggestion/section3_2.png';
+import Img03 from 'public/images/suggestion/section3_3.png';
 
 const ApplyAdMain = () => {
   const [swiper, setSwiper] = useState<SwiperCore>();
@@ -217,7 +225,14 @@ const ApplyAdMain = () => {
             )}
           </article>
         </section>
-
+        <div className={ApplyAdMainStyles.mobileSection2}>
+          <Image
+            src={Sec02Img}
+            alt="Sec02Img"
+            layout="intrinsic"
+            objectFit="contain"
+          />
+        </div>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section3}`}
         >
@@ -231,7 +246,6 @@ const ApplyAdMain = () => {
                 <p>세부내용 확인해요</p>
               </div>
             </div>
-
             <div className={ApplyAdMainStyles.etcInfo}>
               <div className={ApplyAdMainStyles.imgWrap}>
                 <img
@@ -258,6 +272,33 @@ const ApplyAdMain = () => {
                 ></img>
               </div>
             </div>
+            <Swiper
+              className={ApplyAdMainStyles.mobileSection3Slider}
+              spaceBetween={-8}
+              slidesPerView={Math.floor(window.innerWidth / (160 + 3))}
+            >
+              {[Img01, Img02, Img03]?.map((el, idx) => {
+                return (
+                  <SwiperSlide key={idx}>
+                    <Image
+                      src={el}
+                      layout="fixed"
+                      width={160}
+                      height={240}
+                      className={ApplyAdMainStyles.sliderItems}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <div className={ApplyAdMainStyles.mobileSection3}>
+              <Image
+                src={Sec03Img}
+                alt="Sec03Img"
+                layout="intrinsic"
+                objectFit="contain"
+              />
+            </div>
           </article>
         </section>
         <section
@@ -283,6 +324,14 @@ const ApplyAdMain = () => {
             </div>
           </article>
         </section>
+        <div className={ApplyAdMainStyles.mobileSection4}>
+          <Image
+            src={Sec04Img}
+            alt="Sec04Img"
+            layout="intrinsic"
+            objectFit="contain"
+          />
+        </div>
 
         <div
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section5}`}
@@ -309,6 +358,14 @@ const ApplyAdMain = () => {
               alt="section5_1"
             ></img> */}
           </div>
+        </div>
+        <div className={ApplyAdMainStyles.mobileSection5}>
+          <Image
+            src={Sec05Img}
+            alt="Sec05Img"
+            layout="intrinsic"
+            objectFit="contain"
+          />
         </div>
       </div>
     </div>
