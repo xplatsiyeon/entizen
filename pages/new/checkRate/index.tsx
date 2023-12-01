@@ -1,13 +1,15 @@
 import Image from 'next/image';
 import { useMediaQuery } from 'react-responsive';
-import WebHeader from 'componentsWeb/WebHeader';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 import styles from './checkRate.module.css'
 import { Divider, Grid } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import BackgroundImage from './img/background_1.png';
+import BackgroundImageMb from './img/banner_mb.png';
 import Image1 from './img/img_1.png';
 import Image2 from './img/img_2.png';
 import Image3 from './img/img_3.png';
+import ChartMb from './img/chart_mb.png';
 import Image4 from './img/img_4.png';
 import Image5 from './img/img_5.png';
 import Icon from './img/icon.svg';
@@ -20,11 +22,11 @@ const CheckRate = () => {
   
   return (
     <div className={styles.check_rate_page}>
-      <WebHeader></WebHeader>
+      <MyEstimateHeader></MyEstimateHeader>
       <section className={styles.sec_01}>
         <Image 
           layout='fill'
-          src={BackgroundImage}
+          src={isMobile ? BackgroundImageMb : BackgroundImage}
         />
         <p className={styles.backgroundIntro}>
           한전불입금과 충전요금을
@@ -51,8 +53,8 @@ const CheckRate = () => {
       <section className={styles.sec_03}>
         <div className={styles.title}>한전불입금은 얼마?</div>
         <div className={styles.sub_title}>2023년 7월 1일 이후 신청분</div>
+        {isMobile && <div className={styles.table_caption}>부가세 불포함</div>}
         <div className={styles.table_container}>
-          {isMobile && <div className={styles.table_caption}>부가세 불포함</div>}
           <table>
             <tr>
               <th scope="col" colSpan={2} rowSpan={2}>구분</th>
@@ -90,7 +92,7 @@ const CheckRate = () => {
         </div>
         <div className={styles.container_02}>
           <p className={styles.text_01}>한전불입금 7kW 변화</p>
-          <div className={styles.img}><Image src={Image3} layout='intrinsic'/></div>
+          <div className={styles.img}><Image src={isMobile ? ChartMb : Image3} layout='intrinsic'/></div>
           <p className={styles.text_02}>한전불입금이 꾸준히 증가하고 있기 때문에 빠르게 설치하시는 걸 추천드립니다!</p>
         </div>
       </section>
@@ -109,7 +111,9 @@ const CheckRate = () => {
             </Grid>
           </Grid>
           <div className={styles.info_text}>
-            <div className={styles.info_icon}><Image src={Icon} /></div>
+            <div className={styles.info_icon}>
+              <Image src={Icon} />
+            </div>
             <span>아파트 혹은 정부지원금으로 무료 설치 시 충전 요금을 업체에서 선정합니다.</span>
           </div>
         </article>

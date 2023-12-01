@@ -112,10 +112,10 @@ const Faq = () => {
                             id={`panel${index}d-header`}
                           >
                             <div className={styles.question_q}>Q</div>
-                            <Typography>{item.question}</Typography>
+                            <Typography className={styles.question_text}>{item.question}</Typography>
                           </AccordionSummary>
                           <AccordionDetails className={styles.answer_item}>
-                            <Typography>
+                            <Typography className={styles.answer_text}>
                                 {item.answer}
                             </Typography>
                           </AccordionDetails>
@@ -131,6 +131,7 @@ const Faq = () => {
                           <ListItem className={styles.question_item}>
                             <div className={styles.question_q}>Q</div>
                             <ListItemText
+                              className={styles.question_text}
                               primary={item.question}
                               // secondary={secondary ? 'Secondary text' : null}
                             />

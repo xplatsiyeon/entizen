@@ -5,13 +5,17 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper';
-import WebHeader from 'componentsWeb/WebHeader';
+import { MyEstimateHeader } from 'components/myEstimate/header';
 import styles from './funcSystemComparison.module.css'
 import { Divider, Grid } from '@mui/material';
 import BackgroundImage from './img/background_1.png';
+import BackgroundImageMb from './img/banner_mb.png';
 import Image1 from './img/img_1.png';
 import Image2 from './img/img_2.png';
 import Image3 from './img/img_3.png';
+import Image1Mb from './img/img_1_mb.png';
+import Image2Mb from './img/img_2_mb.png';
+import Image3Mb from './img/img_3_mb.png';
 import Icon1 from './img/icon_1.svg';
 import Icon2 from './img/icon_2.svg';
 import Icon3 from './img/icon_3.svg';
@@ -59,9 +63,12 @@ const FuncSystemComparison = () => {
 
   return (
     <div className={styles.func_system_comparison_page}>
-      <WebHeader></WebHeader>
+      <MyEstimateHeader></MyEstimateHeader>
       <section className={styles.sec_01}>
-        <Image layout="fill" src={BackgroundImage} />
+        <Image 
+          layout="fill"
+          src={isMobile ? BackgroundImageMb : BackgroundImage}
+        />
         <p className={styles.backgroundIntro}>
           {isMobile ? (
             <>
@@ -83,7 +90,7 @@ const FuncSystemComparison = () => {
           {isMobile ? (
              <div>
              <Swiper 
-              slidesPerView={1.8}
+              slidesPerView={2.3}
               // slidesPerView={'auto'}
               spaceBetween={isMobile ? 10 : 30}
               modules={[Autoplay, Pagination]} 
@@ -91,18 +98,18 @@ const FuncSystemComparison = () => {
                 delay: 2500,
                 disableOnInteraction: false,
               }}
-              loop={true}
+              loop={false}
               navigation={false}
               pagination={false}
             >
                <SwiperSlide>
-                 <div className={styles.info_img}><Image src={Image1}/></div>
+                 <div className={styles.info_img}><Image src={Image1Mb}/></div>
                </SwiperSlide>
                <SwiperSlide>
-                <div className={styles.info_img}><Image src={Image2}/></div>
+                <div className={styles.info_img}><Image src={Image2Mb}/></div>
                </SwiperSlide>
                <SwiperSlide>
-                <div className={styles.info_img}><Image src={Image3}/></div>
+                <div className={styles.info_img}><Image src={Image3Mb}/></div>
                </SwiperSlide>
              </Swiper>
            </div>

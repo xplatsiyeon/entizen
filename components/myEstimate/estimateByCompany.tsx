@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import estimateByCompanyStyles from './estimateByCompany.module.scss';
 import { COMPANY_LIST } from 'assets/company';
 import TagManager from 'react-gtm-module'
