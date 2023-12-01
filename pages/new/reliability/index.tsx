@@ -9,6 +9,7 @@ import Image4 from './bottom_mb.png';
 import { Grid } from '@mui/material';
 
 const Reliability = () => {
+  sessionStorage.setItem('USER_ID', 'test');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 

@@ -13,6 +13,7 @@ import Image5 from './img/img_5.png';
 import Icon from './img/icon.svg';
 
 const CheckRate = () => {
+  sessionStorage.setItem('USER_ID', 'test');
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

@@ -52,6 +52,7 @@ const qna = [
 ]
 
 const Faq = () => {
+  sessionStorage.setItem('USER_ID', 'test');
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

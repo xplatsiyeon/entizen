@@ -809,6 +809,7 @@ $imgPath: '/images';
 @media only screen and (min-width: 200px) and (max-width: 480px) {
  .myEstimateContainer .backgroundWrap {
    height: 280px;
+   margin: 0;
   }
   .myEstimateContainer .backgroundWrap .backgroundIntro {
     width: max-content;

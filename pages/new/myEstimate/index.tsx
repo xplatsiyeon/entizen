@@ -7,6 +7,7 @@ import CommonConfirmModal from '../commonConfirmModal';
 
 const MyEstimate = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  sessionStorage.setItem('USER_ID', 'test');
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {

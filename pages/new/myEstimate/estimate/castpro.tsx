@@ -19,6 +19,7 @@ import TagManager from 'react-gtm-module'
 
 const EstimateByCompany = () => {
   const company = 'castpro';
+  sessionStorage.setItem('USER_ID', 'test');
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',

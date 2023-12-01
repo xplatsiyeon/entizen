@@ -17,6 +17,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
   const company = 'starkoff';
+  sessionStorage.setItem('USER_ID', 'test');
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
