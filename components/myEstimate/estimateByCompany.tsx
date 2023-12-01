@@ -28,7 +28,13 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
     TagManager.dataLayer(tagManagerArgs);
     location.href = `/new/myEstimate/estimate/${company}`;
   }
-  const kakaoLink = {
+  type ObjType = {
+    [index: string]: string
+    ev: string
+    starkoff: string
+    castpro: string
+  }
+  const kakaoLink: ObjType = {
     ev: 'http://pf.kakao.com/_xnxduxbG/chat',
     starkoff: 'https://open.kakao.com/o/stFSO2Uf',
     castpro: 'https://open.kakao.com/o/sQUjD5Rf'

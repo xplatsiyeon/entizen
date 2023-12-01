@@ -44,7 +44,7 @@ CommonModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
-  content: PropTypes.element,
+  content: PropTypes.any,
 };
 
 export default CommonModal;

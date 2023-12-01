@@ -11,14 +11,9 @@ import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import { useRouter } from 'next/router';
 
 export const MyEstimateHeader = () => {
-  const [state, setState] = useState({
-    right: false,
-  });
-  const mobile = useMediaQuery({
-    query: '(max-width:767px)',
-  });
   const router = useRouter();
-
+  const mobile = useMediaQuery({ query: '(max-width:767px)' });
+  const [state, setState] = useState({ right: false });
   const userID = sessionStorage.getItem('USER_ID');
 
   const toggleDrawer =
@@ -105,43 +100,48 @@ export const MyEstimateHeader = () => {
                   />
                 </div>
               </LogoBox>
-              <Box2>
-                <DivBox
-                  clicked={router.pathname.includes('quotation/request')}
-                  onClick={() => {
-                    // dispatch(quotationAction.init());
-                    handleLink('/new/myEstimate');
-                  }}
-                >
-                  내 견적서
-                </DivBox>
-                <DivBox
-                  clicked={router.pathname.includes('guide')}
-                  onClick={() => {
-                    // handleLink('/guide');
-                    // setLinklist(true);
-                  }}
-                >
-                  한전불입금/충전요금
-                </DivBox>
-                <DivBox
-                  clicked={router.pathname.includes('chatting')}
-                  onClick={() => {
-                    // handleLink('/chatting');
-                  }}
-                >
-                  가격차이
-                </DivBox>
-                <DivBox
-                  clicked={router.pathname.includes('chatting')}
-                  onClick={() => {
-                    // handleLink('/chatting');
-                  }}
-                >
-                  업체 신뢰도
-                </DivBox>
-              </Box2>
-              <DivBox2>자주 묻는 질문</DivBox2>
+              {userID && (
+                <>
+                  <Box2>
+                    <DivBox
+                      clicked={router.pathname.includes('quotation/request')}
+                      onClick={() => {
+                        // dispatch(quotationAction.init());
+                        handleLink('/new/myEstimate');
+                      }}
+                    >
+                      내 견적서
+                    </DivBox>
+                    <DivBox
+                      clicked={router.pathname.includes('guide')}
+                      onClick={() => {
+                        // handleLink('/guide');
+                        // setLinklist(true);
+                      }}
+                    >
+                      한전불입금/충전요금
+                    </DivBox>
+                    <DivBox
+                      clicked={router.pathname.includes('chatting')}
+                      onClick={() => {
+                        // handleLink('/chatting');
+                      }}
+                    >
+                      가격차이
+                    </DivBox>
+                    <DivBox
+                      clicked={router.pathname.includes('chatting')}
+                      onClick={() => {
+                        // handleLink('/chatting');
+                      }}
+                    >
+                      업체 신뢰도
+                    </DivBox>
+                  </Box2>
+                  <DivBox2>자주 묻는 질문</DivBox2>
+                  </>
+                  )
+              }
             </Box1>
           </Inner>
         </MainLink>

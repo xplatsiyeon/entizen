@@ -74,7 +74,7 @@ const Text_02 = styled('div')`
 MobileModal.propTypes = {
   open: PropTypes.bool.isRequired,
   title: PropTypes.string,
-  content: PropTypes.element,
+  content: PropTypes.any,
 };
 
 export default MobileModal;

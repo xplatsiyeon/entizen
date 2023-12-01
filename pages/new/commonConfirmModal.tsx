@@ -78,7 +78,7 @@ CommonConfirmModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   title: PropTypes.string,
-  content: PropTypes.element,
+  content: PropTypes.any,
   useCancelBtn: PropTypes.bool,
 };
 
