@@ -16,9 +16,9 @@ import Sec02Img from 'public/new/applyAd/section2.png';
 import Sec03Img from 'public/new/applyAd/section3.png';
 import Sec04Img from 'public/new/applyAd/section4.png';
 import Sec05Img from 'public/new/applyAd/section5.png';
-import Img01 from 'public/images/suggestion/section3_1.png';
-import Img02 from 'public/images/suggestion/section3_2.png';
-import Img03 from 'public/images/suggestion/section3_3.png';
+import Img01 from 'public/new/applyAd/slide1.png';
+import Img02 from 'public/new/applyAd/slide2.png';
+import Img03 from 'public/new/applyAd/slide3.png';
 
 const ApplyAdMain = () => {
   const [swiper, setSwiper] = useState<SwiperCore>();
