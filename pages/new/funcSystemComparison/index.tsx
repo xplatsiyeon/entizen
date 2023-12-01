@@ -16,6 +16,8 @@ import Icon1 from './img/icon_1.svg';
 import Icon2 from './img/icon_2.svg';
 import Icon3 from './img/icon_3.svg';
 import Icon4 from './img/icon_4.svg';
+
+import TagManager from 'react-gtm-module'
     
 const FuncSystemComparison = () => {
   const isMobile = useMediaQuery({
@@ -45,6 +47,15 @@ const FuncSystemComparison = () => {
     }
   ];
   
+  const chartDownload = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "chart_download",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+  }
+
   return (
     <div className={styles.func_system_comparison_page}>
       <WebHeader></WebHeader>
@@ -197,10 +208,13 @@ const FuncSystemComparison = () => {
             </table>
         </div>
         <div className={styles.buttonWrap}>
-          <button className={styles.downloadBtn}>
-            <p>모든 업체 비교표 다운받기</p>
-            <div className={styles.icon}></div>
-          </button>
+          <a className={styles.downloadBtn} 
+              onClick={chartDownload} 
+              href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
+              target="_blank">
+              <p>모든 업체 비교표 다운받기</p>
+              <div className={styles.icon}></div>
+            </a>
         </div>
       </section>
     </div>

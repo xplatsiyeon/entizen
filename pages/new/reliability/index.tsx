@@ -16,7 +16,6 @@ const Reliability = () => {
     <div className={styles.reliabilityContainer}>
       {/* 헤더제외 */}
       <MyEstimateHeader/>
-      <div className={styles.fakeHeader}></div>
       <section className={styles.backgroundWrap}>
         <p className={styles.backgroundIntro}>
         전력산업 국내 1위 LS의 전문성과 

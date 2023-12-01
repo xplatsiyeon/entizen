@@ -89,6 +89,7 @@ const Estimate = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
+    router.push('/new/estimateForm/form1');
   };
 
   return (
