@@ -4,8 +4,12 @@ import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
 import TagManager from 'react-gtm-module'
 import { useState } from 'react';
 import CommonConfirmModal from '../commonConfirmModal';
+import { useMediaQuery } from 'react-responsive';
+import Image from 'next/image';
+import ProcessMb from 'public/images/myEstimate/process_mb.svg';
 
 const MyEstimate = () => {
+  const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
   sessionStorage.setItem('USER_ID', 'test');
   const chartDownload = () => {
@@ -179,29 +183,37 @@ const MyEstimate = () => {
       </section>
       <section className={myEstimateStyles.compareEstimateWrap}>
         <div className={myEstimateStyles.title}>진행 프로세스</div>
-        <div className={myEstimateStyles.processWrap}>
-          <div className={myEstimateStyles.badge}>현재 진행 단계</div>
-          <div className={myEstimateStyles.processImgWrap}>
-            <div className={myEstimateStyles.processImg}>
-              <div className={myEstimateStyles.process1}></div>
-              {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-            </div>
-            <div className={myEstimateStyles.processImg}>
-              <div className={myEstimateStyles.arrow}></div>
-            </div>
-            <div className={myEstimateStyles.processImg}>
-              <div className={myEstimateStyles.process2}></div>
-              {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-            </div>
-            <div className={myEstimateStyles.processImg}>
-              <div className={myEstimateStyles.arrow}></div>
-            </div>
-            <div className={myEstimateStyles.processImg}>
-              <div className={myEstimateStyles.process3}></div>
-              {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-            </div>
-          </div>
-        </div>
+            {isMobile? (
+              <Image
+                src={ProcessMb}
+                alt="process1"
+                objectFit='contain'
+              />
+            ) : (
+              <div className={myEstimateStyles.processWrap}>
+                <div className={myEstimateStyles.badge}>현재 진행 단계</div>
+                  <div className={myEstimateStyles.processImgWrap}>
+                    <div className={myEstimateStyles.processImg}>
+                      <div className={myEstimateStyles.process1}></div>
+                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+                    </div>
+                    <div className={myEstimateStyles.processImg}>
+                      <div className={myEstimateStyles.arrow}></div>
+                    </div>
+                    <div className={myEstimateStyles.processImg}>
+                      <div className={myEstimateStyles.process2}></div>
+                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+                    </div>
+                    <div className={myEstimateStyles.processImg}>
+                      <div className={myEstimateStyles.arrow}></div>
+                    </div>
+                    <div className={myEstimateStyles.processImg}>
+                      <div className={myEstimateStyles.process3}></div>
+                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+                    </div>
+                  </div>
+                </div>
+            )}
       </section>
 
       <section className={myEstimateStyles.myEstimateFooter}>

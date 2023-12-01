@@ -207,7 +207,7 @@ $imgPath: '/images';
 
       width: 53.75rem;
       @media screen and (max-width: 767px) {
-        width: 21.875rem;
+        // width: 21.875rem;
         flex-direction: column;
       }
 
@@ -329,7 +329,7 @@ $imgPath: '/images';
         height: 3rem;
         @media screen and (max-width: 767px) {
           width: 100%;
-          height: 3.5rem;
+          // height: 3.5rem;
         }
 
         border-radius: 0.5rem;
@@ -371,7 +371,7 @@ $imgPath: '/images';
     max-width: 53.75rem;
     @media screen and (max-width: 767px) {
       // width: 21.875rem;
-      height: 12.5rem;
+      // height: 12.5rem;
     }
 
     height: 15.5rem;
@@ -648,10 +648,6 @@ $imgPath: '/images';
           .kakaoIcon {
             width: 1.25rem;
             height: 1.25rem;
-            @media screen and (max-width: 767px) {
-              width: 1rem;
-              height: 1rem;
-            }
             background: url('#{$imgPath}/myEstimate/icon_kakao.png') 50% / cover
               no-repeat;
             margin-right: 0.5rem;
@@ -729,10 +725,6 @@ $imgPath: '/images';
           font-weight: 700;
           line-height: normal;
           letter-spacing: -0.04rem;
-          @media screen and (max-width: 767px) {
-            font-size: 1.25rem;
-            letter-spacing: -0.025rem;
-          }
         }
 
         .inputWrap {
@@ -860,7 +852,136 @@ $imgPath: '/images';
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.48px;}
-  .myEstimateContainer {}
-  .myEstimateContainer {}
-  .myEstimateContainer {}
+  .myEstimateContainer .estimateInfomation {
+    height: 260px;
+    padding: 31px 20px;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap {
+    display: contents;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap .infoTitle {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap .infoList {
+    font-size: 14px;
+    font-style: normal;
+    line-height: 26px; /* 185.714% */
+    letter-spacing: -0.28px;
+    padding-left: 10px;
+  }
+  .myEstimateContainer .compareEstimateWrap {}
+  .myEstimateContainer .compareEstimateWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+  }
+  .myEstimateContainer .compareEstimateWrap table {
+    margin-bottom: 45px;
+    width: 136px;
+  }
+  .myEstimateContainer .compareEstimateWrap .tableWrap table th,
+  .myEstimateContainer .compareEstimateWrap .tableWrap table td {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+    padding: 6px;
+    min-width: 136px;
+  }
+  .myEstimateContainer .compareEstimateWrap .processImgWrap {
+    margin-bottom: 80px;
+  }
+  .myEstimateContainer .compareEstimateWrap .buttonWrap .downloadBtn {
+    height: 56px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    border-radius: 8px;
+  }
+  .myEstimateContainer .compareEstimateWrap .buttonWrap .downloadBtn .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .myEstimateContainer .myEstimateFooter {}
+  .myEstimateContainer .myEstimateFooter .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px; /* 150% */
+    letter-spacing: -0.4px;
+    margin-bottom: 24px;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap {
+    height: auto;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap .kakaoIcon,
+  .myEstimateContainer .myEstimateFooter .buttonWrap .callIcon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap .button {
+    border-radius: 8px;
+    height: 56px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap {
+    border-radius: 8px;
+    width: 100% !important;
+    height: 168px;
+    max-width: none;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap {
+    width: auto;
+    justify-content: center;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap {
+    width: 300px;
+    height: 56px;
+    border-radius: 30px;
+    justify-content: center;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap input {
+    border-radius: 30px;
+    width: inherit;
+    height: inherit;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 40px; /* 250% */
+    letter-spacing: -0.32px;
+    margin-left: 20px;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap .sendBtn {
+    width: 64px;
+    height: 40px;
+    border-radius: 28px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: -0.32px;
+    margin-right: 8px;
+  }
 }
