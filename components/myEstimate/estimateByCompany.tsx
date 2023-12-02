@@ -45,6 +45,12 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
     <div className={estimateByCompanyStyles.estimateByCompanyWrap}>
       <div className={estimateByCompanyStyles.companyInfo}>
         <div className={estimateByCompanyStyles.companyLogo}>
+          {/* <Image
+            src={`/images/company/${company}.png`}
+            alt={`${company} 로고`}
+            width={80}
+            height={80}
+          /> */}
           <div className={estimateByCompanyStyles[company]}></div>
         </div>
         <p className={estimateByCompanyStyles.companyName}>

@@ -366,7 +366,7 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView="auto"
+              slidesPerView={isTablet ? 1.5 : "auto"}
               spaceBetween={24}
               onSwiper={setSwiper}
               speed={500}
