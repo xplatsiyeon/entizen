@@ -11,7 +11,7 @@ import ProcessMb from 'public/images/myEstimate/process_mb.svg';
 const MyEstimate = () => {
   const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
-  sessionStorage.setItem('USER_ID', 'test');
+  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {

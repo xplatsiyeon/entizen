@@ -10,6 +10,25 @@ import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 
 import { useRouter } from 'next/router';
 
+const menuItems = [
+  {
+    title: '내 견적서',
+    link: '/new/myEstimate',
+  },
+  {
+    title: '한전불입금/충전요금',
+    link: '/new/checkRate',
+  },
+  {
+    title: '가격차이',
+    link: '/new/funcSystemComparison',
+  },
+  {
+    title: '업체 신뢰도',
+    link: '/new/reliability',
+  },
+]
+
 export const MyEstimateHeader = () => {
   const router = useRouter();
   const mobile = useMediaQuery({ query: '(max-width:767px)' });
@@ -47,9 +66,7 @@ export const MyEstimateHeader = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              // layout="fill"
-              // src={Logos}
-              src={'/images/myEstimate/CaretLeft.svg'}
+              src="/images/myEstimate/CaretLeft.svg"
               alt="left"
             />
           </div>
@@ -73,6 +90,7 @@ export const MyEstimateHeader = () => {
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
                   <HamburgerBar
+                    menu={menuItems}
                     anchor={anchor}
                     toggleDrawer={toggleDrawer}
                     setState={setState}
@@ -94,7 +112,7 @@ export const MyEstimateHeader = () => {
                     alt="logo"
                     layout="intrinsic"
                     onClick={async () => {
-                      await router.push('/');
+                      await router.push('/new/applyAd');
                     }}
                     style={{ cursor: 'pointer' }}
                   />
@@ -103,47 +121,17 @@ export const MyEstimateHeader = () => {
               {userID && (
                 <>
                   <Box2>
-                    <DivBox
-                      clicked={router.pathname.includes('quotation/request')}
-                      onClick={() => {
-                        // dispatch(quotationAction.init());
-                        handleLink('/new/myEstimate');
-                      }}
-                    >
-                      내 견적서
-                    </DivBox>
-                    <DivBox
-                      clicked={router.pathname.includes('guide')}
-                      onClick={() => {
-                        // handleLink('/guide');
-                        handleLink('/new/checkRate');
-                      }}
-                    >
-                      한전불입금/충전요금
-                    </DivBox>
-                    <DivBox
-                      clicked={router.pathname.includes('chatting')}
-                      onClick={() => {
-                        handleLink('/new/funcSystemComparison');
-                      }}
-                    >
-                      가격차이
-                    </DivBox>
-                    <DivBox
-                      clicked={router.pathname.includes('chatting')}
-                      onClick={() => {
-                        handleLink('/new/reliability');
-                      }}
-                    >
-                      업체 신뢰도
-                    </DivBox>
+                    {
+                      menuItems.map((item) => (
+                        <DivBox
+                          clicked={router.pathname.includes(item.link)}
+                          onClick={() => { handleLink(item.link); }}
+                        >{item.title}
+                        </DivBox>
+                      ))
+                    }
                   </Box2>
-                  <DivBox2
-                    onClick={() => {
-                      handleLink('/new/faq');
-                    }}
-                  >자주 묻는 질문</DivBox2>
-                  </>
+                  <DivBox2 onClick={() => { handleLink('/new/faq'); }}>자주 묻는 질문</DivBox2></>
                   )
               }
             </Box1>

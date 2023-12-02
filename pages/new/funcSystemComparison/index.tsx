@@ -24,7 +24,7 @@ import Icon4 from './img/icon_4.svg';
 import TagManager from 'react-gtm-module'
     
 const FuncSystemComparison = () => {
-  sessionStorage.setItem('USER_ID', 'test');
+  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

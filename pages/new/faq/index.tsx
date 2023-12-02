@@ -52,7 +52,7 @@ const qna = [
 ]
 
 const Faq = () => {
-  sessionStorage.setItem('USER_ID', 'test');
+  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

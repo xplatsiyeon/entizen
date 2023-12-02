@@ -15,7 +15,7 @@ import Image5 from './img/img_5.png';
 import Icon from './img/icon.svg';
 
 const CheckRate = () => {
-  sessionStorage.setItem('USER_ID', 'test');
+  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });

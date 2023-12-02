@@ -3,34 +3,21 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { isTokenGetApi } from 'api';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { Box } from '@mui/material';
 import colors from 'styles/colors';
 import xBtn from 'public/images/XButton_black.svg';
+import Logo from 'public/images/EntizenHeaderLogoSvg.svg';
 import whiteRight from 'public/images/whiteRight20.png';
-import grayNaver from 'public/images/NaverHamburgerSvg.svg';
-import Nut from 'public/images/NutSVG.svg';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
-import { ChattingListResponse } from 'components/Chatting/ChattingLists';
-import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
-import BellOff from 'public/images/BellNormal.svg';
-// import BellOn from 'public/images/BellOnSvg.svg';
-import BellOn from 'public/images/HamburgerBarAlarmOn.svg';
-import { openExternalBrowser } from 'bridge/appToWeb';
-import CompanyASSVG from 'public/images/CompanyASSVG.svg';
-import CompanyQuotationAndGuideSVG from 'public/images/CompanyQuotationAndGuideSVG.svg';
-import EasyQuotationSVG from 'public/images/EasyQuotationSVG.svg';
-import mypageIconSVG from 'public/images/mypageIconSVG.svg';
-import MyProductListSVG from 'public/images/MyProductListSVG.svg';
-import grayInsta from 'public/images/grayCircleInsta.png';
 import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
-import { el } from 'date-fns/locale';
 
 type Props = {
+  menu: { title: string, link: string }[];
   anchor: string;
   toggleDrawer: (
     anchor: string,
@@ -46,21 +33,14 @@ type Props = {
   };
 };
 
-const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
-  // 햄버거바 컴포넌트
-
+const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
-  const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
-  const queryClient = useQueryClient();
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
   // 알람 조회
   // /v1/alerts/unread-points
   const {
     data: historyUnread,
-    isLoading: historyIsLoading,
-    isError: historyIIsError,
-    refetch: historyIsRefetch,
   } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'v1/alerts',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
@@ -73,18 +53,6 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   );
   const [isLogin, setIsLogin] = useState(false);
 
-  // 제휴문의 채팅방 보내기
-  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
-    'chatting-list',
-    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
-    {
-      enabled: userID !== null ? true : false,
-    },
-  );
-
-  // 기업인지 판매자인지
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-
   const moveAlarm = () => {
     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
     router.push('/alarm');
@@ -94,57 +62,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     profile: profileData,
-    isLoading: profileIsLoading,
-    invalidate: profileInvalidate,
   } = useProfile(accessToken);
-
-  // 라우팅 함수 내 견적 vs 간편견적
-  const estimateRouting = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    if (!userID) {
-      console.log('click');
-      router.push('/signin');
-    }
-
-    if (userID && memberType === 'COMPANY') {
-      router.push('/company/quotation');
-    } else if (userID && memberType !== 'COMPANY') {
-      router.push('/quotation/request');
-    }
-  };
-
-  // 라우팅 함수 기업채팅 vs 내채팅
-  const chattingRouting = () => {
-    if (userID && memberType === 'COMPANY') {
-      router.push('/company/chatting');
-    } else if (userID && memberType !== 'COMPANY') {
-      router.push('/guide');
-    } else if (userID!) {
-      router.push('/signin');
-    }
-  };
-
-  // 라우팅 함수 기업as vs 유저as
-  const asRouting = () => {
-    if (userID && memberType === 'COMPANY') {
-      router.push('/company/as');
-    } else if (userID && memberType !== 'COMPANY') {
-      router.push('/chatting');
-    } else if (userID!) {
-      router.push('/signin');
-    }
-  };
-
-  // 라우팅 함수 기업project vs 유저project
-  const projectRouting = () => {
-    if (userID && memberType === 'COMPANY') {
-      router.push('/company/mypage?id=0');
-    } else if (userID && memberType !== 'COMPANY') {
-      router.push('/mypage');
-    } else if (userID!) {
-      router.push('/signin');
-    }
-  };
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -167,69 +85,28 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          {userID && (
-            <Imagewrap
-              onClick={() => (userID ? moveAlarm() : router.push('/signin'))}
-            >
-              {userID && historyUnread?.wasReadAlertBell === true ? (
-                <Image
-                  src={BellOff}
-                  alt="alarmIcon"
-                  onClick={() => {
-                    router.push('/alarm');
-                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
-                  }}
-                />
-              ) : (
-                <Image
-                  src={BellOn}
-                  alt="alarmIcon"
-                  onClick={() => {
-                    router.push('/alarm');
-                    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
-                  }}
-                />
-              )}
-            </Imagewrap>
-          )}
-          {userID && (
-            <Imagewrap onClick={() => router.push('/setting')}>
-              <Image src={Nut} alt="NutBtn" />
-            </Imagewrap>
-          )}
+          <LogoWrapper onClick={() => router.push('/new/applyAd')}>
+            <Image src={Logo} alt="Logo" />
+          </LogoWrapper>
+          <FaqButton onClick={() => router.push('/new/faq')}>
+            <span>자주 묻는 질문</span>
+          </FaqButton>
           <Imagewrap onClick={toggleDrawer(anchor, false)}>
             <Image src={xBtn} alt="xBtn" />
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
           <WhetherLoginComplete
-            onClick={() =>
-              memberType === 'COMPANY'
-                ? router.push('/company/profile')
-                : router.push('/profile/editing')
-            }
+            onClick={() => router.push('/new/myEstimate')}
           >
             <span
-              onClick={() =>
-                memberType === 'COMPANY'
-                  ? router.push('/company/profile')
-                  : router.push('/profile/editing')
-              }
+              onClick={() => router.push('/profile/editing')}
             >
-              {memberType === 'COMPANY' ? (
-                <label className="label">기업회원</label>
-              ) : (
-                <label className="label">일반회원</label>
-              )}
               {`${profileData?.name} 님`}
             </span>
             <span
               className="arrow-img"
-              onClick={() =>
-                memberType === 'COMPANY'
-                  ? router.push('/company/profile')
-                  : router.push('/profile/editing')
-              }
+              onClick={() => router.push('/profile/editing')}
             >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
@@ -244,22 +121,11 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
         )}
 
         <WhiteArea>
-          <WhiteAreaMenus onClick={estimateRouting}>
-            {memberType === 'COMPANY' ? (
-              <span>
-                <Image src={CompanyQuotationAndGuideSVG} alt="내 견적" />
-              </span>
-            ) : (
-              <span>
-                <Image src={EasyQuotationSVG} alt="내 견적" />
-              </span>
-            )}
-            {memberType === 'COMPANY' ? (
-              <span>내 견적</span>
-            ) : (
-              <span>간편견적</span>
-            )}
-          </WhiteAreaMenus>
+          {menu.map((item, index) => (
+             <WhiteAreaMenus onClick={() => { router.push(item.link)}}>
+                 <span>{item.title}</span>
+              </WhiteAreaMenus>
+          ))}
         </WhiteArea>
       </ListBox>
     </WholeBox>
@@ -268,60 +134,23 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
 export default HamburgerBar;
 
-const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-  @media (min-width: 900pt) {
-    padding-left: 0;
-    padding-right: 0;
-  }
-`;
 
-const HeadWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  @media (min-width: 900pt) {
-    display: none;
-  }
-`;
-const LogoBox = styled.div`
-  margin-top: 12pt;
-  margin-bottom: 12.015pt;
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-const FirstIconBox = styled.div`
-  margin-top: 9pt;
-  margin-bottom: 9pt;
-
-  margin-right: 9pt;
-`;
-const IconBox = styled.div`
-  margin-top: 9pt;
-  margin-bottom: 9pt;
-`;
-const IconWrapper = styled.div`
-  display: flex;
-`;
 const WholeBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: relative;
-
   /* height: 100vh; */
 `;
 
 const ListBox = styled.div`
   position: relative;
-  width: 207pt;
+  width: 390px;
   padding-left: 24pt;
   /* padding-right: 24pt; */
   padding-right: 15pt;
   height: 100vh;
 
-  background-color: ${colors.main};
+  background-color: #FFFFFF;
 `;
 const XBtnWrapper = styled.div`
   display: -webkit-box;
@@ -406,7 +235,6 @@ const WhiteArea = styled.div`
   background-color: #ffffff;
 `;
 
-const HamburgerOn = styled.div``;
 
 const WhiteAreaMenus = styled.div`
   display: flex;
@@ -424,32 +252,6 @@ const WhiteAreaMenus = styled.div`
     margin-right: 7.5pt;
   }
 `;
-const WhiteAreaBottomMenus = styled.div`
-  display: flex;
-  align-items: center;
-  z-index: 10000;
-  margin-top: 51pt;
-  & span:first-of-type {
-    margin-right: 15pt;
-  }
-`;
-const WhiteAreaBottomText = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15pt;
-  & span {
-    font-family: 'Spoqa Han Sans Neo';
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #a6a9b0;
-  }
-  & span:first-of-type {
-  }
-`;
 
 const Imagewrap = styled.div`
   width: 18pt;
@@ -459,84 +261,29 @@ const Imagewrap = styled.div`
   margin-left: 18.75pt;
 `;
 
-const CarouselWrap = styled.section`
-  @media (min-width: 900pt) {
-    width: 100%;
-    height: 360pt;
-    background: #5a2dc9;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const WebBody = styled.div`
+const FaqButton = styled.div`
   display: flex;
-  flex-direction: column;
-  background-color: white;
-  @media (max-height: 350pt) {
-    height: 100%;
-    display: block;
-  }
-`;
+  width: 100px;
+  height: 32px;
+  padding: 12px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 29px;
+  border: 1px solid #E2E5ED;
+  background: #FFF;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+`
+const LogoWrapper = styled.div`
+  width: 92px;
+  height: 40px;
+  margin-right: auto;
+  display: flex;
+`
 
-const WebContainer = styled.div`
-  display: block;
-  position: relative;
-  margin: 45.75pt auto;
-  border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding: 0;
-    box-shadow: none;
-    background: none;
-    margin: 0;
-  }
-  @media (max-height: 500pt) {
-    height: 100%;
-  }
 
-  @media (min-width: 900pt) {
-    margin-top: 54pt;
-    padding-top: 0;
-  }
-`;
 
-const WebRapper = styled.div`
-  @media (min-width: 900pt) {
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-const MobileNone = styled.div`
-  @media (min-width: 900pt) {
-    display: none;
-  }
-`;
 
-const Line = styled.div`
-  border-top: 0.75pt solid #e2e5ed;
-  margin-top: 20px;
-  margin-bottom: 8px;
-  width: 100%;
-`;
 
-const Line2 = styled.div`
-  border-top: 0.75pt solid #e2e5ed;
-  margin-top: 20px;
-  margin-bottom: 8px;
-  width: 100%;
-`;
+

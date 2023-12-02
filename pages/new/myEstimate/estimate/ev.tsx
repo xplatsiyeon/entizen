@@ -17,7 +17,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
   const company = 'ev';
-  sessionStorage.setItem('USER_ID', 'test');
+  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
