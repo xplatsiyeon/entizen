@@ -55,7 +55,15 @@
 }
 
 /* sec_03 */
-.sec_03 { background: #383B48; padding: 6rem 0; margin-bottom: 7rem; }
+.sec_03 { 
+    display: flex;
+    background: #383B48; padding: 6rem 0; margin-bottom: 7rem; }
+.sec_03 .container { 
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;  */
+    display: inline-block;
+}
 .sec_03 .chart_container { margin: 0 3rem 3.5rem 3rem; }
 .sec_03 .news_container {
     display: flex;

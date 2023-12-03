@@ -908,6 +908,7 @@ $imgPath: '/images';
     justify-content: space-between;
     padding: 24px 20px;
     height: 16.5rem;
+    // height: fit-content;
   }
   .byCompanyContainer .company .companyTitle {
     font-size: 32px;
@@ -935,6 +936,7 @@ $imgPath: '/images';
   .byCompanyContainer .companyBackgroundImg {
     height: 200px !important;
     width: 100%;
+    margin-top: 22.25rem;
 
     $list: ('starkoff', 'castpro', 'ev');
     @each $index in $list {
@@ -971,19 +973,19 @@ $imgPath: '/images';
   .byCompanyContainer .mainContainer {}
   .byCompanyContainer .mainContainer .companyInfoWrap {}
   .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {
-    $list: ('starkoff', 'castpro', 'ev');
-    @each $index in $list {
-      @if ($index == 'ev') {
-        width: 54px;
-        height: 46px;
-      } @else if ($index == 'castpro') {
-        width: 100px;
-        height: 17.391px;
-      } @else {
-        height: 22.222px;
-        width: 100px;
-      }
-    }
+    // $list: ('starkoff', 'castpro', 'ev');
+    // @each $index in $list {
+    //   @if ($index == 'ev') {
+    //     width: 54px !important;
+    //     height: 46px !important;
+    //   } @else if ($index == 'castpro') {
+    //     width: 100px !important;
+    //     height: 17.391px !important;
+    //   } @else {
+    //     height: 22.222px !important;
+    //     width: 100px !important;
+    //   }
+    // }
   }
   .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo {
     padding: 9px 25px;
@@ -1127,7 +1129,7 @@ $imgPath: '/images';
   .byCompanyContainer .mainContainer .performanceWrap,
   .byCompanyContainer .mainContainer .exampleWrap,
   .byCompanyContainer .mainContainer .footerWrap {
-    margin: 0 20px 80px 20px;
+    margin: 0 auto 80px;
     width: 100%;
   }
   .byCompanyContainer .mainContainer .performanceWrap .title,

@@ -46,9 +46,9 @@ const ElectricStart = () => {
                 <div className={styles.banner_image}>
                     <Image 
                         src={isMobile ? bannerImageMb : bannerImage } 
-                        // layout="fill"
+                        layout="responsive"
                         objectFit="cover"
-                        objectPosition="center"
+                        // objectPosition="center"
                     />
                 </div>
                 <div className={styles.banner_title}>전기차 충전기 사업<br/>엔티즌으로 쉽고 빠르게 시작하세요</div>

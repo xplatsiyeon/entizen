@@ -84,7 +84,7 @@ const EstimateByCompany = () => {
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
       {/* <WebHeader /> */}
-      <MyEstimateHeader></MyEstimateHeader>
+      <MyEstimateHeader useHeaderLogo={false}></MyEstimateHeader>
       <div className={estimateByCompanyStyles.company}>
         <p className={estimateByCompanyStyles.companyTitle}>
           {estimateByCompanyData.name}
@@ -144,6 +144,7 @@ const EstimateByCompany = () => {
         <div className={estimateByCompanyStyles.companyInfoWrap}>
           <div
             className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
+            style={{ width: '100px', height: '17.391px'}}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>

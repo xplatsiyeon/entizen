@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import { useRouter } from 'next/router';
 
@@ -29,7 +30,7 @@ const menuItems = [
   },
 ]
 
-export const MyEstimateHeader = () => {
+export const MyEstimateHeader = ({useHeaderLogo = true}) => {
   const router = useRouter();
   const mobile = useMediaQuery({ query: '(max-width:767px)' });
   const [state, setState] = useState({ right: false });
@@ -59,6 +60,7 @@ export const MyEstimateHeader = () => {
     <div className={myEstimateHeaderStyles.headerWrap}>
       {mobile ? (
         <>
+          {useHeaderLogo ? 
           <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/new/applyAd')}>
             <img
               style={{
@@ -70,6 +72,12 @@ export const MyEstimateHeader = () => {
               alt="left"
             />
           </div>
+          : <div>
+            <ArrowBackIosIcon 
+              style={{width: '24px', height: '24px'}}
+              onClick={() => {window.history.back()}}
+            />
+          </div>}
           <div className={myEstimateHeaderStyles.iconWrap}>
             {(['right'] as const).map((anchor) => (
               <Fragment key={anchor}>

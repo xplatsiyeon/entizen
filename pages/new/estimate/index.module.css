@@ -395,7 +395,7 @@
     letter-spacing: -0.48px;
   }
   .sec_01 {
-    margin: 60px 20px;
+    margin: 60px auto;
     width: 350px;
     flex-shrink: 0;
   }

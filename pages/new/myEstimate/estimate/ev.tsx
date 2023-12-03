@@ -80,8 +80,8 @@ const EstimateByCompany = () => {
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
-      <MyEstimateHeader></MyEstimateHeader>
-      <div className={estimateByCompanyStyles.company}>
+      <MyEstimateHeader useHeaderLogo={false}></MyEstimateHeader>
+      <div className={estimateByCompanyStyles.company} style={{ height: '20rem' }}>
         <p className={estimateByCompanyStyles.companyTitle}>
           {estimateByCompanyData.name}
         </p>
@@ -105,7 +105,7 @@ const EstimateByCompany = () => {
       <div
         className={`${estimateByCompanyStyles.companyBackgroundImg} ${estimateByCompanyStyles[company]}`}
       ></div>
-      <div className={estimateByCompanyStyles.tabBarWrap}>
+      <div className={estimateByCompanyStyles.tabBarWrap} style={{top: '26rem'}}>
         <ul className={estimateByCompanyStyles.tabBarList}>
           <li
             className={`${estimateByCompanyStyles.tabBarItem} ${estimateByCompanyStyles.active}`}
@@ -138,8 +138,8 @@ const EstimateByCompany = () => {
       </div>
       <section className={estimateByCompanyStyles.mainContainer}>
         <div className={estimateByCompanyStyles.companyInfoWrap}>
-          <div
-            className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
+          <div className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
+            style={{ width: '54px', height: '46px'}}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
@@ -368,8 +368,8 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.5 : "auto"}
-              spaceBetween={24}
+              slidesPerView={isTablet ? 1.3 : "auto"}
+              spaceBetween={isTablet ? 12 : 24}
               onSwiper={setSwiper}
               speed={500}
               loop={false}

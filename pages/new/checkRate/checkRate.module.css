@@ -415,7 +415,10 @@
     letter-spacing: -0.48px;
   }
   .sec_02 .info_wrap .info_item,
-  .check_rate_page .sec_05 .info_wrap .info_item {}
+  .check_rate_page .sec_05 .info_wrap .info_item {
+    display: flex;
+    justify-content: center;
+  }
   .check_rate_page .sec_05 .info_wrap .info_text,
   .check_rate_page .sec_07 .info_wrap .info_text {
     font-size: 16px;

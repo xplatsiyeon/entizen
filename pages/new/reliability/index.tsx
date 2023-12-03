@@ -28,10 +28,10 @@ const Reliability = () => {
         <div className={styles.sub_title}>전력산업 국내 1위, 10년 연속 글로벌 100대 혁신기업에 선정된 LS ELECTRIC의 기업 인프라를 활용하여 전력 전문가와 빅데이터 전문가의 분석을 바탕으로 엔티즌의 파트너를 선정했습니다.</div>
         <article className={styles.infoWrap}>
           <Grid container spacing={2}  columns={{ xs: 4, sm: 8, md: 16 }}>
-            <Grid item xs={8}>
+            <Grid item xs={8} style={{display: 'flex', justifyContent: 'center'}}>
               <Image src={Image1} className={styles.info_img}/>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} style={{display: 'flex', justifyContent: 'center'}}>
               <Image src={Image2} className={styles.info_img}/>
             </Grid>
           </Grid>
