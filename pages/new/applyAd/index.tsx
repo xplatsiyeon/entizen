@@ -45,64 +45,19 @@ const ApplyAdMain = () => {
       swiper.slideTo(0, 0, false);
     }
   }, [swiper]);
-  // useEffect(() => {
-  //   let ww = window.innerWidth;
-  //   let mySwiper: any;
-  //   responsiveSwiper();
-
-  //   function initSwiper() {
-  //     return (mySwiper = new (Swiper as any)(
-  //       `.${ApplyAdMainStyles.section2Slider}`,
-  //       {
-  //         // wrapperElement: 'ul',
-  //         loop: true,
-  //         slidesPerView: 'auto',
-  //         spaceBetween: 40,
-  //         autoplay: {
-  //           disableOnInteraction: false,
-  //         },
-  //         speed: 500,
-  //       },
-  //     ));
-  //   }
-
-  //   function responsiveSwiper() {
-  //     console.log(mySwiper);
-  //     if (ww >= 1023) {
-  //       // swipWrapper[0].removeAttribute('style');
-  //       initSwiper();
-  //     } else {
-  //       const swipWrapper = document.getElementsByClassName('swiper-wrapper');
-  //       swipWrapper[0].setAttribute(
-  //         'style',
-  //         `display: flex;
-  //         flex-direction: column;
-  //         justify-content: space-between;
-  //         align-items: center;`,
-  //       );
-  //       if (typeof mySwiper === 'object') mySwiper.destroy();
-  //       // setSwiper(undefined);
-  //     }
-  //   }
-
-  //   window.addEventListener('resize', function () {
-  //     ww = window.innerWidth;
-  //     responsiveSwiper();
-  //   });
-  // }, []);
-
   return (
     <div className={ApplyAdMainStyles.applyAdMain}>
       <WebHeader />
+      <div className={ApplyAdMainStyles.imgWrap}>{imageFigure}</div>
       <div className={ApplyAdMainStyles.mainContainer}>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section1}`}
         >
-          <div className={ApplyAdMainStyles.imgWrap}>{imageFigure}</div>
           <div className={ApplyAdMainStyles.infoWrap}>
             <p>내 상황에 딱 맞는 충전기</p>
             <p>비교 견적 받아보세요</p>
           </div>
+
           <div className={ApplyAdMainStyles.buttonWrap}>
             <button
               className={ApplyAdMainStyles.estimateBtn}
@@ -129,15 +84,9 @@ const ApplyAdMain = () => {
           >
             <source
               src="https://drive.google.com/uc?export=view&id=1Wh6BUhaVgscMWBwXMMhb5uyuYlqMiXSU"
-              // src="https://drive.google.com/file/d/1Wh6BUhaVgscMWBwXMMhb5uyuYlqMiXSU/view?usp=sharing"
               type="video/mp4"
             />
           </video>
-          {/* <img
-            src="/images/suggestion/infoSquare.png"
-            alt="infoSquare"
-            className={ApplyAdMainStyles.img}
-          ></img> */}
         </div>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section2}`}
@@ -274,12 +223,12 @@ const ApplyAdMain = () => {
             </div>
             <Swiper
               className={ApplyAdMainStyles.mobileSection3Slider}
-              spaceBetween={-8}
-              slidesPerView={Math.floor(window.innerWidth / (160 + 3))}
+              spaceBetween={12}
+              slidesPerView={3}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (
-                  <SwiperSlide key={idx}>
+                  <SwiperSlide key={idx} style={{ width: '160px' }}>
                     <Image
                       src={el}
                       layout="fixed"
@@ -291,6 +240,7 @@ const ApplyAdMain = () => {
                 );
               })}
             </Swiper>
+
             <div className={ApplyAdMainStyles.mobileSection3}>
               <Image
                 src={Sec03Img}
@@ -316,11 +266,6 @@ const ApplyAdMain = () => {
             </div>
             <div className={ApplyAdMainStyles.imgWrap}>
               <div className={ApplyAdMainStyles.chatImg}></div>
-              {/* <img
-                className={ApplyAdMainStyles.section4}
-                src="/images/suggestion/section4.png"
-                alt="section4"
-              ></img> */}
             </div>
           </article>
         </section>
@@ -332,17 +277,10 @@ const ApplyAdMain = () => {
             objectFit="contain"
           />
         </div>
-
         <div
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section5}`}
         >
           <div className={ApplyAdMainStyles.imgWrap}>
-            {/* <img
-              className={ApplyAdMainStyles.section5Img_2}
-              src="/images/suggestion/section5_2.png"
-              alt="section5_2"
-            ></img> */}
-
             <div style={{ alignSelf: 'center' }}>
               <p className={ApplyAdMainStyles.pInfo}>
                 내일의 충전생활, 그 일상을 오늘로.
@@ -352,11 +290,6 @@ const ApplyAdMain = () => {
                 <p>더 쉽게 누릴 수 있도록 엔티즌이 함께 합니다.</p>
               </div>
             </div>
-            {/* <img
-              className={ApplyAdMainStyles.section5Img_1}
-              src="/images/suggestion/section5_1.png"
-              alt="section5_1"
-            ></img> */}
           </div>
         </div>
         <div className={ApplyAdMainStyles.mobileSection5}>
