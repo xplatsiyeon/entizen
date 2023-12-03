@@ -3,8 +3,8 @@ export const COMPANY_LIST: any = {
     name: '스타코프',
     companyInfo: {
       info1: '16000기 이상 시공',
-      info2: 'A/S지점 34곳, A/S직원 125명',
-      info3: 'A/S지점 8곳, A/S직원 32명',
+      info2: 'A/S지점 8곳, A/S직원 32명',
+      info3: '화재 방지기능 탑재, 그린인증',
     },
     estimateInfo: {
       info1: [
