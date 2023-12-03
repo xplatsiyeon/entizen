@@ -1,133 +1,153 @@
 import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import PropTypes from 'prop-types';
-import { useMediaQuery } from 'react-responsive';
-import { IconButton, useTheme, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogProps, TextField } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import styled from '@emotion/styled';
 
-const CommonModal = ({ open, onClose }: any) => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
-    const [phone, setPhone] = useState('');
+type Props = {
+  open: boolean;
+  setOpen: Function;
+};
 
-    const onChangePhone = (event: any) => {
-        setPhone(event.target.value);
+const PhoneModal = ({ open, setOpen }: Props) => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const confirmHandler = () => {
+    if (phoneNumber.length === 0) {
+      alert('핸드폰 번호를 입력해주세요.');
+      return;
     }
-
-    const onClickPhoneConfirm = () => {
-        if (phone.length === 0) {
-            alert('핸드폰 번호를 입력해주세요.');
-            return;
-        }
-        var regPhone= /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-        if (!regPhone.test(phone)) {
-            alert('핸드폰 번호를 올바르게 입력해주세요.');
-        }
-        sessionStorage.setItem('phone_number', phone);
-        onClose();
-    };
-
-    const CustomDialog = styled(Dialog)(({ theme }) => ({
-        '& .MuiPaper-root': {
-            height: isMobile ? '70%' : '300px',
-            'margin-top': isMobile && 'auto',
-            'border-radius': isMobile ? '2.25rem 2.25rem 0rem 0rem' : '1rem',
-            background: '#FFF',
-        },
-    }));
-
+    var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    if (!regPhone.test(phoneNumber)) {
+      alert('핸드폰 번호를 올바르게 입력해주세요.');
+      return;
+    }
+    sessionStorage.setItem('phone_number', phoneNumber);
+    setOpen(false);
+  };
   return (
-    <CustomDialog 
-        fullScreen={isMobile} 
-        open={open} 
-        onClose={onClose} 
-        fullWidth 
-        maxWidth="xs"
-      >
-        <DialogTitle></DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent>
-          <Title>맞춤 견적서의 본인확인을 위해<br/>연락처를 입력해 주세요.</Title>
-          <PhoneInput 
-            name="test" 
+    open && (
+      <Modal>
+        <ContentsArea>
+          <TitleArea>
+            맞춤 견적서의 본인확인을 위해
+            <br />
+            연락처를 입력해 주세요.
+            <CloseBtn onClick={() => setOpen(false)}>
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="X">
+                  <path
+                    id="Vector"
+                    d="M21.875 6.125L6.125 21.875"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    id="Vector_2"
+                    d="M21.875 21.875L6.125 6.125"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+              </svg>
+            </CloseBtn>
+          </TitleArea>
+
+          <CustomInput
             placeholder="연락처를 입력해 주세요."
-            value={phone} 
-            onChange={onChangePhone}
-            />
-          <ConfirmButton onClick={onClickPhoneConfirm}>확인</ConfirmButton>
-        </DialogContent>
-      </CustomDialog>
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+          <ConfirmBtn onClick={confirmHandler}>확인</ConfirmBtn>
+        </ContentsArea>
+      </Modal>
+    )
   );
 };
-const Title = styled('div')`
-    color: #222;
-    font-family: Spoqa Han Sans Neo;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 36px; /* 150% */
-    letter-spacing: -0.48px;
-    margin-bottom: 36px;
 
-    @media only screen and (min-width: 200px) and (max-width: 480px) {
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 36px; /* 150% */
-        letter-spacing: -0.48px;
-    }
-`
-const PhoneInput = styled('input')`
-    width: 386px;
-    height: 48px;
-    flex-shrink: 0;
-    stroke-width: 1px;
-    stroke: #909FB7;
-    margin-bottom: 12px;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.28px;
-    outline: 1px solid #909FB7;
-    border-radius: 4px;
-    padding: 12px;
-    @media only screen and (min-width: 200px) and (max-width: 480px) {
-        width: 350px !important;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 14px; /* 87.5% */
-        letter-spacing: -0.32px;
-        stroke-width: 1px;
-        stroke: #909FB7;
-        margin-bottom: 152px !important;
-    }
-`
-const ConfirmButton = styled(Button)`
-    width: 386px;
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 4px;
-    background: var(--Main1, #5221CB);
-    color: #FFF;
-    text-align: center;
-    font-family: Spoqa Han Sans Neo;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 16px; /* 100% */
-    letter-spacing: -0.32px;
-    @media only screen and (min-width: 200px) and (max-width: 480px) {
-        width: 350px;
-        height: 56px;
-        border-radius: 8px;
-    }
-`
+export default PhoneModal;
 
-export default CommonModal;
+const Modal = styled.div`
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0 10pt;
+  transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ContentsArea = styled.div`
+  width: 460px;
+  height: 275px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  padding: 42px 37px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const TitleArea = styled.p`
+  color: var(--Main2, #222);
+  font-family: Spoqa Han Sans Neo;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 150% */
+  letter-spacing: -0.4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const CloseBtn = styled.button`
+  position: absolute
+  display: flex;
+  width: 28px;
+  height: 28px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+`;
+
+const CustomInput = styled.input`
+  padding-left: 10px;
+  width: 386px;
+  height: 48px;
+  flex-shrink: 0;
+  stroke-width: 1px;
+  stroke: #909fb7;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+`;
+
+const ConfirmBtn = styled.button`
+  width: 386px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--Main1, #5221cb);
+  color: #fff;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: -0.32px;
+`;
