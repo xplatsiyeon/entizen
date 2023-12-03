@@ -71,7 +71,7 @@ $imgPath: '/images';
         font-size: 1rem;
         font-style: normal;
         font-weight: 700;
-        line-height: 1rem; /* 100% */
+        line-height: 1rem;
         letter-spacing: -0.02rem;
 
         @media screen and (max-width: 767px) {
@@ -79,8 +79,23 @@ $imgPath: '/images';
           letter-spacing: -0.01625rem;
         }
         &.applyBtn {
-          @media screen and (max-width: 767px) {
-            display: none;
+          @media screen and (max-width: 480px) {
+            display: flex;
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            margin: 20px;
+            width: calc(100% - 40px);
+            height: 56px;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: Spoqa Han Sans Neo;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            letter-spacing: -0.32px;
           }
         }
 
@@ -903,7 +918,8 @@ $imgPath: '/images';
 }
 
 @media only screen and (min-width: 200px) and (max-width: 480px) {
-  .byCompanyContainer {}
+  .byCompanyContainer {
+  }
   .byCompanyContainer .company {
     justify-content: space-between;
     padding: 24px 20px;
@@ -941,7 +957,10 @@ $imgPath: '/images';
     $list: ('starkoff', 'castpro', 'ev');
     @each $index in $list {
       &.#{$index} {
-        background: url('#{$imgPath}/company/#{$index}_background_mb.png') 50% / cover no-repeat !important;
+        background: url('#{$imgPath}/company/#{$index}_background_mb.png')
+          50% /
+          cover
+          no-repeat !important;
       }
     }
   }
@@ -951,7 +970,8 @@ $imgPath: '/images';
     margin-top: 12px;
     top: 22rem;
   }
-  .byCompanyContainer .tabBarWrap .tabBarList {}
+  .byCompanyContainer .tabBarWrap .tabBarList {
+  }
   .byCompanyContainer .tabBarWrap .tabBarList .tabBarItem {
     // width: -webkit-fill-available;
     width: 80px;
@@ -970,8 +990,10 @@ $imgPath: '/images';
     width: fit-content;
     margin: auto;
   }
-  .byCompanyContainer .mainContainer {}
-  .byCompanyContainer .mainContainer .companyInfoWrap {}
+  .byCompanyContainer .mainContainer {
+  }
+  .byCompanyContainer .mainContainer .companyInfoWrap {
+  }
   .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {
     // $list: ('starkoff', 'castpro', 'ev');
     // @each $index in $list {
@@ -992,11 +1014,26 @@ $imgPath: '/images';
     border-radius: 8px;
     margin-bottom: 80px;
   }
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo .companyInfoEtc {}
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo .companyInfoEtc .list {
-    
+  .byCompanyContainer
+    .mainContainer
+    .companyInfoWrap
+    .companyInfo
+    .companyInfoEtc {
   }
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo .companyInfoEtc .list .title {
+  .byCompanyContainer
+    .mainContainer
+    .companyInfoWrap
+    .companyInfo
+    .companyInfoEtc
+    .list {
+  }
+  .byCompanyContainer
+    .mainContainer
+    .companyInfoWrap
+    .companyInfo
+    .companyInfoEtc
+    .list
+    .title {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -1004,7 +1041,13 @@ $imgPath: '/images';
     letter-spacing: -0.32px;
     margin: 16px 0;
   }
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo .companyInfoEtc .list .info {
+  .byCompanyContainer
+    .mainContainer
+    .companyInfoWrap
+    .companyInfo
+    .companyInfoEtc
+    .list
+    .info {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -1023,13 +1066,19 @@ $imgPath: '/images';
     letter-spacing: -0.4px;
     margin-bottom: 32px;
   }
-  .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap {}
+  .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap {
+  }
   .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap .infoBox {
     border-radius: 8px;
     padding: 25px;
     margin-bottom: 20px;
   }
-  .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap .infoBox .infoTitle {
+  .byCompanyContainer
+    .mainContainer
+    .estimateInfoWrap
+    .infoWrap
+    .infoBox
+    .infoTitle {
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
@@ -1040,7 +1089,13 @@ $imgPath: '/images';
   .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap .infoBox ul {
     margin-left: 17px;
   }
-  .byCompanyContainer .mainContainer .estimateInfoWrap .infoWrap .infoBox ul li {
+  .byCompanyContainer
+    .mainContainer
+    .estimateInfoWrap
+    .infoWrap
+    .infoBox
+    ul
+    li {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -1062,9 +1117,26 @@ $imgPath: '/images';
     border-radius: 8px;
     padding: 5px 25px 28px;
   }
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc {}
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .list {}
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .list .title {
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc {
+  }
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .list {
+  }
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .list
+    .title {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -1072,15 +1144,33 @@ $imgPath: '/images';
     letter-spacing: -0.32px;
     margin: 20px 0;
   }
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .list .info {
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .list
+    .info {
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 24px; /* 120% */
     letter-spacing: -0.4px;
   }
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .subList {}
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .subList .title {
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .subList {
+  }
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .subList
+    .title {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -1088,7 +1178,13 @@ $imgPath: '/images';
     letter-spacing: -0.32px;
     margin-top: 20px;
   }
-  .byCompanyContainer .mainContainer .estimateDetailWrap .detailInfo .detailInfoEtc .subList .info {
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .subList
+    .info {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -1096,7 +1192,8 @@ $imgPath: '/images';
     letter-spacing: -0.32px;
     display: contents;
   }
-  .byCompanyContainer .certificateWrap {}
+  .byCompanyContainer .certificateWrap {
+  }
   .byCompanyContainer .certificateWrap .certificateInfo {
     padding: 50px 20px;
   }
@@ -1113,14 +1210,33 @@ $imgPath: '/images';
     text-align: left;
     margin: 0 0 32px 0;
   }
-  .byCompanyContainer .certificateWrap .certificateInfo .section2Slider .section2SliderUl {
+  .byCompanyContainer
+    .certificateWrap
+    .certificateInfo
+    .section2Slider
+    .section2SliderUl {
     justify-content: space-between;
   }
-  .byCompanyContainer .certificateWrap .certificateInfo .section2Slider .section2SliderUl .item {
+  .byCompanyContainer
+    .certificateWrap
+    .certificateInfo
+    .section2Slider
+    .section2SliderUl
+    .item {
     width: 165px;
   }
-  .byCompanyContainer .certificateWrap .certificateInfo .section2Slider .section2SliderUl .item:nth-child(1), 
-  .byCompanyContainer .certificateWrap .certificateInfo .section2Slider .section2SliderUl .item:nth-child(2) {
+  .byCompanyContainer
+    .certificateWrap
+    .certificateInfo
+    .section2Slider
+    .section2SliderUl
+    .item:nth-child(1),
+  .byCompanyContainer
+    .certificateWrap
+    .certificateInfo
+    .section2Slider
+    .section2SliderUl
+    .item:nth-child(2) {
     margin-bottom: 60px;
   }
   .byCompanyContainer .mainContainer {
@@ -1142,18 +1258,30 @@ $imgPath: '/images';
     letter-spacing: -0.4px;
     margin-bottom: 32px;
   }
-  .byCompanyContainer .mainContainer .performanceWrap .infoWrap {}
+  .byCompanyContainer .mainContainer .performanceWrap .infoWrap {
+  }
   .byCompanyContainer .mainContainer .performanceWrap .infoWrap .infoBox {
     border-radius: 8px;
     height: auto;
     padding: 20px;
     margin-bottom: 12px;
   }
-  .byCompanyContainer .mainContainer .performanceWrap .infoWrap .infoBox .title .certificateIcon {
+  .byCompanyContainer
+    .mainContainer
+    .performanceWrap
+    .infoWrap
+    .infoBox
+    .title
+    .certificateIcon {
     width: 20px;
     height: 20px;
   }
-  .byCompanyContainer .mainContainer .performanceWrap .infoWrap .infoBox .title {
+  .byCompanyContainer
+    .mainContainer
+    .performanceWrap
+    .infoWrap
+    .infoBox
+    .title {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -1174,7 +1302,12 @@ $imgPath: '/images';
   .byCompanyContainer .mainContainer .exampleWrap .infoWrap {
     height: auto;
   }
-  .byCompanyContainer .mainContainer .exampleWrap .infoWrap .section2Slider .item {
+  .byCompanyContainer
+    .mainContainer
+    .exampleWrap
+    .infoWrap
+    .section2Slider
+    .item {
     height: 200px;
   }
   .byCompanyContainer .mainContainer .footerWrap .info {
@@ -1184,6 +1317,8 @@ $imgPath: '/images';
     line-height: 28px; /* 175% */
     letter-spacing: -0.32px;
   }
-  .byCompanyContainer {}
-  .byCompanyContainer {}
+  .byCompanyContainer {
+  }
+  .byCompanyContainer {
+  }
 }

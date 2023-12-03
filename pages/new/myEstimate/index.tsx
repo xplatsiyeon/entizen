@@ -1,10 +1,17 @@
-import { Dialog, DialogTitle, IconButton, DialogContent, Button, TextField } from '@mui/material'
+import {
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  Button,
+  TextField,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { MyEstimateHeader } from 'components/myEstimate/header';
 import myEstimateStyles from './myEstimate.module.scss';
 import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
 import { useEffect, useState } from 'react';
 import CommonConfirmModal from '../commonConfirmModal';
 import { useMediaQuery } from 'react-responsive';
@@ -16,34 +23,34 @@ const MyEstimate = () => {
   const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
-  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
+  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: "chart_download",
+        event: 'chart_download',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-  }
+  };
   const kakaoBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: "kakao_btn_click",
+        event: 'kakao_btn_click',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-  }
+  };
   const telBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: "tel_btn_click",
+        event: 'tel_btn_click',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-  }
+  };
   const onClickSendBtn = () => {
     setModalOpen(true);
-  } 
+  };
 
   useEffect(() => {
     const phone = sessionStorage.getItem('phone_number');
@@ -185,10 +192,12 @@ const MyEstimate = () => {
             </table>
           </div>
           <div className={myEstimateStyles.buttonWrap}>
-            <a className={myEstimateStyles.downloadBtn} 
-              onClick={chartDownload} 
+            <a
+              className={myEstimateStyles.downloadBtn}
+              onClick={chartDownload}
               href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
-              target="_blank">
+              target="_blank"
+            >
               <p>모든 업체 비교표 다운받기</p>
               <div className={myEstimateStyles.icon}></div>
             </a>
@@ -197,37 +206,33 @@ const MyEstimate = () => {
       </section>
       <section className={myEstimateStyles.compareEstimateWrap}>
         <div className={myEstimateStyles.title}>진행 프로세스</div>
-            {isMobile? (
-              <Image
-                src={ProcessMb}
-                alt="process1"
-                objectFit='contain'
-              />
-            ) : (
-              <div className={myEstimateStyles.processWrap}>
-                <div className={myEstimateStyles.badge}>현재 진행 단계</div>
-                  <div className={myEstimateStyles.processImgWrap}>
-                    <div className={myEstimateStyles.processImg}>
-                      <div className={myEstimateStyles.process1}></div>
-                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-                    </div>
-                    <div className={myEstimateStyles.processImg}>
-                      <div className={myEstimateStyles.arrow}></div>
-                    </div>
-                    <div className={myEstimateStyles.processImg}>
-                      <div className={myEstimateStyles.process2}></div>
-                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-                    </div>
-                    <div className={myEstimateStyles.processImg}>
-                      <div className={myEstimateStyles.arrow}></div>
-                    </div>
-                    <div className={myEstimateStyles.processImg}>
-                      <div className={myEstimateStyles.process3}></div>
-                      {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
-                    </div>
-                  </div>
-                </div>
-            )}
+        {isMobile ? (
+          <Image src={ProcessMb} alt="process1" objectFit="contain" />
+        ) : (
+          <div className={myEstimateStyles.processWrap}>
+            <div className={myEstimateStyles.badge}>현재 진행 단계</div>
+            <div className={myEstimateStyles.processImgWrap}>
+              <div className={myEstimateStyles.processImg}>
+                <div className={myEstimateStyles.process1}></div>
+                {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+              </div>
+              <div className={myEstimateStyles.processImg}>
+                <div className={myEstimateStyles.arrow}></div>
+              </div>
+              <div className={myEstimateStyles.processImg}>
+                <div className={myEstimateStyles.process2}></div>
+                {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+              </div>
+              <div className={myEstimateStyles.processImg}>
+                <div className={myEstimateStyles.arrow}></div>
+              </div>
+              <div className={myEstimateStyles.processImg}>
+                <div className={myEstimateStyles.process3}></div>
+                {/* <p className={myEstimateStyles.processTitle}>견적요청</p> */}
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       <section className={myEstimateStyles.myEstimateFooter}>
@@ -266,9 +271,12 @@ const MyEstimate = () => {
                 name="mail"
                 autoComplete="off"
               />
-              <button className={myEstimateStyles.sendBtn}
+              <button
+                className={myEstimateStyles.sendBtn}
                 onClick={onClickSendBtn}
-              >전송</button>
+              >
+                전송
+              </button>
             </div>
           </div>
           <div className={myEstimateStyles.chargeCarImg}></div>
@@ -276,18 +284,17 @@ const MyEstimate = () => {
       </section>
       <CommonConfirmModal
         open={modalOpen}
-        onClose={() => { setModalOpen(false);}}
-        onConfirm={() => { setModalOpen(false);}}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        onConfirm={() => {
+          setModalOpen(false);
+        }}
         useCancelBtn={false}
         title="전송"
         content={<p>전송이 완료되었습니다.</p>}
       />
-      <PhoneModal
-        open={phoneModalOpen}
-        onClose={() => { setModalOpen(false);}}
-        onConfirm={() => { setModalOpen(false);}}
-        useCancelBtn={false}
-      />
+      <PhoneModal open={phoneModalOpen} setOpen={setPhoneModalOpen} />
     </div>
   );
 };
