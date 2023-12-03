@@ -81,17 +81,18 @@ const Modal = styled.div`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 0 10pt;
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 480px) {
+    align-items: flex-end;
+  }
 `;
 
 const ContentsArea = styled.div`
   width: 460px;
   height: 275px;
-  flex-shrink: 0;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
@@ -99,6 +100,12 @@ const ContentsArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    height: 40%;
+    border-radius: 36px 36px 0px 0px;
+    background: var(--Sub3, #fff);
+  }
 `;
 
 const TitleArea = styled.p`
@@ -107,11 +114,20 @@ const TitleArea = styled.p`
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 30px; /* 150% */
+  line-height: 30px;
   letter-spacing: -0.4px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media screen and (max-width: 480px) {
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: -0.48px;
+  }
 `;
 
 const CloseBtn = styled.button`
@@ -128,7 +144,6 @@ const CustomInput = styled.input`
   padding-left: 10px;
   width: 386px;
   height: 48px;
-  flex-shrink: 0;
   stroke-width: 1px;
   stroke: #909fb7;
   border-radius: 16px;
@@ -139,7 +154,6 @@ const CustomInput = styled.input`
 const ConfirmBtn = styled.button`
   width: 386px;
   height: 40px;
-  flex-shrink: 0;
   border-radius: 4px;
   background: var(--Main1, #5221cb);
   color: #fff;
@@ -150,4 +164,9 @@ const ConfirmBtn = styled.button`
   font-weight: 700;
   line-height: 16px;
   letter-spacing: -0.32px;
+  @media screen and (max-width: 480px) {
+    border-radius: 8px;
+    background: var(--Main1, #5221cb);
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  }
 `;
