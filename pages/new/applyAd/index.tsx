@@ -16,6 +16,8 @@ import Sec02Img from 'public/new/applyAd/section2.png';
 import Sec03Img from 'public/new/applyAd/section3.png';
 import Sec04Img from 'public/new/applyAd/section4.png';
 import Sec05Img from 'public/new/applyAd/section5.png';
+import Sec04PcImg from 'public/new/applyAd/section4pc.png';
+import Sec05PcImg from 'public/new/applyAd/section5pc.png';
 import Img01 from 'public/new/applyAd/slide1.png';
 import Img02 from 'public/new/applyAd/slide2.png';
 import Img03 from 'public/new/applyAd/slide3.png';
@@ -251,7 +253,7 @@ const ApplyAdMain = () => {
             </div>
           </article>
         </section>
-        <section
+        {/* <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section4}`}
         >
           <article className={ApplyAdMainStyles.articleInfo}>
@@ -268,7 +270,15 @@ const ApplyAdMain = () => {
               <div className={ApplyAdMainStyles.chatImg}></div>
             </div>
           </article>
-        </section>
+        </section> */}
+        <div className={ApplyAdMainStyles.pcSection4}>
+          <Image
+            src={Sec04PcImg}
+            alt="Sec04PcImg"
+            layout="intrinsic"
+            objectFit="contain"
+          />
+        </div>
         <div className={ApplyAdMainStyles.mobileSection4}>
           <Image
             src={Sec04Img}
@@ -277,7 +287,7 @@ const ApplyAdMain = () => {
             objectFit="contain"
           />
         </div>
-        <div
+        {/* <div
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section5}`}
         >
           <div className={ApplyAdMainStyles.imgWrap}>
@@ -291,6 +301,14 @@ const ApplyAdMain = () => {
               </div>
             </div>
           </div>
+        </div> */}
+        <div className={ApplyAdMainStyles.pcSection5}>
+          <Image
+            src={Sec05PcImg}
+            alt="Sec05PcImg"
+            layout="intrinsic"
+            objectFit="contain"
+          />
         </div>
         <div className={ApplyAdMainStyles.mobileSection5}>
           <Image

@@ -17,7 +17,7 @@ import { Alerts, AlertsResponse } from 'types/alerts';
 import { AxiosError } from 'axios';
 
 type Props = {
-  menu: { title: string, link: string }[];
+  menu: { title: string; link: string }[];
   anchor: string;
   toggleDrawer: (
     anchor: string,
@@ -39,9 +39,7 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
   // 알람 조회
   // /v1/alerts/unread-points
-  const {
-    data: historyUnread,
-  } = useQuery<AlertsResponse, AxiosError, Alerts>(
+  const { data: historyUnread } = useQuery<AlertsResponse, AxiosError, Alerts>(
     'v1/alerts',
     () => isTokenGetApi(`/v1/alerts/unread-points`),
     {
@@ -60,9 +58,7 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
 
   // 이름 가져오기
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const {
-    profile: profileData,
-  } = useProfile(accessToken);
+  const { profile: profileData } = useProfile(accessToken);
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -96,12 +92,8 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete
-            onClick={() => router.push('/new/myEstimate')}
-          >
-            <span
-              onClick={() => router.push('/profile/editing')}
-            >
+          <WhetherLoginComplete onClick={() => router.push('/new/myEstimate')}>
+            <span onClick={() => router.push('/profile/editing')}>
               {`${profileData?.name} 님`}
             </span>
             <span
@@ -122,9 +114,13 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
 
         <WhiteArea>
           {menu.map((item, index) => (
-             <WhiteAreaMenus onClick={() => { router.push(item.link)}}>
-                 <span>{item.title}</span>
-              </WhiteAreaMenus>
+            <WhiteAreaMenus
+              onClick={() => {
+                router.push(item.link);
+              }}
+            >
+              <span>{item.title}</span>
+            </WhiteAreaMenus>
           ))}
         </WhiteArea>
       </ListBox>
@@ -133,7 +129,6 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
 };
 
 export default HamburgerBar;
-
 
 const WholeBox = styled(Box)`
   display: flex;
@@ -150,7 +145,7 @@ const ListBox = styled.div`
   padding-right: 15pt;
   height: 100vh;
 
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 const XBtnWrapper = styled.div`
   display: -webkit-box;
@@ -235,7 +230,6 @@ const WhiteArea = styled.div`
   background-color: #ffffff;
 `;
 
-
 const WhiteAreaMenus = styled.div`
   display: flex;
   align-items: center;
@@ -271,19 +265,20 @@ const FaqButton = styled.div`
   gap: 8px;
   flex-shrink: 0;
   border-radius: 29px;
-  border: 1px solid #E2E5ED;
-  background: #FFF;
-  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
-`
+  border: 1px solid #e2e5ed;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.26px;
+`;
 const LogoWrapper = styled.div`
   width: 92px;
   height: 40px;
   margin-right: auto;
   display: flex;
-`
-
-
-
-
-
-
+`;

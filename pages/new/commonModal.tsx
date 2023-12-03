@@ -19,7 +19,7 @@ const CommonModal = ({ open, onClose, title = '', content }: any) => {
 
   return (
     <CustomDialog fullScreen={isMobile} open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogTitle>{title}</DialogTitle>
+      <CustomDialogTitle>{title}</CustomDialogTitle>
       <IconButton
         aria-label="close"
         onClick={onClose}
@@ -30,7 +30,7 @@ const CommonModal = ({ open, onClose, title = '', content }: any) => {
           color: (theme) => theme.palette.grey[500],
         }}
       >
-        <CloseIcon />
+        <CustomDialogIcon/>
       </IconButton>
       <DialogContent>
           {content} 
@@ -38,6 +38,24 @@ const CommonModal = ({ open, onClose, title = '', content }: any) => {
     </CustomDialog>
   );
 };
+
+const CustomDialogTitle = styled(DialogTitle)`
+  @media only screen and (min-width: 200px) and (max-width: 480px) {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 100% */
+    letter-spacing: -0.4px;
+  }
+`
+
+const CustomDialogIcon = styled(CloseIcon)`
+  @media only screen and (min-width: 200px) and (max-width: 480px) {
+    width: 32px;
+    height: 32px;
+    color: #000000
+  }
+`
 
 
 CommonModal.propTypes = {
