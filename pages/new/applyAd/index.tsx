@@ -224,7 +224,7 @@ const ApplyAdMain = () => {
             <Swiper
               className={ApplyAdMainStyles.mobileSection3Slider}
               spaceBetween={12}
-              slidesPerView={3}
+              slidesPerView={2.1}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (

@@ -121,10 +121,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     src={Logos}
                     alt="logo"
                     layout="intrinsic"
-                    onClick={async () => {
-                      await router.push('/');
-                      setKeyword('');
-                    }}
+                    onClick={ () => { router.push('/new/applyAd') }}
                     style={{ cursor: 'pointer' }}
                   />
                 </div>

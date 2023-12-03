@@ -86,7 +86,7 @@ export const COMPANY_LIST: any = {
     companyInfo: {
       info1: '600기 이상 시공',
       info2: 'A/S지점 34곳, A/S직원 125명',
-      info3: '정부 인증 (조달철 혁신제품, 중소벤처기업부 브랜드K)',
+      info3: '정부 인증 (조달청 혁신제품, 중소벤처기업부 브랜드K)',
     },
     estimateInfo: {
       info1: [

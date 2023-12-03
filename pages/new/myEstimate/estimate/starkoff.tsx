@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { COMPANY_LIST } from 'assets/company';
 import { useMediaQuery } from 'react-responsive';
 import { MyEstimateHeader } from 'components/myEstimate/header';
+import CommonConfirmModal from 'pages/new/commonConfirmModal';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
@@ -23,6 +24,7 @@ const EstimateByCompany = () => {
     query: '(max-width: 1023px)',
   });
 
+  const [modalOpen, setModalOpen] = useState(false);
   const [swiper, setSwiper] = useState<SwiperCore>();
   const navigationPrevRef = useRef<HTMLButtonElement>(null);
   const navigationNextRef = useRef<HTMLButtonElement>(null);
@@ -94,7 +96,7 @@ const EstimateByCompany = () => {
             채팅하기
           </a>
           <button
-            onClick={() => {location.href = '/new/estimateForm/complete2'}}
+            onClick={() => setModalOpen(true)}
             className={`${estimateByCompanyStyles.button}  ${estimateByCompanyStyles.applyBtn}`}
           >
             이 업체에게 현장실사 받기
@@ -272,7 +274,6 @@ const EstimateByCompany = () => {
               <Swiper
                 className={estimateByCompanyStyles.section2Slider}
                 wrapperTag={'ul'}
-                // loop={true}
                 slidesPerView="auto"
                 spaceBetween={24}
                 onSwiper={setSwiper}
@@ -371,6 +372,7 @@ const EstimateByCompany = () => {
               spaceBetween={24}
               onSwiper={setSwiper}
               speed={500}
+              loop={false}
               navigation={{
                 prevEl: exampleNavigationPrevRef.current,
                 nextEl: exampleNavigationNextRef.current,
@@ -415,6 +417,16 @@ const EstimateByCompany = () => {
           </p>
         </div>
       </section>
+      <CommonConfirmModal
+        open={modalOpen}
+        onClose={() => { setModalOpen(false)}}
+        onConfirm={() => { 
+          location.href='/new/estimateForm/complete2'
+          setModalOpen(false)
+        }}
+        title=""
+        content={<p style={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 500, lineHeight: 'normal', letterSpacing: '-0.32px', marginBottom: '20px', marginTop: '20px' }}>해당 업체에게 현장실사를 요청하시겠습니까?</p>}
+      />
     </div>
   );
 };

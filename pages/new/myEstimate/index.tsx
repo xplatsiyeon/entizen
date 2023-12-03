@@ -1,16 +1,21 @@
+import { Dialog, DialogTitle, IconButton, DialogContent, Button, TextField } from '@mui/material'
+import { styled } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
 import { MyEstimateHeader } from 'components/myEstimate/header';
 import myEstimateStyles from './myEstimate.module.scss';
 import { EstimateByCompany } from 'components/myEstimate/estimateByCompany';
 import TagManager from 'react-gtm-module'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommonConfirmModal from '../commonConfirmModal';
 import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import ProcessMb from 'public/images/myEstimate/process_mb.svg';
+import PhoneModal from '../phoneModal';
 
 const MyEstimate = () => {
   const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
+  const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
   const chartDownload = () => {
     const tagManagerArgs = {
@@ -39,6 +44,15 @@ const MyEstimate = () => {
   const onClickSendBtn = () => {
     setModalOpen(true);
   } 
+
+  useEffect(() => {
+    const phone = sessionStorage.getItem('phone_number');
+    // sessionStorage.removeItem('phone_number')
+    console.log('phone : ', phone);
+    if (!phone) {
+      setPhoneModalOpen(true);
+    }
+  }, []);
 
   return (
     <div className={myEstimateStyles.myEstimateContainer}>
@@ -230,13 +244,14 @@ const MyEstimate = () => {
             <span className={myEstimateStyles.kakaoIcon}></span>엔티즌에게
             카카오톡으로 질문하기
           </a>
-          <button
+          <a
+            href="tel:1544-6811"
             className={`${myEstimateStyles.button} ${myEstimateStyles.recommCallBtn}`}
             onClick={telBtnClick}
           >
             <span className={myEstimateStyles.callIcon}></span>전화 상담으로
             업체 추천 받기
-          </button>
+          </a>
         </div>
         <div className={myEstimateStyles.mailBoxWrap}>
           <div className={myEstimateStyles.infoWrap}>
@@ -266,6 +281,12 @@ const MyEstimate = () => {
         useCancelBtn={false}
         title="전송"
         content={<p>전송이 완료되었습니다.</p>}
+      />
+      <PhoneModal
+        open={phoneModalOpen}
+        onClose={() => { setModalOpen(false);}}
+        onConfirm={() => { setModalOpen(false);}}
+        useCancelBtn={false}
       />
     </div>
   );

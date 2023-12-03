@@ -501,7 +501,9 @@ $imgPath: '/images';
           }
           .imgWrap {
             display: flex;
+            position: relative;
             justify-content: space-between;
+            
             img {
               width: 11.8125rem;
               height: 11.625rem;

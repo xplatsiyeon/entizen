@@ -59,7 +59,7 @@ export const MyEstimateHeader = () => {
     <div className={myEstimateHeaderStyles.headerWrap}>
       {mobile ? (
         <>
-          <div className={myEstimateHeaderStyles.icon}>
+          <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/new/applyAd')}>
             <img
               style={{
                 display: 'flex',

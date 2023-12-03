@@ -37,6 +37,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   useEffect(() => {
     const cookieValue = cookies['CSRF-TOKEN'];
     console.log('CSRF-TOKEN 값:', cookieValue);
+    location.href='/new/applyAd';
   }, [cookies]);
 
   return (

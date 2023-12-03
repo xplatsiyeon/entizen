@@ -684,13 +684,6 @@ $imgPath: '/images';
       min-width: 21.875rem;
       max-width: 53.75rem;
 
-      @media screen and (max-width: 767px) {
-        // width: 21.875rem;
-        margin: 2.5rem auto;
-
-        justify-content: center;
-      }
-
       border-radius: 0.5rem;
       background: #383b48;
 
@@ -729,9 +722,6 @@ $imgPath: '/images';
 
         .inputWrap {
           width: 22.4375rem;
-          @media screen and (max-width: 767px) {
-            width: 18.75rem;
-          }
           height: 3.75rem;
           border-radius: 1.875rem;
           background: #fff;
@@ -796,6 +786,47 @@ $imgPath: '/images';
       }
     }
   }
+}
+
+.myEstimatePhoneModal {
+  // height: 20rem
+}
+.myEstimatePhoneModal .closeButton {
+  width: 28px;
+  height: 28px;
+}
+.myEstimatePhoneModal .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px; /* 150% */
+  letter-spacing: -0.48px;
+  margin-bottom: 36px;
+}
+.myEstimatePhoneModal .phoneInput {
+  width: 386px;
+  height: 48px;
+  flex-shrink: 0;
+  stroke-width: 1px;
+  stroke: #909FB7;
+  margin-bottom: 12px;
+}
+.myEstimatePhoneModal .phoneButton {
+  width: 386px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--Main1, #5221CB);
+  color: #FFF;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px; /* 100% */
+  letter-spacing: -0.32px;
 }
 
 @media only screen and (min-width: 200px) and (max-width: 480px) {
@@ -943,6 +974,8 @@ $imgPath: '/images';
     width: 100% !important;
     height: 168px;
     max-width: none;
+    // margin: 2.5rem auto;
+    justify-content: center;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap {
     width: auto;
@@ -957,21 +990,21 @@ $imgPath: '/images';
     margin-bottom: 16px;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap {
-    width: 300px;
-    height: 56px;
-    border-radius: 30px;
-    justify-content: center;
+    width: 300px !important;
+    height: 56px !important;
+    border-radius: 30px !important;
+    justify-content: center !important;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap input {
-    border-radius: 30px;
-    width: inherit;
-    height: inherit;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 40px; /* 250% */
-    letter-spacing: -0.32px;
-    margin-left: 20px;
+    border-radius: 30px !important;
+    width: inherit !important;
+    height: inherit !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 40px !important; /* 250% */
+    letter-spacing: -0.32px !important;
+    margin-left: 20px !important;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap .sendBtn {
     width: 64px;
@@ -983,5 +1016,25 @@ $imgPath: '/images';
     line-height: 40px;
     letter-spacing: -0.32px;
     margin-right: 8px;
+  }
+
+  .myEstimatePhoneModal .closeButton {
+    width: 32px;
+    height: 32px;
+  }
+  .myEstimatePhoneModal .title {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 150% */
+    letter-spacing: -0.48px;
+  }
+  .myEstimatePhoneModal .phoneInput {
+    width: 350px;
+    height: 48px;
+  }
+  .myEstimatePhoneModal .phoneButton {
+    width: 350px;
+    height: 56px;
   }
 }

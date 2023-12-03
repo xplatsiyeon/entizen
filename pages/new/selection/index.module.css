@@ -7,7 +7,7 @@
 }
 
 .sec_01 {
-  width: 120rem;
+  /* width: 120rem; */
   height: 28.5rem;
   flex-shrink: 0;
   background: linear-gradient(180deg, #5221cb 0%, #3d1d8c 100%);
