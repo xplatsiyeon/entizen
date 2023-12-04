@@ -6,7 +6,7 @@ type Data = {
   msg: string;
 };
 
-export default function handler(
+export default function submitHandler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
