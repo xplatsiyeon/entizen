@@ -27,7 +27,6 @@ import CommonBackdrop from '../commonBackdrop';
 import TagManager from 'react-gtm-module';
 import axios from 'axios';
 
-
 declare global {
   interface Window {
     daum: any;
@@ -122,34 +121,31 @@ const EstimateForm4 = () => {
     setTimeout(() => {
       setBackdropOpen(false);
       const sendData = {
-        selection : sessionStorage.getItem("selection"),
-        importantFactor : form.importantFactor,
-        place : form.place,
-        placeEtc : form.placeEtc,
-        address : form.address,
-        addressDetail : form.addressDetail,
-        phone : form.phone,
-        isAgree : form.isAgree
+        selection: sessionStorage.getItem('selection'),
+        importantFactor: form.importantFactor,
+        place: form.place,
+        placeEtc: form.placeEtc,
+        address: form.address,
+        addressDetail: form.addressDetail,
+        phone: form.phone,
+        isAgree: form.isAgree,
       };
 
-      sessionStorage.setItem('importantFactor',form.importantFactor as string);
-      sessionStorage.setItem('place',form.place as string);
-      sessionStorage.setItem('placeEtc',form.placeEtc as string);
-      sessionStorage.setItem('address',form.address as string);
-      sessionStorage.setItem('addressDetail',form.addressDetail as string);
-      sessionStorage.setItem('phone',form.phone as string);
-      //sessionStorage.setItem('isAgree',form.isAgree as string);
+      sessionStorage.setItem('importantFactor', form.importantFactor as string);
+      sessionStorage.setItem('place', form.place as string);
+      sessionStorage.setItem('placeEtc', form.placeEtc as string);
+      sessionStorage.setItem('address', form.address as string);
+      sessionStorage.setItem('addressDetail', form.addressDetail as string);
+      sessionStorage.setItem('phone', form.phone as string);
 
-      const url = 'http://localhost:3000/api/submit'
+      const url = '/api/submit';
       axios
-      .post(url, {
-        data: sendData,
-      })
-      .then((res) => {
-        console.log(res)
-      });  
-      
-      
+        .post(url, {
+          data: sendData,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     }, 3000);
   };
 

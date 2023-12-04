@@ -3,7 +3,7 @@ import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type Data = {
-  msg: string
+  msg: string;
 };
 
 export default function handler(
@@ -11,30 +11,28 @@ export default function handler(
   res: NextApiResponse<Data>,
 ) {
   // 자피어 보내기
-  const url = "https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/";
+  const url = 'https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/';
+  const { data } = req.body;
 
-  /*
   const sendData = {
-    selection: selection,
-    importantFactor:importantFactor,
-    place:place,
-    placeEtc:placeEtc,
-    address:address,
-    addressDetail:addressDetail,
-    phone:phone,
-    isAgree:isAgree
+    selection: data.selection,
+    importantFactor: data.importantFactor,
+    place: data.place,
+    placeEtc: data.placeEtc,
+    address: data.address,
+    addressDetail: data.addressDetail,
+    phone: data.phone,
+    email: data.email,
+    isAgree: data.isAgree,
   };
-  */
-  
+
   axios
     .post(url, {
-      data: {data:'data'},
+      data: { data: sendData },
     })
     .then((res) => {
-      console.log(res)
+      console.log(res);
     });
 
-  res.status(200).json({msg:'success'});
+  res.status(200);
 }
-
-

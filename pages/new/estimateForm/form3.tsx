@@ -110,45 +110,39 @@ const EstimateForm3 = () => {
 
     setTimeout(() => {
       setBackdropOpen(false);
-      const url = "https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/";
       const sendData = {
-        selection : sessionStorage.getItem("selection"),
-        importantFactor : form.importantFactor,
-        place : form.place,
-        placeEtc : form.placeEtc,
-        address : form.address,
-        addressDetail : form.addressDetail,
-        phone : form.phone,
-        isAgree : form.isAgree
+        selection: sessionStorage.getItem('selection'),
+        importantFactor: form.importantFactor,
+        place: form.place,
+        placeEtc: form.placeEtc,
+        address: form.address,
+        addressDetail: form.addressDetail,
+        phone: form.phone,
+        isAgree: form.isAgree,
       };
 
-      sessionStorage.setItem('importantFactor',form.importantFactor as string);
-      sessionStorage.setItem('place',form.place as string);
-      sessionStorage.setItem('placeEtc',form.placeEtc as string);
-      sessionStorage.setItem('address',form.address as string);
-      sessionStorage.setItem('addressDetail',form.addressDetail as string);
-      sessionStorage.setItem('phone',form.phone as string);
-      //sessionStorage.setItem('isAgree',form.isAgree as string);
+      sessionStorage.setItem('importantFactor', form.importantFactor as string);
+      sessionStorage.setItem('place', form.place as string);
+      sessionStorage.setItem('placeEtc', form.placeEtc as string);
+      sessionStorage.setItem('address', form.address as string);
+      sessionStorage.setItem('addressDetail', form.addressDetail as string);
+      sessionStorage.setItem('phone', form.phone as string);
 
+      const url = '/api/submit';
       axios
         .post(url, {
-          headers: {
-            "Content-Type": "application/json",
-          },
           data: sendData,
         })
-        .then(
-          () => {
-            //GA4 이벤트 전송
-            const tagManagerArgs = {
-              dataLayer: {
-                event: 'lead_submit',
-              },
-            };
-            TagManager.dataLayer(tagManagerArgs);
-            router.push('/new/estimateForm/complete');
-          }
-        );
+        .then(() => {
+          //GA4 이벤트 전송
+          const tagManagerArgs = {
+            dataLayer: {
+              event: 'lead_submit',
+            },
+          };
+          TagManager.dataLayer(tagManagerArgs);
+          router.push('/new/estimateForm/complete');
+        });
     }, 3000);
   };
 
