@@ -52,32 +52,34 @@ const MyEstimate = () => {
   };
   
   const onClickSendBtn = () => {
-    setModalOpen(true);
-    /* TODO : 여기서 회사명 전송 */
-    // companyName << 이게 값임
+    if(companyName){
+      setModalOpen(true);
+      /* TODO : 여기서 회사명 전송 */
+      // companyName << 이게 값임
 
-    const url = '/api/company_request';
-    axios
-      .post(url, {
-        data: {
-          companyName:companyName,
-          phone:sessionStorage.getItem("phone")
-        },
-      })
-      .then((res) => {
-        //console.log(res);
-        //location.href = '/new/myEstimate'
-      });
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'request_company',
-        },
-      };
-      TagManager.dataLayer(tagManagerArgs);
+      const url = '/api/company_request';
+      axios
+        .post(url, {
+          data: {
+            companyName:companyName,
+            phone:sessionStorage.getItem("phone")
+          },
+        })
+        .then((res) => {
+          //console.log(res);
+          //location.href = '/new/myEstimate'
+        });
+        //GA4 이벤트 전송
+        const tagManagerArgs = {
+          dataLayer: {
+            event: 'request_company',
+          },
+        };
+        TagManager.dataLayer(tagManagerArgs);
 
-    console.log('전송 할 회사명', companyName);
-    setCompanyName('');
+      console.log('전송 할 회사명', companyName);
+      setCompanyName('');
+    } 
   };
 
   useEffect(() => {

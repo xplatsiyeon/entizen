@@ -199,7 +199,7 @@ const EstimateForm3 = () => {
                     name="importantFactor"
                     displayEmpty
                     className={styles.input_box}
-                    value={form?.importantFactor}
+                    value={form?.importantFactor ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
@@ -296,7 +296,7 @@ const EstimateForm3 = () => {
                     id="placeSelect"
                     name="place"
                     className={styles.input_box}
-                    value={form?.place}
+                    value={form?.place ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
@@ -405,7 +405,7 @@ const EstimateForm3 = () => {
                       className={styles.input_box}
                       variant="outlined"
                       name="placeEtc"
-                      value={form?.placeEtc}
+                      value={form?.placeEtc ?? ''}
                       onChange={handleChange}
                     />
                   )}
@@ -421,7 +421,7 @@ const EstimateForm3 = () => {
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
-                      value={form?.address}
+                      value={form?.address ?? ''}
                       onChange={handleChange}
                     />
                     <Button
@@ -439,7 +439,7 @@ const EstimateForm3 = () => {
                     placeholder="상세 주소를 입력해주세요."
                     variant="outlined"
                     name="addressDetail"
-                    value={form?.addressDetail}
+                    value={form?.addressDetail ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -452,7 +452,7 @@ const EstimateForm3 = () => {
                     placeholder="텍스트를 입력하세요."
                     variant="outlined"
                     name="phone"
-                    value={form?.phone}
+                    value={form?.phone ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>

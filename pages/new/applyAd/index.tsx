@@ -23,6 +23,7 @@ import Img02 from 'public/new/applyAd/slide2.png';
 import Img03 from 'public/new/applyAd/slide3.png';
 
 const ApplyAdMain = () => {
+  console.log("ApplyAdMain");
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',

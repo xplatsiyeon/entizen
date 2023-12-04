@@ -82,26 +82,7 @@ const EstimateByCompany = () => {
 
   const onClickSendBtn = () => {
     setModalOpen(true);
-    /* TODO : 여기서 회사명 전송 */
-    // companyName << 이게 값임
 
-    const url = '/api/company_selection';
-    axios
-      .post(url, {
-        data: {
-          companyName:'한국EV충전서비스센터',
-          phone:sessionStorage.getItem("phone")
-        },
-      })
-      .then((res) => {
-      });
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'company_selection',
-        },
-      };
-      TagManager.dataLayer(tagManagerArgs);
   };
 
   return (
@@ -447,6 +428,23 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => { 
+          const url = '/api/company_selection';
+          axios
+            .post(url, {
+              data: {
+                companyName:'한국EV충전서비스센터',
+                phone:sessionStorage.getItem("phone")
+              },
+            })
+            .then((res) => {
+            });
+            //GA4 이벤트 전송
+            const tagManagerArgs = {
+              dataLayer: {
+                event: 'company_selection',
+              },
+            };
+          TagManager.dataLayer(tagManagerArgs);
           location.href='/new/estimateForm/complete2'
           setModalOpen(false)
         }}

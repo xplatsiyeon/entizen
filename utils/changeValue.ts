@@ -1,5 +1,6 @@
 import colors from 'styles/colors';
 
+
 // 판매자 견적서 뱃지 변환
 export const HandleColor = (badge: string | undefined): string => {
   if (badge) {
@@ -24,6 +25,7 @@ export const HandleColor = (badge: string | undefined): string => {
  * @param badge 뱃지 데이터
  * @returns "" | 뱃지 컬러
  */
+
 export const HandleUserColor = (badge: string | undefined): string => {
   if (badge) {
     if (badge.includes('마감')) return colors.sub4;
@@ -34,12 +36,14 @@ export const HandleUserColor = (badge: string | undefined): string => {
     return '';
   }
 };
+
 /**
  * 내 프로젝트 전용 뱃지 컬러 (판매자, 구매자)
  * @param badge
  * @returns
  */
-export const handleColor = (badge: string | undefined): string => {
+
+export const handleColor = (badge: string): string => {
   if (badge) {
     if (badge?.includes('계약대기')) {
       return '#F75015';
@@ -58,11 +62,13 @@ export const handleColor = (badge: string | undefined): string => {
     return '';
   }
 };
+
 /**
  * 내 충전소 전용 뱃지 컬러 (구매자)
  * @param badge
  * @returns
  */
+
 export const handleColor2 = (badge: number) => {
   if (badge > 100) {
     return colors.main;
@@ -82,6 +88,7 @@ export const handleColor2 = (badge: number) => {
  * @param badge
  * @returns
  */
+
 export const handleColorAS = (badge: string) => {
   if (badge?.includes('요청') || badge?.includes('선택대기')) {
     return '#F75015';
@@ -95,3 +102,4 @@ export const handleColorAS = (badge: string) => {
     return '';
   }
 };
+

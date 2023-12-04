@@ -193,7 +193,7 @@ const EstimateForm = () => {
                     name="importantFactor"
                     displayEmpty
                     className={styles.input_box}
-                    value={form?.importantFactor}
+                    value={form?.importantFactor ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
@@ -290,7 +290,7 @@ const EstimateForm = () => {
                     id="progressSelect"
                     name="progress"
                     className={styles.input_box}
-                    value={form?.progress}
+                    value={form?.progress ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
@@ -379,7 +379,7 @@ const EstimateForm = () => {
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
-                      value={form?.address}
+                      value={form?.address ?? ''}
                       onChange={handleChange}
                     />
                     <Button
@@ -397,7 +397,7 @@ const EstimateForm = () => {
                     placeholder="상세 주소를 입력해주세요."
                     variant="outlined"
                     name="addressDetail"
-                    value={form?.addressDetail}
+                    value={form?.addressDetail ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -410,7 +410,7 @@ const EstimateForm = () => {
                     placeholder="텍스트를 입력하세요."
                     variant="outlined"
                     name="phone"
-                    value={form?.phone}
+                    value={form?.phone ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -423,7 +423,7 @@ const EstimateForm = () => {
                     placeholder="텍스트를 입력하세요."
                     variant="outlined"
                     name="email"
-                    value={form?.email}
+                    value={form?.email ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>

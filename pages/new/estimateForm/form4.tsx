@@ -116,47 +116,51 @@ const EstimateForm4 = () => {
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
-    setBackdropOpen(true);
+    if(isComplete){
+      console.log("isComplete")
+    
+      setBackdropOpen(true);
 
-    setTimeout(() => {
-      setBackdropOpen(false);
-      const sendData = {
-        selection: sessionStorage.getItem('selection'),
-        importantFactor: form.importantFactor,
-        place: form.place,
-        placeEtc: form.placeEtc,
-        address: form.address,
-        addressDetail: form.addressDetail,
-        phone: form.phone,
-        isAgree: form.isAgree,
-      };
-
-      sessionStorage.setItem('importantFactor', form.importantFactor as string);
-      sessionStorage.setItem('place', form.place as string);
-      sessionStorage.setItem('placeEtc', form.placeEtc as string);
-      sessionStorage.setItem('address', form.address as string);
-      sessionStorage.setItem('addressDetail', form.addressDetail as string);
-      sessionStorage.setItem('phone', form.phone as string);
-      sessionStorage.setItem('phone_number', form.phone as string);
-
-      const url = '/api/submit_private';
-      axios
-        .post(url, {
-          data: sendData,
-        })
-        .then((res) => {
-          //console.log(res);
-          //location.href = '/new/myEstimate'
-        });
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: 'lead_submit',
-          },
+      setTimeout(() => {
+        setBackdropOpen(false);
+        const sendData = {
+          selection: sessionStorage.getItem('selection'),
+          importantFactor: form.importantFactor,
+          place: form.place,
+          placeEtc: form.placeEtc,
+          address: form.address,
+          addressDetail: form.addressDetail,
+          phone: form.phone,
+          isAgree: form.isAgree,
         };
-        TagManager.dataLayer(tagManagerArgs);
-        router.push('/new/myEstimate');
-    }, 3000);
+
+        sessionStorage.setItem('importantFactor', form.importantFactor as string);
+        sessionStorage.setItem('place', form.place as string);
+        sessionStorage.setItem('placeEtc', form.placeEtc as string);
+        sessionStorage.setItem('address', form.address as string);
+        sessionStorage.setItem('addressDetail', form.addressDetail as string);
+        sessionStorage.setItem('phone', form.phone as string);
+        sessionStorage.setItem('phone_number', form.phone as string);
+
+        const url = '/api/submit_private';
+        axios
+          .post(url, {
+            data: sendData,
+          })
+          .then((res) => {
+            //console.log(res);
+            //location.href = '/new/myEstimate'
+          });
+          //GA4 이벤트 전송
+          const tagManagerArgs = {
+            dataLayer: {
+              event: 'lead_submit',
+            },
+          };
+          TagManager.dataLayer(tagManagerArgs);
+          router.push('/new/myEstimate');
+      }, 3000);
+    }
   };
 
   useEffect(() => {
@@ -207,7 +211,7 @@ const EstimateForm4 = () => {
                     name="importantFactor"
                     displayEmpty
                     className={styles.input_box}
-                    value={form?.importantFactor}
+                    value={form?.importantFactor ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
@@ -371,7 +375,7 @@ const EstimateForm4 = () => {
                       className={styles.input_box}
                       variant="outlined"
                       name="placeEtc"
-                      value={form?.placeEtc}
+                      value={form?.placeEtc ?? ''}
                       onChange={handleChange}
                     />
                   )}
@@ -387,7 +391,7 @@ const EstimateForm4 = () => {
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
-                      value={form?.address}
+                      value={form?.address ?? ''}
                       onChange={handleChange}
                     />
                     <Button
@@ -405,7 +409,7 @@ const EstimateForm4 = () => {
                     placeholder="상세 주소를 입력해주세요."
                     variant="outlined"
                     name="addressDetail"
-                    value={form?.addressDetail}
+                    value={form?.addressDetail ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -418,7 +422,7 @@ const EstimateForm4 = () => {
                     placeholder="텍스트를 입력하세요."
                     variant="outlined"
                     name="phone"
-                    value={form?.phone}
+                    value={form?.phone ?? ''}
                     onChange={handleChange}
                   />
                 </Grid>
