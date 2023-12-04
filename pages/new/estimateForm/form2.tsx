@@ -124,6 +124,15 @@ const EstimateForm2 = () => {
         isAgree : form.isAgree
       };
 
+      sessionStorage.setItem('importantFactor',form.importantFactor as string);
+      sessionStorage.setItem('place',form.place as string);
+      sessionStorage.setItem('placeEtc',form.placeEtc as string);
+      sessionStorage.setItem('address',form.address as string);
+      sessionStorage.setItem('addressDetail',form.addressDetail as string);
+      sessionStorage.setItem('email',form.email as string);
+      sessionStorage.setItem('phone',form.phone as string);
+      //sessionStorage.setItem('isAgree',form.isAgree as string);
+
       axios
         .post(url, {
           headers: {
