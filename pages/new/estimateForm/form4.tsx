@@ -137,6 +137,7 @@ const EstimateForm4 = () => {
       sessionStorage.setItem('address', form.address as string);
       sessionStorage.setItem('addressDetail', form.addressDetail as string);
       sessionStorage.setItem('phone', form.phone as string);
+      sessionStorage.setItem('phone_number', form.phone as string);
 
       const url = '/api/submit_private';
       axios
@@ -146,8 +147,15 @@ const EstimateForm4 = () => {
         .then((res) => {
           //console.log(res);
           //location.href = '/new/myEstimate'
-          router.push('/new/myEstimate');
         });
+        //GA4 이벤트 전송
+        const tagManagerArgs = {
+          dataLayer: {
+            event: 'lead_submit',
+          },
+        };
+        TagManager.dataLayer(tagManagerArgs);
+        router.push('/new/myEstimate');
     }, 3000);
   };
 
@@ -160,6 +168,7 @@ const EstimateForm4 = () => {
     };
     TagManager.dataLayer(tagManagerArgsForm);
   }, []);
+  
 
   return (
     <div id="estimateForm" className={styles.estimateForm}>
@@ -204,7 +213,7 @@ const EstimateForm4 = () => {
                   >
                     <MenuItem
                       className={styles.option}
-                      value="option_1"
+                      value="설치비용"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -217,7 +226,7 @@ const EstimateForm4 = () => {
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="option_2"
+                      value="유지보수(A/S)"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -230,7 +239,7 @@ const EstimateForm4 = () => {
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="option_3"
+                      value="업체 시공 횟수"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -243,7 +252,7 @@ const EstimateForm4 = () => {
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="option_4"
+                      value="기능"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -256,7 +265,7 @@ const EstimateForm4 = () => {
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="option_5"
+                      value="디자인"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -282,7 +291,7 @@ const EstimateForm4 = () => {
                     onChange={handleChange}
                   >
                     <MenuItem
-                      value="step_1"
+                      value="주택"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -294,7 +303,7 @@ const EstimateForm4 = () => {
                       주택
                     </MenuItem>
                     <MenuItem
-                      value="step_2"
+                      value="빌라"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -306,7 +315,7 @@ const EstimateForm4 = () => {
                       빌라
                     </MenuItem>
                     <MenuItem
-                      value="step_3"
+                      value="카페"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -318,7 +327,7 @@ const EstimateForm4 = () => {
                       카페
                     </MenuItem>
                     <MenuItem
-                      value="step_4"
+                      value="식당"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -330,7 +339,7 @@ const EstimateForm4 = () => {
                       식당
                     </MenuItem>
                     <MenuItem
-                      value="step_5"
+                      value="공장"
                       sx={{
                         color: '#222',
                         fontSize: '14px',

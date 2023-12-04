@@ -127,22 +127,23 @@ const EstimateForm3 = () => {
       sessionStorage.setItem('address', form.address as string);
       sessionStorage.setItem('addressDetail', form.addressDetail as string);
       sessionStorage.setItem('phone', form.phone as string);
+      sessionStorage.setItem('phone_number', form.phone as string);
 
       const url = '/api/submit';
       axios
-        .post(url, {
-          data: sendData,
-        })
-        .then(() => {
-          //GA4 이벤트 전송
-          const tagManagerArgs = {
-            dataLayer: {
-              event: 'lead_submit',
-            },
-          };
-          TagManager.dataLayer(tagManagerArgs);
-          router.push('/new/estimateForm/complete');
-        });
+      .post(url, {
+        data: sendData,
+      })
+      .then((res) => {
+      });
+      //GA4 이벤트 전송
+      const tagManagerArgs = {
+        dataLayer: {
+          event: 'lead_submit',
+        },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+      router.push('/new/estimateForm/complete');
     }, 3000);
   };
 
@@ -227,7 +228,7 @@ const EstimateForm3 = () => {
                       충전요금
                     </MenuItem>
                     <MenuItem
-                      value="option_3"
+                      value="A/S"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -251,7 +252,7 @@ const EstimateForm3 = () => {
                       디자인
                     </MenuItem>
                     <MenuItem
-                      value="option_5"
+                      value="편의성"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -263,7 +264,7 @@ const EstimateForm3 = () => {
                       편의성
                     </MenuItem>
                     <MenuItem
-                      value="편의성"
+                      value="보증기간"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -324,7 +325,7 @@ const EstimateForm3 = () => {
                       음식점, 카페
                     </MenuItem>
                     <MenuItem
-                      value="step_3"
+                      value="상업 시설"
                       sx={{
                         color: '#222',
                         fontSize: '14px',

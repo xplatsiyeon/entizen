@@ -126,22 +126,23 @@ const EstimateForm = () => {
       sessionStorage.setItem('addressDetail', form.addressDetail as string);
       sessionStorage.setItem('email', form.email as string);
       sessionStorage.setItem('phone', form.phone as string);
+      sessionStorage.setItem('phone_number', form.phone as string);
 
       const url = '/api/submit';
       axios
-        .post(url, {
-          data: sendData,
-        })
-        .then(() => {
-          //GA4 이벤트 전송
-          const tagManagerArgs = {
-            dataLayer: {
-              event: 'lead_submit',
-            },
-          };
-          TagManager.dataLayer(tagManagerArgs);
-          router.push('/new/estimateForm/complete');
-        });
+      .post(url, {
+        data: sendData,
+      })
+      .then((res) => {
+      });
+      //GA4 이벤트 전송
+      const tagManagerArgs = {
+        dataLayer: {
+          event: 'lead_submit',
+        },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+      router.push('/new/estimateForm/complete');
     }, 3000);
   };
 
@@ -197,7 +198,7 @@ const EstimateForm = () => {
                     onChange={handleChange}
                   >
                     <MenuItem
-                      value="option_1"
+                      value="설치비용"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -209,7 +210,7 @@ const EstimateForm = () => {
                       설치비용
                     </MenuItem>
                     <MenuItem
-                      value="option_2"
+                      value="충전요금"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -221,7 +222,7 @@ const EstimateForm = () => {
                       충전요금
                     </MenuItem>
                     <MenuItem
-                      value="option_3"
+                      value="A/S"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -233,7 +234,7 @@ const EstimateForm = () => {
                       A/S
                     </MenuItem>
                     <MenuItem
-                      value="option_4"
+                      value="디자인"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -245,7 +246,7 @@ const EstimateForm = () => {
                       디자인
                     </MenuItem>
                     <MenuItem
-                      value="option_5"
+                      value="편의성"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -257,7 +258,7 @@ const EstimateForm = () => {
                       편의성
                     </MenuItem>
                     <MenuItem
-                      value="option_6"
+                      value="보증기간"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -269,7 +270,7 @@ const EstimateForm = () => {
                       보증기간
                     </MenuItem>
                     <MenuItem
-                      value="option_7"
+                      value="업체 신뢰도"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -294,7 +295,7 @@ const EstimateForm = () => {
                     onChange={handleChange}
                   >
                     <MenuItem
-                      value="step_1"
+                      value="(1단계) 사전 정보 수집"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -306,7 +307,7 @@ const EstimateForm = () => {
                       (1단계) 사전 정보 수집
                     </MenuItem>
                     <MenuItem
-                      value="step_2"
+                      value="(2단계) 입주민 의견 및 수요 조사"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -318,7 +319,7 @@ const EstimateForm = () => {
                       (2단계) 입주민 의견 및 수요 조사
                     </MenuItem>
                     <MenuItem
-                      value="step_3"
+                      value="(3단계) 관리 사무소 또는 입대위 건의"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -330,7 +331,7 @@ const EstimateForm = () => {
                       (3단계) 관리 사무소 또는 입대위 건의
                     </MenuItem>
                     <MenuItem
-                      value="step_4"
+                      value="(4단계) 입대위 안건 상정"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -342,7 +343,7 @@ const EstimateForm = () => {
                       (4단계) 입대위 안건 상정
                     </MenuItem>
                     <MenuItem
-                      value="step_5"
+                      value="(5단계) 입대위 안건 승인"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -354,7 +355,7 @@ const EstimateForm = () => {
                       (5단계) 입대위 안건 승인
                     </MenuItem>
                     <MenuItem
-                      value="step_6"
+                      value="(기타) 신축 아파트(사용 승인 전)"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
