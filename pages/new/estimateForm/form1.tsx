@@ -24,6 +24,7 @@ import MobileModal from './termsDetail';
 import Common from 'components/guide/common';
 import CommonBackdrop from '../commonBackdrop';
 import TagManager from 'react-gtm-module';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -107,14 +108,37 @@ const EstimateForm = () => {
 
     setTimeout(() => {
       setBackdropOpen(false);
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'lead_submit',
-        },
+      const url = "https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/";
+      const sendData = {
+        selection : sessionStorage.getItem("selection"),
+        importantFactor : form.importantFactor,
+        place : form.progress,
+        address : form.address,
+        addressDetail : form.addressDetail,
+        email : form.email,
+        phone : form.phone,
+        isAgree : form.isAgree
       };
-      TagManager.dataLayer(tagManagerArgs);
-      router.push('/new/estimateForm/complete');
+
+      axios
+        .post(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: sendData,
+        })
+        .then(
+          () => {
+            //GA4 이벤트 전송
+            const tagManagerArgs = {
+              dataLayer: {
+                event: 'lead_submit',
+              },
+            };
+            TagManager.dataLayer(tagManagerArgs);
+            router.push('/new/estimateForm/complete');
+          }
+        );
     }, 3000);
   };
 

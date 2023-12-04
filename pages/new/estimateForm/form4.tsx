@@ -38,23 +38,6 @@ interface IAddr {
 }
 
 const EstimateForm4 = () => {
-  const url = "https://hooks.zapier.com/hooks/catch/8791679/3f2b75d/";
-
-  const todo = {
-    title: "A new todo",
-    completed: false,
-  };
-
-  axios
-    .post(url, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: todo,
-    })
-    .then();
-
-
   const router = useRouter();
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -137,14 +120,38 @@ const EstimateForm4 = () => {
 
     setTimeout(() => {
       setBackdropOpen(false);
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'lead_submit',
-        },
+
+      const url = "https://hooks.zapier.com/hooks/catch/8791679/3f2b75d/";
+      const sendData = {
+        selection : sessionStorage.getItem("selection"),
+        importantFactor : form.importantFactor,
+        place : form.place,
+        placeEtc : form.placeEtc,
+        address : form.address,
+        addressDetail : form.addressDetail,
+        phone : form.phone,
+        isAgree : form.isAgree
       };
-      TagManager.dataLayer(tagManagerArgs);
-      location.href = '/new/myEstimate';
+
+      axios
+        .post(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: sendData,
+        })
+        .then(
+          () => {
+            //GA4 이벤트 전송
+            const tagManagerArgs = {
+              dataLayer: {
+                event: 'lead_submit',
+              },
+            };
+            TagManager.dataLayer(tagManagerArgs);
+            location.href = '/new/myEstimate';
+          }
+        );
     }, 3000);
   };
 

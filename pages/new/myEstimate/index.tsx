@@ -18,12 +18,13 @@ import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import ProcessMb from 'public/images/myEstimate/process_mb.svg';
 import PhoneModal from '../phoneModal';
+import axios from 'axios';
 
 const MyEstimate = () => {
   const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
-  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
+  //sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {
@@ -48,14 +49,13 @@ const MyEstimate = () => {
     };
     TagManager.dataLayer(tagManagerArgs);
   };
+  
   const onClickSendBtn = () => {
     setModalOpen(true);
   };
 
   useEffect(() => {
     const phone = sessionStorage.getItem('phone_number');
-    // sessionStorage.removeItem('phone_number')
-    console.log('phone : ', phone);
     if (!phone) {
       setPhoneModalOpen(true);
     }
