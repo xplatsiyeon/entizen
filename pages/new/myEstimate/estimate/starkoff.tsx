@@ -14,6 +14,8 @@ import { COMPANY_LIST } from 'assets/company';
 import { useMediaQuery } from 'react-responsive';
 import { MyEstimateHeader } from 'components/myEstimate/header';
 import CommonConfirmModal from 'pages/new/commonConfirmModal';
+import axios from 'axios';
+import TagManager from 'react-gtm-module';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
@@ -78,6 +80,30 @@ const EstimateByCompany = () => {
 
   const estimateByCompanyData = COMPANY_LIST[company];
 
+  const onClickSendBtn = () => {
+    setModalOpen(true);
+    /* TODO : 여기서 회사명 전송 */
+    // companyName << 이게 값임
+
+    const url = '/api/company_selection';
+    axios
+      .post(url, {
+        data: {
+          companyName:'스타코프',
+          phone:sessionStorage.getItem("phone")
+        },
+      })
+      .then((res) => {
+      });
+      //GA4 이벤트 전송
+      const tagManagerArgs = {
+        dataLayer: {
+          event: 'company_selection',
+        },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+  };
+
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
       <MyEstimateHeader useHeaderLogo={false}></MyEstimateHeader>
@@ -95,7 +121,7 @@ const EstimateByCompany = () => {
             채팅하기
           </a>
           <button
-            onClick={() => setModalOpen(true)}
+            onClick={onClickSendBtn}
             className={`${estimateByCompanyStyles.button}  ${estimateByCompanyStyles.applyBtn}`}
           >
             이 업체에게 현장실사 받기

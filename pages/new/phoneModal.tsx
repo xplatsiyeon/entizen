@@ -28,34 +28,7 @@ const PhoneModal = ({ open, setOpen }: Props) => {
           맞춤 견적서의 본인확인을 위해
           <br />
           연락처를 입력해 주세요.
-          <CloseBtn onClick={() => setOpen(false)}>
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g id="X">
-                <path
-                  id="Vector"
-                  d="M21.875 6.125L6.125 21.875"
-                  stroke="black"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  id="Vector_2"
-                  d="M21.875 21.875L6.125 6.125"
-                  stroke="black"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </g>
-            </svg>
-          </CloseBtn>
+          
         </TitleArea>
 
         <CustomInput

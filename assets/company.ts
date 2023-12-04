@@ -169,8 +169,8 @@ export const COMPANY_LIST: any = {
   ev: {
     name: '한국EV충전서비스센터',
     companyInfo: {
-      info1: '1500기 이상 시공',
-      info2: 'A/S지점 10곳, A/S직원 30명',
+      info1: '15,000기 이상 시공',
+      info2: 'A/S지점 15곳, A/S직원 40명',
       info3: '저렴한 가격 + 엔티즌 제휴 할인',
     },
     estimateInfo: {

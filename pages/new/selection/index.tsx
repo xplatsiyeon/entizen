@@ -20,6 +20,7 @@ const Selection = () => {
   const router = useRouter();
 
   const clickPrivate = () => {
+    sessionStorage.setItem("selection","개인용도");
     const tagManagerArgs = {
       dataLayer: {
         event: "click_selection_private",
@@ -29,6 +30,7 @@ const Selection = () => {
     router.push('/new/priceComparison');
   }
   const clickPublic = () => {
+    sessionStorage.setItem("selection","입주민공용");
     const tagManagerArgs = {
       dataLayer: {
         event: "click_selection_public",
@@ -38,6 +40,7 @@ const Selection = () => {
     router.push('/new/estimate');
   }
   const clickCustomer = () => {
+    sessionStorage.setItem("selection","모객용도");
     const tagManagerArgs = {
       dataLayer: {
         event: "click_selection_customer",
@@ -47,6 +50,7 @@ const Selection = () => {
     router.push('/new/electric');
   }
   const clickRevenue = () => {
+    sessionStorage.setItem("selection","충전수익");
     const tagManagerArgs = {
       dataLayer: {
         event: "click_selection_revenue",
