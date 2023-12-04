@@ -122,7 +122,7 @@ const TitleArea = styled.p`
   @media screen and (max-width: 480px) {
     color: #222;
     font-family: Spoqa Han Sans Neo;
-    font-size: 24px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 36px;

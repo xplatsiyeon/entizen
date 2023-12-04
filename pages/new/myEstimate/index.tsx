@@ -23,6 +23,7 @@ import axios from 'axios';
 const MyEstimate = () => {
   const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
   const [modalOpen, setModalOpen] = useState(false);
+  const [companyName, setCompanyName] = useState('');
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   //sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const chartDownload = () => {
@@ -52,6 +53,10 @@ const MyEstimate = () => {
   
   const onClickSendBtn = () => {
     setModalOpen(true);
+    /* TODO : 여기서 회사명 전송 */
+    // companyName << 이게 값임
+    console.log('전송 할 회사명', companyName);
+    setCompanyName('');
   };
 
   useEffect(() => {
@@ -270,6 +275,8 @@ const MyEstimate = () => {
                 placeholder="원하시는 업체명을 알려주세요"
                 name="mail"
                 autoComplete="off"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
               <button
                 className={myEstimateStyles.sendBtn}
