@@ -138,13 +138,15 @@ const EstimateForm4 = () => {
       sessionStorage.setItem('addressDetail', form.addressDetail as string);
       sessionStorage.setItem('phone', form.phone as string);
 
-      const url = '/api/submit';
+      const url = '/api/submit_private';
       axios
         .post(url, {
           data: sendData,
         })
         .then((res) => {
-          console.log(res);
+          //console.log(res);
+          //location.href = '/new/myEstimate'
+          router.push('/new/myEstimate');
         });
     }, 3000);
   };
@@ -156,7 +158,7 @@ const EstimateForm4 = () => {
         event: 'lead_start',
       },
     };
-    //TagManager.dataLayer(tagManagerArgsForm);
+    TagManager.dataLayer(tagManagerArgsForm);
   }, []);
 
   return (

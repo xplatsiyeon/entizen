@@ -203,7 +203,7 @@ const EstimateForm3 = () => {
                     onChange={handleChange}
                   >
                     <MenuItem
-                      value="option_1"
+                      value="설치비용"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -215,7 +215,7 @@ const EstimateForm3 = () => {
                       설치비용
                     </MenuItem>
                     <MenuItem
-                      value="option_2"
+                      value="충전요금"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -239,7 +239,7 @@ const EstimateForm3 = () => {
                       A/S
                     </MenuItem>
                     <MenuItem
-                      value="option_4"
+                      value="디자인"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -263,7 +263,7 @@ const EstimateForm3 = () => {
                       편의성
                     </MenuItem>
                     <MenuItem
-                      value="option_6"
+                      value="편의성"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -275,7 +275,7 @@ const EstimateForm3 = () => {
                       보증기간
                     </MenuItem>
                     <MenuItem
-                      value="option_7"
+                      value="업체 신뢰도"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -300,7 +300,7 @@ const EstimateForm3 = () => {
                     onChange={handleChange}
                   >
                     <MenuItem
-                      value="step_1"
+                      value="숙박 시설"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -312,7 +312,7 @@ const EstimateForm3 = () => {
                       숙박 시설
                     </MenuItem>
                     <MenuItem
-                      value="step_2"
+                      value="음식점, 카페"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -336,7 +336,7 @@ const EstimateForm3 = () => {
                       상업 시설
                     </MenuItem>
                     <MenuItem
-                      value="step_4"
+                      value="스포츠 시설"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -348,7 +348,7 @@ const EstimateForm3 = () => {
                       스포츠 시설
                     </MenuItem>
                     <MenuItem
-                      value="step_5"
+                      value="캠핑장"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -360,7 +360,7 @@ const EstimateForm3 = () => {
                       캠핑장
                     </MenuItem>
                     <MenuItem
-                      value="step_6"
+                      value="주차장"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -372,7 +372,7 @@ const EstimateForm3 = () => {
                       주차장
                     </MenuItem>
                     <MenuItem
-                      value="step_7"
+                      value="사업장"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
