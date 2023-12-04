@@ -16,11 +16,11 @@ const nextConfig = {
     return [
       // 로컬에서 사용할때만 활성화 시키기
       /*{
-         source: '/:path*',
+         source: '/api/:path*',
          destination: `https://test-api.entizen.kr/:path*`,
        },*/
       {
-        source: '/:path*',
+        source: '/api/:path*',
         destination: `https://api.entizen.kr/:path*`,
       },
       {

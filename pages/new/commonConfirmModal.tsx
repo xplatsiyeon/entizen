@@ -9,7 +9,7 @@ const CommonConfirmModal = ({ open, onClose, onConfirm, title = '', content = ''
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle >{title}</DialogTitle>
       <CustomDialogContent>
         {content} 
       </CustomDialogContent>
