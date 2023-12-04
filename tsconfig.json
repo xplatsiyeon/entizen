@@ -23,8 +23,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.js",
     "pages/api/auth/[...nextauth].js",
     "public/testsss.js"
-  ],
+, "pages/new/estimateForm/api/form.js"  ],
   "exclude": ["node_modules"]
 }
