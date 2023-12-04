@@ -28,7 +28,7 @@ export default function handler(
 
   axios
     .post(url, {
-      data: { data: sendData },
+      data: sendData,
     })
     .then((res) => {
       console.log(res);
