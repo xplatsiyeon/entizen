@@ -142,7 +142,7 @@ const CloseBtn = styled.button`
 
 const CustomInput = styled.input`
   padding-left: 10px;
-  width: 386px;
+  width: 100%;
   height: 48px;
   stroke-width: 1px;
   stroke: #909fb7;
@@ -152,7 +152,7 @@ const CustomInput = styled.input`
 `;
 
 const ConfirmBtn = styled.button`
-  width: 386px;
+  width: 100%;
   height: 40px;
   border-radius: 4px;
   background: var(--Main1, #5221cb);
