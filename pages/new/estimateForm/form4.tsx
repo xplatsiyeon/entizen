@@ -25,6 +25,7 @@ import classNames from 'classnames';
 import MobileModal from './termsDetail';
 import CommonBackdrop from '../commonBackdrop';
 import TagManager from 'react-gtm-module';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -37,6 +38,23 @@ interface IAddr {
 }
 
 const EstimateForm4 = () => {
+  const url = "https://hooks.zapier.com/hooks/catch/8791679/3f2b75d/";
+
+  const todo = {
+    title: "A new todo",
+    completed: false,
+  };
+
+  axios
+    .post(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: todo,
+    })
+    .then();
+
+
   const router = useRouter();
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
