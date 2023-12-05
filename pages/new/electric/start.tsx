@@ -51,7 +51,9 @@ const ElectricStart = () => {
                         // objectPosition="center"
                     />
                 </div>
-                <div className={styles.banner_title}>전기차 충전기 사업<br/>엔티즌으로 쉽고 빠르게 시작하세요</div>
+                <div className={styles.banner_title}>
+                    <p>전기차 충전기 사업<br/>엔티즌으로 쉽고 빠르게 시작하세요</p>
+                </div>
             </div>
         </section>
 
@@ -137,8 +139,9 @@ const ElectricStart = () => {
                         </div>
                         <div className={styles.step_item}>
                             <div className={styles.step_arrow}>
-                                <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
-                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
+                                {/* <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
+                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" /> */}
+                                <svg width="40"height="40"viewBox="0 0 40 40"fill="none"xmlns="http://www.w3.org/2000/svg"><g id="Group 13649"><circle id="Ellipse 121"cx="20"cy="20"r="20"fill="#D0D4E1"/><g id="&#236;&#152;&#164;"><g id="CaretRight"><path id="Vector"d="M17.5 13.75L23.75 20L17.5 26.25"stroke="white"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"/></g></g></g></svg>
                             </div>
                         </div>
                         <div className={styles.item}>
@@ -148,8 +151,9 @@ const ElectricStart = () => {
                         </div>
                         <div className={styles.step_item}>
                             <div className={styles.step_arrow}>
-                                <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
-                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" />
+                                {/* <Image src={stepEllipse} alt="step_ellipse" layout="fill" objectFit="contain" />
+                                <Image src={stepArrow} alt="step_arrow" layout="fill" objectFit="contain" /> */}
+                                <svg width="40"height="40"viewBox="0 0 40 40"fill="none"xmlns="http://www.w3.org/2000/svg"><g id="Group 13649"><circle id="Ellipse 121"cx="20"cy="20"r="20"fill="#D0D4E1"/><g id="&#236;&#152;&#164;"><g id="CaretRight"><path id="Vector"d="M17.5 13.75L23.75 20L17.5 26.25"stroke="white"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"/></g></g></g></svg>
                             </div>
                         </div>
                         <div className={styles.item}>
@@ -160,7 +164,7 @@ const ElectricStart = () => {
                     </div>
                 )}
                 
-                <div className={styles.button} onClick={clickGetMoreEstimate}>
+                <div className={styles.button} onClick={clickGetMoreEstimate} style={{ cursor: 'pointer' }}>
                     <p>맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;<Image src={stepArrow} alt="arrow"/></p>
                 </div>
             </div>

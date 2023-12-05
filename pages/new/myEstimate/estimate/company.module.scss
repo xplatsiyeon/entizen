@@ -15,7 +15,7 @@ $imgPath: '/images';
 
   .company {
     // width: 74.625rem;
-    height: 10.5rem;
+    height: 168px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -194,13 +194,9 @@ $imgPath: '/images';
       align-items: flex-start;
       gap: 0.25rem;
 
-      @media screen and (max-width: 767px) {
-        // width: 5.25rem;
-      }
-
       a {
         cursor: pointer;
-        color: var(--Main1, #5221cb);
+        color: #A6A9B0;
         text-align: center;
         font-family: Spoqa Han Sans Neo;
         font-size: 0.875rem;
@@ -228,11 +224,11 @@ $imgPath: '/images';
         right: 0;
         bottom: 0;
         height: 0.2rem;
-        // background-color: #5221cb;
       }
       &.active::after {
         background-color: #5221cb;
       }
+      &.active { a { color: #5221cb; } }
     }
   }
 

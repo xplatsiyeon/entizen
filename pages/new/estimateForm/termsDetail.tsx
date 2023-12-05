@@ -15,7 +15,7 @@ const TermsModal = ({ open, onClose }: { open: boolean, onClose: any }) => {
         <CommonModal 
           open={open} 
           onClose={onClose} 
-          title="개인정보 동의 안내" 
+          title={<p style={{ fontSize: '20px', fontStyle: 'normal', fontWeight: 700, lineHeight: '20px', letterSpacing: '-0.4px' }}>개인정보 동의 안내</p>}
           content={
             <div className={styles.form_detail_container}>
               <Stack spacing={2}>

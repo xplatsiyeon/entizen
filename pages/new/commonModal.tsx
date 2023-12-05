@@ -27,6 +27,7 @@ const CommonModal = ({ open, onClose, title = '', content }: any) => {
           position: 'absolute',
           right: 8,
           top: 8,
+          padding: '23px 10px',
           color: (theme) => theme.palette.grey[500],
         }}
       >
@@ -40,6 +41,7 @@ const CommonModal = ({ open, onClose, title = '', content }: any) => {
 };
 
 const CustomDialogTitle = styled(DialogTitle)`
+  margin-top: 23px;
   @media only screen and (min-width: 200px) and (max-width: 480px) {
     font-size: 20px;
     font-style: normal;
@@ -61,7 +63,7 @@ const CustomDialogIcon = styled(CloseIcon)`
 CommonModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.any,
   content: PropTypes.any,
 };
 

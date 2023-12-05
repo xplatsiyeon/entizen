@@ -104,6 +104,8 @@
   letter-spacing: -0.0325rem;
   margin: 0 1rem;
 }
+.sec_01 .sheet .sheet_comparison .vs::after { display: none; }
+.sec_01 .sheet .sheet_comparison .vs::before { display: none; }
 .sec_01 .sheet .sheet_comparison .item_01 {
   color: #222;
   font-family: Spoqa Han Sans Neo;
@@ -167,6 +169,9 @@
   font-weight: 500;
   line-height: 1.625rem; /* 162.5% */
   letter-spacing: -0.02rem;
+}
+.sec_01 .sheet .sheet_promotion .promotion_container .promotion_wrapper > div {
+  margin-bottom: 8px;
 }
 .sec_01 .sheet .sheet_table table > thead > tr > th {
   border-bottom: 0;
@@ -246,16 +251,6 @@
 .sec_02 {
   margin: 60px 20px 0px 20px;
 }
-.sec_02 .step_title {
-  color: var(--Main1, #5221cb);
-  text-align: center;
-  font-family: Spoqa Han Sans Neo;
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.625rem; /* 185.714% */
-  letter-spacing: -0.0175rem;
-}
 .sec_02 .step_container {
   display: block;
   width: 53.75rem;
@@ -297,10 +292,21 @@
   width: 2.5rem;
   height: 2.5rem;
 }
+.sec_02 .step_container .step_wrapper .step_item .step_title {
+  color: var(--Main1, #5221cb);
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.625rem; /* 185.714% */
+  letter-spacing: -0.0175rem;
+  margin-bottom: 30px;
+}
 .sec_02 .step_container .step_wrapper .step_item .step_img,
 .sec_02 .step_container .step_wrapper .step_item .step_arrow {
   position: relative;
-  margin: auto;
+  margin: 0 auto 30px;
 }
 .sec_02 .step_description {
   color: #222;
@@ -325,7 +331,7 @@
   border-radius: 0.5rem;
   border: 1px solid #e2e5ed;
   background: #fff;
-  padding: 2rem 1.5rem;
+  padding: 32px;
   margin: 1rem auto;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 }

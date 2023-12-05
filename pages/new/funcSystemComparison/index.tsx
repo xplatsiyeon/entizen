@@ -10,9 +10,9 @@ import styles from './funcSystemComparison.module.css'
 import { Divider, Grid } from '@mui/material';
 import BackgroundImage from './img/background_1.png';
 import BackgroundImageMb from './img/banner_mb.png';
-import Image1 from './img/img_1.png';
-import Image2 from './img/img_2.png';
-import Image3 from './img/img_3.png';
+import Image1 from './img/img_1.svg';
+import Image2 from './img/img_2.svg';
+import Image3 from './img/img_3.svg';
 import Image1Mb from './img/img_1_mb.png';
 import Image2Mb from './img/img_2_mb.png';
 import Image3Mb from './img/img_3_mb.png';
@@ -115,12 +115,13 @@ const FuncSystemComparison = () => {
            </div>
           ) : (
              <Grid 
-             container 
-             direction="row"
-             justifyContent="space-between"
-             alignItems="center"
-             columns={{ xs: 4, md: 14 }}
-           >
+              container 
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              columnSpacing={5}
+              style={{ marginLeft: 0 }}
+            >
              <Grid item xs={4} className={styles.info_item}>
                <div className={styles.info_img}><Image src={Image1}/></div>
              </Grid>
