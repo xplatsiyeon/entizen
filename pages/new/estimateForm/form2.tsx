@@ -132,13 +132,10 @@ const EstimateForm2 = () => {
       sessionStorage.setItem('phone', form.phone as string);
       sessionStorage.setItem('phone_number', form.phone as string);
 
-      const url = '/api/submit';
       axios
-        .post(url, {
-          data: sendData,
-        })
-        .then(() => {
-        });
+        .post('/zapier/submit', { data: sendData })
+        .then(() => {});
+
         //GA4 이벤트 전송
         const tagManagerArgs = {
           dataLayer: {

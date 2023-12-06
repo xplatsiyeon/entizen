@@ -429,16 +429,23 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => {
-          const url = '/api/company_selection';
           axios
-            .post(url, {
-              data: {
-                companyName:'스타코프',
-                phone:sessionStorage.getItem("phone")
-              },
-            })
-            .then((res) => {
-            });
+            .post('/zapier/company-selection', { data: {
+              companyName:'스타코프',
+              phone:sessionStorage.getItem("phone")
+            } })
+            .then(() => {});
+
+          // const url = '/api/company_selection';
+          // axios
+          //   .post(url, {
+          //     data: {
+          //       companyName:'스타코프',
+          //       phone:sessionStorage.getItem("phone")
+          //     },
+          //   })
+          //   .then((res) => {});
+
             //GA4 이벤트 전송
             const tagManagerArgs = {
               dataLayer: {

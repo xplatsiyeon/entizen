@@ -447,15 +447,22 @@ const EstimateByCompany = () => {
           setModalOpen(false);
         }}
         onConfirm={() => {
-          const url = '/api/company_selection';
           axios
-            .post(url, {
-              data: {
-                companyName: '한국EV충전서비스센터',
-                phone: sessionStorage.getItem('phone'),
-              },
-            })
-            .then((res) => {});
+            .post('/zapier/company-selection', { data: {
+              companyName: '한국EV충전서비스센터',
+              phone: sessionStorage.getItem('phone')
+            } })
+            .then(() => {});
+
+          // const url = '/api/company_selection';
+          // axios
+          //   .post(url, {
+          //     data: {
+          //       companyName: '한국EV충전서비스센터',
+          //       phone: sessionStorage.getItem('phone'),
+          //     },
+          //   })
+          //   .then((res) => {});
           //GA4 이벤트 전송
           const tagManagerArgs = {
             dataLayer: {
