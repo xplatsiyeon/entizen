@@ -58,7 +58,7 @@
 }
 .faq_page .faq_container_pc .answer_item {
     display: flex;
-    width: 49.75rem;
+    width: initial !important;
     padding: 1.125rem 1.5rem;
     justify-content: center;
     align-items: center;

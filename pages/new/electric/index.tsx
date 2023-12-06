@@ -17,18 +17,18 @@ import carbonNextArrow from 'public/new/electric/carbon_next_arrow.png';
 import chart from 'public/new/electric/chart.png';
 import consulting_01 from 'public/new/electric/consulting_01.png';
 import consulting_02 from 'public/new/electric/consulting_02.png';
-import entizen_01 from 'public/new/electric/entizen_01.png';
-import entizen_02 from 'public/new/electric/entizen_02.png';
-import entizen_03 from 'public/new/electric/entizen_03.png';
+import entizen_01 from 'public/new/electric/entizen_01.svg';
+import entizen_02 from 'public/new/electric/entizen_02.svg';
+import entizen_03 from 'public/new/electric/entizen_03.svg';
 import entizen_mb_01 from 'public/new/electric/entizen_mb_01.png';
 import entizen_mb_02 from 'public/new/electric/entizen_mb_02.png';
 import entizen_mb_03 from 'public/new/electric/entizen_mb_03.png';
 import phone_01 from 'public/new/electric/phone_01.png';
 import phone_02 from 'public/new/electric/phone_02.png';
-import why_01 from 'public/new/electric/why_01.png';
-import why_02 from 'public/new/electric/why_02.png';
-import why_03 from 'public/new/electric/why_03.png';
-import why_04 from 'public/new/electric/why_04.png';
+import why_01 from 'public/new/electric/why1.svg';
+import why_02 from 'public/new/electric/why2.svg';
+import why_03 from 'public/new/electric/why3.svg';
+import why_04 from 'public/new/electric/why4.svg';
 import chartImage from 'public/new/electric/chart.png';
 import chartImageMb from 'public/new/electric/chart_mb.png';
 import step_arrow from 'public/new/estimate/step_arrow.svg';
@@ -118,6 +118,7 @@ const Electric = () => {
         <section className={styles.sec_01}>
             <div className={classNames(styles.container, styles.banner_container)}>
                 <div className={styles.banner_image} style={{ height: '17.5rem' }}>
+                    <div className={styles.banner_title}>전기차 충전기 설치<br/>선택이 아닌 필수 시대</div>
                     <Image 
                         src={bannerImage}
                         // layout="fill"
@@ -197,16 +198,19 @@ const Electric = () => {
                         ) : (
                             <div className={styles.item_wrapper}>
                                 <div className={styles.item}>
-                                    <Image className={styles.img} src={entizen_01}/>
-                                    <div className={styles.text}>합리적인 가격을<br/>선택할 수 있어요</div>
+                                    <Image className={styles.img} src={entizen_01} 
+                                        objectFit="contain"
+                                        objectPosition="center"
+                                    />
+                                    {/* <div className={styles.text}>합리적인 가격을<br/>선택할 수 있어요</div> */}
                                 </div>
                                 <div className={styles.item}>
                                     <Image className={styles.img} src={entizen_02}/>
-                                    <div className={styles.text}>시간을<br/>아낄 수 있어요</div>
+                                    {/* <div className={styles.text}>시간을<br/>아낄 수 있어요</div> */}
                                 </div>
                                 <div className={styles.item}>
                                     <Image className={styles.img} src={entizen_03}/>
-                                    <div className={styles.text}>유지보수<br/>걱정 없어요</div>
+                                    {/* <div className={styles.text}>유지보수<br/>걱정 없어요</div> */}
                                 </div>
                             </div>
                         )}
@@ -272,7 +276,11 @@ const Electric = () => {
                     <div className={classNames(styles.wrapper, styles.content_wrapper_06)}>
                         <div className={styles.title}>Why 엔티즌?</div>
                         <div className={styles.item_wrapper}>
-                            <div className={styles.item}>
+                            <div className={styles.img} style={{ marginBottom: '20px' }}><Image src={why_01} layout="responsive" objectFit="contain"/></div>
+                            <div className={styles.img} style={{ marginBottom: '20px' }}><Image src={why_02} layout="responsive" objectFit="contain"/></div>
+                            <div className={styles.img} style={{ marginBottom: '20px' }}><Image src={why_03} layout="responsive" objectFit="contain"/></div>
+                            <div className={styles.img}><Image src={why_04} layout="responsive" objectFit="contain"/></div>
+                            {/* <div className={styles.item}>
                                 <div className={styles.text_01}>Reason 1</div>
                                 <div className={styles.text_02}>정보 입력 한 번이면 연결된 여러 업체의<br/>가격 및 서비스 정보를 한 번에 비교 가능</div>
                                 <div className={styles.img}><Image src={why_01}/></div>
@@ -291,8 +299,8 @@ const Electric = () => {
                                 <div className={styles.text_01}>Reason 4</div>
                                 <div className={styles.text_02}>운영 및 A/S 접수 모두<br/>엔티즌에서 처리 가능합니다</div>
                                 <div className={styles.img}><Image src={why_04}/></div>
-                            </div>
-                            <div className={styles.button} onClick={clickGetMoreEstimate}>
+                            </div> */}
+                            <div className={styles.button} onClick={clickGetMoreEstimate}  style={{ cursor: 'pointer' }}>
                                 <p>맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;<Image src={step_arrow} alt="arrow"/></p>
                             </div>
                         </div>
