@@ -105,7 +105,20 @@ const EstimateByCompany = () => {
             className={`${estimateByCompanyStyles.button}  ${estimateByCompanyStyles.applyBtn}`}
           >
             이 업체에게 현장실사 받기
-            <svg width="12"height="11"viewBox="0 0 12 11"fill="none"xmlns="http://www.w3.org/2000/svg"><path d="M11.0723 5.73145L0.572265 5.73145M6.47852 10.1064L11.0723 5.73145L6.47852 1.35645"stroke="white"stroke-linecap="round"stroke-linejoin="round"/></svg>
+            <svg
+              width="12"
+              height="11"
+              viewBox="0 0 12 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.0723 5.73145L0.572265 5.73145M6.47852 10.1064L11.0723 5.73145L6.47852 1.35645"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
         </div>
       </div>
@@ -376,11 +389,7 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-<<<<<<< HEAD
-              slidesPerView={isTablet ? 1.3 : 'auto'}
-=======
               slidesPerView={isTablet ? 1.3 : 3}
->>>>>>> 0dc0c64d847056236b64e9f978aa42f42d2bd344
               spaceBetween={isTablet ? 12 : 24}
               onSwiper={setSwiper}
               slidesPerGroupSkip={3}
