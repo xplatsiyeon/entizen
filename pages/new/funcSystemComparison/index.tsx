@@ -218,7 +218,7 @@ const FuncSystemComparison = () => {
         <div className={styles.buttonWrap}>
           <a className={styles.downloadBtn} 
               onClick={chartDownload} 
-              href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
+              href="https://drive.google.com/file/d/1HzK7AXjb-TFmWNRgZTCFr-PaL19VhG1K/view?usp=sharing"
               target="_blank">
               <p>모든 업체 비교표 다운받기</p>
               <div className={styles.icon}></div>
