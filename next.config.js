@@ -29,19 +29,19 @@ const nextConfig = {
       },
       {
         source: '/zapier/submit/:path*', // 공용 폼 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/:path*', // destination으로 redirect
+        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/', // destination으로 redirect
       },
       {
         source: '/zapier/submit-private/:path*', // 비공용 폼 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f2b75d/:path*', // destination으로 redirect
+        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f2b75d', // destination으로 redirect
       },
       {
         source: '/zapier/company-request/:path*', // 요청업체 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f1qgqv/:path*', // destination으로 redirect
+        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f1qgqv', // destination으로 redirect
       },
       {
         source: '/zapier/company-selection/:path*', // 비공용:업체에 실사 신청하기
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f40ngg/:path*', // destination으로 redirect
+        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f40ngg', // destination으로 redirect
       },
     ];
   },
