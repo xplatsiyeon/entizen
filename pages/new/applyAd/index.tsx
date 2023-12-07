@@ -24,7 +24,7 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("merge design");
+  console.log("merge design2");
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
