@@ -2,9 +2,9 @@ import Image from 'next/image';
 import { MyEstimateHeader } from 'components/myEstimate/header';
 import { useMediaQuery, useTheme } from '@mui/material';
 import styles from './reliability.module.scss';
-import Image1 from './img/item1.svg';
-import Image2 from './img/item2.svg';
-import Image3 from './img/bottom.svg';
+import Image1 from './img/item1.png';
+import Image2 from './img/item2.png';
+import Image3 from './img/bottom.png';
 import Image4 from './img/bottom_mb.png';
 import { Grid } from '@mui/material';
 

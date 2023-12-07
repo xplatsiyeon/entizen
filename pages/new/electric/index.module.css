@@ -22,7 +22,7 @@
 
     z-index: 2;
     position: absolute;
-	top: 50%;
+	top: 40%;
 	left: 50%;
 	width: 100%;
 	transform: translate( -50%, -50% );
@@ -185,11 +185,11 @@
     /* text */
     color: #5221CB;
     font-family: Haan YHead B;
-    font-size: 16px;
+    font-size: 1rem;
     font-style: normal;
-    font-weight: 400;
-    line-height: 20px; /* 125% */
-    letter-spacing: -0.32px;
+    font-weight: 800;
+    line-height: 1.25rem; /* 125% */
+    letter-spacing: -0.02rem;
 }
 .sec_04 .content_container .content_wrapper_06 .item_wrapper .item .text_02 {
     color: #4E5055;

@@ -21,28 +21,31 @@ import Sec05PcImg from 'public/new/applyAd/section5pc.png';
 import Img01 from 'public/new/applyAd/slide1.png';
 import Img02 from 'public/new/applyAd/slide2.png';
 import Img03 from 'public/new/applyAd/slide3.png';
+import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("zapier api 3");
+  console.log("ApplyAdMain2");
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
   });
 
-  const imageFigure = useMemo(() => {
-    const imageTags = [];
-    for (let i = 1; i <= 8; i++) {
-      imageTags.push(
-        <img
-          className={ApplyAdMainStyles['figure' + i]}
-          alt={`figure${i}`}
-          src={`/images/suggestion/figure${i}.png`}
-        ></img>,
-      );
-    }
+  // const imageFigure = useMemo(() => {
+  //   const imageTags = [];
+  //   for (let i = 1; i <= 8; i++) {
+  //     imageTags.push(
+  //       <img
+  //         className={ApplyAdMainStyles['figure' + i]}
+  //         alt={`figure${i}`}
+  //         src={`/images/suggestion/figure${i}.png`}
+  //       ></img>,
+  //     );
+  //   }
 
-    return imageTags;
-  }, []);
+  //   return imageTags;
+  // }, []);
+
+
   useEffect(() => {
     if (swiper) {
       swiper.slideTo(0, 0, false);
@@ -51,7 +54,8 @@ const ApplyAdMain = () => {
   return (
     <div className={ApplyAdMainStyles.applyAdMain}>
       <WebHeader />
-      <div className={ApplyAdMainStyles.imgWrap}>{imageFigure}</div>
+      <div className={ApplyAdMainStyles.imgWrap}></div>
+      {/* <div className={ApplyAdMainStyles.imgWrap}>{imageFigure}</div> */}
       <div className={ApplyAdMainStyles.mainContainer}>
         <section
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section1}`}
@@ -80,6 +84,7 @@ const ApplyAdMain = () => {
         <div className={ApplyAdMainStyles.infoSquare}>
           <video
             autoPlay
+            playsInline
             loop
             muted
             poster="/images/suggestion/infoSquare.png"
@@ -108,7 +113,7 @@ const ApplyAdMain = () => {
                 className={ApplyAdMainStyles.section2Slider}
                 wrapperTag={'ul'}
                 loop={true}
-                slidesPerView="auto"
+                slidesPerView="auto"                
                 spaceBetween={40}
                 onSwiper={setSwiper}
                 autoplay={{
@@ -228,6 +233,7 @@ const ApplyAdMain = () => {
               className={ApplyAdMainStyles.mobileSection3Slider}
               spaceBetween={12}
               slidesPerView={2.1}
+              slidesOffsetAfter={84}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (

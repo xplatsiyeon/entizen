@@ -136,14 +136,14 @@ const EstimateForm2 = () => {
         .post('/zapier/submit', { data: sendData })
         .then(() => {});
 
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: 'lead_submit',
-          },
-        };
-        TagManager.dataLayer(tagManagerArgs);
-        router.push('/new/estimateForm/complete');
+      //GA4 이벤트 전송
+      const tagManagerArgs = {
+        dataLayer: {
+          event: 'lead_submit',
+        },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+      router.push('/new/estimateForm/complete');
     }, 3000);
   };
 
@@ -500,7 +500,6 @@ const EstimateForm2 = () => {
                       )}
                       variant="contained"
                       color="primary"
-                      disabled={!isComplete}
                       onClick={onClickSubmit}
                     >
                       내 맞춤 견적서 확인하기
@@ -518,7 +517,6 @@ const EstimateForm2 = () => {
               )}
               variant="contained"
               color="primary"
-              disabled={!isComplete}
               onClick={onClickSubmit}
             >
               내 맞춤 견적서 확인하기

@@ -8,7 +8,14 @@ import {
   RadioButtonCheckedSharp,
   RadioButtonUncheckedSharp,
 } from '@mui/icons-material';
-import { Grid, TextField, Select, MenuItem, Checkbox, Button } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Select,
+  MenuItem,
+  Checkbox,
+  Button,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styles from './form.module.css';
@@ -124,7 +131,7 @@ const EstimateForm = () => {
       axios
         .post('/zapier/submit', { data: sendData })
         .then(() => {});
-      
+
       //GA4 이벤트 전송
       const tagManagerArgs = {
         dataLayer: {
@@ -186,17 +193,6 @@ const EstimateForm = () => {
                     value={form?.importantFactor ?? ''}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
-                    variant="outlined"
-                    MenuProps={{
-                      sx: {
-                        root: {
-                          '& .MuiPopover-paper': {
-                            boxShadow: 'none',
-                            border: 'solid 1px #909FB7'
-                          }
-                        }
-                      },
-                    }}
                   >
                     <MenuItem
                       value="설치비용"
@@ -464,7 +460,6 @@ const EstimateForm = () => {
                       )}
                       variant="contained"
                       color="primary"
-                      disabled={!isComplete}
                       onClick={onClickSubmit}
                     >
                       내 맞춤 견적서 확인하기
@@ -482,7 +477,6 @@ const EstimateForm = () => {
               )}
               variant="contained"
               color="primary"
-              disabled={!isComplete}
               onClick={onClickSubmit}
             >
               내 맞춤 견적서 확인하기

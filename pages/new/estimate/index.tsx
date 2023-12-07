@@ -171,8 +171,7 @@ const Estimate = () => {
 
               {/* 표 */}
               <div className={styles.sheet_table}>
-                <TableContainer component={Paper} 
-                  style={{ boxShadow: 'none', border: '1px solid #E2E5ED', padding: '0 15px' }}>
+                <TableContainer component={Paper}>
                   <Table
                     sx={{ minWidth: 650 }}
                     size="small"
@@ -290,7 +289,7 @@ const Estimate = () => {
                   if (item.isArrow) {
                     return (
                       <div className={styles.step_item}>
-                        {/* <div className={styles.step_arrow}>
+                        <div className={styles.step_arrow}>
                           <Image
                             src={Step_ellipse}
                             alt="step_ellipse"
@@ -303,8 +302,7 @@ const Estimate = () => {
                             layout="fill"
                             objectFit="contain"
                           />
-                        </div> */}
-                        <svg width="40"height="40"viewBox="0 0 40 40"fill="none"xmlns="http://www.w3.org/2000/svg"><g id="Group 13649"><circle id="Ellipse 121"cx="20"cy="20"r="20"fill="#D0D4E1"/><g id="&#236;&#152;&#164;"><g id="CaretRight"><path id="Vector"d="M17.5 13.75L23.75 20L17.5 26.25"stroke="white"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"/></g></g></g></svg>
+                        </div>
                       </div>
                     );
                   } else {
@@ -337,7 +335,7 @@ const Estimate = () => {
                   if (item.isArrow) {
                     return (
                       <div className={styles.step_item}>
-                        {/* <div className={styles.step_arrow}>
+                        <div className={styles.step_arrow}>
                           <Image
                             src={Step_ellipse}
                             alt="step_ellipse"
@@ -350,8 +348,7 @@ const Estimate = () => {
                             layout="fill"
                             objectFit="contain"
                           />
-                        </div> */}
-                        <svg width="40"height="40"viewBox="0 0 40 40"fill="none"xmlns="http://www.w3.org/2000/svg"><g id="Group 13649"><circle id="Ellipse 121"cx="20"cy="20"r="20"fill="#D0D4E1"/><g id="&#236;&#152;&#164;"><g id="CaretRight"><path id="Vector"d="M17.5 13.75L23.75 20L17.5 26.25"stroke="white"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"/></g></g></g></svg>
+                        </div>
                       </div>
                     );
                   } else {
@@ -418,7 +415,7 @@ const Estimate = () => {
               </div>
             </div>
           </div>
-          <div className={styles.button} onClick={clickGetMoreEstimate}  style={{ cursor: 'pointer' }}>
+          <div className={styles.button} onClick={clickGetMoreEstimate}>
             <p>
               맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;
               <Image src={Step_arrow} alt="arrow" />

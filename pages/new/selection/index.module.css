@@ -26,20 +26,24 @@
 }
 .sec_01 .menu_container {
   width: 65%;
-  margin: auto;
+  margin: 0 auto;
   margin-top: 7rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 23px;
+  justify-content: center;
 }
 .sec_01 .menu_container .menu_box {
-  max-width: 17.53125rem;
+  width: 17.53125rem;
   height: 17.5rem;
   flex-shrink: 0;
-  /* border-radius: 0.5rem; */
-  /* border: 1px solid #e2e5ed; */
-  /* background: #fff; */
-  margin: 0 12px;
-  /* box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2); */
+  border-radius: 0.5rem;
+  border: 1px solid #e2e5ed;
+  background: #fff;
+  margin: auto;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 }
-/* .sec_01 .menu_container .menu_box:hover {
+.sec_01 .menu_container .menu_box:hover {
   border-radius: 0.5rem;
   border: 1px solid #e2e5ed;
   background: #383b48;
@@ -61,7 +65,7 @@
   letter-spacing: -0.03rem;
   text-align: left;
   margin: 1.5rem 0 0 1.5rem;
-} */
+}
 .sec_01 .menu_container .menu_box .sub_title {
   color: #4e5055;
   font-family: Spoqa Han Sans Neo;
@@ -73,14 +77,12 @@
   margin: 1rem 0 0 1.5rem;
 }
 .sec_01 .menu_container .menu_box .image_wrapper {
-  /* width: 5.5rem;
+  width: 5.5rem;
   height: 5.5rem;
   flex-shrink: 0;
   position: absolute;
   margin-left: 10rem;
-  margin-top: 5rem; */
-  display: flex;
-  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  margin-top: 5rem;
 }
 
 .sec_02 {
@@ -88,6 +90,39 @@
   height: 28.5rem;
   flex-shrink: 0;
 }
+
+/* desk_m */
+@media (max-width: 1200px) {
+  .sec_01 .menu_container {
+    margin: 0 auto;
+    margin-top: 7rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 23px;
+    justify-content: center;
+  }
+  .sec_01 .menu_container .menu_box {
+    width: 100%;
+    height: 280px;
+    position: relative;
+  }
+  .sec_01 .menu_container .menu_box .image_wrapper{
+    right: 17px;
+    bottom: 17px;
+  }
+}
+
+
+/* tablet */
+@media (max-width: 768px) {  
+  .sec_01 .menu_container .menu_box {
+    width: 100%;
+    height: 180px;
+    position: relative;
+  }
+}
+
+
 
 /* mobile */
 @media only screen and (min-width: 200px) and (max-width: 480px) {
@@ -120,7 +155,7 @@
     height: 400px;
   }
   .sec_01 .menu_container .menu_box {
-    width: 169px;
+    width: 100%;
     height: 169px;
     padding: 24px 20px;
     border-radius: 8px;
@@ -159,7 +194,7 @@
   }
   */
 }
-@media screen and (max-width: 1023px) {
-    .sec_01 { height: 100%; }
+@media screen and (max-width: 1200px) {
+    .sec_01 { height: 100vh; }
     .sec_02 { display: none; }
 }

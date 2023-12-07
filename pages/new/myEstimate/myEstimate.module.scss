@@ -978,7 +978,7 @@ $imgPath: '/images';
     justify-content: center;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap {
-    width: auto;
+    width: 96%;
     justify-content: center;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap .title {
@@ -990,14 +990,14 @@ $imgPath: '/images';
     margin-bottom: 16px;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap {
-    width: 300px !important;
+    width: 100% !important;
     height: 56px !important;
     border-radius: 30px !important;
     justify-content: center !important;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap input {
     border-radius: 30px !important;
-    width: inherit !important;
+    width: 100% !important;
     height: inherit !important;
     font-size: 16px !important;
     font-style: normal !important;

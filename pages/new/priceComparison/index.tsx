@@ -37,13 +37,29 @@ const PriceComparison = () => {
                 <div className={styles.title_container}>
                     <div className={styles.text_01}>비용이 제일 궁금하시죠?</div>
                     <div className={styles.text_02}>
-                        저희 파트너 업체들의 충전기 구매 + 설치 비용은{' '}<span>110만원~258만원</span>(비공용 충전기 7kW 1대 기준) 입니다.<br/>
-                        가성비 업체부터 충전 시스템이 뛰어난 업체까지 다양한 파트너와 함께 합니다.<br/>
-                        <br/>
-                        맞춤 견적을 받으시면 가격뿐만 아니라 A/S현황, 시공횟수 등 다양한 비교 요소를 확인하실 수 있습니다.
+                        <div className={styles.left}>
+                          파트너 업체
+                          <span className={styles.textColor}> 충전기 구매 + 설치비용</span>
+                        </div>
+                        <div className={styles.right}>
+                          <span className={styles.textTop}>
+                            <span className={styles.textColorPrice}>
+                              110~230
+                            </span>
+                            만원
+                          </span>
+                          <span className={styles.textBottom}>
+                            VAT 포함 비공용 충전기 7kW 1대 기준
+                          </span>
+                        </div>
+                    </div>
+                    <div className={styles.text_03}>
+                      <span>가성비 업체부터 충전 시스템이 뛰어난 업체까지 다양한 파트너와 함께 합니다.</span>
+                      <span>맞춤 견적을 받으시면 가격뿐만 아니라 A/S현황, 시공횟수 등 다양한 비교 요소를 확인하실 수 있습니다.</span>
                     </div>
                 </div>
-                <div className={styles.comparison_container}>
+                <div className={styles.comparison_wrapper}>
+                  <div className={styles.comparison_container}>
                     <div className={styles.text_01}>다양한 가격대의 충전기</div>
                     <div className={styles.text_02}>
                         제조사 37곳 운영사 112곳 직접 비교하시면 너무 복잡해요!<br/>
@@ -51,7 +67,6 @@ const PriceComparison = () => {
                     </div>
                     <Stack className={styles.comparison_box} direction="row" spacing={2}>
                         <div className={styles.price_container}>
-                            <div className={styles.company_img}><Image src={Price}/></div>
                             <div className={styles.company_name}>A사</div>
                             <List className={styles.company_info}>
                                 <ListItem divider className={styles.item_wrapper}>
@@ -75,7 +90,6 @@ const PriceComparison = () => {
                             <Button className={styles.show_estimate_btn} variant="contained" disabled>견적서 보기</Button>
                         </div>
                         <div className={styles.price_container}>
-                            <div className={styles.company_img}><Image src={Price}/></div>
                             <div className={styles.company_name}>B사</div>
                             <List className={styles.company_info}>
                                 <ListItem divider className={styles.item_wrapper}>
@@ -97,8 +111,9 @@ const PriceComparison = () => {
                         </div>
                     </Stack>
                     <div className={styles.text_03}>모든 <span>견적비교</span>가 궁금하시다면?</div>
-                </div>
+                  </div>
                 <Button className={styles.more_btn} variant="contained" onClick={clickGetMoreEstimate}>더 많은 업체 견적 받기 <NavigateNextIcon /></Button>
+              </div>
             </div> 
         </div>
         <div className={styles.sec_02}></div>

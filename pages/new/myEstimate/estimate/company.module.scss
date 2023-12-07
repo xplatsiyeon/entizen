@@ -15,7 +15,7 @@ $imgPath: '/images';
 
   .company {
     // width: 74.625rem;
-    height: 168px;
+    height: 180px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -29,9 +29,6 @@ $imgPath: '/images';
     top: 5.9rem;
     width: -webkit-fill-available;
     justify-content: space-around;
-    @media screen and (max-width: 480px) {
-      height: 20rem;
-    }
     // @media screen and (max-width: 767px) {
     //   padding: 1.5rem;
 
@@ -126,7 +123,6 @@ $imgPath: '/images';
         }
         background: url('#{$imgPath}/myEstimate/icon_kakao.png') 50% / cover
           no-repeat;
-        margin-right: 0.5rem;
       }
     }
   }
@@ -154,7 +150,7 @@ $imgPath: '/images';
     // height: 3.15rem;
     position: sticky;
     background-color: white;
-    top: 16rem;
+    top: 272px;
     z-index: 8;
 
     padding: 0 1.25rem;
@@ -197,9 +193,13 @@ $imgPath: '/images';
       align-items: flex-start;
       gap: 0.25rem;
 
+      @media screen and (max-width: 767px) {
+        // width: 5.25rem;
+      }
+
       a {
         cursor: pointer;
-        color: #A6A9B0;
+        color: var(--Main1, #5221cb);
         text-align: center;
         font-family: Spoqa Han Sans Neo;
         font-size: 0.875rem;
@@ -227,11 +227,12 @@ $imgPath: '/images';
         right: 0;
         bottom: 0;
         height: 0.2rem;
+        // background-color: #5221cb;
       }
       &.active::after {
         background-color: #5221cb;
+        border-radius: 100px;
       }
-      &.active { a { color: #5221cb; } }
     }
   }
 
@@ -528,7 +529,7 @@ $imgPath: '/images';
               font-style: normal;
               font-weight: 500;
               letter-spacing: -0.02rem;
-              flex: 3;
+              flex: 4;
             }
             .info {
               color: #222;
@@ -926,20 +927,20 @@ $imgPath: '/images';
     // height: fit-content;
   }
   .byCompanyContainer .company .companyTitle {
-    font-size: 32px;
+    font-size: 27px;
     font-style: normal;
     font-weight: 500;
-    line-height: 40px; /* 125% */
-    letter-spacing: -0.64px;
+    line-height: 32px; /* 125% */
+    letter-spacing: -1.6px;
   }
   .byCompanyContainer .company .buttonWrap .kakaoChatBtn {
     display: flex;
     border-radius: 29px;
     height: 32px;
-    padding: 12px 16px;
+    padding: 8px 11px;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     font-size: 13px !important;
     font-weight: 500 !important;
     line-height: normal !important;
@@ -1281,11 +1282,11 @@ $imgPath: '/images';
     .infoWrap
     .infoBox
     .title {
-    font-size: 16px;
+    font-size: 14.5px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
-    letter-spacing: -0.32px;
+    line-height: 22px; /* 150% */
+    letter-spacing: -0.8px;
     margin-bottom: 8px;
 
     display: flex;
