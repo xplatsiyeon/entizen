@@ -39,7 +39,8 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
   const kakaoLink: ObjType = {
     ev: 'http://pf.kakao.com/_xnxduxbG/chat',
     starkoff: 'https://open.kakao.com/o/stFSO2Uf',
-    castpro: 'https://open.kakao.com/o/sQUjD5Rf'
+    castpro: 'https://open.kakao.com/o/sQUjD5Rf',
+    eco: 'https://open.kakao.com/o/s7PPFZVf'
   }
 
   return (

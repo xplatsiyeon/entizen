@@ -135,7 +135,7 @@ const EstimateByCompany = () => {
       <section className={estimateByCompanyStyles.mainContainer}>
         <div className={estimateByCompanyStyles.companyInfoWrap}>
           <div
-            className={`${estimateByCompanyStyles.} ${estimateByCompanyStyles[company]}`}
+            className={`${estimateByCompanyStyles} ${estimateByCompanyStyles[company]}`}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
