@@ -24,7 +24,7 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("1st live -1");
+  console.log("1st live -4");
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
