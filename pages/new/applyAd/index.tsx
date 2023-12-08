@@ -24,7 +24,7 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("1st live -4");
+  console.log("1st live -5");
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
@@ -45,7 +45,18 @@ const ApplyAdMain = () => {
   //   return imageTags;
   // }, []);
 
-
+  
+  const onClickSendBtn = () => {
+    //GA4 이벤트 전송
+    const tagManagerArgs = {
+      dataLayer: {
+        event: 'click_get_custom_estimate',
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
+    location.href='/new/selection'
+  }
+  
   useEffect(() => {
     if (swiper) {
       swiper.slideTo(0, 0, false);
@@ -68,9 +79,7 @@ const ApplyAdMain = () => {
           <div className={ApplyAdMainStyles.buttonWrap}>
             <button
               className={ApplyAdMainStyles.estimateBtn}
-              onClick={() => {
-                location.href = '/new/selection';
-              }}
+              onClick={onClickSendBtn}
             >
               맞춤 견적 받기
             </button>
