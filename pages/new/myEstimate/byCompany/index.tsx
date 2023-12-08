@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import { COMPANY_LIST } from 'assets/company';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
-type COMPANY_TYPE = 'starkoff' | 'castpro' | 'ev';
+type COMPANY_TYPE = 'starkoff' | 'castpro' | 'ev' | 'eco';
 
 const EstimateByCompany = () => {
   // const router = useRouter();
@@ -135,7 +135,7 @@ const EstimateByCompany = () => {
       <section className={estimateByCompanyStyles.mainContainer}>
         <div className={estimateByCompanyStyles.companyInfoWrap}>
           <div
-            className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
+            className={`${estimateByCompanyStyles.} ${estimateByCompanyStyles[company]}`}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>

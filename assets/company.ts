@@ -229,13 +229,8 @@ export const COMPANY_LIST: any = {
       '/images/company/ev/certificate_3.png',
     ],
     performanceInfo: [
-      { title: '완속 충전기', info: '10,000기 계약' },
-      { title: '2년 연속', info: '환경부 선정 전기차 충전 사업자' },
-      { title: '환경부 지원', info: '브랜드사업 완속 최다 수주' },
-      {
-        title: '2023년 퍼스트브랜드 전기차 충전 플랫폼 부문 1위',
-        info: '고객만족도 1위',
-      },
+      { title: '전기차 충전기', info: '15,000기 판매 및 설치' },
+      { title: '원스탑 서비스', info: '상담부터 설치, A/S까지 직접 진행' },
     ],
     exampleInfo: [
       '/images/company/ev/etc_1.png',
@@ -247,5 +242,80 @@ export const COMPANY_LIST: any = {
     ],
     brandInfo:
       '한국EV충전서비스센터 전 직원은 각종 대, 소형 건물의 전기통신공사 등 풍부한 경험과 기술력을 바탕으로 ‘EV충전 통합 플랫폼’ 사업분야까지 만들어 나가고 있으며 경기, 서울, 인천 수도권을 중심으로 전국에 AS센터가 구축되어 있어 점검 및 AS가 원활하게 이뤄지도록 힘쓰고 있습니다.',
+  },
+  eco: {
+    name: '에코플레이',
+    companyInfo: {
+      info1: '10,000기 이상 시공',
+      info2: 'A/S지점 7곳, A/S직원 21명',
+      info3: '홈충전기 국내 1등',
+    },
+    estimateInfo: {
+      info1: [
+        'A4 용지보다 작은 정사각형의 컴팩트 디자인',
+        '다양한 길이의 커넥터 (기본 5m) : 7m, 10m 선택시 추가금 발생',
+        '충전기 자체개발 및 생산',
+        'RFID 카드의 간단한 조작',
+      ],
+      info2: [
+        '전국 홈충전기 최대 판매 및 설치',
+        '국내최초 정품인증 시스템으로 품질관리',
+        '전국 설치 및 A/S 네트워크 구축',
+        '충전기 보호박스 무상제공',
+      ],
+    },
+    priceInfo: {
+      total: '1,250,000',
+      // event: '~12.31 까지 이벤트 가격',
+    },
+    detailInfo: {
+      default: [
+        {
+          title: '충전기 + 설치',
+          info: '1,250,000 원',
+        },
+        {
+          title: ' 운영관리비',
+          info: '0 원/월',
+        },
+      ],
+
+      sub: [
+        {
+          title: '보호함',
+          info: '0 원',
+        },
+        {
+          title: '스탠드',
+          info: '250,000 원',
+        },
+      ],
+
+      etc: [
+        { title: '충전기', info: '550,000 원' },
+        { title: '설치', info: '700,000 원' },
+      ],
+    },
+    certificateInfo: [
+      '/images/company/eco/certificate_1.png',
+      '/images/company/eco/certificate_2.png',
+      '/images/company/eco/certificate_3.png',
+    ],
+    performanceInfo: [
+      { title: '전국 최대', info: '홈 충전기 10,000기 판매 및 설치' },
+      { title: '2023년 주간동아 선정', info: '소비자 선호도 1위' },
+      { title: 'ICR 인증', info: '품질 & 환경경영시스템 인증' },
+      { title: '네이버 스마트스토어', info: '누적리뷰 1,000건 이상' },
+    ],
+    exampleInfo: [
+      '/images/company/eco/etc_1.png',
+      '/images/company/eco/etc_2.png',
+      '/images/company/eco/etc_3.png',
+      '/images/company/eco/etc_4.png',
+      '/images/company/eco/etc_5.png',
+      '/images/company/eco/etc_6.png',
+    ],
+    brandInfo:
+      '에코플레이는 조금 더 빠르게 그리고 안전한 전기차 충전기 보급에 힘쓰면서 좋은 가격과 보다 빠른 성능으로 꾸준히 서비스를 동참하며 이끌어가겠습니다.',
   },
 };

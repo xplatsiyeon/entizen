@@ -32,8 +32,9 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
   type ObjType = {
     [index: string]: string
     ev: string
+    eco: string
     starkoff: string
-    castpro: string
+    castpro: string    
   }
   const kakaoLink: ObjType = {
     ev: 'http://pf.kakao.com/_xnxduxbG/chat',

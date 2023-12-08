@@ -39,6 +39,15 @@ $imgPath: '/images';
     //   flex-wrap: wrap;
     //   justify-content: space-between;
     // }
+    @media screen and (max-width: 1023px) {
+      top: 3.9rem;
+    }
+    @media screen and (max-width: 768px) {
+      top: -3.9rem;
+    }
+    @media screen and (max-width: 480px) {
+      top: 5rem;
+    }
 
     .companyTitle {
       color: #222;
@@ -135,7 +144,7 @@ $imgPath: '/images';
     width: 100%;
     margin-top: 17.25rem;
 
-    $list: ('starkoff', 'castpro', 'ev');
+    $list: ('starkoff', 'castpro', 'ev', 'eco');
     @each $index in $list {
       &.#{$index} {
         background: url('#{$imgPath}/company/#{$index}_background.png')
@@ -157,6 +166,9 @@ $imgPath: '/images';
 
     border-bottom: 1px solid #e2e5ed;
 
+    @media screen and (max-width: 1023px) {
+      top: 226px;
+    }
     @media screen and (max-width: 767px) {
       // height: 3rem;
       width: 100%;
@@ -164,6 +176,7 @@ $imgPath: '/images';
       /* padding: 10px; */
       white-space: nowrap;
       overflow-x: auto;
+      top: 143px;
     }
 
     .tabBarList {
@@ -247,7 +260,7 @@ $imgPath: '/images';
       justify-content: center;
 
       .companyLogo {
-        $list: ('starkoff', 'castpro', 'ev');
+        $list: ('starkoff', 'castpro', 'ev', 'eco');
         @each $index in $list {
           &.#{$index} {
             background: url('#{$imgPath}/company/#{$index}_logo.png')
@@ -261,6 +274,9 @@ $imgPath: '/images';
             } @else if ($index == 'castpro') {
               width: 14.375rem;
               height: 2.5rem;
+            } @else if ($index == 'eco') {
+              width: 180px;
+              height: 59px;
             } @else {
               width: 11.25rem;
               height: 2.5rem;
@@ -954,7 +970,7 @@ $imgPath: '/images';
     width: 100%;
     margin-top: 22.25rem;
 
-    $list: ('starkoff', 'castpro', 'ev');
+    $list: ('starkoff', 'castpro', 'ev', 'eco');
     @each $index in $list {
       &.#{$index} {
         background: url('#{$imgPath}/company/#{$index}_background_mb.png')
@@ -968,7 +984,7 @@ $imgPath: '/images';
   .byCompanyContainer .tabBarWrap {
     padding: 0 24px;
     margin-top: 12px;
-    top: 22rem;
+    top: 21rem;
   }
   .byCompanyContainer .tabBarWrap .tabBarList {
   }
@@ -994,20 +1010,29 @@ $imgPath: '/images';
   }
   .byCompanyContainer .mainContainer .companyInfoWrap {
   }
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {
-    // $list: ('starkoff', 'castpro', 'ev');
-    // @each $index in $list {
-    //   @if ($index == 'ev') {
-    //     width: 54px !important;
-    //     height: 46px !important;
-    //   } @else if ($index == 'castpro') {
-    //     width: 100px !important;
-    //     height: 17.391px !important;
-    //   } @else {
-    //     height: 22.222px !important;
-    //     width: 100px !important;
-    //   }
-    // }
+  .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {    
+    $list: ('starkoff', 'castpro', 'ev', 'eco');
+      @each $index in $list {
+        &.#{$index} {
+          background: url('#{$imgPath}/company/#{$index}_logo.png')
+            50% /
+            cover
+            no-repeat;
+          @if ($index == 'ev') {
+            width: 54px;
+            height: 46px;
+          } @else if ($index == 'castpro') {
+            width: 100px;
+            height: 18px;
+          } @else if ($index == 'eco') {
+            width: 100px;
+            height: 33px;
+          } @else {
+            width: 100px;
+            height: 22px;
+          }
+        }
+      }
   }
   .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo {
     padding: 9px 25px;

@@ -20,31 +20,38 @@ const nextConfig = {
          destination: `https://test-api.entizen.kr/:path*`,
        },*/
       {
-         source: '/api/:path*',
-         destination: `https://api.entizen.kr/:path*`,
+        source: '/api/:path*',
+        destination: `https://api.entizen.kr/:path*`,
       },
       {
         source: '/oauth2.0/:path*', // url이 source에 해당될 경우
         destination: 'https://nid.naver.com/oauth2.0/:path*', // destination으로 redirect
       },
+    ];
+  },
+  
+  async headers() {
+    return [
       {
-        source: '/zapier/submit/:path*', // 공용 폼 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f4shlg/', // destination으로 redirect
-      },
-      {
-        source: '/zapier/submit-private/:path*', // 비공용 폼 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f2b75d', // destination으로 redirect
-      },
-      {
-        source: '/zapier/company-request/:path*', // 요청업체 제출
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f1qgqv', // destination으로 redirect
-      },
-      {
-        source: '/zapier/company-selection/:path*', // 비공용:업체에 실사 신청하기
-        destination: 'https://hooks.zapier.com/hooks/catch/8791679/3f40ngg', // destination으로 redirect
+        // matching all API routes
+        source: "/api/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Credentials", value: "true" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value:
+              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+          },
+        ],
       },
     ];
   },
+  
 };
 
 module.exports = nextConfig;

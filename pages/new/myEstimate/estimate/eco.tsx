@@ -19,7 +19,7 @@ import TagManager from 'react-gtm-module';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
-  const company = 'ev';
+  const company = 'eco';
   sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
 
   const isTablet = useMediaQuery({
@@ -74,7 +74,7 @@ const EstimateByCompany = () => {
   }, []);
   useEffect(() => {
     if (swiper) {
-      swiper.slideTo(0, 0, false);
+      swiper.slideTo(0, 0, true);
     }
   }, [swiper]);
 
@@ -82,6 +82,7 @@ const EstimateByCompany = () => {
 
   const onClickSendBtn = () => {
     setModalOpen(true);
+
   };
 
   return (
@@ -144,9 +145,7 @@ const EstimateByCompany = () => {
       </div>
       <section className={estimateByCompanyStyles.mainContainer}>
         <div className={estimateByCompanyStyles.companyInfoWrap}>
-          <div className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
-            style={{ width: '54px', height: '46px'}}
-          ></div>
+          <div className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
               <p className={estimateByCompanyStyles.list}>
@@ -375,8 +374,9 @@ const EstimateByCompany = () => {
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
               slidesPerView={isTablet ? 1.3 : "auto"}
-              spaceBetween={isTablet ? 12 : 24}
+              spaceBetween={isTablet ? 12 : 24}              
               onSwiper={setSwiper}
+              slidesPerGroup={3}
               speed={500}
               loop={false}
               navigation={{
@@ -427,7 +427,7 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => { 
-          const url = '/zapier/company-selection';
+          const url = '/api/company_selection';
           axios
             .post(url, {
               data: {

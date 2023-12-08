@@ -54,22 +54,30 @@ const MyEstimate = () => {
   const onClickSendBtn = () => {
     if(companyName){
       setModalOpen(true);
+      /* TODO : 여기서 회사명 전송 */
+      // companyName << 이게 값임
 
+      const url = '/api/company_request';
       axios
-        .post('/zapier/company-request', { data: {
-          companyName:companyName,
-          phone:sessionStorage.getItem("phone")
-        } })
-        .then(() => {});
+        .post(url, {
+          data: {
+            companyName:companyName,
+            phone:sessionStorage.getItem("phone")
+          },
+        })
+        .then((res) => {
+          //console.log(res);
+          //location.href = '/new/myEstimate'
+        });
+        //GA4 이벤트 전송
+        const tagManagerArgs = {
+          dataLayer: {
+            event: 'request_company',
+          },
+        };
+        TagManager.dataLayer(tagManagerArgs);
 
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'request_company',
-        },
-      };
-      TagManager.dataLayer(tagManagerArgs);
-
+      console.log('전송 할 회사명', companyName);
       setCompanyName('');
     } 
   };
@@ -109,6 +117,7 @@ const MyEstimate = () => {
         </article>
         <article className={myEstimateStyles.estimateCompanyWrap}>
           <EstimateByCompany company="ev"></EstimateByCompany>
+          <EstimateByCompany company="eco"></EstimateByCompany>
           <EstimateByCompany company="castpro"></EstimateByCompany>
           <EstimateByCompany company="starkoff"></EstimateByCompany>
         </article>
@@ -215,7 +224,7 @@ const MyEstimate = () => {
             <a
               className={myEstimateStyles.downloadBtn}
               onClick={chartDownload}
-              href="https://drive.google.com/file/d/1HzK7AXjb-TFmWNRgZTCFr-PaL19VhG1K/view?usp=sharing"
+              href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
               target="_blank"
             >
               <p>모든 업체 비교표 다운받기</p>

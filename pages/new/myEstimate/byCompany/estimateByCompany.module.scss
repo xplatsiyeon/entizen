@@ -121,7 +121,7 @@ $imgPath: '/images';
     width: 100%;
     margin-top: 17.25rem;
 
-    $list: ('starkoff', 'castpro', 'ev');
+    $list: ('starkoff', 'castpro', 'ev', 'eco');
     @each $index in $list {
       &.#{$index} {
         background: url('#{$imgPath}/company/#{$index}_background.png')
@@ -233,7 +233,7 @@ $imgPath: '/images';
       justify-content: center;
 
       .companyLogo {
-        $list: ('starkoff', 'castpro', 'ev');
+        $list: ('starkoff', 'castpro', 'ev', 'eco');
         @each $index in $list {
           &.#{$index} {
             background: url('#{$imgPath}/company/#{$index}_logo.png')
@@ -249,6 +249,13 @@ $imgPath: '/images';
                 height: 2.875rem;
               }
             } @else if ($index == 'castpro') {
+              width: 14.375rem;
+              height: 2.5rem;
+              @media screen and (max-width: 767px) {
+                width: 6.25rem;
+                height: 1.08694rem;
+              }
+            } @else if ($index == 'eco') {
               width: 14.375rem;
               height: 2.5rem;
               @media screen and (max-width: 767px) {
@@ -871,8 +878,8 @@ $imgPath: '/images';
         }
       }
       .item {
-        width: 16.5rem;
-        height: 26.375rem;
+        width: 264px;
+        height: 422px;
         @media screen and (max-width: 1023px) {
           width: inherit;
           height: inherit;

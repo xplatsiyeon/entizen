@@ -380,6 +380,7 @@ const EstimateByCompany = () => {
               slidesPerView={isTablet ? 1.5 : "auto"}
               spaceBetween={24}
               onSwiper={setSwiper}
+              slidesPerGroup={3}
               speed={500}
               loop={false}
               navigation={{

@@ -377,6 +377,7 @@ const EstimateByCompany = () => {
               slidesPerView={isTablet ? 1.5 : "auto"}
               spaceBetween={24}
               onSwiper={setSwiper}
+              slidesPerGroup={3}
               speed={500}
               loop={false}
               navigation={{
@@ -427,7 +428,7 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => {
-          const url = '/zapier/company-selection';
+          const url = '/api/company_selection';
           axios
             .post(url, {
               data: {
