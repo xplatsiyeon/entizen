@@ -428,7 +428,7 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => {
-          const url = '/api/company_selection';
+          const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {

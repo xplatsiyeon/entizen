@@ -37,7 +37,7 @@ const MyEstimate = () => {
   const kakaoBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'kakao_btn_click',
+        event: 'click_kakao_btn',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
@@ -54,30 +54,23 @@ const MyEstimate = () => {
   const onClickSendBtn = () => {
     if(companyName){
       setModalOpen(true);
-      /* TODO : 여기서 회사명 전송 */
-      // companyName << 이게 값임
 
-      const url = '/api/company_request';
       axios
-        .post(url, {
-          data: {
-            companyName:companyName,
-            phone:sessionStorage.getItem("phone")
-          },
-        })
-        .then((res) => {
-          //console.log(res);
-          //location.href = '/new/myEstimate'
-        });
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: 'request_company',
-          },
-        };
-        TagManager.dataLayer(tagManagerArgs);
+        .post('/zapier/company-request', { data: {
+          companyName:companyName,
+          phone:sessionStorage.getItem("phone_number")
+        } })
+        .then(() => {});
 
-      console.log('전송 할 회사명', companyName);
+      //GA4 이벤트 전송
+      const tagManagerArgs = {
+        dataLayer: {
+          event: 'request_company',
+          request_company_name:companyName
+        },
+      };
+      TagManager.dataLayer(tagManagerArgs);
+
       setCompanyName('');
     } 
   };
@@ -224,7 +217,7 @@ const MyEstimate = () => {
             <a
               className={myEstimateStyles.downloadBtn}
               onClick={chartDownload}
-              href="https://drive.google.com/file/d/1ykHsHcsIIY5gnhHUxDDb2g6R6dfQ5BeP/view?usp=sharing"
+              href="https://drive.google.com/file/d/1HzK7AXjb-TFmWNRgZTCFr-PaL19VhG1K/view?usp=sharing"
               target="_blank"
             >
               <p>모든 업체 비교표 다운받기</p>

@@ -431,12 +431,12 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => {
-          const url = '/api/company_selection';
+          const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {
                 companyName:'캐스트프로',
-                phone:sessionStorage.getItem("phone")
+                phone:sessionStorage.getItem("phone_number")
               },
             })
             .then((res) => {
@@ -447,7 +447,7 @@ const EstimateByCompany = () => {
                 event: 'company_selection',
               },
             };
-            TagManager.dataLayer(tagManagerArgs);
+          TagManager.dataLayer(tagManagerArgs);
           location.href='/new/estimateForm/complete2'
           setModalOpen(false)
         }}

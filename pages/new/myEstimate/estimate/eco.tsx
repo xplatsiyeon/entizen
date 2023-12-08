@@ -427,12 +427,12 @@ const EstimateByCompany = () => {
         open={modalOpen}
         onClose={() => { setModalOpen(false)}}
         onConfirm={() => { 
-          const url = '/api/company_selection';
+          const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {
-                companyName:'한국EV충전서비스센터',
-                phone:sessionStorage.getItem("phone")
+                companyName:'에코플레이',
+                phone:sessionStorage.getItem("phone_number")
               },
             })
             .then((res) => {

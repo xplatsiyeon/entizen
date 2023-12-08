@@ -12,18 +12,26 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
 
   const estimateByCompanyData = COMPANY_LIST[company];
 
-  const clickChatBtn = () => {
+  let company_name = ''
+  if(company === 'ev'){company_name = '한국EV충전서비스센터'}
+  if(company === 'castpro'){company_name = '캐스트프로'}
+  if(company === 'starkoff'){company_name = '스타코프'}
+
+  const chatBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_chat_btn",
+        event: 'click_chat_btn',
+        company_name: company_name
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-  }
+  };
+
   const clickEstimateDetaileBtn = () => {
     const tagManagerArgs = {
       dataLayer: {
         event: "click_detail_btn",
+        company_name: company_name
       },
     };
     TagManager.dataLayer(tagManagerArgs);
@@ -125,7 +133,7 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
       </div>
       <div className={estimateByCompanyStyles.buttonWrap}>
         <a className={estimateByCompanyStyles.kakaoChatBtn} 
-          onClick={clickChatBtn} 
+          onClick={chatBtnClick} 
           href={kakaoLink[company]}
           target="_blank"
         >
