@@ -10,6 +10,7 @@ import Kakao from 'public/new/priceComparison/kakao.svg';
 import KakaoMb from 'public/new/priceComparison/kakao_mb.svg';
 import styles from './index.module.css';
 import { useRouter } from 'next/router';
+import TagManager from 'react-gtm-module'
 
 const PriceComparison = () => {
   const isMobile = useMediaQuery({
@@ -18,6 +19,12 @@ const PriceComparison = () => {
   const router = useRouter();
 
   const clickGetMoreEstimate = () => {
+    const tagManagerArgs = {
+      dataLayer: {
+        event: "click_get_more_estimate",
+      },
+    };
+    TagManager.dataLayer(tagManagerArgs);
     router.push('/new/estimateForm/form4');
   }
 
