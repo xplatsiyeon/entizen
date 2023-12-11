@@ -124,6 +124,11 @@ const EstimateForm3 = () => {
           email: form.email,
           phone: form.phone,
           isAgree: form.isAgree,
+          utm_source: sessionStorage.getItem('utm_source'),
+          utm_medium: sessionStorage.getItem('utm_medium'),
+          utm_campaign: sessionStorage.getItem('utm_campaign'),
+          utm_content: sessionStorage.getItem('utm_content'),
+          utm_term: sessionStorage.getItem('utm_term')
         };
 
         sessionStorage.setItem('importantFactor', form.importantFactor as string);
