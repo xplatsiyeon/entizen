@@ -445,6 +445,7 @@ const EstimateByCompany = () => {
             const tagManagerArgs = {
               dataLayer: {
                 event: 'company_selection',
+                company_name: '캐스트프로',
               },
             };
           TagManager.dataLayer(tagManagerArgs);

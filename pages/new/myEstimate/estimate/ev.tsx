@@ -443,6 +443,7 @@ const EstimateByCompany = () => {
             const tagManagerArgs = {
               dataLayer: {
                 event: 'company_selection',
+                company_name: '한국EV충전서비스센터',
               },
             };
           TagManager.dataLayer(tagManagerArgs);

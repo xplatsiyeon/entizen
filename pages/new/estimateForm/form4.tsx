@@ -401,7 +401,7 @@ const EstimateForm4 = () => {
                     id="addressDetailInput"
                     className={styles.input_box}
                     size={size}
-                    placeholder="상세 주소를 입력해주세요."
+                    placeholder="상세 주소를 입력해주세요"
                     variant="outlined"
                     name="addressDetail"
                     value={form?.addressDetail ?? ''}
@@ -414,7 +414,7 @@ const EstimateForm4 = () => {
                     id="phoneInput"
                     className={styles.input_box}
                     size={size}
-                    placeholder="텍스트를 입력하세요."
+                    placeholder="연락처를 입력해 주세요"
                     variant="outlined"
                     name="phone"
                     value={form?.phone ?? ''}

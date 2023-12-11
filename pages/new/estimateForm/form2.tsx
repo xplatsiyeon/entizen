@@ -107,44 +107,48 @@ const EstimateForm2 = () => {
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
-    setBackdropOpen(true);
+    if(isComplete){
+      console.log("isComplete")
+      setBackdropOpen(true);
 
-    setTimeout(() => {
-      setBackdropOpen(false);
-      const sendData = {
-        selection: sessionStorage.getItem('selection'),
-        importantFactor: form.importantFactor,
-        place: form.place,
-        placeEtc: form.placeEtc,
-        address: form.address,
-        addressDetail: form.addressDetail,
-        email: form.email,
-        phone: form.phone,
-        isAgree: form.isAgree,
-      };
+      setTimeout(() => {
+        setBackdropOpen(false);
+        const sendData = {
+          selection: sessionStorage.getItem('selection'),
+          importantFactor: form.importantFactor,
+          place: form.place,
+          placeEtc: form.placeEtc,
+          address: form.address,
+          addressDetail: form.addressDetail,
+          email: form.email,
+          phone: form.phone,
+          isAgree: form.isAgree,
+        };
 
-      sessionStorage.setItem('importantFactor', form.importantFactor as string);
-      sessionStorage.setItem('place', form.place as string);
-      sessionStorage.setItem('placeEtc', form.placeEtc as string);
-      sessionStorage.setItem('address', form.address as string);
-      sessionStorage.setItem('addressDetail', form.addressDetail as string);
-      sessionStorage.setItem('email', form.email as string);
-      sessionStorage.setItem('phone', form.phone as string);
-      sessionStorage.setItem('phone_number', form.phone as string);
+        sessionStorage.setItem('importantFactor', form.importantFactor as string);
+        sessionStorage.setItem('place', form.place as string);
+        sessionStorage.setItem('placeEtc', form.placeEtc as string);
+        sessionStorage.setItem('address', form.address as string);
+        sessionStorage.setItem('addressDetail', form.addressDetail as string);
+        sessionStorage.setItem('email', form.email as string);
+        sessionStorage.setItem('phone', form.phone as string);
+        sessionStorage.setItem('phone_number', form.phone as string);
 
-      axios
-        .post('/zapier/submit', { data: sendData })
-        .then(() => {});
-        
-      //GA4 이벤트 전송
-      const tagManagerArgs = {
-        dataLayer: {
-          event: 'lead_submit',
-        },
-      };
-      TagManager.dataLayer(tagManagerArgs);
-      router.push('/new/estimateForm/complete');
-    }, 3000);
+        axios
+          .post('/zapier/submit', { data: sendData })
+          .then(() => {});
+          
+        //GA4 이벤트 전송
+        const tagManagerArgs = {
+          dataLayer: {
+            event: 'lead_submit',
+          },
+        };
+        TagManager.dataLayer(tagManagerArgs);
+        router.push('/new/estimateForm/complete');
+      }, 3000);
+    }
+    
   };
 
   useEffect(() => {
@@ -431,7 +435,7 @@ const EstimateForm2 = () => {
                     id="addressDetailInput"
                     className={styles.input_box}
                     size={size}
-                    placeholder="상세 주소를 입력해주세요."
+                    placeholder="상세 주소를 입력해주세요"
                     variant="outlined"
                     name="addressDetail"
                     value={form?.addressDetail ?? ''}
@@ -444,7 +448,7 @@ const EstimateForm2 = () => {
                     id="phoneInput"
                     className={styles.input_box}
                     size={size}
-                    placeholder="텍스트를 입력하세요."
+                    placeholder="연락처를 입력해 주세요"
                     variant="outlined"
                     name="phone"
                     value={form?.phone ?? ''}
@@ -457,7 +461,7 @@ const EstimateForm2 = () => {
                     id="emailInput"
                     className={styles.input_box}
                     size={size}
-                    placeholder="텍스트를 입력하세요."
+                    placeholder="이메일을 입력해 주세요"
                     variant="outlined"
                     name="email"
                     value={form?.email ?? ''}
