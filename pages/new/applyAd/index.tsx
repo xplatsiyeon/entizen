@@ -25,7 +25,7 @@ import Test from 'public/new/applyAd/test.png';
 import { useRouter } from 'next/router';
 
 const ApplyAdMain = () => {
-  console.log("1st live -10");
+  console.log("1st live -11");
 
   const router = useRouter();
   const urlQuery = router.query;
