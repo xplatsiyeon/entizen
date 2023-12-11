@@ -22,11 +22,11 @@ import Img01 from 'public/new/applyAd/slide1.png';
 import Img02 from 'public/new/applyAd/slide2.png';
 import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
-import { useRouter } from 'next/router';
 
 const ApplyAdMain = () => {
-  console.log("1st live -11");
+  console.log("1st live -13");
 
+  /*
   const router = useRouter();
   const urlQuery = router.query;
   sessionStorage.setItem('utm_source',urlQuery['utm_source'] as string || '');
@@ -34,6 +34,7 @@ const ApplyAdMain = () => {
   sessionStorage.setItem('utm_campaign',urlQuery['utm_campaign'] as string || '');
   sessionStorage.setItem('utm_content',urlQuery['utm_content'] as string || '');
   sessionStorage.setItem('utm_term',urlQuery['utm_term'] as string || '');
+  */
 
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({

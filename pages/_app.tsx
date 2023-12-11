@@ -16,6 +16,7 @@ import { CookiesProvider } from 'react-cookie';
 import TagManager from 'react-gtm-module'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+
   const dispatch = useDispatch();
   const [queryClient] = useState(() => new QueryClient());
 
