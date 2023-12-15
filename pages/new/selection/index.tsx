@@ -27,7 +27,7 @@ const Selection = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/new/priceComparison');
+    router.push('/new/estimateForm/form4');
   }
   const clickPublic = () => {
     sessionStorage.setItem("selection","입주민공용");

@@ -24,38 +24,12 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("1st live -13");
-
-  /*
-  const router = useRouter();
-  const urlQuery = router.query;
-  sessionStorage.setItem('utm_source',urlQuery['utm_source'] as string || '');
-  sessionStorage.setItem('utm_medium',urlQuery['utm_medium'] as string || '');
-  sessionStorage.setItem('utm_campaign',urlQuery['utm_campaign'] as string || '');
-  sessionStorage.setItem('utm_content',urlQuery['utm_content'] as string || '');
-  sessionStorage.setItem('utm_term',urlQuery['utm_term'] as string || '');
-  */
+  console.log("1st live -14 개인용도 선택 링크변경");
 
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
   });
-
-  // const imageFigure = useMemo(() => {
-  //   const imageTags = [];
-  //   for (let i = 1; i <= 8; i++) {
-  //     imageTags.push(
-  //       <img
-  //         className={ApplyAdMainStyles['figure' + i]}
-  //         alt={`figure${i}`}
-  //         src={`/images/suggestion/figure${i}.png`}
-  //       ></img>,
-  //     );
-  //   }
-
-  //   return imageTags;
-  // }, []);
-
   
   const onClickSendBtn = () => {
     //GA4 이벤트 전송
