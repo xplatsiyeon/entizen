@@ -39,22 +39,22 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
   // 알람 조회
   // /v1/alerts/unread-points
-  const { data: historyUnread } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'v1/alerts',
-    () => isTokenGetApi(`/v1/alerts/unread-points`),
-    {
-      enabled: userID !== null ? true : false,
-      select(res) {
-        return res.data;
-      },
-    },
-  );
+  // const { data: historyUnread } = useQuery<AlertsResponse, AxiosError, Alerts>(
+  //   'v1/alerts',
+  //   () => isTokenGetApi(`/v1/alerts/unread-points`),
+  //   {
+  //     enabled: userID !== null ? true : false,
+  //     select(res) {
+  //       return res.data;
+  //     },
+  //   },
+  // );
   const [isLogin, setIsLogin] = useState(false);
 
-  const moveAlarm = () => {
-    dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
-    router.push('/alarm');
-  };
+  // const moveAlarm = () => {
+  //   dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
+  //   router.push('/alarm');
+  // };
 
   // 이름 가져오기
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
