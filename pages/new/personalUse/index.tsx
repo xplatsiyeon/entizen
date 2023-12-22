@@ -34,7 +34,7 @@ import TagManager from 'react-gtm-module';
 
 const personalUse = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: '(max-width:480px)',
   });
   const router = useRouter();
 
@@ -110,8 +110,9 @@ const personalUse = () => {
       <section className={styles.sec_01}>
         <div className={styles.container}>
           <div className={styles.text_01}>
-            원하는 정보 입력 한 번으로 <br /> 여러 업체를 한눈에 비교할 수
-            있다면?
+            원하는 정보 입력 한 번으로 <br /> 여러 업체를 한눈에
+            <br className={styles.mobile} />
+            비교할 수 있다면?
           </div>
           <div className={styles.text_03}>
             <span>
@@ -133,8 +134,9 @@ const personalUse = () => {
         <div className={styles.container}>
           <div className={styles.text_title}>
             <div className={styles.item}>
-              <span className={styles.color}>충전기 설치</span>, 혼자
-              알아보기에는 <br />
+              <span className={styles.color}>충전기 설치</span>,
+              <br className={styles.mobile} />
+              혼자 알아보기에는 <br />
               복잡하고 생소한 시장이에요
             </div>
             <div className={styles.item}>혼자 알아보면 생길 수 있는 문제들</div>
@@ -175,7 +177,7 @@ const personalUse = () => {
               이 모든 문제를 <br />
               엔티즌이 한번에 해결합니다.
             </div>
-            <div className={styles.item}>
+            <div className={`${styles.item} ${styles.pc}`}>
               설치에 필요한 정보를 한 번만 입력하면,
               <br />
               엔티즌에서 선별한 우수한 업체들에게 견적을 요청합니다.
@@ -187,17 +189,37 @@ const personalUse = () => {
           {/* 견적 비교 */}
           <div className={styles.container02}>
             {isMobile ? (
-              <div className={styles.item_wrapper}>
-                <div className={styles.item}>
+              <>
+                <div className={styles.txt_item}>
+                  설치에 필요한 정보를 한 번만 입력하면,
+                </div>
+                <div className={styles.item_wrapper}>
                   <Image src={phone_01} alt="phone_img" />
-                </div>
-                <div className={`${styles.item}${styles.item_arrow}`}>
-                  <Image src={carbonNextArrow} alt="phone_arrow" />
-                </div>
-                <div className={styles.item}>
+                  <div className={styles.txt_item}>
+                    엔티즌에서 선별한 우수한 업체들에게
+                    <br className={styles.mobile} />
+                    견적을 요청합니다.
+                  </div>
                   <Image src={phone_02} alt="phone_img" />
+                  <div className={styles.txt_item}>
+                    업체들의 견적을 한눈에
+                    <br className={styles.mobile} />
+                    비교하고 선택하면 끝!
+                  </div>
                 </div>
-              </div>
+                <div className={styles.sub_text}>
+                  <Image
+                    src={waring}
+                    alt="icon_waring"
+                    style={{ width: '20px' }}
+                  />
+                  <span>
+                    이 후 설치에 필요한 모든 작업은 선택한
+                    <br className={styles.mobile} />
+                    업체에서 진행합니다.
+                  </span>
+                </div>
+              </>
             ) : (
               <>
                 <div className={styles.item_wrapper}>
@@ -230,79 +252,171 @@ const personalUse = () => {
         <div className={styles.sec_wrapper}>
           <div className={styles.title}>설치과정 한 눈에 보기</div>
           <div className={styles.step_container}>
-            <div className={styles.step_wrap}>
-              <div className={styles.step_wrapper}>
-                <div className={`${styles.step01} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 1</span>
+            {isMobile ? (
+              <div className={styles.step_wrap}>
+                <div className={styles.step_wrapper}>
+                  <div className={`${styles.step01} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 1</span>
+                    <Image
+                      src={Step_1}
+                      height={43}
+                      alt="setp1_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>견적 요청</span>
+                  </div>
                   <Image
-                    src={Step_1}
-                    height={68}
-                    alt="setp1_img"
-                    className={styles.step_icon}
+                    src={Step_arrow_circle}
+                    alt="step_next_arrow"
+                    height={20}
                   />
-                  <span className={styles.txt_bottom}>견적 요청</span>
+                  <div className={`${styles.step02} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 2</span>
+                    <Image
+                      src={Step_2}
+                      height={43}
+                      alt="setp2_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>비교/선택</span>
+                  </div>
+                  <Image
+                    src={Step_arrow_circle}
+                    alt="step_next_arrow"
+                    height={20}
+                  />
+                  <div className={`${styles.step03} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 3</span>
+                    <Image
+                      src={Step_3}
+                      height={43}
+                      alt="setp3_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>현장실사</span>
+                  </div>
                 </div>
-                <Image src={Step_arrow_circle} alt="step_next_arrow" />
-                <div className={`${styles.step02} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 2</span>
-                  <Image
-                    src={Step_2}
-                    height={68}
-                    alt="setp2_img"
-                    className={styles.step_icon}
-                  />
-                  <span className={styles.txt_bottom}>비교/선택</span>
+                <div>
+                  <hr />
                 </div>
-                <Image src={Step_arrow_circle} alt="step_next_arrow" />
-                <div className={`${styles.step03} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 3</span>
+                <div className={styles.step_wrapper}>
+                  <div className={`${styles.step04} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 4</span>
+                    <Image
+                      src={Step_4}
+                      height={43}
+                      alt="setp4_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>계약진행</span>
+                  </div>
                   <Image
-                    src={Step_3}
-                    height={68}
-                    alt="setp3_img"
-                    className={styles.step_icon}
+                    src={Step_arrow_circle}
+                    alt="step_next_arrow"
+                    height={20}
                   />
-                  <span className={styles.txt_bottom}>현장실사</span>
+                  <div className={`${styles.step05} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 5</span>
+                    <Image
+                      src={Step_5}
+                      height={43}
+                      alt="setp5_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>공사시작</span>
+                  </div>
+                  <Image
+                    src={Step_arrow_circle}
+                    alt="step_next_arrow"
+                    height={20}
+                  />
+                  <div className={`${styles.step06} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 6</span>
+                    <Image
+                      src={Step_6}
+                      height={43}
+                      alt="setp6_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>설치완료</span>
+                  </div>
                 </div>
               </div>
-              <div>
-                <hr />
+            ) : (
+              <div className={styles.step_wrap}>
+                <div className={styles.step_wrapper}>
+                  <div className={`${styles.step01} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 1</span>
+                    <Image
+                      src={Step_1}
+                      height={68}
+                      alt="setp1_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>견적 요청</span>
+                  </div>
+                  <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                  <div className={`${styles.step02} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 2</span>
+                    <Image
+                      src={Step_2}
+                      height={68}
+                      alt="setp2_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>비교/선택</span>
+                  </div>
+                  <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                  <div className={`${styles.step03} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 3</span>
+                    <Image
+                      src={Step_3}
+                      height={68}
+                      alt="setp3_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>현장실사</span>
+                  </div>
+                </div>
+                <div>
+                  <hr />
+                </div>
+                <div className={styles.step_wrapper}>
+                  <div className={`${styles.step04} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 4</span>
+                    <Image
+                      src={Step_4}
+                      height={68}
+                      alt="setp4_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>계약진행</span>
+                  </div>
+                  <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                  <div className={`${styles.step05} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 5</span>
+                    <Image
+                      src={Step_5}
+                      height={68}
+                      alt="setp5_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>공사시작</span>
+                  </div>
+                  <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                  <div className={`${styles.step06} ${styles.step}`}>
+                    <span className={styles.txt_top}>Setp 6</span>
+                    <Image
+                      src={Step_6}
+                      height={68}
+                      alt="setp6_img"
+                      className={styles.step_icon}
+                    />
+                    <span className={styles.txt_bottom}>설치완료</span>
+                  </div>
+                </div>
               </div>
-              <div className={styles.step_wrapper}>
-                <div className={`${styles.step04} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 4</span>
-                  <Image
-                    src={Step_4}
-                    height={68}
-                    alt="setp4_img"
-                    className={styles.step_icon}
-                  />
-                  <span className={styles.txt_bottom}>계약진행</span>
-                </div>
-                <Image src={Step_arrow_circle} alt="step_next_arrow" />
-                <div className={`${styles.step05} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 5</span>
-                  <Image
-                    src={Step_5}
-                    height={68}
-                    alt="setp5_img"
-                    className={styles.step_icon}
-                  />
-                  <span className={styles.txt_bottom}>공사시작</span>
-                </div>
-                <Image src={Step_arrow_circle} alt="step_next_arrow" />
-                <div className={`${styles.step06} ${styles.step}`}>
-                  <span className={styles.txt_top}>Setp 6</span>
-                  <Image
-                    src={Step_6}
-                    height={68}
-                    alt="setp6_img"
-                    className={styles.step_icon}
-                  />
-                  <span className={styles.txt_bottom}>설치완료</span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -345,15 +459,27 @@ const personalUse = () => {
           <div className={styles.text_title}>
             마지막으로, <br />
             <span className={styles.color}>
-              엔티즌에서만 제공할 수 있는 혜택
+              엔티즌에서만
+              <br className={styles.mobile} />
+              제공할 수 있는 혜택
             </span>
           </div>
 
           <div className={styles.contents_container}>
             <div className={styles.content}>
-              <div className={styles.coupon}>
-                <Image src={coupon} alt="coupon_img" />
-              </div>
+              {isMobile ? (
+                <div className={styles.coupon}>
+                  <Image
+                    src={coupon}
+                    alt="coupon_img"
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              ) : (
+                <div className={styles.coupon}>
+                  <Image src={coupon} alt="coupon_img" />
+                </div>
+              )}
               <div className={styles.item_text}>
                 <span>어떻게 이런 혜택이 가능할까?</span>
                 <span>

@@ -467,7 +467,7 @@
   height: 4rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
-  background: #383b48;
+  background: var(--Main1, #5221cb);
   margin: auto;
 
   /* 1 */
