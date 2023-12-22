@@ -13,10 +13,10 @@ import { AppProps } from 'next/app';
 import { useDispatch } from 'react-redux';
 import { userAgentAction } from 'store/userAgent';
 import { CookiesProvider } from 'react-cookie';
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
+import Footer from 'components/Main/Footer';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-
   const dispatch = useDispatch();
   const [queryClient] = useState(() => new QueryClient());
 
@@ -142,7 +142,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
     //GTM 스니펫 삽입
     TagManager.initialize({
-        gtmId: `GTM-P4MDKX9W`,
+      gtmId: `GTM-P4MDKX9W`,
     });
   }, []);
 
@@ -168,6 +168,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 </Head>
                 {/* </CustomProvider> */}
                 <Component {...pageProps} />
+                <Footer />
               </GoogleOAuthProvider>
             </PersistGate>
             <ReactQueryDevtools initialIsOpen={true} />

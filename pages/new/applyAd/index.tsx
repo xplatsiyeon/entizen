@@ -24,13 +24,13 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log("1st live -14 개인용도 선택 링크변경");
+  console.log('1st live -14 개인용도 선택 링크변경');
 
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
   });
-  
+
   const onClickSendBtn = () => {
     //GA4 이벤트 전송
     const tagManagerArgs = {
@@ -39,9 +39,9 @@ const ApplyAdMain = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    location.href='/new/selection'
-  }
-  
+    location.href = '/new/selection';
+  };
+
   useEffect(() => {
     if (swiper) {
       swiper.slideTo(0, 0, false);
@@ -107,7 +107,7 @@ const ApplyAdMain = () => {
                 className={ApplyAdMainStyles.section2Slider}
                 wrapperTag={'ul'}
                 loop={true}
-                slidesPerView="auto"                
+                slidesPerView="auto"
                 spaceBetween={40}
                 onSwiper={setSwiper}
                 autoplay={{

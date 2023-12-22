@@ -14,28 +14,20 @@ const Footer = (props: Props) => {
         <CompanyName>엘에스일렉트릭(주)</CompanyName>
         <InfoWrapper>
           <LabelBox>
-            <Labels>대표자</Labels>
-            <Labels>사업자 등록번호</Labels>
-            <Labels>주소</Labels>
-            <Labels>이메일</Labels>
-            <Labels>고객센터</Labels>
-            <Labels>운영시간</Labels>
-            <Labels>&nbsp;</Labels>
+            <Labels>
+              <Infos>대표자 : 구자균</Infos>
+              사업자 등록번호 : 116-81-19273
+            </Labels>
+            <Labels>주소 : 경기도 안양시 동안구 엘에스로 127(호계동)</Labels>
+            <Labels>이메일 : help@entizen.kr</Labels>
+            <Labels>
+              <Infos>고객센터 : 1544-6811</Infos>
+              운영시간 : 평일 09:00~17:00 (점심시간 12:00~13:00 / 주말 및 공휴일
+              제외)
+            </Labels>
           </LabelBox>
-          <InfoBox>
-            <Infos>구자균</Infos>
-            <Infos>116-81-19273</Infos>
-            <Infos>경기도 안양시 동안구 엘에스로 127(호계동)</Infos>
-            <Infos>help@entizen.kr</Infos>
-            <Infos>1544-6811</Infos>
-            <Infos>
-              평일 09:00~17:00
-              <br />
-              (점심시간 12:00~13:00 / 주말 및 공휴일 제외)
-            </Infos>
-          </InfoBox>
         </InfoWrapper>
-        <MenuBox>
+        {/* <MenuBox>
           <Menus
             onClick={async () => {
               router.push({
@@ -103,7 +95,7 @@ const Footer = (props: Props) => {
           >
             FAQ
           </Menus>
-        </MenuBox>
+        </MenuBox> */}
         <CopyRight>
           Copyright © 2022 Entizen Inc. All rights reserved.
         </CopyRight>
@@ -113,7 +105,7 @@ const Footer = (props: Props) => {
 };
 
 const Container = styled.div`
-  margin-top: 45pt;
+  margin-top: -10px;
   background-color: #f3f4f7;
   position: absolute;
   width: 100%;
@@ -124,20 +116,23 @@ const Container = styled.div`
 `;
 
 const FooterBox = styled.div`
-  margin: 35.25pt 40.5pt 81.75pt 39.75pt;
-  @media (max-width: 899.25pt) {
-    margin: 35.25pt 35.33pt 81.75pt 35.33pt;
+  margin: 52px 54px 109px 80px;
+  @media (max-width: 768px) {
+    margin: 35px 10px 60px 20px;
   }
 `;
 
 const CompanyName = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 9pt;
-  font-weight: 500;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
+  font-size: 14pt;
+  font-weight: 700;
+  line-height: 20pt;
   text-align: left;
   color: #747780;
+  @media (max-width: 768px) {
+    font-size: 9pt;
+    line-height: 15pt;
+  }
 `;
 const InfoWrapper = styled.div`
   width: 100%;
@@ -148,7 +143,10 @@ const InfoWrapper = styled.div`
   color: #a6a9b0;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  gap: 9pt;
+  gap: 20pt;
+  @media (max-width: 768px) {
+    gap: 9pt;
+  }
 `;
 
 const LabelBox = styled.div`
@@ -157,24 +155,43 @@ const LabelBox = styled.div`
 
 const Labels = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 7.5pt;
+  font-size: 9pt;
   font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
+  line-height: 15pt;
   text-align: left;
   color: #a6a9b0;
+  @media (max-width: 768px) {
+    font-size: 9pt;
+  }
 `;
 
 const InfoBox = styled.div``;
 
-const Infos = styled.div`
+const Infos = styled.span`
   font-family: 'Spoqa Han Sans Neo';
-  font-size: 7.5pt;
+  font-size: 9pt;
   font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
+  line-height: 18pt;
   text-align: left;
   color: #a6a9b0;
+  position: relative;
+  padding-right: 10px;
+
+  &:after {
+    content: '';
+    display: block;
+    height: 80%;
+    width: 1px;
+    background: #a6a9b0;
+    position: absolute;
+    top: 2px;
+    right: 5px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 7.5pt;
+    line-height: 12pt;
+  }
 `;
 
 const MenuBox = styled.div`
@@ -210,13 +227,15 @@ const Divider = styled.div`
 
 const CopyRight = styled.div`
   font-family: 'Spoqa Han Sans Neo';
-  display: flex;
+  font-size: 9pt;
   margin-top: 9pt;
-  font-size: 7.5pt;
   font-weight: 500;
-  color: #a6a9b0;
-  letter-spacing: -0.02em;
   line-height: 15pt;
+  text-align: left;
+  color: #a6a9b0;
+  @media (max-width: 768px) {
+    font-size: 9pt;
+  }
 `;
 
 const FooterMenuBar = styled.div`

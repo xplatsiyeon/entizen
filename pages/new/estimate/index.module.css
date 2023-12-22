@@ -44,6 +44,13 @@
   margin: 0 auto 8rem auto;
   width: fit-content;
 }
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+  .sec_wrapper {
+    margin: 0 auto 14rem auto;
+  }
+}
+
 .sec_wrapper > .title {
   color: #222;
   font-family: Spoqa Han Sans Neo;
@@ -277,7 +284,7 @@
 }
 .sec_02 .step_container .step_wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
@@ -316,6 +323,43 @@
   height: 0.0625rem;
   border-width: 0;
   background-color: #e2e5ed;
+}
+
+/* sec_02 add */
+.sec_02 .step_container .step_wrapper {
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 4rem;
+}
+.sec_02 .step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.sec_02 .txt_top {
+  color: var(--Main1, #5221cb);
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px; /* 185.714% */
+  letter-spacing: -0.28px;
+}
+.sec_02 .txt_bottom {
+  color: #222;
+
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px; /* 144.444% */
+  letter-spacing: -0.36px;
+}
+.sec_02 .step04 .txt_bottom {
+  width: 68px;
 }
 
 /* .sec_03 */
@@ -495,6 +539,9 @@
     background: #383b48;
     box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
     margin-top: 40px;
+    position: fixed;
+    bottom: 10px;
+    z-index: 99;
   }
   .sec_03 .button p {
     color: #fff;

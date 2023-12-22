@@ -11,7 +11,7 @@ import Selection_3 from 'public/new/selection/selection_3.svg';
 import Selection_4 from 'public/new/selection/selection_4.svg';
 import { useMediaQuery } from 'react-responsive';
 import styles from './index.module.css';
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
 
 const Selection = () => {
   const isMobile = useMediaQuery({
@@ -20,53 +20,59 @@ const Selection = () => {
   const router = useRouter();
 
   const clickPrivate = () => {
-    sessionStorage.setItem("selection","개인용도");
+    sessionStorage.setItem('selection', '개인용도');
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_selection_private",
+        event: 'click_selection_private',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/new/estimateForm/form4');
-  }
+    router.push('/new/personalUse');
+  };
   const clickPublic = () => {
-    sessionStorage.setItem("selection","입주민공용");
+    sessionStorage.setItem('selection', '입주민공용');
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_selection_public",
+        event: 'click_selection_public',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
     router.push('/new/estimate');
-  }
+  };
   const clickCustomer = () => {
-    sessionStorage.setItem("selection","모객용도");
+    sessionStorage.setItem('selection', '모객용도');
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_selection_customer",
+        event: 'click_selection_customer',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
     router.push('/new/electric');
-  }
+  };
   const clickRevenue = () => {
-    sessionStorage.setItem("selection","충전수익");
+    sessionStorage.setItem('selection', '충전수익');
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_selection_revenue",
+        event: 'click_selection_revenue',
       },
     };
     TagManager.dataLayer(tagManagerArgs);
     router.push('/new/electric/start');
-  }
+  };
 
   return (
     <div id="selection" className={styles.selection}>
-        {isMobile ? <WebHeaderA /> : <WebHeaderB />}
-        <section className={styles.sec_01}>
-          <div className={styles.title}><p>어떤 용도로 충전기를<br/>설치하시나요?</p></div>
-          <Box sx={{ width: '100%' }}>
-            {/* <Grid className={styles.menu_container} 
+      {isMobile ? <WebHeaderA /> : <WebHeaderB />}
+      <section className={styles.sec_01}>
+        <div className={styles.title}>
+          <p>
+            어떤 용도로 충전기를
+            <br />
+            설치하시나요?
+          </p>
+        </div>
+        <Box sx={{ width: '100%' }}>
+          {/* <Grid className={styles.menu_container} 
               container 
               rowSpacing={{ xs: 10, sm: 20, md: 10 }}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
@@ -130,59 +136,75 @@ const Selection = () => {
                   </div>
                 </Grid>
             </Grid> */}
-            <div className={styles.menu_container}>
-              <div id="usage_private" className={styles.menu_box} onClick={clickPrivate}>
-                <div className={styles.title}>개인용도</div>
-                <div className={styles.sub_title}>자택, 사업장</div>
-                <div className={styles.image_wrapper}>
-                  <Image
-                    src={Selection_1}
-                    alt="selection_1"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
-              </div>
-              <div id="usage_public" className={styles.menu_box} onClick={clickPublic}>
-                <div className={styles.title}>입주민공용</div>
-                <div className={styles.sub_title}>아파트</div>
-                <div className={styles.image_wrapper}>
-                  <Image
-                    src={Selection_2}
-                    alt="selection_2"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
-              </div>
-              <div id="usage_customer" className={styles.menu_box} onClick={clickCustomer}>
-                <div className={styles.title}>모객용도</div>
-                <div className={styles.sub_title}>카페, 숙박업</div>
-                <div className={styles.image_wrapper}>
-                  <Image
-                    src={Selection_3}
-                    alt="selection_3"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
-              </div>
-              <div id="usage_revenue" className={styles.menu_box} onClick={clickRevenue}>
-                <div className={styles.title}>충전수익</div>
-                <div className={styles.sub_title}>전기차 충전 사업</div>
-                <div className={styles.image_wrapper}>
-                  <Image
-                    src={Selection_4}
-                    alt="selection_4"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </div>
+          <div className={styles.menu_container}>
+            <div
+              id="usage_private"
+              className={styles.menu_box}
+              onClick={clickPrivate}
+            >
+              <div className={styles.title}>개인용도</div>
+              <div className={styles.sub_title}>자택, 사업장</div>
+              <div className={styles.image_wrapper}>
+                <Image
+                  src={Selection_1}
+                  alt="selection_1"
+                  layout="fill"
+                  objectFit="contain"
+                />
               </div>
             </div>
-          </Box>
-        </section>
-        <section className={styles.sec_02}></section>
+            <div
+              id="usage_public"
+              className={styles.menu_box}
+              onClick={clickPublic}
+            >
+              <div className={styles.title}>입주민공용</div>
+              <div className={styles.sub_title}>아파트</div>
+              <div className={styles.image_wrapper}>
+                <Image
+                  src={Selection_2}
+                  alt="selection_2"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+            <div
+              id="usage_customer"
+              className={styles.menu_box}
+              onClick={clickCustomer}
+            >
+              <div className={styles.title}>모객용도</div>
+              <div className={styles.sub_title}>카페, 숙박업</div>
+              <div className={styles.image_wrapper}>
+                <Image
+                  src={Selection_3}
+                  alt="selection_3"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+            <div
+              id="usage_revenue"
+              className={styles.menu_box}
+              onClick={clickRevenue}
+            >
+              <div className={styles.title}>충전수익</div>
+              <div className={styles.sub_title}>전기차 충전 사업</div>
+              <div className={styles.image_wrapper}>
+                <Image
+                  src={Selection_4}
+                  alt="selection_4"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          </div>
+        </Box>
+      </section>
+      <section className={styles.sec_02}></section>
     </div>
   );
 };

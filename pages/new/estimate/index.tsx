@@ -23,10 +23,10 @@ import Step_3 from 'public/new/estimate/step_3.svg';
 import Step_4 from 'public/new/estimate/step_4.svg';
 import Step_5 from 'public/new/estimate/step_5.svg';
 import Step_6 from 'public/new/estimate/step_6.svg';
+import Step_arrow_circle from 'public/new/estimate/step_arrow_circle.svg';
 import Sec01Img from 'public/new/estimate/sec_01.png';
 import Sec02Img from 'public/new/estimate/sec_02.png';
 import Step_arrow from 'public/new/estimate/step_arrow.svg';
-import Step_ellipse from 'public/new/estimate/step_ellipse.svg';
 import styles from './index.module.css';
 import TagManager from 'react-gtm-module';
 import classNames from 'classnames';
@@ -279,7 +279,7 @@ const Estimate = () => {
           </div>
         </div>
       </section>
-      <section className={styles.sec_02}>
+      {/* <section className={styles.sec_02}>
         <div className={styles.sec_wrapper}>
           <div className={styles.title}>설치과정 한 눈에 보기</div>
           <Box className={styles.step_container}>
@@ -291,14 +291,8 @@ const Estimate = () => {
                       <div className={styles.step_item}>
                         <div className={styles.step_arrow}>
                           <Image
-                            src={Step_ellipse}
+                            src={Step_arrow_circle}
                             alt="step_ellipse"
-                            layout="fill"
-                            objectFit="contain"
-                          />
-                          <Image
-                            src={Step_arrow}
-                            alt="step_arrow"
                             layout="fill"
                             objectFit="contain"
                           />
@@ -309,12 +303,12 @@ const Estimate = () => {
                     return (
                       <div className={styles.step_item}>
                         <div className={styles.step_title}>
-                          Step {index + 4}
+                          Step {index + 1}
                         </div>
                         <div className={styles.step_img}>
                           <Image
                             src={item.image}
-                            alt={`step_${index + 4}`}
+                            alt={`step_${index}`}
                             layout="fill"
                             objectFit="contain"
                           />
@@ -337,14 +331,8 @@ const Estimate = () => {
                       <div className={styles.step_item}>
                         <div className={styles.step_arrow}>
                           <Image
-                            src={Step_ellipse}
+                            src={Step_arrow_circle}
                             alt="step_ellipse"
-                            layout="fill"
-                            objectFit="contain"
-                          />
-                          <Image
-                            src={Step_arrow}
-                            alt="step_arrow"
                             layout="fill"
                             objectFit="contain"
                           />
@@ -372,6 +360,95 @@ const Estimate = () => {
                     );
                   }
                 })}
+              </div>
+            </div>
+          </Box>
+          <div className={styles.mobile_sec_02}>
+            <Image
+              src={Sec02Img}
+              alt="Sec02Img"
+              layout="intrinsic"
+              objectFit="contain"
+            />
+          </div>
+        </div>
+      </section> */}
+
+      <section className={styles.sec_02}>
+        <div className={styles.sec_wrapper}>
+          <div className={styles.title}>설치과정 한 눈에 보기</div>
+          <Box className={styles.step_container}>
+            <div className={styles.step_wrap}>
+              <div className={styles.step_wrapper}>
+                <div className={`${styles.step01} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 1</span>
+                  <Image
+                    src={Step_1}
+                    height={68}
+                    alt="setp1_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>견적 요청</span>
+                </div>
+                <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                <div className={`${styles.step02} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 2</span>
+                  <Image
+                    src={Step_2}
+                    height={68}
+                    alt="setp2_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>입주민 회의</span>
+                </div>
+                <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                <div className={`${styles.step03} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 3</span>
+                  <Image
+                    src={Step_3}
+                    height={68}
+                    alt="setp3_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>비교/선택</span>
+                </div>
+              </div>
+              <div>
+                <hr />
+              </div>
+              <div className={styles.step_wrapper}>
+                <div className={`${styles.step04} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 4</span>
+                  <Image
+                    src={Step_4}
+                    height={68}
+                    alt="setp4_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>현장실사 및 계약</span>
+                </div>
+                <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                <div className={`${styles.step05} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 5</span>
+                  <Image
+                    src={Step_5}
+                    height={68}
+                    alt="setp5_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>공사시작</span>
+                </div>
+                <Image src={Step_arrow_circle} alt="step_next_arrow" />
+                <div className={`${styles.step06} ${styles.step}`}>
+                  <span className={styles.txt_top}>Setp 6</span>
+                  <Image
+                    src={Step_6}
+                    height={68}
+                    alt="setp6_img"
+                    className={styles.step_icon}
+                  />
+                  <span className={styles.txt_bottom}>설치완료</span>
+                </div>
               </div>
             </div>
           </Box>
@@ -417,7 +494,7 @@ const Estimate = () => {
           </div>
           <div className={styles.button} onClick={clickGetMoreEstimate}>
             <p>
-              맞춤 비교견적 받고 시간 절약하기&nbsp;&nbsp;
+              견적서 받고 전문가와 상의하기&nbsp;&nbsp;
               <Image src={Step_arrow} alt="arrow" />
             </p>
           </div>
