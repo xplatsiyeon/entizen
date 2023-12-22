@@ -772,6 +772,7 @@
   .sec_06 .item_text span:nth-child(2) {
     margin-top: 12px;
     width: 80%;
+    font-size: 14px;
   }
   .sec_06 .sub_text {
     display: flex;
@@ -801,7 +802,7 @@
   }
   .button {
     width: 53.75rem;
-    height: 64px;
+    height: 56px;
     flex-shrink: 0;
     border-radius: 8px;
     background: var(--Main1, #5221cb);

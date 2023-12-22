@@ -484,7 +484,7 @@ const personalUse = () => {
                 <span>어떻게 이런 혜택이 가능할까?</span>
                 <span>
                   엔티즌에서 고객 유치를 시켜줌으로써 업체에서 SAVE 되는
-                  <br />
+                  <br className={styles.pc} />
                   마케팅 비용을 고객 여러분께 혜택으로 돌려드립니다.
                 </span>
               </div>
