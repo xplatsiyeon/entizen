@@ -197,6 +197,8 @@ const ApplyAdMain = () => {
                 <p>세부내용 확인해요</p>
               </div>
             </div>
+
+            {/* pc */}
             <div className={ApplyAdMainStyles.etcInfo}>
               <div className={ApplyAdMainStyles.imgWrap}>
                 <img
@@ -223,11 +225,14 @@ const ApplyAdMain = () => {
                 ></img>
               </div>
             </div>
+
+            {/* mobile */}
             <Swiper
               className={ApplyAdMainStyles.mobileSection3Slider}
               spaceBetween={12}
-              slidesPerView={2.1}
-              slidesOffsetAfter={84}
+              slidesPerView={'auto'}
+              slidesOffsetBefore={10}
+              slidesOffsetAfter={10}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (
@@ -244,13 +249,69 @@ const ApplyAdMain = () => {
               })}
             </Swiper>
 
+            {/* mobile */}
             <div className={ApplyAdMainStyles.mobileSection3}>
-              <Image
+              {/* <Image
                 src={Sec03Img}
                 alt="Sec03Img"
                 layout="intrinsic"
                 objectFit="contain"
-              />
+              /> */}
+
+              <div className={ApplyAdMainStyles.wrapper}>
+                <div className={ApplyAdMainStyles.items}>
+                  <div className={ApplyAdMainStyles.content}>
+                    <div
+                      className={`${ApplyAdMainStyles.item} ${ApplyAdMainStyles.item1}`}
+                    >
+                      <span>충전기 + 설치</span>
+                      <span>1,050,000 원</span>
+                    </div>
+                    <div
+                      className={`${ApplyAdMainStyles.item} ${ApplyAdMainStyles.item2}`}
+                    >
+                      <span>운영관리비</span>
+                      <span>0 원/월</span>
+                    </div>
+                    <div className={ApplyAdMainStyles.itemSupport}>
+                      <span>필요 시 추가비용 발생</span>
+                    </div>
+                    <div
+                      className={`${ApplyAdMainStyles.item} ${ApplyAdMainStyles.item3}`}
+                    >
+                      <span>보호함</span>
+                      <span>0 원</span>
+                    </div>
+                    <div
+                      className={`${ApplyAdMainStyles.item} ${ApplyAdMainStyles.item4}`}
+                    >
+                      <span>헬멧형 케노피</span>
+                      <span>200,000 원</span>
+                    </div>
+                    <div
+                      className={`${ApplyAdMainStyles.item} ${ApplyAdMainStyles.item5}`}
+                    >
+                      <span>스탠드</span>
+                      <span>250,000 원</span>
+                    </div>
+                    <div className={ApplyAdMainStyles.itemSupport}>
+                      <span>개별 구매시</span>
+                    </div>
+                  </div>
+                  <div
+                    className={`${ApplyAdMainStyles.content} ${ApplyAdMainStyles.content2}`}
+                  >
+                    <div className={ApplyAdMainStyles.each}>
+                      <span>충전기</span>
+                      <span>600,000 원</span>
+                    </div>
+                    <div className={ApplyAdMainStyles.each}>
+                      <span>설치</span>
+                      <span>600,000 원</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </article>
         </section>
