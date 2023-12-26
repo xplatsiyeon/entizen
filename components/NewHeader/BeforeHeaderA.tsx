@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import colors from 'styles/colors';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
+import LogosLS from 'public/images/EntizenHeaderLogoSvgLS.svg';
 import Chat from 'public/images/chat.png';
 //알람 꺼짐
 import BellOff from 'public/images/bell.png';
@@ -118,10 +119,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
               <LogoBox>
                 <div>
                   <Image
-                    src={Logos}
+                    src={LogosLS}
                     alt="logo"
                     layout="intrinsic"
-                    onClick={() => { router.push('/new/applyAd') }}
+                    onClick={() => {
+                      router.push('/new/applyAd');
+                    }}
                     style={{ cursor: 'pointer' }}
                   />
                 </div>
@@ -175,4 +178,3 @@ const LogoBox = styled.div`
     margin-left: 20px;
   }
 `;
-

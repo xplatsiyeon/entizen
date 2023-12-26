@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Logos from 'public/images/EntizenHeaderWitheLogoSvg.svg';
+import LogosLS from 'public/images/EntizenHeaderWitheLogoSvgLS.svg';
 import SubMenuBar from 'components/SubMenuBar';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
@@ -24,7 +25,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
 
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
-  
+
   const handleLink = (st: string) => {
     if (userID) {
       router.push(`${st}`);
@@ -48,10 +49,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
               <LogoBox>
                 <div>
                   <Image
-                    src={Logos}
+                    src={LogosLS}
                     alt="logo"
                     layout="intrinsic"
-                    onClick={() => { router.push('/new/applyAd') }}
+                    onClick={() => {
+                      router.push('/new/applyAd');
+                    }}
                     style={{ cursor: 'pointer' }}
                   />
                 </div>
@@ -103,7 +106,7 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   margin-right: 54pt;
-  
+
   @media (max-width: 899.25pt) {
     margin-left: 20px;
   }

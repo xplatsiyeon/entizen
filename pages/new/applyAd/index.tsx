@@ -197,37 +197,11 @@ const ApplyAdMain = () => {
                 <p>세부내용 확인해요</p>
               </div>
             </div>
-            <div className={ApplyAdMainStyles.etcInfo}>
-              <div className={ApplyAdMainStyles.imgWrap}>
-                <img
-                  className={ApplyAdMainStyles.section3Img_1}
-                  src="/images/suggestion/section3_1.png"
-                  alt="section3_1"
-                ></img>
-                <img
-                  className={ApplyAdMainStyles.section3Img_2}
-                  src="/images/suggestion/section3_2.png"
-                  alt="section3_2"
-                ></img>
-                <img
-                  className={ApplyAdMainStyles.section3Img_3}
-                  src="/images/suggestion/section3_3.png"
-                  alt="section3_3"
-                ></img>
-              </div>
-              <div className={ApplyAdMainStyles.estimateEtc}>
-                <img
-                  className={ApplyAdMainStyles.section3Img_4}
-                  src="/images/suggestion/section3_4.png"
-                  alt="section3_4"
-                ></img>
-              </div>
-            </div>
             <Swiper
               className={ApplyAdMainStyles.mobileSection3Slider}
               spaceBetween={12}
-              slidesPerView={2.1}
-              slidesOffsetAfter={84}
+              slidesPerView={'auto'}
+              slidesOffsetAfter={32}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (
