@@ -114,7 +114,7 @@ const EstimateForm2 = () => {
       setTimeout(() => {
         setBackdropOpen(false);
         const sendData = {
-          selection: sessionStorage.getItem('selection'),
+          selection: '모객용도',
           importantFactor: form.importantFactor,
           place: form.place,
           placeEtc: form.placeEtc,

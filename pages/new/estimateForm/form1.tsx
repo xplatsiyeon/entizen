@@ -112,7 +112,7 @@ const EstimateForm = () => {
         setBackdropOpen(false);
   
         const sendData = {
-          selection: sessionStorage.getItem('selection'),
+          selection: '입주민공용',
           importantFactor: form.importantFactor,
           place: form.progress,
           address: form.address,
