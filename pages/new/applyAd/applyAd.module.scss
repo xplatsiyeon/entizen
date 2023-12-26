@@ -295,6 +295,7 @@ $imgPath: '/images';
           position: fixed;
           bottom: 0;
           padding: 16px 0px;
+          width: 100%;
         }
 
         .estimateBtn {
@@ -309,7 +310,6 @@ $imgPath: '/images';
           line-height: 1.5rem; /* 150% */
           letter-spacing: -0.02rem;
 
-          width: 17.5rem;
           height: 3.5rem;
           border-radius: 0.5rem;
           background: #313238;
@@ -325,7 +325,7 @@ $imgPath: '/images';
           }
           @media screen and (max-width: 480px) {
             display: flex;
-            width: 350px;
+            width: 96%;
             height: 56px;
             padding: 16px 0px;
             justify-content: center;
@@ -341,8 +341,6 @@ $imgPath: '/images';
             font-weight: 500;
             line-height: 24px;
             letter-spacing: -0.32px;
-          }
-          @media screen and (max-width: 480px) {
             margin: 0 auto;
           }
         }
@@ -592,7 +590,7 @@ $imgPath: '/images';
             width: 100%;
             padding: 0 20px;
 
-            @media screen and (max-width: 320px) {
+            @media screen and (max-width: 330px) {
               padding: 0 40px;
             }
 
@@ -650,6 +648,10 @@ $imgPath: '/images';
                   line-height: 24px; /* 150% */
                   letter-spacing: -0.32px;
 
+                  @media screen and (max-width: 330px) {
+                    font-size: 14px;
+                  }
+
                   :nth-child(2) {
                     color: #4e5055;
                     font-weight: 500;
@@ -662,6 +664,10 @@ $imgPath: '/images';
                 justify-content: flex-end;
                 gap: 24px;
                 margin-top: 16px;
+
+                @media screen and (max-width: 330px) {
+                  gap: 16px;
+                }
 
                 .each span:first-child {
                   margin-right: 12px;

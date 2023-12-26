@@ -103,6 +103,7 @@
   font-style: normal;
   font-weight: 500;
   letter-spacing: -0.0175rem;
+  box-shadow: none;
 }
 .sec_01 .container .form_container .item .terms_container {
   display: flex;
@@ -209,12 +210,16 @@
   letter-spacing: -0.0175rem;
 }
 
-@media only screen and (min-width: 200px) and (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .sec_01 {
-    height: 678px;
+    height: 900px;
+    padding-top: 120px;
+    margin-bottom: 100px;
+    width: 100%;
   }
   .sec_01 .container {
     margin: 0 20px;
+    width: 90%;
   }
   .sec_01 .container > .title {
     color: #fff;
@@ -335,9 +340,8 @@
   }
   .sec_01 .container .submit_btn {
     display: flex;
-    width: 350px;
+    width: 100%;
     height: 56px;
-    padding: 16px 98px 16px 97px;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
@@ -348,6 +352,8 @@
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
     margin-bottom: 64px;
+    box-shadow: none;
+    border-radius: 8px;
   }
   .sec_01 .container .submit_btn.active {
   }
@@ -362,23 +368,92 @@
   .MuiPopover-root .MuiPaper-root ul > li {
     font-size: 16px;
   }
-  .form_detail_container .item {}
+  .form_detail_container .item {
+  }
   .form_detail_container .item .title {
-      color: #222;
-      font-family: Spoqa Han Sans Neo;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 24px; /* 150% */
-      letter-spacing: -0.32px;
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
   }
   .form_detail_container .item .description {
-      color: #222;
-      font-family: Spoqa Han Sans Neo;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 26px; /* 162.5% */
-      letter-spacing: -0.32px;
+    color: #222;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .sec_01 .container .form_container > form > div {
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .sec_01 .container > .title {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  .sec_01 .container .form_container .item > label {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .sec_01 .container .form_container {
+    padding: 3rem;
+  }
+  .sec_01 .container .form_container .item .input_box {
+    font-size: 14px;
+    height: 46px;
+    line-height: 2;
+    padding-right: 0;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .sec_01 .container .form_container .item .address_btn {
+    font-size: 13px;
+  }
+  .sec_01 .container .form_container .item .terms_container .terms_check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_check
+    > span {
+    font-size: 12.5px;
+    padding: 0;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_check
+    > span
+    > .required_check {
+    font-size: 12.5px;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_detail
+    > .terms_detail_btn {
+    font-size: 12.5px;
+    padding-right: 5px;
   }
 }

@@ -159,12 +159,54 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               >
                 {/* <CustomProvider locale={koKR}> */}
                 <Head>
-                  {/* <meta charSet="utf-8" /> */}
+                  <meta charSet="utf-8" />
                   <meta
                     name="viewport"
                     content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
                   />
-                  <title>엔티즌</title>
+                  <meta
+                    name="description"
+                    content="복잡하고 어려운 전기차 충전기 설치. 엔티즌에서 한눈에 쉽게 비교하고, 나에게 꼭 맞는 충전기를 만나보세요!"
+                  />
+                  <meta
+                    name="keywords"
+                    content="엔티즌, 전기차 충전기, 전기차 집밥, 전기차 충전기 설치 비용, 전기차 충전기 비교, 전기차 충전기 설치, 가정용 전기차 충전기"
+                  />
+
+                  {/* Open Graph 메타 태그 */}
+                  <meta property="og:type" content="website" />
+                  <meta
+                    property="og:title"
+                    content="엔티즌 - 전기차 충전기 설치. 한눈에 비교하고 선택하세요!"
+                  />
+                  <meta
+                    property="og:description"
+                    content="복잡하고 어려운 전기차 충전기 설치 및 가정용 전기차 충전기 선택을 엔티즌에서 한눈에 쉽게 비교하고, 나에게 꼭 맞는 충전기를 만나보세요!"
+                  />
+                  {/* <meta property="og:image" content="http://경로/KakaoTalk_20231122_121211967_02.png"/> */}
+                  <meta property="og:url" content="http://entizen.kr" />
+
+                  {/* Twitter Card 메타 태그 */}
+                  <meta name="twitter:card" content="summary_large_image" />
+                  <meta
+                    name="twitter:title"
+                    content="엔티즌 - 전기차 충전기 설치. 한눈에 비교하고 선택하세요!"
+                  />
+                  <meta
+                    name="twitter:description"
+                    content="복잡하고 어려운 전기차 충전기 설치 및 가정용 전기차 충전기 선택을 엔티즌에서 한눈에 쉽게 비교하고, 나에게 꼭 맞는 충전기를 만나보세요!"
+                  />
+                  {/* <meta name="twitter:image" content="http://경로/KakaoTalk_20231122_121211967_02.png"/> */}
+
+                  {/* Naver 메타 태그 */}
+                  <meta
+                    name="naver-site-verification"
+                    content="74e7e0b0fd5d7d820bbc02c24129327741d1c8b9"
+                  />
+
+                  <title>
+                    엔티즌 - 전기차 충전기 설치. 한눈에 비교하고 선택하세요!
+                  </title>
                 </Head>
                 {/* </CustomProvider> */}
                 <Component {...pageProps} />

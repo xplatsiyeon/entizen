@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import WebHeaderA from 'components/NewHeader/BeforeHeaderA';
+import WebHeaderC from 'components/NewHeader/BeforeHeaderC';
+import WebHeaderD from 'components/NewHeader/BeforeHeaderD';
 import WebHeaderB from 'components/NewHeader/BeforeHeaderB';
 import WebFooter from 'componentsWeb/WebFooter';
 import { Box } from '@mui/system';
@@ -108,8 +110,8 @@ const EstimateForm3 = () => {
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
-    if(isComplete){
-      console.log("isComplete")
+    if (isComplete) {
+      console.log('isComplete');
       setBackdropOpen(true);
 
       setTimeout(() => {
@@ -128,10 +130,13 @@ const EstimateForm3 = () => {
           utm_medium: sessionStorage.getItem('utm_medium'),
           utm_campaign: sessionStorage.getItem('utm_campaign'),
           utm_content: sessionStorage.getItem('utm_content'),
-          utm_term: sessionStorage.getItem('utm_term')
+          utm_term: sessionStorage.getItem('utm_term'),
         };
 
-        sessionStorage.setItem('importantFactor', form.importantFactor as string);
+        sessionStorage.setItem(
+          'importantFactor',
+          form.importantFactor as string,
+        );
         sessionStorage.setItem('place', form.place as string);
         sessionStorage.setItem('placeEtc', form.placeEtc as string);
         sessionStorage.setItem('address', form.address as string);
@@ -140,10 +145,8 @@ const EstimateForm3 = () => {
         sessionStorage.setItem('phone', form.phone as string);
         sessionStorage.setItem('phone_number', form.phone as string);
 
-        axios
-          .post('/zapier/submit', { data: sendData })
-          .then(() => {});
-          
+        axios.post('/zapier/submit', { data: sendData }).then(() => {});
+
         //GA4 이벤트 전송
         const tagManagerArgs = {
           dataLayer: {
@@ -154,7 +157,6 @@ const EstimateForm3 = () => {
         router.push('/new/estimateForm/complete');
       }, 3000);
     }
-    
   };
 
   useEffect(() => {
@@ -169,7 +171,7 @@ const EstimateForm3 = () => {
 
   return (
     <div id="estimateForm" className={styles.estimateForm}>
-      {isMobile ? <WebHeaderA /> : <WebHeaderB />}
+      {isMobile ? <WebHeaderC /> : <WebHeaderD />}
       <section className={styles.sec_01}>
         <div className={styles.container}>
           <div className={styles.title}>

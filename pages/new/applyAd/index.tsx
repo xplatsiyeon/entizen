@@ -15,6 +15,9 @@ import Image from 'next/image';
 import Sec02Img from 'public/new/applyAd/section2.png';
 import Sec03Img from 'public/new/applyAd/section3.png';
 import Sec04Img from 'public/new/applyAd/section4.png';
+import Sec04Item1 from 'public/new/applyAd/section4_item1.svg';
+import Sec04Item2 from 'public/new/applyAd/section4_item2.svg';
+import Sec04Item3 from 'public/new/applyAd/section4_item3.svg';
 import Sec05Img from 'public/new/applyAd/section5.png';
 import Sec04PcImg from 'public/new/applyAd/section4pc.png';
 import Sec05PcImg from 'public/new/applyAd/section5pc.png';
@@ -342,13 +345,29 @@ const ApplyAdMain = () => {
           />
         </div>
         <div className={ApplyAdMainStyles.mobileSection4}>
+          {/* 기존 이미지
           <Image
             src={Sec04Img}
             alt="Sec04Img"
             layout="intrinsic"
             objectFit="contain"
-          />
+          /> */}
+
+          <div className={ApplyAdMainStyles.wrapper}>
+            <div className={ApplyAdMainStyles.title}>
+              <p>1:1 채팅으로 궁금증 해결</p>
+              <p>궁금한 내용을 해결하고 편리하게 충전기 설치</p>
+            </div>
+            <div className={ApplyAdMainStyles.content}>
+              <div className={ApplyAdMainStyles.items}>
+                <Image src={Sec04Item1} />
+                <Image src={Sec04Item2} />
+                <Image src={Sec04Item3} />
+              </div>
+            </div>
+          </div>
         </div>
+
         {/* <div
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section5}`}
         >
