@@ -62,9 +62,11 @@ const ElectricStart = () => {
             />
           </div>
           <div className={styles.banner_title}>
-            전기차 충전기 사업
-            <br />
-            엔티즌으로 쉽고 빠르게 시작하세요
+            <div>
+              전기차 충전기 사업
+              <br />
+              엔티즌으로 쉽고 빠르게 시작하세요
+            </div>
           </div>
         </div>
       </section>

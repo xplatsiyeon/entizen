@@ -28,13 +28,15 @@
   font-weight: 500;
   line-height: 3.75rem; /* 150% */
   letter-spacing: -0.05rem;
-
+  width: 100%;
   z-index: 2;
   position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  transform: none;
 }
 
 /* sec_02 */

@@ -23,14 +23,17 @@ import entizen_03 from 'public/new/electric/entizen_03.png';
 import entizen_mb_01 from 'public/new/electric/entizen_mb_01.png';
 import entizen_mb_02 from 'public/new/electric/entizen_mb_02.png';
 import entizen_mb_03 from 'public/new/electric/entizen_mb_03.png';
-import phone_01 from 'public/new/electric/phone_01.png';
-import phone_02 from 'public/new/electric/phone_02.png';
+// import phone_01 from 'public/new/electric/phone_01.png';
+// import phone_02 from 'public/new/electric/phone_02.png';
+import phone_01 from 'public/new/electric/phone_01.svg';
+import phone_02 from 'public/new/electric/phone_02.svg';
 import why_01 from 'public/new/electric/why_01.png';
 import why_02 from 'public/new/electric/why_02.png';
 import why_03 from 'public/new/electric/why_03.png';
 import why_04 from 'public/new/electric/why_04.png';
 import chartImage from 'public/new/electric/chart.png';
-import chartImageMb from 'public/new/electric/chart_mb.png';
+// import chartImageMb from 'public/new/electric/chart_mb.png';
+import chartImageMb from 'public/new/electric/chart_mb.svg';
 import step_arrow from 'public/new/estimate/step_arrow.svg';
 import WebHeader from 'components/NewHeader/BeforeHeaderA';
 
@@ -200,6 +203,8 @@ const Electric = () => {
                   slidesPerView={2.3}
                   // slidesPerView={'auto'}
                   spaceBetween={isMobile ? 10 : 30}
+                  slidesOffsetBefore={20}
+                  slidesOffsetAfter={20}
                   modules={[Autoplay, Pagination]}
                   autoplay={{
                     delay: 2500,
@@ -269,12 +274,14 @@ const Electric = () => {
               <Swiper
                 slidesPerView={1.3}
                 // slidesPerView={'auto'}
-                spaceBetween={isMobile ? 10 : 30}
+                spaceBetween={isMobile ? -60 : 30}
                 modules={[Autoplay, Pagination]}
-                autoplay={{
-                  delay: 2500,
-                  disableOnInteraction: false,
-                }}
+                slidesOffsetBefore={60}
+                slidesOffsetAfter={40}
+                // autoplay={{
+                //   delay: 2500,
+                //   disableOnInteraction: false,
+                // }}
                 loop={false}
                 navigation={false}
                 pagination={false}

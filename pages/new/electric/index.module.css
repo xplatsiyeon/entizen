@@ -17,6 +17,9 @@
   position: relative;
   margin-bottom: 6rem;
 }
+.sec_01 .banner_container .banner_image span {
+  height: 100% !important;
+}
 .sec_01 .banner_container .banner_title {
   color: #fff;
   text-align: center;
@@ -353,7 +356,7 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
-    line-height: 40px; /* 200% */
+    line-height: 32px; /* 200% */
     letter-spacing: -0.4px;
     margin-bottom: 20px;
   }
@@ -428,6 +431,7 @@
     font-weight: 400;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
+    margin-top: 14px;
   }
   .sec_04 .content_container .content_wrapper_06 .item_wrapper .item .img {
     width: 40px;

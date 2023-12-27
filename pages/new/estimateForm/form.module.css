@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'Haan YHead B;';
+  src: url('../../../public/new/electric/font/Haan_YHead_B.ttf')
+    format('truetype');
+}
+
 #estimateForm {
 }
 
@@ -33,7 +39,7 @@
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
-  padding: 3rem 5rem;
+  padding: 3rem;
   margin-bottom: 10rem;
 }
 .sec_01 .container .form_container .item {
@@ -83,7 +89,8 @@
 .sec_01 .container .form_container .item .search_address_wrapper {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 8px;
 }
 .sec_01 .container .form_container .item .address_btn_grid {
   padding-left: 0;
@@ -146,13 +153,13 @@
   border-radius: 0.25rem;
   background: #e2e5ed;
   margin-left: auto;
+  box-shadow: none;
 }
 .sec_01 .container .submit_btn.active {
   background: #5221cb;
 }
-
 .sec_02 {
-  height: 53.125rem;
+  height: 350px;
 }
 
 /* 화면 폭이 320px 이하일 때 */
@@ -236,6 +243,10 @@
     border-radius: 8px;
     margin-bottom: 40px;
   }
+  .sec_01 .container .form_container form > div {
+    margin: 0 auto;
+    width: 100%;
+  }
   .sec_01 .container .form_container .form_wrapper {
     display: contents;
   }
@@ -243,7 +254,7 @@
     margin-bottom: 25px;
   }
   .sec_01 .container .form_container .item > label {
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -268,6 +279,7 @@
   }
   .sec_01 .container .form_container .item .input_box {
     font-size: 16px;
+    height: 40px;
   }
   .sec_01 .container .form_container .item .address_btn_grid {
   }
@@ -355,20 +367,11 @@
     box-shadow: none;
     border-radius: 8px;
   }
-  .sec_01 .container .submit_btn.active {
-  }
-  .sec_02 {
-  }
-  .sec_01 .container > .title {
-  }
-
   .option {
     font-size: 16px;
   }
   .MuiPopover-root .MuiPaper-root ul > li {
     font-size: 16px;
-  }
-  .form_detail_container .item {
   }
   .form_detail_container .item .title {
     color: #222;
@@ -387,6 +390,41 @@
     font-weight: 400;
     line-height: 26px; /* 162.5% */
     letter-spacing: -0.32px;
+  }
+  .sec_01 .container .form_container .item .terms_container .terms_check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_check
+    > span {
+    font-size: 14px;
+    padding: 0;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_check
+    > span
+    > .required_check {
+    font-size: 14px;
+  }
+  .sec_01
+    .container
+    .form_container
+    .item
+    .terms_container
+    .terms_detail
+    > .terms_detail_btn {
+    font-size: 14px;
+    padding-right: 5px;
   }
 }
 
@@ -412,11 +450,6 @@
     height: 46px;
     line-height: 2;
     padding-right: 0;
-  }
-  .sec_01 .container .form_container .item .search_address_wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
   }
   .sec_01 .container .form_container .item .address_btn {
     font-size: 13px;

@@ -171,7 +171,7 @@ const Infos = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 500;
-  line-height: 18pt;
+  line-height: 15pt;
   text-align: left;
   color: #a6a9b0;
   position: relative;
@@ -189,8 +189,7 @@ const Infos = styled.span`
   }
 
   @media (max-width: 768px) {
-    font-size: 7.5pt;
-    line-height: 12pt;
+    font-size: 9pt;
   }
 `;
 
