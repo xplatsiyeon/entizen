@@ -356,7 +356,11 @@ const ApplyAdMain = () => {
           <div className={ApplyAdMainStyles.wrapper}>
             <div className={ApplyAdMainStyles.title}>
               <p>1:1 채팅으로 궁금증 해결</p>
-              <p>궁금한 내용을 해결하고 편리하게 충전기 설치</p>
+              <p>
+                궁금한 내용을 해결하고
+                <br />
+                편리하게 충전기 설치
+              </p>
             </div>
             <div className={ApplyAdMainStyles.content}>
               <div className={ApplyAdMainStyles.items}>

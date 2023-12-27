@@ -182,7 +182,47 @@ $imgPath: '/images';
     display: none;
     @media screen and (max-width: 480px) {
       display: block;
-      margin: 80px 20px;
+      margin: 0px 20px 80px 20px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+
+      :first-child {
+        color: var(--Main1, #5221cb);
+        font-family: Spoqa Han Sans Neo;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -0.32px;
+      }
+      :last-child {
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 40px; /* 142.857% */
+        letter-spacing: -0.56px;
+      }
+    }
+
+    .content {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+      padding: 28px 23px;
+
+      span:nth-child(2) {
+        float: right !important;
+        margin: 20px 0 !important;
+      }
     }
   }
   .pcSection5 {
