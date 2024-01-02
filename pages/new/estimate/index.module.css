@@ -269,7 +269,7 @@
 .sec_02 .step_container {
   display: block;
   width: 53.75rem;
-  height: 30.9375rem;
+  height: auto;
   border-radius: 0.5rem;
   border: 1px solid #e2e5ed;
   background: #fff;
