@@ -4,6 +4,10 @@ import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 import RightNext from 'public/images/RightNextEllipse.svg';
 import LeftNext from 'public/images/LeftNextEllipse.svg';
 import Image from 'next/image';
+import certificate01 from 'public/new/estimate/starkoff/certificate_1.png';
+import certificate02 from 'public/new/estimate/starkoff/certificate_2.png';
+import certificate03 from 'public/new/estimate/starkoff/certificate_3.png';
+import certificate04 from 'public/new/estimate/starkoff/certificate_4.png';
 import estimateByCompanyStyles from './company.module.scss';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -20,7 +24,7 @@ SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
   const company = 'starkoff';
-  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
+  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
@@ -146,7 +150,7 @@ const EstimateByCompany = () => {
         <div className={estimateByCompanyStyles.companyInfoWrap}>
           <div
             className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
-            style={{ width: '100px', height: '22.222px'}}
+            style={{ width: '100px', height: '22.222px' }}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
@@ -320,8 +324,26 @@ const EstimateByCompany = () => {
               </button>
             </>
           ) : (
-            <div className={estimateByCompanyStyles.section2Slider}>
-              <ul className={estimateByCompanyStyles.section2SliderUl}>
+            <div className={estimateByCompanyStyles.section2starkoff}>
+              <div className={estimateByCompanyStyles.certificate}>
+                <div className={estimateByCompanyStyles.certificate_item}>
+                  <Image src={certificate01} />
+                  <span>전기신사업자 등록증</span>
+                </div>
+                <div className={estimateByCompanyStyles.certificate_item}>
+                  <Image src={certificate02} />
+                  <span>로밍서비스 EV이음</span>
+                </div>
+                <div className={estimateByCompanyStyles.certificate_item}>
+                  <Image src={certificate03} />
+                  <span>중소벤처부 초격차 스타트업 1000+ 선정</span>
+                </div>
+                <div className={estimateByCompanyStyles.certificate_item}>
+                  <Image src={certificate04} />
+                  <span>녹색기술제품 확인</span>
+                </div>
+              </div>
+              {/* <ul className={estimateByCompanyStyles.section2SliderUl}>
                 {estimateByCompanyData.certificateInfo.map(
                   (img: string, idx: number) => {
                     return (
@@ -336,7 +358,7 @@ const EstimateByCompany = () => {
                     );
                   },
                 )}
-              </ul>
+              </ul> */}
             </div>
           )}
         </div>
@@ -374,7 +396,7 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.5 : "auto"}
+              slidesPerView={isTablet ? 1.5 : 'auto'}
               spaceBetween={24}
               onSwiper={setSwiper}
               slidesPerGroup={3}
@@ -426,31 +448,46 @@ const EstimateByCompany = () => {
       </section>
       <CommonConfirmModal
         open={modalOpen}
-        onClose={() => { setModalOpen(false)}}
+        onClose={() => {
+          setModalOpen(false);
+        }}
         onConfirm={() => {
           const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {
-                companyName:'스타코프',
-                phone:sessionStorage.getItem("phone")
+                companyName: '스타코프',
+                phone: sessionStorage.getItem('phone'),
               },
             })
-            .then((res) => {
-            });
-            //GA4 이벤트 전송
-            const tagManagerArgs = {
-              dataLayer: {
-                event: 'company_selection',
-                company_name: '스타코프',
-              },
-            };
-            TagManager.dataLayer(tagManagerArgs);
-          location.href='/new/estimateForm/complete2'
-          setModalOpen(false)
+            .then((res) => {});
+          //GA4 이벤트 전송
+          const tagManagerArgs = {
+            dataLayer: {
+              event: 'company_selection',
+              company_name: '스타코프',
+            },
+          };
+          TagManager.dataLayer(tagManagerArgs);
+          location.href = '/new/estimateForm/complete2';
+          setModalOpen(false);
         }}
         title=""
-        content={<p style={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 500, lineHeight: 'normal', letterSpacing: '-0.32px', marginBottom: '20px', marginTop: '20px' }}>해당 업체에게 현장실사를 요청하시겠습니까?</p>}
+        content={
+          <p
+            style={{
+              fontSize: '16px',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: 'normal',
+              letterSpacing: '-0.32px',
+              marginBottom: '20px',
+              marginTop: '20px',
+            }}
+          >
+            해당 업체에게 현장실사를 요청하시겠습니까?
+          </p>
+        }
       />
     </div>
   );

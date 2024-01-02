@@ -72,8 +72,8 @@ const progress_02 = [
 ];
 
 const Estimate = () => {
-  const mobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+  const isMobile = useMediaQuery({
+    query: '(max-width:480px)',
   });
   const router = useRouter();
 
@@ -108,175 +108,325 @@ const Estimate = () => {
             <p>입대위 의사결정을 위한 비교 견적</p>
           </div>
           {/* 견적서 */}
-          <div className={styles.sheet_container}>
-            <div className={styles.sheet}>
-              {/* 비교 컨테이너 */}
-              <div className={styles.sheet_comparison}>
-                <div>
-                  <Grid container>
-                    <Grid item xs>
-                      <div className={styles.item_wrap}>
-                        <p className={styles.item_01}>A사</p>
-                        <div className={styles.item_02}>
-                          <div className={styles.descriptions}>
-                            <p className={styles.label}>설치비</p>
-                            <p className={styles.content}>무료</p>
+          {isMobile ? (
+            <>
+              <div className={styles.mobile_sec_01}>
+                <div className={styles.sheet}>
+                  {/* 비교 컨테이너 */}
+                  <div className={styles.sheet_comparison}>
+                    <div>
+                      <Grid container>
+                        <Grid item xs>
+                          <div className={styles.item_wrap}>
+                            <p className={styles.item_01}>A사</p>
+                            <div className={styles.item_02}>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>설치비</p>
+                                <p className={styles.content}>무료</p>
+                              </div>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>충전요금</p>
+                                <p className={styles.content}>220원/kW</p>
+                              </div>
+                            </div>
                           </div>
-                          <div className={styles.descriptions}>
-                            <p className={styles.label}>충전요금</p>
-                            <p className={styles.content}>220원/kW</p>
+                        </Grid>
+                        <span className={styles.versus}>VS</span>
+                        <Grid item xs>
+                          <div className={styles.item_wrap}>
+                            <p className={styles.item_01}>B사</p>
+                            <div className={styles.item_02}>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>설치비</p>
+                                <p className={styles.content}>무료</p>
+                              </div>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>충전요금</p>
+                                <p className={styles.content}>229원/kW</p>
+                              </div>
+                            </div>
                           </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </div>
+                  <hr />
+                  {/* 프로모션 */}
+                  <div className={styles.sheet_promotion}>
+                    <div className={styles.promotion_title}>프로모션</div>
+                    <div className={styles.promotion_container}>
+                      <div className={styles.promotion_wrapper}>
+                        <div>• 1년 139원/kW</div>
+                        <div>• 6개월 119원/kW</div>
+                      </div>
+                      <div className={styles.promotion_wrapper}>
+                        <div className={styles.text_right}>
+                          • 6개월 165원/kW
                         </div>
                       </div>
-                    </Grid>
-                    <Divider
-                      orientation="vertical"
-                      flexItem
-                      className={styles.vs}
-                    >
-                      VS
-                    </Divider>
-                    <Grid item xs>
-                      <div className={styles.item_wrap}>
-                        <p className={styles.item_01}>B사</p>
-                        <div className={styles.item_02}>
-                          <div className={styles.descriptions}>
-                            <p className={styles.label}>설치비</p>
-                            <p className={styles.content}>무료</p>
-                          </div>
-                          <div className={styles.descriptions}>
-                            <p className={styles.label}>충전요금</p>
-                            <p className={styles.content}>229원/kW</p>
-                          </div>
-                        </div>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </div>
-              </div>
-              <hr />
-              {/* 프로모션 */}
-              <div className={styles.sheet_promotion}>
-                <div className={styles.promotion_title}>프로모션</div>
-                <div className={styles.promotion_container}>
-                  <div className={styles.promotion_wrapper}>
-                    <div>• 1년 139원/kW</div>
-                    <div>• 6개월 119원/kW</div>
+                    </div>
                   </div>
-                  <div className={styles.promotion_wrapper}>
-                    <div>• 6개월 165원/kW</div>
+
+                  {/* 표 */}
+                  <div className={styles.sheet_table}>
+                    <TableContainer component={Paper}>
+                      <Table
+                        sx={{ minWidth: 100 }}
+                        size="small"
+                        aria-label="a dense table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center" colSpan={3}>
+                              <p>옵션</p>
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              보험 가입
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              화재 감지
+                            </TableCell>
+                            <TableCell align="center">X</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">X</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              터치 LCD
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">X</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              신용카드 리더기
+                            </TableCell>
+                            <TableCell align="center">X</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              간편결제 기능
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              전용 앱 서비스
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              로밍
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              출력 제어 기능
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </div>
+
+                  <p className={styles.text_01}>
+                    엔티즌 파트너 업체들의 충전 요금은 <br />
+                    <span className={styles.text_02}>119원~250원</span>으로
+                    다양합니다.
+                  </p>
                 </div>
               </div>
 
-              {/* 표 */}
-              <div className={styles.sheet_table}>
-                <TableContainer component={Paper}>
-                  <Table
-                    sx={{ minWidth: 650 }}
-                    size="small"
-                    aria-label="a dense table"
-                  >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center" colSpan={3}>
-                          <p>옵션</p>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          보험 가입
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          화재 감지
-                        </TableCell>
-                        <TableCell align="center">X</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">X</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          터치 LCD
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">X</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          신용카드 리더기
-                        </TableCell>
-                        <TableCell align="center">X</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          간편결제 기능
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          전용 앱 서비스
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          로밍
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell align="center">O</TableCell>
-                        <TableCell align="center" className={styles.option}>
-                          출력 제어 기능
-                        </TableCell>
-                        <TableCell align="center">O</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+              <div className={styles.mobile_title_02}>
+                <p>
+                  설치환경에 따라 제시되는
+                  <br />
+                  엔티즌 파트너들의 비교 견적서를
+                  <br />
+                  받아보세요.
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.sheet_container}>
+                <div className={styles.sheet}>
+                  {/* 비교 컨테이너 */}
+                  <div className={styles.sheet_comparison}>
+                    <div>
+                      <Grid container>
+                        <Grid item xs>
+                          <div className={styles.item_wrap}>
+                            <p className={styles.item_01}>A사</p>
+                            <div className={styles.item_02}>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>설치비</p>
+                                <p className={styles.content}>무료</p>
+                              </div>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>충전요금</p>
+                                <p className={styles.content}>220원/kW</p>
+                              </div>
+                            </div>
+                          </div>
+                        </Grid>
+                        <Divider
+                          orientation="vertical"
+                          flexItem
+                          className={styles.vs}
+                        >
+                          VS
+                        </Divider>
+                        <Grid item xs>
+                          <div className={styles.item_wrap}>
+                            <p className={styles.item_01}>B사</p>
+                            <div className={styles.item_02}>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>설치비</p>
+                                <p className={styles.content}>무료</p>
+                              </div>
+                              <div className={styles.descriptions}>
+                                <p className={styles.label}>충전요금</p>
+                                <p className={styles.content}>229원/kW</p>
+                              </div>
+                            </div>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </div>
+                  <hr />
+                  {/* 프로모션 */}
+                  <div className={styles.sheet_promotion}>
+                    <div className={styles.promotion_title}>프로모션</div>
+                    <div className={styles.promotion_container}>
+                      <div className={styles.promotion_wrapper}>
+                        <div>• 1년 139원/kW</div>
+                        <div>• 6개월 119원/kW</div>
+                      </div>
+                      <div className={styles.promotion_wrapper}>
+                        <div>• 6개월 165원/kW</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 표 */}
+                  <div className={styles.sheet_table}>
+                    <TableContainer component={Paper}>
+                      <Table
+                        sx={{ minWidth: 650 }}
+                        size="small"
+                        aria-label="a dense table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center" colSpan={3}>
+                              <p>옵션</p>
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              보험 가입
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              화재 감지
+                            </TableCell>
+                            <TableCell align="center">X</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">X</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              터치 LCD
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">X</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              신용카드 리더기
+                            </TableCell>
+                            <TableCell align="center">X</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              간편결제 기능
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              전용 앱 서비스
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              로밍
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell align="center">O</TableCell>
+                            <TableCell align="center" className={styles.option}>
+                              출력 제어 기능
+                            </TableCell>
+                            <TableCell align="center">O</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+
+                  <p className={styles.text_01}>
+                    엔티즌 파트너 업체들의 충전 요금은{' '}
+                    <span className={styles.text_02}>119원~250원</span>으로
+                    다양합니다.
+                  </p>
+                </div>
               </div>
 
-              <p className={styles.text_01}>
-                엔티즌 파트너 업체들의 충전 요금은{' '}
-                <span className={styles.text_02}>119원~250원</span>으로
-                다양합니다.
-              </p>
-            </div>
-          </div>
-          <div className={styles.mobile_sec_01}>
+              <div className={styles.title_02}>
+                <p>
+                  설치환경에 따라 제시되는 엔티즌 파트너들의
+                  <br />
+                  비교 견적서를 받아보세요.
+                </p>
+              </div>
+            </>
+          )}
+          {/* <div className={styles.mobile_sec_01}>
             <Image
               src={Sec01Img}
               alt="Sec01Img"
               layout="intrinsic"
               objectFit="cover"
             />
-          </div>
-          <div className={styles.title_02}>
-            <p>
-              설치환경에 따라 제시되는 엔티즌 파트너들의
-              <br />
-              비교 견적서를 받아보세요.
-            </p>
-          </div>
-          <div className={styles.mobile_title_02}>
-            <p>
-              설치환경에 따라 제시되는
-              <br />
-              엔티즌 파트너들의 비교 견적서를
-              <br />
-              받아보세요.
-            </p>
-          </div>
+          </div> */}
         </div>
       </section>
       {/* <section className={styles.sec_02}>

@@ -426,16 +426,14 @@ const personalUse = () => {
           <div className={styles.title}>이런 분들께 추천드려요</div>
           <div className={styles.item_container}>
             <div className={styles.item}>
-              <div className={styles.item_01}>
-                알아보는 시간을 줄이고 싶은 분
-              </div>
+              <div className={styles.item_01}>시간이 곧 돈인 분</div>
               <div className={styles.item_02}>
-                설득부터 설치까지 저희가 다 알려드릴게요!
+                그 시간! 저희가 아껴드릴게요!
               </div>
             </div>
             <div className={styles.item}>
               <div className={styles.item_01}>
-                가장 저렴한 충전 요금으로 설치하고 싶은 분
+                금액을 최대한 세이브하고 싶은 분
               </div>
               <div className={styles.item_02}>
                 한 눈에 비교할 수 있는 견적서를 통해 합리적인 선택을

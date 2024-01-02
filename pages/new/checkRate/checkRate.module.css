@@ -29,7 +29,7 @@
 .check_rate_page .sec_03 .sub_title > span,
 .check_rate_page .sec_06 .sub_title > span,
 .check_rate_page .sec_05 .sub_title > span {
-  color: #4E5055;
+  color: #4e5055;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
   font-style: normal;
@@ -41,7 +41,7 @@
 .check_rate_page .sec_03 .sub_title,
 .check_rate_page .sec_06 .sub_title,
 .check_rate_page .sec_05 .sub_title {
-  color: #4E5055;
+  color: #4e5055;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
   font-style: normal;
@@ -61,7 +61,7 @@
   border-collapse: collapse; /*이중선 제거*/
   width: 100%;
 }
-.check_rate_page .table_container table th, 
+.check_rate_page .table_container table th,
 .check_rate_page .table_container table td {
   width: 100px;
   height: 2.75rem;
@@ -86,7 +86,7 @@
   width: 11.25rem;
 }
 .check_rate_page .sec_03 .table_caption {
-  color: #4E5055;
+  color: #4e5055;
   font-family: Spoqa Han Sans Neo;
   font-size: 0.875rem;
   font-style: normal;
@@ -117,11 +117,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
 }
 
 /* sec_02, sec_05 */
-.check_rate_page .sec_02 {}
+.check_rate_page .sec_02 {
+}
 
 .check_rate_page .sec_02 .info_wrap .info_item,
 .check_rate_page .sec_05 .info_wrap .info_item {
@@ -130,7 +130,7 @@
 
 .check_rate_page .sec_05 .info_wrap .info_text,
 .check_rate_page .sec_07 .info_wrap .info_text {
-  color: #A3A7B2;
+  color: #a3a7b2;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
   font-style: normal;
@@ -149,17 +149,20 @@
 }
 
 /* sec_03 */
-.check_rate_page .sec_03 {}
+.check_rate_page .sec_03 {
+}
 
 /* sec_04 */
-.check_rate_page .sec_04 { margin: 0 auto 6.25rem; }
+.check_rate_page .sec_04 {
+  margin: 0 auto 6.25rem;
+}
 .check_rate_page .sec_04 .container_01 {
-  background: rgba(45, 46, 53, 0.90);
+  background: rgba(45, 46, 53, 0.9);
   padding: 3.19rem 0;
   text-align: center;
 }
 .check_rate_page .sec_04 .container_01 .text_01 {
-  color: #FFF;
+  color: #fff;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.25rem;
   font-style: normal;
@@ -168,7 +171,7 @@
   letter-spacing: -0.025rem;
 }
 .check_rate_page .sec_04 .container_01 .text_02 {
-  color: #FFF;
+  color: #fff;
   font-family: Spoqa Han Sans Neo;
   font-size: 2.5rem;
   font-style: normal;
@@ -177,7 +180,7 @@
   letter-spacing: -0.05rem;
 }
 .check_rate_page .sec_04 .container_01 .text_02 > span {
-  color: #FFF;
+  color: #fff;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.5rem;
   font-style: normal;
@@ -186,13 +189,13 @@
   letter-spacing: -0.03rem;
 }
 .check_rate_page .sec_04 .container_02 {
-  background: #383B48;
+  background: #383b48;
 }
 .check_rate_page .sec_04 .container_02 {
   padding: 5rem 1.25rem 6.56rem;
 }
 .check_rate_page .sec_04 .container_02 .text_01 {
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.625rem;
@@ -208,7 +211,7 @@
   margin-bottom: 5rem;
 }
 .check_rate_page .sec_04 .container_02 .text_02 {
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
@@ -219,10 +222,12 @@
 }
 
 /* sec_06 */
-.check_rate_page .sec_06 {}
+.check_rate_page .sec_06 {
+}
 
 /* sec_07 */
-.check_rate_page .sec_07 {}
+.check_rate_page .sec_07 {
+}
 .check_rate_page .sec_07 .title {
   color: #222;
   font-family: Spoqa Han Sans Neo;
@@ -234,7 +239,7 @@
   margin-bottom: 1rem;
 }
 .check_rate_page .sec_07 .sub_title {
-  color: #4E5055;
+  color: #4e5055;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
   font-style: normal;
@@ -251,14 +256,14 @@
   width: 0.125rem;
   height: 1rem;
   flex-shrink: 0;
-  background: #A3A7B2;
+  background: #a3a7b2;
   margin: 0 1rem;
 }
 .check_rate_page .sec_07 .info_wrap .info_example {
   border-radius: 0.5rem;
-  border: 1px solid #E2E5ED;
-  background: #FFF;
-  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.20);
+  border: 1px solid #e2e5ed;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
   padding: 2.25rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -287,7 +292,7 @@
   margin-bottom: 0.5rem;
 }
 .check_rate_page .sec_07 .info_wrap .info_example .info_calculation_text {
-  color: #A3A7B2;
+  color: #a3a7b2;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
   font-size: 0.875rem;
@@ -299,15 +304,15 @@
 
 .check_rate_page .sec_07 .info_wrap .info_avg_monthly {
   border-radius: 0.5rem;
-  border: 1px solid #5221CB;
-  background: rgba(82, 33, 203, 0.10);
+  border: 1px solid #5221cb;
+  background: rgba(82, 33, 203, 0.1);
   padding: 1.37rem 2.44rem;
   margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
 }
 .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_01 {
-  color: #5221CB;
+  color: #5221cb;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.25rem;
   font-style: normal;
@@ -332,7 +337,7 @@
   margin-bottom: 0.38rem;
 }
 .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_03 {
-  color: #4E5055;
+  color: #4e5055;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
   font-size: 0.875rem;
@@ -343,7 +348,7 @@
 }
 
 @media screen and (max-width: 1023px) {
-  .check_rate_page .sec_1 .backgroundIntro { 
+  .check_rate_page .sec_1 .backgroundIntro {
     width: 21.875rem;
     font-size: 1.5rem;
     line-height: 2.25rem; /* 150% */
@@ -373,7 +378,13 @@
   .check_rate_page .sec_02 .sub_title > span,
   .check_rate_page .sec_03 .sub_title > span,
   .check_rate_page .sec_06 .sub_title > span,
-  .check_rate_page .sec_05 .sub_title > span { font-size: 16px; font-style: normal; font-weight: 400; line-height: 28px; /* 175% */ letter-spacing: -0.32px; }
+  .check_rate_page .sec_05 .sub_title > span {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+  }
   .check_rate_page .sec_02 .sub_title,
   .check_rate_page .sec_03 .sub_title,
   .check_rate_page .sec_06 .sub_title,
@@ -391,19 +402,28 @@
   .check_rate_page .table_container table {
     width: max-content;
   }
-  .check_rate_page .table_container table th, 
+  .check_rate_page .table_container table th,
   .check_rate_page .table_container table td {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 55px; /* 343.75% */
+    line-height: 1.6;
+    padding: 14px;
     letter-spacing: -0.32px;
   }
-  .check_rate_page .table_container table th {}
-  .check_rate_page .sec_03 .table_caption { margin-bottom: 12px; font-size: 14px; font-style: normal; font-weight: 400; line-height: normal; letter-spacing: -0.28px; }
+  .check_rate_page .table_container table th {
+  }
+  .check_rate_page .sec_03 .table_caption {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.28px;
+  }
 
-  .check_rate_page .sec_01 { 
-    margin-top: 12rem; 
+  .check_rate_page .sec_01 {
+    margin-top: 12rem;
     height: 220px;
   }
   .check_rate_page .sec_01 .backgroundIntro {
@@ -418,6 +438,11 @@
   .check_rate_page .sec_05 .info_wrap .info_item {
     display: flex;
     justify-content: center;
+  }
+  .check_rate_page .sec_02 .info_wrap div,
+  .check_rate_page .sec_05 .info_wrap div {
+    margin: 0 auto;
+    width: 100%;
   }
   .check_rate_page .sec_05 .info_wrap .info_text,
   .check_rate_page .sec_07 .info_wrap .info_text {
@@ -435,11 +460,13 @@
     height: 20px !important;
     margin-top: 4px;
   }
-  .check_rate_page .sec_03 {}
+  .check_rate_page .sec_03 {
+  }
   .check_rate_page .sec_04 {
     margin-bottom: 80px;
   }
-  .check_rate_page .sec_04 .container_01 {}
+  .check_rate_page .sec_04 .container_01 {
+  }
   .check_rate_page .sec_04 .container_01 .text_01 {
     font-size: 16px;
     font-style: normal;
@@ -461,8 +488,10 @@
     line-height: 24px;
     letter-spacing: -0.32px;
   }
-  .check_rate_page .sec_04 .container_02 {}
-  .check_rate_page .sec_04 .container_02 {}
+  .check_rate_page .sec_04 .container_02 {
+  }
+  .check_rate_page .sec_04 .container_02 {
+  }
   .check_rate_page .sec_04 .container_02 .text_01 {
     font-size: 20px;
     font-style: normal;
@@ -470,7 +499,8 @@
     line-height: normal;
     letter-spacing: -0.4px;
   }
-  .check_rate_page .sec_04 .container_02 .img {}
+  .check_rate_page .sec_04 .container_02 .img {
+  }
   .check_rate_page .sec_04 .container_02 .text_02 {
     font-size: 16px;
     font-style: normal;
@@ -480,7 +510,8 @@
     text-align: left;
     margin: 0 20px;
   }
-  .check_rate_page .sec_06 {}
+  .check_rate_page .sec_06 {
+  }
   .check_rate_page .sec_07 {
     padding: 0;
   }
@@ -516,16 +547,20 @@
     line-height: normal;
     letter-spacing: -0.32px;
   }
-  .check_rate_page .sec_07 .info_wrap .info_example .calculation_container {}
+  .check_rate_page .sec_07 .info_wrap .info_example .calculation_container {
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .calculation_container div {
+    flex-wrap: nowrap;
+  }
   .check_rate_page .sec_07 .info_wrap .info_example .info_calculation {
-    font-size: 24px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.48px;
   }
   .check_rate_page .sec_07 .info_wrap .info_example .info_calculation_text {
-    font-size: 14px;
+    font-size: 13px;
     font-style: normal;
     font-weight: 400;
     line-height: 14px; /* 100% */
@@ -543,7 +578,8 @@
     line-height: normal;
     letter-spacing: -0.32px;
   }
-  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper {}
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper {
+  }
   .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_02 {
     font-size: 32px;
     font-style: normal;

@@ -192,6 +192,15 @@ $imgPath: '/images';
 
       // width: fit-content;
     }
+
+    .active {
+      a {
+        color: var(--Main1, #5221cb) !important;
+        font-weight: 700 !important;
+        line-height: 40px;
+      }
+    }
+
     .tabBarItem {
       display: flex;
       width: 4.25rem;
@@ -212,13 +221,13 @@ $imgPath: '/images';
 
       a {
         cursor: pointer;
-        color: var(--Main1, #5221cb);
+        color: #a6a9b0;
         text-align: center;
         font-family: Spoqa Han Sans Neo;
-        font-size: 0.875rem;
+        font-size: 14px;
         font-style: normal;
-        font-weight: 700;
-        line-height: 2.5rem; /* 285.714% */
+        font-weight: 500;
+        line-height: 40px;
         letter-spacing: -0.0035rem;
         width: 4.25rem;
 
@@ -565,13 +574,13 @@ $imgPath: '/images';
           .subList {
             // border-bottom: 0.0625rem solid #e2e5ed;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             line-height: 3.5rem;
             strong {
               color: #222;
               font-family: Spoqa Han Sans Neo;
-              font-size: 1rem;
+              font-size: 16px;
               font-style: normal;
               font-weight: 700;
               line-height: 1.5rem; /* 150% */
@@ -933,7 +942,35 @@ $imgPath: '/images';
   }
 }
 
-@media only screen and (min-width: 200px) and (max-width: 480px) {
+@media (max-width: 1023px) {
+  .section2starkoff {
+    .certificate {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+
+      .certificate_item {
+        width: 169px;
+        margin-bottom: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        span {
+          color: #222;
+          font-family: Spoqa Han Sans Neo;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
   .byCompanyContainer {
   }
   .byCompanyContainer .company {
@@ -1010,29 +1047,29 @@ $imgPath: '/images';
   }
   .byCompanyContainer .mainContainer .companyInfoWrap {
   }
-  .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {    
+  .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {
     $list: ('starkoff', 'castpro', 'ev', 'eco');
-      @each $index in $list {
-        &.#{$index} {
-          background: url('#{$imgPath}/company/#{$index}_logo.png')
-            50% /
-            cover
-            no-repeat;
-          @if ($index == 'ev') {
-            width: 54px;
-            height: 46px;
-          } @else if ($index == 'castpro') {
-            width: 100px;
-            height: 18px;
-          } @else if ($index == 'eco') {
-            width: 100px;
-            height: 33px;
-          } @else {
-            width: 100px;
-            height: 22px;
-          }
+    @each $index in $list {
+      &.#{$index} {
+        background: url('#{$imgPath}/company/#{$index}_logo.png')
+          50% /
+          cover
+          no-repeat;
+        @if ($index == 'ev') {
+          width: 54px;
+          height: 46px;
+        } @else if ($index == 'castpro') {
+          width: 100px;
+          height: 18px;
+        } @else if ($index == 'eco') {
+          width: 100px;
+          height: 33px;
+        } @else {
+          width: 100px;
+          height: 22px;
         }
       }
+    }
   }
   .byCompanyContainer .mainContainer .companyInfoWrap .companyInfo {
     padding: 9px 25px;
@@ -1153,7 +1190,8 @@ $imgPath: '/images';
     .estimateDetailWrap
     .detailInfo
     .detailInfoEtc
-    .list {
+    > div {
+    margin: 40px 0 20px 0;
   }
   .byCompanyContainer
     .mainContainer
@@ -1201,8 +1239,16 @@ $imgPath: '/images';
     font-weight: 500;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
-    margin-top: 20px;
   }
+  // .byCompanyContainer
+  //   .mainContainer
+  //   .estimateDetailWrap
+  //   .detailInfo
+  //   .detailInfoEtc
+  //   .subList
+  //   :first-of-type.info {
+  //   margin-top: 20px;
+  // }
   .byCompanyContainer
     .mainContainer
     .estimateDetailWrap
@@ -1215,12 +1261,18 @@ $imgPath: '/images';
     font-weight: 500;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
-    display: contents;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+    gap: 12px;
+    justify-content: flex-end;
   }
   .byCompanyContainer .certificateWrap {
   }
   .byCompanyContainer .certificateWrap .certificateInfo {
     padding: 50px 20px;
+    padding-bottom: 0;
   }
   .byCompanyContainer .certificateWrap .certificateInfo .title {
     margin-bottom: 32px;
@@ -1345,5 +1397,34 @@ $imgPath: '/images';
   .byCompanyContainer {
   }
   .byCompanyContainer {
+  }
+}
+
+@media (max-width: 330px) {
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .list
+    .info {
+    font-size: 18px;
+  }
+  .byCompanyContainer
+    .mainContainer
+    .estimateDetailWrap
+    .detailInfo
+    .detailInfoEtc
+    .list
+    .title {
+    font-size: 14px;
+  }
+  .byCompanyContainer
+    .certificateWrap
+    .certificateInfo
+    .section2Slider
+    .section2SliderUl
+    .item {
+    width: 129px;
   }
 }

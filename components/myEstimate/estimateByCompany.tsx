@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import estimateByCompanyStyles from './estimateByCompany.module.scss';
 import { COMPANY_LIST } from 'assets/company';
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
 
 interface EstimateCompanyProps {
   company: string;
@@ -12,16 +12,25 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
 
   const estimateByCompanyData = COMPANY_LIST[company];
 
-  let company_name = ''
-  if(company === 'ev'){company_name = '한국EV충전서비스센터'}
-  if(company === 'castpro'){company_name = '캐스트프로'}
-  if(company === 'starkoff'){company_name = '스타코프'}
+  let company_name = '';
+  if (company === 'ev') {
+    company_name = '한국EV충전서비스센터';
+  }
+  if (company === 'castpro') {
+    company_name = '캐스트프로';
+  }
+  if (company === 'starkoff') {
+    company_name = '스타코프';
+  }
+  if (company === 'eco') {
+    company_name = '에코플레이';
+  }
 
   const chatBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
         event: 'click_chat_btn',
-        company_name: company_name
+        company_name: company_name,
       },
     };
     TagManager.dataLayer(tagManagerArgs);
@@ -30,26 +39,26 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
   const clickEstimateDetaileBtn = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: "click_detail_btn",
-        company_name: company_name
+        event: 'click_detail_btn',
+        company_name: company_name,
       },
     };
     TagManager.dataLayer(tagManagerArgs);
     location.href = `/new/myEstimate/estimate/${company}`;
-  }
+  };
   type ObjType = {
-    [index: string]: string
-    ev: string
-    eco: string
-    starkoff: string
-    castpro: string    
-  }
+    [index: string]: string;
+    ev: string;
+    eco: string;
+    starkoff: string;
+    castpro: string;
+  };
   const kakaoLink: ObjType = {
     ev: 'http://pf.kakao.com/_xnxduxbG/chat',
     starkoff: 'https://open.kakao.com/o/stFSO2Uf',
     castpro: 'https://open.kakao.com/o/sQUjD5Rf',
-    eco: 'https://open.kakao.com/o/s7PPFZVf'
-  }
+    eco: 'https://open.kakao.com/o/s7PPFZVf',
+  };
 
   return (
     <div className={estimateByCompanyStyles.estimateByCompanyWrap}>
@@ -123,7 +132,7 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
       </div>
       <div className={estimateByCompanyStyles.priceInfo}>
         <p className={estimateByCompanyStyles.totalPrice}>
-          총 {estimateByCompanyData.priceInfo.total} 원 부터 ~
+          총 {estimateByCompanyData.priceInfo.total} 원
         </p>
         {estimateByCompanyData.priceInfo.event && (
           <p className={estimateByCompanyStyles.etcInfo}>
@@ -132,8 +141,9 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
         )}
       </div>
       <div className={estimateByCompanyStyles.buttonWrap}>
-        <a className={estimateByCompanyStyles.kakaoChatBtn} 
-          onClick={chatBtnClick} 
+        <a
+          className={estimateByCompanyStyles.kakaoChatBtn}
+          onClick={chatBtnClick}
           href={kakaoLink[company]}
           target="_blank"
         >

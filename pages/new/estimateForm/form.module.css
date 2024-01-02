@@ -159,7 +159,7 @@
   background: #5221cb;
 }
 .sec_02 {
-  height: 350px;
+  height: 1030px;
 }
 
 /* 화면 폭이 320px 이하일 때 */
@@ -425,6 +425,9 @@
     > .terms_detail_btn {
     font-size: 14px;
     padding-right: 5px;
+  }
+  .sec_02 {
+    height: 350px;
   }
 }
 
