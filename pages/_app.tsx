@@ -159,6 +159,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               >
                 {/* <CustomProvider locale={koKR}> */}
                 <Head>
+                  <title>
+                    엔티즌 - 전기차 충전기 설치. 한눈에 비교하고 선택하세요!
+                  </title>
                   <meta charSet="utf-8" />
                   <meta
                     name="viewport"
@@ -203,10 +206,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                     name="naver-site-verification"
                     content="74e7e0b0fd5d7d820bbc02c24129327741d1c8b9"
                   />
-
-                  <title>
-                    엔티즌 - 전기차 충전기 설치. 한눈에 비교하고 선택하세요!
-                  </title>
                 </Head>
                 {/* </CustomProvider> */}
                 <Component {...pageProps} />

@@ -84,6 +84,7 @@
 .sec_01 .sheet_container {
   display: block;
   margin-bottom: 6rem;
+  width: 53.75rem;
 }
 .sec_01 .sheet {
   margin: auto;
@@ -252,6 +253,9 @@
 .sec_02 {
   margin: 60px 20px 0px 20px;
 }
+.mobile_sec_02 {
+  display: none;
+}
 .sec_02 .step_title {
   color: var(--Main1, #5221cb);
   text-align: center;
@@ -419,6 +423,9 @@
 
 /* mobile */
 @media (max-width: 480px) {
+  .mobile_sec_02 {
+    display: block;
+  }
   .estimate .banner_container {
     background-size: cover;
     background-position: center center;
