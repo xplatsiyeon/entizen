@@ -12,6 +12,16 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL,
   },
 
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/new/applyAd',
+        permanent: true,
+      },
+    ];
+  },
+
   async rewrites() {
     return [
       // 로컬에서 사용할때만 활성화 시키기
