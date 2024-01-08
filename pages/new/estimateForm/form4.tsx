@@ -130,8 +130,8 @@ const EstimateForm4 = () => {
           importantFactor: form.importantFactor,
           place: form.place,
           placeEtc: form.placeEtc,
-          address: form.address,
-          addressDetail: form.addressDetail,
+          // address: form.address,
+          // addressDetail: form.addressDetail,
           phone: form.phone,
           isAgree: form.isAgree,
           utm_source: sessionStorage.getItem('utm_source'),
@@ -147,8 +147,8 @@ const EstimateForm4 = () => {
         );
         sessionStorage.setItem('place', form.place as string);
         sessionStorage.setItem('placeEtc', form.placeEtc as string);
-        sessionStorage.setItem('address', form.address as string);
-        sessionStorage.setItem('addressDetail', form.addressDetail as string);
+        // sessionStorage.setItem('address', form.address as string);
+        // sessionStorage.setItem('addressDetail', form.addressDetail as string);
         sessionStorage.setItem('phone', form.phone as string);
         sessionStorage.setItem('phone_number', form.phone as string);
 

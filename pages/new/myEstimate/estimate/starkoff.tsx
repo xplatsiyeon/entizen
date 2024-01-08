@@ -86,17 +86,9 @@ const EstimateByCompany = () => {
   const estimateByCompanyData = COMPANY_LIST[company];
 
   // 기존 클릭시 팝업생성
-  // const onClickSendBtn = () => {
-  //   setModalOpen(true);
-  // };
-
-  // 클릭시 주소 폼으로 이동
-  // const onClickSendBtn = () => {
-  //   router.push({
-  //     pathname: '/new/estimateForm/form5',
-  //     query: { companyName: '스타코프' },
-  //   });
-  // };
+  const onClickSendBtn = () => {
+    setModalOpen(true);
+  };
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
