@@ -41,10 +41,6 @@ interface IAddr {
 
 const EstimateForm5 = () => {
   const router = useRouter();
-  const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
-    /\"/gi,
-    '',
-  );
 
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
@@ -114,8 +110,13 @@ const EstimateForm5 = () => {
 
     validateForm(formData);
 
-    console.log('값', value);
+    console.log('회사이름', value);
   };
+
+  const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
+    /\"/gi,
+    '',
+  );
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
@@ -192,13 +193,13 @@ const EstimateForm5 = () => {
                     id="companySelect"
                     name="company"
                     displayEmpty={true}
-                    // renderValue={(value) =>
-                    //   value?.length
-                    //     ? Array.isArray(value)
-                    //       ? value.join(', ')
-                    //       : value
-                    //     : `${placeholder}`
-                    // }
+                    renderValue={(value) =>
+                      value?.length
+                        ? Array.isArray(value)
+                          ? value.join(', ')
+                          : value
+                        : `${placeholder}`
+                    }
                     className={styles.input_box}
                     value={form?.company ?? ''}
                     onChange={handleChange}
