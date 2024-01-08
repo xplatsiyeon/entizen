@@ -27,7 +27,7 @@ import Img03 from 'public/new/applyAd/slide3.png';
 import Test from 'public/new/applyAd/test.png';
 
 const ApplyAdMain = () => {
-  console.log('1st live - form sendData selection 수정');
+  console.log('1st live - 기존 퍼널 주소입력 수정');
 
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
