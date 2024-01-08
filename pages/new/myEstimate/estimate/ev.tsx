@@ -91,7 +91,7 @@ const EstimateByCompany = () => {
   const onClickSendBtn = () => {
     router.push({
       pathname: '/new/estimateForm/form5',
-      query: '한국EV충전서비스센터',
+      query: { companyName: '한국EV충전서비스센터' },
     });
   };
 

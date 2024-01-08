@@ -39,7 +39,7 @@ interface IAddr {
   zonecode: string;
 }
 
-const EstimateForm5 = () => {
+const EstimateForm5 = (props: any) => {
   const router = useRouter();
 
   const isMobile = useMediaQuery({
@@ -87,6 +87,14 @@ const EstimateForm5 = () => {
     isAgree?: boolean | undefined;
   }>({});
 
+  useEffect(() => {
+    const { companyName } = router.query;
+    setForm((prevState) => ({
+      ...prevState,
+      company: companyName as string,
+    }));
+  }, [router.query]);
+
   // validation
   const validateForm = (formData: any) => {
     if (
@@ -107,16 +115,17 @@ const EstimateForm5 = () => {
       name === 'isAgree' ? event.target.checked : event.target.value;
     const formData = { ...form, [name]: value };
     setForm(formData);
-
     validateForm(formData);
 
     console.log('회사이름', value);
   };
 
-  const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
-    /\"/gi,
-    '',
-  );
+  // const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
+  //   /\"/gi,
+  //   '',
+  // );
+
+  // const placeholder = '';
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
@@ -193,13 +202,13 @@ const EstimateForm5 = () => {
                     id="companySelect"
                     name="company"
                     displayEmpty={true}
-                    renderValue={(value) =>
-                      value?.length
-                        ? Array.isArray(value)
-                          ? value.join(', ')
-                          : value
-                        : `${placeholder}`
-                    }
+                    // renderValue={(value) =>
+                    //   value?.length
+                    //     ? Array.isArray(value)
+                    //       ? value.join(', ')
+                    //       : value
+                    //     : `${placeholder}`
+                    // }
                     className={styles.input_box}
                     value={form?.company ?? ''}
                     onChange={handleChange}

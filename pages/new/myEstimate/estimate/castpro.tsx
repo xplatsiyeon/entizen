@@ -17,11 +17,12 @@ import { MyEstimateHeader } from 'components/myEstimate/header';
 import CommonConfirmModal from 'pages/new/commonConfirmModal';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 import axios from 'axios';
-import TagManager from 'react-gtm-module'
+import TagManager from 'react-gtm-module';
 
 const EstimateByCompany = () => {
+  const router = useRouter();
   const company = 'castpro';
-  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
+  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
@@ -80,9 +81,18 @@ const EstimateByCompany = () => {
   }, [swiper]);
 
   const estimateByCompanyData = COMPANY_LIST[company];
-  
+
+  // 기존 클릭시 팝업생성
+  // const onClickSendBtn = () => {
+  //   setModalOpen(true);
+  // };
+
+  // 클릭시 주소 폼으로 이동
   const onClickSendBtn = () => {
-    setModalOpen(true);
+    router.push({
+      pathname: '/new/estimateForm/form5',
+      query: { companyName: '캐스트프로' },
+    });
   };
 
   return (
@@ -148,7 +158,7 @@ const EstimateByCompany = () => {
         <div className={estimateByCompanyStyles.companyInfoWrap}>
           <div
             className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
-            style={{ width: '100px', height: '17.391px'}}
+            style={{ width: '100px', height: '17.391px' }}
           ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
@@ -377,7 +387,7 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.5 : "auto"}
+              slidesPerView={isTablet ? 1.5 : 'auto'}
               spaceBetween={24}
               onSwiper={setSwiper}
               slidesPerGroup={3}
@@ -429,31 +439,46 @@ const EstimateByCompany = () => {
       </section>
       <CommonConfirmModal
         open={modalOpen}
-        onClose={() => { setModalOpen(false)}}
+        onClose={() => {
+          setModalOpen(false);
+        }}
         onConfirm={() => {
           const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {
-                companyName:'캐스트프로',
-                phone:sessionStorage.getItem("phone_number")
+                companyName: '캐스트프로',
+                phone: sessionStorage.getItem('phone_number'),
               },
             })
-            .then((res) => {
-            });
-            //GA4 이벤트 전송
-            const tagManagerArgs = {
-              dataLayer: {
-                event: 'company_selection',
-                company_name: '캐스트프로',
-              },
-            };
+            .then((res) => {});
+          //GA4 이벤트 전송
+          const tagManagerArgs = {
+            dataLayer: {
+              event: 'company_selection',
+              company_name: '캐스트프로',
+            },
+          };
           TagManager.dataLayer(tagManagerArgs);
-          location.href='/new/estimateForm/complete2'
-          setModalOpen(false)
+          location.href = '/new/estimateForm/complete2';
+          setModalOpen(false);
         }}
         title=""
-        content={<p style={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 500, lineHeight: 'normal', letterSpacing: '-0.32px', marginBottom: '20px', marginTop: '20px' }}>해당 업체에게 현장실사를 요청하시겠습니까?</p>}
+        content={
+          <p
+            style={{
+              fontSize: '16px',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: 'normal',
+              letterSpacing: '-0.32px',
+              marginBottom: '20px',
+              marginTop: '20px',
+            }}
+          >
+            해당 업체에게 현장실사를 요청하시겠습니까?
+          </p>
+        }
       />
     </div>
   );

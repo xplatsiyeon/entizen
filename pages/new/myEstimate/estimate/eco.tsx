@@ -90,7 +90,7 @@ const EstimateByCompany = () => {
   const onClickSendBtn = () => {
     router.push({
       pathname: '/new/estimateForm/form5',
-      query: '에코플레이',
+      query: { companyName: '에코플레이' },
     });
   };
 
