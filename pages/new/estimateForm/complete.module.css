@@ -66,8 +66,7 @@
     letter-spacing: -0.32px;
   }
   .complete_page .complete_container .complete_btn_wrapper {
-    position: absolute;
-    bottom: 40px;
+    margin-top: 200px;
   }
   /* .complete_page .complete_container .complete_btn_wrapper {
     position: fixed;
