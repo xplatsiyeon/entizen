@@ -19,8 +19,9 @@ import TagManager from 'react-gtm-module';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
+  const router = useRouter();
   const company = 'eco';
-  sessionStorage.setItem('USER_ID', JSON.stringify({id: 'test'}));
+  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
 
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
@@ -80,9 +81,17 @@ const EstimateByCompany = () => {
 
   const estimateByCompanyData = COMPANY_LIST[company];
 
-  const onClickSendBtn = () => {
-    setModalOpen(true);
+  // 기존 클릭시 팝업생성
+  // const onClickSendBtn = () => {
+  //   setModalOpen(true);
+  // };
 
+  // 클릭시 주소 폼으로 이동
+  const onClickSendBtn = () => {
+    router.push({
+      pathname: '/new/estimateForm/form5',
+      query: '에코플레이',
+    });
   };
 
   return (
@@ -145,7 +154,9 @@ const EstimateByCompany = () => {
       </div>
       <section className={estimateByCompanyStyles.mainContainer}>
         <div className={estimateByCompanyStyles.companyInfoWrap}>
-          <div className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}></div>
+          <div
+            className={`${estimateByCompanyStyles.companyLogo} ${estimateByCompanyStyles[company]}`}
+          ></div>
           <div className={estimateByCompanyStyles.companyInfo}>
             <div className={estimateByCompanyStyles.companyInfoEtc}>
               <p className={estimateByCompanyStyles.list}>
@@ -249,7 +260,7 @@ const EstimateByCompany = () => {
                     return (
                       <span className={estimateByCompanyStyles.info}>
                         <strong>{item.title}</strong>
-                          {item.info}
+                        <span>{item.info}</span>
                       </span>
                     );
                   })
@@ -373,8 +384,8 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.3 : "auto"}
-              spaceBetween={isTablet ? 12 : 24}              
+              slidesPerView={isTablet ? 1.3 : 'auto'}
+              spaceBetween={isTablet ? 12 : 24}
               onSwiper={setSwiper}
               slidesPerGroup={3}
               speed={500}
@@ -425,31 +436,46 @@ const EstimateByCompany = () => {
       </section>
       <CommonConfirmModal
         open={modalOpen}
-        onClose={() => { setModalOpen(false)}}
-        onConfirm={() => { 
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        onConfirm={() => {
           const url = '/zapier/company-selection';
           axios
             .post(url, {
               data: {
-                companyName:'에코플레이',
-                phone:sessionStorage.getItem("phone_number")
+                companyName: '에코플레이',
+                phone: sessionStorage.getItem('phone_number'),
               },
             })
-            .then((res) => {
-            });
-            //GA4 이벤트 전송
-            const tagManagerArgs = {
-              dataLayer: {
-                event: 'company_selection',
-                company_name: '에코플레이',
-              },
-            };
+            .then((res) => {});
+          //GA4 이벤트 전송
+          const tagManagerArgs = {
+            dataLayer: {
+              event: 'company_selection',
+              company_name: '에코플레이',
+            },
+          };
           TagManager.dataLayer(tagManagerArgs);
-          location.href='/new/estimateForm/complete2'
-          setModalOpen(false)
+          location.href = '/new/estimateForm/complete2';
+          setModalOpen(false);
         }}
         title=""
-        content={<p style={{ fontSize: '16px', fontStyle: 'normal', fontWeight: 500, lineHeight: 'normal', letterSpacing: '-0.32px', marginBottom: '20px', marginTop: '20px' }}>해당 업체에게 현장실사를 요청하시겠습니까?</p>}
+        content={
+          <p
+            style={{
+              fontSize: '16px',
+              fontStyle: 'normal',
+              fontWeight: 500,
+              lineHeight: 'normal',
+              letterSpacing: '-0.32px',
+              marginBottom: '20px',
+              marginTop: '20px',
+            }}
+          >
+            해당 업체에게 현장실사를 요청하시겠습니까?
+          </p>
+        }
       />
     </div>
   );

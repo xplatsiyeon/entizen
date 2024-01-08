@@ -19,6 +19,8 @@ import TagManager from 'react-gtm-module';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 const EstimateByCompany = () => {
+  const router = useRouter();
+
   const company = 'ev';
   sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
 
@@ -80,8 +82,17 @@ const EstimateByCompany = () => {
 
   const estimateByCompanyData = COMPANY_LIST[company];
 
+  // 기존 클릭시 팝업생성
+  // const onClickSendBtn = () => {
+  //   setModalOpen(true);
+  // };
+
+  // 클릭시 주소 폼으로 이동
   const onClickSendBtn = () => {
-    setModalOpen(true);
+    router.push({
+      pathname: '/new/estimateForm/form5',
+      query: '한국EV충전서비스센터',
+    });
   };
 
   return (

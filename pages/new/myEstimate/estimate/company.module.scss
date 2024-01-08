@@ -574,9 +574,13 @@ $imgPath: '/images';
           .subList {
             // border-bottom: 0.0625rem solid #e2e5ed;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             line-height: 3.5rem;
+
+            @media (max-width: 767px) {
+              flex-direction: column;
+            }
             strong {
               color: #222;
               font-family: Spoqa Han Sans Neo;

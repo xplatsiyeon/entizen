@@ -211,6 +211,7 @@
 }
 @media (max-width: 480px) {
   .sec_02 .contents_container .content {
+    width: 100%;
     padding: 20px;
     margin-top: 12px;
   }

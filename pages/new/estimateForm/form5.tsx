@@ -39,8 +39,13 @@ interface IAddr {
   zonecode: string;
 }
 
-const EstimateForm4 = () => {
+const EstimateForm5 = () => {
   const router = useRouter();
+  const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
+    /\"/gi,
+    '',
+  );
+
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
@@ -79,8 +84,7 @@ const EstimateForm4 = () => {
   const [isComplete, setIsComplete] = React.useState<boolean>(false);
   const [form, setForm] = React.useState<{
     importantFactor?: string | undefined;
-    place?: string | undefined;
-    placeEtc?: string | undefined;
+    company?: string | undefined;
     address?: string | undefined;
     addressDetail?: string | undefined;
     phone?: string | undefined;
@@ -90,11 +94,9 @@ const EstimateForm4 = () => {
   // validation
   const validateForm = (formData: any) => {
     if (
-      formData?.importantFactor &&
-      formData?.place &&
+      formData?.company &&
       formData?.address &&
       formData?.addressDetail &&
-      formData?.phone &&
       formData?.isAgree &&
       formData.isAgree
     ) {
@@ -108,12 +110,11 @@ const EstimateForm4 = () => {
     const value =
       name === 'isAgree' ? event.target.checked : event.target.value;
     const formData = { ...form, [name]: value };
-    if (name === 'place' && value !== 'step_etc') {
-      formData.placeEtc = '';
-    }
     setForm(formData);
 
     validateForm(formData);
+
+    console.log('값', value);
   };
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
@@ -127,12 +128,9 @@ const EstimateForm4 = () => {
         setBackdropOpen(false);
         const sendData = {
           selection: '개인용도',
-          importantFactor: form.importantFactor,
-          place: form.place,
-          placeEtc: form.placeEtc,
+          company: form.company,
           address: form.address,
           addressDetail: form.addressDetail,
-          phone: form.phone,
           isAgree: form.isAgree,
           utm_source: sessionStorage.getItem('utm_source'),
           utm_medium: sessionStorage.getItem('utm_medium'),
@@ -141,16 +139,9 @@ const EstimateForm4 = () => {
           utm_term: sessionStorage.getItem('utm_term'),
         };
 
-        sessionStorage.setItem(
-          'importantFactor',
-          form.importantFactor as string,
-        );
-        sessionStorage.setItem('place', form.place as string);
-        sessionStorage.setItem('placeEtc', form.placeEtc as string);
+        sessionStorage.setItem('company', form.company as string);
         sessionStorage.setItem('address', form.address as string);
         sessionStorage.setItem('addressDetail', form.addressDetail as string);
-        sessionStorage.setItem('phone', form.phone as string);
-        sessionStorage.setItem('phone_number', form.phone as string);
 
         axios.post('/zapier/submit-private', { data: sendData }).then(() => {});
 
@@ -161,7 +152,7 @@ const EstimateForm4 = () => {
           },
         };
         TagManager.dataLayer(tagManagerArgs);
-        router.push('/new/myEstimate');
+        router.push('/new/estimateForm/complete2');
       }, 3000);
     }
   };
@@ -179,21 +170,10 @@ const EstimateForm4 = () => {
   return (
     <div id="estimateForm" className={styles.estimateForm}>
       {isMobile ? <WebHeaderC /> : <WebHeaderD />}
-      <section className={styles.sec_01}>
+      <section className={`${styles.sec_01} ${styles.form5_sec_01}`}>
         <div className={styles.container}>
           <div className={styles.title}>
-            {isMobile ? (
-              <p>
-                문항에 답하고 한 눈에 비교할 수 <br />
-                있는 맞춤 견적서를 받아보세요
-              </p>
-            ) : (
-              <p>
-                문항에 답하고 한 눈에 비교할 수 있는
-                <br />
-                맞춤 견적서를 받아보세요
-              </p>
-            )}
+            <p>실사 받을 주소를 입력해주세요</p>
           </div>
           <div className={styles.form_container}>
             <Box
@@ -206,20 +186,26 @@ const EstimateForm4 = () => {
             >
               <Grid container spacing={2} columns={1}>
                 <Grid item className={styles.item} xs={12} sm={6}>
-                  <label>가장 중요하게 보는 요소</label>
+                  <label>업체명</label>
                   <Select
                     size={size}
-                    id="importantFactorSelect"
-                    name="importantFactor"
-                    displayEmpty
+                    id="companySelect"
+                    name="company"
+                    displayEmpty={true}
+                    // renderValue={(value) =>
+                    //   value?.length
+                    //     ? Array.isArray(value)
+                    //       ? value.join(', ')
+                    //       : value
+                    //     : `${placeholder}`
+                    // }
                     className={styles.input_box}
-                    value={form?.importantFactor ?? ''}
-                    placeholder="클릭하여 선택하세요."
+                    value={form?.company ?? ''}
                     onChange={handleChange}
                   >
                     <MenuItem
                       className={styles.option}
-                      value="설치비용"
+                      value="한국EV충전서비스센터"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -228,11 +214,11 @@ const EstimateForm4 = () => {
                         fontStyle: 'normal',
                       }}
                     >
-                      설치비용
+                      한국EV충전서비스센터
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="유지보수(A/S)"
+                      value="에코플레이"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -241,11 +227,11 @@ const EstimateForm4 = () => {
                         fontStyle: 'normal',
                       }}
                     >
-                      유지보수(A/S)
+                      에코플레이
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="업체 시공 횟수"
+                      value="캐스트프로"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -254,11 +240,11 @@ const EstimateForm4 = () => {
                         fontStyle: 'normal',
                       }}
                     >
-                      업체 시공 횟수
+                      캐스트프로
                     </MenuItem>
                     <MenuItem
                       className={styles.option}
-                      value="기능"
+                      value="스타코프"
                       sx={{
                         color: '#222',
                         fontSize: '14px',
@@ -267,124 +253,11 @@ const EstimateForm4 = () => {
                         fontStyle: 'normal',
                       }}
                     >
-                      기능
-                    </MenuItem>
-                    <MenuItem
-                      className={styles.option}
-                      value="디자인"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      디자인
+                      스타코프
                     </MenuItem>
                   </Select>
                 </Grid>
                 <Grid item className={styles.item} xs={12} sm={6}>
-                  <label>설치 희망 장소</label>
-                  <Select
-                    size={size}
-                    id="placeSelect"
-                    name="place"
-                    className={styles.input_box}
-                    defaultValue=""
-                    value={form?.place ?? ''}
-                    placeholder="클릭하여 선택하세요."
-                    onChange={handleChange}
-                  >
-                    <MenuItem
-                      value="주택"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      주택
-                    </MenuItem>
-                    <MenuItem
-                      value="빌라"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      빌라
-                    </MenuItem>
-                    <MenuItem
-                      value="카페"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      카페
-                    </MenuItem>
-                    <MenuItem
-                      value="식당"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      식당
-                    </MenuItem>
-                    <MenuItem
-                      value="공장"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      공장
-                    </MenuItem>
-                    <MenuItem
-                      value="step_etc"
-                      sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
-                      }}
-                    >
-                      기타 (직접입력)
-                    </MenuItem>
-                  </Select>
-                  {form?.place === 'step_etc' && (
-                    <TextField
-                      id="placeEtcInput"
-                      size={size}
-                      placeholder="텍스트를 입력하세요."
-                      className={styles.input_box}
-                      variant="outlined"
-                      name="placeEtc"
-                      value={form?.placeEtc ?? ''}
-                      onChange={handleChange}
-                    />
-                  )}
-                </Grid>
-
-                {/* 상세 주소 입력란 */}
-                {/* <Grid item className={styles.item} xs={12} sm={6}>
                   <label>설치 희망 상세 주소</label>
                   <div className={styles.search_address_wrapper}>
                     <TextField
@@ -416,19 +289,6 @@ const EstimateForm4 = () => {
                     value={form?.addressDetail ?? ''}
                     onChange={handleChange}
                   />
-                </Grid> */}
-                <Grid item className={styles.item} xs={12} sm={6}>
-                  <label>연락 가능한 휴대폰 번호</label>
-                  <TextField
-                    id="phoneInput"
-                    className={styles.input_box}
-                    size={size}
-                    placeholder="연락처를 입력해 주세요"
-                    variant="outlined"
-                    name="phone"
-                    value={form?.phone ?? ''}
-                    onChange={handleChange}
-                  />
                 </Grid>
                 <Grid item className={styles.item} xs={12} sm={6}>
                   <label>개인정보 동의 안내</label>
@@ -455,10 +315,25 @@ const EstimateForm4 = () => {
                         약관 상세보기
                       </Button>
                     </div>
+
+                    {isMobile && (
+                      <Button
+                        className={classNames(
+                          styles.form5_btn,
+                          styles.submit_btn,
+                          isComplete && styles.active,
+                        )}
+                        variant="contained"
+                        color="primary"
+                        onClick={onClickSubmit}
+                      >
+                        이 업체에게 현장실사 받기
+                      </Button>
+                    )}
                   </div>
                 </Grid>
-                <Grid item className={styles.item} xs={12} sm={6}>
-                  {!isMobile && (
+                {!isMobile && (
+                  <Grid item className={styles.item} xs={12} sm={6}>
                     <Button
                       className={classNames(
                         styles.submit_btn,
@@ -468,33 +343,20 @@ const EstimateForm4 = () => {
                       color="primary"
                       onClick={onClickSubmit}
                     >
-                      내 맞춤 견적서 확인하기
+                      이 업체에게 현장실사 받기
                     </Button>
-                  )}
-                </Grid>
+                  </Grid>
+                )}
               </Grid>
             </Box>
           </div>
-          {isMobile && (
-            <Button
-              className={classNames(
-                styles.submit_btn,
-                isComplete && styles.active,
-              )}
-              variant="contained"
-              color="primary"
-              onClick={onClickSubmit}
-            >
-              내 맞춤 견적서 확인하기
-            </Button>
-          )}
         </div>
         <CommonBackdrop open={backdropOpen} />
         <MobileModal open={modalOpen} onClose={handleCloseModal} />
       </section>
-      <section className={styles.sec_02}></section>
+      <section className={styles.form5_sec_02}></section>
     </div>
   );
 };
 
-export default EstimateForm4;
+export default EstimateForm5;
