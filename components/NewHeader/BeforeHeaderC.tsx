@@ -44,69 +44,69 @@ const WebHeader = ({ num, now, sub }: Props) => {
   const onMouseLeave = () => setIsHovered(false);
   // 알람 조회
   // v1/alerts/unread-points
-  const {
-    data: historyUnread,
-    isLoading: historyIsLoading,
-    isError: historyIIsError,
-    refetch: historyIsRefetch,
-  } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'v1/alerts',
-    () => isTokenGetApi(`/v1/alerts/unread-points`),
-    {
-      enabled: userID !== null ? true : false,
-      select(res) {
-        return res.data;
-      },
-    },
-  );
+  // const {
+  //   data: historyUnread,
+  //   isLoading: historyIsLoading,
+  //   isError: historyIIsError,
+  //   refetch: historyIsRefetch,
+  // } = useQuery<AlertsResponse, AxiosError, Alerts>(
+  //   'v1/alerts',
+  //   () => isTokenGetApi(`/v1/alerts/unread-points`),
+  //   {
+  //     enabled: userID !== null ? true : false,
+  //     select(res) {
+  //       return res.data;
+  //     },
+  //   },
+  // );
 
-  const logout = () => {
-    handleLogoutOnClickModalClick()
-      .then((res) => router.push('/'))
-      .catch((error) => alert(error));
-  };
-  const handleLink = (st: string) => {
-    if (userID) {
-      router.push(`${st}`);
-    } else {
-      router.push('/signin');
-    }
-  };
-  const routeSignUp = () => {
-    dispatch(selectAction.reset());
-    router.push('/signUp/Terms');
-  };
+  // const logout = () => {
+  //   handleLogoutOnClickModalClick()
+  //     .then((res) => router.push('/'))
+  //     .catch((error) => alert(error));
+  // };
+  // const handleLink = (st: string) => {
+  //   if (userID) {
+  //     router.push(`${st}`);
+  //   } else {
+  //     router.push('/signin');
+  //   }
+  // };
+  // const routeSignUp = () => {
+  //   dispatch(selectAction.reset());
+  //   router.push('/signUp/Terms');
+  // };
 
-  const allAlert = (type: string) => {
-    if (historyUnread) {
-      const {
-        wasReadUserQuotation,
-        wasReadUserProject,
-        wasReadUserAfterSalesService,
-        wasReadUserChargingStation,
-        wasReadChatting,
-      } = historyUnread;
+  // const allAlert = (type: string) => {
+  //   if (historyUnread) {
+  //     const {
+  //       wasReadUserQuotation,
+  //       wasReadUserProject,
+  //       wasReadUserAfterSalesService,
+  //       wasReadUserChargingStation,
+  //       wasReadChatting,
+  //     } = historyUnread;
 
-      const mypageAlert = [
-        wasReadUserQuotation,
-        wasReadUserProject,
-        wasReadUserAfterSalesService,
-        wasReadUserChargingStation,
-      ].every((alert) => alert === true);
-      console.log('🔥 mypageAlert : ', mypageAlert);
+  //     const mypageAlert = [
+  //       wasReadUserQuotation,
+  //       wasReadUserProject,
+  //       wasReadUserAfterSalesService,
+  //       wasReadUserChargingStation,
+  //     ].every((alert) => alert === true);
+  //     console.log('🔥 mypageAlert : ', mypageAlert);
 
-      switch (type) {
-        case 'mypage':
-          return mypageAlert;
-        case 'chatting':
-          return wasReadChatting;
-      }
-    } else {
-      return true;
-    }
-  };
+  //     switch (type) {
+  //       case 'mypage':
+  //         return mypageAlert;
+  //       case 'chatting':
+  //         return wasReadChatting;
+  //     }
+  //   } else {
+  //     return true;
+  //   }
+  // };
 
-  useEffect(() => {}, [linklist]);
+  // useEffect(() => {}, [linklist]);
 
   // console.log('🔥 historyUnread : ', historyUnread);
 
