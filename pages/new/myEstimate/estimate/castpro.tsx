@@ -88,12 +88,12 @@ const EstimateByCompany = () => {
   // };
 
   // 클릭시 주소 폼으로 이동
-  const onClickSendBtn = () => {
-    router.push({
-      pathname: '/new/estimateForm/form5',
-      query: { companyName: '캐스트프로' },
-    });
-  };
+  // const onClickSendBtn = () => {
+  //   router.push({
+  //     pathname: '/new/estimateForm/form5',
+  //     query: { companyName: '캐스트프로' },
+  //   });
+  // };
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>

@@ -260,7 +260,7 @@ const EstimateByCompany = () => {
                     return (
                       <span className={estimateByCompanyStyles.info}>
                         <strong>{item.title}</strong>
-                        <span>{item.info}</span>
+                        {item.info}
                       </span>
                     );
                   })

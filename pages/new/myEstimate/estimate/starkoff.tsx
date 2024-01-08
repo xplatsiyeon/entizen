@@ -91,12 +91,12 @@ const EstimateByCompany = () => {
   // };
 
   // 클릭시 주소 폼으로 이동
-  const onClickSendBtn = () => {
-    router.push({
-      pathname: '/new/estimateForm/form5',
-      query: { companyName: '스타코프' },
-    });
-  };
+  // const onClickSendBtn = () => {
+  //   router.push({
+  //     pathname: '/new/estimateForm/form5',
+  //     query: { companyName: '스타코프' },
+  //   });
+  // };
 
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
