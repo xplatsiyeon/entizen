@@ -55,17 +55,17 @@ const EstimateForm4 = () => {
     };
   }
 
-  const onClickAddr = () => {
-    new window.daum.Postcode({
-      oncomplete: function (data: IAddr) {
-        (document.getElementById('addressInput') as HTMLInputElement).value =
-          data.address;
-        document.getElementById('addressDetailInput')?.focus();
+  // const onClickAddr = () => {
+  //   new window.daum.Postcode({
+  //     oncomplete: function (data: IAddr) {
+  //       (document.getElementById('addressInput') as HTMLInputElement).value =
+  //         data.address;
+  //       document.getElementById('addressDetailInput')?.focus();
 
-        setForm({ ...form, address: data.address });
-      },
-    }).open();
-  };
+  //       setForm({ ...form, address: data.address });
+  //     },
+  //   }).open();
+  // };
 
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -81,8 +81,8 @@ const EstimateForm4 = () => {
     importantFactor?: string | undefined;
     place?: string | undefined;
     placeEtc?: string | undefined;
-    address?: string | undefined;
-    addressDetail?: string | undefined;
+    // address?: string | undefined;
+    // addressDetail?: string | undefined;
     phone?: string | undefined;
     isAgree?: boolean | undefined;
   }>({});
@@ -92,8 +92,8 @@ const EstimateForm4 = () => {
     if (
       formData?.importantFactor &&
       formData?.place &&
-      formData?.address &&
-      formData?.addressDetail &&
+      // formData?.address &&
+      // formData?.addressDetail &&
       formData?.phone &&
       formData?.isAgree &&
       formData.isAgree

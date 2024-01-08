@@ -15,8 +15,11 @@ export default function companySelection(
   const { data } = req.body;
 
   const sendData = {
-    companyName: data.companyName,
+    companyName: data.company,
     phone: data.phone,
+    address: data.address,
+    addressDetail: data.addressDetail,
+    isAgree : data.isAgree,
   };
 
   axios

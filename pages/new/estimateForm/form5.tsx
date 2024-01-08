@@ -99,7 +99,7 @@ const EstimateForm5 = (props: any) => {
   const validateForm = (formData: any) => {
     if (
       formData?.company &&
-      formData?.address &&
+      // formData?.address &&
       formData?.addressDetail &&
       formData?.isAgree &&
       formData.isAgree
@@ -137,28 +137,29 @@ const EstimateForm5 = (props: any) => {
       setTimeout(() => {
         setBackdropOpen(false);
         const sendData = {
-          selection: '개인용도',
+          // selection: '개인용도',
           company: form.company,
           address: form.address,
           addressDetail: form.addressDetail,
           isAgree: form.isAgree,
-          utm_source: sessionStorage.getItem('utm_source'),
-          utm_medium: sessionStorage.getItem('utm_medium'),
-          utm_campaign: sessionStorage.getItem('utm_campaign'),
-          utm_content: sessionStorage.getItem('utm_content'),
-          utm_term: sessionStorage.getItem('utm_term'),
+          phone: sessionStorage.getItem('phone'),
+          // utm_source: sessionStorage.getItem('utm_source'),
+          // utm_medium: sessionStorage.getItem('utm_medium'),
+          // utm_campaign: sessionStorage.getItem('utm_campaign'),
+          // utm_content: sessionStorage.getItem('utm_content'),
+          // utm_term: sessionStorage.getItem('utm_term'),
         };
 
-        sessionStorage.setItem('company', form.company as string);
-        sessionStorage.setItem('address', form.address as string);
-        sessionStorage.setItem('addressDetail', form.addressDetail as string);
+        // sessionStorage.setItem('company', form.company as string);
+        // sessionStorage.setItem('address', form.address as string);
+        // sessionStorage.setItem('addressDetail', form.addressDetail as string);
 
-        axios.post('/zapier/submit-private', { data: sendData }).then(() => {});
+        axios.post('/zapier/company-selection', { data: sendData }).then(() => {});
 
         //GA4 이벤트 전송
         const tagManagerArgs = {
           dataLayer: {
-            event: 'lead_submit',
+            event: 'company_selection_complete',
           },
         };
         TagManager.dataLayer(tagManagerArgs);
@@ -167,16 +168,7 @@ const EstimateForm5 = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    //GA4 이벤트 전송
-    const tagManagerArgsForm = {
-      dataLayer: {
-        event: 'lead_start',
-      },
-    };
-    TagManager.dataLayer(tagManagerArgsForm);
-  }, []);
-
+  
   return (
     <div id="estimateForm" className={styles.estimateForm}>
       {isMobile ? <WebHeaderC /> : <WebHeaderD />}
@@ -274,12 +266,15 @@ const EstimateForm5 = (props: any) => {
                       id="addressInput"
                       size={size}
                       placeholder="주소 검색"
-                      disabled
+                      inputProps={
+                        { readOnly: true, }
+                      }
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
                       value={form?.address ?? ''}
                       onChange={handleChange}
+                      onClick={onClickAddr}
                     />
                     <Button
                       className={styles.address_btn}
