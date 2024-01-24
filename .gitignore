@@ -2,6 +2,7 @@ node_modules
 .env
 .next/cache
 .next
+yarn.lock
 
 /node_modules
 /.pnp

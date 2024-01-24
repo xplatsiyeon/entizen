@@ -16,7 +16,12 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/new/applyAd',
+        destination: '/parking',
+        permanent: true,
+      },
+      {
+        source: '/new/:path*',
+        destination: '/parking',
         permanent: true,
       },
     ];
@@ -30,8 +35,8 @@ const nextConfig = {
          destination: `https://test-api.entizen.kr/:path*`,
        },*/
       {
-         source: '/api/:path*',
-         destination: `https://api.entizen.kr/:path*`,
+        source: '/api/:path*',
+        destination: `https://api.entizen.kr/:path*`,
       },
       {
         source: '/oauth2.0/:path*', // url이 source에 해당될 경우
