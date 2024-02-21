@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { useMediaQuery } from 'react-responsive';
 
-import pcImg from 'public/new/parking_page_pc.png';
-import moImg from 'public/new/parking_page_mo.png';
+import pcImg from 'public/new/parking_pc.png';
+import moImg from 'public/new/parking_mo.png';
 
 const ParkingPage = () => {
   const isTablet = useMediaQuery({

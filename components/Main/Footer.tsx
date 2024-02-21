@@ -20,11 +20,11 @@ const Footer = (props: Props) => {
             </Labels>
             <Labels>주소 : 경기도 안양시 동안구 엘에스로 127(호계동)</Labels>
             <Labels>이메일 : help@entizen.kr</Labels>
-            <Labels>
+            {/* <Labels>
               <Infos>고객센터 : 1544-6811</Infos>
               운영시간 : 평일 09:00~17:00 (점심시간 12:00~13:00 / 주말 및 공휴일
               제외)
-            </Labels>
+            </Labels> */}
           </LabelBox>
         </InfoWrapper>
         {/* <MenuBox>
