@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive';
 import { MyEstimateHeader } from '../../../components/brought/myEstimate/header';
 import CommonModal from '../commonModal';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Icon, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
-import CheckCircle from '/public/pages/new/estimate/CheckCircle.svg';
+import CheckCircle from '/public/pages/estimate/CheckCircle.svg';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Image from 'next/image';
 import styles from './index.module.css';

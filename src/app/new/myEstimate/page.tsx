@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react';
 import CommonConfirmModal from '../commonConfirmModal';
 import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
-import ProcessMb from '/public/pages/new/myEstimate/process_mb.svg';
+import ProcessMb from '/public/pages/myEstimate/process_mb.svg';
 import PhoneModal from '../phoneModal';
 import axios from 'axios';
 

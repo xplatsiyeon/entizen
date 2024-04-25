@@ -7,7 +7,7 @@ $imgPath: '/images';
     width: 100%;
     position: absolute;
     @media screen and (max-width: 480px) {
-      background-image: url('../../../public/pages/new/applyAd/test.png');
+      background-image: url('../../../public/pages/applyAd/test.png');
       height: 600px;
     }
     // height: 1rem;
@@ -263,7 +263,7 @@ $imgPath: '/images';
   }
 
   .mainSection {
-    background-image: url('../../../public/pages/new/applyAd/testPc.png');
+    background-image: url('../../../public/pages/applyAd/testPc.png');
     background-repeat: no-repeat;
     background-position: center center;
     width: 100%;
@@ -273,7 +273,7 @@ $imgPath: '/images';
     margin-bottom: 80px;
     overflow: hidden;
     @media screen and (max-width: 1023px) {
-      background-image: url('../../../public/pages/new/applyAd/testT.png');
+      background-image: url('../../../public/pages/applyAd/testT.png');
     }
     @media screen and (max-width: 480px) {
       background-image: none;

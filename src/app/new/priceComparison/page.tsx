@@ -13,10 +13,10 @@ import {
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Image from 'next/image';
 import { MyEstimateHeader } from '../../../components/brought/myEstimate/header';
-import Banner from '/public/pages/new/priceComparison/banner.svg';
-import Price from '/public/pages/new/priceComparison/price.svg';
-import Kakao from '/public/pages/new/priceComparison/kakao.svg';
-import KakaoMb from '/public/pages/new/priceComparison/kakao_mb.svg';
+import Banner from '/public/pages/priceComparison/banner.svg';
+import Price from '/public/pages/priceComparison/price.svg';
+import Kakao from '/public/pages/priceComparison/kakao.svg';
+import KakaoMb from '/public/pages/priceComparison/kakao_mb.svg';
 import styles from './index.module.css';
 import { useRouter } from 'next/navigation';
 import TagManager from 'react-gtm-module';

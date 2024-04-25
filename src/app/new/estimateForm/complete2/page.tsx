@@ -6,7 +6,7 @@ import WebHeader from '../../../../components/brought/newHeader/BeforeHeaderB';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import CommonModal from '../../commonModal';
 import { Button, Icon, Stack } from '@mui/material';
-import CheckCircle from '/public/pages/new/estimate/CheckCircle.svg';
+import CheckCircle from '/public/pages/estimate/CheckCircle.svg';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Image from 'next/image';
 import styles from '../complete.module.css';

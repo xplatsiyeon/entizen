@@ -16,16 +16,16 @@ import { useMediaQuery } from 'react-responsive';
 
 import TagManager from 'react-gtm-module';
 import Image from 'next/image';
-import Sec02Img from '/public/pages/new/applyAd/section2.png';
-import Sec04Item1 from '/public/pages/new/applyAd/section4_item1.svg';
-import Sec04Item2 from '/public/pages/new/applyAd/section4_item2.svg';
-import Sec04Item3 from '/public/pages/new/applyAd/section4_item3.svg';
-import Sec05Img from '/public/pages/new/applyAd/section5.png';
-import Sec04PcImg from '/public/pages/new/applyAd/section4pc.png';
-import Sec05PcImg from '/public/pages/new/applyAd/section5pc.png';
-import Img01 from '/public/pages/new/applyAd/slide1.png';
-import Img02 from '/public/pages/new/applyAd/slide2.png';
-import Img03 from '/public/pages/new/applyAd/slide3.png';
+import Sec02Img from '/public/pages/applyAd/section2.png';
+import Sec04Item1 from '/public/pages/applyAd/section4_item1.svg';
+import Sec04Item2 from '/public/pages/applyAd/section4_item2.svg';
+import Sec04Item3 from '/public/pages/applyAd/section4_item3.svg';
+import Sec05Img from '/public/pages/applyAd/section5.png';
+import Sec04PcImg from '/public/pages/applyAd/section4pc.png';
+import Sec05PcImg from '/public/pages/applyAd/section5pc.png';
+import Img01 from '/public/pages/applyAd/slide1.png';
+import Img02 from '/public/pages/applyAd/slide2.png';
+import Img03 from '/public/pages/applyAd/slide3.png';
 
 const ApplyAdMain = () => {
   console.log('1st live - 기존 퍼널 주소입력 수정');

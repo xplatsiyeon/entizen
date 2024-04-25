@@ -17,19 +17,19 @@ import styles from './start.module.css';
 import classNames from 'classnames';
 
 import WebHeader from '../../../components/brought/newHeader/BeforeHeaderA';
-import bannerImage from '/public/pages/new/electric/start_banner.png';
-import bannerImageMb from '/public/pages/new/electric/start_banner_mb.png';
-import carbonNextArrow from '/public/pages/new/electric/carbon_next_arrow.png';
-import startElectricCar from '/public/pages/new/electric/start_electric_car.png';
-import startIcons_01 from '/public/pages/new/electric/start_icons_01.png';
-import startIcons_02 from '/public/pages/new/electric/start_icons_02.png';
-import startIcons_03 from '/public/pages/new/electric/start_icons_03.png';
-import subBanner from '/public/pages/new/electric/start_sub_banner.png';
-import chartImage from '/public/pages/new/electric/chart.png';
-import stepMb from '/public/pages/new/electric/step_mb.png';
-import chartImageMb from '/public/pages/new/electric/chart_mb.png';
-import stepEllipse from '/public/pages/new/estimate/step_ellipse.svg';
-import stepArrow from '/public/pages/new/estimate/step_arrow.svg';
+import bannerImage from '/public/pages/electric/start_banner.png';
+import bannerImageMb from '/public/pages/electric/start_banner_mb.png';
+import carbonNextArrow from '/public/pages/electric/carbon_next_arrow.png';
+import startElectricCar from '/public/pages/electric/start_electric_car.png';
+import startIcons_01 from '/public/pages/electric/start_icons_01.png';
+import startIcons_02 from '/public/pages/electric/start_icons_02.png';
+import startIcons_03 from '/public/pages/electric/start_icons_03.png';
+import subBanner from '/public/pages/electric/start_sub_banner.png';
+import chartImage from '/public/pages/electric/chart.png';
+import stepMb from '/public/pages/electric/step_mb.png';
+import chartImageMb from '/public/pages/electric/chart_mb.png';
+import stepEllipse from '/public/pages/estimate/step_ellipse.svg';
+import stepArrow from '/public/pages/estimate/step_arrow.svg';
 import TagManager from 'react-gtm-module';
 
 const ElectricStart = () => {
