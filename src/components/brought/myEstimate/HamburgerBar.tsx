@@ -36,7 +36,8 @@ type Props = {
 const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
+  // const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
   // 알람 조회
   // /v1/alerts/unread-points
   // const { data: historyUnread } = useQuery<AlertsResponse, AxiosError, Alerts>(
@@ -84,10 +85,10 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <LogoWrapper onClick={() => router.push('/new/applyAd')}>
+          <LogoWrapper onClick={() => router.push('/applyAd')}>
             <Image src={Logo} alt="Logo" />
           </LogoWrapper>
-          <FaqButton onClick={() => router.push('/new/faq')}>
+          <FaqButton onClick={() => router.push('/faq')}>
             <span>자주 묻는 질문</span>
           </FaqButton>
           <Imagewrap onClick={toggleDrawer(anchor, false)}>
@@ -95,9 +96,10 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/new/myEstimate')}>
+          <WhetherLoginComplete onClick={() => router.push('/myEstimate')}>
             <span onClick={() => router.push('/profile/editing')}>
-              {`${profileData?.name} 님`}
+              {/* Bum - 로그인완성 후 풀기 */}
+              {/* {`${profileData?.name} 님`} */}
             </span>
             <span
               className="arrow-img"
@@ -118,6 +120,7 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
         <WhiteArea>
           {menu.map((item, index) => (
             <WhiteAreaMenus
+              key={index}
               onClick={() => {
                 router.push(item.link);
               }}

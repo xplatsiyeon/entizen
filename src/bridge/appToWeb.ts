@@ -5,13 +5,17 @@
  * @param userAgent : 기기정보
  * @param type : 사진 or 파일
  */
+
+
 export const requestPermissionCheck = (
   userAgent: string,
   type: 'photo' | 'file',
 ) => {
   if (userAgent === 'Android_App') {
+    //@ts-expect-error
     window.entizen!.requestPermissionCheck(type);
   } else if (userAgent === 'iOS_App') {
+    //@ts-expect-error
     window.webkit.messageHandlers.requestPermissionCheck.postMessage(type);
   }
 };
@@ -24,8 +28,10 @@ export const requestPermissionCheck = (
 export const openExternalBrowser = (userAgent: string, url: string) => {
   console.log('🔥 url : ', url);
   if (userAgent === 'Android_App') {
+    //@ts-expect-error
     window.entizen!.openExternalBrowser(url);
   } else if (userAgent === 'iOS_App') {
+    //@ts-expect-error
     window.webkit.messageHandlers.openExternalBrowser.postMessage(url);
   } else {
     window.open(url, '_blank', 'noopener, noreferrer');
@@ -48,8 +54,10 @@ export const fileDownload = (
   const newFileName = temp[temp.length - 1];
 
   if (userAgent === 'Android_App') {
+    //@ts-expect-error
     window.entizen!.fileDownload(newFileName, url);
   } else if (userAgent === 'iOS_App') {
+    //@ts-expect-error
     window.webkit.messageHandlers.fileDownload.postMessage([newFileName, url]);
   } else {
     location.href = url;
@@ -63,18 +71,24 @@ export const fileDownload = (
 export const appLogout = (userAgent: string) => {
   // 로그아웃 브릿지 연결
   if (userAgent === 'Android_App') {
+    //@ts-expect-error
     window.entizen!.googleUnlink();
+    //@ts-expect-error
     window.entizen!.logout();
   } else if (userAgent === 'iOS_App') {
+    //@ts-expect-error
     window.webkit.messageHandlers.googleUnlink.postMessage('');
+    //@ts-expect-error
     window.webkit.messageHandlers.logout.postMessage('');
   }
 };
 export const googleUnlink = (userAgent: string) => {
   // 로그아웃 브릿지 연결
   if (userAgent === 'Android_App') {
+    //@ts-expect-error
     window.entizen!.googleUnlink();
   } else if (userAgent === 'iOS_App') {
+    //@ts-expect-error
     window.webkit.messageHandlers.googleUnlink.postMessage('');
   }
 };

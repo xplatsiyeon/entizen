@@ -1,6 +1,6 @@
 // 토큰/프로필 가져오는 부분이므로 추후 x-plat측 토큰로직으로 대체필요성 보임
 
-import { isTokenGetApi } from 'api'; 
+// import { isTokenGetApi } from 'api'; 
 import { useQuery, useQueryClient } from 'react-query';
 
 interface ProfileResponse {
@@ -34,14 +34,14 @@ interface ProfileResponse {
 const useProfile = (ACCESS_TOKEN: string) => {
   const queryClient = useQueryClient();
 
-  const { data: profileResponse, isLoading } = useQuery<ProfileResponse>(
-    ['getProfile', ACCESS_TOKEN],
-    () => isTokenGetApi('/members/info'),
-    {
-      enabled: ACCESS_TOKEN ? true : false,
+  // const { data: profileResponse, isLoading } = useQuery<ProfileResponse>(
+  //   ['getProfile', ACCESS_TOKEN],
+  //   () => isTokenGetApi('/members/info'),
+  //   {
+  //     enabled: ACCESS_TOKEN ? true : false,
       
-    },
-  );
+  //   },
+  // );
 
   const invalidate = () => {
     queryClient.invalidateQueries(['getProfile', ACCESS_TOKEN]);
@@ -54,8 +54,8 @@ const useProfile = (ACCESS_TOKEN: string) => {
   };
 
   return {
-    profile: profileResponse,
-    isLoading,
+    // profile: profileResponse,
+    // isLoading,
     invalidate,
     setProfileQuery,
   };

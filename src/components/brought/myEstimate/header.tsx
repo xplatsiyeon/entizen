@@ -6,37 +6,38 @@ import { useMediaQuery } from 'react-responsive';
 import { Drawer } from '@mui/material';
 import HamburgerBar from './HamburgerBar';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import colors from '../../../app/colors';
 import Logos from '/public/components/logo/EntizenHeaderLogoSvg.svg';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
-import { useRouter } from 'next/navigation';
+import LegacyImage from 'next/legacy/image'
+import { useRouter, usePathname } from 'next/navigation';
 
 const menuItems = [
   {
     title: '내 견적서',
-    link: '/new/myEstimate',
+    link: '/myEstimate',
   },
   {
     title: '한전불입금/충전요금',
-    link: '/new/checkRate',
+    link: '/checkRate',
   },
   {
     title: '가격차이',
-    link: '/new/funcSystemComparison',
+    link: '/funcSystemComparison',
   },
   {
     title: '업체 신뢰도',
-    link: '/new/reliability',
+    link: '/reliability',
   },
 ]
 
 export const MyEstimateHeader = ({useHeaderLogo = true}) => {
   const router = useRouter();
+  const pathName = usePathname();
   const mobile = useMediaQuery({ query: '(max-width:767px)' });
   const [state, setState] = useState({ right: false });
-  const userID = sessionStorage.getItem('USER_ID');
+  // const userID = sessionStorage.getItem('USER_ID') || null;
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
 
   const toggleDrawer =
     (anchor: string, open: boolean) =>
@@ -63,7 +64,7 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
       {mobile ? (
         <>
           {useHeaderLogo ? 
-          <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/new/applyAd')}>
+          <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/applyAd')}>
             <img
               style={{
                 display: 'flex',
@@ -83,7 +84,7 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
           <div className={myEstimateHeaderStyles.iconWrap}>
             {(['right'] as const).map((anchor) => (
               <Fragment key={anchor}>
-                <div className={myEstimateHeaderStyles.faqBox} onClick={() => {router.push('/new/faq')}}>
+                <div className={myEstimateHeaderStyles.faqBox} onClick={() => {router.push('/faq')}}>
                   <div>
                     <div>자주 묻는 질문</div>
                   </div>
@@ -117,12 +118,12 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
             <Box1>
               <LogoBox>
                 <div>
-                  <Image
+                  <LegacyImage
                     src={Logos}
                     alt="logo"
                     layout="intrinsic"
                     onClick={async () => {
-                      await router.push('/new/applyAd');
+                      await router.push('/applyAd');
                     }}
                     style={{ cursor: 'pointer' }}
                   />
@@ -134,14 +135,15 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
                     {
                       menuItems.map((item) => (
                         <DivBox
-                          clicked={router.pathname?.includes(item.link)}
+                          key={item.link}
+                          clicked={pathName?.includes(item.link)}
                           onClick={() => { handleLink(item.link); }}
                         >{item.title}
                         </DivBox>
                       ))
                     }
                   </Box2>
-                  <DivBox2 onClick={() => { handleLink('/new/faq'); }}>자주 묻는 질문</DivBox2></>
+                  <DivBox2 onClick={() => { handleLink('/faq'); }}>자주 묻는 질문</DivBox2></>
                   )
               }
             </Box1>

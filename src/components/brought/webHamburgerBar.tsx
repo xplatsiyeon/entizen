@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import LegacyImage from 'next/legacy/image'
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 // import { isTokenGetApi } from 'api';
@@ -51,26 +52,28 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
+  // const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
   const userAgent = JSON.parse(sessionStorage.getItem('userAgent')!);
   const queryClient = useQueryClient();
   // 알람 조회
   // /v1/alerts/unread-points
-  const {
-    data: historyUnread,
-    isLoading: historyIsLoading,
-    isError: historyIIsError,
-    refetch: historyIsRefetch,
-  } = useQuery<AlertsResponse, AxiosError, Alerts>(
-    'v1/alerts',
-    () => isTokenGetApi(`/v1/alerts/unread-points`),
-    {
-      enabled: userID !== null ? true : false,
-      select(res) {
-        return res.data;
-      },
-    },
-  );
+  // const {
+  //   data: historyUnread,
+  //   isLoading: historyIsLoading,
+  //   isError: historyIIsError,
+  //   refetch: historyIsRefetch,
+  // } = useQuery<AlertsResponse, AxiosError, Alerts>(
+  //   'v1/alerts',
+  //   () => isTokenGetApi(`/v1/alerts/unread-points`),
+  //   {
+  //     enabled: userID !== null ? true : false,
+  //     select(res) {
+  //       return res.data;
+  //     },
+  //   },
+  // );
+
   const [isLogin, setIsLogin] = useState(false);
 
   // 제휴문의 채팅방 보내기
@@ -88,7 +91,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   // );
 
   // 기업인지 판매자인지
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);;
 
   const moveAlarm = () => {
     dispatch(alarmNumberSliceAction.setalarmNumberSlice(0));
@@ -181,7 +184,8 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             <Imagewrap
               onClick={() => (userID ? moveAlarm() : router.push('/signin'))}
             >
-              {userID && historyUnread?.wasReadAlertBell === true ? (
+              {userID ? (
+          //  {userID && historyUnread?.wasReadAlertBell === true ? (
                 <Image
                   src={BellOff}
                   alt="alarmIcon"
@@ -231,7 +235,8 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               ) : (
                 <label className="label">일반회원</label>
               )}
-              {`${profileData?.name} 님`}
+              {/* Bum - 로그인완료후 프로필수정 */}
+              {/* {`${profileData?.name} 님`} */}
             </span>
             <span
               className="arrow-img"
@@ -417,15 +422,15 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               <Image src={grayInsta} alt="인스타"></Image>
             </span>
             <span
-              // onClick={() =>
-              //   window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-              // }
               onClick={() =>
-                openExternalBrowser(
-                  userAgent,
-                  'http://post.naver.com/entizen_ev',
-                )
+                window.open('http://post.naver.com/entizen_ev', 'entizen_post')
               }
+              // onClick={() =>
+              //   openExternalBrowser(
+              //     userAgent,
+              //     'http://post.naver.com/entizen_ev',
+              //   )
+              // }
             >
               <Image src={grayNaver} alt="네이버"></Image>
             </span>

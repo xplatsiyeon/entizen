@@ -19,7 +19,7 @@ export const SlideItem = ({
       <div>
         <img
           className={SlideItemStyles.emptyImg}
-          src="/images/suggestion/emptyImg.png"
+          src="/components/suggestion/emptyImg.png"
           alt="emptyImg"
         ></img>
 

@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import Link from 'next/link';
-// import colors from 'styles/colors';
-import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
+import LegacyImage from 'next/legacy/image'
 import LogosLS from '/public/components/logo/EntizenHeaderLogoSvgLS.svg';
-import Chat from 'public/images/chat.png';
+import SubMenuBar from '../SubMenuBar'
+import { useRouter } from 'next/navigation';
 //알람 꺼짐
 import BellOff from 'public/images/bell.png';
 // 알람 켜짐
 import BellOn from 'public/images/Bell_outline.png';
-import Frame from 'public/images/Frame.png';
-import SubMenuBar from '../SubMenuBar'
-import ProfileUp from 'public/images/profile-up.png';
-import ProfileDown from 'public/images/profile-down.png';
-import { useRouter } from 'next/navigation';
 // import { handleLogoutOnClickModalClick } from 'api/logout';
-import { useQuery } from 'react-query';
+// import { useQuery } from 'react-query';
 // import { isTokenGetApi } from 'api';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 // import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 // import { selectAction } from 'store/loginTypeSlice'; <= 삭제하지 말고 주석처리
 // import userAddressHooks from 'hooks/userAddressHooks'; <= 삭제하지 말고 주석처리
-import { Alerts, AlertsResponse } from '../../../types/alerts';
-import { AxiosError } from 'axios';
-// import { quotationAction } from 'store/quotationSlice';
 
 
 /**
@@ -48,7 +38,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
    * 작성자 Bum
    * 선언된 변수 userID에 대해 비로그인시 에러를 throw하므로 || null 추가 
    */
-  const userID = sessionStorage.getItem('USER_ID') || null;
+  // const userID = sessionStorage.getItem('USER_ID') || null;
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [isHovering, setIsHovered] = useState(false);
   // const [keyword, setKeyword, results] = userAddressHooks();
@@ -131,12 +122,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
             <Box1>
               <LogoBox>
                 <div>
-                  <Image
+                  <LegacyImage
                     src={LogosLS}
                     alt="logo"
                     layout="intrinsic"
                     onClick={() => {
-                      router.push('/new/applyAd');
+                      router.push('/applyAd');
                     }}
                     style={{ cursor: 'pointer' }}
                   />

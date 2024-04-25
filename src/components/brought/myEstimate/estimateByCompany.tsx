@@ -44,7 +44,7 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    location.href = `/new/myEstimate/estimate/${company}`;
+    location.href = `/myEstimate/estimate/${company}`;
   };
   type ObjType = {
     [index: string]: string;

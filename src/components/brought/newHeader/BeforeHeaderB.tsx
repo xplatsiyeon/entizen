@@ -18,7 +18,8 @@ type Props = {
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
   // const dispatch = useDispatch();
-  const userID = sessionStorage.getItem('USER_ID') || null;
+  // const userID = sessionStorage.getItem('USER_ID') || null;
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [isHovering, setIsHovered] = useState(false);
   // const [keyword, setKeyword, results] = userAddressHooks();
@@ -53,7 +54,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     alt="logo"
                     layout="intrinsic"
                     onClick={() => {
-                      router.push('/new/applyAd');
+                      router.push('/applyAd');
                     }}
                     style={{ cursor: 'pointer' }}
                   />

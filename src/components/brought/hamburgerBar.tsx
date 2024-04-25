@@ -17,7 +17,7 @@ import grayNaver from '/public/components/logo/grayCircleNaver.png';
 
 import { Divider, Drawer } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
+import { RootState } from '../../store/store';
 
 const HambuguerBar = (anchor: string) => {
   const router = useRouter();
@@ -28,7 +28,8 @@ const HambuguerBar = (anchor: string) => {
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
   );
-  const userID = sessionStorage.getItem('USER_ID');
+  // const userID = sessionStorage.getItem('USER_ID')
+  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {

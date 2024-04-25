@@ -14,6 +14,7 @@ import 'swiper/css'; //basic
 import { SlideItem } from '../../components/brought/applyAd/slideItem';
 import { useMediaQuery } from 'react-responsive';
 
+import LegacyImage from 'next/legacy/image';
 import TagManager from 'react-gtm-module';
 import Image from 'next/image';
 import Sec02Img from '/public/pages/applyAd/section2.png';
@@ -43,7 +44,7 @@ const ApplyAdMain = () => {
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    location.href = '/new/selection';
+    location.href = '/selection';
   };
 
   useEffect(() => {
@@ -77,7 +78,6 @@ const ApplyAdMain = () => {
               src="/components/suggestion/mouseWheel.png"
               alt="mouseWheel"
             ></img>
-
          
           </div>
         </section>
@@ -87,7 +87,7 @@ const ApplyAdMain = () => {
             playsInline
             loop
             muted
-            poster="/images/suggestion/infoSquare.png"
+            poster="/components/suggestion/infoSquare.png"
             className={ApplyAdMainStyles.img}
           >
             <source
@@ -229,6 +229,7 @@ const ApplyAdMain = () => {
                   src="/components/suggestion/section3_4.png"
                   alt="section3_4"
                 ></img>
+           
               </div>
             </div>
 
@@ -249,6 +250,7 @@ const ApplyAdMain = () => {
                       width={160}
                       height={240}
                       className={ApplyAdMainStyles.sliderItems}
+                      alt=''
                     />
                   </SwiperSlide>
                 );
@@ -367,9 +369,9 @@ const ApplyAdMain = () => {
             </div>
             <div className={ApplyAdMainStyles.content}>
               <div className={ApplyAdMainStyles.items}>
-                <Image src={Sec04Item1} />
-                <Image src={Sec04Item2} />
-                <Image src={Sec04Item3} />
+                <Image src={Sec04Item1} alt={''} />
+                <Image src={Sec04Item2} alt={''} />
+                <Image src={Sec04Item3} alt={''} />
               </div>
             </div>
           </div>

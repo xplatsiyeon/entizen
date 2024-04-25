@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useMediaQuery } from 'react-responsive';
 import { MyEstimateHeader } from '../../components/brought/myEstimate/header';
 import styles from './checkRate.module.css';
-import { Divider, Grid } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
+import {  Grid } from '@mui/material';
+import LegacyImage from 'next/legacy/image'
 import BackgroundImage from './img/background_1.png';
 import BackgroundImageMb from './img/banner_mb.png';
 import Image1 from './img/img_1.png';
@@ -15,20 +15,27 @@ import ChartMb from './img/chart_mb.png';
 import Image4 from './img/img_4.png';
 import Image5 from './img/img_5.png';
 import Icon from './img/icon.svg';
+import { useEffect } from 'react';
+
 
 const CheckRate = () => {
-  sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
+  // sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+
+  useEffect(()=>{
+    sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
+  },[])
 
   return (
     <div className={styles.check_rate_page}>
       <MyEstimateHeader></MyEstimateHeader>
       <section className={styles.sec_01}>
-        <Image
+        <LegacyImage
           layout="fill"
           src={isMobile ? BackgroundImageMb : BackgroundImage}
+          alt=''
         />
         <p className={styles.backgroundIntro}>
           한전불입금과 충전요금을
@@ -47,10 +54,10 @@ const CheckRate = () => {
         <article className={styles.info_wrap}>
           <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 16 }}>
             <Grid item xs={8} className={styles.info_item}>
-              <Image src={Image1} className={styles.info_img} />
+              <LegacyImage src={Image1} className={styles.info_img} alt='' />
             </Grid>
             <Grid item xs={8} className={styles.info_item}>
-              <Image src={Image2} className={styles.info_img} />
+              <LegacyImage src={Image2} className={styles.info_img} alt='' />
             </Grid>
           </Grid>
         </article>
@@ -61,35 +68,39 @@ const CheckRate = () => {
         {isMobile && <div className={styles.table_caption}>부가세 불포함</div>}
         <div className={styles.table_container}>
           <table>
-            <tr>
-              <th scope="col" colSpan={2} rowSpan={2}>
-                구분
-              </th>
-              <th scope="col" colSpan={2} style={{ width: '30%' }}>
-                금액
-              </th>
-            </tr>
-            <tr>
-              <th scope="col">공중공급</th>
-              <th scope="col">지중공급</th>
-            </tr>
-            <tr>
-              <td rowSpan={2}>저압</td>
-              <td>매 1계약에 대하여 계약전력 5kW까지</td>
-              <td>306,000원</td>
-              <td>588,000원</td>
-            </tr>
-            <tr>
-              <td>계약전력 5kW 초과분의 매 1kW에 대하여</td>
-              <td>121,000원</td>
-              <td>141,000원</td>
-            </tr>
-            <tr>
-              <td>고압 또는 특별고압</td>
-              <td>신증설 계약전력 매 1kW에 대하여</td>
-              <td>24,000원</td>
-              <td>50,000원</td>
-            </tr>
+            <thead>
+              <tr>
+                <th scope="col" colSpan={2} rowSpan={2}>
+                  구분
+                </th>
+                <th scope="col" colSpan={2} style={{ width: '30%' }}>
+                  금액
+                </th>
+              </tr>
+              <tr>
+                <th scope="col">공중공급</th>
+                <th scope="col">지중공급</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowSpan={2}>저압</td>
+                <td>매 1계약에 대하여 계약전력 5kW까지</td>
+                <td>306,000원</td>
+                <td>588,000원</td>
+              </tr>
+              <tr>
+                <td>계약전력 5kW 초과분의 매 1kW에 대하여</td>
+                <td>121,000원</td>
+                <td>141,000원</td>
+              </tr>
+              <tr>
+                <td>고압 또는 특별고압</td>
+                <td>신증설 계약전력 매 1kW에 대하여</td>
+                <td>24,000원</td>
+                <td>50,000원</td>
+              </tr>
+            </tbody>
           </table>
           {!isMobile && (
             <div className={styles.table_caption}>부가세 불포함</div>
@@ -106,7 +117,7 @@ const CheckRate = () => {
         <div className={styles.container_02}>
           <p className={styles.text_01}>한전불입금 7kW 변화</p>
           <div className={styles.img}>
-            <Image src={isMobile ? ChartMb : Image3} layout="intrinsic" />
+            <LegacyImage src={isMobile ? ChartMb : Image3} layout="intrinsic" alt=''/>
           </div>
           <p className={styles.text_02}>
             한전불입금이 꾸준히 증가하고 있기 때문에 빠르게 설치하시는 걸
@@ -123,15 +134,15 @@ const CheckRate = () => {
         <article className={styles.info_wrap}>
           <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 16 }}>
             <Grid item xs={8} className={styles.info_item}>
-              <Image src={Image4} className={styles.info_img} />
+              <LegacyImage src={Image4} className={styles.info_img} alt=''/>
             </Grid>
             <Grid item xs={8} className={styles.info_item}>
-              <Image src={Image5} className={styles.info_img} />
+              <LegacyImage src={Image5} className={styles.info_img} alt=''/>
             </Grid>
           </Grid>
           <div className={styles.info_text}>
             <div className={styles.info_icon}>
-              <Image src={Icon} />
+              <Image src={Icon} alt=''/>
             </div>
             <span>
               아파트 혹은 정부지원금으로 무료 설치 시 충전 요금을 업체에서
@@ -145,64 +156,68 @@ const CheckRate = () => {
         <div className={styles.sub_title}>적용일자: 2023년 5월 16일</div>
         <div className={styles.table_container}>
           <table>
-            <tr>
-              <th scope="col" colSpan={2} rowSpan={2}>
-                구분
-              </th>
-              <th scope="col" colSpan={1} rowSpan={2}>
-                기본요금 (원/kW)
-              </th>
-              <th scope="col" colSpan={4} style={{ width: '60%' }}>
-                전력량 요금 (원/kWh)
-              </th>
-            </tr>
-            <tr>
-              <th scope="col">시간대</th>
-              <th scope="col">여름철</th>
-              <th scope="col">봄가을철</th>
-              <th scope="col">겨울철</th>
-            </tr>
-            <tr>
-              <td rowSpan={6}>자가소비</td>
-              <td rowSpan={3}>저압</td>
-              <td rowSpan={3}>2,390</td>
-              <td>경부하</td>
-              <td>84.3</td>
-              <td>85.4</td>
-              <td>107.4</td>
-            </tr>
-            <tr>
-              <td>중간부하</td>
-              <td>172.0</td>
-              <td>97.2</td>
-              <td>154.9</td>
-            </tr>
-            <tr>
-              <td>최대부하</td>
-              <td>259.2</td>
-              <td>102.1</td>
-              <td>217.5</td>
-            </tr>
-            <tr>
-              <td rowSpan={3}>고압</td>
-              <td rowSpan={3}>2,580</td>
-              <td>경부하</td>
-              <td>79.2</td>
-              <td>80.2</td>
-              <td>96.6</td>
-            </tr>
-            <tr>
-              <td>중간부하</td>
-              <td>137.4</td>
-              <td>91.0</td>
-              <td>127.7</td>
-            </tr>
-            <tr>
-              <td>최대부하</td>
-              <td>190.4</td>
-              <td>94.9</td>
-              <td>165.5</td>
-            </tr>
+            <thead>
+              <tr>
+                <th scope="col" colSpan={2} rowSpan={2}>
+                  구분
+                </th>
+                <th scope="col" colSpan={1} rowSpan={2}>
+                  기본요금 (원/kW)
+                </th>
+                <th scope="col" colSpan={4} style={{ width: '60%' }}>
+                  전력량 요금 (원/kWh)
+                </th>
+              </tr>
+              <tr>
+                <th scope="col">시간대</th>
+                <th scope="col">여름철</th>
+                <th scope="col">봄가을철</th>
+                <th scope="col">겨울철</th>
+              </tr>   
+            </thead>
+            <tbody>
+              <tr>
+                <td rowSpan={6}>자가소비</td>
+                <td rowSpan={3}>저압</td>
+                <td rowSpan={3}>2,390</td>
+                <td>경부하</td>
+                <td>84.3</td>
+                <td>85.4</td>
+                <td>107.4</td>
+              </tr>
+              <tr>
+                <td>중간부하</td>
+                <td>172.0</td>
+                <td>97.2</td>
+                <td>154.9</td>
+              </tr>
+              <tr>
+                <td>최대부하</td>
+                <td>259.2</td>
+                <td>102.1</td>
+                <td>217.5</td>
+              </tr>
+              <tr>
+                <td rowSpan={3}>고압</td>
+                <td rowSpan={3}>2,580</td>
+                <td>경부하</td>
+                <td>79.2</td>
+                <td>80.2</td>
+                <td>96.6</td>
+              </tr>
+              <tr>
+                <td>중간부하</td>
+                <td>137.4</td>
+                <td>91.0</td>
+                <td>127.7</td>
+              </tr>
+              <tr>
+                <td>최대부하</td>
+                <td>190.4</td>
+                <td>94.9</td>
+                <td>165.5</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </section>
@@ -267,7 +282,7 @@ const CheckRate = () => {
           </div>
           <div className={styles.info_text}>
             <div className={styles.info_icon}>
-              <Image src={Icon} />
+              <Image src={Icon} alt=''/>
             </div>
             <span>
               쉬운 이해를 위해 비중이 적은 기후환경 요금과 연료비 조정요금은
