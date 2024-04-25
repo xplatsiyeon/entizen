@@ -1,0 +1,508 @@
+$imgPath: '/images';
+
+.estimateByCompanyWrap {
+  margin: 0.625rem 0;
+  padding: 2rem;
+
+  // width: 53.75rem;
+  // height: 30.75rem;
+
+  border-radius: 0.5rem;
+  border: 1px solid #e2e5ed;
+  background: #fff;
+
+  /* 1 */
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+
+  max-width: 53.75rem;
+  // min-width: 21.875rem;
+  width: inherit;
+  @media screen and (max-width: 767px) {
+    // height: 36rem;
+    padding: 1.5rem;
+    width: inherit;
+  }
+
+  .companyInfo {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    @media screen and (max-width: 767px) {
+      display: block;
+    }
+    .companyLogo {
+      width: 7.875rem;
+      height: 7.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media screen and (max-width: 767px) {
+        width: 6.25rem;
+        height: 6.25rem;
+      }
+
+      $list: ('starkoff', 'castpro', 'ev', 'eco');
+      @each $index in $list {
+        .#{$index} {
+          background: url('#{$imgPath}/company/#{$index}_logo.png')
+            50% /
+            cover
+            no-repeat;
+
+          @if ($index == 'ev') {
+            width: 7.4375rem;
+            height: 6.375rem;
+            @media screen and (max-width: 767px) {
+              width: 5.1875rem;
+              height: 10rem;
+            }
+          } @else if ($index == 'castpro') {
+            width: 7.0625rem;
+            height: 1.25rem;
+            @media screen and (max-width: 767px) {
+              width: 5rem;
+              height: 1.9rem;
+            }
+          } @else if ($index == 'eco') {
+            width: 14.375rem;
+            height: 2.5rem;
+            @media screen and (max-width: 767px) {
+              width: 100%;
+              height: 4rem;
+            }
+          } @else {
+            width: 7.25rem;
+            height: 1.5625rem;
+            @media screen and (max-width: 767px) {
+              width: 5.25rem;
+              height: 2.8rem;
+            }
+          }
+          /* background-size: 27%; */
+          /* min-height: 3.5rem; */
+          /* max-height: 4.25rem; */
+        }
+      }
+
+      border-radius: 0.5rem;
+      border: 1px solid #d6d6d6;
+    }
+
+    .companyName {
+      margin-left: 1.5rem;
+      @media screen and (max-width: 767px) {
+        margin: 1.75rem 0;
+      }
+
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1.625rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -0.0325rem;
+    }
+  }
+
+  // .infoWrap {
+  //   margin: 2rem 0 0 0;
+  //   table {
+  //     width: 100%;
+  //   }
+  //   .estimateInfo {
+  //     display: flex;
+  //     flex-direction: column;
+  //     justify-content: space-between;
+
+  //     height: 8.625rem;
+
+  //     p {
+  //       display: flex;
+  //     }
+
+  //     .title {
+  //       color: #a3a7b2;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 1rem;
+  //       font-style: normal;
+  //       font-weight: 400;
+  //       line-height: 1.625rem; /* 162.5% */
+  //       letter-spacing: -0.02rem;
+
+  //       flex: 1;
+  //       @media screen and (max-width: 767px) {
+  //         flex: 3;
+  //       }
+  //     }
+  //     .info {
+  //       color: #222;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 1rem;
+  //       font-style: normal;
+  //       font-weight: 500;
+  //       line-height: 1.625rem; /* 162.5% */
+  //       letter-spacing: -0.02rem;
+
+  //       flex: 8;
+  //       @media screen and (max-width: 767px) {
+  //         flex: 7;
+  //       }
+  //     }
+
+  //     .border {
+  //       // width: 19.75rem;
+  //       height: 0.0625rem !important;
+  //       background: #e2e5ed;
+  //     }
+  //   }
+  //   .priceInfo {
+  //     display: flex;
+  //     align-items: center;
+  //     flex-direction: row;
+  //     justify-content: space-between;
+  //     @media screen and (max-width: 767px) {
+  //       align-items: flex-start;
+  //       flex-direction: column;
+  //       justify-content: flex-start;
+  //       flex-wrap: nowrap;
+  //     }
+  //     .totalPrice {
+  //       margin: 1.25rem 0;
+
+  //       color: #222;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 2rem;
+  //       @media screen and (max-width: 767px) {
+  //         font-size: 1.5rem;
+  //         font-size: 1.5rem;
+  //         margin: 1rem 0 0 0;
+  //       }
+  //       font-style: normal;
+  //       font-weight: 700;
+  //       line-height: normal;
+  //       letter-spacing: -0.04rem;
+  //     }
+
+  //     .etcInfo {
+  //       color: #a6a9b0;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 0.875rem;
+  //       font-style: normal;
+  //       font-weight: 500;
+  //       line-height: 1.625rem; /* 185.714% */
+  //       letter-spacing: -0.0175rem;
+  //     }
+  //   }
+
+  //   .buttonWrap {
+  //     display: flex;
+  //     justify-content: space-between;
+
+  //     @media screen and (max-width: 767px) {
+  //       // width: 18.75rem;
+  //       height: 7.25rem;
+
+  //       flex-direction: column;
+  //       align-items: center;
+  //       align-content: center;
+  //       justify-content: space-around;
+  //     }
+  //     @media screen and (max-width: 1023px) {
+  //       display: flex;
+  //       flex-direction: column;
+  //     }
+
+  //     .kakaoChatBtn {
+  //       width: 24.5rem;
+  //       // width: -webkit-fill-available;
+  //       @media screen and (max-width: 1023px) {
+  //         width: 100%;
+  //       }
+
+  //       @media screen and (max-width: 767px) {
+  //         width: 100%;
+  //       }
+  //       height: 3.25rem;
+  //       flex-shrink: 0;
+
+  //       border-radius: 0.25rem;
+  //       background: var(--Main1, #5221cb);
+
+  //       color: #fff;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 1rem;
+  //       font-style: normal;
+  //       font-weight: 500;
+  //       line-height: 1rem; /* 100% */
+  //       letter-spacing: -0.02rem;
+  //     }
+  //     .estimateViewBtn {
+  //       width: 24.5rem;
+  //       // width: -webkit-fill-available;
+  //       @media screen and (max-width: 1023px) {
+  //         width: 100%;
+  //       }
+
+  //       @media screen and (max-width: 767px) {
+  //         width: 100%;
+  //       }
+  //       height: 3.25rem;
+  //       flex-shrink: 0;
+
+  //       border-radius: 0.25rem;
+  //       background: #f7f6fc;
+
+  //       color: #5221cb;
+  //       text-align: center;
+  //       font-family: Spoqa Han Sans Neo;
+  //       font-size: 1rem;
+  //       font-style: normal;
+  //       font-weight: 500;
+  //       line-height: 1rem; /* 100% */
+  //       letter-spacing: -0.02rem;
+  //     }
+  //   }
+  // }
+
+  .estimateInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    // height: 10rem;
+
+    .list {
+      border-bottom: 0.0625rem solid #e2e5ed;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      line-height: 3.5rem;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    .title {
+      color: #a3a7b2;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 500;
+      // line-height: 1.5rem; /* 150% */
+      letter-spacing: -0.02rem;
+      flex: 1;
+
+      @media screen and (max-width: 767px) {
+        font-weight: 400;
+        flex: 3;
+      }
+    }
+    .info {
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1.25rem;
+      font-style: normal;
+      font-weight: 500;
+      // line-height: 1.5rem; /* 120% */
+      letter-spacing: -0.025rem;
+      @media screen and (max-width: 767px) {
+        font-size: 1rem;
+        letter-spacing: -0.02rem;
+      }
+      flex: 7;
+    }
+  }
+
+  .priceInfo {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    @media screen and (max-width: 767px) {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+    }
+    .totalPrice {
+      margin: 1.25rem 0;
+
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 2rem;
+      @media screen and (max-width: 767px) {
+        font-size: 1.5rem;
+        font-size: 1.5rem;
+        margin: 1rem 0 0 0;
+      }
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.04rem;
+    }
+
+    .etcInfo {
+      color: #a6a9b0;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1.625rem; /* 185.714% */
+      letter-spacing: -0.0175rem;
+    }
+  }
+
+  .buttonWrap {
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (max-width: 767px) {
+      // width: 18.75rem;
+      height: 7.25rem;
+
+      flex-direction: column;
+      align-items: center;
+      align-content: center;
+      justify-content: space-around;
+    }
+    @media screen and (max-width: 1023px) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kakaoChatBtn {
+      width: 24.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // width: -webkit-fill-available;
+      @media screen and (max-width: 1023px) {
+        width: 100%;
+      }
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      height: 3.25rem;
+      flex-shrink: 0;
+
+      border-radius: 0.25rem;
+      background: var(--Main1, #5221cb);
+
+      color: #fff;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1rem; /* 100% */
+      letter-spacing: -0.02rem;
+      .kakaoIcon {
+        width: 1.25rem;
+        height: 1.25rem;
+
+        background: url('#{$imgPath}/myEstimate/icon_kakao_wh.svg') 50% / cover
+          no-repeat;
+        margin-right: 0.5rem;
+      }
+    }
+    .estimateViewBtn {
+      width: 24.5rem;
+      // width: -webkit-fill-available;
+      @media screen and (max-width: 1023px) {
+        width: 100%;
+      }
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
+      height: 3.25rem;
+      flex-shrink: 0;
+
+      border-radius: 0.25rem;
+      background: #f7f6fc;
+
+      color: #5221cb;
+      text-align: center;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 1rem; /* 100% */
+      letter-spacing: -0.02rem;
+    }
+  }
+}
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+  .estimateByCompanyWrap {
+    border-radius: 8px;
+    padding: 25px;
+  }
+  .estimateByCompanyWrap .companyInfo .companyLogo {
+    width: 100px;
+    height: 100px;
+    padding: 8px;
+  }
+  .estimateByCompanyWrap .companyInfo .companyLogo > .ev,
+  .estimateByCompanyWrap .companyInfo .companyLogo > .starkoff,
+  .estimateByCompanyWrap .companyInfo .companyLogo > .castpro {
+    width: 100%;
+    // height: 100%;
+  }
+  .estimateByCompanyWrap .companyInfo .companyName {
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.52px;
+  }
+  .estimateByCompanyWrap .estimateInfo .list {
+    align-items: flex-start;
+  }
+  .estimateByCompanyWrap .estimateInfo .title,
+  .estimateByCompanyWrap .estimateInfo .info {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .estimateByCompanyWrap .priceInfo .etcInfo {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+  .estimateByCompanyWrap .priceInfo .totalPrice {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.48px;
+    margin: 28px 0 0 0;
+  }
+  .estimateByCompanyWrap .buttonWrap {
+    height: auto;
+  }
+  .estimateByCompanyWrap .buttonWrap .kakaoChatBtn {margin-top: 12px;}
+  .estimateByCompanyWrap .buttonWrap .kakaoChatBtn,
+  .estimateByCompanyWrap .buttonWrap .estimateViewBtn {
+    height: 52px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 100% */
+    letter-spacing: -0.32px;
+  }
+  .estimateByCompanyWrap .buttonWrap .kakaoChatBtn .kakaoIcon {
+    width: 20px;
+    height: 20px;
+  }
+}

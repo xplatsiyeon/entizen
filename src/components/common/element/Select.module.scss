@@ -1,0 +1,47 @@
+.select {
+  border: 1px solid black;
+  border-radius: 0.5rem /* 8px */;
+  position: relative;
+  width: 100%;
+  align-self: auto;
+  cursor: pointer;
+  h1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem /* 16px */;
+    border-radius: 0.5rem /* 8px */;
+    background-color: #f9fafb;
+    &.selectValue {
+      font-weight: 700;
+    }
+  }
+  ul {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 0.5rem /* 8px */;
+    cursor: pointer;
+    &.hidden {
+      display: none;
+    }
+    li {
+      border-bottom-width: 1px;
+      padding: 1rem /* 16px */;
+      border-radius: 0.5rem /* 8px */;
+      user-select: none;
+      &:first {
+        border-top-width: 1px;
+      }
+      &:hover {
+        background-color: #e2e8f0;
+      }
+      &.selectItem {
+        font-weight: 700;
+        background-color: #cae1ff;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.button {
+  position: relative;
+  color: #ffffff;
+  background-color: #2f36ff;
+  font-size: inherit;
+  font-weight: 600;
+  padding: 0.7rem 2rem;
+  border-width: 1px;
+  border-color: #5a5a5a;
+  border-radius: 0.3rem;
+  max-width: max-content;
+  max-height: 3rem;
+  &.error {
+    background-color: #ff3636;
+  }
+  &.confirm {
+    background-color: #2f36ff;
+  }
+  &.cancel {
+    background-color: #7a7a7a;
+  }
+  &.notActive {
+    background-color: #555555;
+  }
+}

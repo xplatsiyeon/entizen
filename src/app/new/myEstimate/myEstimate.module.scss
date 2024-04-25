@@ -1,0 +1,1041 @@
+$imgPath: '/images';
+
+.myEstimateContainer {
+  section {
+    padding: 1.25rem;
+    margin-top: 5.5rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    max-width: 76rem;
+  }
+  .fakeHeader {
+    height: 5.75rem;
+  }
+  .backgroundWrap {
+    height: 17.5rem;
+
+    background: url('#{$imgPath}/myEstimate/background_1.png') 0 0 no-repeat;
+    position: relative;
+
+    .backgroundIntro {
+      color: #222;
+      text-align: center;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 2.5rem;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 3.75rem; /* 150% */
+      letter-spacing: -0.05rem;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      
+      @media screen and (max-width: 1023px) {
+        width: 21.875rem;
+        font-size: 1.5rem;
+        line-height: 2.25rem; /* 150% */
+        letter-spacing: -0.03rem;
+      }
+    }
+  }
+
+  .mainSectionWrap {
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    // text-align: center;
+    .title {
+      padding-top: 5rem;
+
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1.75rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.035rem;
+      @media screen and (max-width: 1023px) {
+        font-size: 1.25rem;
+        letter-spacing: -0.025rem;
+      }
+    }
+    .infoWrap {
+      width: -webkit-fill-available;
+
+      margin: 0 auto;
+      .averagePriceWrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        min-width: 21.875rem;
+        max-width: 53.75rem;
+
+        margin: 2.5rem auto;
+        padding: 1.25rem 2rem;
+        height: 8rem;
+
+        border-radius: 0.5rem;
+        background: #f8f8f8;
+
+        @media screen and (max-width: 767px) {
+          // width: 21.875rem;
+          height: 10.25rem;
+        }
+
+        .naverShopTitle {
+          width: 7.5rem;
+          height: 2rem;
+          // padding: 0.75rem 1rem;
+          text-align: center;
+          line-height: 2rem;
+          border-radius: 1.8125rem;
+          background: var(--Main1, #5221cb);
+          box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+
+          color: #fff;
+          font-family: Spoqa Han Sans Neo;
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          letter-spacing: -0.0175rem;
+        }
+
+        .naverShopInfo {
+          p + p {
+            margin: 0;
+          }
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: nowrap;
+
+          @media screen and (max-width: 767px) {
+            display: block;
+          }
+
+          .naverShopInfoEtc {
+            color: #222;
+            text-align: center;
+            font-family: Spoqa Han Sans Neo;
+            font-size: 1.25rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            letter-spacing: -0.025rem;
+
+            @media screen and (max-width: 767px) {
+              font-size: 1rem;
+              text-align: start;
+            }
+
+            span {
+              color: #222;
+              font-family: Spoqa Han Sans Neo;
+              font-size: 1.25rem;
+              font-style: normal;
+              font-weight: 400;
+              line-height: normal;
+              letter-spacing: -0.025rem;
+              @media screen and (max-width: 767px) {
+                font-size: 1rem;
+              }
+            }
+          }
+          .naverShopInfoPrice {
+            color: #222;
+            text-align: center;
+            font-family: Spoqa Han Sans Neo;
+            font-size: 2rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: -0.04rem;
+            @media screen and (max-width: 767px) {
+              font-size: 1.5rem;
+              margin-top: 1.25rem;
+              text-align: end;
+            }
+          }
+        }
+      }
+    }
+
+    .estimateCompanyWrap {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      width: -webkit-fill-available;
+      @media screen and (max-width: 767px) {
+      }
+    }
+  }
+
+  .estimateInfomation {
+    height: 10.25rem;
+    @media screen and (max-width: 767px) {
+      height: 16.25rem;
+    }
+    margin: 2.5rem 0;
+
+    background: #f8f8f8;
+
+    .hiddenWrap {
+      position: relative;
+      height: 10.25rem;
+      @media screen and (max-width: 767px) {
+        height: 16.25rem;
+      }
+    }
+    .infoWrap {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+
+      width: 53.75rem;
+      @media screen and (max-width: 767px) {
+        // width: 21.875rem;
+        flex-direction: column;
+      }
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .infoTitle {
+        color: #4e5055;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.625rem; /* 162.5% */
+        letter-spacing: -0.02rem;
+      }
+
+      .infoList {
+        margin-left: 3.5rem;
+        @media screen and (max-width: 767px) {
+          margin: 1rem 0 0 1rem;
+        }
+
+        color: #4e5055;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.625rem; /* 185.714% */
+        letter-spacing: -0.0175rem;
+
+        li {
+          list-style: disc;
+        }
+      }
+    }
+  }
+
+  .compareEstimateWrap {
+    // width: 53.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media screen and (max-width: 767px) {
+      // width: 24.375rem;
+    }
+    margin: 5rem auto;
+
+    .title {
+      color: #222;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 1.75rem;
+      @media screen and (max-width: 767px) {
+        font-size: 1.25rem;
+        margin: 2rem;
+      }
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.035rem;
+
+      text-align: center;
+      margin: 2.5rem;
+    }
+    .tableWrap {
+      min-width: 21.875rem;
+      max-width: 53.75rem;
+      margin: 0 auto;
+
+      @media screen and (max-width: 767px) {
+        // width: 21.875rem;
+        overflow: scroll;
+      }
+      table {
+        border-collapse: collapse;
+        @media screen and (max-width: 767px) {
+          width: max-content;
+        }
+      } /*이중선 제거*/
+      th,
+      td {
+        width: 100px;
+        height: 2.75rem;
+        text-align: center;
+        border: 1px solid #909fb7;
+
+        vertical-align: top; /* 위 */
+        vertical-align: bottom; /* 아래 */
+        vertical-align: middle; /* 가운데 */
+
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 3.4375rem; /* 343.75% */
+        letter-spacing: -0.02rem;
+      }
+
+      th {
+        background-color: #e2e5ed;
+        width: 11.25rem;
+      }
+    }
+
+    .companyTh {
+      width: 32.25rem !important;
+    }
+
+    .buttonWrap {
+      height: 4.5em;
+      min-width: 21.875rem;
+      max-width: 53.75rem;
+      margin: 0 auto;
+
+      .downloadBtn {
+        width: 16.25rem;
+        height: 3rem;
+        @media screen and (max-width: 767px) {
+          width: 100%;
+          // height: 3.5rem;
+        }
+
+        border-radius: 0.5rem;
+        background: #383b48;
+
+        /* 1 */
+        box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+
+        color: #fff;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.5rem; /* 150% */
+        letter-spacing: -0.02rem;
+
+        float: right;
+        margin-top: 1.25rem;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: stretch;
+        justify-content: center;
+        align-items: center;
+        .icon {
+          width: 1.25rem;
+          height: 1.25rem;
+          background: url('#{$imgPath}/myEstimate/CaretRight.svg') 50% / cover
+            no-repeat;
+        }
+      }
+    }
+  }
+
+  .processWrap {
+    width: -webkit-fill-available;
+    max-width: 53.75rem;
+    @media screen and (max-width: 767px) {
+      // width: 21.875rem;
+      // height: 12.5rem;
+    }
+
+    height: 15.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e5ed;
+    background: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+
+    position: relative;
+
+    .badge {
+      display: flex;
+      width: 6.5rem;
+      height: 1.75rem;
+      padding: -0.25rem 1rem;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+
+      border-radius: 0.5rem;
+      background: #222;
+
+      /* shadow */
+      box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+
+      color: #fff;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1rem; /* 114.286% */
+      letter-spacing: -0.0175rem;
+
+      position: absolute;
+      @media screen and (max-width: 767px) {
+        top: 1.25rem;
+      }
+      top: 2.25rem;
+    }
+
+    .processImgWrap {
+      width: -webkit-fill-available;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: space-around;
+      @media screen and (max-width: 767px) {
+        justify-content: space-evenly;
+      }
+      align-items: center;
+      .processImg {
+        position: relative;
+      }
+
+      .arrow {
+        width: 2.5rem;
+        height: 2.5rem;
+        @media screen and (max-width: 767px) {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+        background-color: #d0d4e1;
+
+        border-radius: 10rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .arrow::after {
+        content: '';
+        width: 1.25rem;
+        height: 1.25rem;
+        @media screen and (max-width: 767px) {
+          width: 0.625rem;
+          height: 0.625rem;
+        }
+        justify-content: center;
+        align-items: center;
+        background: url('#{$imgPath}/myEstimate/CaretRight.svg') no-repeat 50%;
+      }
+      .process1 {
+        width: 5rem;
+        height: 5.0625rem;
+        @media screen and (max-width: 767px) {
+          width: 3rem;
+          height: 3.0625rem;
+        }
+        background: url('#{$imgPath}/myEstimate/process_1.png') 50% / cover
+          no-repeat;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+      .process1::after {
+        content: '견적요청';
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        @media screen and (max-width: 767px) {
+          font-size: 1rem;
+          position: absolute;
+          width: 3.875rem;
+          top: 110%;
+        }
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.625rem; /* 144.444% */
+        letter-spacing: -0.0225rem;
+
+        position: relative;
+        top: 45%;
+      }
+
+      .process2 {
+        width: 5.0625rem;
+        height: 5.0625rem;
+        @media screen and (max-width: 767px) {
+          width: 3rem;
+          height: 3rem;
+        }
+
+        background: url('#{$imgPath}/myEstimate/process_2.png') 50% / cover
+          no-repeat;
+
+        display: flex;
+        align-items: flex-end;
+        align-content: center;
+        justify-content: center;
+      }
+      .process2::after {
+        content: '가격적 비교 & 업체 선택';
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1.125rem;
+        @media screen and (max-width: 767px) {
+          font-size: 1rem;
+          width: 5.875rem;
+          top: 110%;
+        }
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.625rem; /* 144.444% */
+        letter-spacing: -0.0225rem;
+
+        position: absolute;
+        width: 10.875rem;
+        bottom: -45%;
+      }
+      .process3 {
+        width: 5.1875rem;
+        height: 5.0625rem;
+        @media screen and (max-width: 767px) {
+          width: 3.0625rem;
+          height: 3rem;
+        }
+
+        background: url('#{$imgPath}/myEstimate/process_3.png') 50% / cover
+          no-repeat;
+
+        display: flex;
+        align-items: flex-end;
+        align-content: center;
+        justify-content: center;
+      }
+      .process3::after {
+        content: '현장실사 진행';
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1.125rem;
+        @media screen and (max-width: 767px) {
+          font-size: 1rem;
+          top: 110%;
+        }
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.625rem; /* 144.444% */
+        letter-spacing: -0.0225rem;
+
+        position: absolute;
+        width: 10.875rem;
+        bottom: -45%;
+      }
+      .processTitle {
+        padding-top: 1.5rem;
+        color: #222;
+        text-align: center;
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 1.625rem; /* 144.444% */
+        letter-spacing: -0.0225rem;
+      }
+    }
+  }
+
+  .myEstimateFooter {
+    margin: 3.75rem auto;
+    .title {
+      color: #222;
+      text-align: center;
+      font-family: Spoqa Han Sans Neo;
+      font-size: 2rem;
+      @media screen and (max-width: 767px) {
+        font-size: 1.25rem;
+        line-height: 1.875rem; /* 150% */
+        letter-spacing: -0.025rem;
+        margin: 1.5rem;
+      }
+      font-style: normal;
+      font-weight: 400;
+      line-height: 3rem; /* 150% */
+      letter-spacing: -0.04rem;
+      margin: 2.5rem;
+    }
+
+    .buttonWrap {
+      width: 53.75rem;
+      height: 5rem;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        height: 7.75rem;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      .button {
+        display: flex;
+        width: 26.25rem;
+        height: 5rem;
+        @media screen and (max-width: 767px) {
+          // width: 21.875rem;
+          width: 100%;
+          height: 3.5rem;
+          padding: 0;
+        }
+        padding: 1.75rem 4.4375rem 1.8125rem 4.375rem;
+        justify-content: center;
+        align-items: center;
+
+        color: var(--Main2, #222);
+        font-family: Spoqa Han Sans Neo;
+        font-size: 1.125rem;
+        @media screen and (max-width: 767px) {
+          font-size: 1rem;
+        }
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: -0.0225rem;
+
+        &.kakaoChatBtn {
+          border-radius: 0.5rem;
+          background: #ffe500;
+
+          /* 1 */
+          box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+
+          .kakaoIcon {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: url('#{$imgPath}/myEstimate/icon_kakao.png') 50% / cover
+              no-repeat;
+            margin-right: 0.5rem;
+          }
+        }
+
+        &.recommCallBtn {
+          border-radius: 0.5rem;
+          border: 1px solid #e2e5ed;
+          background: white;
+
+          /* 1 */
+          box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+          .callIcon {
+            width: 1.25rem;
+            height: 1.25rem;
+            @media screen and (max-width: 767px) {
+              width: 1rem;
+              height: 1rem;
+            }
+            background: url('#{$imgPath}/myEstimate/icon_call.png') 50% / cover
+              no-repeat;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .mailBoxWrap {
+      // width: 53.75rem;
+      height: 15rem;
+      flex-shrink: 0;
+      margin: 3.75rem auto;
+      min-width: 21.875rem;
+      max-width: 53.75rem;
+
+      border-radius: 0.5rem;
+      background: #383b48;
+
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: space-around;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 0 2.25rem;
+
+      .infoWrap {
+        width: 23.875rem;
+        height: 7.75rem;
+
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+
+        @media screen and (max-width: 767px) {
+          align-items: center;
+        }
+        align-items: flex-start;
+        .title {
+          margin: 0;
+          color: #fff;
+          font-family: Spoqa Han Sans Neo;
+          font-size: 2rem;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+          letter-spacing: -0.04rem;
+        }
+
+        .inputWrap {
+          width: 22.4375rem;
+          height: 3.75rem;
+          border-radius: 1.875rem;
+          background: #fff;
+
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .inputMail {
+          width: 15.19em;
+          height: 3.75rem;
+          // border-radius: 1.875rem;
+          background: #fff;
+          margin-left: 1.6rem;
+
+          font-family: Spoqa Han Sans Neo;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 2.5rem; /* 250% */
+          letter-spacing: -0.02rem;
+        }
+        .inputMail::placeholder {
+          // padding-left: 1.5rem;
+
+          color: #909fb7;
+        }
+
+        .sendBtn {
+          width: 4rem;
+          height: 2.5rem;
+
+          border-radius: 1.75rem;
+          background: #383b48;
+
+          color: #909fb7;
+          font-family: Spoqa Han Sans Neo;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 2.5rem; /* 250% */
+          letter-spacing: -0.02rem;
+
+          margin-right: 0.6rem;
+          &:hover {
+            color: #fff;
+          }
+        }
+      }
+
+      .chargeCarImg {
+        @media screen and (max-width: 767px) {
+          display: none;
+        }
+        width: 11.75rem;
+        height: 11.75rem;
+        background: url('#{$imgPath}/myEstimate/footer_chargeCar.svg') 0 0
+          no-repeat;
+      }
+    }
+  }
+}
+
+.myEstimatePhoneModal {
+  // height: 20rem
+}
+.myEstimatePhoneModal .closeButton {
+  width: 28px;
+  height: 28px;
+}
+.myEstimatePhoneModal .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px; /* 150% */
+  letter-spacing: -0.48px;
+  margin-bottom: 36px;
+}
+.myEstimatePhoneModal .phoneInput {
+  width: 386px;
+  height: 48px;
+  flex-shrink: 0;
+  stroke-width: 1px;
+  stroke: #909FB7;
+  margin-bottom: 12px;
+}
+.myEstimatePhoneModal .phoneButton {
+  width: 386px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--Main1, #5221CB);
+  color: #FFF;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px; /* 100% */
+  letter-spacing: -0.32px;
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+ .myEstimateContainer .backgroundWrap {
+   height: 280px;
+   margin: 0;
+  }
+  .myEstimateContainer .backgroundWrap .backgroundIntro {
+    width: max-content;
+    margin-top: 45px;
+
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; /* 150% */
+    letter-spacing: -0.48px;
+  }
+  .myEstimateContainer .mainSectionWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap {}
+  .myEstimateContainer .mainSectionWrap .infoWrap > .averagePriceWrap {
+      border-radius: 8px;
+      height: auto;
+      padding: 24px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopTitle {
+    height: 32px;
+    width: fit-content;
+    padding: 8px;
+    border-radius: 29px;
+    margin-bottom: 16px;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
+    letter-spacing: -0.28px;
+  }
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo {}
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc > span,
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc {
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.32px;}
+  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoPrice {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.48px;}
+  .myEstimateContainer .estimateInfomation {
+    height: 260px;
+    padding: 31px 20px;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap {
+    display: contents;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap .infoTitle {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px; /* 162.5% */
+    letter-spacing: -0.32px;
+  }
+  .myEstimateContainer .estimateInfomation .infoWrap .infoList {
+    font-size: 14px;
+    font-style: normal;
+    line-height: 26px; /* 185.714% */
+    letter-spacing: -0.28px;
+    padding-left: 10px;
+  }
+  .myEstimateContainer .compareEstimateWrap {}
+  .myEstimateContainer .compareEstimateWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+  }
+  .myEstimateContainer .compareEstimateWrap table {
+    margin-bottom: 45px;
+    width: 136px;
+  }
+  .myEstimateContainer .compareEstimateWrap .tableWrap table th,
+  .myEstimateContainer .compareEstimateWrap .tableWrap table td {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+    padding: 6px;
+    min-width: 136px;
+  }
+  .myEstimateContainer .compareEstimateWrap .processImgWrap {
+    margin-bottom: 80px;
+  }
+  .myEstimateContainer .compareEstimateWrap .buttonWrap .downloadBtn {
+    height: 56px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    border-radius: 8px;
+  }
+  .myEstimateContainer .compareEstimateWrap .buttonWrap .downloadBtn .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .myEstimateContainer .myEstimateFooter {}
+  .myEstimateContainer .myEstimateFooter .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px; /* 150% */
+    letter-spacing: -0.4px;
+    margin-bottom: 24px;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap {
+    height: auto;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap .kakaoIcon,
+  .myEstimateContainer .myEstimateFooter .buttonWrap .callIcon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .myEstimateContainer .myEstimateFooter .buttonWrap .button {
+    border-radius: 8px;
+    height: 56px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap {
+    border-radius: 8px;
+    width: 100% !important;
+    height: 168px;
+    max-width: none;
+    // margin: 2.5rem auto;
+    justify-content: center;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap {
+    width: 96%;
+    justify-content: center;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .infoWrap .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap {
+    width: 100% !important;
+    height: 56px !important;
+    border-radius: 30px !important;
+    justify-content: center !important;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap input {
+    border-radius: 30px !important;
+    width: 100% !important;
+    height: inherit !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 40px !important; /* 250% */
+    letter-spacing: -0.32px !important;
+    margin-left: 20px !important;
+  }
+  .myEstimateContainer .myEstimateFooter .mailBoxWrap .inputWrap .sendBtn {
+    width: 64px;
+    height: 40px;
+    border-radius: 28px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: -0.32px;
+    margin-right: 8px;
+  }
+
+  .myEstimatePhoneModal .closeButton {
+    width: 32px;
+    height: 32px;
+  }
+  .myEstimatePhoneModal .title {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px; /* 150% */
+    letter-spacing: -0.48px;
+  }
+  .myEstimatePhoneModal .phoneInput {
+    width: 350px;
+    height: 48px;
+  }
+  .myEstimatePhoneModal .phoneButton {
+    width: 350px;
+    height: 56px;
+  }
+  
+}

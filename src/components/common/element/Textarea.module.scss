@@ -1,0 +1,27 @@
+.textarea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem /* 4px */;
+  label {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem /* 4px */;
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 1rem /* 16px */;
+    font-size: 1rem /* 16px */;
+    line-height: 1.5rem /* 24px */;
+    border: 1px solid #dedede;
+    resize: none;
+    &:focus {
+      background-color: #eeedff;
+    }
+  }
+}

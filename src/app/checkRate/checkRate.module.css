@@ -1,0 +1,597 @@
+/* sec_common */
+.check_rate_page .sec_01 {
+  margin-top: 5.9rem;
+}
+.check_rate_page .sec_02,
+.check_rate_page .sec_03,
+.check_rate_page .sec_05,
+.check_rate_page .sec_06,
+.check_rate_page .sec_07 {
+  width: 53.75rem;
+  margin: 0 auto 6.25rem;
+  padding: 0 1.25rem;
+}
+
+.check_rate_page .sec_02 .title,
+.check_rate_page .sec_03 .title,
+.check_rate_page .sec_06 .title,
+.check_rate_page .sec_05 .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.5rem; /* 153.846% */
+  letter-spacing: -0.0375rem;
+  margin-bottom: 1rem;
+}
+.check_rate_page .sec_02 .sub_title > span,
+.check_rate_page .sec_03 .sub_title > span,
+.check_rate_page .sec_06 .sub_title > span,
+.check_rate_page .sec_05 .sub_title > span {
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+  letter-spacing: -0.02rem;
+}
+.check_rate_page .sec_02 .sub_title,
+.check_rate_page .sec_03 .sub_title,
+.check_rate_page .sec_06 .sub_title,
+.check_rate_page .sec_05 .sub_title {
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 175% */
+  letter-spacing: -0.02rem;
+  margin-bottom: 2.5rem;
+}
+
+/* table */
+.check_rate_page .table_container {
+  min-width: 21.875rem;
+  max-width: 53.75rem;
+  margin: 0 auto;
+}
+.check_rate_page .table_container table {
+  border-collapse: collapse; /*이중선 제거*/
+  width: 100%;
+}
+.check_rate_page .table_container table th,
+.check_rate_page .table_container table td {
+  width: 100px;
+  height: 2.75rem;
+  text-align: center;
+  border: 1px solid #909fb7;
+
+  vertical-align: top; /* 위 */
+  vertical-align: bottom; /* 아래 */
+  vertical-align: middle; /* 가운데 */
+
+  color: #222;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.4375rem; /* 343.75% */
+  letter-spacing: -0.02rem;
+}
+.check_rate_page .table_container table th {
+  background-color: #e2e5ed;
+  width: 11.25rem;
+}
+.check_rate_page .sec_03 .table_caption {
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.0175rem;
+  margin-top: 1rem;
+  text-align: right;
+}
+
+/* sec_01 */
+.check_rate_page .sec_01 {
+  height: 17.5rem;
+  position: relative;
+  margin-bottom: 5rem;
+}
+.check_rate_page .sec_01 .backgroundIntro {
+  color: #222;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 3.75rem; /* 150% */
+  letter-spacing: -0.05rem;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* sec_02, sec_05 */
+.check_rate_page .sec_02 {
+}
+
+.check_rate_page .sec_02 .info_wrap .info_item,
+.check_rate_page .sec_05 .info_wrap .info_item {
+  padding-left: 0;
+}
+
+.check_rate_page .sec_05 .info_wrap .info_text,
+.check_rate_page .sec_07 .info_wrap .info_text {
+  color: #a3a7b2;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 175% */
+  letter-spacing: -0.02rem;
+
+  display: flex;
+  align-items: flex-start;
+}
+.check_rate_page .sec_05 .info_wrap .info_text .info_icon,
+.check_rate_page .sec_07 .info_wrap .info_text .info_icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+/* sec_03 */
+.check_rate_page .sec_03 {
+}
+
+/* sec_04 */
+.check_rate_page .sec_04 {
+  margin: 0 auto 6.25rem;
+}
+.check_rate_page .sec_04 .container_01 {
+  background: rgba(45, 46, 53, 0.9);
+  padding: 3.19rem 0;
+  text-align: center;
+}
+.check_rate_page .sec_04 .container_01 .text_01 {
+  color: #fff;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.625rem; /* 130% */
+  letter-spacing: -0.025rem;
+}
+.check_rate_page .sec_04 .container_01 .text_02 {
+  color: #fff;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 3.75rem; /* 150% */
+  letter-spacing: -0.05rem;
+}
+.check_rate_page .sec_04 .container_01 .text_02 > span {
+  color: #fff;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.75rem;
+  letter-spacing: -0.03rem;
+}
+.check_rate_page .sec_04 .container_02 {
+  background: #383b48;
+}
+.check_rate_page .sec_04 .container_02 {
+  padding: 5rem 1.25rem 6.56rem;
+}
+.check_rate_page .sec_04 .container_02 .text_01 {
+  color: #fff;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.0325rem;
+  margin-bottom: 3.5rem;
+}
+.check_rate_page .sec_04 .container_02 .img {
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 5rem;
+}
+.check_rate_page .sec_04 .container_02 .text_02 {
+  color: #fff;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 175% */
+  letter-spacing: -0.02rem;
+}
+
+/* sec_06 */
+.check_rate_page .sec_06 {
+}
+
+/* sec_07 */
+.check_rate_page .sec_07 {
+}
+.check_rate_page .sec_07 .title {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2.5rem; /* 153.846% */
+  letter-spacing: -0.0375rem;
+  margin-bottom: 1rem;
+}
+.check_rate_page .sec_07 .sub_title {
+  color: #4e5055;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 175% */
+  letter-spacing: -0.02rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.check_rate_page .sec_07 .sub_title > hr {
+  width: 0.125rem;
+  height: 1rem;
+  flex-shrink: 0;
+  background: #a3a7b2;
+  margin: 0 1rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_example {
+  border-radius: 0.5rem;
+  border: 1px solid #e2e5ed;
+  background: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
+  padding: 2.25rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_example .text_01 {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.0225rem;
+  margin-bottom: 2rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_example .calculation_container {
+  display: inline-flex;
+}
+.check_rate_page .sec_07 .info_wrap .info_example .info_calculation {
+  color: #222;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.0325rem;
+  margin-bottom: 0.5rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_example .info_calculation_text {
+  color: #a3a7b2;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem; /* 100% */
+  letter-spacing: -0.0175rem;
+}
+
+.check_rate_page .sec_07 .info_wrap .info_avg_monthly {
+  border-radius: 0.5rem;
+  border: 1px solid #5221cb;
+  background: rgba(82, 33, 203, 0.1);
+  padding: 1.37rem 2.44rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_01 {
+  color: #5221cb;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.025rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_02 {
+  color: #222;
+  text-align: right;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.04rem;
+  margin-bottom: 0.38rem;
+}
+.check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_03 {
+  color: #4e5055;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.0175rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .check_rate_page .sec_1 .backgroundIntro {
+    width: 21.875rem;
+    font-size: 1.5rem;
+    line-height: 2.25rem; /* 150% */
+    letter-spacing: -0.03rem;
+  }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 480px) {
+  .sec_02,
+  .check_rate_page .sec_03,
+  .check_rate_page .sec_05,
+  .check_rate_page .sec_06,
+  .check_rate_page .sec_07 {
+    margin: 0 20px 80px;
+    width: auto;
+  }
+  .check_rate_page .sec_02 .title,
+  .check_rate_page .sec_03 .title,
+  .check_rate_page .sec_06 .title,
+  .check_rate_page .sec_05 .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 200% */
+    letter-spacing: -0.6px;
+  }
+  .check_rate_page .sec_02 .sub_title > span,
+  .check_rate_page .sec_03 .sub_title > span,
+  .check_rate_page .sec_06 .sub_title > span,
+  .check_rate_page .sec_05 .sub_title > span {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_02 .sub_title,
+  .check_rate_page .sec_03 .sub_title,
+  .check_rate_page .sec_06 .sub_title,
+  .check_rate_page .sec_05 .sub_title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+    margin-bottom: 40px;
+  }
+  .check_rate_page .table_container {
+    overflow: scroll;
+  }
+  .check_rate_page .table_container table {
+    width: max-content;
+  }
+  .check_rate_page .table_container table th,
+  .check_rate_page .table_container table td {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6;
+    padding: 14px;
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .table_container table th {
+  }
+  .check_rate_page .sec_03 .table_caption {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.28px;
+  }
+
+  .check_rate_page .sec_01 {
+    margin-top: 12rem;
+    height: 220px;
+  }
+  .check_rate_page .sec_01 .backgroundIntro {
+    width: max-content;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; /* 150% */
+    letter-spacing: -0.48px;
+  }
+  .sec_02 .info_wrap .info_item,
+  .check_rate_page .sec_05 .info_wrap .info_item {
+    display: flex;
+    justify-content: center;
+  }
+  .check_rate_page .sec_02 .info_wrap div,
+  .check_rate_page .sec_05 .info_wrap div {
+    margin: 0 auto;
+    width: 100%;
+  }
+  .check_rate_page .sec_05 .info_wrap .info_text,
+  .check_rate_page .sec_07 .info_wrap .info_text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_05 .info_wrap .info_text .info_icon,
+  .check_rate_page .sec_07 .info_wrap .info_text .info_icon,
+  .check_rate_page .sec_05 .info_wrap .info_text .info_icon > span,
+  .check_rate_page .sec_07 .info_wrap .info_text .info_icon > span {
+    width: 20px !important;
+    height: 20px !important;
+    margin-top: 4px;
+  }
+  .check_rate_page .sec_03 {
+  }
+  .check_rate_page .sec_04 {
+    margin-bottom: 80px;
+  }
+  .check_rate_page .sec_04 .container_01 {
+  }
+  .check_rate_page .sec_04 .container_01 .text_01 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_04 .container_01 .text_02 {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 100% */
+    letter-spacing: -0.48px;
+  }
+  .check_rate_page .sec_04 .container_01 .text_02 > span {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_04 .container_02 {
+  }
+  .check_rate_page .sec_04 .container_02 {
+  }
+  .check_rate_page .sec_04 .container_02 .text_01 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.4px;
+  }
+  .check_rate_page .sec_04 .container_02 .img {
+  }
+  .check_rate_page .sec_04 .container_02 .text_02 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+    text-align: left;
+    margin: 0 20px;
+  }
+  .check_rate_page .sec_06 {
+  }
+  .check_rate_page .sec_07 {
+    padding: 0;
+  }
+  .check_rate_page .sec_07 .title {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 200% */
+    letter-spacing: -0.6px;
+  }
+  .check_rate_page .sec_07 .sub_title {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 175% */
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_07 .sub_title > hr {
+    width: 2px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 6px 20px auto;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example {
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 28px 30px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .text_01 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .calculation_container {
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .calculation_container div {
+    flex-wrap: nowrap;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .info_calculation {
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.48px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_example .info_calculation_text {
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 100% */
+    letter-spacing: -0.28px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly {
+    border-radius: 8px;
+    padding: 28px 30px;
+    margin-bottom: 20px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_01 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper {
+  }
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_02 {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.64px;
+  }
+  .check_rate_page .sec_07 .info_wrap .info_avg_monthly .text_wrapper .text_03 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+  }
+}
