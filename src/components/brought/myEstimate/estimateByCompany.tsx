@@ -3,6 +3,7 @@ import Image from 'next/image';
 import estimateByCompanyStyles from './estimateByCompany.module.scss';
 import { COMPANY_LIST } from '../../../assets/company';
 import TagManager from 'react-gtm-module';
+import { useMemo } from 'react';
 
 interface EstimateCompanyProps {
   company: string;
@@ -60,16 +61,46 @@ export const EstimateByCompany = ({ company }: EstimateCompanyProps) => {
     eco: 'https://open.kakao.com/o/s7PPFZVf',
   };
 
+  const logoSize = useMemo(()=>{
+
+    let width;
+    let height;
+
+    if(company === 'ev'){
+      width = 120
+      height = 80
+    } else if(company === 'eco'){
+      width = 100
+      height = 40
+    } else if(company === 'castpro'){
+      width = 76
+      height = 80
+    } else if(company === 'starkoff'){
+      width = 90
+      height = 80
+    } 
+
+    return(
+      <Image
+        src={`/components/company/${company}_logo.png`}
+        alt={``}
+        width={width}
+        height={width}
+      />  
+    )
+  },[company])
+
   return (
     <div className={estimateByCompanyStyles.estimateByCompanyWrap}>
       <div className={estimateByCompanyStyles.companyInfo}>
         <div className={estimateByCompanyStyles.companyLogo}>
           {/* <Image
-            src={`/images/company/${company}.png`}
-            alt={`${company} 로고`}
-            width={80}
+            src={`/components/company/${company}_logo.png`}
+            alt={``}
+            width={120}
             height={80}
           /> */}
+          {logoSize}
           <div className={estimateByCompanyStyles[company]}></div>
         </div>
         <p className={estimateByCompanyStyles.companyName}>

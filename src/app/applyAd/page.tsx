@@ -1,22 +1,20 @@
 "use client";
 
-// import { SuggestionHeader } from 'components/applyAd/header';
 import WebHeader from '../../components/brought/newHeader/BeforeHeaderA';
 import ApplyAdMainStyles from './applyAd.module.scss';
-import {  useEffect, useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
-
-SwiperCore.use([Navigation, Pagination, Autoplay]);
-
 import 'swiper/css'; //basic
+
 import { SlideItem } from '../../components/brought/applyAd/slideItem';
 import { useMediaQuery } from 'react-responsive';
-
-import LegacyImage from 'next/legacy/image';
 import TagManager from 'react-gtm-module';
+
 import Image from 'next/image';
+import LegacyImage from 'next/legacy/image';
 import Sec02Img from '/public/pages/applyAd/section2.png';
 import Sec04Item1 from '/public/pages/applyAd/section4_item1.svg';
 import Sec04Item2 from '/public/pages/applyAd/section4_item2.svg';
@@ -27,6 +25,14 @@ import Sec05PcImg from '/public/pages/applyAd/section5pc.png';
 import Img01 from '/public/pages/applyAd/slide1.png';
 import Img02 from '/public/pages/applyAd/slide2.png';
 import Img03 from '/public/pages/applyAd/slide3.png';
+
+SwiperCore.use([Navigation, Pagination, Autoplay]);
+
+/**
+ * 작성자 - Bum
+ * 해당페이지 <img />태그는 기존 작업자가 필요성에 의해 Next/Image태그 대신 사용 
+ * 따라서 <img /> 태그 사용시 발생하는 eslint error은 eslint-disable-next-line 임시처리
+ */
 
 const ApplyAdMain = () => {
   console.log('1st live - 기존 퍼널 주소입력 수정');
@@ -73,6 +79,7 @@ const ApplyAdMain = () => {
             >
               맞춤 견적 받기
             </button>
+            {/* eslint-disable-next-line */}
             <img
               className={ApplyAdMainStyles.mouseWheel}
               src="/components/suggestion/mouseWheel.png"
@@ -183,7 +190,7 @@ const ApplyAdMain = () => {
           </article>
         </section>
         <div className={ApplyAdMainStyles.mobileSection2}>
-          <Image
+          <LegacyImage
             src={Sec02Img}
             alt="Sec02Img"
             layout="intrinsic"
@@ -207,16 +214,19 @@ const ApplyAdMain = () => {
             {/* pc */}
             <div className={ApplyAdMainStyles.etcInfo}>
               <div className={ApplyAdMainStyles.imgWrap}>
+                {/* eslint-disable-next-line */}
                 <img
                   className={ApplyAdMainStyles.section3Img_1}
                   src="/components/suggestion/section3_1.png"
                   alt="section3_1"
                 ></img>
+                {/* eslint-disable-next-line */}
                 <img
                   className={ApplyAdMainStyles.section3Img_2}
                   src="/components/suggestion/section3_2.png"
                   alt="section3_2"
                 ></img>
+                {/* eslint-disable-next-line */}
                 <img
                   className={ApplyAdMainStyles.section3Img_3}
                   src="/components/suggestion/section3_3.png"
@@ -224,6 +234,7 @@ const ApplyAdMain = () => {
                 ></img>
               </div>
               <div className={ApplyAdMainStyles.estimateEtc}>
+                {/* eslint-disable-next-line */}
                 <img
                   className={ApplyAdMainStyles.section3Img_4}
                   src="/components/suggestion/section3_4.png"
@@ -244,7 +255,7 @@ const ApplyAdMain = () => {
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (
                   <SwiperSlide key={idx} style={{ width: '160px' }}>
-                    <Image
+                    <LegacyImage
                       src={el}
                       layout="fixed"
                       width={160}
@@ -342,7 +353,7 @@ const ApplyAdMain = () => {
           </article>
         </section> */}
         <div className={ApplyAdMainStyles.pcSection4}>
-          <Image
+          <LegacyImage
             src={Sec04PcImg}
             alt="Sec04PcImg"
             layout="intrinsic"
@@ -369,9 +380,9 @@ const ApplyAdMain = () => {
             </div>
             <div className={ApplyAdMainStyles.content}>
               <div className={ApplyAdMainStyles.items}>
-                <Image src={Sec04Item1} alt={''} />
-                <Image src={Sec04Item2} alt={''} />
-                <Image src={Sec04Item3} alt={''} />
+                <LegacyImage src={Sec04Item1} alt={''} />
+                <LegacyImage src={Sec04Item2} alt={''} />
+                <LegacyImage src={Sec04Item3} alt={''} />
               </div>
             </div>
           </div>
