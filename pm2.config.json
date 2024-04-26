@@ -6,7 +6,8 @@
       "args": "start",
       "interpreter": "none",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "PORT": ""
       }
     }
   ]
