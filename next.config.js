@@ -16,14 +16,19 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/parking',
+        destination: '/new/applyAd',
         permanent: true,
       },
       {
-        source: '/new/:path*',
-        destination: '/parking',
+        source: '/parking',
+        destination: '/new/applyAd',
         permanent: true,
       },
+      // {
+      //   source: '/new/:path*',
+      //   destination: '/new/applyAd',
+      //   permanent: true,
+      // },
     ];
   },
 
