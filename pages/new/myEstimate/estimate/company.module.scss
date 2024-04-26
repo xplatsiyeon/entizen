@@ -157,7 +157,7 @@ $imgPath: '/images';
 
   .tabBarWrap {
     // height: 3.15rem;
-    position: sticky;
+    // position: sticky;/
     background-color: white;
     top: 272px;
     z-index: 8;
@@ -169,6 +169,7 @@ $imgPath: '/images';
     @media screen and (max-width: 1023px) {
       top: 226px;
     }
+
     @media screen and (max-width: 767px) {
       // height: 3rem;
       width: 100%;

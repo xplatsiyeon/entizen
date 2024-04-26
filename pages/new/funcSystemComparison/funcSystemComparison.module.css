@@ -186,7 +186,12 @@
 }
 .func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 {
 }
-.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_01 {
+.func_system_comparison_page
+  .sec_03
+  .item_container
+  .item_wrapper
+  .item_01
+  .item_text_01 {
   color: #222;
   font-family: Spoqa Han Sans Neo;
   font-size: 1.5rem;
@@ -207,7 +212,12 @@
   }
 }
 
-.func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_02 {
+.func_system_comparison_page
+  .sec_03
+  .item_container
+  .item_wrapper
+  .item_01
+  .item_text_02 {
   color: #4e5055;
   font-family: Spoqa Han Sans Neo;
   font-size: 1rem;
@@ -285,11 +295,16 @@
     padding: 6px;
     min-width: 170px;
   }
-  .func_system_comparison_page .table_container table th {}
-  .func_system_comparison_page .table_container .table_caption {}
-  .func_system_comparison_page .table_container {}
-  .func_system_comparison_page .table_container table {}
-  .func_system_comparison_page .table_container .table_caption {}
+  .func_system_comparison_page .table_container table th {
+  }
+  .func_system_comparison_page .table_container .table_caption {
+  }
+  .func_system_comparison_page .table_container {
+  }
+  .func_system_comparison_page .table_container table {
+  }
+  .func_system_comparison_page .table_container .table_caption {
+  }
 
   .func_system_comparison_page .sec_02,
   .func_system_comparison_page .sec_03,
@@ -308,7 +323,8 @@
   }
   .func_system_comparison_page .sec_02 .sub_title > span,
   .func_system_comparison_page .sec_04 .sub_title > span,
-  .func_system_comparison_page .sec_03 .sub_title > span {}
+  .func_system_comparison_page .sec_03 .sub_title > span {
+  }
   .func_system_comparison_page .sec_02 .sub_title,
   .func_system_comparison_page .sec_04 .sub_title,
   .func_system_comparison_page .sec_03 .sub_title {
@@ -321,10 +337,12 @@
   }
   .func_system_comparison_page .sec_02 .title,
   .func_system_comparison_page .sec_03 .title,
-  .func_system_comparison_page .sec_04 .title {}
+  .func_system_comparison_page .sec_04 .title {
+  }
   .func_system_comparison_page .sec_02 .sub_title,
   .func_system_comparison_page .sec_04 .sub_title,
-  .func_system_comparison_page .sec_03 .sub_title {}
+  .func_system_comparison_page .sec_03 .sub_title {
+  }
 
   .func_system_comparison_page .sec_01 {
     height: 220px;
@@ -338,24 +356,40 @@
     letter-spacing: -0.48px;
     width: max-content;
   }
-  .func_system_comparison_page .sec_02 .info_wrap .info_item {}
-  .func_system_comparison_page .sec_02 .info_wrap .info_item {}
-  .func_system_comparison_page .sec_02 .info_wrap .info_img {}
-  .func_system_comparison_page .sec_03 {}
-  .func_system_comparison_page .sec_03 .item_container {}
+  .func_system_comparison_page .sec_02 .info_wrap .info_item {
+  }
+  .func_system_comparison_page .sec_02 .info_wrap .info_item {
+  }
+  .func_system_comparison_page .sec_02 .info_wrap .info_img {
+  }
+  .func_system_comparison_page .sec_03 {
+  }
+  .func_system_comparison_page .sec_03 .item_container {
+  }
   .func_system_comparison_page .sec_03 .item_container .item_wrapper {
     border-radius: 8px;
     padding: 24px;
   }
-  .func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 {}
-  .func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_01 {
+  .func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 {
+  }
+  .func_system_comparison_page
+    .sec_03
+    .item_container
+    .item_wrapper
+    .item_01
+    .item_text_01 {
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.4px;
   }
-  .func_system_comparison_page .sec_03 .item_container .item_wrapper .item_01 .item_text_02 {
+  .func_system_comparison_page
+    .sec_03
+    .item_container
+    .item_wrapper
+    .item_01
+    .item_text_02 {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -366,8 +400,10 @@
     width: 40px;
     height: 40px;
   }
-  .func_system_comparison_page .sec_04 {}
-  .func_system_comparison_page .buttonWrap {}
+  .func_system_comparison_page .sec_04 {
+  }
+  .func_system_comparison_page .buttonWrap {
+  }
   .func_system_comparison_page .buttonWrap .downloadBtn {
     height: 56px;
     padding: 16px 70px 16px;
@@ -380,12 +416,18 @@
     font-weight: 500;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
+
+    @media screen and (max-width: 480px) {
+      padding: 16px 0;
+    }
   }
   .func_system_comparison_page .buttonWrap .downloadBtn .icon {
     width: 20px;
     height: 20px;
     margin-left: 10px;
   }
-  .func_system_comparison_page .buttonWrap {}
-  .func_system_comparison_page .buttonWrap .downloadBtn {}
+  .func_system_comparison_page .buttonWrap {
+  }
+  .func_system_comparison_page .buttonWrap .downloadBtn {
+  }
 }

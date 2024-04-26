@@ -50,6 +50,8 @@ const ApplyAdMain = () => {
       swiper.slideTo(0, 0, false);
     }
   }, [swiper]);
+
+  console.log(ApplyAdMainStyles.content, 'Apply');
   return (
     <div className={ApplyAdMainStyles.applyAdMain}>
       <WebHeader />
