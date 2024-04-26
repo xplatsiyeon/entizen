@@ -1,4 +1,4 @@
-import SlideItemStyles from './slideItem.module.scss';
+import SlideItemStyles from "./slideItem.module.scss";
 
 interface SlideItemProps {
   companyName: string;
@@ -17,6 +17,7 @@ export const SlideItem = ({
   return (
     <div className={SlideItemStyles.slideItem}>
       <div>
+        {/* eslint-disable-next-line */}
         <img
           className={SlideItemStyles.emptyImg}
           src="/components/suggestion/emptyImg.png"

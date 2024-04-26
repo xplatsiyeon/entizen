@@ -4,7 +4,6 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import WebHeader from '../../components/brought/newHeader/BeforeHeaderA';
-// import WebFooter from 'componentsWeb/WebFooter';
 import {
   Grid,
   Divider,
@@ -16,9 +15,8 @@ import {
   TableBody,
   Paper,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import Banner from '/public/pages/estimate/banner.png';
 import Step_1 from '/public/pages/estimate/step_1.svg';
 import Step_2 from '/public/pages/estimate/step_2.svg';
 import Step_3 from '/public/pages/estimate/step_3.svg';
@@ -26,7 +24,6 @@ import Step_4 from '/public/pages/estimate/step_4.svg';
 import Step_5 from '/public/pages/estimate/step_5.svg';
 import Step_6 from '/public/pages/estimate/step_6.svg';
 import Step_arrow_circle from '/public/pages/estimate/step_arrow_circle.svg';
-import Sec01Img from '/public/pages/estimate/sec_01.png';
 import Sec02Img from '/public/pages/estimate/sec_02.png';
 import Step_arrow from '/public/pages/estimate/step_arrow.svg';
 import styles from './index.module.css';

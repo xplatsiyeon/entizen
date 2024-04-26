@@ -1,7 +1,6 @@
-$imgPath: '/images';
-$pageImgPath: '/pages';
-$companyImgPath: '/components';
-
+$imgPath: "/images";
+$pageImgPath: "/pages";
+$companyImgPath: "/components";
 
 .byCompanyContainer {
   section {
@@ -121,7 +120,7 @@ $companyImgPath: '/components';
           line-height: 1rem; /* 100% */
           letter-spacing: -0.02rem;
           background: var(--Sub3, #fff);
-
+          height: 1rem;
           margin-right: 0.75rem;
         }
       }
@@ -133,7 +132,7 @@ $companyImgPath: '/components';
           width: 1rem;
           height: 1rem;
         }
-        background: url('#{$pageImgPath}/myEstimate/icon_kakao.png') 50% / cover
+        background: url("#{$pageImgPath}/myEstimate/icon_kakao.png") 50% / cover
           no-repeat;
       }
     }
@@ -147,10 +146,10 @@ $companyImgPath: '/components';
     width: 100%;
     margin-top: 17.25rem;
 
-    $list: ('starkoff', 'castpro', 'ev', 'eco');
+    $list: ("starkoff", "castpro", "ev", "eco");
     @each $index in $list {
       &.#{$index} {
-        background: url('#{$companyImgPath}/company/#{$index}_background.png')
+        background: url("#{$companyImgPath}/company/#{$index}_background.png")
           50% /
           cover
           no-repeat;
@@ -244,7 +243,7 @@ $companyImgPath: '/components';
         } //마우스 오버했을 때 링크 상태
       }
       &::after {
-        content: '';
+        content: "";
         // position: absolute;
         display: block;
         width: inherit;
@@ -272,21 +271,21 @@ $companyImgPath: '/components';
       justify-content: center;
 
       .companyLogo {
-        $list: ('starkoff', 'castpro', 'ev', 'eco');
+        $list: ("starkoff", "castpro", "ev", "eco");
         @each $index in $list {
           &.#{$index} {
-            background: url('#{$companyImgPath}/company/#{$index}_logo.png')
+            background: url("#{$companyImgPath}/company/#{$index}_logo.png")
               50% /
               cover
               no-repeat;
 
-            @if ($index == 'ev') {
+            @if ($index == "ev") {
               width: 5.5rem;
               height: 5.5rem;
-            } @else if ($index == 'castpro') {
+            } @else if ($index == "castpro") {
               width: 14.375rem;
               height: 2.5rem;
-            } @else if ($index == 'eco') {
+            } @else if ($index == "eco") {
               width: 180px;
               height: 59px;
             } @else {
@@ -709,7 +708,7 @@ $companyImgPath: '/components';
             height: 1.5rem;
             display: inline-block;
             vertical-align: middle;
-            background: url('#{$companyImgPath}/company/icon_certificate.svg')
+            background: url("#{$companyImgPath}/company/icon_certificate.svg")
               no-repeat;
           }
         }
@@ -783,11 +782,11 @@ $companyImgPath: '/components';
           }
 
           &::after {
-            content: '';
+            content: "";
             width: 2.5rem;
             height: 2.5rem;
-            background: url('#{$companyImgPath}/company/slider_arrow.svg') no-repeat
-              center center;
+            background: url("#{$companyImgPath}/company/slider_arrow.svg")
+              no-repeat center center;
           }
 
           &.btnPrev {
@@ -922,11 +921,11 @@ $companyImgPath: '/components';
         }
 
         &::after {
-          content: '';
+          content: "";
           width: 2.5rem;
           height: 2.5rem;
-          background: url('#{$companyImgPath}/company/slider_arrow.svg') no-repeat
-            center center;
+          background: url("#{$companyImgPath}/company/slider_arrow.svg")
+            no-repeat center center;
         }
 
         &.btnPrev {
@@ -1014,10 +1013,10 @@ $companyImgPath: '/components';
     width: 100%;
     margin-top: 22.25rem;
 
-    $list: ('starkoff', 'castpro', 'ev', 'eco');
+    $list: ("starkoff", "castpro", "ev", "eco");
     @each $index in $list {
       &.#{$index} {
-        background: url('#{$companyImgPath}/company/#{$index}_background_mb.png')
+        background: url("#{$companyImgPath}/company/#{$index}_background_mb.png")
           50% /
           cover
           no-repeat !important;
@@ -1055,20 +1054,20 @@ $companyImgPath: '/components';
   .byCompanyContainer .mainContainer .companyInfoWrap {
   }
   .byCompanyContainer .mainContainer .companyInfoWrap .companyLogo {
-    $list: ('starkoff', 'castpro', 'ev', 'eco');
+    $list: ("starkoff", "castpro", "ev", "eco");
     @each $index in $list {
       &.#{$index} {
-        background: url('#{$companyImgPath}/company/#{$index}_logo.png')
+        background: url("#{$companyImgPath}/company/#{$index}_logo.png")
           50% /
           cover
           no-repeat;
-        @if ($index == 'ev') {
+        @if ($index == "ev") {
           width: 54px;
           height: 46px;
-        } @else if ($index == 'castpro') {
+        } @else if ($index == "castpro") {
           width: 100px;
           height: 18px;
-        } @else if ($index == 'eco') {
+        } @else if ($index == "eco") {
           width: 100px;
           height: 33px;
         } @else {

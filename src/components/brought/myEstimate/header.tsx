@@ -65,13 +65,14 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
         <>
           {useHeaderLogo ? 
           <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/applyAd')}>
+            {/* eslint-disable-next-line */}
             <img
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              src="/images/myEstimate/CaretLeft.svg"
+              src="/components/myEstimate/CaretLeft.svg"
               alt="left"
             />
           </div>
@@ -91,6 +92,7 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
                 </div>
                 <div onClick={toggleDrawer(anchor, true)}>
                   <div className={myEstimateHeaderStyles.iconBox}>
+                    {/* eslint-disable-next-line */}
                     <img src="/images/list-bar.svg" alt="listIcon"></img>
                   </div>
                 </div>
@@ -130,21 +132,22 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
                 </div>
               </LogoBox>
               {userID && (
-                <>
-                  <Box2>
-                    {
-                      menuItems.map((item) => (
-                        <DivBox
-                          key={item.link}
-                          clicked={pathName?.includes(item.link)}
-                          onClick={() => { handleLink(item.link); }}
-                        >{item.title}
-                        </DivBox>
-                      ))
-                    }
-                  </Box2>
-                  <DivBox2 onClick={() => { handleLink('/faq'); }}>자주 묻는 질문</DivBox2></>
-                  )
+                  <>
+                    <Box2>
+                      {
+                        menuItems.map((item) => (
+                          <DivBox
+                            key={item.link}
+                            clicked={pathName?.includes(item.link)}
+                            onClick={() => { handleLink(item.link); }}
+                          >{item.title}
+                          </DivBox>
+                        ))
+                      }
+                    </Box2>
+                    <DivBox2 onClick={() => { handleLink('/faq'); }}>자주 묻는 질문</DivBox2>
+                  </>
+                )
               }
             </Box1>
           </Inner>

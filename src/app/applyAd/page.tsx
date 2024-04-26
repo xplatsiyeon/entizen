@@ -404,7 +404,7 @@ const ApplyAdMain = () => {
           </div>
         </div> */}
         <div className={ApplyAdMainStyles.pcSection5}>
-          <Image
+          <LegacyImage
             src={Sec05PcImg}
             alt="Sec05PcImg"
             layout="intrinsic"
@@ -412,7 +412,7 @@ const ApplyAdMain = () => {
           />
         </div>
         <div className={ApplyAdMainStyles.mobileSection5}>
-          <Image
+          <LegacyImage
             src={Sec05Img}
             alt="Sec05Img"
             layout="intrinsic"

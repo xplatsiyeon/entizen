@@ -1,37 +1,29 @@
-"use client"
+"use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import SwiperCore from 'swiper';
-import  { Pagination, Navigation, Autoplay } from 'swiper/modules'
-import RightNext from 'public/images/RightNextEllipse.svg';
-import LeftNext from 'public/images/LeftNextEllipse.svg';
-import Image from 'next/image';
-import LegacyImage from 'next/legacy/image';
-import estimateByCompanyStyles from '../company.module.scss';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { COMPANY_LIST } from '../../../../assets/company';
-import { useMediaQuery } from 'react-responsive';
-import { MyEstimateHeader } from '../../../../components/brought/myEstimate/header';
-import CommonConfirmModal from '../../../commonConfirmModal';
-import axios from 'axios';
-import TagManager from 'react-gtm-module';
+import SwiperCore from "swiper";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import LegacyImage from "next/legacy/image";
+import estimateByCompanyStyles from "../company.module.scss";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { COMPANY_LIST } from "../../../../assets/company";
+import { useMediaQuery } from "react-responsive";
+import { MyEstimateHeader } from "../../../../components/brought/myEstimate/header";
+import CommonConfirmModal from "../../../commonConfirmModal";
+import axios from "axios";
+import TagManager from "react-gtm-module";
 SwiperCore.use([Navigation, Pagination, Autoplay]);
-/**
- * 작성자 - Bum
- * 기존 Next.js가 제공하던 Image가 아닌 LegacyImage를 사용여부결정필요
- */
+
 const EstimateByCompany = () => {
   const router = useRouter();
-  const company = 'eco';
-  // sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
-
+  const company = "eco";
   const isTablet = useMediaQuery({
-    query: '(max-width: 1023px)',
+    query: "(max-width: 1023px)",
   });
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,7 +45,7 @@ const EstimateByCompany = () => {
     gnbItems.forEach((gnbItem: Element, index) => {
       //4. 네비게이션 메뉴에 클릭 이벤트를 준다.
 
-      gnbItem.addEventListener('click', (e) => {
+      gnbItem.addEventListener("click", (e) => {
         // 5. 메뉴를 a 태그에 만들었기 때문에,
         // 태그의 기본 동작(링크 연결) 방지를 위해 preventDefault를 추가한다.
         e.preventDefault();
@@ -65,10 +57,10 @@ const EstimateByCompany = () => {
         );
 
         activeList.forEach((item: Element, index) => {
-          item.setAttribute('class', estimateByCompanyStyles.tabBarItem);
+          item.setAttribute("class", estimateByCompanyStyles.tabBarItem);
         });
         gnbItem?.parentElement?.setAttribute(
-          'class',
+          "class",
           `${estimateByCompanyStyles.tabBarItem} ${estimateByCompanyStyles.active}`,
         );
 
@@ -79,7 +71,7 @@ const EstimateByCompany = () => {
   }, []);
   useEffect(() => {
     tabAction();
-  }, []);
+  }, [tabAction]);
 
   useEffect(() => {
     if (swiper) {
@@ -100,12 +92,12 @@ const EstimateByCompany = () => {
     //   pathname: '/estimateForm/form5',
     //   query: { companyName: '에코플레이' },
     // });
-    router.push(`/estimateForm/form5`)
+    router.push(`/estimateForm/form5`);
   };
 
-  useEffect(()=>{
-    sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
-  }, [])
+  useEffect(() => {
+    sessionStorage.setItem("USER_ID", JSON.stringify({ id: "test" }));
+  }, []);
   return (
     <div className={estimateByCompanyStyles.byCompanyContainer}>
       <MyEstimateHeader useHeaderLogo={false}></MyEstimateHeader>
@@ -133,33 +125,33 @@ const EstimateByCompany = () => {
       <div
         className={`${estimateByCompanyStyles.companyBackgroundImg} ${estimateByCompanyStyles[company]}`}
       ></div>
-      
+
       <div className={estimateByCompanyStyles.tabBarWrap}>
         <ul className={estimateByCompanyStyles.tabBarList}>
           <li
             className={`${estimateByCompanyStyles.tabBarItem} ${estimateByCompanyStyles.active}`}
           >
-            <a href="#estimateInfo" role="tab" className={'tabBarBtn'}>
+            <a href="#estimateInfo" role="tab" className={"tabBarBtn"}>
               특장점
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#detailInfo" role="tab" className={'tabBarBtn'}>
+            <a href="#detailInfo" role="tab" className={"tabBarBtn"}>
               상세 견적
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#performance" role="tab" className={'tabBarBtn'}>
+            <a href="#performance" role="tab" className={"tabBarBtn"}>
               주요 실적
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#example" role="tab" className={'tabBarBtn'}>
+            <a href="#example" role="tab" className={"tabBarBtn"}>
               설치 사례
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#brand" role="tab" className={'tabBarBtn'}>
+            <a href="#brand" role="tab" className={"tabBarBtn"}>
               브랜드 소개
             </a>
           </li>
@@ -207,9 +199,11 @@ const EstimateByCompany = () => {
                 제품 특장점
               </div>
               <ul>
-                {estimateByCompanyData.estimateInfo.info1.map((info: any, index: number) => (
-                  <li key={index}>{info}</li>
-                ))}
+                {estimateByCompanyData.estimateInfo.info1.map(
+                  (info: any, index: number) => (
+                    <li key={index}>{info}</li>
+                  ),
+                )}
               </ul>
             </div>
             <div className={estimateByCompanyStyles.infoBox}>
@@ -217,9 +211,11 @@ const EstimateByCompany = () => {
                 서비스 특장점
               </div>
               <ul>
-                {estimateByCompanyData.estimateInfo.info2.map((info: any, index: number) => (
-                  <li key={index}>{info}</li>
-                ))}
+                {estimateByCompanyData.estimateInfo.info2.map(
+                  (info: any, index: number) => (
+                    <li key={index}>{info}</li>
+                  ),
+                )}
               </ul>
             </div>
           </div>
@@ -233,25 +229,8 @@ const EstimateByCompany = () => {
           {/* <div className={estimateByCompanyStyles.detailWrap}> */}
           <div className={estimateByCompanyStyles.detailInfo}>
             <div className={estimateByCompanyStyles.detailInfoEtc}>
-              {estimateByCompanyData.detailInfo.default.map((item: any, index: number) => {
-                return (
-                  <p className={estimateByCompanyStyles.list} key={index}>
-                    <span className={estimateByCompanyStyles.title}>
-                      {item.title}
-                    </span>
-                    <span className={estimateByCompanyStyles.info}>
-                      {item.info}
-                    </span>
-                  </p>
-                );
-              })}
-              <div>
-                <p className={estimateByCompanyStyles.subList}>
-                  <span className={estimateByCompanyStyles.title}>
-                    필요 시 추가비용 발생
-                  </span>
-                </p>
-                {estimateByCompanyData.detailInfo.sub.map((item: any, index: number) => {
+              {estimateByCompanyData.detailInfo.default.map(
+                (item: any, index: number) => {
                   return (
                     <p className={estimateByCompanyStyles.list} key={index}>
                       <span className={estimateByCompanyStyles.title}>
@@ -262,25 +241,51 @@ const EstimateByCompany = () => {
                       </span>
                     </p>
                   );
-                })}
+                },
+              )}
+              <div>
+                <p className={estimateByCompanyStyles.subList}>
+                  <span className={estimateByCompanyStyles.title}>
+                    필요 시 추가비용 발생
+                  </span>
+                </p>
+                {estimateByCompanyData.detailInfo.sub.map(
+                  (item: any, index: number) => {
+                    return (
+                      <p className={estimateByCompanyStyles.list} key={index}>
+                        <span className={estimateByCompanyStyles.title}>
+                          {item.title}
+                        </span>
+                        <span className={estimateByCompanyStyles.info}>
+                          {item.info}
+                        </span>
+                      </p>
+                    );
+                  },
+                )}
               </div>
               <p className={estimateByCompanyStyles.subList}>
                 <span className={estimateByCompanyStyles.title}>
                   개별 구매시
                 </span>
                 {estimateByCompanyData.detailInfo.etc.length > 0 ? (
-                  estimateByCompanyData.detailInfo.etc.map((item: any, index: number) => {
-                    return (
-                      <span className={estimateByCompanyStyles.info} key={index}>
-                        <strong>{item.title}</strong>
-                        {item.info}
-                      </span>
-                    );
-                  })
+                  estimateByCompanyData.detailInfo.etc.map(
+                    (item: any, index: number) => {
+                      return (
+                        <span
+                          className={estimateByCompanyStyles.info}
+                          key={index}
+                        >
+                          <strong>{item.title}</strong>
+                          {item.info}
+                        </span>
+                      );
+                    },
+                  )
                 ) : (
                   <span className={estimateByCompanyStyles.info}>
                     {/* <strong>{item.title}</strong> */}
-                    {'개별구매 불가'}
+                    {"개별구매 불가"}
                   </span>
                 )}
               </p>
@@ -301,7 +306,7 @@ const EstimateByCompany = () => {
             <>
               <Swiper
                 className={estimateByCompanyStyles.section2Slider}
-                wrapperTag={'ul'}
+                wrapperTag={"ul"}
                 // loop={true}
                 slidesPerView="auto"
                 spaceBetween={24}
@@ -321,9 +326,9 @@ const EstimateByCompany = () => {
                       <SwiperSlide
                         key={idx}
                         className={estimateByCompanyStyles.item}
-                        tag={'li'}
+                        tag={"li"}
                       >
-                        <LegacyImage src={img} layout="fill" alt=''/>
+                        <LegacyImage src={img} layout="fill" alt="" />
                       </SwiperSlide>
                     );
                   },
@@ -354,7 +359,7 @@ const EstimateByCompany = () => {
                           // layout="fill"
                           width={169}
                           height={278}
-                          alt=''
+                          alt=""
                         />
                       </li>
                     );
@@ -373,19 +378,21 @@ const EstimateByCompany = () => {
         >
           <div className={`${estimateByCompanyStyles.title}`}>주요 실적</div>
           <div className={estimateByCompanyStyles.infoWrap}>
-            {estimateByCompanyData.performanceInfo.map((item: any, index: number) => {
-              return (
-                <div className={estimateByCompanyStyles.infoBox} key={index}>
-                  <p className={estimateByCompanyStyles.title}>
-                    <span
-                      className={estimateByCompanyStyles.certificateIcon}
-                    ></span>
-                    {item.title}
-                  </p>
-                  <p className={estimateByCompanyStyles.info}>{item.info}</p>
-                </div>
-              );
-            })}
+            {estimateByCompanyData.performanceInfo.map(
+              (item: any, index: number) => {
+                return (
+                  <div className={estimateByCompanyStyles.infoBox} key={index}>
+                    <p className={estimateByCompanyStyles.title}>
+                      <span
+                        className={estimateByCompanyStyles.certificateIcon}
+                      ></span>
+                      {item.title}
+                    </p>
+                    <p className={estimateByCompanyStyles.info}>{item.info}</p>
+                  </div>
+                );
+              },
+            )}
           </div>
         </div>
         <div
@@ -397,8 +404,8 @@ const EstimateByCompany = () => {
           <div className={estimateByCompanyStyles.infoWrap}>
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
-              wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.3 : 'auto'}
+              wrapperTag={"ul"}
+              slidesPerView={isTablet ? 1.3 : "auto"}
               spaceBetween={isTablet ? 12 : 24}
               onSwiper={setSwiper}
               slidesPerGroup={3}
@@ -415,9 +422,9 @@ const EstimateByCompany = () => {
                     <SwiperSlide
                       key={idx}
                       className={estimateByCompanyStyles.item}
-                      tag={'li'}
+                      tag={"li"}
                     >
-                      <LegacyImage src={img} layout="fill" alt=''/>
+                      <LegacyImage src={img} layout="fill" alt="" />
                     </SwiperSlide>
                   );
                 },
@@ -454,37 +461,37 @@ const EstimateByCompany = () => {
           setModalOpen(false);
         }}
         onConfirm={() => {
-          const url = '/zapier/company-selection';
+          const url = "/zapier/company-selection";
           axios
             .post(url, {
               data: {
-                companyName: '에코플레이',
-                phone: sessionStorage.getItem('phone_number'),
+                companyName: "에코플레이",
+                phone: sessionStorage.getItem("phone_number"),
               },
             })
             .then((res) => {});
           //GA4 이벤트 전송
           const tagManagerArgs = {
             dataLayer: {
-              event: 'company_selection',
-              company_name: '에코플레이',
+              event: "company_selection",
+              company_name: "에코플레이",
             },
           };
           TagManager.dataLayer(tagManagerArgs);
-          location.href = '/estimateForm/complete2';
+          location.href = "/estimateForm/complete2";
           setModalOpen(false);
         }}
         title=""
         content={
           <p
             style={{
-              fontSize: '16px',
-              fontStyle: 'normal',
+              fontSize: "16px",
+              fontStyle: "normal",
               fontWeight: 500,
-              lineHeight: 'normal',
-              letterSpacing: '-0.32px',
-              marginBottom: '20px',
-              marginTop: '20px',
+              lineHeight: "normal",
+              letterSpacing: "-0.32px",
+              marginBottom: "20px",
+              marginTop: "20px",
             }}
           >
             해당 업체에게 현장실사를 요청하시겠습니까?
