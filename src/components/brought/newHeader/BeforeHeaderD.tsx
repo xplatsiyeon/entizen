@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import Image from 'next/image';
-import Logos from 'public/images/EntizenHeaderWitheLogoSvg.svg';
-import LogosLS from '/public/components/logo/EntizenHeaderLogoSvgLS.svg';
-import SubMenuBar from '../SubMenuBar'
-import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import Image from "next/image";
+import Logos from "public/images/EntizenHeaderWitheLogoSvg.svg";
+import LogosLS from "/public/components/logo/EntizenHeaderLogoSvgLS.svg";
+import SubMenuBar from "../SubMenuBar";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 // import { selectAction } from 'store/loginTypeSlice';
 // import userAddressHooks from 'hooks/userAddressHooks';
 
@@ -18,12 +18,8 @@ type Props = {
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
   // const dispatch = useDispatch();
-  /**
-   * 작성자 - Bum
-   * userID 변수 비로그인시 null처리
-   */
-  // const userID = sessionStorage.getItem('USER_ID') || null;
-  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
+  const userID =
+    typeof window !== "undefined" ? sessionStorage.getItem("USER_ID") : null;
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [isHovering, setIsHovered] = useState(false);
   // const [keyword, setKeyword, results] = userAddressHooks();
@@ -35,10 +31,10 @@ const WebHeader = ({ num, now, sub }: Props) => {
     if (userID) {
       router.push(`${st}`);
     } else {
-      router.push('/signin');
+      router.push("/signin");
     }
   };
- 
+
   /**
    * 작성자 - Bum
    * 해당 함수 비사용중이기에 임시 주석
@@ -63,9 +59,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                     alt="logo"
                     layout="intrinsic"
                     onClick={() => {
-                      router.push('/applyAd');
+                      router.push("/applyAd");
                     }}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
               </LogoBox>

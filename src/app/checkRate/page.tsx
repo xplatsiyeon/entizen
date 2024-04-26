@@ -1,41 +1,40 @@
-"use client"
+"use client";
 
-import Image from 'next/image';
-import { useMediaQuery } from 'react-responsive';
-import { MyEstimateHeader } from '../../components/brought/myEstimate/header';
-import styles from './checkRate.module.css';
-import {  Grid } from '@mui/material';
-import LegacyImage from 'next/legacy/image'
-import BackgroundImage from './img/background_1.png';
-import BackgroundImageMb from './img/banner_mb.png';
-import Image1 from './img/img_1.png';
-import Image2 from './img/img_2.png';
-import Image3 from './img/img_3.png';
-import ChartMb from './img/chart_mb.png';
-import Image4 from './img/img_4.png';
-import Image5 from './img/img_5.png';
-import Icon from './img/icon.svg';
-import { useEffect } from 'react';
-
+import Image from "next/image";
+import { useMediaQuery } from "react-responsive";
+import { MyEstimateHeader } from "../../components/brought/myEstimate/header";
+import styles from "./checkRate.module.css";
+import { Grid } from "@mui/material";
+import LegacyImage from "next/legacy/image";
+import BackgroundImage from "./img/background_1.png";
+import BackgroundImageMb from "./img/banner_mb.png";
+import Image1 from "./img/img_1.png";
+import Image2 from "./img/img_2.png";
+import Image3 from "./img/img_3.png";
+import ChartMb from "./img/chart_mb.png";
+import Image4 from "./img/img_4.png";
+import Image5 from "./img/img_5.png";
+import Icon from "./img/icon.svg";
+import { useEffect } from "react";
 
 const CheckRate = () => {
   // sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
 
-  useEffect(()=>{
-    sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
-  },[])
+  useEffect(() => {
+    sessionStorage.setItem("USER_ID", JSON.stringify({ id: "test" }));
+  }, []);
 
   return (
     <div className={styles.check_rate_page}>
-      <MyEstimateHeader></MyEstimateHeader>
+      <MyEstimateHeader />
       <section className={styles.sec_01}>
         <LegacyImage
           layout="fill"
           src={isMobile ? BackgroundImageMb : BackgroundImage}
-          alt=''
+          alt=""
         />
         <p className={styles.backgroundIntro}>
           한전불입금과 충전요금을
@@ -48,16 +47,16 @@ const CheckRate = () => {
         <div className={styles.sub_title}>
           신축이나 증설을 할 때, 전기인입 비용을 말합니다. 일반적인 가정집 계약
           전력은 3~5kW로, 7kW 완속 충전기를 사용하려면 추가로 증설을 해야합니다.
-          이때, 전기차 충전용 전기를 분리해서 설치하기 때문에{' '}
+          이때, 전기차 충전용 전기를 분리해서 설치하기 때문에{" "}
           <span>누진세</span> 걱정은 안하셔도 됩니다!
         </div>
         <article className={styles.info_wrap}>
           <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 16 }}>
             <Grid item xs={8} className={styles.info_item}>
-              <LegacyImage src={Image1} className={styles.info_img} alt='' />
+              <LegacyImage src={Image1} className={styles.info_img} alt="" />
             </Grid>
             <Grid item xs={8} className={styles.info_item}>
-              <LegacyImage src={Image2} className={styles.info_img} alt='' />
+              <LegacyImage src={Image2} className={styles.info_img} alt="" />
             </Grid>
           </Grid>
         </article>
@@ -73,7 +72,7 @@ const CheckRate = () => {
                 <th scope="col" colSpan={2} rowSpan={2}>
                   구분
                 </th>
-                <th scope="col" colSpan={2} style={{ width: '30%' }}>
+                <th scope="col" colSpan={2} style={{ width: "30%" }}>
                   금액
                 </th>
               </tr>
@@ -117,7 +116,11 @@ const CheckRate = () => {
         <div className={styles.container_02}>
           <p className={styles.text_01}>한전불입금 7kW 변화</p>
           <div className={styles.img}>
-            <LegacyImage src={isMobile ? ChartMb : Image3} layout="intrinsic" alt=''/>
+            <LegacyImage
+              src={isMobile ? ChartMb : Image3}
+              layout="intrinsic"
+              alt=""
+            />
           </div>
           <p className={styles.text_02}>
             한전불입금이 꾸준히 증가하고 있기 때문에 빠르게 설치하시는 걸
@@ -134,15 +137,15 @@ const CheckRate = () => {
         <article className={styles.info_wrap}>
           <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 16 }}>
             <Grid item xs={8} className={styles.info_item}>
-              <LegacyImage src={Image4} className={styles.info_img} alt=''/>
+              <LegacyImage src={Image4} className={styles.info_img} alt="" />
             </Grid>
             <Grid item xs={8} className={styles.info_item}>
-              <LegacyImage src={Image5} className={styles.info_img} alt=''/>
+              <LegacyImage src={Image5} className={styles.info_img} alt="" />
             </Grid>
           </Grid>
           <div className={styles.info_text}>
             <div className={styles.info_icon}>
-              <Image src={Icon} alt=''/>
+              <Image src={Icon} alt="" />
             </div>
             <span>
               아파트 혹은 정부지원금으로 무료 설치 시 충전 요금을 업체에서
@@ -164,7 +167,7 @@ const CheckRate = () => {
                 <th scope="col" colSpan={1} rowSpan={2}>
                   기본요금 (원/kW)
                 </th>
-                <th scope="col" colSpan={4} style={{ width: '60%' }}>
+                <th scope="col" colSpan={4} style={{ width: "60%" }}>
                   전력량 요금 (원/kWh)
                 </th>
               </tr>
@@ -173,7 +176,7 @@ const CheckRate = () => {
                 <th scope="col">여름철</th>
                 <th scope="col">봄가을철</th>
                 <th scope="col">겨울철</th>
-              </tr>   
+              </tr>
             </thead>
             <tbody>
               <tr>
@@ -282,7 +285,7 @@ const CheckRate = () => {
           </div>
           <div className={styles.info_text}>
             <div className={styles.info_icon}>
-              <Image src={Icon} alt=''/>
+              <Image src={Icon} alt="" />
             </div>
             <span>
               쉬운 이해를 위해 비중이 적은 기후환경 요금과 연료비 조정요금은

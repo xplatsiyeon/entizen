@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-import React from 'react';
-import { useMediaQuery } from 'react-responsive';
-import styles from './start.module.css';
-import classNames from 'classnames';
-import LegacyImage from 'next/legacy/image'
-import WebHeader from '../../../components/brought/newHeader/BeforeHeaderA';
-import bannerImage from '/public/pages/electric/start_banner.png';
-import bannerImageMb from '/public/pages/electric/start_banner_mb.png';
-import startElectricCar from '/public/pages/electric/start_electric_car.png';
-import startIcons_01 from '/public/pages/electric/start_icons_01.png';
-import startIcons_02 from '/public/pages/electric/start_icons_02.png';
-import startIcons_03 from '/public/pages/electric/start_icons_03.png';
-import subBanner from '/public/pages/electric/start_sub_banner.png';
-import chartImage from '/public/pages/electric/chart.png';
-import stepMb from '/public/pages/electric/step_mb.png';
-import chartImageMb from '/public/pages/electric/chart_mb.png';
-import stepEllipse from '/public/pages/estimate/step_ellipse.svg';
-import stepArrow from '/public/pages/estimate/step_arrow.svg';
-import TagManager from 'react-gtm-module';
+import React from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "./start.module.css";
+import classNames from "classnames";
+import LegacyImage from "next/legacy/image";
+import WebHeader from "../../../components/brought/newHeader/BeforeHeaderA";
+import bannerImage from "/public/pages/electric/start_banner.png";
+import bannerImageMb from "/public/pages/electric/start_banner_mb.png";
+import startElectricCar from "/public/pages/electric/start_electric_car.png";
+import startIcons_01 from "/public/pages/electric/start_icons_01.png";
+import startIcons_02 from "/public/pages/electric/start_icons_02.png";
+import startIcons_03 from "/public/pages/electric/start_icons_03.png";
+import subBanner from "/public/pages/electric/start_sub_banner.png";
+import chartImage from "/public/pages/electric/chart.png";
+import stepMb from "/public/pages/electric/step_mb.png";
+import chartImageMb from "/public/pages/electric/chart_mb.png";
+import stepEllipse from "/public/pages/estimate/step_ellipse.svg";
+import stepArrow from "/public/pages/estimate/step_arrow.svg";
+import TagManager from "react-gtm-module";
 
 const ElectricStart = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
   const router = useRouter();
 
   const clickGetMoreEstimate = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_more_estimate',
+        event: "click_get_more_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimateForm/form3');
+    router.push("/estimateForm/form3");
   };
   return (
     <div id="electric">
@@ -50,7 +50,7 @@ const ElectricStart = () => {
               layout="responsive"
               objectFit="cover"
               // objectPosition="center"
-              alt=''
+              alt=""
             />
           </div>
           <div className={styles.banner_title}>
@@ -89,7 +89,7 @@ const ElectricStart = () => {
               <div className={styles.text_02}>새로운 기회를 잡아보세요!</div>
             </div>
             <div className={styles.img}>
-              <Image src={startElectricCar} alt=''/>
+              <Image src={startElectricCar} alt="" />
             </div>
           </div>
         </div>
@@ -102,10 +102,10 @@ const ElectricStart = () => {
             <div className={styles.title_01}>
               전기차 충전기 사업, 왜 지금일까요?
               <br />
-              바로 전기차 시장의{isMobile ? <br /> : ' '}가능성 때문입니다.
+              바로 전기차 시장의{isMobile ? <br /> : " "}가능성 때문입니다.
             </div>
             <div className={styles.chart_wrapper}>
-              <Image src={isMobile ? chartImageMb : chartImage} alt=''/>
+              <Image src={isMobile ? chartImageMb : chartImage} alt="" />
             </div>
           </div>
           <div className={styles.news_container}>
@@ -156,7 +156,7 @@ const ElectricStart = () => {
       <section className={styles.sec_05}>
         <div className={styles.item_wrapper}>
           <div className={styles.img}>
-            <Image src={subBanner} alt=''/>
+            <Image src={subBanner} alt="" />
           </div>
           <div className={styles.text_wrapper}>
             <div className={styles.text_01}>대기업이 보증합니다</div>
@@ -186,7 +186,7 @@ const ElectricStart = () => {
               <div className={styles.item}>
                 <div className={styles.text_01}>Step 1</div>
                 <div className={styles.img}>
-                  <Image src={startIcons_01} alt=''/>
+                  <Image src={startIcons_01} alt="" />
                 </div>
                 <div className={styles.text_02}>충전기 종류 선택</div>
               </div>
@@ -209,7 +209,7 @@ const ElectricStart = () => {
               <div className={styles.item}>
                 <div className={styles.text_01}>Step 2</div>
                 <div className={styles.img}>
-                  <Image src={startIcons_02} alt=''/>
+                  <Image src={startIcons_02} alt="" />
                 </div>
                 <div className={styles.text_02}>수익율 설정</div>
               </div>
@@ -232,7 +232,7 @@ const ElectricStart = () => {
               <div className={styles.item}>
                 <div className={styles.text_01}>Step 3</div>
                 <div className={styles.img}>
-                  <Image src={startIcons_03} alt=''/>
+                  <Image src={startIcons_03} alt="" />
                 </div>
                 <div className={styles.text_02}>계약 진행</div>
               </div>

@@ -1,6 +1,6 @@
-"use client"
-import React from 'react';
-import { useMediaQuery } from 'react-responsive';
+"use client";
+import React from "react";
+import { useMediaQuery } from "react-responsive";
 import {
   Button,
   Divider,
@@ -9,32 +9,32 @@ import {
   ListItem,
   ListItemText,
   Stack,
-} from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Image from 'next/image';
-import { MyEstimateHeader } from '../../components/brought/myEstimate/header';
-import Banner from '/public/pages/priceComparison/banner.svg';
-import Price from '/public/pages/priceComparison/price.svg';
-import Kakao from '/public/pages/priceComparison/kakao.svg';
-import KakaoMb from '/public/pages/priceComparison/kakao_mb.svg';
-import styles from './index.module.css';
-import { useRouter } from 'next/navigation';
-import TagManager from 'react-gtm-module';
+} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Image from "next/image";
+import { MyEstimateHeader } from "../../components/brought/myEstimate/header";
+import Banner from "/public/pages/priceComparison/banner.svg";
+import Price from "/public/pages/priceComparison/price.svg";
+import Kakao from "/public/pages/priceComparison/kakao.svg";
+import KakaoMb from "/public/pages/priceComparison/kakao_mb.svg";
+import styles from "./index.module.css";
+import { useRouter } from "next/navigation";
+import TagManager from "react-gtm-module";
 
 const PriceComparison = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
   const router = useRouter();
 
   const clickGetMoreEstimate = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_more_estimate',
+        event: "click_get_more_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimateForm/form4');
+    router.push("/estimateForm/form4");
   };
 
   return (
@@ -47,7 +47,7 @@ const PriceComparison = () => {
             layout="fill"
             objectFit="cover"
             objectPosition="center"
-            alt=''
+            alt=""
           />
           <div className={styles.title_container}>
             <div className={styles.text_01}>비용이 제일 궁금하시죠?</div>
@@ -55,7 +55,7 @@ const PriceComparison = () => {
               <div className={styles.left}>
                 파트너 업체
                 <span className={styles.textColor}>
-                  {' '}
+                  {" "}
                   충전기 구매 + 설치비용
                 </span>
               </div>
@@ -125,7 +125,7 @@ const PriceComparison = () => {
                     <Image
                       src={isMobile ? KakaoMb : Kakao}
                       className={styles.kakaoIcon}
-                      alt=''
+                      alt=""
                     />
                     <p>채팅하기</p>
                   </Button>
@@ -163,7 +163,7 @@ const PriceComparison = () => {
                     variant="contained"
                     disabled
                   >
-                    <Image src={Kakao} className={styles.kakaoIcon} alt=''/>
+                    <Image src={Kakao} className={styles.kakaoIcon} alt="" />
                     <p>채팅하기</p>
                   </Button>
                   <Button

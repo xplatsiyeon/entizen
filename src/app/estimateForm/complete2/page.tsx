@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import React from 'react';
-import { useMediaQuery } from 'react-responsive';
-import WebHeader from '../../../components/brought/newHeader/BeforeHeaderB';
-import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
-import CommonModal from '../../commonModal';
-import { Button, Icon, Stack } from '@mui/material';
-import CheckCircle from '/public/pages/estimate/CheckCircle.svg';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Image from 'next/image';
-import styles from '../complete.module.css';
+import React from "react";
+import { useMediaQuery } from "react-responsive";
+import WebHeader from "../../../components/brought/newHeader/BeforeHeaderB";
+import Logos from "public/images/EntizenHeaderLogoSvg.svg";
+import CommonModal from "../../commonModal";
+import { Button, Icon, Stack } from "@mui/material";
+import CheckCircle from "/public/pages/estimate/CheckCircle.svg";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Image from "next/image";
+import styles from "../complete.module.css";
 
 const CompleteForm = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
 
   return (
@@ -22,12 +22,12 @@ const CompleteForm = () => {
       {/* <div className={styles.logo}><Image src={Logos}></Image></div> */}
       <Stack className={styles.complete_container} spacing={2}>
         <div className={styles.complete_check}>
-          <Image src={CheckCircle} alt='' />
+          <Image src={CheckCircle} alt="" />
         </div>
         <div className={styles.complete_title}>업체 선택이 완료되었습니다.</div>
         <div className={styles.complete_text}>
           <p>
-            {' '}
+            {" "}
             선택하신 업체에서 현장 실사 및 {isMobile && <br />}이후 일정 조율을
             위해 연락드릴 예정입니다.
           </p>
@@ -43,7 +43,7 @@ const CompleteForm = () => {
             className={styles.complete_btn}
             variant="contained"
             onClick={() => {
-              location.href = '/myEstimate';
+              location.href = "/myEstimate";
             }}
           >
             내 견적서 바로가기 <NavigateNextIcon />

@@ -1,4 +1,4 @@
-$imgPath: '/images';
+$imgPath: "/images";
 
 .applyAdMain {
   .imgWrap {
@@ -7,7 +7,7 @@ $imgPath: '/images';
     width: 100%;
     position: absolute;
     @media screen and (max-width: 480px) {
-      background-image: url('../../../public/pages/applyAd/test.png');
+      background-image: url("../../../public/pages/applyAd/test.png");
       height: 600px;
     }
     // height: 1rem;
@@ -263,7 +263,7 @@ $imgPath: '/images';
   }
 
   .mainSection {
-    background-image: url('../../../public/pages/applyAd/testPc.png');
+    background-image: url("../../../public/pages/applyAd/testPc.png");
     background-repeat: no-repeat;
     background-position: center center;
     width: 100%;
@@ -273,7 +273,7 @@ $imgPath: '/images';
     margin-bottom: 80px;
     overflow: hidden;
     @media screen and (max-width: 1023px) {
-      background-image: url('../../../public/pages/applyAd/testT.png');
+      background-image: url("../../../public/pages/applyAd/testT.png");
     }
     @media screen and (max-width: 480px) {
       background-image: none;
@@ -597,7 +597,7 @@ $imgPath: '/images';
             background: #fff;
             box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
             .section3Img_4 {
-              width: 100%;
+              width: 90%;
               padding: 1.9rem;
             }
           }
@@ -789,10 +789,10 @@ $imgPath: '/images';
             height: 100%;
 
             height: inherit;
-            background: url('#{$imgPath}/suggestion/section4.png') 50% / contain
+            background: url("#{$imgPath}/suggestion/section4.png") 50% / contain
               no-repeat;
             @media screen and (max-width: 767px) {
-              background: url('#{$imgPath}/suggestion/section4_mo.png') 50% /
+              background: url("#{$imgPath}/suggestion/section4_mo.png") 50% /
                 contain no-repeat;
             }
           }
@@ -824,7 +824,7 @@ $imgPath: '/images';
         width: 100%;
         height: 100%;
         // height: 18.75rem;
-        background: url('#{$imgPath}/suggestion/footer.png') 50% / cover
+        background: url("#{$imgPath}/suggestion/footer.png") 50% / cover
           no-repeat;
 
         .pInfo {

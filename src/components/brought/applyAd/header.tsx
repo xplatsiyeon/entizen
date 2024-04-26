@@ -1,4 +1,4 @@
-import headerStyles from './header.module.scss';
+import headerStyles from "./header.module.scss";
 
 export const SuggestionHeader = () => {
   return (

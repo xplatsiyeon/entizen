@@ -1,54 +1,54 @@
 "use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import styles from './index.module.css';
-import classNames from 'classnames';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import LegacyImage from 'next/legacy/image'
-import as_01 from '/public/pages/electric/as_01.png';
-import as_02 from '/public/pages/electric/as_02.png';
-import bannerImage from '/public/pages/electric/banner.png';
-import carbonNextArrow from '/public/pages/electric/carbon_next_arrow.png';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "./index.module.css";
+import classNames from "classnames";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import LegacyImage from "next/legacy/image";
+import as_01 from "/public/pages/electric/as_01.png";
+import as_02 from "/public/pages/electric/as_02.png";
+import bannerImage from "/public/pages/electric/banner.png";
+import carbonNextArrow from "/public/pages/electric/carbon_next_arrow.png";
 
-import consulting_01 from '/public/pages/electric/consulting_01.png';
-import consulting_02 from '/public/pages/electric/consulting_02.png';
-import entizen_01 from '/public/pages/electric/entizen_01.png';
-import entizen_02 from '/public/pages/electric/entizen_02.png';
-import entizen_03 from '/public/pages/electric/entizen_03.png';
-import entizen_mb_01 from '/public/pages/electric/entizen_mb_01.png';
-import entizen_mb_02 from '/public/pages/electric/entizen_mb_02.png';
-import entizen_mb_03 from '/public/pages/electric/entizen_mb_03.png';
+import consulting_01 from "/public/pages/electric/consulting_01.png";
+import consulting_02 from "/public/pages/electric/consulting_02.png";
+import entizen_01 from "/public/pages/electric/entizen_01.png";
+import entizen_02 from "/public/pages/electric/entizen_02.png";
+import entizen_03 from "/public/pages/electric/entizen_03.png";
+import entizen_mb_01 from "/public/pages/electric/entizen_mb_01.png";
+import entizen_mb_02 from "/public/pages/electric/entizen_mb_02.png";
+import entizen_mb_03 from "/public/pages/electric/entizen_mb_03.png";
 // import phone_01 from '/public/pages/electric/phone_01.png';
 // import phone_02 from '/public/pages/electric/phone_02.png';
-import phone_01 from '/public/pages/electric/phone_01.svg';
-import phone_02 from '/public/pages/electric/phone_02.svg';
-import why_01 from '/public/pages/electric/why_01.png';
-import why_02 from '/public/pages/electric/why_02.png';
-import why_03 from '/public/pages/electric/why_03.png';
-import why_04 from '/public/pages/electric/why_04.png';
-import chartImage from '/public/pages/electric/chart.png';
+import phone_01 from "/public/pages/electric/phone_01.svg";
+import phone_02 from "/public/pages/electric/phone_02.svg";
+import why_01 from "/public/pages/electric/why_01.png";
+import why_02 from "/public/pages/electric/why_02.png";
+import why_03 from "/public/pages/electric/why_03.png";
+import why_04 from "/public/pages/electric/why_04.png";
+import chartImage from "/public/pages/electric/chart.png";
 // import chartImageMb from '/public/pages/electric/chart_mb.png';
-import chartImageMb from '/public/pages/electric/chart_mb.svg';
-import step_arrow from '/public/pages/estimate/step_arrow.svg';
-import WebHeader from'../../components/brought/newHeader/BeforeHeaderA';
+import chartImageMb from "/public/pages/electric/chart_mb.svg";
+import step_arrow from "/public/pages/estimate/step_arrow.svg";
+import WebHeader from "../../components/brought/newHeader/BeforeHeaderA";
 
-import { Drawer } from '@mui/material';
-import styled from '@emotion/styled';
+import { Drawer } from "@mui/material";
+import styled from "@emotion/styled";
 // import Hamburger from 'public/images/list-bar.svg';
-import HamburgerBar from '../../components/brought/webHamburgerBar';
+import HamburgerBar from "../../components/brought/webHamburgerBar";
 
-import TagManager from 'react-gtm-module';
+import TagManager from "react-gtm-module";
 
 const Electric = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
   const router = useRouter();
 
@@ -57,9 +57,9 @@ const Electric = () => {
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
       }
@@ -69,11 +69,11 @@ const Electric = () => {
   const clickGetMoreEstimate = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_more_estimate',
+        event: "click_get_more_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimateForm/form2');
+    router.push("/estimateForm/form2");
   };
 
   const IconBox = styled.div`
@@ -94,7 +94,7 @@ const Electric = () => {
       <WebHeader />
       {isMobile && (
         <>
-          {(['right'] as const).map((anchor) => (
+          {(["right"] as const).map((anchor) => (
             <React.Fragment key={anchor}>
               {/* <div onClick={toggleDrawer(anchor, true)}>
                 <IconBox>
@@ -121,13 +121,13 @@ const Electric = () => {
       {/* banner */}
       <section className={styles.sec_01}>
         <div className={classNames(styles.container, styles.banner_container)}>
-          <div className={styles.banner_image} style={{ height: '17.5rem' }}>
+          <div className={styles.banner_image} style={{ height: "17.5rem" }}>
             <LegacyImage
               src={bannerImage}
               // layout="fill"
               objectFit="cover"
               objectPosition="center"
-              alt=''
+              alt=""
             />
           </div>
         </div>
@@ -150,7 +150,7 @@ const Electric = () => {
         <div className={styles.container}>
           <div className={styles.chart_container}>
             <div className={styles.chart_wrapper}>
-              <Image src={isMobile ? chartImageMb : chartImage} alt=''/>
+              <Image src={isMobile ? chartImageMb : chartImage} alt="" />
             </div>
           </div>
           <div className={styles.news_container}>
@@ -219,17 +219,17 @@ const Electric = () => {
                 >
                   <SwiperSlide>
                     <div className={styles.info_img}>
-                      <Image src={entizen_mb_01} alt=''/>
+                      <Image src={entizen_mb_01} alt="" />
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className={styles.info_img}>
-                      <Image src={entizen_mb_02} alt=''/>
+                      <Image src={entizen_mb_02} alt="" />
                     </div>
                   </SwiperSlide>
                   <SwiperSlide>
                     <div className={styles.info_img}>
-                      <Image src={entizen_mb_03} alt=''/>
+                      <Image src={entizen_mb_03} alt="" />
                     </div>
                   </SwiperSlide>
                 </Swiper>
@@ -237,7 +237,7 @@ const Electric = () => {
             ) : (
               <div className={styles.item_wrapper}>
                 <div className={styles.item}>
-                  <Image className={styles.img} src={entizen_01} alt=''/>
+                  <Image className={styles.img} src={entizen_01} alt="" />
                   <div className={styles.text}>
                     합리적인 가격을
                     <br />
@@ -245,7 +245,7 @@ const Electric = () => {
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <Image className={styles.img} src={entizen_02} alt=''/>
+                  <Image className={styles.img} src={entizen_02} alt="" />
                   <div className={styles.text}>
                     시간을
                     <br />
@@ -253,7 +253,7 @@ const Electric = () => {
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <Image className={styles.img} src={entizen_03} alt=''/>
+                  <Image className={styles.img} src={entizen_03} alt="" />
                   <div className={styles.text}>
                     유지보수
                     <br />
@@ -291,25 +291,25 @@ const Electric = () => {
               >
                 <SwiperSlide>
                   <div className={styles.info_img}>
-                    <Image src={phone_01} alt=''/>
+                    <Image src={phone_01} alt="" />
                   </div>
                 </SwiperSlide>
                 <SwiperSlide>
                   <div className={styles.info_img}>
-                    <Image src={phone_02} alt=''/>
+                    <Image src={phone_02} alt="" />
                   </div>
                 </SwiperSlide>
               </Swiper>
             ) : (
               <div className={styles.item_wrapper}>
                 <div className={styles.item}>
-                  <Image src={phone_01} alt=''/>
+                  <Image src={phone_01} alt="" />
                 </div>
                 <div className={styles.item}>
-                  <Image src={carbonNextArrow} alt=''/>
+                  <Image src={carbonNextArrow} alt="" />
                 </div>
                 <div className={styles.item}>
-                  <Image src={phone_02} alt=''/>
+                  <Image src={phone_02} alt="" />
                 </div>
               </div>
             )}
@@ -325,10 +325,10 @@ const Electric = () => {
             </div>
             <div className={styles.item_wrapper}>
               <div className={styles.item}>
-                <Image src={consulting_01} alt=''/>
+                <Image src={consulting_01} alt="" />
               </div>
               <div className={styles.item}>
-                <Image src={consulting_02} alt=''/>
+                <Image src={consulting_02} alt="" />
               </div>
             </div>
           </div>
@@ -344,13 +344,13 @@ const Electric = () => {
             </div>
             <div className={styles.item_wrapper}>
               <div className={styles.item}>
-                <Image src={as_01} alt=''/>
+                <Image src={as_01} alt="" />
               </div>
               <div className={classNames(styles.item, styles.next_arrow)}>
-                <Image src={carbonNextArrow} alt=''/>
+                <Image src={carbonNextArrow} alt="" />
               </div>
               <div className={styles.item}>
-                <Image src={as_02} alt=''/>
+                <Image src={as_02} alt="" />
               </div>
             </div>
           </div>
@@ -369,7 +369,7 @@ const Electric = () => {
                   가격 및 서비스 정보를 한 번에 비교 가능
                 </div>
                 <div className={styles.img}>
-                  <Image src={why_01} alt=''/>
+                  <Image src={why_01} alt="" />
                 </div>
               </div>
               <div className={styles.item}>
@@ -380,7 +380,7 @@ const Electric = () => {
                   엔티즌이 다 알려드릴게요
                 </div>
                 <div className={styles.img}>
-                  <Image src={why_02} alt=''/>
+                  <Image src={why_02} alt="" />
                 </div>
               </div>
               <div className={styles.item}>
@@ -391,7 +391,7 @@ const Electric = () => {
                   무료 컨설팅 받으세요
                 </div>
                 <div className={styles.img}>
-                  <Image src={why_03} alt=''/>
+                  <Image src={why_03} alt="" />
                 </div>
               </div>
               <div className={styles.item}>
@@ -402,7 +402,7 @@ const Electric = () => {
                   엔티즌에서 처리 가능합니다
                 </div>
                 <div className={styles.img}>
-                  <Image src={why_04} alt=''/>
+                  <Image src={why_04} alt="" />
                 </div>
               </div>
               <div className={styles.button} onClick={clickGetMoreEstimate}>

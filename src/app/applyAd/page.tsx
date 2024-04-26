@@ -1,56 +1,56 @@
 "use client";
 
-import WebHeader from '../../components/brought/newHeader/BeforeHeaderA';
-import ApplyAdMainStyles from './applyAd.module.scss';
+import WebHeader from "../../components/brought/newHeader/BeforeHeaderA";
+import ApplyAdMainStyles from "./applyAd.module.scss";
 
-import { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules'
-import 'swiper/css'; //basic
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css"; //basic
 
-import { SlideItem } from '../../components/brought/applyAd/slideItem';
-import { useMediaQuery } from 'react-responsive';
-import TagManager from 'react-gtm-module';
+import { SlideItem } from "../../components/brought/applyAd/slideItem";
+import { useMediaQuery } from "react-responsive";
+import TagManager from "react-gtm-module";
 
-import Image from 'next/image';
-import LegacyImage from 'next/legacy/image';
-import Sec02Img from '/public/pages/applyAd/section2.png';
-import Sec04Item1 from '/public/pages/applyAd/section4_item1.svg';
-import Sec04Item2 from '/public/pages/applyAd/section4_item2.svg';
-import Sec04Item3 from '/public/pages/applyAd/section4_item3.svg';
-import Sec05Img from '/public/pages/applyAd/section5.png';
-import Sec04PcImg from '/public/pages/applyAd/section4pc.png';
-import Sec05PcImg from '/public/pages/applyAd/section5pc.png';
-import Img01 from '/public/pages/applyAd/slide1.png';
-import Img02 from '/public/pages/applyAd/slide2.png';
-import Img03 from '/public/pages/applyAd/slide3.png';
+import Image from "next/image";
+import LegacyImage from "next/legacy/image";
+import Sec02Img from "/public/pages/applyAd/section2.png";
+import Sec04Item1 from "/public/pages/applyAd/section4_item1.svg";
+import Sec04Item2 from "/public/pages/applyAd/section4_item2.svg";
+import Sec04Item3 from "/public/pages/applyAd/section4_item3.svg";
+import Sec05Img from "/public/pages/applyAd/section5.png";
+import Sec04PcImg from "/public/pages/applyAd/section4pc.png";
+import Sec05PcImg from "/public/pages/applyAd/section5pc.png";
+import Img01 from "/public/pages/applyAd/slide1.png";
+import Img02 from "/public/pages/applyAd/slide2.png";
+import Img03 from "/public/pages/applyAd/slide3.png";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 /**
  * 작성자 - Bum
- * 해당페이지 <img />태그는 기존 작업자가 필요성에 의해 Next/Image태그 대신 사용 
+ * 해당페이지 <img />태그는 기존 작업자가 필요성에 의해 Next/Image태그 대신 사용
  * 따라서 <img /> 태그 사용시 발생하는 eslint error은 eslint-disable-next-line 임시처리
  */
 
 const ApplyAdMain = () => {
-  console.log('1st live - 기존 퍼널 주소입력 수정');
+  console.log("1st live - 기존 퍼널 주소입력 수정");
 
   const [swiper, setSwiper] = useState<SwiperCore>();
   const isTablet = useMediaQuery({
-    query: '(max-width: 1023px)',
+    query: "(max-width: 1023px)",
   });
 
   const onClickSendBtn = () => {
     //GA4 이벤트 전송
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_custom_estimate',
+        event: "click_get_custom_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    location.href = '/selection';
+    location.href = "/selection";
   };
 
   useEffect(() => {
@@ -85,7 +85,6 @@ const ApplyAdMain = () => {
               src="/components/suggestion/mouseWheel.png"
               alt="mouseWheel"
             ></img>
-         
           </div>
         </section>
         <div className={ApplyAdMainStyles.infoSquare}>
@@ -118,7 +117,7 @@ const ApplyAdMain = () => {
             {!isTablet ? (
               <Swiper
                 className={ApplyAdMainStyles.section2Slider}
-                wrapperTag={'ul'}
+                wrapperTag={"ul"}
                 loop={true}
                 slidesPerView="auto"
                 spaceBetween={40}
@@ -131,28 +130,28 @@ const ApplyAdMain = () => {
                 <div className={ApplyAdMainStyles.sliderWrapper}>
                   <SwiperSlide
                     className={ApplyAdMainStyles.item}
-                    tag={'li'}
+                    tag={"li"}
                     key={0}
                   >
                     <SlideItem
-                      companyName={'A사'}
-                      info1={'8000기 이상 시공'}
-                      info2={'A/S지점 11곳, A/S직원 500명'}
-                      info3={'생산물배상책임보험 5억 가입'}
-                      totalPrice={'총 1,100,000원 부터 ~'}
+                      companyName={"A사"}
+                      info1={"8000기 이상 시공"}
+                      info2={"A/S지점 11곳, A/S직원 500명"}
+                      info3={"생산물배상책임보험 5억 가입"}
+                      totalPrice={"총 1,100,000원 부터 ~"}
                     ></SlideItem>
                   </SwiperSlide>
                   <SwiperSlide
                     className={ApplyAdMainStyles.item}
-                    tag={'li'}
+                    tag={"li"}
                     key={1}
                   >
                     <SlideItem
-                      companyName={'B사'}
-                      info1={'7600기 이상 시공'}
-                      info2={'A/S지점 11곳, A/S직원 300명'}
-                      info3={'생산물배상책임보험 5억 가입'}
-                      totalPrice={'총 1,125,000원 부터 ~'}
+                      companyName={"B사"}
+                      info1={"7600기 이상 시공"}
+                      info2={"A/S지점 11곳, A/S직원 300명"}
+                      info3={"생산물배상책임보험 5억 가입"}
+                      totalPrice={"총 1,125,000원 부터 ~"}
                     ></SlideItem>
                   </SwiperSlide>
                 </div>
@@ -161,28 +160,28 @@ const ApplyAdMain = () => {
               <div className={ApplyAdMainStyles.sliderWrapper}>
                 <SwiperSlide
                   className={ApplyAdMainStyles.item}
-                  tag={'li'}
+                  tag={"li"}
                   key={0}
                 >
                   <SlideItem
-                    companyName={'A사'}
-                    info1={'8000기 이상 시공'}
-                    info2={'A/S지점 11곳, A/S직원 500명'}
-                    info3={'생산물배상책임보험 5억 가입'}
-                    totalPrice={'총 1,100,000원 부터 ~'}
+                    companyName={"A사"}
+                    info1={"8000기 이상 시공"}
+                    info2={"A/S지점 11곳, A/S직원 500명"}
+                    info3={"생산물배상책임보험 5억 가입"}
+                    totalPrice={"총 1,100,000원 부터 ~"}
                   ></SlideItem>
                 </SwiperSlide>
                 <SwiperSlide
                   className={ApplyAdMainStyles.item}
-                  tag={'li'}
+                  tag={"li"}
                   key={1}
                 >
                   <SlideItem
-                    companyName={'B사'}
-                    info1={'7600기 이상 시공'}
-                    info2={'A/S지점 11곳, A/S직원 300명'}
-                    info3={'생산물배상책임보험 5억 가입'}
-                    totalPrice={'총 1,125,000원 부터 ~'}
+                    companyName={"B사"}
+                    info1={"7600기 이상 시공"}
+                    info2={"A/S지점 11곳, A/S직원 300명"}
+                    info3={"생산물배상책임보험 5억 가입"}
+                    totalPrice={"총 1,125,000원 부터 ~"}
                   ></SlideItem>
                 </SwiperSlide>
               </div>
@@ -240,7 +239,6 @@ const ApplyAdMain = () => {
                   src="/components/suggestion/section3_4.png"
                   alt="section3_4"
                 ></img>
-           
               </div>
             </div>
 
@@ -248,20 +246,20 @@ const ApplyAdMain = () => {
             <Swiper
               className={ApplyAdMainStyles.mobileSection3Slider}
               spaceBetween={12}
-              slidesPerView={'auto'}
+              slidesPerView={"auto"}
               slidesOffsetBefore={10}
               slidesOffsetAfter={10}
             >
               {[Img01, Img02, Img03]?.map((el, idx) => {
                 return (
-                  <SwiperSlide key={idx} style={{ width: '160px' }}>
+                  <SwiperSlide key={idx} style={{ width: "160px" }}>
                     <LegacyImage
                       src={el}
                       layout="fixed"
                       width={160}
                       height={240}
                       className={ApplyAdMainStyles.sliderItems}
-                      alt=''
+                      alt=""
                     />
                   </SwiperSlide>
                 );
@@ -380,9 +378,9 @@ const ApplyAdMain = () => {
             </div>
             <div className={ApplyAdMainStyles.content}>
               <div className={ApplyAdMainStyles.items}>
-                <LegacyImage src={Sec04Item1} alt={''} />
-                <LegacyImage src={Sec04Item2} alt={''} />
-                <LegacyImage src={Sec04Item3} alt={''} />
+                <LegacyImage src={Sec04Item1} alt={""} />
+                <LegacyImage src={Sec04Item2} alt={""} />
+                <LegacyImage src={Sec04Item3} alt={""} />
               </div>
             </div>
           </div>

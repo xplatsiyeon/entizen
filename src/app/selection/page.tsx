@@ -1,65 +1,65 @@
-"use client"
+"use client";
 
-import { Box } from '@mui/system';
-import Image from 'next/image';
-import { Grid } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import WebHeaderA from '../../components/brought/newHeader/BeforeHeaderA';
-import WebHeaderB from '../../components/brought/newHeader/BeforeHeaderB';
-import React, { useEffect, useState } from 'react';
-import Selection_1 from '/public/pages/selection/selection_1.svg';
-import Selection_2 from '/public/pages/selection/selection_2.svg';
-import Selection_3 from '/public/pages/selection/selection_3.svg';
-import Selection_4 from '/public/pages/selection/selection_4.svg';
-import { useMediaQuery } from 'react-responsive';
-import styles from './index.module.css';
-import TagManager from 'react-gtm-module';
+import { Box } from "@mui/system";
+import Image from "next/image";
+import { Grid } from "@mui/material";
+import { useRouter } from "next/navigation";
+import WebHeaderA from "../../components/brought/newHeader/BeforeHeaderA";
+import WebHeaderB from "../../components/brought/newHeader/BeforeHeaderB";
+import React, { useEffect, useState } from "react";
+import Selection_1 from "/public/pages/selection/selection_1.svg";
+import Selection_2 from "/public/pages/selection/selection_2.svg";
+import Selection_3 from "/public/pages/selection/selection_3.svg";
+import Selection_4 from "/public/pages/selection/selection_4.svg";
+import { useMediaQuery } from "react-responsive";
+import styles from "./index.module.css";
+import TagManager from "react-gtm-module";
 
 const Selection = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
   const router = useRouter();
 
   const clickPrivate = () => {
-    sessionStorage.setItem('selection', '개인용도');
+    sessionStorage.setItem("selection", "개인용도");
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_selection_private',
+        event: "click_selection_private",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/personalUse');
+    router.push("/personalUse");
   };
   const clickPublic = () => {
-    sessionStorage.setItem('selection', '입주민공용');
+    sessionStorage.setItem("selection", "입주민공용");
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_selection_public',
+        event: "click_selection_public",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimate');
+    router.push("/estimate");
   };
   const clickCustomer = () => {
-    sessionStorage.setItem('selection', '모객용도');
+    sessionStorage.setItem("selection", "모객용도");
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_selection_customer',
+        event: "click_selection_customer",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/electric');
+    router.push("/electric");
   };
   const clickRevenue = () => {
-    sessionStorage.setItem('selection', '충전수익');
+    sessionStorage.setItem("selection", "충전수익");
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_selection_revenue',
+        event: "click_selection_revenue",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/electric/start');
+    router.push("/electric/start");
   };
 
   return (
@@ -73,7 +73,7 @@ const Selection = () => {
             설치하시나요?
           </p>
         </div>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: "100%" }}>
           {/* <Grid className={styles.menu_container} 
               container 
               rowSpacing={{ xs: 10, sm: 20, md: 10 }}

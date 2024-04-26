@@ -1,29 +1,29 @@
-"use client"
-import { Swiper, SwiperSlide } from 'swiper/react';
+"use client";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import SwiperCore from 'swiper';
-import { Pagination, Navigation, Autoplay } from 'swiper/modules'
-import RightNext from 'public/images/RightNextEllipse.svg';
-import LeftNext from 'public/images/LeftNextEllipse.svg';
-import Image from 'next/image';
-import estimateByCompanyStyles from './estimateByCompany.module.scss';
-import { MyEstimateHeader } from '../../../components/brought/myEstimate/header';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { COMPANY_LIST } from '../../../assets/company';
-import { useParams } from 'next/navigation';
+import SwiperCore from "swiper";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import RightNext from "public/images/RightNextEllipse.svg";
+import LeftNext from "public/images/LeftNextEllipse.svg";
+import Image from "next/image";
+import estimateByCompanyStyles from "./estimateByCompany.module.scss";
+import { MyEstimateHeader } from "../../../components/brought/myEstimate/header";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { COMPANY_LIST } from "../../../assets/company";
+import { useParams } from "next/navigation";
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
-type COMPANY_TYPE = 'starkoff' | 'castpro' | 'ev' | 'eco';
+type COMPANY_TYPE = "starkoff" | "castpro" | "ev" | "eco";
 
 const EstimateByCompany = () => {
   const router = useRouter();
   const params = useSearchParams();
   // const company = router.query.company as COMPANY_TYPE;
-  const company = params.get('company') as COMPANY_TYPE;
+  const company = params.get("company") as COMPANY_TYPE;
   // const urlParams = new URLSearchParams(location.search);
   // const company: COMPANY_TYPE = urlParams.get('company') as COMPANY_TYPE;
 
@@ -45,7 +45,7 @@ const EstimateByCompany = () => {
     gnbItems.forEach((gnbItem: Element, index) => {
       //4. 네비게이션 메뉴에 클릭 이벤트를 준다.
 
-      gnbItem.addEventListener('click', (e) => {
+      gnbItem.addEventListener("click", (e) => {
         // 5. 메뉴를 a 태그에 만들었기 때문에,
         // 태그의 기본 동작(링크 연결) 방지를 위해 preventDefault를 추가한다.
         e.preventDefault();
@@ -57,10 +57,10 @@ const EstimateByCompany = () => {
         );
 
         activeList.forEach((item: Element, index) => {
-          item.setAttribute('class', estimateByCompanyStyles.tabBarItem);
+          item.setAttribute("class", estimateByCompanyStyles.tabBarItem);
         });
         gnbItem?.parentElement?.setAttribute(
-          'class',
+          "class",
           `${estimateByCompanyStyles.tabBarItem} ${estimateByCompanyStyles.active}`,
         );
 
@@ -111,27 +111,27 @@ const EstimateByCompany = () => {
           <li
             className={`${estimateByCompanyStyles.tabBarItem} ${estimateByCompanyStyles.active}`}
           >
-            <a href="#estimateInfo" role="tab" className={'tabBarBtn'}>
+            <a href="#estimateInfo" role="tab" className={"tabBarBtn"}>
               특장점
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#detailInfo" role="tab" className={'tabBarBtn'}>
+            <a href="#detailInfo" role="tab" className={"tabBarBtn"}>
               상세 견적
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#performance" role="tab" className={'tabBarBtn'}>
+            <a href="#performance" role="tab" className={"tabBarBtn"}>
               주요 실적
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#example" role="tab" className={'tabBarBtn'}>
+            <a href="#example" role="tab" className={"tabBarBtn"}>
               설치 사례
             </a>
           </li>
           <li className={estimateByCompanyStyles.tabBarItem}>
-            <a href="#brand" role="tab" className={'tabBarBtn'}>
+            <a href="#brand" role="tab" className={"tabBarBtn"}>
               브랜드 소개
             </a>
           </li>
@@ -271,7 +271,7 @@ const EstimateByCompany = () => {
           </div>
           <Swiper
             className={estimateByCompanyStyles.section2Slider}
-            wrapperTag={'ul'}
+            wrapperTag={"ul"}
             // loop={true}
             slidesPerView="auto"
             spaceBetween={24}
@@ -345,7 +345,7 @@ const EstimateByCompany = () => {
           <div className={estimateByCompanyStyles.infoWrap}>
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
-              wrapperTag={'ul'}
+              wrapperTag={"ul"}
               slidesPerView="auto"
               spaceBetween={24}
               onSwiper={setSwiper}

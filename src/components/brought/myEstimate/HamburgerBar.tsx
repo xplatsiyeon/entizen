@@ -1,20 +1,20 @@
-import styled from '@emotion/styled';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import styled from "@emotion/styled";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 // import { isTokenGetApi } from 'api';
 // import { useQuery } from 'react-query';
-import { Box } from '@mui/material';
-import colors from '../../../../src/app/colors';
-import xBtn from '/public/components/xButton/XButton_black.svg';
-import Logo from '/public/components/logo/EntizenHeaderLogoSvg.svg';
-import whiteRight from '/public/components/arrow/whiteRight20.png';
-import { useDispatch } from 'react-redux';
-import { myEstimateAction } from '../../../storeCompany/myQuotation';
-import useProfile from '../../../util/hook/brought/useProfile';
+import { Box } from "@mui/material";
+import colors from "../../../../src/app/colors";
+import xBtn from "/public/components/xButton/XButton_black.svg";
+import Logo from "/public/components/logo/EntizenHeaderLogoSvg.svg";
+import whiteRight from "/public/components/arrow/whiteRight20.png";
+import { useDispatch } from "react-redux";
+import { myEstimateAction } from "../../../storeCompany/myQuotation";
+import useProfile from "../../../util/hook/brought/useProfile";
 // import { alarmNumberSliceAction } from 'store/alarmNumberSlice';
 // import { Alerts, AlertsResponse } from 'types/alerts';
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
 type Props = {
   menu: { title: string; link: string }[];
@@ -37,7 +37,8 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   // const userID = JSON.parse(sessionStorage.getItem('USER_ID')!) ?? undefined;
-  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
+  const userID =
+    typeof window !== "undefined" ? sessionStorage.getItem("USER_ID") : null;
   // 알람 조회
   // /v1/alerts/unread-points
   // const { data: historyUnread } = useQuery<AlertsResponse, AxiosError, Alerts>(
@@ -58,18 +59,18 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
   // };
 
   // 이름 가져오기
-  
+
   // 작성자 - Bum
-  // token 관련 logic과 hook이므로 변경필요성 보임 
+  // token 관련 logic과 hook이므로 변경필요성 보임
   // const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   // const { profile: profileData } = useProfile(accessToken);
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
-    sessionStorage.removeItem('key');
+    sessionStorage.removeItem("key");
   }, []);
   useEffect(() => {
-    if (sessionStorage.getItem('USER_ID')) {
+    if (sessionStorage.getItem("USER_ID")) {
       // console.log('login check!');
       setIsLogin(true);
     } else {
@@ -85,10 +86,10 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <LogoWrapper onClick={() => router.push('/applyAd')}>
+          <LogoWrapper onClick={() => router.push("/applyAd")}>
             <Image src={Logo} alt="Logo" />
           </LogoWrapper>
-          <FaqButton onClick={() => router.push('/faq')}>
+          <FaqButton onClick={() => router.push("/faq")}>
             <span>자주 묻는 질문</span>
           </FaqButton>
           <Imagewrap onClick={toggleDrawer(anchor, false)}>
@@ -96,20 +97,20 @@ const HamburgerBar = ({ menu = [], anchor, toggleDrawer }: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/myEstimate')}>
-            <span onClick={() => router.push('/profile/editing')}>
+          <WhetherLoginComplete onClick={() => router.push("/myEstimate")}>
+            <span onClick={() => router.push("/profile/editing")}>
               {/* Bum - 로그인완성 후 풀기 */}
               {/* {`${profileData?.name} 님`} */}
             </span>
             <span
               className="arrow-img"
-              onClick={() => router.push('/profile/editing')}
+              onClick={() => router.push("/profile/editing")}
             >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
           </WhetherLoginComplete>
         ) : (
-          <WhetherLogin onClick={() => router.push('/signin')}>
+          <WhetherLogin onClick={() => router.push("/signin")}>
             <span>로그인 해주세요</span>
             <span>
               <Image src={whiteRight} alt="arrow" />
@@ -167,7 +168,7 @@ const WhetherLogin = styled.div`
   & span {
   }
   & span:first-of-type {
-    font-family: 'Spoqa Han Sans Neo';
+    font-family: "Spoqa Han Sans Neo";
     font-size: 15pt;
     font-weight: 700;
     line-height: 15pt;
@@ -179,7 +180,7 @@ const WhetherLogin = styled.div`
   & span {
   }
   .label {
-    font-family: 'Spoqa Han Sans Neo';
+    font-family: "Spoqa Han Sans Neo";
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -199,7 +200,7 @@ const WhetherLoginComplete = styled.div`
   margin-top: 15.75pt;
   position: relative;
   & span:first-of-type {
-    font-family: 'Spoqa Han Sans Neo';
+    font-family: "Spoqa Han Sans Neo";
     font-size: 15pt;
     font-weight: 700;
     line-height: 15pt;
@@ -212,7 +213,7 @@ const WhetherLoginComplete = styled.div`
     gap: 6pt;
   }
   .label {
-    font-family: 'Spoqa Han Sans Neo';
+    font-family: "Spoqa Han Sans Neo";
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -241,7 +242,7 @@ const WhiteAreaMenus = styled.div`
   align-items: center;
   padding-top: 12pt;
   padding-bottom: 12pt;
-  font-family: 'Spoqa Han Sans Neo';
+  font-family: "Spoqa Han Sans Neo";
   font-size: 16px;
   font-weight: 500;
   line-height: 16px;

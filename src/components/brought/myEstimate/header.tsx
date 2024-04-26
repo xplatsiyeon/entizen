@@ -1,91 +1,105 @@
 "use client";
 
-import { Fragment, useState } from 'react';
-import myEstimateHeaderStyles from './header.module.scss';
-import { useMediaQuery } from 'react-responsive';
-import { Drawer } from '@mui/material';
-import HamburgerBar from './HamburgerBar';
-import styled from '@emotion/styled';
-import colors from '../../../app/colors';
-import Logos from '/public/components/logo/EntizenHeaderLogoSvg.svg';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import LegacyImage from 'next/legacy/image'
-import { useRouter, usePathname } from 'next/navigation';
+import { Fragment, useState } from "react";
+import myEstimateHeaderStyles from "./header.module.scss";
+import { useMediaQuery } from "react-responsive";
+import { Drawer } from "@mui/material";
+import HamburgerBar from "./HamburgerBar";
+import styled from "@emotion/styled";
+import colors from "../../../app/colors";
+import Logos from "/public/components/logo/EntizenHeaderLogoSvg.svg";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import LegacyImage from "next/legacy/image";
+import { useRouter, usePathname } from "next/navigation";
+import { Diversity1TwoTone } from "@mui/icons-material";
 
 const menuItems = [
   {
-    title: '내 견적서',
-    link: '/myEstimate',
+    title: "내 견적서",
+    link: "/myEstimate",
   },
   {
-    title: '한전불입금/충전요금',
-    link: '/checkRate',
+    title: "한전불입금/충전요금",
+    link: "/checkRate",
   },
   {
-    title: '가격차이',
-    link: '/funcSystemComparison',
+    title: "가격차이",
+    link: "/funcSystemComparison",
   },
   {
-    title: '업체 신뢰도',
-    link: '/reliability',
+    title: "업체 신뢰도",
+    link: "/reliability",
   },
-]
+];
 
-export const MyEstimateHeader = ({useHeaderLogo = true}) => {
+export const MyEstimateHeader = ({ useHeaderLogo = true }) => {
   const router = useRouter();
   const pathName = usePathname();
-  const mobile = useMediaQuery({ query: '(max-width:767px)' });
+  const mobile = useMediaQuery({ query: "(max-width:767px)" });
   const [state, setState] = useState({ right: false });
-  // const userID = sessionStorage.getItem('USER_ID') || null;
-  const userID = typeof window !== 'undefined' ? sessionStorage.getItem('USER_ID') : null;
+
+  const userID =
+    typeof window !== "undefined" ? sessionStorage.getItem("USER_ID") : null;
 
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
       }
       setState({ ...state, [anchor]: open });
     };
-    const handleLink = (st: string) => {
-      if (userID) {
-        router.push(`${st}`);
-      } else {
-        router.push('/signin');
-      }
-    };
+  const handleLink = (st: string) => {
+    if (userID) {
+      router.push(`${st}`);
+    } else {
+      router.push("/signin");
+    }
+  };
 
   return (
     <div className={myEstimateHeaderStyles.headerWrap}>
       {mobile ? (
         <>
-          {useHeaderLogo ? 
-          <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/applyAd')}>
-            {/* eslint-disable-next-line */}
-            <img
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              src="/components/myEstimate/CaretLeft.svg"
-              alt="left"
-            />
-          </div>
-          : <div>
-            <ArrowBackIosIcon 
-              style={{width: '24px', height: '24px'}}
-              onClick={() => {window.history.back()}}
-            />
-          </div>}
+          {useHeaderLogo ? (
+            <div
+              className={myEstimateHeaderStyles.icon}
+              onClick={() => router.push("/applyAd")}
+            >
+              {/* eslint-disable-next-line */}
+              <img
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                src="/components/myEstimate/CaretLeft.svg"
+                alt="left"
+              />
+            </div>
+          ) : (
+            <div>
+              <ArrowBackIosIcon
+                style={{ width: "24px", height: "24px" }}
+                onClick={() => {
+                  window.history.back();
+                }}
+              />
+            </div>
+          )}
           <div className={myEstimateHeaderStyles.iconWrap}>
-            {(['right'] as const).map((anchor) => (
+            {(["right"] as const).map((anchor) => (
               <Fragment key={anchor}>
-                <div className={myEstimateHeaderStyles.faqBox} onClick={() => {router.push('/faq')}}>
+                <div
+                  className={myEstimateHeaderStyles.faqBox}
+                  onClick={() => {
+                    router.push("/faq");
+                  }}
+                >
                   <div>
                     <div>자주 묻는 질문</div>
                   </div>
@@ -125,30 +139,36 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
                     alt="logo"
                     layout="intrinsic"
                     onClick={async () => {
-                      await router.push('/applyAd');
+                      await router.push("/applyAd");
                     }}
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
               </LogoBox>
               {userID && (
-                  <>
-                    <Box2>
-                      {
-                        menuItems.map((item) => (
-                          <DivBox
-                            key={item.link}
-                            clicked={pathName?.includes(item.link)}
-                            onClick={() => { handleLink(item.link); }}
-                          >{item.title}
-                          </DivBox>
-                        ))
-                      }
-                    </Box2>
-                    <DivBox2 onClick={() => { handleLink('/faq'); }}>자주 묻는 질문</DivBox2>
-                  </>
-                )
-              }
+                <>
+                  <Box2>
+                    {menuItems.map((item) => (
+                      <DivBox
+                        key={item.link}
+                        clicked={pathName?.includes(item.link)}
+                        onClick={() => {
+                          handleLink(item.link);
+                        }}
+                      >
+                        {item.title}
+                      </DivBox>
+                    ))}
+                  </Box2>
+                  <DivBox2
+                    onClick={() => {
+                      handleLink("/faq");
+                    }}
+                  >
+                    자주 묻는 질문
+                  </DivBox2>
+                </>
+              )}
             </Box1>
           </Inner>
         </MainLink>
@@ -196,7 +216,7 @@ const DivBox = styled.div<{ now?: string; clicked: boolean }>`
   font-weight: bold;
   font-size: 13.5pt;
   line-height: 13.5pt;
-  font-family: 'Spoqa Han Sans Neo';
+  font-family: "Spoqa Han Sans Neo";
   color: ${colors.main2};
   text-decoration: none;
   color: ${({ clicked }) => (clicked ? colors.main1 : colors.main2)};
@@ -204,7 +224,7 @@ const DivBox = styled.div<{ now?: string; clicked: boolean }>`
     font-weight: bold;
     font-size: 13.5pt;
     line-height: 13.5pt;
-    font-family: 'Spoqa Han Sans Neo';
+    font-family: "Spoqa Han Sans Neo";
     color: ${colors.main2};
     text-decoration: none;
   }

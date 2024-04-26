@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import WebHeaderA from '../../../components/brought/newHeader/BeforeHeaderA';
-import WebHeaderC from '../../../components/brought/newHeader/BeforeHeaderC';
-import WebHeaderD from '../../../components/brought/newHeader/BeforeHeaderD';
-import WebHeaderB from '../../../components/brought/newHeader/BeforeHeaderB';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import WebHeaderA from "../../../components/brought/newHeader/BeforeHeaderA";
+import WebHeaderC from "../../../components/brought/newHeader/BeforeHeaderC";
+import WebHeaderD from "../../../components/brought/newHeader/BeforeHeaderD";
+import WebHeaderB from "../../../components/brought/newHeader/BeforeHeaderB";
 // import WebFooter from 'componentsWeb/WebFooter';
-import { Box } from '@mui/system';
+import { Box } from "@mui/system";
 import {
   RadioButtonCheckedSharp,
   RadioButtonUncheckedSharp,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Grid,
   TextField,
@@ -21,15 +21,15 @@ import {
   Button,
   useTheme,
   Theme,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import styles from '../form.module.css';
-import classNames from 'classnames';
-import MobileModal from '../termsDetail';
-import CommonBackdrop from '../../commonBackdrop';
-import TagManager from 'react-gtm-module';
-import axios from 'axios';
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "../form.module.css";
+import classNames from "classnames";
+import MobileModal from "../termsDetail";
+import CommonBackdrop from "../../commonBackdrop";
+import TagManager from "react-gtm-module";
+import axios from "axios";
 
 declare global {
   interface Window {
@@ -45,9 +45,9 @@ const EstimateForm5 = (props: any) => {
   const router = useRouter();
 
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
-  const size = isMobile ? 'medium' : 'small';
+  const size = isMobile ? "medium" : "small";
   const theme = useTheme();
 
   function getStyles(theme: Theme) {
@@ -61,9 +61,9 @@ const EstimateForm5 = (props: any) => {
   const onClickAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data: IAddr) {
-        (document.getElementById('addressInput') as HTMLInputElement).value =
+        (document.getElementById("addressInput") as HTMLInputElement).value =
           data.address;
-        document.getElementById('addressDetailInput')?.focus();
+        document.getElementById("addressDetailInput")?.focus();
 
         setForm({ ...form, address: data.address });
       },
@@ -119,12 +119,12 @@ const EstimateForm5 = (props: any) => {
   const handleChange = (event: any) => {
     const name = event.target.name as keyof typeof form;
     const value =
-      name === 'isAgree' ? event.target.checked : event.target.value;
+      name === "isAgree" ? event.target.checked : event.target.value;
     const formData = { ...form, [name]: value };
     setForm(formData);
     validateForm(formData);
 
-    console.log('회사이름', value);
+    console.log("회사이름", value);
   };
 
   // const placeholder = JSON.stringify(Object.keys(router.query)[0]).replace(
@@ -137,7 +137,7 @@ const EstimateForm5 = (props: any) => {
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const onClickSubmit = () => {
     if (isComplete) {
-      console.log('isComplete');
+      console.log("isComplete");
 
       setBackdropOpen(true);
 
@@ -149,7 +149,7 @@ const EstimateForm5 = (props: any) => {
           address: form.address, //설치희망주소
           addressDetail: form.addressDetail, //설치희망상세주소
           isAgree: form.isAgree, //개인정보 동의 안내
-          phone: sessionStorage.getItem('phone'), //휴대폰번호 formData가 아닌 storage 호출
+          phone: sessionStorage.getItem("phone"), //휴대폰번호 formData가 아닌 storage 호출
           // utm_source: sessionStorage.getItem('utm_source'),
           // utm_medium: sessionStorage.getItem('utm_medium'),
           // utm_campaign: sessionStorage.getItem('utm_campaign'),
@@ -161,21 +161,22 @@ const EstimateForm5 = (props: any) => {
         // sessionStorage.setItem('address', form.address as string);
         // sessionStorage.setItem('addressDetail', form.addressDetail as string);
 
-        axios.post('/zapier/company-selection', { data: sendData }).then(() => {});
+        axios
+          .post("/zapier/company-selection", { data: sendData })
+          .then(() => {});
 
         //GA4 이벤트 전송
         const tagManagerArgs = {
           dataLayer: {
-            event: 'company_selection_complete',
+            event: "company_selection_complete",
           },
         };
         TagManager.dataLayer(tagManagerArgs);
-        router.push('/estimateForm/complete2');
+        router.push("/estimateForm/complete2");
       }, 3000);
     }
   };
 
-  
   return (
     <div id="estimateForm" className={styles.estimateForm}>
       {isMobile ? <WebHeaderC /> : <WebHeaderD />}
@@ -189,7 +190,7 @@ const EstimateForm5 = (props: any) => {
               component="form"
               noValidate
               onSubmit={() => {
-                console.log('submit!');
+                console.log("submit!");
               }}
               sx={{ mt: 3 }}
             >
@@ -209,18 +210,18 @@ const EstimateForm5 = (props: any) => {
                     //     : `${placeholder}`
                     // }
                     className={styles.input_box}
-                    value={form?.company ?? ''}
+                    value={form?.company ?? ""}
                     onChange={handleChange}
                   >
                     <MenuItem
                       className={styles.option}
                       value="한국EV충전서비스센터"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       한국EV충전서비스센터
@@ -229,11 +230,11 @@ const EstimateForm5 = (props: any) => {
                       className={styles.option}
                       value="에코플레이"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       에코플레이
@@ -242,11 +243,11 @@ const EstimateForm5 = (props: any) => {
                       className={styles.option}
                       value="캐스트프로"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       캐스트프로
@@ -255,11 +256,11 @@ const EstimateForm5 = (props: any) => {
                       className={styles.option}
                       value="스타코프"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       스타코프
@@ -273,13 +274,11 @@ const EstimateForm5 = (props: any) => {
                       id="addressInput"
                       size={size}
                       placeholder="주소 검색"
-                      inputProps={
-                        { readOnly: true, }
-                      }
+                      inputProps={{ readOnly: true }}
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
-                      value={form?.address ?? ''}
+                      value={form?.address ?? ""}
                       onChange={handleChange}
                       onClick={onClickAddr}
                     />
@@ -298,7 +297,7 @@ const EstimateForm5 = (props: any) => {
                     placeholder="상세 주소를 입력해주세요"
                     variant="outlined"
                     name="addressDetail"
-                    value={form?.addressDetail ?? ''}
+                    value={form?.addressDetail ?? ""}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -314,7 +313,7 @@ const EstimateForm5 = (props: any) => {
                         onChange={handleChange}
                       />
                       <span>
-                        <span className={styles.required_check}>[필수]</span>{' '}
+                        <span className={styles.required_check}>[필수]</span>{" "}
                         개인정보 수집 및 이용 안내에 대한 동의
                       </span>
                     </div>

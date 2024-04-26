@@ -1,43 +1,43 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client"
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import styles from './index.module.css';
-import 'swiper/css';
-import classNames from 'classnames';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "./index.module.css";
+import "swiper/css";
+import classNames from "classnames";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
 // import { Autoplay, Pagination } from 'swiper';
 
-import carbonNextArrow from '/public/pages/personalUse/carbon_next_arrow.svg';
-import waring from '/public/pages/personalUse/icon_waring.svg';
-import phone_01 from '/public/pages/personalUse/phone_01.png';
-import phone_02 from '/public/pages/personalUse/phone_02.png';
-import coupon from '/public/pages/personalUse/coupon.png';
-import WebHeader from '../../components/brought/newHeader/BeforeHeaderA';
-import Step_1 from '/public/pages/personalUse/step_1.svg';
-import Step_2 from '/public/pages/personalUse/step_2.svg';
-import Step_3 from '/public/pages/personalUse/step_3.svg';
-import Step_4 from '/public/pages/personalUse/step_4.svg';
-import Step_5 from '/public/pages/personalUse/step_5.svg';
-import Step_6 from '/public/pages/personalUse/step_6.svg';
-import Step_arrow_circle from '/public/pages/estimate/step_arrow_circle.svg';
-import Step_arrow from '/public/pages/estimate/step_arrow.svg';
+import carbonNextArrow from "/public/pages/personalUse/carbon_next_arrow.svg";
+import waring from "/public/pages/personalUse/icon_waring.svg";
+import phone_01 from "/public/pages/personalUse/phone_01.png";
+import phone_02 from "/public/pages/personalUse/phone_02.png";
+import coupon from "/public/pages/personalUse/coupon.png";
+import WebHeader from "../../components/brought/newHeader/BeforeHeaderA";
+import Step_1 from "/public/pages/personalUse/step_1.svg";
+import Step_2 from "/public/pages/personalUse/step_2.svg";
+import Step_3 from "/public/pages/personalUse/step_3.svg";
+import Step_4 from "/public/pages/personalUse/step_4.svg";
+import Step_5 from "/public/pages/personalUse/step_5.svg";
+import Step_6 from "/public/pages/personalUse/step_6.svg";
+import Step_arrow_circle from "/public/pages/estimate/step_arrow_circle.svg";
+import Step_arrow from "/public/pages/estimate/step_arrow.svg";
 
-import { Drawer } from '@mui/material';
-import styled from '@emotion/styled';
-import Hamburger from 'public/images/list-bar.svg';
+import { Drawer } from "@mui/material";
+import styled from "@emotion/styled";
+import Hamburger from "public/images/list-bar.svg";
 
-import HamburgerBar from '../../components/brought/hamburgerBar';
-import TagManager from 'react-gtm-module';
+import HamburgerBar from "../../components/brought/hamburgerBar";
+import TagManager from "react-gtm-module";
 
 const personalUse = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:480px)',
+    query: "(max-width:480px)",
   });
   const router = useRouter();
 
@@ -46,9 +46,9 @@ const personalUse = () => {
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
       }
@@ -58,11 +58,11 @@ const personalUse = () => {
   const clickGetMoreEstimate = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_more_estimate',
+        event: "click_get_more_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimateForm/form4');
+    router.push("/estimateForm/form4");
   };
 
   const IconBox = styled.div`
@@ -83,7 +83,7 @@ const personalUse = () => {
       <WebHeader />
       {isMobile && (
         <>
-          {(['right'] as const).map((anchor) => (
+          {(["right"] as const).map((anchor) => (
             <React.Fragment key={anchor}>
               {/* <div onClick={toggleDrawer(anchor, true)}>
                 <IconBox>
@@ -214,7 +214,7 @@ const personalUse = () => {
                   <Image
                     src={waring}
                     alt="icon_waring"
-                    style={{ width: '20px' }}
+                    style={{ width: "20px" }}
                   />
                   <span>
                     이 후 설치에 필요한 모든 작업은 선택한
@@ -231,7 +231,7 @@ const personalUse = () => {
                   </div>
                   <div
                     className={`${styles.item} ${styles.item_arrow}`}
-                    style={{ width: '33%' }}
+                    style={{ width: "33%" }}
                   >
                     <Image src={carbonNextArrow} alt="phone_arrow" />
                   </div>
@@ -473,7 +473,7 @@ const personalUse = () => {
                   <Image
                     src={coupon}
                     alt="coupon_img"
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                   />
                 </div>
               ) : (

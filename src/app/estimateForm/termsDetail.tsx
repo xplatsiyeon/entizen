@@ -1,14 +1,14 @@
-"use client"
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import { useMediaQuery } from 'react-responsive';
-import CommonModal from '../commonModal';
-import { Stack } from '@mui/material';
-import styles from './form.module.css';
+"use client";
+import React from "react";
+import { styled } from "@mui/material/styles";
+import { useMediaQuery } from "react-responsive";
+import CommonModal from "../commonModal";
+import { Stack } from "@mui/material";
+import styles from "./form.module.css";
 
 const TermsModal = ({ open, onClose }: { open: boolean; onClose: any }) => {
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
 
   return (

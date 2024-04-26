@@ -1,4 +1,4 @@
-$imgPath: '/images';
+$imgPath: "/images";
 
 .suggestionHeader {
   border-bottom: 1px solid #e9eaee;
@@ -15,7 +15,7 @@ $imgPath: '/images';
     .headerLogo {
       width: 6.5rem;
       height: 100%;
-      background: url('#{$imgPath}/entizenLogo.svg') 0 0 no-repeat;
+      background: url("#{$imgPath}/entizenLogo.svg") 0 0 no-repeat;
       background-size: 100% auto;
       position: absolute;
 

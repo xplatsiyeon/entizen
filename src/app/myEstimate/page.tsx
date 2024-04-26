@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -7,31 +7,31 @@ import {
   DialogContent,
   Button,
   TextField,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
-import { MyEstimateHeader } from '../../components/brought/myEstimate/header';
-import myEstimateStyles from './myEstimate.module.scss';
-import { EstimateByCompany } from '../../components/brought/myEstimate/estimateByCompany';
-import TagManager from 'react-gtm-module';
-import { useEffect, useState } from 'react';
-import CommonConfirmModal from '../commonConfirmModal';
-import { useMediaQuery } from 'react-responsive';
-import Image from 'next/image';
-import ProcessMb from '/public/pages/myEstimate/process_mb.svg';
-import PhoneModal from '../phoneModal';
-import axios from 'axios';
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import { MyEstimateHeader } from "../../components/brought/myEstimate/header";
+import myEstimateStyles from "./myEstimate.module.scss";
+import { EstimateByCompany } from "../../components/brought/myEstimate/estimateByCompany";
+import TagManager from "react-gtm-module";
+import { useEffect, useState } from "react";
+import CommonConfirmModal from "../commonConfirmModal";
+import { useMediaQuery } from "react-responsive";
+import Image from "next/image";
+import ProcessMb from "/public/pages/myEstimate/process_mb.svg";
+import PhoneModal from "../phoneModal";
+import axios from "axios";
 
 const MyEstimate = () => {
-  const isMobile = useMediaQuery({ query: '(max-width:899.25pt)' });
+  const isMobile = useMediaQuery({ query: "(max-width:899.25pt)" });
   const [modalOpen, setModalOpen] = useState(false);
-  const [companyName, setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState("");
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   // sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
   const chartDownload = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'chart_download',
+        event: "chart_download",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
@@ -39,7 +39,7 @@ const MyEstimate = () => {
   const kakaoBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_kakao_btn',
+        event: "click_kakao_btn",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
@@ -47,44 +47,45 @@ const MyEstimate = () => {
   const telBtnClick = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'tel_btn_click',
+        event: "tel_btn_click",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
   };
-  
+
   const onClickSendBtn = () => {
-    if(companyName){
+    if (companyName) {
       setModalOpen(true);
 
       axios
-        .post('/zapier/company-request', { data: {
-          companyName:companyName,
-          phone:sessionStorage.getItem("phone_number")
-        } })
+        .post("/zapier/company-request", {
+          data: {
+            companyName: companyName,
+            phone: sessionStorage.getItem("phone_number"),
+          },
+        })
         .then(() => {});
 
       //GA4 이벤트 전송
       const tagManagerArgs = {
         dataLayer: {
-          event: 'request_company',
-          request_company_name:companyName
+          event: "request_company",
+          request_company_name: companyName,
         },
       };
       TagManager.dataLayer(tagManagerArgs);
 
-      setCompanyName('');
-    } 
+      setCompanyName("");
+    }
   };
 
   useEffect(() => {
-    sessionStorage.setItem('USER_ID', JSON.stringify({ id: 'test' }));
-    const phone = sessionStorage.getItem('phone_number');
+    sessionStorage.setItem("USER_ID", JSON.stringify({ id: "test" }));
+    const phone = sessionStorage.getItem("phone_number");
     if (!phone) {
       setPhoneModalOpen(true);
     }
   }, []);
-
 
   return (
     <div className={myEstimateStyles.myEstimateContainer}>
@@ -132,7 +133,7 @@ const MyEstimate = () => {
                 <li>해당 가격에는 부가세(vat)가 포함된 가격 입니다.</li>
                 <li>해당 가격에는 한전 불입금이 포함되지 않은 가격입니다.</li>
                 <li>
-                  공용 충전기는 <strong>help@entizen.kr</strong>이나{' '}
+                  공용 충전기는 <strong>help@entizen.kr</strong>이나{" "}
                   <strong>1544-6811</strong>로 문의주시기 바랍니다.
                 </li>
               </ul>
@@ -143,7 +144,7 @@ const MyEstimate = () => {
 
       <section className={myEstimateStyles.compareEstimateWrap}>
         <div className={myEstimateStyles.title}>업체별 주요기능 비교표</div>
-        <div style={{ width: '-webkit-fill-available' }}>
+        <div style={{ width: "-webkit-fill-available" }}>
           <div className={myEstimateStyles.tableWrap}>
             <table>
               <tr>
@@ -208,7 +209,7 @@ const MyEstimate = () => {
                 <td>X</td>
               </tr>
               <tr>
-                <td style={{ width: '13.125rem' }}>
+                <td style={{ width: "13.125rem" }}>
                   전기요금 절감 기능 (설정에 따른 출력 제어)
                 </td>
 

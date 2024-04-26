@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Box } from '@mui/system';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import WebHeader from '../../components/brought/newHeader/BeforeHeaderA';
+import { Box } from "@mui/system";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import WebHeader from "../../components/brought/newHeader/BeforeHeaderA";
 import {
   Grid,
   Divider,
@@ -14,65 +14,65 @@ import {
   TableCell,
   TableBody,
   Paper,
-} from '@mui/material';
-import React from 'react';
-import { useMediaQuery } from 'react-responsive';
-import Step_1 from '/public/pages/estimate/step_1.svg';
-import Step_2 from '/public/pages/estimate/step_2.svg';
-import Step_3 from '/public/pages/estimate/step_3.svg';
-import Step_4 from '/public/pages/estimate/step_4.svg';
-import Step_5 from '/public/pages/estimate/step_5.svg';
-import Step_6 from '/public/pages/estimate/step_6.svg';
-import Step_arrow_circle from '/public/pages/estimate/step_arrow_circle.svg';
-import Sec02Img from '/public/pages/estimate/sec_02.png';
-import Step_arrow from '/public/pages/estimate/step_arrow.svg';
-import styles from './index.module.css';
-import TagManager from 'react-gtm-module';
-import classNames from 'classnames';
+} from "@mui/material";
+import React from "react";
+import { useMediaQuery } from "react-responsive";
+import Step_1 from "/public/pages/estimate/step_1.svg";
+import Step_2 from "/public/pages/estimate/step_2.svg";
+import Step_3 from "/public/pages/estimate/step_3.svg";
+import Step_4 from "/public/pages/estimate/step_4.svg";
+import Step_5 from "/public/pages/estimate/step_5.svg";
+import Step_6 from "/public/pages/estimate/step_6.svg";
+import Step_arrow_circle from "/public/pages/estimate/step_arrow_circle.svg";
+import Sec02Img from "/public/pages/estimate/sec_02.png";
+import Step_arrow from "/public/pages/estimate/step_arrow.svg";
+import styles from "./index.module.css";
+import TagManager from "react-gtm-module";
+import classNames from "classnames";
 
 const progress_01 = [
   {
-    title: '견적 요청',
-    description: '입주민들의 충전기 설치 요청을 받습니다.',
+    title: "견적 요청",
+    description: "입주민들의 충전기 설치 요청을 받습니다.",
     image: Step_1,
   },
   { isArrow: true },
   {
-    title: '입주민 회의',
-    description: '입주민들이 원하는 충전기 설치 업체를 선정합니다.',
+    title: "입주민 회의",
+    description: "입주민들이 원하는 충전기 설치 업체를 선정합니다.",
     image: Step_2,
   },
   { isArrow: true },
   {
-    title: '사진 비교/선택',
-    description: '선정된 업체들의 설치 사진을 비교하고 선택합니다.',
+    title: "사진 비교/선택",
+    description: "선정된 업체들의 설치 사진을 비교하고 선택합니다.",
     image: Step_3,
   },
 ];
 const progress_02 = [
   {
-    title: '현장실사 및 계약',
+    title: "현장실사 및 계약",
     description:
-      '선택된 업체가 현장을 방문하여 설치가 가능한지 확인하고 계약합니다.',
+      "선택된 업체가 현장을 방문하여 설치가 가능한지 확인하고 계약합니다.",
     image: Step_4,
   },
   { isArrow: true },
   {
-    title: '공사시작',
-    description: '설치가 시작됩니다.',
+    title: "공사시작",
+    description: "설치가 시작됩니다.",
     image: Step_5,
   },
   { isArrow: true },
   {
-    title: '설치완료',
-    description: '설치가 완료되고 충전기를 사용할 수 있습니다.',
+    title: "설치완료",
+    description: "설치가 완료되고 충전기를 사용할 수 있습니다.",
     image: Step_6,
   },
 ];
 
 const Estimate = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width:480px)',
+    query: "(max-width:480px)",
   });
   const router = useRouter();
 
@@ -84,11 +84,11 @@ const Estimate = () => {
   const clickGetMoreEstimate = () => {
     const tagManagerArgs = {
       dataLayer: {
-        event: 'click_get_more_estimate',
+        event: "click_get_more_estimate",
       },
     };
     TagManager.dataLayer(tagManagerArgs);
-    router.push('/estimateForm/form1');
+    router.push("/estimateForm/form1");
   };
 
   return (
@@ -402,7 +402,7 @@ const Estimate = () => {
                   </div>
 
                   <p className={styles.text_01}>
-                    엔티즌 파트너 업체들의 충전 요금은{' '}
+                    엔티즌 파트너 업체들의 충전 요금은{" "}
                     <span className={styles.text_02}>119원~250원</span>으로
                     다양합니다.
                   </p>
