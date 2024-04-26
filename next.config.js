@@ -13,22 +13,24 @@ const nextConfig = {
   },
 
   async redirects() {
+    const oldPage = [
+      'admin', 'alarm', 'auth', 'chatting', 'company', 
+      'find', 'guide', 'mypage', 'parking', 'profile', 
+      'quotation', 'signUp'
+    ]
     return [
       {
         source: '/',
         destination: '/new/applyAd',
         permanent: true,
       },
-      {
-        source: '/parking',
-        destination: '/new/applyAd',
-        permanent: true,
-      },
-      // {
-      //   source: '/new/:path*',
-      //   destination: '/new/applyAd',
-      //   permanent: true,
-      // },
+      ...oldPage.map((page)=>(
+        {
+          source: `/${page}/:path*`,
+          destination: '/new/applyAd',
+          permanent: true,
+        }
+      ))
     ];
   },
 
