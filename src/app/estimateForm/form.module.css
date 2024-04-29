@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Haan YHead B;';
-  src: url('../../../public/pages/electric/font/Haan_YHead_B.ttf')
-    format('truetype');
+  font-family: "Haan YHead B;";
+  src: url("../../../public/pages/electric/font/Haan_YHead_B.ttf")
+    format("truetype");
 }
 
 #estimateForm {

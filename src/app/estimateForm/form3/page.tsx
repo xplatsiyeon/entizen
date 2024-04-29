@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import WebHeaderA from '../../../components/brought/newHeader/BeforeHeaderA';
-import WebHeaderC from '../../../components/brought/newHeader/BeforeHeaderC';
-import WebHeaderD from '../../../components/brought/newHeader/BeforeHeaderD';
-import WebHeaderB from '../../../components/brought/newHeader/BeforeHeaderB';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import WebHeaderA from "../../../components/brought/newHeader/BeforeHeaderA";
+import WebHeaderC from "../../../components/brought/newHeader/BeforeHeaderC";
+import WebHeaderD from "../../../components/brought/newHeader/BeforeHeaderD";
+import WebHeaderB from "../../../components/brought/newHeader/BeforeHeaderB";
 // import WebFooter from 'componentsWeb/WebFooter';
-import { Box } from '@mui/system';
+import { Box } from "@mui/system";
 import {
   RadioButtonCheckedSharp,
   RadioButtonUncheckedSharp,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Grid,
   TextField,
@@ -20,15 +20,17 @@ import {
   Checkbox,
   Button,
   FormControl,
-} from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import styles from '../form.module.css';
-import classNames from 'classnames';
-import MobileModal from '../termsDetail';
-import CommonBackdrop from '../../commonBackdrop';
-import TagManager from 'react-gtm-module';
-import axios from 'axios';
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "../form.module.css";
+import classNames from "classnames";
+import MobileModal from "../termsDetail";
+import CommonBackdrop from "../../commonBackdrop";
+import TagManager from "react-gtm-module";
+import axios from "axios";
+import useFetch from "@/util/hook/useFetch";
+import { dataCheck } from "../func";
 
 declare global {
   interface Window {
@@ -43,16 +45,17 @@ interface IAddr {
 const EstimateForm3 = () => {
   const router = useRouter();
   const isMobile = useMediaQuery({
-    query: '(max-width:899.25pt)',
+    query: "(max-width:899.25pt)",
   });
-  const size = isMobile ? 'medium' : 'small';
+  const size = isMobile ? "medium" : "small";
+  const [fetchData, isLoading] = useFetch();
 
   const onClickAddr = () => {
     new window.daum.Postcode({
       oncomplete: function (data: IAddr) {
-        (document.getElementById('addressInput') as HTMLInputElement).value =
+        (document.getElementById("addressInput") as HTMLInputElement).value =
           data.address;
-        document.getElementById('addressDetailInput')?.focus();
+        document.getElementById("addressDetailInput")?.focus();
 
         setForm({ ...form, address: data.address });
       },
@@ -100,10 +103,10 @@ const EstimateForm3 = () => {
   const handleChange = (event: any) => {
     const name = event.target.name as keyof typeof form;
     const value =
-      name === 'isAgree' ? event.target.checked : event.target.value;
+      name === "isAgree" ? event.target.checked : event.target.value;
     const formData = { ...form, [name]: value };
-    if (name === 'place' && value !== 'step_etc') {
-      formData.placeEtc = '';
+    if (name === "place" && value !== "step_etc") {
+      formData.placeEtc = "";
     }
     setForm(formData);
 
@@ -111,53 +114,88 @@ const EstimateForm3 = () => {
   };
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
+  // const onClickSubmit = () => {
+  //   if (isComplete) {
+  //     console.log('isComplete');
+  //     setBackdropOpen(true);
+
+  //     setTimeout(() => {
+  //       setBackdropOpen(false);
+  //       const sendData = {
+  //         selection: '충전수익',
+  //         importantFactor: form.importantFactor,
+  //         place: form.place,
+  //         placeEtc: form.placeEtc,
+  //         address: form.address,
+  //         addressDetail: form.addressDetail,
+  //         email: form.email,
+  //         phone: form.phone,
+  //         isAgree: form.isAgree,
+  //         utm_source: sessionStorage.getItem('utm_source'),
+  //         utm_medium: sessionStorage.getItem('utm_medium'),
+  //         utm_campaign: sessionStorage.getItem('utm_campaign'),
+  //         utm_content: sessionStorage.getItem('utm_content'),
+  //         utm_term: sessionStorage.getItem('utm_term'),
+  //       };
+
+  //       sessionStorage.setItem(
+  //         'importantFactor',
+  //         form.importantFactor as string,
+  //       );
+  //       sessionStorage.setItem('place', form.place as string);
+  //       sessionStorage.setItem('placeEtc', form.placeEtc as string);
+  //       sessionStorage.setItem('address', form.address as string);
+  //       sessionStorage.setItem('addressDetail', form.addressDetail as string);
+  //       sessionStorage.setItem('email', form.email as string);
+  //       sessionStorage.setItem('phone', form.phone as string);
+  //       sessionStorage.setItem('phone_number', form.phone as string);
+
+  //       axios.post('/zapier/submit', { data: sendData }).then(() => {});
+
+  //       //GA4 이벤트 전송
+  //       const tagManagerArgs = {
+  //         dataLayer: {
+  //           event: 'lead_submit',
+  //         },
+  //       };
+  //       TagManager.dataLayer(tagManagerArgs);
+  //       router.push('/estimateForm/complete');
+  //     }, 3000);
+  //   }
+  // };
+
   const onClickSubmit = () => {
-    if (isComplete) {
-      console.log('isComplete');
+    const data = dataCheck(form, isComplete, "충전수익");
+
+    if (data && data !== null) {
       setBackdropOpen(true);
 
       setTimeout(() => {
         setBackdropOpen(false);
-        const sendData = {
-          selection: '충전수익',
-          importantFactor: form.importantFactor,
-          place: form.place,
-          placeEtc: form.placeEtc,
-          address: form.address,
-          addressDetail: form.addressDetail,
-          email: form.email,
-          phone: form.phone,
-          isAgree: form.isAgree,
-          utm_source: sessionStorage.getItem('utm_source'),
-          utm_medium: sessionStorage.getItem('utm_medium'),
-          utm_campaign: sessionStorage.getItem('utm_campaign'),
-          utm_content: sessionStorage.getItem('utm_content'),
-          utm_term: sessionStorage.getItem('utm_term'),
-        };
-
-        sessionStorage.setItem(
-          'importantFactor',
-          form.importantFactor as string,
-        );
-        sessionStorage.setItem('place', form.place as string);
-        sessionStorage.setItem('placeEtc', form.placeEtc as string);
-        sessionStorage.setItem('address', form.address as string);
-        sessionStorage.setItem('addressDetail', form.addressDetail as string);
-        sessionStorage.setItem('email', form.email as string);
-        sessionStorage.setItem('phone', form.phone as string);
-        sessionStorage.setItem('phone_number', form.phone as string);
-
-        axios.post('/zapier/submit', { data: sendData }).then(() => {});
-
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: 'lead_submit',
+        fetchData(
+          "/zapier/submit",
+          { ...data },
+          {
+            callback: (result) => {
+              if (result.code !== 200) {
+                // 실패시 반응 아직 미정
+                console.log(result.code, "result.code");
+              } else {
+                // 성공시 GA4 이벤트 전송및 페이지 전환
+                const tagManagerArgs = {
+                  dataLayer: {
+                    event: "lead_submit",
+                  },
+                };
+                TagManager.dataLayer(tagManagerArgs);
+                router.push("/estimateForm/complete");
+              }
+            },
           },
-        };
-        TagManager.dataLayer(tagManagerArgs);
-        router.push('/estimateForm/complete');
+        );
       }, 3000);
+    } else {
+      alert("error");
     }
   };
 
@@ -165,7 +203,7 @@ const EstimateForm3 = () => {
     //GA4 이벤트 전송
     const tagManagerArgsForm = {
       dataLayer: {
-        event: 'lead_start',
+        event: "lead_start",
       },
     };
     TagManager.dataLayer(tagManagerArgsForm);
@@ -195,7 +233,7 @@ const EstimateForm3 = () => {
               component="form"
               noValidate
               onSubmit={() => {
-                console.log('submit!');
+                console.log("submit!");
               }}
               sx={{ mt: 3 }}
             >
@@ -213,18 +251,18 @@ const EstimateForm3 = () => {
                     name="importantFactor"
                     displayEmpty
                     className={styles.input_box}
-                    value={form?.importantFactor ?? ''}
+                    value={form?.importantFactor ?? ""}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
                     <MenuItem
                       value="설치비용"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       설치비용
@@ -232,11 +270,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="충전요금"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       충전요금
@@ -244,11 +282,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="A/S"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       A/S
@@ -256,11 +294,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="디자인"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       디자인
@@ -268,11 +306,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="편의성"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       편의성
@@ -280,11 +318,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="보증기간"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       보증기간
@@ -292,11 +330,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="업체 신뢰도"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       업체 신뢰도
@@ -310,18 +348,18 @@ const EstimateForm3 = () => {
                     id="placeSelect"
                     name="place"
                     className={styles.input_box}
-                    value={form?.place ?? ''}
+                    value={form?.place ?? ""}
                     placeholder="클릭하여 선택하세요."
                     onChange={handleChange}
                   >
                     <MenuItem
                       value="숙박 시설"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       숙박 시설
@@ -329,11 +367,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="음식점, 카페"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       음식점, 카페
@@ -341,11 +379,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="상업 시설"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       상업 시설
@@ -353,11 +391,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="스포츠 시설"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       스포츠 시설
@@ -365,11 +403,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="캠핑장"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       캠핑장
@@ -377,11 +415,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="주차장"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       주차장
@@ -389,11 +427,11 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="사업장"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       사업장
@@ -401,17 +439,17 @@ const EstimateForm3 = () => {
                     <MenuItem
                       value="step_etc"
                       sx={{
-                        color: '#222',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        fontFamily: 'Spoqa Han Sans Neo',
-                        fontStyle: 'normal',
+                        color: "#222",
+                        fontSize: "14px",
+                        fontWeight: "400",
+                        fontFamily: "Spoqa Han Sans Neo",
+                        fontStyle: "normal",
                       }}
                     >
                       기타 (직접입력)
                     </MenuItem>
                   </Select>
-                  {form?.place === 'step_etc' && (
+                  {form?.place === "step_etc" && (
                     <TextField
                       id="placeEtcInput"
                       size={size}
@@ -419,7 +457,7 @@ const EstimateForm3 = () => {
                       className={styles.input_box}
                       variant="outlined"
                       name="placeEtc"
-                      value={form?.placeEtc ?? ''}
+                      value={form?.placeEtc ?? ""}
                       onChange={handleChange}
                     />
                   )}
@@ -435,7 +473,7 @@ const EstimateForm3 = () => {
                       className={classNames(styles.input_box, styles.address)}
                       variant="outlined"
                       name="address"
-                      value={form?.address ?? ''}
+                      value={form?.address ?? ""}
                       onChange={handleChange}
                     />
                     <Button
@@ -453,7 +491,7 @@ const EstimateForm3 = () => {
                     placeholder="상세 주소를 입력해주세요."
                     variant="outlined"
                     name="addressDetail"
-                    value={form?.addressDetail ?? ''}
+                    value={form?.addressDetail ?? ""}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -466,7 +504,7 @@ const EstimateForm3 = () => {
                     placeholder="연락처를 입력해 주세요"
                     variant="outlined"
                     name="phone"
-                    value={form?.phone ?? ''}
+                    value={form?.phone ?? ""}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -479,7 +517,7 @@ const EstimateForm3 = () => {
                     placeholder="이메일을 입력하세요"
                     variant="outlined"
                     name="email"
-                    value={form?.email ?? ''}
+                    value={form?.email ?? ""}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -496,7 +534,7 @@ const EstimateForm3 = () => {
                         onChange={handleChange}
                       />
                       <span>
-                        <span className={styles.required_check}>[필수]</span>{' '}
+                        <span className={styles.required_check}>[필수]</span>{" "}
                         개인정보 수집 및 이용 안내에 대한 동의
                       </span>
                     </div>

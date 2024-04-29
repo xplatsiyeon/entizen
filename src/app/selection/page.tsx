@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 import { useRouter } from "next/navigation";
 import WebHeaderA from "../../components/brought/newHeader/BeforeHeaderA";
 import WebHeaderB from "../../components/brought/newHeader/BeforeHeaderB";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Selection_1 from "/public/pages/selection/selection_1.svg";
 import Selection_2 from "/public/pages/selection/selection_2.svg";
 import Selection_3 from "/public/pages/selection/selection_3.svg";

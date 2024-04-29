@@ -29,7 +29,8 @@ import classNames from "classnames";
 import MobileModal from "../termsDetail";
 import CommonBackdrop from "../../commonBackdrop";
 import TagManager from "react-gtm-module";
-import axios from "axios";
+import useFetch from "@/util/hook/useFetch";
+import { dataCheck } from "../func";
 
 declare global {
   interface Window {
@@ -49,6 +50,7 @@ const EstimateForm5 = (props: any) => {
   });
   const size = isMobile ? "medium" : "small";
   const theme = useTheme();
+  const [fetchData, isLoading] = useFetch();
 
   function getStyles(theme: Theme) {
     return {
@@ -135,45 +137,80 @@ const EstimateForm5 = (props: any) => {
   // const placeholder = '';
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
-  const onClickSubmit = () => {
-    if (isComplete) {
-      console.log("isComplete");
+  // const onClickSubmit = () => {
+  //   if (isComplete) {
+  //     console.log("isComplete");
 
+  //     setBackdropOpen(true);
+
+  //     setTimeout(() => {
+  //       setBackdropOpen(false);
+  //       const sendData = {
+  //         // selection: '개인용도',
+  //         company: form.company, //업체명
+  //         address: form.address, //설치희망주소
+  //         addressDetail: form.addressDetail, //설치희망상세주소
+  //         isAgree: form.isAgree, //개인정보 동의 안내
+  //         phone: sessionStorage.getItem("phone"), //휴대폰번호 formData가 아닌 storage 호출
+  //         // utm_source: sessionStorage.getItem('utm_source'),
+  //         // utm_medium: sessionStorage.getItem('utm_medium'),
+  //         // utm_campaign: sessionStorage.getItem('utm_campaign'),
+  //         // utm_content: sessionStorage.getItem('utm_content'),
+  //         // utm_term: sessionStorage.getItem('utm_term'),
+  //       };
+
+  //       // sessionStorage.setItem('company', form.company as string);
+  //       // sessionStorage.setItem('address', form.address as string);
+  //       // sessionStorage.setItem('addressDetail', form.addressDetail as string);
+
+  //       axios
+  //         .post("/zapier/company-selection", { data: sendData })
+  //         .then(() => {});
+
+  //       //GA4 이벤트 전송
+  //       const tagManagerArgs = {
+  //         dataLayer: {
+  //           event: "company_selection_complete",
+  //         },
+  //       };
+  //       TagManager.dataLayer(tagManagerArgs);
+  //       router.push("/estimateForm/complete2");
+  //     }, 3000);
+  //   }
+  // };
+
+  const onClickSubmit = () => {
+    const data = dataCheck(form, isComplete, "selection");
+
+    if (data && data !== null) {
       setBackdropOpen(true);
 
       setTimeout(() => {
         setBackdropOpen(false);
-        const sendData = {
-          // selection: '개인용도',
-          company: form.company, //업체명
-          address: form.address, //설치희망주소
-          addressDetail: form.addressDetail, //설치희망상세주소
-          isAgree: form.isAgree, //개인정보 동의 안내
-          phone: sessionStorage.getItem("phone"), //휴대폰번호 formData가 아닌 storage 호출
-          // utm_source: sessionStorage.getItem('utm_source'),
-          // utm_medium: sessionStorage.getItem('utm_medium'),
-          // utm_campaign: sessionStorage.getItem('utm_campaign'),
-          // utm_content: sessionStorage.getItem('utm_content'),
-          // utm_term: sessionStorage.getItem('utm_term'),
-        };
-
-        // sessionStorage.setItem('company', form.company as string);
-        // sessionStorage.setItem('address', form.address as string);
-        // sessionStorage.setItem('addressDetail', form.addressDetail as string);
-
-        axios
-          .post("/zapier/company-selection", { data: sendData })
-          .then(() => {});
-
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: "company_selection_complete",
+        fetchData(
+          "/zapier/submit-selection",
+          { ...data },
+          {
+            callback: (result) => {
+              if (result.code !== 200) {
+                // 실패시 반응 아직 미정
+                console.log(result.code, "result.code");
+              } else {
+                // 성공시 GA4 이벤트 전송및 페이지 전환
+                const tagManagerArgs = {
+                  dataLayer: {
+                    event: "lead_submit",
+                  },
+                };
+                TagManager.dataLayer(tagManagerArgs);
+                router.push("/estimateForm/complete2");
+              }
+            },
           },
-        };
-        TagManager.dataLayer(tagManagerArgs);
-        router.push("/estimateForm/complete2");
+        );
       }, 3000);
+    } else {
+      alert("error");
     }
   };
 

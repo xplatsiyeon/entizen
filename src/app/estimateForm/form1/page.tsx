@@ -1,12 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import WebHeaderA from "../../../components/brought/newHeader/BeforeHeaderA";
 import WebHeaderC from "../../../components/brought/newHeader/BeforeHeaderC";
 import WebHeaderD from "../../../components/brought/newHeader/BeforeHeaderD";
-import WebHeaderB from "../../../components/brought/newHeader/BeforeHeaderB";
-// import WebFooter from 'componentsWeb/WebFooter';
+
 import { Box } from "@mui/system";
 import {
   RadioButtonCheckedSharp,
@@ -28,7 +25,8 @@ import MobileModal from "../termsDetail";
 // import Common from 'components/guide/common';
 import CommonBackdrop from "../../commonBackdrop";
 import TagManager from "react-gtm-module";
-import axios from "axios";
+import useFetch from "@/util/hook/useFetch";
+import { dataCheck } from "../func";
 
 declare global {
   interface Window {
@@ -46,26 +44,7 @@ const EstimateForm = () => {
     query: "(max-width:899.25pt)",
   });
   const size = isMobile ? "medium" : "small";
-
-  const onClickAddr = () => {
-    new window.daum.Postcode({
-      oncomplete: function (data: IAddr) {
-        (document.getElementById("addressInput") as HTMLInputElement).value =
-          data.address;
-        document.getElementById("addressDetailInput")?.focus();
-
-        setForm({ ...form, address: data.address });
-      },
-    }).open();
-  };
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
+  const [fetchData, isLoading] = useFetch();
 
   // values
   const [isComplete, setIsComplete] = React.useState<boolean>(false);
@@ -79,16 +58,39 @@ const EstimateForm = () => {
     isAgree?: boolean | undefined;
   }>({});
 
+  //주소지 데이터 입력
+  const onClickAddr = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data: IAddr) {
+        (document.getElementById("addressInput") as HTMLInputElement).value =
+          data.address;
+        document.getElementById("addressDetailInput")?.focus();
+
+        setForm({ ...form, address: data.address });
+      },
+    }).open();
+  };
+
+  // 모달 핸들러
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   // validation
+  // 제출시 필수값으로 여겨 옵셔널체이닝 문법제거 - Bum
   const validateForm = (formData: any) => {
     if (
-      formData?.importantFactor &&
-      formData?.progress &&
-      formData?.address &&
-      formData?.addressDetail &&
-      formData?.phone &&
-      formData?.email &&
-      formData?.isAgree &&
+      formData.importantFactor &&
+      formData.progress &&
+      formData.address &&
+      formData.addressDetail &&
+      formData.phone &&
+      formData.email &&
+      formData.isAgree &&
       formData.isAgree
     ) {
       setIsComplete(true);
@@ -96,6 +98,8 @@ const EstimateForm = () => {
       setIsComplete(false);
     }
   };
+
+  // 폼데이터 핸들러
   const handleChange = (event: any) => {
     const name = event.target.name as keyof typeof form;
     const value =
@@ -107,52 +111,88 @@ const EstimateForm = () => {
   };
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
+  // 최종 submit함수
+  // const onClickSubmit = () => {
+  //   if (isComplete) {
+  //     console.log("isComplete");
+  //     setBackdropOpen(true);
+
+  //     setTimeout(() => {
+  //       setBackdropOpen(false);
+
+  //       const sendData = {
+  //         selection: "입주민공용",
+  //         importantFactor: form.importantFactor, // 가장 중요하게 보는 요소
+  //         place: form.progress, // 진행 상황
+  //         address: form.address, // 설치 희망 주소
+  //         addressDetail: form.addressDetail, // 설치 희망 상세 주소
+  //         email: form.email, // 이메일 주소
+  //         phone: form.phone, // 연락 가능한 휴대폰 번호
+  //         isAgree: form.isAgree, // 개인정보 동의 여부
+  //         utm_source: sessionStorage.getItem("utm_source"),
+  //         utm_medium: sessionStorage.getItem("utm_medium"),
+  //         utm_campaign: sessionStorage.getItem("utm_campaign"),
+  //         utm_content: sessionStorage.getItem("utm_content"),
+  //         utm_term: sessionStorage.getItem("utm_term"),
+  //       };
+
+  //       sessionStorage.setItem(
+  //         "importantFactor",
+  //         form.importantFactor as string,
+  //       );
+  //       sessionStorage.setItem("place", form.progress as string);
+  //       sessionStorage.setItem("address", form.address as string);
+  //       sessionStorage.setItem("addressDetail", form.addressDetail as string);
+  //       sessionStorage.setItem("email", form.email as string);
+  //       sessionStorage.setItem("phone", form.phone as string);
+  //       sessionStorage.setItem("phone_number", form.phone as string);
+  //       console.log(sendData, "sendData");
+  //       axios.post("/zapier/submit", { data: sendData }).then(() => {});
+
+  //       //GA4 이벤트 전송
+  //       const tagManagerArgs = {
+  //         dataLayer: {
+  //           event: "lead_submit",
+  //         },
+  //       };
+  //       TagManager.dataLayer(tagManagerArgs);
+  //       router.push("/estimateForm/complete");
+  //     }, 3000);
+  //   }
+  // };
+
   const onClickSubmit = () => {
-    if (isComplete) {
-      console.log("isComplete");
+    const data = dataCheck(form, isComplete, "입주민공용");
+
+    if (data && data !== null) {
       setBackdropOpen(true);
 
       setTimeout(() => {
         setBackdropOpen(false);
-
-        const sendData = {
-          selection: "입주민공용",
-          importantFactor: form.importantFactor, // 가장 중요하게 보는 요소
-          place: form.progress, // 진행 상황
-          address: form.address, // 설치 희망 주소
-          addressDetail: form.addressDetail, // 설치 희망 상세 주소
-          email: form.email, // 이메일 주소
-          phone: form.phone, // 연락 가능한 휴대폰 번호
-          isAgree: form.isAgree, // 개인정보 동의 여부
-          utm_source: sessionStorage.getItem("utm_source"),
-          utm_medium: sessionStorage.getItem("utm_medium"),
-          utm_campaign: sessionStorage.getItem("utm_campaign"),
-          utm_content: sessionStorage.getItem("utm_content"),
-          utm_term: sessionStorage.getItem("utm_term"),
-        };
-
-        sessionStorage.setItem(
-          "importantFactor",
-          form.importantFactor as string,
-        );
-        sessionStorage.setItem("place", form.progress as string);
-        sessionStorage.setItem("address", form.address as string);
-        sessionStorage.setItem("addressDetail", form.addressDetail as string);
-        sessionStorage.setItem("email", form.email as string);
-        sessionStorage.setItem("phone", form.phone as string);
-        sessionStorage.setItem("phone_number", form.phone as string);
-
-        axios.post("/zapier/submit", { data: sendData }).then(() => {});
-
-        //GA4 이벤트 전송
-        const tagManagerArgs = {
-          dataLayer: {
-            event: "lead_submit",
+        fetchData(
+          "/zapier/submit",
+          { ...data },
+          {
+            callback: (result) => {
+              if (result.code !== 200) {
+                // 실패시 반응 아직 미정
+                console.log(result.code, "result.code");
+              } else {
+                // 성공시 GA4 이벤트 전송및 페이지 전환
+                const tagManagerArgs = {
+                  dataLayer: {
+                    event: "lead_submit",
+                  },
+                };
+                TagManager.dataLayer(tagManagerArgs);
+                router.push("/estimateForm/complete");
+              }
+            },
           },
-        };
-        TagManager.dataLayer(tagManagerArgs);
-        router.push("/estimateForm/complete");
+        );
       }, 3000);
+    } else {
+      alert("error");
     }
   };
 
