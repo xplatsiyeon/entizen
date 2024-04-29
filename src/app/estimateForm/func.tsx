@@ -122,32 +122,29 @@ export const dataCheck = (
   const emailCheck = validateReg("email", String(form.email));
   // 작성여부 / 휴대폰번호 / 이메일 검증
   if (isComplete && phoneCheck && emailCheck) {
-    if (type === "입주민공용") {
+    if (type !== "selection") {
       sessionStorage.setItem("importantFactor", form.importantFactor as string);
       sessionStorage.setItem("place", form.progress as string);
-      sessionStorage.setItem("address", form.address as string);
-      sessionStorage.setItem("addressDetail", form.addressDetail as string);
-      sessionStorage.setItem("email", form.email as string);
       sessionStorage.setItem("phone", form.phone as string);
       sessionStorage.setItem("phone_number", form.phone as string);
-    } else if (type === "모객용도" || type === "충전수익") {
-      sessionStorage.setItem("importantFactor", form.importantFactor as string);
-      sessionStorage.setItem("place", form.place as string);
-      sessionStorage.setItem("placeEtc", form.placeEtc as string);
-      sessionStorage.setItem("address", form.address as string);
-      sessionStorage.setItem("addressDetail", form.addressDetail as string);
-      sessionStorage.setItem("email", form.email as string);
-      sessionStorage.setItem("phone", form.phone as string);
-      sessionStorage.setItem("phone_number", form.phone as string);
-    } else if (type === "개인용도") {
-      sessionStorage.setItem("importantFactor", form.importantFactor as string);
-      sessionStorage.setItem("place", form.place as string);
-      sessionStorage.setItem("placeEtc", form.placeEtc as string);
-      sessionStorage.setItem("phone", form.phone as string);
-      sessionStorage.setItem("phone_number", form.phone as string);
-    }
 
-    return sendData(form, type);
+      if (type === "입주민공용") {
+        sessionStorage.setItem("address", form.address as string);
+        sessionStorage.setItem("addressDetail", form.addressDetail as string);
+        sessionStorage.setItem("email", form.email as string);
+      } else if (type === "모객용도" || type === "충전수익") {
+        sessionStorage.setItem("placeEtc", form.placeEtc as string);
+        sessionStorage.setItem("address", form.address as string);
+        sessionStorage.setItem("addressDetail", form.addressDetail as string);
+        sessionStorage.setItem("email", form.email as string);
+      } else if (type === "개인용도") {
+        sessionStorage.setItem("placeEtc", form.placeEtc as string);
+      }
+
+      return sendData(form, type);
+    } else {
+      return sendData(form, type);
+    }
   } else {
     return null;
   }

@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { styled } from "@mui/material/styles";
 import { useMediaQuery } from "react-responsive";
 import CommonModal from "../commonModal";
 import { Stack } from "@mui/material";
