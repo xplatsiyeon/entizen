@@ -21,11 +21,6 @@ const nextConfig = {
         destination: "/applyAd",
         permanent: true,
       },
-      {
-        source: "/new/applyAd",
-        destination: "/applyAd",
-        permanent: true,
-      },
     ];
   },
 };
