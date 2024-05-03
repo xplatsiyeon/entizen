@@ -104,7 +104,7 @@ input {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  -webkit-text-size-adjust:none; 
+  -webkit-text-size-adjust: none;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -122,7 +122,7 @@ section {
 }
 body {
   line-height: 1;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   user-select: none;
 }
@@ -138,7 +138,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 table {
@@ -166,39 +166,33 @@ input::placeholder {
   color: #caccd1;
 }
 
-.MuiInputBase-root {
-  padding-right: 9pt;
-  border-radius: 6pt;
-}
-
-.MuiOutlinedInput-root:hover fieldset {
-  border-color: #5221cb;
-}
-.Mui-focused fieldset {
-  border-color: #5221cb;
-}
-@font-face {
-  /* font-family: 'AppleGothicNeo'; */
-  font-family: 'AppleGothicNeo';
-  src: local('Spoqa Han Sans Neo'),
-    url('/styles/Fonts/AnyConv.com__AppleSDGothicNeoB.woff'), format('woff'),
-    url('/styles/Fonts/AppleSDGothicNeoB.ttf') format('truetype');
-}
-.test123 {
-  font-family: 'AppleGothicNeo';
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url(../styles/Fonts/Poppins-Bold.ttf), url(../styles/Fonts/Poppins-Bold.woff);
-}
-
 /* 화면 폭이 320px 이하일 때 */
-@media only screen and (max-width: 320px) { html { font-size: 31.25%; } }
+@media only screen and (max-width: 320px) {
+  html {
+    font-size: 31.25%;
+  }
+}
 /* 화면 폭이 321px에서 480px 사이일 때 */
-@media only screen and (min-width: 321px) and (max-width: 480px) { html { font-size: 40%; } }
+@media only screen and (min-width: 321px) and (max-width: 480px) {
+  html {
+    font-size: 40%;
+  }
+}
 /* 화면 폭이 481px에서 768px 사이일 때 */
-@media only screen and (min-width: 481px) and (max-width: 768px) { html { font-size: 56.25%; } }
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  html {
+    font-size: 56.25%;
+  }
+}
 /* 화면 폭이 769px에서 1024px 사이일 때 */
-@media only screen and (min-width: 769px) and (max-width: 1024px) { html { font-size: 75%; } }
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  html {
+    font-size: 75%;
+  }
+}
 /* 화면 폭이 1025px 이상일 때 */
-@media only screen and (min-width: 1025px) { html { font-size: 100%; } }
+@media only screen and (min-width: 1025px) {
+  html {
+    font-size: 100%;
+  }
+}
