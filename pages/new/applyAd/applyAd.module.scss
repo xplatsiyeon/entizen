@@ -1,6 +1,8 @@
 $imgPath: '/images';
 
 .applyAdMain {
+  width: 100vw;
+  overflow: hidden;
   .imgWrap {
     background-repeat: no-repeat;
     background-position: center center;
@@ -166,14 +168,14 @@ $imgPath: '/images';
     margin-top: 80px;
     margin-bottom: 80px;
     @media screen and (max-width: 480px) {
-      display: block;
+      display: flex;
+      justify-content: center;
+      width: 100%;
     }
   }
   .pcSection4 {
-    display: block;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 80%;
+    margin: 0 auto;
     @media screen and (max-width: 480px) {
       display: none;
     }
@@ -220,7 +222,9 @@ $imgPath: '/images';
       padding: 28px 23px;
 
       @media screen and (max-width: 480px) {
-        max-width: 90%;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 20px;
       }
 
       span:nth-child(2) {
@@ -237,31 +241,46 @@ $imgPath: '/images';
   }
   .mobileSection5 {
     display: none;
+    span {
+      display: block !important;
+      width: 100%;
+    }
     @media screen and (max-width: 480px) {
       display: block;
+      width: 100%;
       margin-bottom: 100px;
+      text-align: center;
+
+      img {
+        width: 100% !important;
+      }
     }
   }
-  section {
-    padding: 0 1.25rem;
-  }
+
   .infoSquare {
     // position: relative;
     // z-index: 999;
-    width: 26.75rem;
-    height: 34.8125rem;
+    width: 35%;
+    height: auto;
     overflow: hidden;
     border-radius: 0.5rem;
     margin: 0 auto;
-    .img {
+    margin-bottom: 2rem;
+    .mainVideo {
       width: 100%;
+      .videoSource {
+        width: 100%;
+        height: fit-content;
+        display: block;
+      }
     }
     @media screen and (max-width: 1023px) {
       border-radius: inherit;
-      width: fit-content;
+      width: 50%;
       height: fit-content;
     }
     @media screen and (max-width: 480px) {
+      width: 100%;
       margin-top: 388px;
     }
   }
@@ -288,9 +307,9 @@ $imgPath: '/images';
     }
 
     &.section1 {
-      height: 32.75rem !important;
+      height: 40rem !important;
       @media screen and (max-width: 1023px) {
-        height: 50rem !important;
+        height: 40rem !important;
       }
       .infoWrap {
         color: #222;
@@ -324,17 +343,19 @@ $imgPath: '/images';
       }
 
       .buttonWrap {
-        padding-top: 20rem;
+        // padding-top: 15rem;
+        position: absolute;
+        bottom: 20%;
         // position: relative;
         z-index: 20;
-        // @media screen and (max-width: 1023px) {
-        //   position: fixed !important;
-        //   bottom: 0;
-        //   left: 0;
-        //   width: 100%;
-        //   padding: 0;
-        //   background: white;
-        // }
+        @media screen and (max-width: 1023px) {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 0;
+          background: white;
+        }
         @media screen and (max-width: 480px) {
           position: fixed;
           bottom: 0;
@@ -410,7 +431,7 @@ $imgPath: '/images';
         display: flex;
         justify-content: space-between;
 
-        width: 74.625rem;
+        width: 80%;
         height: 50.375rem;
         padding: 6.25rem 0;
 
@@ -488,20 +509,28 @@ $imgPath: '/images';
         .section2Slider {
           overflow: hidden;
           font-size: 0;
-          margin-right: 0px !important;
-          width: 37rem;
+          width: 50%;
+          margin-right: 0;
         }
       }
     }
     &.section3 {
       background-color: #5221cb;
-
+      padding: 0 5%;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      @media screen and (max-width: 480px) {
+        padding: 0;
+      }
       .articleInfo {
         display: flex;
         justify-content: space-between;
-
-        max-width: 74.625rem;
-        min-height: 50.375rem;
+        width: 90%;
+        gap: 10px;
+        // max-width: 74.625rem;
+        // min-height: 50.375rem;
         padding: 6.25rem 0;
         // margin: 0 auto;
         @media screen and (max-width: 1023px) {
@@ -567,7 +596,6 @@ $imgPath: '/images';
         .etcInfo {
           max-width: 37.5rem;
           width: -webkit-fill-available;
-          margin-left: 189px;
           @media screen and (max-width: 480px) {
             display: none;
           }
@@ -575,19 +603,17 @@ $imgPath: '/images';
             display: flex;
             position: relative;
             justify-content: space-between;
-
+            width: 100%;
             img {
-              width: 11.8125rem;
-              height: 11.625rem;
+              width: 30%;
+              height: auto;
             }
             @media screen and (max-width: 1023px) {
               width: -webkit-fill-available;
               overflow: scroll;
               img {
-                width: 10rem;
-                height: 15rem;
-                /* flex-shrink: 0; */
-                margin: 1rem 1rem 1rem 0;
+                width: 30%;
+                height: auto;
               }
             }
           }
@@ -608,13 +634,13 @@ $imgPath: '/images';
         }
         .mobileSection3Slider {
           display: none;
-          padding-left: 10px;
           padding-right: 10px;
           margin-top: 20px;
           @media screen and (max-width: 480px) {
+            width: 100%;
+            margin: 0 auto;
             display: block;
             overflow: hidden;
-            max-width: 410px;
           }
           .sliderItems {
             border-radius: 8px;
@@ -638,7 +664,7 @@ $imgPath: '/images';
               padding: 0 40px;
             }
             @media screen and (max-width: 480px) {
-              padding: 0px 20px;
+              padding: 0px;
             }
 
             .items {
@@ -647,10 +673,10 @@ $imgPath: '/images';
               margin: 0 auto;
               border-radius: 8px;
               padding: 28px 25px;
+              box-sizing: border-box;
 
               @media screen and (max-width: 480px) {
-                width: 80%;
-                display: inline-block;
+                width: 100%;
               }
 
               .content {
@@ -887,7 +913,6 @@ $imgPath: '/images';
 
 @media screen and (max-width: 1023px) {
   .mainContainer {
-    padding-top: 3.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -86,12 +86,13 @@ const ApplyAdMain = () => {
             playsInline
             loop
             muted
-            poster="/images/suggestion/infoSquare.png"
-            className={ApplyAdMainStyles.img}
+            poster="https://xplat.cafe24.com/entizen/main/thumbnail.png"
+            className={ApplyAdMainStyles.mainVideo}
           >
             <source
-              src="https://drive.google.com/uc?export=view&id=1Wh6BUhaVgscMWBwXMMhb5uyuYlqMiXSU"
+              src="https://xplat.cafe24.com/entizen/main/mainVideo.mp4"
               type="video/mp4"
+              className={ApplyAdMainStyles.videoSource}
             />
           </video>
         </div>
