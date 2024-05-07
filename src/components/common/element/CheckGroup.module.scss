@@ -1,0 +1,30 @@
+.checkGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem /* 4px */;
+  label {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem /* 4px */;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    :first-child {
+      margin-right: 0.5rem;
+    }
+  }
+  p {
+    font-size: 0.75rem /* 12px */;
+    line-height: 1rem /* 16px */;
+    color: red;
+    font-weight: 600;
+    margin-top: 0.25rem /* 4px */;
+  }
+}

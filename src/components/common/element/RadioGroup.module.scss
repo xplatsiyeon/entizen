@@ -1,0 +1,67 @@
+.radioButton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem /* 4px */;
+  label {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem /* 4px */;
+  }
+
+  .columnWrapper {
+    display: flex;
+    flex-direction: column;
+
+    div {
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin-bottom: 0.4rem;
+
+      input {
+        display: block;
+        font-size: 1rem /* 16px */;
+        line-height: 1.5rem /* 24px */;
+        &:focus {
+          background-color: #eeedff;
+        }
+      }
+    }
+  }
+  .rowWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    div {
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin-right: 1rem;
+      :first-child {
+        margin-right: 0.5rem;
+      }
+
+      input {
+        display: block;
+        font-size: 1rem /* 16px */;
+        line-height: 1.5rem /* 24px */;
+        &:focus {
+          background-color: #eeedff;
+        }
+      }
+    }
+  }
+
+  p {
+    font-size: 0.75rem /* 12px */;
+    line-height: 1rem /* 16px */;
+    color: red;
+    font-weight: 600;
+    margin-top: 0.25rem /* 4px */;
+  }
+}
