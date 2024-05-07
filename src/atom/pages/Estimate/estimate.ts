@@ -25,7 +25,7 @@ export const dataAtom = atom<formTypes>({
 
 export const estimateIsValidAtom = atom<boolean>(false);
 
-// dataAtom 설정 데이터
+// dataAtom 설정 Atom
 export const setDataAtom = atom(
   null,
   (get, set, { name, value }: setAtomTypes) => {
@@ -43,7 +43,7 @@ export const setDataAtom = atom(
   },
 );
 
-//sessionData SetAtom
+//sessionData 데이터 설정 Atom
 export const setSessionDataAtom = atom(
   null,
   (get, set, sessionData: formTypes) => {
