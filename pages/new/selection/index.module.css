@@ -30,7 +30,7 @@
   margin-top: 7rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 23px;
+  gap: 3%;
   justify-content: center;
 }
 .sec_01 .menu_container .menu_box {
@@ -113,7 +113,6 @@
     margin-top: 7rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 23px;
     justify-content: center;
   }
   .sec_01 .menu_container .menu_box {
@@ -163,12 +162,12 @@
   }
   .sec_01 .menu_container {
     width: 100%;
-    padding: 40px 20px 0 20px;
+    box-sizing: border-box;
     margin: 0;
     height: 400px;
 
     @media screen and (max-width: 480px) {
-      padding: 6rem 0 0 0;
+      padding: 6rem 10%;
     }
   }
   .sec_01 .menu_container .menu_box {
@@ -221,8 +220,15 @@
 @media screen and (max-width: 1200px) {
   .sec_01 {
     height: 100vh;
+    padding-bottom: 20%;
   }
   .sec_02 {
     display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sec_01 {
+    height: 80vh;
   }
 }

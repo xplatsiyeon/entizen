@@ -13,6 +13,8 @@
   margin-top: 5.5rem;
   display: flex;
   justify-content: center;
+  padding-top: 2%;
+  padding-bottom: 2%;
   /* background-image: url('../../../public/new/priceComparison/banner.svg'); */
   /* background-repeat: 'no-repeat';
     background-position: center;
@@ -32,9 +34,13 @@
   width: 90%;
 }
 .price_comparison_page .sec_01 .title_container {
-  width: 45%;
+  width: 50%;
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 6px;
+  height: 100%;
+  justify-content: center;
 }
 .price_comparison_page .sec_01 .title_container > .text_01 {
   color: #fff;
@@ -45,7 +51,6 @@
   line-height: 3.75rem; /* 150% */
   letter-spacing: -0.05rem;
   margin-bottom: 32px;
-  margin-top: 80px;
 }
 
 .price_comparison_page .sec_01 .title_container > .text_02 {
@@ -57,10 +62,16 @@
   margin-bottom: 32px;
   background: #f2edff;
   color: #222;
-  padding: 24px 50px;
+  padding: 7% 5%;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
+    width: 100%;
+  }
 }
 .price_comparison_page .sec_01 .title_container > .text_02 > .left .textColor {
   color: #5221cb;
@@ -113,9 +124,13 @@
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.02rem;
-  margin-bottom: 66px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
+    width: 90%;
+  }
 }
 
 /* 회사별 비교 */
@@ -124,14 +139,17 @@
   background: #f8f8f8;
 }
 .price_comparison_page .sec_01 .comparison_container {
-  width: 53.75rem;
+  width: 60%;
   /* height: 60.75rem; */
   flex-shrink: 0;
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
-  padding: 4rem 3rem;
+  box-sizing: border-box;
+  padding: 5% 3%;
   margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
 }
 .price_comparison_page .sec_01 .comparison_container > .text_01 {
   color: #222;
@@ -154,20 +172,24 @@
   margin-bottom: 2.5rem;
 }
 .price_comparison_page .sec_01 .comparison_container > .comparison_box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 .price_comparison_page
   .sec_01
   .comparison_container
   > .comparison_box
   .price_container {
-  width: 23rem;
-  /* height: 37.875rem; */
+  width: 49%;
   flex-shrink: 0;
   border-radius: 0.5rem;
   border: 1px solid #e2e5ed;
   background: #fff;
-  padding: 1.62rem;
+  padding: 5%;
   margin-bottom: 3.5rem;
+  margin-left: 0;
+  box-sizing: border-box;
 }
 .price_comparison_page
   .sec_01
@@ -208,6 +230,8 @@
   .item_wrapper {
   display: inline-flex;
   padding-left: 0;
+  justify-content: space-between;
+  padding-right: 0;
 }
 .price_comparison_page
   .sec_01
@@ -241,6 +265,7 @@
   font-weight: 500;
   line-height: 1.625rem; /* 162.5% */
   letter-spacing: -0.02rem;
+  width: 70%;
 }
 .price_comparison_page
   .sec_01
@@ -263,13 +288,13 @@
   > .comparison_box
   .price_container
   .chat_btn {
-  width: 19.75rem;
-  height: 3.25rem;
-  flex-shrink: 0;
   border-radius: 0.25rem;
   background: #fff;
   border: 1px solid #d8dbe2;
   margin-bottom: 0.75rem;
+  width: 100%;
+  padding: 0.5rem 0;
+  box-sizing: border-box;
 
   /* text */
   color: #b2bbd5;
@@ -309,11 +334,11 @@
   > .comparison_box
   .price_container
   .show_estimate_btn {
-  width: 19.75rem;
-  height: 3.25rem;
-  flex-shrink: 0;
   border-radius: 0.25rem;
   background: #d8dbe2;
+  width: 100%;
+  padding: 0.7rem 0;
+  box-sizing: border-box;
 
   /* text */
   color: #fff;
@@ -372,6 +397,9 @@
   }
   .price_comparison_page .sec_01 .banner_container {
     height: 738px;
+  }
+  .price_comparison_page .sec_01 .comparison_container {
+    width: 70%;
   }
 }
 
@@ -461,7 +489,7 @@
 
   .price_comparison_page .sec_01 .comparison_container {
     border-radius: 8px;
-    width: 350px;
+    width: 80%;
     margin-bottom: 40px;
     position: absolute;
     top: -226px;
@@ -491,7 +519,9 @@
     justify-content: center;
     align-items: center;
     margin: 0;
-    border-radius: 8px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
   }
 
   .price_comparison_page
@@ -603,7 +633,6 @@
     align-items: center;
     justify-content: center;
     height: 56px;
-    padding: 16px 90px 16px 89px;
     border-radius: 8px;
     font-size: 16px;
     font-style: normal;
@@ -611,6 +640,7 @@
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
     margin-top: 900px;
+    width: 85%;
   }
   .price_comparison_page .sec_01 .more_btn > svg {
     width: 20px;

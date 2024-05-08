@@ -398,7 +398,7 @@ const EstimateByCompany = () => {
             <Swiper
               className={estimateByCompanyStyles.section2Slider}
               wrapperTag={'ul'}
-              slidesPerView={isTablet ? 1.5 : 'auto'}
+              slidesPerView={3}
               spaceBetween={24}
               onSwiper={setSwiper}
               slidesPerGroup={3}
@@ -407,6 +407,17 @@ const EstimateByCompany = () => {
               navigation={{
                 prevEl: exampleNavigationPrevRef.current,
                 nextEl: exampleNavigationNextRef.current,
+              }}
+              breakpoints={{
+                768: {
+                  slidesPerView: 3.5,
+                },
+                480: {
+                  slidesPerView: 3,
+                },
+                320: {
+                  slidesPerView: 1.5,
+                },
               }}
             >
               {estimateByCompanyData.exampleInfo.map(
