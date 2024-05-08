@@ -5,6 +5,7 @@ import "./globals.css";
 import PopupComponent from "@/components/common/modal/Popup";
 import { Provider } from "jotai";
 import { Suspense } from "react";
+import Header from "@/components/common/layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,7 +29,10 @@ export default function RootLayout({
         <Suspense>
           <PopupComponent />
         </Suspense>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Header />
+          {children}
+        </body>
       </Provider>
     </html>
   );

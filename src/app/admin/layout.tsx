@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import PopupComponent from "@/components/common/modal/Popup";
 import { Provider } from "jotai";
 import { Suspense } from "react";
+import Header from "@/components/common/layout/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
