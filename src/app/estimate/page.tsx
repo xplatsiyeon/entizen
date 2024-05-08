@@ -58,6 +58,7 @@ const Estimate = () => {
               content: result.msg,
             });
           } else {
+            //성공시 세션저장
             sessionStorage.setItem("estimateData", sesstionData);
           }
         },
@@ -110,8 +111,9 @@ const Estimate = () => {
           />
         </article>
         <article>
-          <h1>장소</h1>
+          {/* <h1>장소</h1> */}
           <Select
+            title={"장소"}
             select={place}
             options={placeOption}
             onChange={(e) => placeDataHandler(e)}

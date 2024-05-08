@@ -2,7 +2,6 @@ import classes from "./CheckGroup.module.scss";
 
 import React, { useEffect, useState } from "react";
 import { FaStarOfLife } from "react-icons/fa";
-import CheckBox from "./CheckBox";
 
 interface checkItems {
   label: string; // 아이템 라벨
@@ -20,6 +19,7 @@ interface CheckBoxType {
   isLeft?: boolean; //라벨의 좌우여부
   onChange: (value: Array<string>) => void; // 값 변경 이벤트 핸들러
   isAll?: boolean;
+  defaultCheck?: Array<string>;
 }
 
 const CheckGroup = ({
@@ -27,17 +27,16 @@ const CheckGroup = ({
   require,
   onChange,
   items,
-  isLeft = false,
   isAll = true,
+  defaultCheck,
 }: CheckBoxType) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
-
   // 그룹 체크박스의 default값및 현재값의 상태관리
   const [checkItems, setCheckItems] = useState<Array<string>>([]);
   const [groupCheck, setGroupCheck] = useState<boolean>(false);
 
   // cheeckbox item 선택 핸들러
-  const onChangeHandler = (value: string) => {
+  const itemHandler = (value: string) => {
     if (checkItems?.includes(value)) {
       const filterValues = checkItems?.filter((item) => item !== value);
       setCheckItems(filterValues);
@@ -58,6 +57,12 @@ const CheckGroup = ({
     }
   };
 
+  useEffect(() => {
+    if (!defaultCheck) return;
+    setCheckItems(defaultCheck);
+    // eslint-disable-next-line
+  }, []);
+
   // checkItems를 기반으로 onChang에 상태값 전달
   useEffect(() => {
     if (!checkItems) return;
@@ -72,16 +77,6 @@ const CheckGroup = ({
     onChange(checkItems);
     // eslint-disable-next-line
   }, [checkItems]);
-
-  // 초기선택값이 true인 아이템에 대해 상태값처리
-  useEffect(() => {
-    if (!items) return;
-    const defaultItems = items.filter((item) => item.isDefault === true);
-    const names = defaultItems.map((item) => item.name);
-
-    setCheckItems(names);
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div className={classes.checkGroup}>
@@ -107,17 +102,25 @@ const CheckGroup = ({
       <div>
         {items.map((item: checkItems) => (
           <div key={item.name}>
-            <CheckBox
-              label={item.label}
-              defaultChecked={item.isDefault ? item.isDefault : false}
-              onChange={onChangeHandler}
-              value={item.name}
+            {item.isLeft && (
+              <div onClick={() => item.isDisabled || itemHandler(item.name)}>
+                {item.label}
+              </div>
+            )}
+            <input
+              id={item.name}
               name={item.name}
-              isGroup={true}
-              isLeft={isLeft}
-              isDisabled={item.isDisabled || false}
-              groupValues={checkItems}
+              type={"checkbox"}
+              value={item.name}
+              checked={checkItems.includes(item.name)}
+              onChange={(e) => itemHandler(e.target.value || e.target.name)}
+              disabled={item.isDisabled}
             />
+            {item.isLeft || (
+              <div onClick={() => item.isDisabled || itemHandler(item.name)}>
+                {item.label}
+              </div>
+            )}
           </div>
         ))}
       </div>

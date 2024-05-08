@@ -2,6 +2,7 @@
 
 import classes from "./Select.module.scss";
 import { useEffect, useState } from "react";
+import { FaStarOfLife } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export interface SelectValueType {
@@ -14,11 +15,20 @@ interface SelectType {
   select?: SelectValueType;
   onChange: (select: { value: string; name: string }) => void;
   options: SelectValueType[];
+  title?: string;
+  require?: boolean;
 }
 
 const noneValue: SelectValueType = { value: "", name: "선택" };
 
-const Select = ({ none = true, select, onChange, options }: SelectType) => {
+const Select = ({
+  none = true,
+  select,
+  onChange,
+  options,
+  title,
+  require = false,
+}: SelectType) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const optionSelectHandler = (i: SelectValueType) => {
     onChange(i);
@@ -34,23 +44,29 @@ const Select = ({ none = true, select, onChange, options }: SelectType) => {
   const mergedOptions = none ? [noneValue, ...options] : options;
 
   return (
-    <div className={classes.select} onClick={() => setIsOpen(!isOpen)}>
-      <h1 className={select?.value && classes.selectValue}>
-        {select?.name || "선택"}
-        {isOpen ? <IoIosArrowUp size={20} /> : <IoIosArrowDown size={20} />}
-      </h1>
-      <ul className={!isOpen ? classes.hidden : ""}>
-        {mergedOptions.map((i) => (
-          <li
-            className={i.value === select?.value ? classes.selectItem : ""}
-            key={i.value}
-            value={i.value}
-            onClick={() => optionSelectHandler(i)}
-          >
-            {i.name}
-          </li>
-        ))}
-      </ul>
+    <div className={classes.area}>
+      <label>
+        {require && <FaStarOfLife color="red" size={8} />}
+        {title}
+      </label>
+      <div className={classes.select} onClick={() => setIsOpen(!isOpen)}>
+        <h1 className={select?.value && classes.selectValue}>
+          {select?.name || "선택"}
+          {isOpen ? <IoIosArrowUp size={20} /> : <IoIosArrowDown size={20} />}
+        </h1>
+        <ul className={!isOpen ? classes.hidden : ""}>
+          {mergedOptions.map((i) => (
+            <li
+              className={i.value === select?.value ? classes.selectItem : ""}
+              key={i.value}
+              value={i.value}
+              onClick={() => optionSelectHandler(i)}
+            >
+              {i.name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
