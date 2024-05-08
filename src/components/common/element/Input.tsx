@@ -13,9 +13,10 @@ interface InputType {
   maxLength?: number; // 최대 길이
   autoNext?: boolean;
   onChange: (value: string) => void; // 값 변경 이벤트 핸들러
-  validation?: "number" | "kor" | "eng" | "email" | "password"; // 정합성 체크 종류
+  validation?: "number" | "kor" | "eng" | "email" | "password" | "phone"; // 정합성 체크 종류
   setIsValid?: (valid: boolean) => void; // 정합성 체크 여부 설정
   enterKey?: () => void; // 엔터키 입력 시 호출 함수
+  isDisabled?: boolean; // 활성 비활성 여부
 }
 
 const Input = ({
@@ -31,6 +32,7 @@ const Input = ({
   enterKey,
   maxLength,
   autoNext,
+  isDisabled = false,
 }: InputType) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -47,7 +49,7 @@ const Input = ({
         // 현재 focus된 input 요소 찾기
         const currentInput = document.activeElement;
         const currentIndex = Array.from(inputs).indexOf(
-          currentInput as HTMLInputElement
+          currentInput as HTMLInputElement,
         );
 
         // 현재 focus된 input 요소의 인덱스를 기반으로 다음 input 요소 찾기
@@ -76,6 +78,10 @@ const Input = ({
       case "kor":
         reg = /^[가-힣]+$/;
         msg = "한글만 입력 가능합니다.";
+        break;
+      case "phone":
+        reg = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+        msg = "유효한 휴대폰번호 형식이 아닙니다.";
         break;
       case "email":
         reg = /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -132,6 +138,7 @@ const Input = ({
       )}
       <div>
         <input
+          disabled={isDisabled}
           id={name}
           name={name}
           type={type}

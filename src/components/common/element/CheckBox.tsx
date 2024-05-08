@@ -4,6 +4,7 @@ import React, {
   ChangeEvent,
   HTMLInputTypeAttribute,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { FaStarOfLife } from "react-icons/fa";
@@ -33,14 +34,15 @@ const CheckBox = ({
   onChange,
   errMsg,
 }: InputType) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange((prev: boolean) => !prev);
+    onChange(e.target?.checked);
   };
   // ref핸들러
   const refHandler = () => {
-    onChange((prev: boolean) => !prev);
+    onChange(!inputRef.current?.checked);
   };
 
   return (
@@ -56,13 +58,15 @@ const CheckBox = ({
           <div onClick={() => isDisabled || refHandler()}>{label}</div>
         )}
         <input
+          ref={inputRef}
           id={name}
           name={name}
-          type={type}
+          type={"checkbox"}
           checked={value}
           onChange={onChangeHandler}
           disabled={isDisabled}
         />
+
         {isLeft || (
           <div onClick={() => isDisabled || refHandler()}>{label}</div>
         )}

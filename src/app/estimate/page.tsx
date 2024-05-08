@@ -11,7 +11,7 @@ import Section from "@/components/common/layout/Section";
 import RadioGroup from "@/components/common/element/RadioGroup";
 import { useAtomValue, useSetAtom } from "jotai";
 import { placeOption, holdingOptions } from "./data";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CheckBox from "@/components/common/element/CheckBox";
 import useFetch from "@/util/hook/useFetch";
 import { addPopupAtom } from "@/atom/popup";
@@ -32,6 +32,7 @@ const Estimate = () => {
   //ATOM[E]
   const [fetchData, isLoading] = useFetch();
 
+  //Select
   const [place, setPlace] = useState<selectValue>();
   const placeDataHandler = (e: selectValue) => {
     setPlace(e);
@@ -40,6 +41,22 @@ const Estimate = () => {
       value: e.value,
     });
   };
+  const selectPlaceMenu = useMemo(() => {
+    const savedOption = placeOption.find(
+      (option) => option.value === data.place,
+    );
+
+    return (
+      <Select
+        title={"장소"}
+        select={savedOption ? savedOption : place}
+        options={placeOption}
+        onChange={(e) => placeDataHandler(e)}
+      />
+    );
+    //eslint-disable-next-line
+  }, [data, place]);
+  //Select[E]
 
   const handleSubmit = () => {
     const sesstionData = JSON.stringify(data);
@@ -107,17 +124,28 @@ const Estimate = () => {
                 value: e,
               })
             }
-            placeholder="이름을 입력해주세요"
+            placeholder="연락처를 입력해주세요"
+            validation={"number"}
+            maxLength={11}
           />
         </article>
         <article>
-          {/* <h1>장소</h1> */}
-          <Select
+          {selectPlaceMenu}
+          {/* <Select
             title={"장소"}
-            select={place}
+            select={
+              data
+                ? {
+                    name:
+                      placeOption.find((option) => option.value === data.place)
+                        ?.name || "선택",
+                    value: data.place || "",
+                  }
+                : place
+            }
             options={placeOption}
             onChange={(e) => placeDataHandler(e)}
-          />
+          /> */}
         </article>
         <article>
           <RadioGroup
@@ -153,11 +181,10 @@ const Estimate = () => {
             label="마케팅 활동을 위한 개인정보 수집 및 이용에 동의합니다. (견적 제공 활용 후 파기)"
             name="isAgree"
             value={data.isAgree}
-            defaultChecked={data.isAgree}
             onChange={(e) =>
               setData({
                 name: "isAgree",
-                value: e === "isAgree" ? true : false,
+                value: e,
               })
             }
           />

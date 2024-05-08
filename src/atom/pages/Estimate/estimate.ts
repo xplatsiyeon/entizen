@@ -1,19 +1,7 @@
+import { formTypes, setAtomTypes } from "./types";
 import { atom } from "jotai";
 
-interface formTypes {
-  name: string; // 사용자 이름
-  phone: string; // 사용자 연락처
-  place: string; // 설치 장소
-  placeEtc?: string; // 설치 장소에서 기타 선택시
-  possess: string; // 전기차 보유 여부
-  modelName: string; // 모델명
-  isAgree: boolean; // 개인정보 수집및 동의 여부
-}
-
-interface setAtomTypes {
-  name: string;
-  value: any;
-}
+// 사전정보 ATOM[E]
 export const dataAtom = atom<formTypes>({
   name: "",
   phone: "",
@@ -50,3 +38,4 @@ export const setSessionDataAtom = atom(
     set(dataAtom, { ...sessionData });
   },
 );
+// 사전정보 ATOM[E]
