@@ -597,12 +597,12 @@ $imgPath: '/images';
             line-height: 3.5rem;
 
             @media (max-width: 767px) {
-              flex-direction: column;
+              flex-direction: row;
             }
             strong {
               color: #222;
               font-family: Spoqa Han Sans Neo;
-              font-size: 16px;
+              font-size: 1rem;
               font-style: normal;
               font-weight: 700;
               line-height: 1.5rem; /* 150% */
@@ -629,8 +629,6 @@ $imgPath: '/images';
               font-style: normal;
               font-weight: 500;
               letter-spacing: -0.02rem;
-
-              flex: 1;
             }
           }
         }
@@ -1284,7 +1282,6 @@ $imgPath: '/images';
     letter-spacing: -0.32px;
     display: flex;
     align-items: center;
-    width: 100%;
     margin-top: 8px;
     gap: 12px;
     justify-content: flex-end;

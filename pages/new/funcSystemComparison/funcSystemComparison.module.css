@@ -5,9 +5,15 @@
 .func_system_comparison_page .sec_02,
 .func_system_comparison_page .sec_03,
 .func_system_comparison_page .sec_04 {
-  width: 53.75rem;
-  margin: 0 auto 6.25rem;
-  padding: 0 1.25rem;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 5rem;
+  box-sizing: border-box;
+  padding: 0 15%;
+}
+
+.func_system_comparison_page .sec_04 {
+  padding-bottom: 10%;
 }
 
 .func_system_comparison_page .sec_02 .title,
@@ -48,14 +54,12 @@
 
 /* table */
 .func_system_comparison_page .table_container {
-  min-width: 21.875rem;
-  max-width: 53.75rem;
+  margin: 0 auto;
   /* margin: 0 auto; */
 }
 .func_system_comparison_page .table_container table {
   border-collapse: collapse; /*이중선 제거*/
   width: 100%;
-  margin: 0 auto;
 }
 .func_system_comparison_page .table_container table th,
 .func_system_comparison_page .table_container table td {
@@ -96,9 +100,6 @@
   .func_system_comparison_page .table_container {
     /* width: 21.875rem; */
     overflow: scroll;
-  }
-  .func_system_comparison_page .table_container table {
-    width: max-content;
   }
   .func_system_comparison_page .table_container .table_caption {
     text-align: right;
@@ -145,6 +146,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 10%;
+  box-sizing: border-box;
 }
 @media screen and (max-width: 1023px) {
   .func_system_comparison_page .sec_01 .backgroundIntro {
@@ -309,8 +313,7 @@
   .func_system_comparison_page .sec_02,
   .func_system_comparison_page .sec_03,
   .func_system_comparison_page .sec_04 {
-    padding: 0;
-    margin: 0 auto 80px;
+    padding: 0 4%;
   }
   .func_system_comparison_page .sec_02 .title,
   .func_system_comparison_page .sec_03 .title,
@@ -349,12 +352,12 @@
     margin-top: 12.5rem;
   }
   .func_system_comparison_page .sec_01 .backgroundIntro {
-    font-size: 24px;
+    font-size: 3rem;
     font-style: normal;
     font-weight: 500;
     line-height: 36px; /* 150% */
     letter-spacing: -0.48px;
-    width: max-content;
+    white-space: nowrap;
   }
   .func_system_comparison_page .sec_02 .info_wrap .info_item {
   }
@@ -401,12 +404,11 @@
     height: 40px;
   }
   .func_system_comparison_page .sec_04 {
+    padding-bottom: 15%;
   }
   .func_system_comparison_page .buttonWrap {
   }
   .func_system_comparison_page .buttonWrap .downloadBtn {
-    height: 56px;
-    padding: 16px 70px 16px;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
