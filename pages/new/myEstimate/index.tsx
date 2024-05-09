@@ -50,29 +50,31 @@ const MyEstimate = () => {
     };
     TagManager.dataLayer(tagManagerArgs);
   };
-  
+
   const onClickSendBtn = () => {
-    if(companyName){
+    if (companyName) {
       setModalOpen(true);
 
       axios
-        .post('/zapier/company-request', { data: {
-          companyName:companyName,
-          phone:sessionStorage.getItem("phone_number")
-        } })
+        .post('/zapier/company-request', {
+          data: {
+            companyName: companyName,
+            phone: sessionStorage.getItem('phone_number'),
+          },
+        })
         .then(() => {});
 
       //GA4 이벤트 전송
       const tagManagerArgs = {
         dataLayer: {
           event: 'request_company',
-          request_company_name:companyName
+          request_company_name: companyName,
         },
       };
       TagManager.dataLayer(tagManagerArgs);
 
       setCompanyName('');
-    } 
+    }
   };
 
   useEffect(() => {

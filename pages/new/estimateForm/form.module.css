@@ -166,6 +166,14 @@
 }
 
 @media only screen and (max-width: 1200px) {
+  .sec_01 {
+    height: 70vh;
+    min-height: 40rem;
+  }
+
+  .sec_01 .container {
+    padding-top: 15%;
+  }
   .sec_01 .container .submit_btn {
     width: 80%;
     position: absolute;
@@ -227,6 +235,38 @@
 .sec_02 {
   height: 900px;
 }
+@media screen and (max-width: 1200px) {
+  .sec_02 {
+    min-height: 678px;
+    height: 50vh;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .sec_02 {
+    min-height: 550px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .sec_01 {
+    padding-top: 8%;
+    height: 60vh;
+    min-height: 30rem;
+  }
+  .sec_02 {
+    min-height: 250px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .sec_01 {
+    padding-top: 5%;
+    height: 40vh;
+    min-height: 300px;
+  }
+  .sec_02 {
+    height: 50vh;
+    min-height: 550px;
+  }
+}
 .form5_sec_02 {
   height: 580px;
 }
@@ -287,8 +327,8 @@
 
 @media screen and (max-width: 480px) {
   .sec_01 {
-    height: 900px;
-    padding-top: 120px;
+    height: 60vh;
+    padding-top: 14%;
     margin-bottom: 100px;
     width: 100%;
   }

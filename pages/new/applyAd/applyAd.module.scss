@@ -171,14 +171,24 @@ $imgPath: '/images';
       display: flex;
       justify-content: center;
       width: 100%;
+      box-sizing: border-box;
+      padding: 0 5%;
     }
   }
   .pcSection4 {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 10%;
+
     @media screen and (max-width: 480px) {
       display: none;
     }
+  }
+
+  .pcSection4 span {
+    display: block !important;
+    margin: 0 auto;
   }
   .mobileSection4 {
     display: none;
@@ -281,11 +291,12 @@ $imgPath: '/images';
     }
     @media screen and (max-width: 480px) {
       width: 100%;
-      margin-top: 388px;
+      margin-top: 168px;
     }
   }
 
   .mainSection {
+    position: relative;
     background-image: url('../../../public/new/applyAd/testPc.png');
     background-repeat: no-repeat;
     background-position: center center;
@@ -311,6 +322,9 @@ $imgPath: '/images';
       @media screen and (max-width: 1023px) {
         height: 40rem !important;
       }
+      @media screen and (max-width: 480px) {
+        height: 388px !important;
+      }
       .infoWrap {
         color: #222;
         text-align: center;
@@ -333,19 +347,20 @@ $imgPath: '/images';
           color: #222;
           text-align: center;
           font-family: Spoqa Han Sans Neo;
-          font-size: 28px;
+          font-size: 4rem;
           font-style: normal;
           font-weight: 500;
           line-height: 40px;
           letter-spacing: -0.56px;
-          margin-top: 204px;
+          top: 50%;
+          margin-top: 0;
         }
       }
 
       .buttonWrap {
         // padding-top: 15rem;
         position: absolute;
-        bottom: 20%;
+        bottom: 10%;
         // position: relative;
         z-index: 20;
         @media screen and (max-width: 1023px) {
@@ -424,6 +439,7 @@ $imgPath: '/images';
     }
 
     &.section2 {
+      background: none;
       @media screen and (max-width: 480px) {
         display: none;
       }
@@ -515,6 +531,7 @@ $imgPath: '/images';
       }
     }
     &.section3 {
+      background-image: none;
       background-color: #5221cb;
       padding: 0 5%;
       box-sizing: border-box;
@@ -634,7 +651,6 @@ $imgPath: '/images';
         }
         .mobileSection3Slider {
           display: none;
-          padding-right: 10px;
           margin-top: 20px;
           @media screen and (max-width: 480px) {
             width: 100%;

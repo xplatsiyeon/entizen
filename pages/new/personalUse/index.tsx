@@ -110,7 +110,9 @@ const personalUse = () => {
       <section className={styles.sec_01}>
         <div className={styles.container}>
           <div className={styles.text_01}>
-            원하는 정보 입력 한 번으로 <br /> 여러 업체를 한눈에
+            원하는 정보 입력 한 번으로
+            <br />
+            <p className={styles.center_text}>여러 업체를 한눈에</p>
             <br className={styles.mobile} />
             비교할 수 있다면?
           </div>
