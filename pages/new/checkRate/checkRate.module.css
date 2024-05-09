@@ -7,9 +7,19 @@
 .check_rate_page .sec_05,
 .check_rate_page .sec_06,
 .check_rate_page .sec_07 {
-  width: 53.75rem;
-  margin: 0 auto 6.25rem;
-  padding: 0 1.25rem;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 5rem;
+  box-sizing: border-box;
+  padding: 0 15%;
+
+  @media screen and (max-width: 480px) {
+    padding: 0 3%;
+  }
+}
+
+.check_rate_page .sec_07 {
+  padding: 0 15% 7%;
 }
 
 .check_rate_page .sec_02 .title,
@@ -53,8 +63,6 @@
 
 /* table */
 .check_rate_page .table_container {
-  min-width: 21.875rem;
-  max-width: 53.75rem;
   margin: 0 auto;
 }
 .check_rate_page .table_container table {
@@ -93,7 +101,7 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.0175rem;
-  margin-top: 1rem;
+  margin: 1rem auto;
   text-align: right;
 }
 
@@ -101,7 +109,7 @@
 .check_rate_page .sec_01 {
   height: 17.5rem;
   position: relative;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 }
 .check_rate_page .sec_01 .backgroundIntro {
   color: #222;
@@ -128,6 +136,16 @@
   padding-left: 0;
 }
 
+.check_rate_page .sec_02 .info_wrap div {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.check_rate_page .sec_05 .info_wrap div {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .check_rate_page .sec_05 .info_wrap .info_text,
 .check_rate_page .sec_07 .info_wrap .info_text {
   color: #a3a7b2;
@@ -150,6 +168,8 @@
 
 /* sec_03 */
 .check_rate_page .sec_03 {
+  box-sizing: border-box;
+  padding-bottom: 10%;
 }
 
 /* sec_04 */
@@ -192,7 +212,7 @@
   background: #383b48;
 }
 .check_rate_page .sec_04 .container_02 {
-  padding: 5rem 1.25rem 6.56rem;
+  padding: 5rem 20% 6.56rem;
 }
 .check_rate_page .sec_04 .container_02 .text_01 {
   color: #fff;
@@ -357,14 +377,15 @@
 }
 
 @media only screen and (min-width: 200px) and (max-width: 480px) {
-  .sec_02,
+  .check_rate_page .sec_02,
   .check_rate_page .sec_03,
   .check_rate_page .sec_05,
   .check_rate_page .sec_06,
   .check_rate_page .sec_07 {
-    margin: 0 20px 80px;
+    margin: 30px 20px 80px;
     width: auto;
   }
+
   .check_rate_page .sec_02 .title,
   .check_rate_page .sec_03 .title,
   .check_rate_page .sec_06 .title,
@@ -508,7 +529,8 @@
     line-height: 28px; /* 175% */
     letter-spacing: -0.32px;
     text-align: left;
-    margin: 0 20px;
+    padding: 0 5%;
+    box-sizing: border-box;
   }
   .check_rate_page .sec_06 {
   }

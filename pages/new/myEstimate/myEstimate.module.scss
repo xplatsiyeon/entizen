@@ -6,9 +6,6 @@ $imgPath: '/images';
     margin-top: 5.5rem;
   }
 
-  @media screen and (max-width: 767px) {
-    max-width: 76rem;
-  }
   .fakeHeader {
     height: 5.75rem;
   }
@@ -32,7 +29,7 @@ $imgPath: '/images';
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      
+
       @media screen and (max-width: 1023px) {
         width: 21.875rem;
         font-size: 1.5rem;
@@ -283,9 +280,6 @@ $imgPath: '/images';
       }
       table {
         border-collapse: collapse;
-        @media screen and (max-width: 767px) {
-          width: max-content;
-        }
       } /*이중선 제거*/
       th,
       td {
@@ -530,8 +524,8 @@ $imgPath: '/images';
         bottom: -45%;
       }
       .process3 {
-        width: 5.1875rem;
-        height: 5.0625rem;
+        // width: 5.1875rem;
+        // height: 5.0625rem;
         @media screen and (max-width: 767px) {
           width: 3.0625rem;
           height: 3rem;
@@ -604,9 +598,8 @@ $imgPath: '/images';
 
       @media screen and (max-width: 767px) {
         width: 100%;
-        height: 7.75rem;
-        flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 2%;
       }
       margin: 0 auto;
       display: flex;
@@ -615,13 +608,13 @@ $imgPath: '/images';
       align-items: center;
       .button {
         display: flex;
-        width: 26.25rem;
-        height: 5rem;
         @media screen and (max-width: 767px) {
           // width: 21.875rem;
-          width: 100%;
-          height: 3.5rem;
-          padding: 0;
+          width: 32%;
+          box-sizing: border-box;
+          justify-content: space-evenly;
+          padding: 1rem 1.5rem;
+          min-width: 173px;
         }
         padding: 1.75rem 4.4375rem 1.8125rem 4.375rem;
         justify-content: center;
@@ -681,9 +674,7 @@ $imgPath: '/images';
       height: 15rem;
       flex-shrink: 0;
       margin: 3.75rem auto;
-      min-width: 21.875rem;
-      max-width: 53.75rem;
-
+      width: 90%;
       border-radius: 0.5rem;
       background: #383b48;
 
@@ -695,7 +686,9 @@ $imgPath: '/images';
       align-items: center;
 
       padding: 0 2.25rem;
-
+      @media screen and (max-width: 767px) {
+        justify-content: center;
+      }
       .infoWrap {
         width: 23.875rem;
         height: 7.75rem;
@@ -779,10 +772,12 @@ $imgPath: '/images';
         @media screen and (max-width: 767px) {
           display: none;
         }
-        width: 11.75rem;
-        height: 11.75rem;
-        background: url('#{$imgPath}/myEstimate/footer_chargeCar.svg') 0 0
-          no-repeat;
+        width: 20%;
+        min-height: 200px;
+        height: auto;
+        background: url('#{$imgPath}/myEstimate/footer_chargeCar.svg') no-repeat
+          center;
+        background-size: contain;
       }
     }
   }
@@ -810,7 +805,7 @@ $imgPath: '/images';
   height: 48px;
   flex-shrink: 0;
   stroke-width: 1px;
-  stroke: #909FB7;
+  stroke: #909fb7;
   margin-bottom: 12px;
 }
 .myEstimatePhoneModal .phoneButton {
@@ -818,8 +813,8 @@ $imgPath: '/images';
   height: 40px;
   flex-shrink: 0;
   border-radius: 4px;
-  background: var(--Main1, #5221CB);
-  color: #FFF;
+  background: var(--Main1, #5221cb);
+  color: #fff;
   text-align: center;
   font-family: Spoqa Han Sans Neo;
   font-size: 16px;
@@ -830,9 +825,9 @@ $imgPath: '/images';
 }
 
 @media only screen and (min-width: 200px) and (max-width: 480px) {
- .myEstimateContainer .backgroundWrap {
-   height: 280px;
-   margin: 0;
+  .myEstimateContainer .backgroundWrap {
+    height: 280px;
+    margin: 0;
   }
   .myEstimateContainer .backgroundWrap .backgroundIntro {
     width: max-content;
@@ -851,14 +846,18 @@ $imgPath: '/images';
     line-height: normal;
     letter-spacing: -0.4px;
   }
-  .myEstimateContainer .mainSectionWrap .infoWrap {}
-  .myEstimateContainer .mainSectionWrap .infoWrap > .averagePriceWrap {
-      border-radius: 8px;
-      height: auto;
-      padding: 24px;
+  .myEstimateContainer .mainSectionWrap .infoWrap {
   }
-  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopTitle {
-    height: 32px;
+  .myEstimateContainer .mainSectionWrap .infoWrap > .averagePriceWrap {
+    border-radius: 8px;
+    height: auto;
+    padding: 24px;
+  }
+  .myEstimateContainer
+    .mainSectionWrap
+    .infoWrap
+    .averagePriceWrap
+    .naverShopTitle {
     width: fit-content;
     padding: 8px;
     border-radius: 29px;
@@ -870,19 +869,42 @@ $imgPath: '/images';
     line-height: 16px; /* 114.286% */
     letter-spacing: -0.28px;
   }
-  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo {}
-  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc > span,
-  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoEtc {
+  .myEstimateContainer
+    .mainSectionWrap
+    .infoWrap
+    .averagePriceWrap
+    .naverShopInfo {
+  }
+  .myEstimateContainer
+    .mainSectionWrap
+    .infoWrap
+    .averagePriceWrap
+    .naverShopInfo
+    .naverShopInfoEtc
+    > span,
+  .myEstimateContainer
+    .mainSectionWrap
+    .infoWrap
+    .averagePriceWrap
+    .naverShopInfo
+    .naverShopInfoEtc {
     font-size: 16px;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.32px;}
-  .myEstimateContainer .mainSectionWrap .infoWrap .averagePriceWrap .naverShopInfo .naverShopInfoPrice {
+    letter-spacing: -0.32px;
+  }
+  .myEstimateContainer
+    .mainSectionWrap
+    .infoWrap
+    .averagePriceWrap
+    .naverShopInfo
+    .naverShopInfoPrice {
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    letter-spacing: -0.48px;}
+    letter-spacing: -0.48px;
+  }
   .myEstimateContainer .estimateInfomation {
     height: 260px;
     padding: 31px 20px;
@@ -904,7 +926,8 @@ $imgPath: '/images';
     letter-spacing: -0.28px;
     padding-left: 10px;
   }
-  .myEstimateContainer .compareEstimateWrap {}
+  .myEstimateContainer .compareEstimateWrap {
+  }
   .myEstimateContainer .compareEstimateWrap .title {
     font-size: 20px;
     font-style: normal;
@@ -942,7 +965,8 @@ $imgPath: '/images';
     width: 20px;
     height: 20px;
   }
-  .myEstimateContainer .myEstimateFooter {}
+  .myEstimateContainer .myEstimateFooter {
+  }
   .myEstimateContainer .myEstimateFooter .title {
     font-size: 20px;
     font-style: normal;
@@ -953,6 +977,7 @@ $imgPath: '/images';
   }
   .myEstimateContainer .myEstimateFooter .buttonWrap {
     height: auto;
+    flex-direction: column;
   }
   .myEstimateContainer .myEstimateFooter .buttonWrap .kakaoIcon,
   .myEstimateContainer .myEstimateFooter .buttonWrap .callIcon {
@@ -961,19 +986,22 @@ $imgPath: '/images';
   }
   .myEstimateContainer .myEstimateFooter .buttonWrap .button {
     border-radius: 8px;
-    height: 56px;
     margin-bottom: 12px;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.32px;
+    width: 80%;
+    padding: 2rem 0;
+    box-sizing: border-box;
+    justify-content: center;
+    gap: 5px;
   }
   .myEstimateContainer .myEstimateFooter .mailBoxWrap {
     border-radius: 8px;
-    width: 100% !important;
     height: 168px;
-    max-width: none;
+    width: 80%;
     // margin: 2.5rem auto;
     justify-content: center;
   }
@@ -1037,5 +1065,4 @@ $imgPath: '/images';
     width: 350px;
     height: 56px;
   }
-  
 }

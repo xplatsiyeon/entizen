@@ -1,4 +1,5 @@
-import { applyMiddleware, createStore, Reducer } from '@reduxjs/toolkit';
+import { applyMiddleware, Reducer } from '@reduxjs/toolkit';
+import { legacy_createStore as createStore, Middleware } from 'redux';
 import { createWrapper } from 'next-redux-wrapper';
 import { persistStore, persistReducer } from 'redux-persist';
 import logger from 'redux-logger';
@@ -32,7 +33,7 @@ const persistConfig = {
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const makeConfiguredStore = (reducer: Reducer) =>
-  createStore(reducer, undefined, applyMiddleware(logger));
+  createStore(reducer, undefined, applyMiddleware(logger as Middleware));
 
 const configureStore = () => {
   const isServer = typeof window === 'undefined';

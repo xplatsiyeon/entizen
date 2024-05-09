@@ -17,11 +17,13 @@
   flex-direction: column;
   align-items: center;
 }
+
 .sec_01 .container {
-  width: 53.75rem;
   margin: auto;
   padding-top: 6.5rem;
+  position: relative;
 }
+
 .sec_01 .container > .title {
   color: #fff;
   text-align: center;
@@ -34,13 +36,21 @@
   margin-bottom: 3rem;
 }
 .sec_01 .container .form_container {
-  /* height: 55.375rem; */
+  width: 70%;
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
   padding: 3rem;
+  margin: 0 auto;
   margin-bottom: 10rem;
 }
+
+@media only screen and (max-width: 480px) {
+  .sec_01 .container .form_container {
+    width: 90%;
+  }
+}
+
 .sec_01 .container .form_container .item {
   display: flex;
   flex-direction: column;
@@ -154,6 +164,63 @@
   margin-left: auto;
   box-shadow: none;
 }
+
+@media only screen and (max-width: 1200px) {
+  .sec_01 .container .submit_btn {
+    width: 80%;
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    padding: 20px 0;
+    box-sizing: border-box;
+    transform: translateX(-50%);
+  }
+  .sec_01 .container .form_container div div div div {
+    padding: 7px;
+    box-sizing: border-box;
+  }
+  .sec_01 .container .form_container .item .input_box input {
+    /* padding: 12px; */
+    padding: 0;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper {
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper div {
+    padding: 0;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper div div {
+    padding: 7px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .sec_01 .container .submit_btn {
+    width: 80%;
+    position: relative;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .sec_01 .container .form_container div div div div {
+    padding: 0;
+    padding-left: 10px;
+    box-sizing: border-box;
+  }
+  .sec_01 .container .form_container .item .input_box input {
+    /* padding: 12px; */
+    padding: 0px;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper {
+    align-items: center;
+  }
+
+  .sec_01 .container .form_container .item .search_address_wrapper div div {
+    padding: 0;
+  }
+}
+
 .sec_01 .container .submit_btn.active {
   background: #5221cb;
 }
@@ -265,11 +332,12 @@
     letter-spacing: -0.32px;
     margin-bottom: 20px;
   }
-  .sec_01 .container .form_container .item .input_box {
-  }
   .sec_01 .container .form_container .item .input_box input {
     /* padding: 12px; */
-    padding: 10px 14px;
+    padding: 10px 0px;
+  }
+  .sec_01 .container .form_container .item .search_address_wrapper input {
+    padding-left: 10px !important;
   }
   .sec_01 .container .form_container .item .input_box input,
   .sec_01 .container .form_container .item .input_box input::placeholder {
@@ -279,13 +347,12 @@
     line-height: 14px;
     letter-spacing: -0.32px;
   }
-  .sec_01 .container .form_container .item .address {
-  }
   .sec_01 .container .form_container .item .input_box {
     font-size: 16px;
     height: 40px;
   }
-  .sec_01 .container .form_container .item .address_btn_grid {
+  .sec_01 .container .form_container .item .address {
+    height: inherit;
   }
   .sec_01 .container .form_container .item .address_btn {
     padding: 10px;
@@ -461,6 +528,7 @@
   }
   .sec_01 .container .form_container {
     padding: 3rem;
+    box-sizing: border-box;
   }
   .sec_01 .container .form_container .item .input_box {
     font-size: 14px;

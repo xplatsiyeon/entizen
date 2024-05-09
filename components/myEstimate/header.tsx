@@ -28,9 +28,9 @@ const menuItems = [
     title: '업체 신뢰도',
     link: '/new/reliability',
   },
-]
+];
 
-export const MyEstimateHeader = ({useHeaderLogo = true}) => {
+export const MyEstimateHeader = ({ useHeaderLogo = true }) => {
   const router = useRouter();
   const mobile = useMediaQuery({ query: '(max-width:767px)' });
   const [state, setState] = useState({ right: false });
@@ -48,40 +48,52 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
       }
       setState({ ...state, [anchor]: open });
     };
-    const handleLink = (st: string) => {
-      if (userID) {
-        router.push(`${st}`);
-      } else {
-        router.push('/signin');
-      }
-    };
+  const handleLink = (st: string) => {
+    if (userID) {
+      router.push(`${st}`);
+    } else {
+      router.push('/signin');
+    }
+  };
 
   return (
     <div className={myEstimateHeaderStyles.headerWrap}>
       {mobile ? (
         <>
-          {useHeaderLogo ? 
-          <div className={myEstimateHeaderStyles.icon} onClick={() => router.push('/new/applyAd')}>
-            <img
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              src="/images/myEstimate/CaretLeft.svg"
-              alt="left"
-            />
-          </div>
-          : <div>
-            <ArrowBackIosIcon 
-              style={{width: '24px', height: '24px'}}
-              onClick={() => {window.history.back()}}
-            />
-          </div>}
+          {useHeaderLogo ? (
+            <div
+              className={myEstimateHeaderStyles.icon}
+              onClick={() => router.push('/new/applyAd')}
+            >
+              <img
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                src="/images/myEstimate/CaretLeft.svg"
+                alt="left"
+              />
+            </div>
+          ) : (
+            <div>
+              <ArrowBackIosIcon
+                style={{ width: '24px', height: '24px' }}
+                onClick={() => {
+                  window.history.back();
+                }}
+              />
+            </div>
+          )}
           <div className={myEstimateHeaderStyles.iconWrap}>
             {(['right'] as const).map((anchor) => (
               <Fragment key={anchor}>
-                <div className={myEstimateHeaderStyles.faqBox} onClick={() => {router.push('/new/faq')}}>
+                <div
+                  className={myEstimateHeaderStyles.faqBox}
+                  onClick={() => {
+                    router.push('/new/faq');
+                  }}
+                >
                   <div>
                     <div>자주 묻는 질문</div>
                   </div>
@@ -129,19 +141,26 @@ export const MyEstimateHeader = ({useHeaderLogo = true}) => {
               {userID && (
                 <>
                   <Box2>
-                    {
-                      menuItems.map((item) => (
-                        <DivBox
-                          clicked={router.pathname.includes(item.link)}
-                          onClick={() => { handleLink(item.link); }}
-                        >{item.title}
-                        </DivBox>
-                      ))
-                    }
+                    {menuItems.map((item) => (
+                      <DivBox
+                        clicked={router.pathname.includes(item.link)}
+                        onClick={() => {
+                          handleLink(item.link);
+                        }}
+                      >
+                        {item.title}
+                      </DivBox>
+                    ))}
                   </Box2>
-                  <DivBox2 onClick={() => { handleLink('/new/faq'); }}>자주 묻는 질문</DivBox2></>
-                  )
-              }
+                  <DivBox2
+                    onClick={() => {
+                      handleLink('/new/faq');
+                    }}
+                  >
+                    자주 묻는 질문
+                  </DivBox2>
+                </>
+              )}
             </Box1>
           </Inner>
         </MainLink>
@@ -160,8 +179,10 @@ const Inner = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: 900pt;
   height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 3%;
 `;
 
 const Box1 = styled.div`
@@ -178,11 +199,9 @@ const Box1 = styled.div`
 const LogoBox = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 54pt;
 `;
 
 const DivBox = styled.div<{ now?: string; clicked: boolean }>`
-  margin-right: 30pt;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -204,8 +223,14 @@ const DivBox = styled.div<{ now?: string; clicked: boolean }>`
 `;
 
 const Box2 = styled.div`
+  width: 50%;
   display: flex;
   height: 70pt;
+  justify-content: space-between;
+
+  @media screen and (max-width: 1024px) {
+    width: 60%;
+  }
 `;
 const DivBox2 = styled.div`
   display: flex;

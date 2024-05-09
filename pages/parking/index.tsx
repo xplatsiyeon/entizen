@@ -5,6 +5,7 @@ import pcImg from 'public/new/parking_pc.png';
 import moImg from 'public/new/parking_mo.png';
 
 const ParkingPage = () => {
+  console.log('123');
   const isTablet = useMediaQuery({
     query: '(max-width: 1023px)',
   });
