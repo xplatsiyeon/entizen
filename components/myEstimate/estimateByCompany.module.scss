@@ -380,10 +380,12 @@ $imgPath: '/images';
       // width: -webkit-fill-available;
       @media screen and (max-width: 1023px) {
         width: 100%;
+        margin-bottom: 8px;
       }
 
       @media screen and (max-width: 767px) {
         width: 100%;
+        margin-bottom: 6px;
       }
       height: 3.25rem;
       flex-shrink: 0;

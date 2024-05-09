@@ -269,6 +269,15 @@ $imgPath: '/images';
       text-align: center;
       margin: 2.5rem;
     }
+    span {
+      display: block !important;
+      width: 80% !important;
+    }
+    span span img {
+      width: 100% !important;
+      height: auto !important;
+      position: relative !important;
+    }
     .tableWrap {
       min-width: 21.875rem;
       max-width: 53.75rem;
@@ -361,7 +370,7 @@ $imgPath: '/images';
   }
 
   .processWrap {
-    width: -webkit-fill-available;
+    width: 100%;
     max-width: 53.75rem;
     @media screen and (max-width: 767px) {
       // width: 21.875rem;
@@ -378,8 +387,9 @@ $imgPath: '/images';
     flex-wrap: nowrap;
     justify-content: space-evenly;
     align-items: center;
-
     position: relative;
+    box-sizing: border-box;
+    padding: 0 5%;
 
     .badge {
       display: flex;
@@ -413,12 +423,14 @@ $imgPath: '/images';
     }
 
     .processImgWrap {
-      width: -webkit-fill-available;
+      width: 100%;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
       align-content: center;
-      justify-content: space-around;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 0;
       @media screen and (max-width: 767px) {
         justify-content: space-evenly;
       }
@@ -524,8 +536,8 @@ $imgPath: '/images';
         bottom: -45%;
       }
       .process3 {
-        // width: 5.1875rem;
-        // height: 5.0625rem;
+        width: 5.1875rem;
+        height: 5.0625rem;
         @media screen and (max-width: 767px) {
           width: 3.0625rem;
           height: 3rem;

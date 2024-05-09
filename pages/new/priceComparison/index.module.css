@@ -68,6 +68,7 @@
   justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
+  white-space: nowrap;
 
   @media only screen and (min-width: 481px) and (max-width: 1024px) {
     width: 100%;
@@ -135,7 +136,7 @@
 
 /* 회사별 비교 */
 .price_comparison_page .sec_01 .comparison_wrapper {
-  padding: 60px 0 160px;
+  padding: 60px 0 80px;
   background: #f8f8f8;
 }
 .price_comparison_page .sec_01 .comparison_container {
@@ -409,7 +410,7 @@
     width: 90%;
   }
   .price_comparison_page .sec_01 .title_container > .text_02 {
-    padding: 24px;
+    padding: 24px 3%;
   }
   .price_comparison_page
     .sec_01
@@ -429,7 +430,7 @@
   .price_comparison_page .sec_01 .comparison_wrapper {
     background: #fff;
     position: relative;
-    padding: 60px 0 60px;
+    padding: 152px 0 60px;
   }
   .price_comparison_page .sec_01 {
     box-shadow: 0px 8px 20px 0px rgba(73, 75, 79, 0.15);
@@ -489,12 +490,14 @@
 
   .price_comparison_page .sec_01 .comparison_container {
     border-radius: 8px;
-    width: 80%;
+    width: 90%;
     margin-bottom: 40px;
     position: absolute;
     top: -226px;
+    margin-top: 40px;
     left: 50%;
     transform: translate(-50%, 0);
+    padding: 10% 5% 100px;
   }
   .price_comparison_page .sec_01 .comparison_container > .text_01 {
     font-size: 24px;
@@ -639,11 +642,26 @@
     font-weight: 500;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
-    margin-top: 900px;
+    margin-top: 820px;
     width: 85%;
   }
   .price_comparison_page .sec_01 .more_btn > svg {
     width: 20px;
     height: 20px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .price_comparison_page .sec_01 .comparison_wrapper {
+    padding: 60px 0 90%;
+  }
+  .price_comparison_page .sec_01 .more_btn {
+    bottom: -150px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .price_comparison_page .sec_01 .more_btn {
+    bottom: -180px;
   }
 }

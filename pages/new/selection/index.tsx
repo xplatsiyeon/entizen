@@ -204,7 +204,6 @@ const Selection = () => {
           </div>
         </Box>
       </section>
-      <section className={styles.sec_02}></section>
     </div>
   );
 };
