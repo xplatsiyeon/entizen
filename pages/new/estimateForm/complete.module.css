@@ -1,8 +1,17 @@
 .complete_page {
+  position: relative;
 }
 .complete_page .complete_container {
   text-align: center;
   margin: 10rem auto;
+  position: relative;
+}
+@media screen and (min-width: 480px) and (max-width: 780px) {
+  .complete_page {
+    height: 40vh;
+    margin-bottom: 55%;
+    position: relative;
+  }
 }
 .complete_page .complete_container .complete_check {
 }
@@ -42,7 +51,7 @@
 @media only screen and (min-width: 200px) and (max-width: 480px) {
   .complete_page {
     display: flex;
-    height: 100vh;
+    /* height: 100vh; */
     flex-direction: column;
     align-items: center;
   }

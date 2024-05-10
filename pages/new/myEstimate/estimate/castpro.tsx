@@ -325,7 +325,9 @@ const EstimateByCompany = () => {
               </button>
             </>
           ) : (
-            <div className={estimateByCompanyStyles.section2Slider}>
+            <div
+              className={`${estimateByCompanyStyles.section2Slider} ${estimateByCompanyStyles.section2castpro}`}
+            >
               <ul className={estimateByCompanyStyles.section2SliderUl}>
                 {estimateByCompanyData.certificateInfo.map(
                   (img: string, idx: number) => {

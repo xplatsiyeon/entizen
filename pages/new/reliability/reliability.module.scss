@@ -88,16 +88,28 @@ $imgPath: '/images';
     }
     .infoWrap {
       margin: 0 auto;
-      width: 80%;
+      width: 100%;
+    }
+    .infoWrap div {
+      margin: 0 auto;
+      @media screen and (min-width: 900px) {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+      }
     }
 
     .infoWrap div div {
-      padding-left: 0;
+      padding: 0;
       margin-bottom: 5%;
+      @media screen and (min-width: 900px) {
+        flex-basis: 48%;
+      }
     }
-    .infoWrap div div:first-child {
-      padding-right: 3%;
-    }
+    // .infoWrap div div:first-child {
+    //   padding-right: 3%;
+    // }
   }
   .bottomWrap {
     padding: 0;

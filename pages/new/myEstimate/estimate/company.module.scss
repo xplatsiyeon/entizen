@@ -273,13 +273,12 @@ $imgPath: '/images';
       display: flex;
       max-width: 53.75rem;
       margin: 0 auto;
-      padding: 0 3%;
+      padding: 0;
       flex-direction: column;
       justify-content: center;
 
       @media screen and (max-width: 780px) {
-        width: 80%;
-        max-width: none;
+        width: 100%;
       }
 
       @media screen and (max-width: 480px) {
@@ -376,12 +375,17 @@ $imgPath: '/images';
       }
     }
     .estimateInfoWrap {
+      max-width: 53.75rem;
       display: flex;
       margin: 5.75rem auto;
-      padding: 0 5%;
+      padding: 0;
       box-sizing: border-box;
       @media screen and (max-width: 767px) {
         margin: 0 auto;
+      }
+      @media screen and (max-width: 480px) {
+        width: 95%;
+        max-width: none;
       }
       flex-direction: column;
       justify-content: center;
@@ -402,6 +406,10 @@ $imgPath: '/images';
         //   font-weight: 700;
         //   letter-spacing: -0.025rem;
         // }
+        @media screen and (max-width: 480px) {
+          width: 95%;
+          margin: 0 auto;
+        }
       }
 
       .infoWrap {
@@ -439,7 +447,7 @@ $imgPath: '/images';
             min-height: 250px;
           }
           @media screen and (max-width: 768px) {
-            width: 90%;
+            width: 100%;
             margin: 0.75rem 0;
             min-height: 0;
           }
@@ -517,13 +525,20 @@ $imgPath: '/images';
 
     .estimateDetailWrap {
       display: flex;
-      padding: 0 3%;
+      padding: 0;
+      width: 100%;
+      max-width: 53.75rem;
       margin: 5.75rem auto;
       // @media screen and (max-width: 767px) {
       //   margin: 3.75rem auto;
       // }
       flex-direction: column;
       justify-content: center;
+
+      @media screen and (max-width: 480px) {
+        width: 90%;
+        max-width: none;
+      }
 
       .title {
         min-height: 2.5rem;
@@ -609,6 +624,10 @@ $imgPath: '/images';
             @media (max-width: 767px) {
               flex-direction: row;
             }
+            @media (max-width: 480px) {
+              gap: 4px;
+              white-space: nowrap;
+            }
             strong {
               color: #222;
               font-family: Spoqa Han Sans Neo;
@@ -617,8 +636,11 @@ $imgPath: '/images';
               font-weight: 700;
               line-height: 1.5rem; /* 150% */
               letter-spacing: -0.02rem;
-
               margin: 0 0.5rem;
+
+              @media screen and (max-width: 480px) {
+                font-size: 2rem;
+              }
             }
 
             .title {
@@ -732,6 +754,13 @@ $imgPath: '/images';
             vertical-align: middle;
             background: url('#{$imgPath}/company/icon_certificate.svg')
               no-repeat;
+
+            @media screen and (min-width: 480px) and (max-width: 780px) {
+              width: 2rem;
+              height: 2.5rem;
+              margin-right: 2px;
+              margin-bottom: 2px;
+            }
           }
         }
       }
@@ -914,11 +943,25 @@ $imgPath: '/images';
           justify-content: center;
           flex-direction: row;
           flex-wrap: wrap;
+
+          @media screen and (max-width: 780px) {
+            width: 100%;
+            padding: 0 2%;
+            box-sizing: border-box;
+          }
+        }
+      }
+      .section2castpro {
+        max-width: none;
+
+        .item {
+          width: 23%;
         }
       }
       .item {
         width: 16.5rem;
         height: 26.375rem;
+
         @media screen and (max-width: 1023px) {
           width: auto;
           height: auto;
@@ -1269,6 +1312,10 @@ $imgPath: '/images';
     font-weight: 500;
     line-height: 24px; /* 150% */
     letter-spacing: -0.32px;
+
+    @media screen and (max-width: 480px) {
+      white-space: nowrap;
+    }
   }
   // .byCompanyContainer
   //   .mainContainer
@@ -1296,6 +1343,11 @@ $imgPath: '/images';
     margin-top: 8px;
     gap: 12px;
     justify-content: flex-end;
+
+    @media screen and (max-width: 480px) {
+      gap: 2px;
+      flex-wrap: wrap;
+    }
   }
   .byCompanyContainer .certificateWrap .certificateInfo {
     padding: 50px 20px;
@@ -1351,6 +1403,11 @@ $imgPath: '/images';
   .byCompanyContainer .mainContainer .footerWrap {
     margin: 0 auto 80px;
     width: 100%;
+
+    @media screen and (max-width: 480px) {
+      width: 90%;
+      max-width: none;
+    }
   }
   .byCompanyContainer .mainContainer .performanceWrap .title,
   .byCompanyContainer .mainContainer .exampleWrap .title,

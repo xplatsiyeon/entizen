@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import WebHeader from 'components/NewHeader/BeforeHeaderB';
+import WebHeader from 'components/NewHeader/BeforeHeaderA';
 import Logos from 'public/images/EntizenHeaderLogoSvg.svg';
 import CommonModal from '../commonModal';
 import { Button, Icon, Stack } from '@mui/material';
