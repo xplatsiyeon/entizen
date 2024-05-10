@@ -48,6 +48,9 @@ const Electric = () => {
   const isMobile = useMediaQuery({
     query: '(max-width:899.25pt)',
   });
+  const isMobilesm = useMediaQuery({
+    query: '(max-width:480px)',
+  });
   const router = useRouter();
 
   const [state, setState] = useState({ right: false });
@@ -270,7 +273,7 @@ const Electric = () => {
               다양한 견적을 한 눈에 비교해보고, 나에게 딱 맞는 상품을
               선택하세요.
             </div>
-            {isMobile ? (
+            {isMobilesm ? (
               <Swiper
                 slidesPerView={1.3}
                 // slidesPerView={'auto'}

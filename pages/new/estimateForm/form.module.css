@@ -253,7 +253,7 @@
     min-height: 30rem;
   }
   .sec_02 {
-    min-height: 250px;
+    min-height: 478px;
   }
 }
 @media screen and (max-width: 480px) {
@@ -264,7 +264,7 @@
   }
   .sec_02 {
     height: 50vh;
-    min-height: 550px;
+    min-height: 680px;
   }
 }
 .form5_sec_02 {
