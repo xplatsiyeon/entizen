@@ -63,6 +63,7 @@ $imgPath: '/images';
       @media screen and (max-width: 1023px) {
         font-size: 1.25rem;
         letter-spacing: -0.025rem;
+        padding-top: 1rem;
       }
     }
     .infoWrap {
@@ -272,6 +273,9 @@ $imgPath: '/images';
     span {
       display: block !important;
       width: 80% !important;
+      @media screen and (max-width: 480px) {
+        width: 90% !important;
+      }
     }
     span span img {
       width: 100% !important;
