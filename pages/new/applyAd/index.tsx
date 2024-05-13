@@ -249,6 +249,7 @@ const ApplyAdMain = () => {
                       width={160}
                       height={240}
                       className={ApplyAdMainStyles.sliderItems}
+                      alt={`section3_${idx + 1}`}
                     />
                   </SwiperSlide>
                 );
@@ -367,9 +368,9 @@ const ApplyAdMain = () => {
             </div>
             <div className={ApplyAdMainStyles.content}>
               <div className={ApplyAdMainStyles.items}>
-                <Image src={Sec04Item1} />
-                <Image src={Sec04Item2} />
-                <Image src={Sec04Item3} />
+                <Image src={Sec04Item1} alt="대화 말풍선" />
+                <Image src={Sec04Item2} alt="대화 말풍선" />
+                <Image src={Sec04Item3} alt="대화 말풍선" />
               </div>
             </div>
           </div>
