@@ -29,10 +29,7 @@ export default function RootLayout({
         <Suspense>
           <PopupComponent />
         </Suspense>
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
+        <body className={inter.className}>{children}</body>
       </Provider>
     </html>
   );
