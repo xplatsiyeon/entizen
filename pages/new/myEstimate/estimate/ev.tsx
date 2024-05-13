@@ -253,11 +253,13 @@ const EstimateByCompany = () => {
                   );
                 })}
               </div>
-              <p className={estimateByCompanyStyles.subList}>
+              <p
+                className={`${estimateByCompanyStyles.subList} ${estimateByCompanyStyles.evSubList}`}
+              >
                 <span className={estimateByCompanyStyles.title}>
                   개별 구매시
                 </span>
-                <p className={estimateByCompanyStyles.subList}>
+                <p className={`${estimateByCompanyStyles.subList}`}>
                   {estimateByCompanyData.detailInfo.etc.length > 0 ? (
                     estimateByCompanyData.detailInfo.etc.map((item: any) => {
                       return (

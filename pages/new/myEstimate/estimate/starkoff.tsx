@@ -298,7 +298,7 @@ const EstimateByCompany = () => {
                   nextEl: navigationNextRef.current,
                 }}
               >
-                {estimateByCompanyData.certificateInfo.map(
+                {estimateByCompanyData.certificateInfoImg.map(
                   (img: string, idx: number) => {
                     return (
                       <SwiperSlide

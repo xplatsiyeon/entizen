@@ -194,7 +194,7 @@ const ApplyAdMain = () => {
           className={`${ApplyAdMainStyles.mainSection} ${ApplyAdMainStyles.section3}`}
         >
           <article className={ApplyAdMainStyles.articleInfo}>
-            <div>
+            <div className={ApplyAdMainStyles.articleinfoTitle}>
               <p className={ApplyAdMainStyles.pInfo}>
                 핵심 정보로 꽉 찬 견적서
               </p>

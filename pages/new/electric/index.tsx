@@ -123,6 +123,11 @@ const Electric = () => {
       <section className={styles.sec_01}>
         <div className={classNames(styles.container, styles.banner_container)}>
           <div className={styles.banner_image} style={{ height: '17.5rem' }}>
+            <p className={styles.banner_text}>
+              전기차 충전기 설치
+              <br />
+              선택이 아닌 필수 시대
+            </p>
             <Image
               src={bannerImage}
               // layout="fill"

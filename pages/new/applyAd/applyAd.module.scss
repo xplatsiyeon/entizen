@@ -249,6 +249,14 @@ $imgPath: '/images';
       display: none;
     }
   }
+  .pcSection5 span {
+    display: block !important;
+    width: 100% !important;
+  }
+  .pcSection5 span img {
+    width: 100% !important;
+    height: auto !important;
+  }
   .mobileSection5 {
     display: none;
     span {
@@ -447,16 +455,15 @@ $imgPath: '/images';
         display: flex;
         justify-content: space-between;
 
-        width: 80%;
-        height: 50.375rem;
+        width: 60%;
         padding: 6.25rem 0;
 
         margin: 0 auto;
         top: 10rem;
-
+        @media screen and (max-width: 1200px) {
+          width: 80%;
+        }
         @media screen and (max-width: 1023px) {
-          width: auto;
-          height: auto;
           flex-direction: column;
           flex-wrap: nowrap;
           align-items: center;
@@ -533,7 +540,6 @@ $imgPath: '/images';
     &.section3 {
       background-image: none;
       background-color: #5221cb;
-      padding: 0 5%;
       box-sizing: border-box;
       width: 100%;
       display: flex;
@@ -544,7 +550,7 @@ $imgPath: '/images';
       .articleInfo {
         display: flex;
         justify-content: space-between;
-        width: 90%;
+        width: 60%;
         gap: 10px;
         // max-width: 74.625rem;
         // min-height: 50.375rem;
@@ -555,6 +561,9 @@ $imgPath: '/images';
           align-content: center;
           justify-content: center;
           align-items: center;
+        }
+        @media screen and (max-width: 480px) {
+          width: 90%;
         }
 
         .pInfo {
@@ -580,12 +589,18 @@ $imgPath: '/images';
             margin-top: 40px;
           }
         }
+        .articleinfoTitle {
+          width: 50%;
 
+          @media screen and (max-width: 480px) {
+            width: 100%;
+          }
+        }
         .info {
           margin-top: 1.5rem;
           color: #fff;
           font-family: Spoqa Han Sans Neo;
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-style: normal;
           font-weight: 700;
           line-height: 3.75rem; /* 150% */
@@ -611,8 +626,7 @@ $imgPath: '/images';
         }
 
         .etcInfo {
-          max-width: 37.5rem;
-          width: -webkit-fill-available;
+          width: 70%;
           @media screen and (max-width: 480px) {
             display: none;
           }
@@ -637,15 +651,14 @@ $imgPath: '/images';
 
           .estimateEtc {
             margin-top: 1.25rem;
-            max-width: 37.5rem;
-            max-height: 32.375rem;
             border-radius: 0.5rem;
             border: 1px solid #e2e5ed;
             background: #fff;
             box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
             .section3Img_4 {
-              width: 90%;
+              width: 100%;
               padding: 1.9rem;
+              box-sizing: border-box;
             }
           }
         }
@@ -766,7 +779,7 @@ $imgPath: '/images';
                 }
 
                 .each span:first-child {
-                  margin-right: 12px;
+                  margin-right: 4px;
                 }
               }
             }

@@ -7,6 +7,14 @@
   /* overflow: hidden; */
 }
 
+@media screen and (min-width: 1200px) {
+  .selection div:first-child {
+    z-index: 3;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
 .sec_01 {
   position: relative;
   background: #fff;
@@ -181,7 +189,7 @@
   .sec_01 .menu_container {
     width: 100%;
     box-sizing: border-box;
-    padding: 10%;
+    padding: 5%;
     margin: 0;
     height: 400px;
   }

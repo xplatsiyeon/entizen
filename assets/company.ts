@@ -54,6 +54,12 @@ export const COMPANY_LIST: any = {
       '/images/company/starkoff/certificate_3.png',
       '/images/company/starkoff/certificate_4.png',
     ],
+    certificateInfoImg: [
+      '/images/company/starkoff/certificate01.png',
+      '/images/company/starkoff/certificate02.png',
+      '/images/company/starkoff/certificate03.png',
+      '/images/company/starkoff/certificate04.png',
+    ],
     performanceInfo: [
       { title: '완속 충전기', info: '16,000기 계약' },
       { title: '현대자동차그룹', info: '과금형 콘센트 사양 설계' },

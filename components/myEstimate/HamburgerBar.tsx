@@ -144,8 +144,11 @@ const ListBox = styled.div`
   /* padding-right: 24pt; */
   padding-right: 15pt;
   height: 100vh;
-
+  box-sizing: border-box;
   background-color: #ffffff;
+  @media screen and (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 const XBtnWrapper = styled.div`
   display: -webkit-box;
@@ -260,6 +263,7 @@ const FaqButton = styled.div`
   width: 100px;
   height: 32px;
   padding: 12px 8px;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
   gap: 8px;

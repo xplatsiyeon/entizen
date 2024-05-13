@@ -182,7 +182,6 @@ const Inner = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 3%;
 `;
 
 const Box1 = styled.div`
@@ -223,13 +222,13 @@ const DivBox = styled.div<{ now?: string; clicked: boolean }>`
 `;
 
 const Box2 = styled.div`
-  width: 50%;
+  width: 60%;
   display: flex;
   height: 70pt;
-  justify-content: space-between;
-
+  justify-content: center;
+  gap: 5%;
   @media screen and (max-width: 1024px) {
-    width: 60%;
+    gap: 3%;
   }
 `;
 const DivBox2 = styled.div`

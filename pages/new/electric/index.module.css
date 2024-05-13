@@ -17,6 +17,26 @@
   position: relative;
   margin-bottom: 6rem;
 }
+.sec_01 .banner_container .banner_image::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #383b4880 50%;
+  z-index: 1;
+}
+
+.sec_01 .banner_container .banner_image .banner_text {
+  position: absolute;
+  color: #fff;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 2.5rem;
+  font-weight: 500;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
 .sec_01 .banner_container .banner_image span {
   height: 100% !important;
 }
@@ -294,7 +314,7 @@
   height: 4rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
-  background: var(--Main1, #5221cb);
+  background: var(--Main1, #383b48);
   margin-top: 3rem;
   box-shadow: 0px 0px 10px 0px rgba(137, 163, 201, 0.2);
 

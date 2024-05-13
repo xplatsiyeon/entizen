@@ -268,7 +268,7 @@
   }
 }
 .form5_sec_02 {
-  height: 580px;
+  height: 400px;
 }
 /* 화면 폭이 320px 이하일 때 */
 @media only screen and (max-width: 350px) {
@@ -333,7 +333,7 @@
     width: 100%;
   }
   .form5_sec_01 {
-    margin-bottom: 0;
+    margin-bottom: 400px;
   }
   .sec_01 .container {
     margin: 0 20px;
@@ -480,9 +480,6 @@
   }
   .sec_01 .container .submit_btn {
     margin-top: 64px;
-    margin-bottom: 0;
-  }
-  .form5_sec_01 {
     margin-bottom: 0;
   }
   .option {

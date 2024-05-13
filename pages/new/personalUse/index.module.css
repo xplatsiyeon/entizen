@@ -271,7 +271,7 @@
 .sec_02 .contents_container .content .item_02 {
   color: #4e5055;
   font-family: Spoqa Han Sans Neo;
-  font-size: 1.3rem;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px; /* 150% */
@@ -632,7 +632,7 @@
   height: 4rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
-  background: var(--Main1, #5221cb);
+  background: var(--Main1, #383b48);
   margin: auto;
   cursor: pointer;
 
@@ -857,7 +857,7 @@
     box-sizing: border-box;
     flex-shrink: 0;
     border-radius: 8px;
-    background: var(--Main1, #5221cb);
+    background: var(--Main1, #383b48);
     margin: auto;
     cursor: pointer;
 

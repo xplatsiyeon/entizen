@@ -5,11 +5,11 @@
 .func_system_comparison_page .sec_02,
 .func_system_comparison_page .sec_03,
 .func_system_comparison_page .sec_04 {
-  width: 100%;
+  width: 60%;
   margin: 0 auto;
   margin-top: 5rem;
   box-sizing: border-box;
-  padding: 0 15%;
+  margin: 0 auto;
 }
 
 .func_system_comparison_page .sec_04 {
@@ -27,6 +27,7 @@
   line-height: 2.5rem; /* 153.846% */
   letter-spacing: -0.0375rem;
   margin-bottom: 1rem;
+  margin-top: 6rem;
 }
 .func_system_comparison_page .sec_02 .sub_title > span,
 .func_system_comparison_page .sec_04 .sub_title > span,
@@ -160,7 +161,10 @@
 }
 
 /* sec_02 */
-.func_system_comparison_page .sec_02 .info_wrap .info_item {
+.func_system_comparison_page .sec_02 .info_wrap div div div span {
+  display: block !important;
+  height: fit-content;
+  max-height: none;
 }
 .func_system_comparison_page .sec_02 .info_wrap .info_item {
   padding-left: 0;
@@ -282,6 +286,11 @@
 }
 
 @media only screen and (min-width: 200px) and (max-width: 480px) {
+  .func_system_comparison_page .sec_02,
+  .func_system_comparison_page .sec_03,
+  .func_system_comparison_page .sec_04 {
+    width: 90%;
+  }
   .func_system_comparison_page .table_container {
     overflow: scroll;
     margin-bottom: 32px;

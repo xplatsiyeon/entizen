@@ -690,10 +690,10 @@ $imgPath: '/images';
       height: 15rem;
       flex-shrink: 0;
       margin: 3.75rem auto;
-      width: 90%;
+      width: 50%;
       border-radius: 0.5rem;
       background: #383b48;
-
+      min-width: 53.75rem;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -702,6 +702,7 @@ $imgPath: '/images';
       align-items: center;
 
       padding: 0 2.25rem;
+      box-sizing: border-box;
       @media screen and (max-width: 767px) {
         justify-content: center;
       }
@@ -1017,7 +1018,7 @@ $imgPath: '/images';
   .myEstimateContainer .myEstimateFooter .mailBoxWrap {
     border-radius: 8px;
     height: 168px;
-    width: 80%;
+    width: 90%;
     // margin: 2.5rem auto;
     justify-content: center;
   }

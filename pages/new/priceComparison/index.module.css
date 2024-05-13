@@ -371,7 +371,7 @@
   letter-spacing: -0.0375rem;
 }
 .price_comparison_page .sec_01 .more_btn {
-  width: 53.75rem;
+  width: 60%;
   height: 4rem;
   flex-shrink: 0;
   border-radius: 0.5rem;
@@ -389,6 +389,7 @@
   font-weight: 500;
   line-height: 1.5rem; /* 150% */
   letter-spacing: -0.02rem;
+  box-sizing: border-box;
 }
 
 /* tablet_l */
@@ -400,6 +401,9 @@
     height: 738px;
   }
   .price_comparison_page .sec_01 .comparison_container {
+    width: 70%;
+  }
+  .price_comparison_page .sec_01 .more_btn {
     width: 70%;
   }
 }
@@ -498,6 +502,7 @@
     left: 50%;
     transform: translate(-50%, 0);
     padding: 10% 5% 100px;
+    box-sizing: border-box;
   }
   .price_comparison_page .sec_01 .comparison_container > .text_01 {
     font-size: 24px;
@@ -662,6 +667,6 @@
 
 @media screen and (max-width: 376px) {
   .price_comparison_page .sec_01 .more_btn {
-    bottom: -180px;
+    bottom: -190px;
   }
 }
